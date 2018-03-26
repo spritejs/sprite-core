@@ -7043,7 +7043,7 @@ module.exports = function (str) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Group = exports.Layer = exports.Label = exports.Sprite = exports.BaseSprite = exports.BaseNode = exports.createRadialGradient = undefined;
+exports.Group = exports.Layer = exports.Label = exports.Sprite = exports.BaseSprite = exports.BaseNode = exports.createRadialGradient = exports.createLinearGradients = undefined;
 
 var _basesprite = __webpack_require__(36);
 
@@ -7073,6 +7073,7 @@ var _gradient = __webpack_require__(46);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.createLinearGradients = _gradient.createLinearGradients;
 exports.createRadialGradient = _gradient.createRadialGradient;
 exports.BaseNode = _basenode2.default;
 exports.BaseSprite = _basesprite2.default;
