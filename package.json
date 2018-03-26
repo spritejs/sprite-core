@@ -1,5 +1,5 @@
 {
-  "name": "sprite-math",
+  "name": "sprite-core",
   "version": "1.0.0",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
