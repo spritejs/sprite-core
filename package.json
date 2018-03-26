@@ -1,0 +1,63 @@
+{
+  "name": "sprite-math",
+  "version": "1.0.0",
+  "description": "Platform-independent canvas render object model api.",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "canvas",
+    "graphic",
+    "graphics"
+  ],
+  "scripts": {
+    "test": "nyc ava",
+    "lint": "eslint 'src/**/*.js' --fix",
+    "start": "webpack-dev-server -d --quiet --port 9090 & http-server example -c-1 -p 9091",
+    "benchmark": "webpack-dev-server -d --quiet --port 9090 & http-server benchmark -c-1 -p 9091",
+    "build": "rm -rf dist/* && ./script/build.js",
+    "compile": "rm -rf lib/* && babel src -d lib --watch",
+    "prepublishOnly": "rm -rf lib/* && babel src -d lib && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spritejs/sprite-core.git"
+  },
+  "author": "akira-cn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spritejs/sprite-core/issues"
+  },
+  "devDependencies": {
+    "ava": "^0.21.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.24.0",
+    "babel-eslint": "^8.1.1",
+    "babel-plugin-inline-package-json": "^2.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.3.2",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.17.0",
+    "eslint-config-75team": "^1.0.2",
+    "nyc": "^11.1.0",
+    "babel-loader": "^6.4.1",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "homepage": "https://github.com/spritejs/sprite-core#readme",
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "sprite-animator": "^1.1.3",
+    "sprite-math": "^1.0.0",
+    "sprite-utils": "^1.0.2"
+  }
+}
