@@ -1,15 +1,16 @@
 import BaseNode from './basenode'
-import {boxIntersect, boxEqual, boxToRect, deprecate} from 'sprite-utils'
+import Group from './group'
+
+import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 import {Timeline} from 'sprite-animator'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
   _zOrder = Symbol('zOrder'),
+  _state = Symbol('state'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
-  _render = Symbol('render')
-
-const readyState = Promise.resolve()
+  _renderPromise = Symbol('renderPromise')
 
 class Layer extends BaseNode {
   constructor({
@@ -26,6 +27,7 @@ class Layer extends BaseNode {
 
     // renderMode: repaintAll | repaintDirty
     this.renderMode = renderMode || 'repaintAll'
+
     this.outputContext = canvas.getContext('2d')
 
     if(canvas.cloneNode) {
@@ -37,37 +39,86 @@ class Layer extends BaseNode {
     this[_updateSet] = new Set()
     this[_zOrder] = 0
     this[_tRecord] = [] // calculate FPS
+    this[_state] = {}
     this[_timeline] = new Timeline()
 
-    this.afterRender = readyState
+    if(resolution) {
+      this.resolution = resolution
+    }
+  }
+
+  get children() {
+    return this[_children]
+  }
+
+  insertBefore(newchild, refchild) {
+    const idx = this[_children].indexOf(refchild)
+    if(idx >= 0) {
+      this.removeChild(newchild)
+      this[_children].splice(idx, 0, newchild)
+      newchild.connect(this, refchild.zOrder)
+      this.update(newchild)
+
+      for(let i = idx + 1; i < this[_children].length; i++) {
+        const child = this[_children][i],
+          zOrder = child.zOrder + 1
+
+        delete child.zOrder
+        Object.defineProperty(this, 'zOrder', {
+          value: zOrder,
+          writable: false,
+          configurable: true,
+        })
+
+        this.update(child)
+      }
+
+      this[_zOrder]++
+    }
+
+    return newchild
   }
 
   get timeline() {
     return this[_timeline]
   }
-
   get canvas() {
     return this.outputContext.canvas
   }
   get context() {
     return this.shadowContext ? this.shadowContext : this.outputContext
   }
+  get resolution() {
+    return [this.canvas.width, this.canvas.height]
+  }
+  set resolution(resolution) {
+    const [width, height] = resolution
+    const outputCanvas = this.outputContext.canvas
+    outputCanvas.width = width
+    outputCanvas.height = height
+    this.outputContext.clearRect(0, 0, width, height)
 
-  get id() {
-    return this.canvas.dataset.layerId
+    if(this.shadowContext) {
+      const shadowCanvas = this.shadowContext.canvas
+      shadowCanvas.width = width
+      shadowCanvas.height = height
+      this.shadowContext.clearRect(0, 0, width, height)
+    }
+
+    this[_children].forEach((child) => {
+      delete child.lastRenderBox
+      child.forceUpdate()
+    })
   }
 
-  @deprecate('Instead use await layer.afterRender')
   prepareRender() {
-    return this.afterRender
-  }
+    if(!this[_state].prepareRender) {
+      this[_state].prepareRender = true
 
-  [_render]() {
-    if(this.afterRender === readyState) {
       const that = this,
         _dispatchEvent = super.dispatchEvent
 
-      this.afterRender = new Promise((resolve, reject) => {
+      this[_renderPromise] = new Promise((resolve, reject) => {
         requestAnimationFrame(function step(t) {
           let renderer
           if(that.renderMode === 'repaintDirty') {
@@ -90,7 +141,7 @@ class Layer extends BaseNode {
           if(that[_updateSet].size) {
             requestAnimationFrame(step)
           } else {
-            that.afterRender = readyState
+            that[_state].prepareRender = false
             resolve()
           }
         })
@@ -98,18 +149,18 @@ class Layer extends BaseNode {
       // .catch(ex => console.error(ex.message))
     }
 
-    return this.afterRender
+    return this[_renderPromise]
   }
-
   update(target) {
     if(target && this[_updateSet].has(target)) return
+
     // invisible... return
     if(target && !target.lastRenderBox && !this.isVisible(target)) return
+
     if(target) this[_updateSet].add(target)
 
-    return this[_render]()
+    this.prepareRender()
   }
-
   isVisible(sprite) {
     const opacity = sprite.attr('opacity')
     if(opacity <= 0) {
@@ -121,7 +172,7 @@ class Layer extends BaseNode {
       return false
     }
 
-    const {width: maxWidth, height: maxHeigth} = this.canvas
+    const [maxWidth, maxHeigth] = this.resolution
 
     const box = sprite.renderBox
     if(box[0] > maxWidth || box[1] > maxHeigth
@@ -176,7 +227,7 @@ class Layer extends BaseNode {
   }
   renderRepaintAll(t) {
     const renderEls = this[_children].filter(e => this.isVisible(e))
-    const {width, height} = this.canvas
+    const [width, height] = this.resolution
 
     this.sortChildren(renderEls)
 
@@ -359,7 +410,7 @@ class Layer extends BaseNode {
       return [layerX, layerY]
     }
   }
-  dispatchEvent(type, evt, forceTrigger = false) {
+  dispatchEvent(type, evt) {
     evt.layer = this
     const sprites = this[_children].slice(0)
     sprites.sort((a, b) => {
@@ -375,7 +426,7 @@ class Layer extends BaseNode {
     const targetSprites = []
     for(let i = 0; i < sprites.length; i++) {
       const sprite = sprites[i]
-      const hit = sprite.dispatchEvent(type, evt, forceTrigger)
+      const hit = sprite.dispatchEvent(type, evt)
       if(hit) {
         // detect mouseenter/mouseleave
         targetSprites.push(sprite)
@@ -383,17 +434,45 @@ class Layer extends BaseNode {
     }
 
     evt.targetSprites = targetSprites
-    super.dispatchEvent(type, evt, forceTrigger)
+    super.dispatchEvent(type, evt)
   }
   connect(parent, zOrder, zIndex) {
     super.connect(parent, zOrder)
     this.zIndex = zIndex
-    this.updateResolution()
+    if(parent && parent.container) {
+      parent.container.append(this.outputContext.canvas)
+    }
     return this
   }
   disconnect(parent) {
-    this.outputContext.canvas.remove()
+    if(this.canvas && this.canvas.remove) {
+      this.canvas.remove()
+    }
     return super.disconnect(parent)
+  }
+  group(...sprites) {
+    const group = new Group()
+    group.append(...sprites)
+    this.appendChild(group)
+    return group
+  }
+  adjust(handler, update = true) {
+    const outputContext = this.outputContext,
+      shadowContext = this.shadowContext
+    if(!shadowContext) {
+      throw new Error('No shadowContext.')
+    }
+    const [width, height] = this.resolution
+    outputContext.clearRect(0, 0, width, height)
+
+    handler.call(this, outputContext)
+
+    if(update) {
+      outputContext.drawImage(shadowContext.canvas, 0, 0)
+    }
+  }
+  clearUpdate() {
+    this[_updateSet].clear()
   }
 }
 
