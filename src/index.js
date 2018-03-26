@@ -4,9 +4,10 @@ import Label from './label'
 import Layer from './layer'
 import Group from './group'
 import BaseNode from './basenode'
-import {createRadialGradient} from './gradient'
+import {createRadialGradient, createLinearGradients} from './gradient'
 
 export {
+  createLinearGradients,
   createRadialGradient,
   BaseNode,
   BaseSprite,
