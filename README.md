@@ -4,4 +4,4 @@ Platform-independent canvas render object model api.
 
 ## CDN
 
-<script src="http://cdn.baomitu.com/sprite-core/sprite-core.js"></script>
+<script src="https://s5.ssl.qhres.com/!185e6dfa/sprite-core.min.js"></script>
