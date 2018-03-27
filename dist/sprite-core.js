@@ -2073,11 +2073,6 @@ function createGradients(context, rect, gradient) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.cancelAnimationFrame = exports.requestAnimationFrame = exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
-
 var _promise = __webpack_require__(48);
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -2633,12 +2628,33 @@ if (!global.requestAnimationFrame) {
   };
 }
 
-exports.Animator = Animator;
-exports.Easings = _easing2.default;
-exports.Effects = _effect3.default;
-exports.Timeline = _spriteTimeline2.default;
-exports.requestAnimationFrame = requestAnimationFrame;
-exports.cancelAnimationFrame = cancelAnimationFrame;
+var _requestAnimationFrame = void 0,
+    _cancelAnimationFrame = void 0;
+
+if (typeof requestAnimationFrame === 'undefined') {
+  _requestAnimationFrame = function _requestAnimationFrame(fn) {
+    var now = Date.now();
+    return setTimeout(function () {
+      fn(now);
+    }, 16);
+  };
+
+  _cancelAnimationFrame = function _cancelAnimationFrame(id) {
+    return clearTimeout(id);
+  };
+} else {
+  _requestAnimationFrame = requestAnimationFrame;
+  _cancelAnimationFrame = cancelAnimationFrame;
+}
+
+module.exports = {
+  Animator: Animator,
+  Easings: _easing2.default,
+  Effects: _effect3.default,
+  Timeline: _spriteTimeline2.default,
+  requestAnimationFrame: _requestAnimationFrame,
+  cancelAnimationFrame: _cancelAnimationFrame
+};
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(72)))
 
 /***/ }),
