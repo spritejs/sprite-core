@@ -912,13 +912,13 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     var _this = (0, _possibleConstructorReturn3.default)(this, (BaseSprite.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite)).call(this));
 
     _this[_attr] = new _this.constructor.Attr(_this);
-    if (attr) {
-      _this.attr(attr);
-    }
     _this[_animations] = new _set2.default();
     _this[_beforeRenders] = [];
     _this[_afterRenders] = [];
     _this[_paths] = [];
+    if (attr) {
+      _this.attr(attr);
+    }
     return _this;
   }
 
@@ -1216,76 +1216,65 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
         throw new Error('No context!');
       }
 
-      var opacity = this.attr('opacity'),
-          box = this.renderBox,
-          size = this.offsetSize,
-          _drawingContext$canva = drawingContext.canvas,
-          width = _drawingContext$canva.width,
-          height = _drawingContext$canva.height;
-
-
-      var isVisible = opacity > 0 && size[0] > 0 && size[1] > 0 && box[0] <= width && box[1] <= height && box[2] >= 0 && box[3] >= 0;
-
       var context = drawingContext;
-      if (isVisible) {
-        var transform = this.transform.m,
-            pos = this.attr('pos'),
-            bound = this.originRect;
 
-        drawingContext.save();
-        drawingContext.translate(pos[0], pos[1]);
-        drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(transform));
-        drawingContext.globalAlpha = this.attr('opacity');
+      var transform = this.transform.m,
+          pos = this.attr('pos'),
+          bound = this.originRect;
 
-        if (drawingContext.canvas && drawingContext.canvas.cloneNode) {
-          context = this.cache;
-          if (!context) {
-            var cacheCanvas = drawingContext.canvas.cloneNode(false);
-            cacheCanvas.width = bound[2];
-            cacheCanvas.height = bound[3];
-            context = cacheCanvas.getContext('2d');
-          }
-        } else {
-          context.translate(bound[0], bound[1]);
+      drawingContext.save();
+      drawingContext.translate(pos[0], pos[1]);
+      drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(transform));
+      drawingContext.globalAlpha = this.attr('opacity');
+
+      if (drawingContext.canvas && drawingContext.canvas.cloneNode) {
+        context = this.cache;
+        if (!context) {
+          var cacheCanvas = drawingContext.canvas.cloneNode(false);
+          cacheCanvas.width = bound[2];
+          cacheCanvas.height = bound[3];
+          context = cacheCanvas.getContext('2d');
         }
-
-        if (this[_beforeRenders].length) {
-          context.save();
-          if (context === drawingContext) {
-            var _context;
-
-            (_context = context).rect.apply(_context, (0, _toConsumableArray3.default)(bound));
-            context.clip();
-          }
-          this.userRender(t, context, 'before');
-          context.restore();
-        }
-        if (context !== this.cache) {
-          this.cache = context;
-          context = this.render(t, context);
-        }
-        if (this[_afterRenders].length) {
-          context.save();
-          if (context === drawingContext) {
-            var _context2;
-
-            (_context2 = context).rect.apply(_context2, (0, _toConsumableArray3.default)(bound));
-            context.clip();
-          }
-          this.userRender(t, context, 'after');
-          context.restore();
-        }
-
-        if (context !== drawingContext) {
-          drawingContext.drawImage(context.canvas, bound[0], bound[1]);
-        }
-        drawingContext.restore();
+      } else {
+        context.translate(bound[0], bound[1]);
       }
+
+      if (this[_beforeRenders].length) {
+        context.save();
+        if (context === drawingContext) {
+          var _context;
+
+          (_context = context).rect.apply(_context, (0, _toConsumableArray3.default)(bound));
+          context.clip();
+        }
+        this.userRender(t, context, 'before');
+        context.restore();
+      }
+      if (context !== this.cache) {
+        this.cache = context;
+        context = this.render(t, context);
+      }
+      if (this[_afterRenders].length) {
+        context.save();
+        if (context === drawingContext) {
+          var _context2;
+
+          (_context2 = context).rect.apply(_context2, (0, _toConsumableArray3.default)(bound));
+          context.clip();
+        }
+        this.userRender(t, context, 'after');
+        context.restore();
+      }
+
+      if (context !== drawingContext) {
+        drawingContext.drawImage(context.canvas, bound[0], bound[1]);
+      }
+      drawingContext.restore();
 
       var updateHandlers = this.getEventHandlers('update');
       if (updateHandlers.length) {
         this.dispatchEvent('update', {
-          target: this, isVisible: isVisible, context: context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox
+          target: this, context: context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox
         }, true);
       }
       this.lastRenderBox = this.renderBox;
@@ -4704,7 +4693,7 @@ var Layer = function (_BaseNode) {
 
   function Layer() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        canvas = _ref.canvas,
+        context = _ref.context,
         handleEvent = _ref.handleEvent,
         evaluateFPS = _ref.evaluateFPS,
         renderMode = _ref.renderMode,
@@ -4720,10 +4709,10 @@ var Layer = function (_BaseNode) {
     // renderMode: repaintAll | repaintDirty
     _this.renderMode = renderMode || 'repaintAll';
 
-    _this.outputContext = canvas.getContext('2d');
+    _this.outputContext = context;
 
-    if (canvas.cloneNode) {
-      var shadowCanvas = canvas.cloneNode(true);
+    if (context.canvas && context.canvas.cloneNode) {
+      var shadowCanvas = context.canvas.cloneNode(true);
       _this.shadowContext = shadowCanvas.getContext('2d');
     }
 
@@ -4836,15 +4825,6 @@ var Layer = function (_BaseNode) {
         return false;
       }
 
-      var _resolution = (0, _slicedToArray3.default)(this.resolution, 2),
-          maxWidth = _resolution[0],
-          maxHeigth = _resolution[1];
-
-      var box = sprite.renderBox;
-      if (box[0] > maxWidth || box[1] > maxHeigth || box[2] < 0 || box[3] < 0) {
-        return false;
-      }
-
       return true;
     }
   }, {
@@ -4887,20 +4867,27 @@ var Layer = function (_BaseNode) {
       var renderEls = this[_children].filter(function (e) {
         return _this2.isVisible(e);
       });
-
-      var _resolution2 = (0, _slicedToArray3.default)(this.resolution, 2),
-          width = _resolution2[0],
-          height = _resolution2[1];
-
       this.sortChildren(renderEls);
 
       var outputContext = this.outputContext;
-      outputContext.clearRect(0, 0, width, height);
+      if (outputContext.canvas) {
+        var _outputContext$canvas = outputContext.canvas,
+            width = _outputContext$canvas.width,
+            height = _outputContext$canvas.height;
+
+        outputContext.clearRect(0, 0, width, height);
+      }
 
       var shadowContext = this.shadowContext;
 
       if (shadowContext) {
-        shadowContext.clearRect(0, 0, width, height);
+        if (shadowContext.canvas) {
+          var _outputContext$canvas2 = outputContext.canvas,
+              _width = _outputContext$canvas2.width,
+              _height = _outputContext$canvas2.height;
+
+          shadowContext.clearRect(0, 0, _width, _height);
+        }
         this.drawSprites(renderEls, t);
         outputContext.drawImage(shadowContext.canvas, 0, 0);
       } else {
@@ -4914,9 +4901,9 @@ var Layer = function (_BaseNode) {
     value: function renderRepaintDirty(t) {
       var _this3 = this;
 
-      var _resolution3 = (0, _slicedToArray3.default)(this.resolution, 2),
-          width = _resolution3[0],
-          height = _resolution3[1];
+      var _resolution = (0, _slicedToArray3.default)(this.resolution, 2),
+          width = _resolution[0],
+          height = _resolution[1];
 
       var updateSet = this[_updateSet];
       var children = this[_children].filter(function (e) {
@@ -5106,9 +5093,9 @@ var Layer = function (_BaseNode) {
       var layerX = evt.layerX,
           layerY = evt.layerY;
 
-      var _resolution4 = (0, _slicedToArray3.default)(this.resolution, 2),
-          width = _resolution4[0],
-          height = _resolution4[1];
+      var _resolution2 = (0, _slicedToArray3.default)(this.resolution, 2),
+          width = _resolution2[0],
+          height = _resolution2[1];
 
       if (layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
         return [layerX, layerY];
@@ -5178,12 +5165,13 @@ var Layer = function (_BaseNode) {
       if (!shadowContext) {
         throw new Error('No shadowContext.');
       }
+      if (outputContext.canvas) {
+        var _outputContext$canvas3 = outputContext.canvas,
+            width = _outputContext$canvas3.width,
+            height = _outputContext$canvas3.height;
 
-      var _resolution5 = (0, _slicedToArray3.default)(this.resolution, 2),
-          width = _resolution5[0],
-          height = _resolution5[1];
-
-      outputContext.clearRect(0, 0, width, height);
+        outputContext.clearRect(0, 0, width, height);
+      }
 
       handler.call(this, outputContext);
 
@@ -5207,41 +5195,9 @@ var Layer = function (_BaseNode) {
       return this[_timeline];
     }
   }, {
-    key: 'canvas',
-    get: function get() {
-      return this.outputContext.canvas;
-    }
-  }, {
     key: 'context',
     get: function get() {
       return this.shadowContext ? this.shadowContext : this.outputContext;
-    }
-  }, {
-    key: 'resolution',
-    get: function get() {
-      return [this.canvas.width, this.canvas.height];
-    },
-    set: function set(resolution) {
-      var _resolution6 = (0, _slicedToArray3.default)(resolution, 2),
-          width = _resolution6[0],
-          height = _resolution6[1];
-
-      var outputCanvas = this.outputContext.canvas;
-      outputCanvas.width = width;
-      outputCanvas.height = height;
-      this.outputContext.clearRect(0, 0, width, height);
-
-      if (this.shadowContext) {
-        var shadowCanvas = this.shadowContext.canvas;
-        shadowCanvas.width = width;
-        shadowCanvas.height = height;
-        this.shadowContext.clearRect(0, 0, width, height);
-      }
-
-      this[_children].forEach(function (child) {
-        delete child.lastRenderBox;
-        child.forceUpdate();
-      });
     }
   }, {
     key: 'fps',
@@ -5478,9 +5434,12 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
       attr = { textures: [attr] };
     }
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Sprite.__proto__ || (0, _getPrototypeOf2.default)(Sprite)).call(this, attr));
+    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Sprite.__proto__ || (0, _getPrototypeOf2.default)(Sprite)).call(this));
 
     _this2[_texturesCache] = new _map2.default();
+    if (attr) {
+      _this2.attr(attr);
+    }
     return _this2;
   }
 

@@ -25,13 +25,13 @@ class BaseSprite extends BaseNode {
     super()
 
     this[_attr] = new this.constructor.Attr(this)
-    if(attr) {
-      this.attr(attr)
-    }
     this[_animations] = new Set()
     this[_beforeRenders] = []
     this[_afterRenders] = []
     this[_paths] = []
+    if(attr) {
+      this.attr(attr)
+    }
   }
 
   initAttributes(attrs) {
@@ -407,72 +407,64 @@ class BaseSprite extends BaseNode {
       throw new Error('No context!')
     }
 
-    const opacity = this.attr('opacity'),
-      box = this.renderBox,
-      size = this.offsetSize,
-      {width, height} = drawingContext.canvas
-
-    const isVisible = opacity > 0 && (size[0] > 0 && size[1] > 0)
-      && (box[0] <= width && box[1] <= height && box[2] >= 0 && box[3] >= 0)
-
     let context = drawingContext
-    if(isVisible) {
-      const transform = this.transform.m,
-        pos = this.attr('pos'),
-        bound = this.originRect
 
-      drawingContext.save()
-      drawingContext.translate(pos[0], pos[1])
-      drawingContext.transform(...transform)
-      drawingContext.globalAlpha = this.attr('opacity')
+    const transform = this.transform.m,
+      pos = this.attr('pos'),
+      bound = this.originRect
 
-      if(drawingContext.canvas && drawingContext.canvas.cloneNode) {
-        context = this.cache
-        if(!context) {
-          const cacheCanvas = drawingContext.canvas.cloneNode(false)
-          cacheCanvas.width = bound[2]
-          cacheCanvas.height = bound[3]
-          context = cacheCanvas.getContext('2d')
-        }
-      } else {
-        context.translate(bound[0], bound[1])
-      }
+    drawingContext.save()
+    drawingContext.translate(pos[0], pos[1])
+    drawingContext.transform(...transform)
+    drawingContext.globalAlpha = this.attr('opacity')
 
-      if(this[_beforeRenders].length) {
-        context.save()
-        if(context === drawingContext) {
-          context.rect(...bound)
-          context.clip()
-        }
-        this.userRender(t, context, 'before')
-        context.restore()
+    if(drawingContext.canvas && drawingContext.canvas.cloneNode) {
+      context = this.cache
+      if(!context) {
+        const cacheCanvas = drawingContext.canvas.cloneNode(false)
+        cacheCanvas.width = bound[2]
+        cacheCanvas.height = bound[3]
+        context = cacheCanvas.getContext('2d')
       }
-      if(context !== this.cache) {
-        this.cache = context
-        context = this.render(t, context)
-      }
-      if(this[_afterRenders].length) {
-        context.save()
-        if(context === drawingContext) {
-          context.rect(...bound)
-          context.clip()
-        }
-        this.userRender(t, context, 'after')
-        context.restore()
-      }
-
-      if(context !== drawingContext) {
-        drawingContext.drawImage(context.canvas, bound[0], bound[1])
-      }
-      drawingContext.restore()
+    } else {
+      context.translate(bound[0], bound[1])
     }
+
+    if(this[_beforeRenders].length) {
+      context.save()
+      if(context === drawingContext) {
+        context.rect(...bound)
+        context.clip()
+      }
+      this.userRender(t, context, 'before')
+      context.restore()
+    }
+    if(context !== this.cache) {
+      this.cache = context
+      context = this.render(t, context)
+    }
+    if(this[_afterRenders].length) {
+      context.save()
+      if(context === drawingContext) {
+        context.rect(...bound)
+        context.clip()
+      }
+      this.userRender(t, context, 'after')
+      context.restore()
+    }
+
+    if(context !== drawingContext) {
+      drawingContext.drawImage(context.canvas, bound[0], bound[1])
+    }
+    drawingContext.restore()
+
 
     const updateHandlers = this.getEventHandlers('update')
     if(updateHandlers.length) {
       this.dispatchEvent(
         'update',
         {
-          target: this, isVisible, context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox,
+          target: this, context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox,
         },
         true
       )

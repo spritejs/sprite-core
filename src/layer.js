@@ -14,7 +14,7 @@ const _children = Symbol('children'),
 
 class Layer extends BaseNode {
   constructor({
-    canvas,
+    context,
     handleEvent,
     evaluateFPS,
     renderMode,
@@ -28,10 +28,10 @@ class Layer extends BaseNode {
     // renderMode: repaintAll | repaintDirty
     this.renderMode = renderMode || 'repaintAll'
 
-    this.outputContext = canvas.getContext('2d')
+    this.outputContext = context
 
-    if(canvas.cloneNode) {
-      const shadowCanvas = canvas.cloneNode(true)
+    if(context.canvas && context.canvas.cloneNode) {
+      const shadowCanvas = context.canvas.cloneNode(true)
       this.shadowContext = shadowCanvas.getContext('2d')
     }
 
@@ -82,33 +82,9 @@ class Layer extends BaseNode {
   get timeline() {
     return this[_timeline]
   }
-  get canvas() {
-    return this.outputContext.canvas
-  }
+
   get context() {
     return this.shadowContext ? this.shadowContext : this.outputContext
-  }
-  get resolution() {
-    return [this.canvas.width, this.canvas.height]
-  }
-  set resolution(resolution) {
-    const [width, height] = resolution
-    const outputCanvas = this.outputContext.canvas
-    outputCanvas.width = width
-    outputCanvas.height = height
-    this.outputContext.clearRect(0, 0, width, height)
-
-    if(this.shadowContext) {
-      const shadowCanvas = this.shadowContext.canvas
-      shadowCanvas.width = width
-      shadowCanvas.height = height
-      this.shadowContext.clearRect(0, 0, width, height)
-    }
-
-    this[_children].forEach((child) => {
-      delete child.lastRenderBox
-      child.forceUpdate()
-    })
   }
 
   prepareRender() {
@@ -172,14 +148,6 @@ class Layer extends BaseNode {
       return false
     }
 
-    const [maxWidth, maxHeigth] = this.resolution
-
-    const box = sprite.renderBox
-    if(box[0] > maxWidth || box[1] > maxHeigth
-      || box[2] < 0 || box[3] < 0) {
-      return false
-    }
-
     return true
   }
   get fps() {
@@ -227,17 +195,21 @@ class Layer extends BaseNode {
   }
   renderRepaintAll(t) {
     const renderEls = this[_children].filter(e => this.isVisible(e))
-    const [width, height] = this.resolution
-
     this.sortChildren(renderEls)
 
     const outputContext = this.outputContext
-    outputContext.clearRect(0, 0, width, height)
+    if(outputContext.canvas) {
+      const {width, height} = outputContext.canvas
+      outputContext.clearRect(0, 0, width, height)
+    }
 
     const shadowContext = this.shadowContext
 
     if(shadowContext) {
-      shadowContext.clearRect(0, 0, width, height)
+      if(shadowContext.canvas) {
+        const {width, height} = outputContext.canvas
+        shadowContext.clearRect(0, 0, width, height)
+      }
       this.drawSprites(renderEls, t)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
     } else {
@@ -462,8 +434,10 @@ class Layer extends BaseNode {
     if(!shadowContext) {
       throw new Error('No shadowContext.')
     }
-    const [width, height] = this.resolution
-    outputContext.clearRect(0, 0, width, height)
+    if(outputContext.canvas) {
+      const {width, height} = outputContext.canvas
+      outputContext.clearRect(0, 0, width, height)
+    }
 
     handler.call(this, outputContext)
 

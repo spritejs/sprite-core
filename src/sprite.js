@@ -92,8 +92,11 @@ export default class Sprite extends BaseSprite {
     if(typeof attr === 'string') {
       attr = {textures: [attr]}
     }
-    super(attr)
+    super()
     this[_texturesCache] = new Map()
+    if(attr) {
+      this.attr(attr)
+    }
   }
 
   cloneNode(copyContent) {

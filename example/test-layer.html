@@ -10,12 +10,12 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const BaseSprite = spritejs.BaseSprite
+    const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
 
-    const layer = new Layer({canvas: document.getElementById('mycanvas')})
-
-    const s = new BaseSprite({
+    const s = new Sprite({
       anchor: 0.5,
       bgcolor: 'red',
       size: [100, 100],
@@ -38,7 +38,7 @@
     })
     layer.append(s)
     
-    const s2 = new BaseSprite({
+    const s2 = new Sprite({
       anchor: 0.5,
       bgcolor: 'green',
       size: [50, 50],
