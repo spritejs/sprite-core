@@ -3,7 +3,7 @@ import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
 import {rectVertices, deprecate} from 'sprite-utils'
-import {createLinearGradients} from './gradient'
+import createGradients from './gradient'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
@@ -535,7 +535,7 @@ class BaseSprite extends BaseNode {
 
     const attr = this.attr(),
       bgcolor = attr.bgcolor,
-      linearGradients = attr.linearGradients,
+      gradients = attr.gradients,
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize
 
@@ -549,7 +549,7 @@ class BaseSprite extends BaseNode {
     drawingContext.save()
 
     // draw border
-    if(borderWidth || linearGradients && linearGradients.border) {
+    if(borderWidth || gradients && gradients.border) {
       drawingContext.lineWidth = borderWidth
 
       const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2,
@@ -564,10 +564,10 @@ class BaseSprite extends BaseNode {
       drawingContext.arcTo(x, y, x + w, y, r)
       drawingContext.closePath()
 
-      if(linearGradients && linearGradients.border) {
-        const rect = linearGradients.border.rect || [x, y, w, h]
+      if(gradients && gradients.border) {
+        const rect = gradients.border.rect || [x, y, w, h]
 
-        drawingContext.strokeStyle = createLinearGradients(drawingContext, rect, linearGradients.border)
+        drawingContext.strokeStyle = createGradients(drawingContext, rect, gradients.border)
       } else if(borderColor) {
         drawingContext.strokeStyle = borderColor
       }
@@ -577,7 +577,7 @@ class BaseSprite extends BaseNode {
     }
 
     // draw bgcolor
-    if(bgcolor || linearGradients && linearGradients.bgcolor) {
+    if(bgcolor || gradients && gradients.bgcolor) {
       const [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         Math.max(0, borderRadius - borderWidth / 2)]
@@ -590,10 +590,10 @@ class BaseSprite extends BaseNode {
       drawingContext.arcTo(x, y, x + w, y, r)
       drawingContext.closePath()
 
-      if(linearGradients && linearGradients.bgcolor) {
-        const rect = linearGradients.bgcolor.rect || [x, y, w, h]
+      if(gradients && gradients.bgcolor) {
+        const rect = gradients.bgcolor.rect || [x, y, w, h]
 
-        drawingContext.fillStyle = createLinearGradients(drawingContext, rect, linearGradients.bgcolor)
+        drawingContext.fillStyle = createGradients(drawingContext, rect, gradients.bgcolor)
       } else if(bgcolor) {
         drawingContext.fillStyle = bgcolor
       }

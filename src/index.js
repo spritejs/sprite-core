@@ -4,15 +4,16 @@ import Label from './label'
 import Layer from './layer'
 import Group from './group'
 import BaseNode from './basenode'
-import {createRadialGradient, createLinearGradients} from './gradient'
+import createGradients from './gradient'
+import {Effects} from 'sprite-animator'
 
 export {
-  createLinearGradients,
-  createRadialGradient,
+  createGradients,
   BaseNode,
   BaseSprite,
   Sprite,
   Label,
   Layer,
   Group,
+  Effects,
 }

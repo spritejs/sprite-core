@@ -21,6 +21,20 @@
       size: [100, 100],
       pos: [300, 300],
       zIndex: 200,
+      gradients: {
+        bgcolor: {
+          //direction: 90,
+          //rect: [0, 0, 100, 100],
+          vector: [50, 50, 10, 70, 80, 100],
+          colors: [{
+            offset: 0,
+            color: 'rgba(255,0,0,0.5)',
+          }, {
+            offset: 1,
+            color: 'rgba(255,0,0,1)',
+          }]
+        },
+      }  
     })
     layer.append(s)
     

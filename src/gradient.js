@@ -52,31 +52,27 @@ function gradientBox(angle, rect) {
   return [x, y, x + w, y + h]
 }
 
-export function createLinearGradients(context, rect, linearGradients) {
-  const {colors, direction, vector} = linearGradients,
+export default function createGradients(context, rect, gradient) {
+  const {colors, direction} = gradient,
     [x, y, w, h] = rect
-
-  let x0,
-    y0,
-    x1,
-    y1
+  let vector = gradient.vector
 
   if(direction != null) {
-    [x0, y0, x1, y1] = gradientBox(direction, [x, y, w, h])
-  } else if(vector) {
-    [x0, y0, x1, y1] = vector
+    vector = gradientBox(direction, [x, y, w, h])
   }
 
-  const gradient = context.createLinearGradient(x0, y0, x1, y1)
+  let ret
+  if(vector.length === 4) {
+    ret = context.createLinearGradient(...vector)
+  } else if(vector.length === 6) {
+    ret = context.createRadialGradient(...vector)
+  } else {
+    throw Error('Invalid gradient vector!')
+  }
 
   colors.forEach((o) => {
-    gradient.addColorStop(o.offset, o.color)
+    ret.addColorStop(o.offset, o.color)
   })
 
-  return gradient
-}
-
-export function createRadialGradient(context, rect, linearGradients) {
-  // TODO
-  return null
+  return ret
 }

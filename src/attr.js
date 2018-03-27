@@ -1,6 +1,6 @@
 import {Matrix} from 'sprite-math'
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
-  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr} from 'sprite-utils'
+  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate} from 'sprite-utils'
 
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
@@ -42,6 +42,11 @@ class SpriteAttr {
       size: {
         get() {
           return [this.width, this.height]
+        },
+      },
+      linearGradients: {
+        get() {
+          return this.gradients
         },
       },
     })
@@ -311,9 +316,28 @@ class SpriteAttr {
     }
    */
   @attr
+  @deprecate('Instead use attr.gradients.')
   set linearGradients(val) {
+    this.gradients = val
+  }
+
+  /**
+    gradients : {
+      bgcolor: {
+        direction: 30,  //angle，[0,360)
+        rect: [x, y, w, h],  // rect + direction or vector
+        vector: [x1, y1, r1, x2, y2, r2], // vector.length -> linear or radical
+        colors: [
+          {offset: 0, color: 'red'},
+          {offset: 1, color: 'black'}
+        ]
+      }
+    }
+   */
+  @attr
+  set gradients(val) {
     this.clearCache()
-    this.set('linearGradients', val)
+    this.set('gradients', val)
   }
 }
 

@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
-import {createLinearGradients} from './gradient'
+import createGradients from './gradient'
 const parseFont = require('./font/parse-font')
 
 const measureText = (node, text, font, lineHeight = '') => {
@@ -160,22 +160,22 @@ class Label extends BaseSprite {
 
       const [borderWidth] = this.attr('border')
 
-      const linearGradients = attr.linearGradients
+      const gradients = attr.gradients
 
-      if(linearGradients && linearGradients.strokeColor) {
-        const rect = linearGradients.strokeColor.rect || [borderWidth, borderWidth,
+      if(gradients && gradients.strokeColor) {
+        const rect = gradients.strokeColor.rect || [borderWidth, borderWidth,
           width, height]
 
-        context.strokeStyle = createLinearGradients(context, rect, linearGradients.strokeColor)
+        context.strokeStyle = createGradients(context, rect, gradients.strokeColor)
       } else if(strokeColor) {
         context.strokeStyle = strokeColor
       }
 
-      if(linearGradients && linearGradients.fillColor) {
-        const rect = linearGradients.fillColor.rect || [borderWidth, borderWidth,
+      if(gradients && gradients.fillColor) {
+        const rect = gradients.fillColor.rect || [borderWidth, borderWidth,
           width, height]
 
-        context.fillStyle = createLinearGradients(context, rect, linearGradients.fillColor)
+        context.fillStyle = createGradients(context, rect, gradients.fillColor)
       } else if(fillColor) {
         context.fillStyle = fillColor
       }
