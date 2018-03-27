@@ -18,7 +18,6 @@ class Layer extends BaseNode {
     handleEvent,
     evaluateFPS,
     renderMode,
-    resolution,
   } = {}) {
     super()
 
@@ -41,10 +40,6 @@ class Layer extends BaseNode {
     this[_tRecord] = [] // calculate FPS
     this[_state] = {}
     this[_timeline] = new Timeline()
-
-    if(resolution) {
-      this.resolution = resolution
-    }
   }
 
   get children() {
@@ -219,7 +214,11 @@ class Layer extends BaseNode {
     this[_updateSet].clear()
   }
   renderRepaintDirty(t) {
-    const [width, height] = this.resolution
+    if(!this.outputContext.canvas) {
+      console.warn('Cannot use repaintDirty, fallback to repaintAll!')
+      return this.renderRepaintAll(t)
+    }
+    const {width, height} = this.outputContext.canvas
 
     const updateSet = this[_updateSet]
     const children = this[_children].filter(e => this.isVisible(e))
@@ -375,12 +374,16 @@ class Layer extends BaseNode {
     return args.map(child => this.removeChild(child))
   }
   pointCollision(evt) {
-    const {layerX, layerY} = evt
-    const [width, height] = this.resolution
+    if(this.outputContext.canvas) {
+      const {layerX, layerY} = evt
+      const {width, height} = this.outputContext.canvas
 
-    if(layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
-      return [layerX, layerY]
+      if(layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
+        return true
+      }
+      return false
     }
+    return true
   }
   dispatchEvent(type, evt) {
     evt.layer = this
