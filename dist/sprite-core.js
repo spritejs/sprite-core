@@ -1251,8 +1251,8 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
         context.restore();
       }
       if (context !== this.cache) {
-        this.cache = context;
         context = this.render(t, context);
+        if (context !== drawingContext) this.cache = context;
       }
       if (this[_afterRenders].length) {
         context.save();
@@ -1893,7 +1893,9 @@ var BaseNode = function () {
 
   }, {
     key: 'connect',
-    value: function connect(parent, zOrder) {
+    value: function connect(parent) {
+      var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
       if (this.parent) {
         // throw new Error('This node belongs to another parent node! Remove it first...')
         this.disconnect(this.parent);

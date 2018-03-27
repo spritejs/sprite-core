@@ -440,8 +440,8 @@ class BaseSprite extends BaseNode {
       context.restore()
     }
     if(context !== this.cache) {
-      this.cache = context
       context = this.render(t, context)
+      if(context !== drawingContext) this.cache = context
     }
     if(this[_afterRenders].length) {
       context.save()

@@ -73,7 +73,7 @@ class BaseNode {
     return this[_collisionState]
   }
   // called when layer appendChild
-  connect(parent, zOrder) {
+  connect(parent, zOrder = 0) {
     if(this.parent) {
       // throw new Error('This node belongs to another parent node! Remove it first...')
       this.disconnect(this.parent)
