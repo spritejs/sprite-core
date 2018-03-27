@@ -415,7 +415,7 @@ class Layer extends BaseNode {
     super.connect(parent, zOrder)
     this.zIndex = zIndex
     if(parent && parent.container) {
-      parent.container.append(this.outputContext.canvas)
+      parent.container.appendChild(this.outputContext.canvas)
     }
     return this
   }
