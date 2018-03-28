@@ -412,8 +412,9 @@ class BaseSprite extends BaseNode {
     }
 
     if(context === drawingContext) {
-      context.save()
       const [w, h] = this.offsetSize
+      context.save()
+      context.beginPath()
       context.rect(0, 0, w, h)
       context.clip()
     }
