@@ -56,8 +56,11 @@
   "homepage": "https://github.com/spritejs/sprite-core#readme",
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "point-at-length": "^1.1.0",
     "sprite-animator": "^1.1.4",
     "sprite-math": "^1.0.0",
-    "sprite-utils": "^1.0.2"
+    "sprite-path-effect": "^0.1.1",
+    "sprite-utils": "^1.0.2",
+    "svg-path-to-canvas": "^0.4.0"
   }
 }
