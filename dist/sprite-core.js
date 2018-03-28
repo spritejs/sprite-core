@@ -1211,12 +1211,12 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
       }
 
       if (context === drawingContext) {
-        context.save();
-
         var _offsetSize = (0, _slicedToArray3.default)(this.offsetSize, 2),
             w = _offsetSize[0],
             h = _offsetSize[1];
 
+        context.save();
+        context.beginPath();
         context.rect(0, 0, w, h);
         context.clip();
       }
