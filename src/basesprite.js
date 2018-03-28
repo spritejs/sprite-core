@@ -417,6 +417,7 @@ class BaseSprite extends BaseNode {
       context.beginPath()
       context.rect(0, 0, w, h)
       context.clip()
+      context.closePath()
     }
     if(this[_beforeRenders].length) {
       this.userRender(t, context, 'before')
