@@ -893,8 +893,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var _attr = (0, _symbol2.default)('attr'),
     _animations = (0, _symbol2.default)('animations'),
     _beforeRenders = (0, _symbol2.default)('beforeRenders'),
-    _afterRenders = (0, _symbol2.default)('afterRenders'),
-    _paths = (0, _symbol2.default)('paths');
+    _afterRenders = (0, _symbol2.default)('afterRenders');
 
 var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)', 'Instead use beforeDraw/afterDraw.'), _dec2 = (0, _spriteUtils.deprecate)('Instead use beforeDraw/afterDraw.'), (_class = (_temp = _class2 = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
@@ -915,7 +914,7 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     _this[_animations] = new _set2.default();
     _this[_beforeRenders] = [];
     _this[_afterRenders] = [];
-    _this[_paths] = [];
+
     if (attr) {
       _this.attr(attr);
     }
@@ -926,33 +925,6 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     key: 'initAttributes',
     value: function initAttributes(attrs) {
       this[_attr].merge(attrs);
-    }
-
-    // create and save path
-
-  }, {
-    key: 'createPath',
-    value: function createPath() {
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      var path = new (Function.prototype.bind.apply(Path2D, [null].concat(args)))();
-      this[_paths].push(path);
-      return path;
-    }
-  }, {
-    key: 'findPath',
-    value: function findPath(offsetX, offsetY) {
-      var context = this.context;
-
-      if (context) {
-        var paths = this[_paths].filter(function (path) {
-          return context.isPointInPath(path, offsetX, offsetY);
-        });
-        return paths;
-      }
-      return [];
     }
   }, {
     key: 'serialize',
@@ -1194,7 +1166,6 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
         if (nx >= ox && nx - ox < ow && ny >= oy && ny - oy < oh) {
           evt.offsetX = nx;
           evt.offsetY = ny;
-          evt.targetPaths = this.findPath(nx, ny);
 
           return true;
         }
@@ -1204,8 +1175,8 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     key: 'draw',
     value: function draw(t) {
       if (typeof t === 'function') {
-        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          args[_key2 - 1] = arguments[_key2];
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
         }
 
         return this._draw.apply(this, [t].concat(args));
@@ -1239,30 +1210,24 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
         context.translate(bound[0], bound[1]);
       }
 
-      if (this[_beforeRenders].length) {
-        context.save();
-        if (context === drawingContext) {
-          var _context;
+      if (context === drawingContext) {
+        var _context;
 
-          (_context = context).rect.apply(_context, (0, _toConsumableArray3.default)(bound));
-          context.clip();
-        }
+        context.save();
+        (_context = context).rect.apply(_context, (0, _toConsumableArray3.default)(bound));
+        context.clip();
+      }
+      if (this[_beforeRenders].length) {
         this.userRender(t, context, 'before');
-        context.restore();
       }
       if (context !== this.cache) {
         context = this.render(t, context);
         if (context !== drawingContext) this.cache = context;
       }
       if (this[_afterRenders].length) {
-        context.save();
-        if (context === drawingContext) {
-          var _context2;
-
-          (_context2 = context).rect.apply(_context2, (0, _toConsumableArray3.default)(bound));
-          context.clip();
-        }
         this.userRender(t, context, 'after');
+      }
+      if (context === drawingContext) {
         context.restore();
       }
 
@@ -1349,8 +1314,6 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      this[_paths] = [];
-
       var attr = this.attr(),
           bgcolor = attr.bgcolor,
           gradients = attr.gradients,
@@ -2055,6 +2018,9 @@ function createGradients(context, rect, gradient) {
     ret = context.createLinearGradient.apply(context, (0, _toConsumableArray3.default)(vector));
   } else if (vector.length === 6) {
     ret = context.createRadialGradient.apply(context, (0, _toConsumableArray3.default)(vector));
+  } else if (vector.length === 3) {
+    // for wxapp
+    ret = context.createCircularGradient.apply(context, (0, _toConsumableArray3.default)(vector));
   } else {
     throw Error('Invalid gradient vector!');
   }

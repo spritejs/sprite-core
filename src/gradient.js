@@ -66,6 +66,9 @@ export default function createGradients(context, rect, gradient) {
     ret = context.createLinearGradient(...vector)
   } else if(vector.length === 6) {
     ret = context.createRadialGradient(...vector)
+  } else if(vector.length === 3) {
+    // for wxapp
+    ret = context.createCircularGradient(...vector)
   } else {
     throw Error('Invalid gradient vector!')
   }
