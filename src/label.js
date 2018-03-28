@@ -147,9 +147,6 @@ class Label extends BaseSprite {
       context.font = attr.font
       const lines = this.text.split(/\n/)
       let {strokeColor, fillColor} = attr
-      if(!strokeColor && !fillColor) {
-        fillColor = parseColorString('black')
-      }
 
       context.textBaseline = 'top'
 
@@ -166,8 +163,9 @@ class Label extends BaseSprite {
         const rect = gradients.strokeColor.rect || [borderWidth, borderWidth,
           width, height]
 
-        context.strokeStyle = createGradients(context, rect, gradients.strokeColor)
-      } else if(strokeColor) {
+        strokeColor = createGradients(context, rect, gradients.strokeColor)
+      }
+      if(strokeColor) {
         context.strokeStyle = strokeColor
       }
 
@@ -175,9 +173,14 @@ class Label extends BaseSprite {
         const rect = gradients.fillColor.rect || [borderWidth, borderWidth,
           width, height]
 
-        context.fillStyle = createGradients(context, rect, gradients.fillColor)
-      } else if(fillColor) {
+        fillColor = createGradients(context, rect, gradients.fillColor)
+      }
+      if(fillColor) {
         context.fillStyle = fillColor
+      }
+
+      if(!strokeColor && !fillColor) {
+        fillColor = parseColorString('black')
       }
 
       let top = borderWidth
