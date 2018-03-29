@@ -378,12 +378,11 @@ class BaseSprite extends BaseNode {
       }
     }
   }
-  draw(t, ...args) {
+  draw(t, drawingContext, ...args) {
     if(typeof t === 'function') {
-      return this._draw(t, ...args)
+      return this._draw(t, drawingContext, ...args)
     }
 
-    const drawingContext = this.context
     if(!drawingContext) {
       throw new Error('No context!')
     }

@@ -86,17 +86,17 @@ export default class Group extends BaseSprite {
     }
   }
   render(t, drawingContext) {
-    drawingContext = super.render(t, drawingContext)
+    const context = super.render(t, drawingContext)
 
     const children = this[_children]
 
     /* eslint-disable no-await-in-loop */
     for(let i = 0; i < children.length; i++) {
       const child = children[i]
-      child.draw(t)
+      child.draw(t, context)
     }
     /* eslint-enable no-await-in-loop */
 
-    return drawingContext
+    return context
   }
 }

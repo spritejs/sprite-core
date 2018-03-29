@@ -34,10 +34,17 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set d(val) {
     this.clearCache()
     this.set('d', val)
-    const commands = pathToCanvas(val)
-    this.set('pathCommands', commands)
-    this.set('pathBounds', getBounds(val))
-    this.subject.svg = getSvgPath(val)
+    let commands
+    if(val) {
+      commands = pathToCanvas(val)
+      this.set('pathCommands', commands)
+      this.set('pathBounds', getBounds(val))
+      this.subject.svg = getSvgPath(val)
+    } else {
+      this.set('pathCommands', null)
+      this.set('pathBounds', null)
+      this.subject.svg = null
+    }
   }
 
   @attr

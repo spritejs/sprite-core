@@ -1087,16 +1087,15 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     }
   }, {
     key: 'draw',
-    value: function draw(t) {
+    value: function draw(t, drawingContext) {
       if (typeof t === 'function') {
-        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          args[_key - 1] = arguments[_key];
+        for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+          args[_key - 2] = arguments[_key];
         }
 
-        return this._draw.apply(this, [t].concat(args));
+        return this._draw.apply(this, [t, drawingContext].concat(args));
       }
 
-      var drawingContext = this.context;
       if (!drawingContext) {
         throw new Error('No context!');
       }
@@ -3436,18 +3435,18 @@ var Group = function (_BaseSprite) {
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      drawingContext = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+      var context = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
 
       var children = this[_children];
 
       /* eslint-disable no-await-in-loop */
       for (var i = 0; i < children.length; i++) {
         var child = children[i];
-        child.draw(t);
+        child.draw(t, context);
       }
       /* eslint-enable no-await-in-loop */
 
-      return drawingContext;
+      return context;
     }
   }, {
     key: 'contentSize',
@@ -5521,7 +5520,7 @@ var Layer = function (_BaseNode) {
         var child = renderEls[i];
         if (child.parent === this) {
           if (this.isVisible(child)) {
-            child.draw(t);
+            child.draw(t, this.shadowContext || this.outputContext);
           } else {
             // invisible, only need to remove lastRenderBox
             delete child.lastRenderBox;
@@ -6039,10 +6038,17 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
     set: function set(val) {
       this.clearCache();
       this.set('d', val);
-      var commands = (0, _svgPathToCanvas.pathToCanvas)(val);
-      this.set('pathCommands', commands);
-      this.set('pathBounds', (0, _svgPathToCanvas.getBounds)(val));
-      this.subject.svg = (0, _platform.getSvgPath)(val);
+      var commands = void 0;
+      if (val) {
+        commands = (0, _svgPathToCanvas.pathToCanvas)(val);
+        this.set('pathCommands', commands);
+        this.set('pathBounds', (0, _svgPathToCanvas.getBounds)(val));
+        this.subject.svg = (0, _platform.getSvgPath)(val);
+      } else {
+        this.set('pathCommands', null);
+        this.set('pathBounds', null);
+        this.subject.svg = null;
+      }
     }
   }, {
     key: 'lineWidth',
