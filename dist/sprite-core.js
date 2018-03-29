@@ -6149,26 +6149,27 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
 
       if (_platform.platform.isBrowser) {
         if (context.isPointInPath(path, offsetX, offsetY)) {
-          return path;
+          return [path];
         }
       } else if (d) {
         if ((0, _platform.pointInPath)(d, offsetX, offsetY)) {
-          return { d: d };
+          return [{ d: d }];
         }
       }
+      return [];
     }
   }, {
     key: 'pointCollision',
     value: function pointCollision(evt) {
       if ((0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'pointCollision', this).call(this, evt)) {
+        var _evt$targetPaths;
+
         var offsetX = evt.offsetX,
             offsetY = evt.offsetY;
 
-        var path = this.findPath(offsetX, offsetY);
+        var paths = this.findPath(offsetX, offsetY);
         evt.targetPaths = evt.targetPaths || [];
-        if (path) {
-          evt.targetPaths.push(path);
-        }
+        (_evt$targetPaths = evt.targetPaths).push.apply(_evt$targetPaths, (0, _toConsumableArray3.default)(paths));
         return true;
       }
       return false;
