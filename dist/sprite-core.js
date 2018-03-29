@@ -1087,15 +1087,16 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     }
   }, {
     key: 'draw',
-    value: function draw(t, drawingContext) {
+    value: function draw(t) {
       if (typeof t === 'function') {
-        for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-          args[_key - 2] = arguments[_key];
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
         }
 
-        return this._draw.apply(this, [t, drawingContext].concat(args));
+        return this._draw.apply(this, [t].concat(args));
       }
 
+      var drawingContext = this.context;
       if (!drawingContext) {
         throw new Error('No context!');
       }
@@ -1138,8 +1139,9 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
         this.userRender(t, context, 'before');
       }
       if (context !== this.cache) {
-        context = this.render(t, context);
+        // set cache before render for group
         if (context !== drawingContext) this.cache = context;
+        context = this.render(t, context);
       }
       if (this[_afterRenders].length) {
         this.userRender(t, context, 'after');
@@ -3442,7 +3444,7 @@ var Group = function (_BaseSprite) {
       /* eslint-disable no-await-in-loop */
       for (var i = 0; i < children.length; i++) {
         var child = children[i];
-        child.draw(t, context);
+        child.draw(t);
       }
       /* eslint-enable no-await-in-loop */
 
@@ -5541,7 +5543,7 @@ var Layer = function (_BaseNode) {
         var child = renderEls[i];
         if (child.parent === this) {
           if (this.isVisible(child)) {
-            child.draw(t, this.shadowContext || this.outputContext);
+            child.draw(t);
           } else {
             // invisible, only need to remove lastRenderBox
             delete child.lastRenderBox;
@@ -6176,7 +6178,7 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
         if (context.isPointInPath(path, offsetX, offsetY)) {
           return [path];
         }
-      } else if (d) {
+      } else if (!_platform.platform.isBrowser && d) {
         if ((0, _platform.pointInPath)(d, offsetX, offsetY)) {
           return [{ d: d }];
         }
@@ -6206,9 +6208,8 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
             fillColor = attr.fillColor;
 
 
-        if (attr.trim) {
-          context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
-        }
+        context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
+
         var p = null;
         if (_platform.platform.isBrowser) {
           // only browser can use Path2D to create d attr
@@ -6291,21 +6292,28 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
 
       var bounds = this.attr('pathBounds');
       var lineWidth = this.attr('lineWidth');
-      var lw = Math.ceil(1.414 * lineWidth); // Math.sqrt(2) * lineWidth
+
+      var _attr4 = this.attr('border'),
+          _attr5 = (0, _slicedToArray3.default)(_attr4, 1),
+          borderWidth = _attr5[0];
+
+      var padding = this.attr('padding');
+      var padLeft = borderWidth + padding[3],
+          padTop = borderWidth + padding[0];
 
       if (width === '') {
-        width = bounds[2] + lw | 0;
+        width = bounds[2] + 1.414 * lineWidth | 0;
       }
       if (height === '') {
-        height = bounds[3] + lw | 0;
+        height = bounds[3] + 1.414 * lineWidth | 0;
       }
       if (this.attr('trim')) {
         var _pathOffset2 = (0, _slicedToArray3.default)(this.pathOffset, 2),
             x = _pathOffset2[0],
             y = _pathOffset2[1];
 
-        width += x;
-        height += y;
+        width += x - padLeft;
+        height += y - padTop;
       }
 
       return [width, height];
@@ -6314,14 +6322,22 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
     key: 'pathOffset',
     get: function get() {
       var trim = this.attr('trim'),
-          bounds = this.attr('pathBounds'),
-          lineWidth = this.attr('lineWidth');
+          bounds = this.attr('pathBounds');
+
+      var lineWidth = this.attr('lineWidth');
+
+      var _attr6 = this.attr('border'),
+          _attr7 = (0, _slicedToArray3.default)(_attr6, 1),
+          borderWidth = _attr7[0];
+
+      var padding = this.attr('padding');
+      var padLeft = borderWidth + padding[3],
+          padTop = borderWidth + padding[0];
 
       if (trim) {
-        var lb = Math.ceil(1.414 * lineWidth);
-        return [-bounds[0] + lb, -bounds[1] + lb];
+        return [-bounds[0] + padLeft + lineWidth * 1.414, -bounds[1] + padTop + lineWidth * 1.414];
       }
-      return [0, 0];
+      return [padLeft, padTop];
     }
   }]);
   return Path;

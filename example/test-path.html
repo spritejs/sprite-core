@@ -11,9 +11,21 @@
   <script src="/js/sprite-core.js"></script>
   <script>
     const Path = spritejs.Path
+    const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context})
+
+    // const s = new Sprite()
+    // s.attr({
+    //   anchor: [0, 0],
+    //   pos: [50, 200],
+    //   size: [100, 100],
+    //   bgcolor: 'black',
+    //   border: [10, 'blue'],
+    //   zIndex: 100,
+    // })
+    // layer.append(s)
 
     const paths = [
       "M280,250A200,200,0,1,1,680,250A200,200,0,1,1,280,250Z",
@@ -26,11 +38,13 @@
     const path = new Path(paths[0])
     path.attr({
       anchor: [0, 0],
-      // size: [1000, 1000],
-      pos: [0, 0],
+      pos: [50, 50],
       strokeColor: 'blue',
       bgcolor: '#aaa',
-      lineWidth: 20,
+      lineWidth: 30,
+      // padding: [10, 10],
+      // size: [100, 100],
+      border: [10, '#f00'],
       trim: true,
       gradients: {
         fillColor: {

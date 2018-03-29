@@ -378,11 +378,12 @@ class BaseSprite extends BaseNode {
       }
     }
   }
-  draw(t, drawingContext, ...args) {
+  draw(t, ...args) {
     if(typeof t === 'function') {
-      return this._draw(t, drawingContext, ...args)
+      return this._draw(t, ...args)
     }
 
+    const drawingContext = this.context
     if(!drawingContext) {
       throw new Error('No context!')
     }
@@ -422,8 +423,9 @@ class BaseSprite extends BaseNode {
       this.userRender(t, context, 'before')
     }
     if(context !== this.cache) {
-      context = this.render(t, context)
+      // set cache before render for group
       if(context !== drawingContext) this.cache = context
+      context = this.render(t, context)
     }
     if(this[_afterRenders].length) {
       this.userRender(t, context, 'after')

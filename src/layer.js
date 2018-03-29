@@ -184,7 +184,7 @@ class Layer extends BaseNode {
       const child = renderEls[i]
       if(child.parent === this) {
         if(this.isVisible(child)) {
-          child.draw(t, this.shadowContext || this.outputContext)
+          child.draw(t)
         } else {
           // invisible, only need to remove lastRenderBox
           delete child.lastRenderBox

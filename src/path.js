@@ -1,7 +1,7 @@
 import BaseSprite from './basesprite'
 import createGradients from './gradient'
 import {Effects} from 'sprite-animator'
-import {parseColorString, attr, deprecate} from 'sprite-utils'
+import {parseColorString, attr, deprecate, parseValue, parseStringInt, fourValuesShortCut} from 'sprite-utils'
 import {pathToCanvas, getBounds} from 'svg-path-to-canvas'
 import pathEffect from 'sprite-path-effect'
 import {getSvgPath, platform, pointInPath} from './platform'
@@ -110,18 +110,22 @@ class Path extends BaseSprite {
 
     const bounds = this.attr('pathBounds')
     const lineWidth = this.attr('lineWidth')
-    const lw = Math.ceil(1.414 * lineWidth) // Math.sqrt(2) * lineWidth
+
+    const [borderWidth] = this.attr('border')
+    const padding = this.attr('padding')
+    const padLeft = borderWidth + padding[3],
+      padTop = borderWidth + padding[0]
 
     if(width === '') {
-      width = bounds[2] + lw | 0
+      width = bounds[2] + 1.414 * lineWidth | 0
     }
     if(height === '') {
-      height = bounds[3] + lw | 0
+      height = bounds[3] + 1.414 * lineWidth | 0
     }
     if(this.attr('trim')) {
       const [x, y] = this.pathOffset
-      width += x
-      height += y
+      width += x - padLeft
+      height += y - padTop
     }
 
     return [width, height]
@@ -157,7 +161,7 @@ class Path extends BaseSprite {
       if(context.isPointInPath(path, offsetX, offsetY)) {
         return [path]
       }
-    } else if(d) {
+    } else if(!platform.isBrowser && d) {
       if(pointInPath(d, offsetX, offsetY)) {
         return [{d}]
       }
@@ -167,14 +171,20 @@ class Path extends BaseSprite {
 
   get pathOffset() {
     const trim = this.attr('trim'),
-      bounds = this.attr('pathBounds'),
-      lineWidth = this.attr('lineWidth')
+      bounds = this.attr('pathBounds')
+
+    const lineWidth = this.attr('lineWidth')
+
+    const [borderWidth] = this.attr('border')
+    const padding = this.attr('padding')
+    const padLeft = borderWidth + padding[3],
+      padTop = borderWidth + padding[0]
 
     if(trim) {
-      const lb = Math.ceil(1.414 * lineWidth)
-      return [-bounds[0] + lb, -bounds[1] + lb]
+      return [-bounds[0] + padLeft + lineWidth * 1.414,
+        -bounds[1] + padTop + lineWidth * 1.414]
     }
-    return [0, 0]
+    return [padLeft, padTop]
   }
 
   pointCollision(evt) {
@@ -193,9 +203,8 @@ class Path extends BaseSprite {
     if(attr.d) {
       let {strokeColor, fillColor} = attr
 
-      if(attr.trim) {
-        context.translate(...this.pathOffset)
-      }
+      context.translate(...this.pathOffset)
+
       let p = null
       if(platform.isBrowser) {
         // only browser can use Path2D to create d attr
