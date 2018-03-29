@@ -23,6 +23,21 @@ module.exports = function (env = {}) {
     }))
   }
 
+  const output = {
+    filename: 'sprite-core.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/js/',
+    library: 'spritejs',
+    libraryTarget: 'umd',
+  }
+
+  if(env.production) {
+    output.filename = 'sprite-core.min.js'
+  } else if(env.module) {
+    output.filename = 'sprite-core.export.js'
+    output.libraryTarget = 'commonjs'
+  }
+
   if(fs.existsSync('./.babelrc')) {
     // use babel
     const babelConf = JSON.parse(fs.readFileSync('.babelrc'))
@@ -34,13 +49,7 @@ module.exports = function (env = {}) {
 
   return {
     entry: './src/index.js',
-    output: {
-      filename: env.production ? 'sprite-core.min.js' : 'sprite-core.js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/js/',
-      library: 'spritejs',
-      libraryTarget: 'umd',
-    },
+    output,
 
     plugins,
 

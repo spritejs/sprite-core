@@ -1,7 +1,7 @@
 import BaseSprite from './basesprite'
 import createGradients from './gradient'
 import {Effects} from 'sprite-animator'
-import {parseColorString, attr, deprecate, parseValue, parseStringInt, fourValuesShortCut} from 'sprite-utils'
+import {parseColorString, attr, deprecate} from 'sprite-utils'
 import {pathToCanvas, getBounds} from 'svg-path-to-canvas'
 import pathEffect from 'sprite-path-effect'
 import {getSvgPath, platform, pointInPath} from './platform'
