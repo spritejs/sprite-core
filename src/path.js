@@ -97,7 +97,7 @@ class Path extends BaseSprite {
 
     const bounds = this.attr('pathBounds')
     const lineWidth = this.attr('lineWidth')
-    const lw = Math.ceil(1.2 * lineWidth)
+    const lw = Math.ceil(1.414 * lineWidth) // Math.sqrt(2) * lineWidth
 
     if(width === '') {
       width = bounds[2] + lw | 0

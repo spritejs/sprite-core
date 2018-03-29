@@ -6242,7 +6242,7 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
 
       var bounds = this.attr('pathBounds');
       var lineWidth = this.attr('lineWidth');
-      var lw = Math.ceil(1.2 * lineWidth);
+      var lw = Math.ceil(1.414 * lineWidth); // Math.sqrt(2) * lineWidth
 
       if (width === '') {
         width = bounds[2] + lw | 0;
