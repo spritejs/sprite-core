@@ -8,10 +8,15 @@ export function getSvgPath(d) {
   const points = getPoints(d)
   return {
     getPointAtLength(len) {
-      return points.at(len)
+      const [x, y] = points.at(len)
+      return {x, y}
     },
     getTotalLength() {
       return points.length()
+    },
+    getAttribute(val) {
+      if(val === 'd') return d
+      return null
     },
   }
 }
