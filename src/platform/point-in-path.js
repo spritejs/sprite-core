@@ -243,8 +243,8 @@ function interHelper (bez1, bez2, justCount) {
   }
   var l1 = bezlen.apply(0, bez1),
     l2 = bezlen.apply(0, bez2),
-    n1 = ~~(l1 / 8),
-    n2 = ~~(l2 / 8),
+    n1 = Math.ceil(l1 / 8),
+    n2 = Math.ceil(l2 / 8),
     dots1 = [],
     dots2 = [],
     xy = {},
