@@ -411,14 +411,15 @@ class BaseSprite extends BaseNode {
       context.translate(bound[0], bound[1])
     }
 
-    if(context === drawingContext) {
-      const [w, h] = this.offsetSize
-      context.save()
-      context.beginPath()
-      context.rect(0, 0, w, h)
-      context.clip()
-      context.closePath()
-    }
+    // too slow in wxapp
+    // if(context === drawingContext) {
+    //   const [w, h] = this.offsetSize
+    //   context.save()
+    //   context.beginPath()
+    //   context.rect(0, 0, w, h)
+    //   context.clip()
+    //   context.closePath()
+    // }
     if(this[_beforeRenders].length) {
       this.userRender(t, context, 'before')
     }
@@ -430,9 +431,9 @@ class BaseSprite extends BaseNode {
     if(this[_afterRenders].length) {
       this.userRender(t, context, 'after')
     }
-    if(context === drawingContext) {
-      context.restore()
-    }
+    // if(context === drawingContext) {
+    //   context.restore()
+    // }
 
     if(context !== drawingContext) {
       drawingContext.drawImage(context.canvas, bound[0], bound[1])
