@@ -152,7 +152,7 @@ class Path extends BaseSprite {
       offsetY -= y
     }
 
-    if(platform.isBrowser) {
+    if(platform.isBrowser && path) {
       if(context.isPointInPath(path, offsetX, offsetY)) {
         return [path]
       }
@@ -179,9 +179,7 @@ class Path extends BaseSprite {
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       const {offsetX, offsetY} = evt
-      const paths = this.findPath(offsetX, offsetY)
-      evt.targetPaths = evt.targetPaths || []
-      evt.targetPaths.push(...paths)
+      evt.targetPaths = this.findPath(offsetX, offsetY)
       return true
     }
     return false
