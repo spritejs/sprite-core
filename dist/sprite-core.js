@@ -5914,13 +5914,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _slicedToArray2 = __webpack_require__(2);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
 var _toConsumableArray2 = __webpack_require__(7);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _slicedToArray2 = __webpack_require__(2);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 var _get2 = __webpack_require__(19);
 
@@ -6022,7 +6022,8 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
       // d: path2d,
       boxSize: [0, 0],
       pathRect: [0, 0, 0, 0],
-      pathBounds: [0, 0, 0, 0]
+      pathBounds: [0, 0, 0, 0],
+      trim: false
     }, {
       color: {
         get: function get() {
@@ -6088,9 +6089,14 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
     set: function set(val) {
       this.strokeColor = val;
     }
+  }, {
+    key: 'trim',
+    set: function set(val) {
+      this.set('trim', val);
+    }
   }]);
   return PathSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'trim', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'trim'), _class.prototype)), _class));
 var Path = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Path, _BaseSprite);
 
@@ -6126,6 +6132,15 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           path = this.path,
           d = this.attr('d');
 
+      if (this.attr('trim')) {
+        var _pathOffset = (0, _slicedToArray3.default)(this.pathOffset, 2),
+            x = _pathOffset[0],
+            y = _pathOffset[1];
+
+        offsetX -= x;
+        offsetY -= y;
+      }
+
       if (path && context && context.isPointInPath) {
         if (context.isPointInPath(path, offsetX, offsetY)) {
           return [path];
@@ -6160,6 +6175,9 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
             fillColor = attr.fillColor;
 
 
+        if (attr.trim) {
+          context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
+        }
         var p = null;
         if (_platform.platform.isBrowser) {
           // only browser can use Path2D to create d attr
@@ -6250,8 +6268,29 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       if (height === '') {
         height = bounds[3] + lw | 0;
       }
+      if (this.attr('trim')) {
+        var _pathOffset2 = (0, _slicedToArray3.default)(this.pathOffset, 2),
+            x = _pathOffset2[0],
+            y = _pathOffset2[1];
+
+        width += x;
+        height += y;
+      }
 
       return [width, height];
+    }
+  }, {
+    key: 'pathOffset',
+    get: function get() {
+      var trim = this.attr('trim'),
+          bounds = this.attr('pathBounds'),
+          lineWidth = this.attr('lineWidth');
+
+      if (trim) {
+        var lb = Math.ceil(1.414 * lineWidth);
+        return [-bounds[0] + lb, -bounds[1] + lb];
+      }
+      return [0, 0];
     }
   }]);
   return Path;

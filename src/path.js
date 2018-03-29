@@ -21,6 +21,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
       boxSize: [0, 0],
       pathRect: [0, 0, 0, 0],
       pathBounds: [0, 0, 0, 0],
+      trim: false,
     }, {
       color: {
         get() {
@@ -80,6 +81,11 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set color(val) {
     this.strokeColor = val
   }
+
+  @attr
+  set trim(val) {
+    this.set('trim', val)
+  }
 }
 
 class Path extends BaseSprite {
@@ -105,6 +111,11 @@ class Path extends BaseSprite {
     if(height === '') {
       height = bounds[3] + lw | 0
     }
+    if(this.attr('trim')) {
+      const [x, y] = this.pathOffset
+      width += x
+      height += y
+    }
 
     return [width, height]
   }
@@ -128,6 +139,12 @@ class Path extends BaseSprite {
       path = this.path,
       d = this.attr('d')
 
+    if(this.attr('trim')) {
+      const [x, y] = this.pathOffset
+      offsetX -= x
+      offsetY -= y
+    }
+
     if(path && context && context.isPointInPath) {
       if(context.isPointInPath(path, offsetX, offsetY)) {
         return [path]
@@ -138,6 +155,18 @@ class Path extends BaseSprite {
       }
     }
     return []
+  }
+
+  get pathOffset() {
+    const trim = this.attr('trim'),
+      bounds = this.attr('pathBounds'),
+      lineWidth = this.attr('lineWidth')
+
+    if(trim) {
+      const lb = Math.ceil(1.414 * lineWidth)
+      return [-bounds[0] + lb, -bounds[1] + lb]
+    }
+    return [0, 0]
   }
 
   pointCollision(evt) {
@@ -156,6 +185,9 @@ class Path extends BaseSprite {
     if(attr.d) {
       let {strokeColor, fillColor} = attr
 
+      if(attr.trim) {
+        context.translate(...this.pathOffset)
+      }
       let p = null
       if(platform.isBrowser) {
         // only browser can use Path2D to create d attr
