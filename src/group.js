@@ -44,6 +44,9 @@ export default class Group extends BaseSprite {
     }
     sprites.forEach(sprite => this.removeChild(sprite))
   }
+  get children() {
+    return this[_children]
+  }
   get contentSize() {
     let [width, height] = this.attr('size')
 

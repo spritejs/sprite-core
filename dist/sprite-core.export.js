@@ -827,11 +827,6 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
   }
 
   (0, _createClass3.default)(BaseSprite, [{
-    key: 'initAttributes',
-    value: function initAttributes(attrs) {
-      this[_attr].merge(attrs);
-    }
-  }, {
     key: 'serialize',
     value: function serialize() {
       var nodeType = this.nodeType,
@@ -849,7 +844,8 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
     value: function cloneNode(copyContent) {
       var node = new this.constructor();
       if (copyContent) {
-        node.initAttributes(this[_attr].serialize());
+        var attrs = JSON.parse(this[_attr].serialize());
+        node.attr(attrs);
       }
       return node;
     }
@@ -3566,6 +3562,11 @@ var Group = function (_BaseSprite) {
       /* eslint-enable no-await-in-loop */
 
       return context;
+    }
+  }, {
+    key: 'children',
+    get: function get() {
+      return this[_children];
     }
   }, {
     key: 'contentSize',
@@ -7014,17 +7015,17 @@ var _toConsumableArray2 = __webpack_require__(7);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _entries = __webpack_require__(31);
+var _stringify = __webpack_require__(79);
 
-var _entries2 = _interopRequireDefault(_entries);
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _slicedToArray2 = __webpack_require__(2);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _stringify = __webpack_require__(79);
+var _entries = __webpack_require__(31);
 
-var _stringify2 = _interopRequireDefault(_stringify);
+var _entries2 = _interopRequireDefault(_entries);
 
 var _defineProperties = __webpack_require__(118);
 
@@ -7215,7 +7216,22 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'serialize',
     value: function serialize() {
-      return (0, _stringify2.default)(this[_attr]);
+      var _this = this;
+
+      var entries = (0, _entries2.default)(this[_attr]);
+      var obj = {};
+      entries.forEach(function (_ref) {
+        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+
+        /* eslint-disable no-prototype-builtins */
+        if (key in _this) {
+          obj[key] = value;
+        }
+        /* eslint-enable no-prototype-builtins */
+      });
+      return (0, _stringify2.default)(obj);
     }
   }, {
     key: 'resetOffset',
@@ -7396,7 +7412,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'transform',
     set: function set(val) {
-      var _this = this;
+      var _this2 = this;
 
       /*
         rotate: 0,
@@ -7419,15 +7435,15 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
         this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
         var transformStr = [];
 
-        (0, _entries2.default)(val).forEach(function (_ref) {
-          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-              key = _ref2[0],
-              value = _ref2[1];
+        (0, _entries2.default)(val).forEach(function (_ref3) {
+          var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+              key = _ref4[0],
+              value = _ref4[1];
 
           if (key === 'matrix' && Array.isArray(value)) {
-            _this.set('transformMatrix', new _spriteMath.Matrix(value).m);
+            _this2.set('transformMatrix', new _spriteMath.Matrix(value).m);
           } else {
-            _this[key] = value;
+            _this2[key] = value;
           }
           transformStr.push(key + '(' + value + ')');
         });
@@ -7477,10 +7493,10 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'skew',
     set: function set(val) {
-      var _ref3, _transform$multiply;
+      var _ref5, _transform$multiply;
 
       var oldVal = this.get('skew');
-      var invm = (_ref3 = new _spriteMath.Matrix()).skew.apply(_ref3, (0, _toConsumableArray3.default)(oldVal)).inverse();
+      var invm = (_ref5 = new _spriteMath.Matrix()).skew.apply(_ref5, (0, _toConsumableArray3.default)(oldVal)).inverse();
       this.set('skew', val);
       var transform = new _spriteMath.Matrix(this.get('transformMatrix'));
       (_transform$multiply = transform.multiply(invm)).skew.apply(_transform$multiply, (0, _toConsumableArray3.default)(val));

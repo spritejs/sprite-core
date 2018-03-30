@@ -33,10 +33,6 @@ class BaseSprite extends BaseNode {
     }
   }
 
-  initAttributes(attrs) {
-    this[_attr].merge(attrs)
-  }
-
   get nodeType() {
     return this.constructor.nodeType
   }
@@ -64,7 +60,8 @@ class BaseSprite extends BaseNode {
   cloneNode(copyContent) {
     const node = new this.constructor()
     if(copyContent) {
-      node.initAttributes(this[_attr].serialize())
+      const attrs = JSON.parse(this[_attr].serialize())
+      node.attr(attrs)
     }
     return node
   }

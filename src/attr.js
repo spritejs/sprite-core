@@ -107,7 +107,16 @@ class SpriteAttr {
     return this
   }
   serialize() {
-    return JSON.stringify(this[_attr])
+    const entries = Object.entries(this[_attr])
+    const obj = {}
+    entries.forEach(([key, value]) => {
+      /* eslint-disable no-prototype-builtins */
+      if(key in this) {
+        obj[key] = value
+      }
+      /* eslint-enable no-prototype-builtins */
+    })
+    return JSON.stringify(obj)
   }
 
   get attrs() {
