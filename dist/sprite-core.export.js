@@ -702,13 +702,13 @@ var _defineProperty2 = __webpack_require__(122);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _assign = __webpack_require__(14);
-
-var _assign2 = _interopRequireDefault(_assign);
-
 var _typeof2 = __webpack_require__(50);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _assign = __webpack_require__(14);
+
+var _assign2 = _interopRequireDefault(_assign);
 
 var _set = __webpack_require__(49);
 
@@ -845,7 +845,7 @@ var BaseSprite = (_dec = (0, _spriteUtils.deprecate)('BaseSprite#draw(fn, ...)',
       var node = new this.constructor();
       if (copyContent) {
         var attrs = JSON.parse(this[_attr].serialize());
-        node.attr(attrs);
+        (0, _assign2.default)(node.attrs(), attrs);
       }
       return node;
     }

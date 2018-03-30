@@ -61,7 +61,7 @@ class BaseSprite extends BaseNode {
     const node = new this.constructor()
     if(copyContent) {
       const attrs = JSON.parse(this[_attr].serialize())
-      node.attr(attrs)
+      Object.assign(node.attrs(), attrs)
     }
     return node
   }
