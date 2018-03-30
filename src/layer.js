@@ -2,7 +2,8 @@ import BaseNode from './basenode'
 import Group from './group'
 
 import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
-import {Timeline, requestAnimationFrame} from 'sprite-animator'
+import {Timeline} from 'sprite-animator'
+import {requestAnimationFrame} from 'fast-animation-frame'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),

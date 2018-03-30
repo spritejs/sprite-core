@@ -1,4 +1,5 @@
-import {Animator, Effects, requestAnimationFrame} from 'sprite-animator'
+import {Animator, Effects} from 'sprite-animator'
+import {requestAnimationFrame} from 'fast-animation-frame'
 import {Matrix} from 'sprite-math'
 import {parseColor, parseStringTransform} from 'sprite-utils'
 
