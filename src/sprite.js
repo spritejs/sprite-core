@@ -2,6 +2,7 @@ import BaseSprite from './basesprite'
 import filters from './filters'
 
 import {rectToBox, boxToRect, boxUnion, attr} from 'sprite-utils'
+import {registerNodeType} from './nodetype'
 
 const _texturesCache = Symbol('_texturesCache')
 const _images = Symbol('_images')
@@ -239,3 +240,5 @@ export default class Sprite extends BaseSprite {
     return context
   }
 }
+
+registerNodeType('sprite', Sprite)

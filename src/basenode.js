@@ -1,7 +1,7 @@
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState')
 
-class BaseNode {
+export default class BaseNode {
   constructor() {
     this[_eventHandlers] = {}
   }
@@ -123,5 +123,3 @@ class BaseNode {
     return this
   }
 }
-
-export default BaseNode

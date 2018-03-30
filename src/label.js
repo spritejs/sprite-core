@@ -1,6 +1,8 @@
 import BaseSprite from './basesprite'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
 import createGradients from './gradient'
+import {registerNodeType} from './nodetype'
+
 const parseFont = require('./font/parse-font')
 
 const measureText = (node, text, font, lineHeight = '') => {
@@ -104,7 +106,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   }
 }
 
-class Label extends BaseSprite {
+export default class Label extends BaseSprite {
   static Attr = LabelSpriteAttr
 
   constructor(text, attr) {
@@ -210,4 +212,4 @@ class Label extends BaseSprite {
   }
 }
 
-export default Label
+registerNodeType('label', Label)

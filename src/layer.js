@@ -4,6 +4,7 @@ import Group from './group'
 import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 import {Timeline} from 'sprite-animator'
 import {requestAnimationFrame} from 'fast-animation-frame'
+import {registerNodeType} from './nodetype'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
@@ -13,7 +14,7 @@ const _children = Symbol('children'),
   _timeline = Symbol('timeline'),
   _renderPromise = Symbol('renderPromise')
 
-class Layer extends BaseNode {
+export default class Layer extends BaseNode {
   constructor({
     context,
     handleEvent,
@@ -458,4 +459,4 @@ class Layer extends BaseNode {
   }
 }
 
-export default Layer
+registerNodeType('layer', Layer, true)

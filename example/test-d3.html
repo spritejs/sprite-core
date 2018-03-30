@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>Demo</title>
+  <style>
+  #paper {
+    position: relative;
+    width: 600px;
+    height: 400px;
+  }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="800"></canvas>
+  <script src="/js/d3.js"></script>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+  const context = document.getElementById('mycanvas').getContext('2d')
+  const Sprite = spritejs.Sprite,
+        Path = spritejs.Path,
+        Label = spritejs.Label,
+        Layer = spritejs.Layer
+  
+  const layer = new Layer({context})
+
+  const dataset = [ 125 , 121 , 127 , 193 , 309 ];  //数据（表示矩形的宽度）
+
+  //定义比例尺
+  var linear = d3.scaleLinear()
+      .domain([100, d3.max(dataset)])
+      .range([0, 500]);
+
+  //console.log(linear.domain(), dataset.map(linear))
+
+  const colors = ['#f00', '#0a0', '#00a', '#3ca', '#7ac']
+
+  let s = d3.select(layer)
+
+  let chart = s.selectAll('sprite')
+    .data(dataset)
+    .enter()
+    .append('sprite')
+    .attr('x', 300)
+    .attr('y', function(d,i){
+      return 200 + i * 55;
+    })
+    .attr('width', 0)
+    .attr('height', 50)
+    .attr('bgcolor', 'black')
+
+  chart
+       .transition()
+       .duration(2000)
+       .attr('width',function(d, i){
+          return linear(d);
+       })
+       .attr('bgcolor', function(d, i){
+          return colors[i]
+       })
+
+  chart.on('click', data => {
+    console.log(data, d3.event)
+  })
+
+  </script>
+</body>
+</html>

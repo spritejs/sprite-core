@@ -5,6 +5,7 @@ import {parseColorString, attr, deprecate} from 'sprite-utils'
 import {pathToCanvas, getBounds} from 'svg-path-to-canvas'
 import pathEffect from 'sprite-path-effect'
 import {getSvgPath, platform, pointInPath} from './platform'
+import {registerNodeType} from './nodetype'
 
 Effects.d = pathEffect
 
@@ -95,7 +96,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   }
 }
 
-class Path extends BaseSprite {
+export default class Path extends BaseSprite {
   static Attr = PathSpriteAttr
 
   constructor(attr) {
@@ -271,4 +272,4 @@ class Path extends BaseSprite {
   }
 }
 
-export default Path
+registerNodeType('path', Path)

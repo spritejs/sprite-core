@@ -1,4 +1,5 @@
 import BaseSprite from './basesprite'
+import {registerNodeType} from './nodetype'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
@@ -103,3 +104,5 @@ export default class Group extends BaseSprite {
     return context
   }
 }
+
+registerNodeType('group', Group, true)

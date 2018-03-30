@@ -4,13 +4,14 @@ import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
 import {rectVertices, deprecate} from 'sprite-utils'
 import createGradients from './gradient'
+import {registerNodeType} from './nodetype'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
   _beforeRenders = Symbol('beforeRenders'),
   _afterRenders = Symbol('afterRenders')
 
-class BaseSprite extends BaseNode {
+export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
 
   /**
@@ -31,10 +32,6 @@ class BaseSprite extends BaseNode {
     if(attr) {
       this.attr(attr)
     }
-  }
-
-  get nodeType() {
-    return this.constructor.nodeType
   }
 
   get layer() {
@@ -582,4 +579,4 @@ class BaseSprite extends BaseNode {
   }
 }
 
-export default BaseSprite
+registerNodeType('basesprite', BaseSprite)
