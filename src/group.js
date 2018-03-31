@@ -78,12 +78,17 @@ export default class Group extends BaseSprite {
       _evt.parentY = parentY
 
       const targetSprites = []
-      this[_children].forEach((sprite) => {
+
+      for(let i = 0; i < this[_children].length; i++) {
+        const sprite = this[_children][i]
         const hit = sprite.dispatchEvent(type, _evt, forceTrigger)
         if(hit) {
           targetSprites.push(sprite)
         }
-      })
+        if(evt.terminated && !evt.type.startsWith('mouse')) {
+          break
+        }
+      }
 
       evt.targetSprites = targetSprites
       super.dispatchEvent(type, evt, forceTrigger)

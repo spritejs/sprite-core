@@ -34,14 +34,20 @@ export default class BaseNode {
     throw Error('you mast override this method')
   }
   dispatchEvent(type, evt, forceTrigger = false) {
+    if(!evt.stopDispatch) {
+      evt.stopDispatch = () => {
+        this.terminated = true
+      }
+    }
+    if(evt.type !== type) {
+      if(evt.type) {
+        evt.originalType = evt.type
+      }
+      evt.type = type
+    }
+
     if(!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
       evt.target = this
-      if(evt.type !== type) {
-        if(evt.type) {
-          evt.originalType = evt.type
-        }
-        evt.type = type
-      }
 
       const handlers = this[_eventHandlers][type]
       if(handlers) {

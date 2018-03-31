@@ -2,14 +2,12 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices, deprecate} from 'sprite-utils'
+import {rectVertices} from 'sprite-utils'
 import createGradients from './gradient'
 import {registerNodeType} from './nodetype'
 
 const _attr = Symbol('attr'),
-  _animations = Symbol('animations'),
-  _beforeRenders = Symbol('beforeRenders'),
-  _afterRenders = Symbol('afterRenders')
+  _animations = Symbol('animations')
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -26,8 +24,6 @@ export default class BaseSprite extends BaseNode {
 
     this[_attr] = new this.constructor.Attr(this)
     this[_animations] = new Set()
-    this[_beforeRenders] = []
-    this[_afterRenders] = []
 
     if(attr) {
       this.attr(attr)
@@ -373,10 +369,6 @@ export default class BaseSprite extends BaseNode {
     }
   }
   draw(t, ...args) {
-    if(typeof t === 'function') {
-      return this._draw(t, ...args)
-    }
-
     const drawingContext = this.context
     if(!drawingContext) {
       throw new Error('No context!')
@@ -414,17 +406,15 @@ export default class BaseSprite extends BaseNode {
     //   context.clip()
     //   context.closePath()
     // }
-    if(this[_beforeRenders].length) {
-      this.userRender(t, context, 'before')
-    }
+
+    this.dispatchEvent('beforedraw', {context, target: this, terminated: true}, true)
     if(context !== this.cache) {
       // set cache before render for group
       if(context !== drawingContext) this.cache = context
       context = this.render(t, context)
     }
-    if(this[_afterRenders].length) {
-      this.userRender(t, context, 'after')
-    }
+    this.dispatchEvent('afterdraw', {context, target: this, terminated: true}, true)
+
     // if(context === drawingContext) {
     //   context.restore()
     // }
@@ -448,54 +438,6 @@ export default class BaseSprite extends BaseNode {
     this.lastRenderBox = this.renderBox
 
     return drawingContext
-  }
-
-  @deprecate('BaseSprite#draw(fn, ...)', 'Instead use beforeDraw/afterDraw.')
-  _draw(fn, clearCache = false, remove = false) {
-    this.drawAfter(fn, clearCache, remove)
-  }
-
-  @deprecate('Instead use beforeDraw/afterDraw.')
-  drawOnce(fn) {
-    this._draw(fn, true, true)
-  }
-
-  drawBefore(fn, clearCache = false, remove = false) {
-    this[_beforeRenders].push({fn, clearCache, remove})
-    this.forceUpdate()
-  }
-
-  drawAfter(fn, clearCache = false, remove = false) {
-    this[_afterRenders].push({fn, clearCache, remove})
-    this.forceUpdate()
-  }
-
-  // call by layer
-  userRender(t, context, type) {
-    let handlers = type
-    if(type === 'before') handlers = this[_beforeRenders]
-    if(type === 'after') handlers = this[_afterRenders]
-    const renderers = []
-    for(let i = 0; i < handlers.length; i++) {
-      const renderer = handlers[i]
-      const {fn, remove, clearCache} = renderer
-      /* eslint-disable no-await-in-loop */
-      fn.call(this, context, t, renderer)
-      /* eslint-enable no-await-in-loop */
-      if(!remove) {
-        renderers.push(renderer)
-      }
-      if(clearCache) {
-        this.cache = null
-      }
-    }
-    if(type === 'before') {
-      this[_beforeRenders] = renderers
-    }
-    if(type === 'after') {
-      this[_afterRenders] = renderers
-    }
-    return renderers
   }
 
   render(t, drawingContext) {
