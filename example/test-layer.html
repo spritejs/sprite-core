@@ -13,7 +13,7 @@
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
     const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context})
+    const layer = new Layer({context, renderMode:'repaintDirty'})
 
     const s = new Sprite({
       id: 'abc',
@@ -38,6 +38,7 @@
       }  
     })
     layer.append(s)
+    // layer.draw()
     
     const s2 = new Sprite({
       anchor: 0.5,
@@ -56,6 +57,7 @@
       iterations: Infinity,
     })
     layer.append(s2)
+    // layer.draw()
 
     s.on('click', evt => {
       console.log(evt)

@@ -9,10 +9,9 @@ import {registerNodeType} from './nodetype'
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
   _zOrder = Symbol('zOrder'),
-  _state = Symbol('state'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
-  _renderPromise = Symbol('renderPromise')
+  _renderDeferer = Symbol('renderDeferrer')
 
 export default class Layer extends BaseNode {
   constructor({
@@ -40,8 +39,8 @@ export default class Layer extends BaseNode {
     this[_updateSet] = new Set()
     this[_zOrder] = 0
     this[_tRecord] = [] // calculate FPS
-    this[_state] = {}
     this[_timeline] = new Timeline()
+    this[_renderDeferer] = null
   }
 
   get children() {
@@ -85,44 +84,41 @@ export default class Layer extends BaseNode {
   }
 
   prepareRender() {
-    if(!this[_state].prepareRender) {
-      this[_state].prepareRender = true
-
-      const that = this,
-        _dispatchEvent = super.dispatchEvent
-
-      this[_renderPromise] = new Promise((resolve, reject) => {
-        requestAnimationFrame(function step(t) {
-          let renderer
-          if(that.renderMode === 'repaintDirty') {
-            renderer = that.renderRepaintDirty.bind(that)
-          } else if(that.renderMode === 'repaintAll') {
-            renderer = that.renderRepaintAll.bind(that)
-          } else {
-            throw new Error('unknown render mode!')
-          }
-
-          if(that[_updateSet].size) {
-            renderer(t)
-
-            _dispatchEvent.call(
-              that, 'update',
-              {target: that, timeline: that.timeline, currentTime: that.timeline.currentTime}, true
-            )
-          }
-
-          if(that[_updateSet].size) {
-            requestAnimationFrame(step)
-          } else {
-            that[_state].prepareRender = false
-            resolve()
-          }
-        })
+    if(!this[_renderDeferer]) {
+      this[_renderDeferer] = {}
+      this[_renderDeferer].promise = new Promise((resolve, reject) => {
+        Object.assign(this[_renderDeferer], {resolve, reject})
+        requestAnimationFrame(this.draw.bind(this))
       })
       // .catch(ex => console.error(ex.message))
     }
+    return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve()
+  }
+  draw() {
+    const updateSet = this[_updateSet]
+    if(!updateSet.size) {
+      return // nothing to draw
+    }
 
-    return this[_renderPromise]
+    let renderer
+    if(this.renderMode === 'repaintDirty') {
+      renderer = this.renderRepaintDirty.bind(this)
+    } else if(this.renderMode === 'repaintAll') {
+      renderer = this.renderRepaintAll.bind(this)
+    } else {
+      throw new Error('unknown render mode!')
+    }
+    const currentTime = this.timeline.currentTime
+    renderer(currentTime)
+
+    super.dispatchEvent.call(
+      this, 'update',
+      {target: this, timeline: this.timeline, currentTime: this.timeline.currentTime}, true
+    )
+    if(this[_renderDeferer]) {
+      this[_renderDeferer].resolve()
+      this[_renderDeferer] = null
+    }
   }
   update(target) {
     if(target && this[_updateSet].has(target)) return
