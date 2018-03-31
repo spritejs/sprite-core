@@ -7,6 +7,7 @@ import BaseNode from './basenode'
 import Path from './path'
 import createGradients from './gradient'
 import {Effects} from 'sprite-animator'
+import {registerNodeType, createNode} from './nodetype'
 
 export {
   createGradients,
@@ -18,4 +19,6 @@ export {
   Layer,
   Group,
   Effects,
+  registerNodeType,
+  createNode,
 }
