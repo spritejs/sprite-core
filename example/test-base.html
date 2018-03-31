@@ -20,7 +20,9 @@
       pos: [300, 300]
     })
     s.connect(context).draw()
-    
+    s.on('afterdraw', evt => {
+      console.log(evt)
+    })
 
     const s2 = new BaseSprite({
       anchor: 0.5,

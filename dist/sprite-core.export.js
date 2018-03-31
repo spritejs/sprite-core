@@ -1270,13 +1270,13 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       //   context.closePath()
       // }
 
-      this.dispatchEvent('beforedraw', { context: context, target: this, terminated: true }, true);
+      this.dispatchEvent('beforedraw', { context: context, target: this, renderTime: t }, true, true);
       if (context !== this.cache) {
         // set cache before render for group
         if (context !== drawingContext) this.cache = context;
         context = this.render(t, context);
       }
-      this.dispatchEvent('afterdraw', { context: context, target: this, terminated: true }, true);
+      this.dispatchEvent('afterdraw', { context: context, target: this, renderTime: t }, true, true);
 
       // if(context === drawingContext) {
       //   context.restore()
@@ -2552,6 +2552,7 @@ var BaseNode = function () {
       var _this = this;
 
       var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var stopDispatch = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
       if (!evt.stopDispatch) {
         evt.stopDispatch = function () {
@@ -2597,6 +2598,9 @@ var BaseNode = function () {
         this[_collisionState] = false;
       }
 
+      if (stopDispatch) {
+        this.terminated = true;
+      }
       return this[_collisionState];
     }
     // called when layer appendChild
@@ -5622,7 +5626,7 @@ var Layer = function (_BaseNode) {
       var currentTime = this.timeline.currentTime;
       renderer(currentTime);
 
-      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, currentTime: this.timeline.currentTime }, true);
+      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
       if (this[_renderDeferer]) {
         this[_renderDeferer].resolve();
         this[_renderDeferer] = null;

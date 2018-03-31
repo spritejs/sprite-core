@@ -407,13 +407,13 @@ export default class BaseSprite extends BaseNode {
     //   context.closePath()
     // }
 
-    this.dispatchEvent('beforedraw', {context, target: this, terminated: true}, true)
+    this.dispatchEvent('beforedraw', {context, target: this, renderTime: t}, true, true)
     if(context !== this.cache) {
       // set cache before render for group
       if(context !== drawingContext) this.cache = context
       context = this.render(t, context)
     }
-    this.dispatchEvent('afterdraw', {context, target: this, terminated: true}, true)
+    this.dispatchEvent('afterdraw', {context, target: this, renderTime: t}, true, true)
 
     // if(context === drawingContext) {
     //   context.restore()

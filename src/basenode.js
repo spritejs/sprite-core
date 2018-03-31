@@ -33,7 +33,7 @@ export default class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method')
   }
-  dispatchEvent(type, evt, forceTrigger = false) {
+  dispatchEvent(type, evt, forceTrigger = false, stopDispatch = false) {
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
         this.terminated = true
@@ -76,6 +76,9 @@ export default class BaseNode {
       this[_collisionState] = false
     }
 
+    if(stopDispatch) {
+      this.terminated = true
+    }
     return this[_collisionState]
   }
   // called when layer appendChild

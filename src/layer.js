@@ -113,7 +113,7 @@ export default class Layer extends BaseNode {
 
     super.dispatchEvent.call(
       this, 'update',
-      {target: this, timeline: this.timeline, currentTime: this.timeline.currentTime}, true
+      {target: this, timeline: this.timeline, renderTime: currentTime}, true
     )
     if(this[_renderDeferer]) {
       this[_renderDeferer].resolve()
