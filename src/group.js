@@ -1,8 +1,7 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
 import {attr} from 'sprite-utils'
-import {pathToCanvas, getBounds} from 'svg-path-to-canvas'
-import {getSvgPath, pointInPath, platform} from './platform'
+import SvgPath from 'svg-path-to-canvas'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
@@ -31,15 +30,10 @@ class GroupAttr extends BaseSprite.Attr {
   set clip(val) {
     this.clearCache()
     this.set('clip', val)
-    let commands
     if(val) {
-      commands = pathToCanvas(val)
-      this.set('pathCommands', commands)
-      this.set('pathBounds', getBounds(val))
-      this.subject.svg = getSvgPath(val)
+      const clipScale = this.get('clipScale')
+      this.subject.svg = new SvgPath(val).scale(clipScale, clipScale)
     } else {
-      this.set('pathCommands', null)
-      this.set('pathBounds', null)
       this.subject.svg = null
     }
   }
@@ -47,6 +41,10 @@ class GroupAttr extends BaseSprite.Attr {
   @attr
   set clipScale(val) {
     this.clearCache()
+    const oldScale = this.get('clipScale')
+    if(this.subject.svg) {
+      this.subject.svg.scale(val / oldScale, val / oldScale)
+    }
     this.set('clipScale', val)
   }
 }
@@ -86,20 +84,9 @@ export default class Group extends BaseSprite {
   get children() {
     return this[_children]
   }
-  // TODO: utils.findPath(d, x, y) ??
   findPath(offsetX, offsetY) {
-    const context = this.context,
-      path = this.clipPath,
-      d = this.attr('d')
-
-    if(platform.isBrowser && path) {
-      if(context.isPointInPath(path, offsetX, offsetY)) {
-        return [path]
-      }
-    } else if(!platform.isBrowser && d) {
-      if(pointInPath(d, offsetX, offsetY)) {
-        return [{d}]
-      }
+    if(this.svg.isPointInPath(offsetX, offsetY)) {
+      return [this.svg]
     }
     return []
   }
@@ -108,8 +95,7 @@ export default class Group extends BaseSprite {
       if(this.attr('clip')) {
         const {offsetX, offsetY} = evt
         const rect = this.originRect
-        const scale = this.attr('clipScale')
-        const paths = this.findPath((offsetX - rect[0]) / scale, (offsetY - rect[1]) / scale)
+        const paths = this.findPath(offsetX - rect[0], offsetY - rect[1])
         evt.isInClip = !!paths.length
       }
       return true
@@ -121,10 +107,10 @@ export default class Group extends BaseSprite {
 
     if(width === '' || height === '') {
       if(this.attr('clip')) {
-        const bounds = this.attr('pathBounds'),
-          clipScale = this.attr('clipScale')
-        width = bounds[2] * clipScale
-        height = bounds[3] * clipScale
+        const svg = this.svg
+        const bounds = svg.bounds
+        width = bounds[2]
+        height = bounds[3]
       } else {
         let right,
           bottom
@@ -174,18 +160,10 @@ export default class Group extends BaseSprite {
 
     const clipPath = this.attr('clip')
     if(clipPath) {
-      context.save()
-      context.beginPath()
-      const {commands} = this.attr('pathCommands')
-      commands.forEach(({cmd, args}) => {
-        context[cmd](...args.map(i => i * this.attr('clipScale')))
-      })
-      context.restore()
+      console.log(1111)
+      this.svg.render(context)
       context.clip()
       context.clearRect(0, 0, this.originRect[2], this.originRect[3])
-      if(platform.isBrowser) {
-        this.clipPath = new Path2D(clipPath)
-      }
     }
 
     const children = this[_children]

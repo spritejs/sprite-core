@@ -1,7 +1,7 @@
 import {Matrix} from 'sprite-math'
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate} from 'sprite-utils'
-import {getSvgPath} from './platform'
+import SvgPath from 'svg-path-to-canvas'
 
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
@@ -354,20 +354,18 @@ class SpriteAttr {
       if(pathObj) {
         offsetPath = pathObj
       } else {
-        offsetPath = getSvgPath(offsetPath)
+        offsetPath = new SvgPath(offsetPath)
         this.saveObj('offsetPath', offsetPath)
       }
     }
 
     if(offsetPath != null) {
       const len = dis * offsetPath.getTotalLength(),
-        {x, y} = offsetPath.getPointAtLength(len)
+        [x, y] = offsetPath.getPointAtLength(len)
 
       let angle = this.offsetRotate
       if(angle === 'auto' || angle === 'reverse') {
-        const delta = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1)
-        const x1 = delta.x,
-          y1 = delta.y
+        const [x1, y1] = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1)
 
         if(x1 === x && y1 === y) { // last point
           angle = this.get('offsetAngle')
@@ -401,9 +399,9 @@ class SpriteAttr {
 
   @attr
   set offsetPath(val) {
-    const offsetPath = getSvgPath(val)
+    const offsetPath = new SvgPath(val)
 
-    this.set('offsetPath', offsetPath.getAttribute('d'))
+    this.set('offsetPath', offsetPath.d)
     this.saveObj('offsetPath', offsetPath)
     this.resetOffset()
   }

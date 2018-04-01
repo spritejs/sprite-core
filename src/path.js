@@ -2,10 +2,9 @@ import BaseSprite from './basesprite'
 import createGradients from './gradient'
 import {Effects} from 'sprite-animator'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
-import {pathToCanvas, getBounds} from 'svg-path-to-canvas'
 import pathEffect from 'sprite-path-effect'
-import {getSvgPath, platform, pointInPath} from './platform'
 import {registerNodeType} from './nodetype'
+import SvgPath from 'svg-path-to-canvas'
 
 Effects.d = pathEffect
 
@@ -35,17 +34,9 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set d(val) {
     this.clearCache()
     this.set('d', val)
-    let commands
     if(val) {
-      commands = pathToCanvas(val)
-      if(!platform.isBrowser) {
-        this.set('pathCommands', commands)
-      }
-      this.set('pathBounds', getBounds(val))
-      this.subject.svg = getSvgPath(val)
+      this.subject.svg = new SvgPath(val)
     } else {
-      this.set('pathCommands', null)
-      this.set('pathBounds', null)
       this.subject.svg = null
     }
   }
@@ -109,9 +100,11 @@ export default class Path extends BaseSprite {
   }
 
   get contentSize() {
+    if(!this.svg) return super.contentSize
+
+    const bounds = this.svg.bounds
     let [width, height] = this.attr('size')
 
-    const bounds = this.attr('pathBounds')
     const lineWidth = this.attr('lineWidth')
 
     const [borderWidth] = this.attr('border')
@@ -150,31 +143,21 @@ export default class Path extends BaseSprite {
   }
 
   findPath(offsetX, offsetY) {
-    const context = this.context,
-      path = this.path,
-      d = this.attr('d')
-
     if(this.attr('trim')) {
       const [x, y] = this.pathOffset
       offsetX -= x
       offsetY -= y
     }
 
-    if(platform.isBrowser && path) {
-      if(context.isPointInPath(path, offsetX, offsetY)) {
-        return [path]
-      }
-    } else if(!platform.isBrowser && d) {
-      if(pointInPath(d, offsetX, offsetY)) {
-        return [{d}]
-      }
+    if(this.svg.isPointInPath(offsetX, offsetY)) {
+      return [this.svg]
     }
     return []
   }
 
   get pathOffset() {
     const trim = this.attr('trim'),
-      bounds = this.attr('pathBounds')
+      bounds = this.svg.bounds
 
     const lineWidth = this.attr('lineWidth')
 
@@ -208,21 +191,7 @@ export default class Path extends BaseSprite {
       let {strokeColor, fillColor} = attr
 
       context.translate(...this.pathOffset)
-
-      let p = null
-      if(platform.isBrowser) {
-        // only browser can use Path2D to create d attr
-        p = new Path2D(attr.d)
-        this.path = p
-      } else {
-        context.save()
-        context.beginPath()
-        const {commands} = this.attr('pathCommands')
-        commands.forEach(({cmd, args}) => {
-          context[cmd](...args)
-        })
-        context.restore()
-      }
+      this.svg.render(context)
 
       context.lineWidth = attr.lineWidth
       context.lineCap = attr.lineCap
@@ -256,18 +225,10 @@ export default class Path extends BaseSprite {
       }
 
       if(strokeColor) {
-        if(p) {
-          context.stroke(p)
-        } else {
-          context.stroke()
-        }
+        context.stroke()
       }
       if(fillColor) {
-        if(p) {
-          context.fill(p)
-        } else {
-          context.fill()
-        }
+        context.fill()
       }
     }
 
