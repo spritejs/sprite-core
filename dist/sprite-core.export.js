@@ -435,12 +435,13 @@ module.exports = function (it) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.oneOrTwoValues = exports.parseColor = undefined;
+exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
 
 var _utils = __webpack_require__(203);
 
 var _decorators = __webpack_require__(202);
 
+exports.Color = _utils.Color;
 exports.parseColor = _utils.parseColor;
 exports.oneOrTwoValues = _utils.oneOrTwoValues;
 exports.parseStringInt = _utils.parseStringInt;
@@ -11707,7 +11708,10 @@ var Color = function () {
 
       var model = this.model;
 
-      return model + 'a(' + a + ',' + b + ',' + c + ',' + d + ')';
+      if (model === 'rgb') {
+        return model + 'a(' + a + ',' + b + ',' + c + ',' + d + ')';
+      }
+      return model + 'a(' + a + ',' + b + '%,' + c + '%,' + d + ')';
     }
   }, {
     key: 'str',
