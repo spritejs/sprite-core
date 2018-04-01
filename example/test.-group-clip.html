@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const Path = spritejs.Path
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const fglayer = new Layer({context})
+    const image = new Image()
+
+    image.onload= () => {
+      const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
+      const group = new Group({
+        pos: [300, 300],
+        anchor: [0.5, 0.5],
+        clip: clipPath,
+        // bgcolor: 'grey',
+        clipScale: 5,
+      })
+
+      fglayer.append(group)
+
+      const sprite = new Sprite()
+      sprite.attr({
+        textures: {image},
+        size: group.offsetSize,
+      })
+      group.append(sprite)
+
+      group.on('click', evt => {
+        console.log('group', evt)
+      })
+
+      sprite.on('click', evt => {
+        console.log('sprite')
+      })
+
+      // const path = new Path(clipPath)
+      // path.attr({
+      //   anchor: [0.5, 0.5],
+      //   pos: [600, 300],
+      //   fillColor: 'red',
+      //   scale: 1,
+      // })
+      // fglayer.append(path)
+
+      mycanvas.addEventListener('click', evt => {
+        const {clientX, clientY} = evt
+        fglayer.dispatchEvent('click', {originalEvent: evt, layerX: clientX, layerY: clientY})
+      })
+    }
+
+    image.src = '/res/75team.png'
+  </script>
+</body>
+</html>

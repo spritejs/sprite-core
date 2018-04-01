@@ -38,7 +38,9 @@ class PathSpriteAttr extends BaseSprite.Attr {
     let commands
     if(val) {
       commands = pathToCanvas(val)
-      this.set('pathCommands', commands)
+      if(!platform.isBrowser) {
+        this.set('pathCommands', commands)
+      }
       this.set('pathBounds', getBounds(val))
       this.subject.svg = getSvgPath(val)
     } else {
@@ -191,7 +193,8 @@ export default class Path extends BaseSprite {
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       const {offsetX, offsetY} = evt
-      evt.targetPaths = this.findPath(offsetX, offsetY)
+      const rect = this.originRect
+      evt.targetPaths = this.findPath(offsetX - rect[0], offsetY - rect[1])
       return true
     }
     return false

@@ -13,9 +13,10 @@ const measureText = (node, text, font, lineHeight = '') => {
   ctx.save()
   ctx.font = font
   const {width} = ctx.measureText(text)
-  const height = parseFont(font).size * 1.2
   ctx.restore()
-  return [width, Math.max(height, lineHeight)]
+
+  const height = lineHeight || parseFont(font).size * 1.2
+  return [width, height]
 }
 
 function calculTextboxSize(node, text, font, lineHeight) {
