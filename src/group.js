@@ -160,7 +160,6 @@ export default class Group extends BaseSprite {
 
     const clipPath = this.attr('clip')
     if(clipPath) {
-      console.log(1111)
       this.svg.render(context)
       context.clip()
       context.clearRect(0, 0, this.originRect[2], this.originRect[3])
