@@ -28,17 +28,40 @@ class PathSpriteAttr extends BaseSprite.Attr {
           return this.strokeColor
         },
       },
+      d: {
+        get() {
+          return this.path ? this.path.d : null
+        },
+      },
     })
   }
   @attr
-  set d(val) {
+  set path(val) {
     this.clearCache()
-    this.set('d', val)
     if(val) {
-      this.subject.svg = new SvgPath(val)
+      if(typeof val === 'string') {
+        this.subject.svg = new SvgPath(val)
+        this.set('path', {d: val})
+      } else {
+        const {transform, d} = val
+        this.subject.svg = new SvgPath(d)
+        if(transform) {
+          Object.entries(transform).forEach(([key, value]) => {
+            if(!Array.isArray(value)) value = [value]
+            this.subject.svg[key](...value)
+          })
+        }
+        this.set('path', val)
+      }
     } else {
       this.subject.svg = null
+      this.set('path', null)
     }
+  }
+
+  @attr
+  set d(val) {
+    this.path = {d: val}
   }
 
   @attr

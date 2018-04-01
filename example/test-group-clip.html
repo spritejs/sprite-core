@@ -23,9 +23,13 @@
       const group = new Group({
         pos: [300, 300],
         anchor: [0.5, 0.5],
-        clip: clipPath,
+        clip: {
+          d: clipPath,
+          transform: {
+            scale: 5
+          },
+        },
         bgcolor: 'grey',
-        clipScale: 5,
       })
 
       fglayer.append(group)

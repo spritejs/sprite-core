@@ -22,30 +22,31 @@ class GroupAttr extends BaseSprite.Attr {
     super(subject)
     this.setDefault({
       clip: null,
-      clipScale: 1.0,
     })
   }
 
   @attr
   set clip(val) {
     this.clearCache()
-    this.set('clip', val)
     if(val) {
-      const clipScale = this.get('clipScale')
-      this.subject.svg = new SvgPath(val).scale(clipScale, clipScale)
+      if(typeof val === 'string') {
+        this.subject.svg = new SvgPath(val)
+        this.set('clip', {d: val})
+      } else {
+        const {transform, d} = val
+        this.subject.svg = new SvgPath(d)
+        if(transform) {
+          Object.entries(transform).forEach(([key, value]) => {
+            if(!Array.isArray(value)) value = [value]
+            this.subject.svg[key](...value)
+          })
+        }
+        this.set('clip', val)
+      }
     } else {
       this.subject.svg = null
+      this.set('clip', null)
     }
-  }
-
-  @attr
-  set clipScale(val) {
-    this.clearCache()
-    const oldScale = this.get('clipScale')
-    if(this.subject.svg) {
-      this.subject.svg.scale(val / oldScale, val / oldScale)
-    }
-    this.set('clipScale', val)
   }
 }
 
