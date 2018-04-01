@@ -101,11 +101,15 @@ class SpriteAttr {
     if(typeof attrs === 'string') {
       attrs = JSON.parse(attrs)
     }
-
-    Object.assign(this[_attr], attrs)
+    Object.entries(attrs).forEach(([key, value]) => {
+      if(this[_default][key] !== value && key in this) {
+        this[key] = value
+      }
+    })
 
     return this
   }
+
   serialize() {
     return JSON.stringify(this[_attr])
   }
@@ -222,7 +226,7 @@ class SpriteAttr {
       skew: [0, 0],
       matrix: [1,0,0,1,0,0],
      */
-    this.merge({
+    Object.assign(this[_attr], {
       rotate: 0,
       scale: [1, 1],
       translate: [0, 0],
