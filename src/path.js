@@ -21,7 +21,6 @@ class PathSpriteAttr extends BaseSprite.Attr {
       boxSize: [0, 0],
       pathRect: [0, 0, 0, 0],
       pathBounds: [0, 0, 0, 0],
-      trim: false,
     }, {
       color: {
         get() {
@@ -43,13 +42,16 @@ class PathSpriteAttr extends BaseSprite.Attr {
         this.subject.svg = new SvgPath(val)
         this.set('path', {d: val})
       } else {
-        const {transform, d} = val
+        const {transform, d, trim} = val
         this.subject.svg = new SvgPath(d)
         if(transform) {
           Object.entries(transform).forEach(([key, value]) => {
             if(!Array.isArray(value)) value = [value]
             this.subject.svg[key](...value)
           })
+        }
+        if(trim) {
+          this.subject.svg.trim()
         }
         this.set('path', val)
       }
@@ -61,7 +63,12 @@ class PathSpriteAttr extends BaseSprite.Attr {
 
   @attr
   set d(val) {
-    this.path = {d: val}
+    const path = this.get('path')
+    if(!path) {
+      this.path = {d: val}
+    } else {
+      this.path = Object.assign(path, {d: val})
+    }
   }
 
   @attr
@@ -105,11 +112,6 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set color(val) {
     this.strokeColor = val
   }
-
-  @attr
-  set trim(val) {
-    this.set('trim', val)
-  }
 }
 
 export default class Path extends BaseSprite {
@@ -120,34 +122,6 @@ export default class Path extends BaseSprite {
       attr = {d: attr}
     }
     super(attr)
-  }
-
-  get contentSize() {
-    if(!this.svg) return super.contentSize
-
-    const bounds = this.svg.bounds
-    let [width, height] = this.attr('size')
-
-    const lineWidth = this.attr('lineWidth')
-
-    const [borderWidth] = this.attr('border')
-    const padding = this.attr('padding')
-    const padLeft = borderWidth + padding[3],
-      padTop = borderWidth + padding[0]
-
-    if(width === '') {
-      width = bounds[2] + 1.414 * lineWidth | 0
-    }
-    if(height === '') {
-      height = bounds[3] + 1.414 * lineWidth | 0
-    }
-    if(this.attr('trim')) {
-      const [x, y] = this.pathOffset
-      width += x - padLeft
-      height += y - padTop
-    }
-
-    return [width, height]
   }
 
   getPointAtLength(length) {
@@ -166,12 +140,6 @@ export default class Path extends BaseSprite {
   }
 
   findPath(offsetX, offsetY) {
-    if(this.attr('trim')) {
-      const [x, y] = this.pathOffset
-      offsetX -= x
-      offsetY -= y
-    }
-
     if(this.svg.isPointInPath(offsetX, offsetY)) {
       return [this.svg]
     }
@@ -179,28 +147,42 @@ export default class Path extends BaseSprite {
   }
 
   get pathOffset() {
-    const trim = this.attr('trim'),
-      bounds = this.svg.bounds
-
-    const lineWidth = this.attr('lineWidth')
-
     const [borderWidth] = this.attr('border')
     const padding = this.attr('padding')
-    const padLeft = borderWidth + padding[3],
-      padTop = borderWidth + padding[0]
+    const lineWidth = this.attr('lineWidth')
 
-    if(trim) {
-      return [-bounds[0] + padLeft + lineWidth * 1.414,
-        -bounds[1] + padTop + lineWidth * 1.414]
-    }
+    const padLeft = borderWidth + padding[3] + lineWidth * 1.414,
+      padTop = borderWidth + padding[0] + lineWidth * 1.414
+
     return [padLeft, padTop]
+  }
+
+  get contentSize() {
+    if(!this.svg) return super.contentSize
+
+    const bounds = this.svg.bounds
+    let [width, height] = this.attr('size')
+
+    const lineWidth = this.attr('lineWidth')
+    const pathOffset = this.pathOffset
+    const [borderWidth] = this.attr('border')
+
+    if(width === '') {
+      width = bounds[2] + pathOffset[0] - borderWidth + 1.414 * lineWidth | 0
+    }
+    if(height === '') {
+      height = bounds[3] + pathOffset[1] - borderWidth + 1.414 * lineWidth | 0
+    }
+
+    return [width, height]
   }
 
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       const {offsetX, offsetY} = evt
       const rect = this.originRect
-      evt.targetPaths = this.findPath(offsetX - rect[0], offsetY - rect[1])
+      const pathOffset = this.pathOffset
+      evt.targetPaths = this.findPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])
       return true
     }
     return false

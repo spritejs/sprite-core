@@ -91,12 +91,22 @@ export default class Group extends BaseSprite {
     }
     return []
   }
+  get pathOffset() {
+    const [borderWidth] = this.attr('border')
+    const padding = this.attr('padding')
+
+    const padLeft = borderWidth + padding[3],
+      padTop = borderWidth + padding[0]
+
+    return [padLeft, padTop]
+  }
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       if(this.attr('clip')) {
         const {offsetX, offsetY} = evt
         const rect = this.originRect
-        const paths = this.findPath(offsetX - rect[0], offsetY - rect[1])
+        const pathOffset = this.pathOffset
+        const paths = this.findPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])
         evt.isInClip = !!paths.length
       }
       return true
@@ -108,10 +118,12 @@ export default class Group extends BaseSprite {
 
     if(width === '' || height === '') {
       if(this.attr('clip')) {
+        const pathOffset = this.pathOffset
+        const [borderWidth] = this.attr('border')
         const svg = this.svg
         const bounds = svg.bounds
-        width = bounds[2]
-        height = bounds[3]
+        width = bounds[2] + pathOffset[0] - borderWidth
+        height = bounds[3] + pathOffset[1] - borderWidth
       } else {
         let right,
           bottom
@@ -161,6 +173,7 @@ export default class Group extends BaseSprite {
 
     const clipPath = this.attr('clip')
     if(clipPath) {
+      context.translate(...this.pathOffset)
       this.svg.beginPath().to(context)
       context.clip()
       context.clearRect(0, 0, this.originRect[2], this.originRect[3])

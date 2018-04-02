@@ -326,7 +326,7 @@ module.exports = function (it) {
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var IE8_DOM_DEFINE = __webpack_require__(84);
 var toPrimitive = __webpack_require__(67);
 var dP = Object.defineProperty;
@@ -348,18 +348,18 @@ exports.f = __webpack_require__(8) ? Object.defineProperty : function defineProp
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(132), __esModule: true };
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var isObject = __webpack_require__(9);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
 };
 
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(132), __esModule: true };
 
 /***/ }),
 /* 13 */
@@ -486,7 +486,7 @@ var _entries = __webpack_require__(16);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -897,7 +897,7 @@ var _defineProperty2 = __webpack_require__(122);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -1630,7 +1630,7 @@ module.exports = function (it) {
 var ctx = __webpack_require__(14);
 var call = __webpack_require__(87);
 var isArrayIter = __webpack_require__(85);
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var toLength = __webpack_require__(45);
 var getIterFn = __webpack_require__(71);
 var BREAK = {};
@@ -1845,7 +1845,7 @@ var _symbol = __webpack_require__(13);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -2399,7 +2399,7 @@ module.exports = true;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var dPs = __webpack_require__(90);
 var enumBugKeys = __webpack_require__(55);
 var IE_PROTO = __webpack_require__(64)('IE_PROTO');
@@ -2482,7 +2482,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -4807,6 +4807,16 @@ var SvgPath = function () {
       return this.transform.apply(this, (0, _toConsumableArray3.default)(m.m));
     }
   }, {
+    key: 'trim',
+    value: function trim() {
+      var _bounds2 = (0, _slicedToArray3.default)(this.bounds, 2),
+          x = _bounds2[0],
+          y = _bounds2[1];
+
+      this.translate(-x, -y);
+      return this;
+    }
+  }, {
     key: 'beginPath',
     value: function beginPath() {
       this[_beginPath] = true;
@@ -4902,11 +4912,11 @@ var SvgPath = function () {
   }, {
     key: 'center',
     get: function get() {
-      var _bounds2 = (0, _slicedToArray3.default)(this.bounds, 4),
-          x0 = _bounds2[0],
-          y0 = _bounds2[1],
-          x1 = _bounds2[2],
-          y1 = _bounds2[3];
+      var _bounds3 = (0, _slicedToArray3.default)(this.bounds, 4),
+          x0 = _bounds3[0],
+          y0 = _bounds3[1],
+          x1 = _bounds3[2],
+          y1 = _bounds3[3];
 
       return [(x0 + x1) / 2, (y0 + y1) / 2];
     }
@@ -6233,7 +6243,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -6471,7 +6481,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
               offsetY = evt.offsetY;
 
           var rect = this.originRect;
-          var paths = this.findPath(offsetX - rect[0], offsetY - rect[1]);
+          var pathOffset = this.pathOffset;
+          var paths = this.findPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1]);
           evt.isInClip = !!paths.length;
         }
         return true;
@@ -6516,6 +6527,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
       var clipPath = this.attr('clip');
       if (clipPath) {
+        context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
         this.svg.beginPath().to(context);
         context.clip();
         context.clearRect(0, 0, this.originRect[2], this.originRect[3]);
@@ -6538,19 +6550,39 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       return this[_children];
     }
   }, {
+    key: 'pathOffset',
+    get: function get() {
+      var _attr = this.attr('border'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 1),
+          borderWidth = _attr2[0];
+
+      var padding = this.attr('padding');
+
+      var padLeft = borderWidth + padding[3],
+          padTop = borderWidth + padding[0];
+
+      return [padLeft, padTop];
+    }
+  }, {
     key: 'contentSize',
     get: function get() {
-      var _attr = this.attr('size'),
-          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
-          width = _attr2[0],
-          height = _attr2[1];
+      var _attr3 = this.attr('size'),
+          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
+          width = _attr4[0],
+          height = _attr4[1];
 
       if (width === '' || height === '') {
         if (this.attr('clip')) {
+          var pathOffset = this.pathOffset;
+
+          var _attr5 = this.attr('border'),
+              _attr6 = (0, _slicedToArray3.default)(_attr5, 1),
+              borderWidth = _attr6[0];
+
           var svg = this.svg;
           var bounds = svg.bounds;
-          width = bounds[2];
-          height = bounds[3];
+          width = bounds[2] + pathOffset[0] - borderWidth;
+          height = bounds[3] + pathOffset[1] - borderWidth;
         } else {
           var right = void 0,
               bottom = void 0;
@@ -6879,7 +6911,7 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 module.exports = function (iterator, fn, value, entries) {
   try {
     return entries ? fn(anObject(value)[0], value[1]) : fn(value);
@@ -6934,7 +6966,7 @@ module.exports = function (done, value) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(10);
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var getKeys = __webpack_require__(29);
 
 module.exports = __webpack_require__(8) ? Object.defineProperties : function defineProperties(O, Properties) {
@@ -7020,7 +7052,7 @@ module.exports = function (exec) {
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var isObject = __webpack_require__(9);
 var newPromiseCapability = __webpack_require__(59);
 
@@ -7121,7 +7153,7 @@ module.exports = function (KEY) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var aFunction = __webpack_require__(34);
 var SPECIES = __webpack_require__(3)('species');
 module.exports = function (O, D) {
@@ -7821,7 +7853,7 @@ var _slicedToArray2 = __webpack_require__(2);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -8457,6 +8489,10 @@ var _getOwnPropertyDescriptor = __webpack_require__(27);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _assign = __webpack_require__(11);
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _toConsumableArray2 = __webpack_require__(7);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -8563,8 +8599,7 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
       // d: path2d,
       boxSize: [0, 0],
       pathRect: [0, 0, 0, 0],
-      pathBounds: [0, 0, 0, 0],
-      trim: false
+      pathBounds: [0, 0, 0, 0]
     }, {
       color: {
         get: function get() {
@@ -8592,7 +8627,8 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
           this.set('path', { d: val });
         } else {
           var transform = val.transform,
-              d = val.d;
+              d = val.d,
+              trim = val.trim;
 
           this.subject.svg = new _svgPathToCanvas2.default(d);
           if (transform) {
@@ -8607,6 +8643,9 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
               (_subject$svg = _this2.subject.svg)[key].apply(_subject$svg, (0, _toConsumableArray3.default)(value));
             });
           }
+          if (trim) {
+            this.subject.svg.trim();
+          }
           this.set('path', val);
         }
       } else {
@@ -8617,7 +8656,12 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
   }, {
     key: 'd',
     set: function set(val) {
-      this.path = { d: val };
+      var path = this.get('path');
+      if (!path) {
+        this.path = { d: val };
+      } else {
+        this.path = (0, _assign2.default)(path, { d: val });
+      }
     }
   }, {
     key: 'lineWidth',
@@ -8664,14 +8708,9 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
     set: function set(val) {
       this.strokeColor = val;
     }
-  }, {
-    key: 'trim',
-    set: function set(val) {
-      this.set('trim', val);
-    }
   }]);
   return PathSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'path', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'trim', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'trim'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'path', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype)), _class));
 var Path = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Path, _BaseSprite);
 
@@ -8707,15 +8746,6 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'findPath',
     value: function findPath(offsetX, offsetY) {
-      if (this.attr('trim')) {
-        var _pathOffset = (0, _slicedToArray3.default)(this.pathOffset, 2),
-            x = _pathOffset[0],
-            y = _pathOffset[1];
-
-        offsetX -= x;
-        offsetY -= y;
-      }
-
       if (this.svg.isPointInPath(offsetX, offsetY)) {
         return [this.svg];
       }
@@ -8729,7 +8759,8 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
             offsetY = evt.offsetY;
 
         var rect = this.originRect;
-        evt.targetPaths = this.findPath(offsetX - rect[0], offsetY - rect[1]);
+        var pathOffset = this.pathOffset;
+        evt.targetPaths = this.findPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1]);
         return true;
       }
       return false;
@@ -8792,64 +8823,47 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       return context;
     }
   }, {
+    key: 'pathOffset',
+    get: function get() {
+      var _attr = this.attr('border'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 1),
+          borderWidth = _attr2[0];
+
+      var padding = this.attr('padding');
+      var lineWidth = this.attr('lineWidth');
+
+      var padLeft = borderWidth + padding[3] + lineWidth * 1.414,
+          padTop = borderWidth + padding[0] + lineWidth * 1.414;
+
+      return [padLeft, padTop];
+    }
+  }, {
     key: 'contentSize',
     get: function get() {
       if (!this.svg) return (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'contentSize', this);
 
       var bounds = this.svg.bounds;
 
-      var _attr = this.attr('size'),
-          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
-          width = _attr2[0],
-          height = _attr2[1];
+      var _attr3 = this.attr('size'),
+          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
+          width = _attr4[0],
+          height = _attr4[1];
 
       var lineWidth = this.attr('lineWidth');
-
-      var _attr3 = this.attr('border'),
-          _attr4 = (0, _slicedToArray3.default)(_attr3, 1),
-          borderWidth = _attr4[0];
-
-      var padding = this.attr('padding');
-      var padLeft = borderWidth + padding[3],
-          padTop = borderWidth + padding[0];
-
-      if (width === '') {
-        width = bounds[2] + 1.414 * lineWidth | 0;
-      }
-      if (height === '') {
-        height = bounds[3] + 1.414 * lineWidth | 0;
-      }
-      if (this.attr('trim')) {
-        var _pathOffset2 = (0, _slicedToArray3.default)(this.pathOffset, 2),
-            x = _pathOffset2[0],
-            y = _pathOffset2[1];
-
-        width += x - padLeft;
-        height += y - padTop;
-      }
-
-      return [width, height];
-    }
-  }, {
-    key: 'pathOffset',
-    get: function get() {
-      var trim = this.attr('trim'),
-          bounds = this.svg.bounds;
-
-      var lineWidth = this.attr('lineWidth');
+      var pathOffset = this.pathOffset;
 
       var _attr5 = this.attr('border'),
           _attr6 = (0, _slicedToArray3.default)(_attr5, 1),
           borderWidth = _attr6[0];
 
-      var padding = this.attr('padding');
-      var padLeft = borderWidth + padding[3],
-          padTop = borderWidth + padding[0];
-
-      if (trim) {
-        return [-bounds[0] + padLeft + lineWidth * 1.414, -bounds[1] + padTop + lineWidth * 1.414];
+      if (width === '') {
+        width = bounds[2] + pathOffset[0] - borderWidth + 1.414 * lineWidth | 0;
       }
-      return [padLeft, padTop];
+      if (height === '') {
+        height = bounds[3] + pathOffset[1] - borderWidth + 1.414 * lineWidth | 0;
+      }
+
+      return [width, height];
     }
   }]);
   return Path;
@@ -9793,7 +9807,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -10016,7 +10030,7 @@ var _defineProperties = __webpack_require__(118);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -11958,7 +11972,7 @@ module.exports = function (isEntries) {
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
 var isObject = __webpack_require__(9);
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var check = function (O, proto) {
   anObject(O);
   if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
@@ -12022,7 +12036,7 @@ module.exports = function (index, length) {
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var get = __webpack_require__(71);
 module.exports = __webpack_require__(0).getIterator = function (it) {
   var iterFn = get(it);
@@ -12587,7 +12601,7 @@ var wksExt = __webpack_require__(70);
 var wksDefine = __webpack_require__(69);
 var enumKeys = __webpack_require__(152);
 var isArray = __webpack_require__(86);
-var anObject = __webpack_require__(11);
+var anObject = __webpack_require__(12);
 var isObject = __webpack_require__(9);
 var toIObject = __webpack_require__(19);
 var toPrimitive = __webpack_require__(67);
@@ -13977,7 +13991,7 @@ var _map = __webpack_require__(33);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _assign = __webpack_require__(12);
+var _assign = __webpack_require__(11);
 
 var _assign2 = _interopRequireDefault(_assign);
 

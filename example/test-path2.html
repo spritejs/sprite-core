@@ -20,14 +20,13 @@
     ]
     const path = new Path()
     path.attr({
-      path: {d : paths[0], transform: {rotate: 180}},
+      path: {d : paths[0], transform: {rotate: 180}, trim: true},
       anchor: [0, 0],
       // size: [1000, 1000],
       pos: [300, 300],
       strokeColor: 'blue',
       bgcolor: '#aaa',
       lineWidth: 1,
-      trim: true,
       gradients: {
         fillColor: {
           vector: [0, 0, 100, 0],

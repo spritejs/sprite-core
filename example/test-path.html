@@ -35,17 +35,21 @@
       "M638.9,259.3v-23.8H380.4c-0.7-103.8-37.3-200.6-37.3-200.6s-8.5,0-22.1,0C369.7,223,341.4,465,341.4,465h22.1c0,0,11.4-89.5,15.8-191h210.2l11.9,191h22.1c0,0-5.3-96.6-0.6-205.7H638.9z",
       "M345.47,250L460.94,450L230,450Z M460.94,50L576.41,250L345.47,250Z M576.41,250L691.88,450L460.94,450Z",
     ]
-    const path = new Path(paths[0])
+    const path = new Path()
     path.attr({
+      path: {
+        d: paths[0],
+        trim: true,
+      },
       anchor: [0, 0],
       pos: [50, 50],
       strokeColor: 'blue',
       bgcolor: '#aaa',
-      lineWidth: 30,
+      lineWidth: 10,
       // padding: [10, 10],
       // size: [100, 100],
       border: [10, '#f00'],
-      trim: true,
+      // trim: true,
       gradients: {
         fillColor: {
           vector: [0, 0, 500, 500],
