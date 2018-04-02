@@ -6633,8 +6633,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function transformPath(path) {
   if (typeof path === 'string') path = { d: path };
+  var p = new _svgPathToCanvas2.default(path.d);
   if (path.transform || path.trim) {
-    var p = new _svgPathToCanvas2.default(path.d);
     if (path.transform) {
       (0, _entries2.default)(path.transform).forEach(function (_ref) {
         var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
@@ -6648,9 +6648,8 @@ function transformPath(path) {
     if (path.trim) {
       p.trim();
     }
-    return p;
   }
-  return path;
+  return p;
 }
 
 /***/ }),
