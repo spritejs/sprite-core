@@ -5,8 +5,15 @@ import {parseColorString, attr, deprecate} from 'sprite-utils'
 import pathEffect from 'sprite-path-effect'
 import {registerNodeType} from './nodetype'
 import SvgPath from 'svg-path-to-canvas'
+import transformPath from './pathtransform'
 
 Effects.d = pathEffect
+
+Effects.path = function (path1, path2, p, start, end) {
+  path1 = transformPath(path1)
+  path2 = transformPath(path2)
+  return pathEffect(path1.d, path2.d, p, start, end)
+}
 
 class PathSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -42,17 +49,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
         this.subject.svg = new SvgPath(val)
         this.set('path', {d: val})
       } else {
-        const {transform, d, trim} = val
-        this.subject.svg = new SvgPath(d)
-        if(transform) {
-          Object.entries(transform).forEach(([key, value]) => {
-            if(!Array.isArray(value)) value = [value]
-            this.subject.svg[key](...value)
-          })
-        }
-        if(trim) {
-          this.subject.svg.trim()
-        }
+        this.subject.svg = transformPath(val)
         this.set('path', val)
       }
     } else {

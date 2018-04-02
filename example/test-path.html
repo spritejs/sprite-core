@@ -66,16 +66,16 @@
       console.log(evt)
     })
     path.animate([
-      {d: paths[0]},
-      {d: paths[0]},
-      {d: paths[1]},
-      {d: paths[1]},
-      { d: paths[2]},
-      {d: paths[2]},
-      {d: paths[3]},
-      {d: paths[3]},
-      {d: paths[4]},
-      {d: paths[4]},
+      {path: {d: paths[0]}},
+      {path: {d: paths[0], transform:{scale: 1.5}}},
+      {path: {d: paths[1]}},
+      {path: {d: paths[1]}},
+      {path: {d: paths[2]}},
+      {path: {d: paths[2]}},
+      {path: {d: paths[3]}},
+      {path: {d: paths[3]}},
+      {path: {d: paths[4]}},
+      {path: {d: paths[4]}},
     ], {
       delay: 1000,
       duration: 10000,
