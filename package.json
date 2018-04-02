@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "1.8.7",
+  "version": "1.8.8",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
@@ -64,6 +64,6 @@
     "sprite-math": "^1.0.0",
     "sprite-path-effect": "^0.1.1",
     "sprite-utils": "^1.0.4",
-    "svg-path-to-canvas": "^1.2.0"
+    "svg-path-to-canvas": "^1.3.0"
   }
 }
