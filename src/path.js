@@ -214,7 +214,7 @@ export default class Path extends BaseSprite {
       let {strokeColor, fillColor} = attr
 
       context.translate(...this.pathOffset)
-      this.svg.render(context)
+      this.svg.beginPath().to(context)
 
       context.lineWidth = attr.lineWidth
       context.lineCap = attr.lineCap
