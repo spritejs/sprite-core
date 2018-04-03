@@ -7348,7 +7348,8 @@ function nowtime() {
 }
 /* eslint-enable no-undef */
 
-var _requestAnimationFrame = void 0;
+var _requestAnimationFrame = void 0,
+    _cancelAnimationFrame = void 0;
 
 if (typeof requestAnimationFrame === 'undefined') {
   _requestAnimationFrame = function _requestAnimationFrame(fn) {
@@ -7356,8 +7357,12 @@ if (typeof requestAnimationFrame === 'undefined') {
       fn(nowtime());
     }, 16);
   };
+  _cancelAnimationFrame = function _cancelAnimationFrame(id) {
+    return clearTimeout(id);
+  };
 } else {
   _requestAnimationFrame = requestAnimationFrame;
+  _cancelAnimationFrame = cancelAnimationFrame;
 }
 
 var steps = [];
@@ -7385,6 +7390,10 @@ var FastAnimationFrame = {
   },
   cancelAnimationFrame: function cancelAnimationFrame(id) {
     delete steps[id];
+    if (!steps.length && timerId) {
+      _cancelAnimationFrame(timerId);
+      timerId = null;
+    }
   }
 };
 
