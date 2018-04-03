@@ -8513,6 +8513,11 @@ var Layer = function (_BaseNode) {
       return this.shadowContext ? this.shadowContext : this.outputContext;
     }
   }, {
+    key: 'canvas',
+    get: function get() {
+      return this.context.canvas;
+    }
+  }, {
     key: 'fps',
     get: function get() {
       if (!this.evaluateFPS) {
@@ -10016,7 +10021,8 @@ var _default = function (_Animator) {
       var that = this;
       this.ready.then(function () {
         (0, _fastAnimationFrame.requestAnimationFrame)(function update() {
-          if (typeof document !== 'undefined' && that.target.layer && !document.contains(that.target.layer.canvas)) {
+          var target = that.target;
+          if (typeof document !== 'undefined' && document.contains && target.layer && target.layer.canvas && !document.contains(target.layer.canvas)) {
             // if dom element has been removed stop animation.
             // it usually occurs in single page applications.
             that.cancel();

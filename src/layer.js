@@ -83,6 +83,10 @@ export default class Layer extends BaseNode {
     return this.shadowContext ? this.shadowContext : this.outputContext
   }
 
+  get canvas() {
+    return this.context.canvas
+  }
+
   prepareRender() {
     if(!this[_renderDeferer]) {
       this[_renderDeferer] = {}

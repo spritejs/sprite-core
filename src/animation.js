@@ -115,9 +115,12 @@ export default class extends Animator {
     const that = this
     this.ready.then(() => {
       requestAnimationFrame(function update() {
+        const target = that.target
         if(typeof document !== 'undefined'
-          && that.target.layer
-          && !document.contains(that.target.layer.canvas)) {
+          && document.contains
+          && target.layer
+          && target.layer.canvas
+          && !document.contains(target.layer.canvas)) {
           // if dom element has been removed stop animation.
           // it usually occurs in single page applications.
           that.cancel()
