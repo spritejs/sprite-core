@@ -2200,7 +2200,8 @@ var Animator = function () {
         return initState;
       }
 
-      var entropy = this.timeline.entropy,
+      var currentTime = this.timeline.currentTime,
+          entropy = this.timeline.entropy,
           keyframes = this[_keyframes].slice(0);
 
       var inversed = false;
@@ -2209,10 +2210,10 @@ var Animator = function () {
         p = 1 - p;
         inversed = true;
       } else if (direction === 'alternate' || direction === 'alternate-reverse') {
-        var period = Math.floor(entropy / duration);
+        var period = Math.floor(currentTime / duration);
 
         if (p === 1) period--;
-        period = Math.max(0, period);
+        // period = Math.max(0, period)
 
         if (period % 2 ^ direction === 'alternate-reverse') {
           p = 1 - p;
@@ -6534,8 +6535,10 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
       var clipPath = this.attr('clip');
       if (clipPath) {
+        context.save();
         context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
         this.svg.beginPath().to(context);
+        context.restore();
         context.clip();
         context.clearRect(0, 0, this.originRect[2], this.originRect[3]);
       }
@@ -8059,7 +8062,12 @@ var Layer = function (_BaseNode) {
     }
   }, {
     key: 'draw',
-    value: function draw() {
+    value: function draw(t) {
+      if (t && this.evaluateFPS) {
+        this[_tRecord].push(t);
+        this[_tRecord] = this[_tRecord].slice(-10);
+      }
+
       var updateSet = this[_updateSet];
       if (!updateSet.size) {
         return; // nothing to draw
@@ -8131,11 +8139,6 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'drawSprites',
     value: function drawSprites(renderEls, t) {
-      if (this.evaluateFPS) {
-        this[_tRecord].push(t);
-        this[_tRecord] = this[_tRecord].slice(-10);
-      }
-
       for (var i = 0; i < renderEls.length; i++) {
         var child = renderEls[i];
         if (child.parent === this) {

@@ -94,7 +94,12 @@ export default class Layer extends BaseNode {
     }
     return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve()
   }
-  draw() {
+  draw(t) {
+    if(t && this.evaluateFPS) {
+      this[_tRecord].push(t)
+      this[_tRecord] = this[_tRecord].slice(-10)
+    }
+
     const updateSet = this[_updateSet]
     if(!updateSet.size) {
       return // nothing to draw
@@ -173,11 +178,6 @@ export default class Layer extends BaseNode {
     })
   }
   drawSprites(renderEls, t) {
-    if(this.evaluateFPS) {
-      this[_tRecord].push(t)
-      this[_tRecord] = this[_tRecord].slice(-10)
-    }
-
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i]
       if(child.parent === this) {
