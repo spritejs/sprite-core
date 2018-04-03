@@ -10013,7 +10013,7 @@ var _default = function (_Animator) {
       this.ready.then(function () {
         (0, _fastAnimationFrame.requestAnimationFrame)(function update() {
           var target = that.target;
-          if (typeof document !== 'undefined' && document.contains && target.layer && target.layer.canvas && !document.contains(target.layer.canvas)) {
+          if (typeof document !== 'undefined' && document.contains && target.layer && target.layer.canvas && !document.documentElement.contains(target.layer.canvas)) {
             // if dom element has been removed stop animation.
             // it usually occurs in single page applications.
             that.cancel();
