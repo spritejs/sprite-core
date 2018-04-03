@@ -10016,6 +10016,12 @@ var _default = function (_Animator) {
       var that = this;
       this.ready.then(function () {
         (0, _fastAnimationFrame.requestAnimationFrame)(function update() {
+          if (typeof document !== 'undefined' && that.target.layer && !document.contains(that.target.layer.canvas)) {
+            // if dom element has been removed stop animation.
+            // it usually occurs in single page applications.
+            that.cancel();
+            return;
+          }
           if (that.playState === 'idle') return;
           sprite.attr(that.frame);
           if (that.playState === 'running') {
