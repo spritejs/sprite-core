@@ -198,8 +198,11 @@ class SpriteAttr {
   @attr
   set border(val) {
     this.clearCache()
+    if(!Array.isArray(val)) {
+      val = [val]
+    }
     const [width, color] = val
-    this.set('border', [width, parseColorString(color)])
+    this.set('border', [width, parseColorString(color || '#000')])
   }
 
   @attr

@@ -10443,12 +10443,16 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     key: 'border',
     set: function set(val) {
       this.clearCache();
+      if (!Array.isArray(val)) {
+        val = [val];
+      }
 
-      var _val5 = (0, _slicedToArray3.default)(val, 2),
-          width = _val5[0],
-          color = _val5[1];
+      var _val5 = val,
+          _val6 = (0, _slicedToArray3.default)(_val5, 2),
+          width = _val6[0],
+          color = _val6[1];
 
-      this.set('border', [width, (0, _spriteUtils.parseColorString)(color)]);
+      this.set('border', [width, (0, _spriteUtils.parseColorString)(color || '#000')]);
     }
   }, {
     key: 'padding',
