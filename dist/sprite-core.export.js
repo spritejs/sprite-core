@@ -6466,7 +6466,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'findPath',
     value: function findPath(offsetX, offsetY) {
-      if (this.svg.isPointInPath(offsetX, offsetY)) {
+      if (this.svg && this.svg.isPointInPath(offsetX, offsetY)) {
         return [this.svg];
       }
       return [];
@@ -6565,6 +6565,13 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       return [padLeft, padTop];
     }
   }, {
+    key: 'pathSize',
+    get: function get() {
+      if (!this.svg) return [0, 0];
+      var bounds = this.svg.bounds;
+      return [bounds[2] - bounds[0], bounds[3] - bounds[1]];
+    }
+  }, {
     key: 'contentSize',
     get: function get() {
       var _attr3 = this.attr('size'),
@@ -6574,16 +6581,10 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
       if (width === '' || height === '') {
         if (this.attr('clip')) {
-          var pathOffset = this.pathOffset;
-
-          var _attr5 = this.attr('border'),
-              _attr6 = (0, _slicedToArray3.default)(_attr5, 1),
-              borderWidth = _attr6[0];
-
           var svg = this.svg;
           var bounds = svg.bounds;
-          width = bounds[2] + pathOffset[0] - borderWidth;
-          height = bounds[3] + pathOffset[1] - borderWidth;
+          width = bounds[2];
+          height = bounds[3];
         } else {
           var right = void 0,
               bottom = void 0;
@@ -8506,7 +8507,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'canvas',
     get: function get() {
-      return this.context.canvas;
+      return this.outputContext.canvas;
     }
   }, {
     key: 'fps',
@@ -8798,7 +8799,7 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'findPath',
     value: function findPath(offsetX, offsetY) {
-      if (this.svg.isPointInPath(offsetX, offsetY)) {
+      if (this.svg && this.svg.isPointInPath(offsetX, offsetY)) {
         return [this.svg];
       }
       return [];
@@ -8890,6 +8891,13 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       return [padLeft, padTop];
     }
   }, {
+    key: 'pathSize',
+    get: function get() {
+      if (!this.svg) return [0, 0];
+      var bounds = this.svg.bounds;
+      return [bounds[2] - bounds[0], bounds[3] - bounds[1]];
+    }
+  }, {
     key: 'contentSize',
     get: function get() {
       if (!this.svg) return (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'contentSize', this);
@@ -8902,17 +8910,12 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           height = _attr4[1];
 
       var lineWidth = this.attr('lineWidth');
-      var pathOffset = this.pathOffset;
-
-      var _attr5 = this.attr('border'),
-          _attr6 = (0, _slicedToArray3.default)(_attr5, 1),
-          borderWidth = _attr6[0];
 
       if (width === '') {
-        width = bounds[2] + pathOffset[0] - borderWidth + 1.414 * lineWidth | 0;
+        width = bounds[2] + 2 * 1.414 * lineWidth | 0;
       }
       if (height === '') {
-        height = bounds[3] + pathOffset[1] - borderWidth + 1.414 * lineWidth | 0;
+        height = bounds[3] + 2 * 1.414 * lineWidth | 0;
       }
 
       return [width, height];

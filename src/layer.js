@@ -84,7 +84,7 @@ export default class Layer extends BaseNode {
   }
 
   get canvas() {
-    return this.context.canvas
+    return this.outputContext.canvas
   }
 
   prepareRender() {

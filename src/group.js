@@ -80,7 +80,7 @@ export default class Group extends BaseSprite {
     return this[_children]
   }
   findPath(offsetX, offsetY) {
-    if(this.svg.isPointInPath(offsetX, offsetY)) {
+    if(this.svg && this.svg.isPointInPath(offsetX, offsetY)) {
       return [this.svg]
     }
     return []
@@ -93,6 +93,11 @@ export default class Group extends BaseSprite {
       padTop = borderWidth + padding[0]
 
     return [padLeft, padTop]
+  }
+  get pathSize() {
+    if(!this.svg) return [0, 0]
+    const bounds = this.svg.bounds
+    return [bounds[2] - bounds[0], bounds[3] - bounds[1]]
   }
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
@@ -112,12 +117,10 @@ export default class Group extends BaseSprite {
 
     if(width === '' || height === '') {
       if(this.attr('clip')) {
-        const pathOffset = this.pathOffset
-        const [borderWidth] = this.attr('border')
         const svg = this.svg
         const bounds = svg.bounds
-        width = bounds[2] + pathOffset[0] - borderWidth
-        height = bounds[3] + pathOffset[1] - borderWidth
+        width = bounds[2]
+        height = bounds[3]
       } else {
         let right,
           bottom

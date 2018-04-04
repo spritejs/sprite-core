@@ -14,7 +14,7 @@
 </head>
 <body>
   <div id="paper">
-    <canvas width="600" height="400"></canvas>
+    <canvas width="800" height="600"></canvas>
   </div>
   <script src="https://s2.ssl.qhres.com/!87edaa34/animator-0.3.1.min.js"></script>
   <script src="/js/sprite-core.js"></script>
@@ -26,62 +26,6 @@
           Layer = spritejs.Layer
     const context = document.querySelector('#paper canvas').getContext('2d')
     const layer = new Layer({context})
-
-    const s = new Sprite()
-
-    s.attr({
-      anchor: [0.5, 0.5],
-      pos: [300, 100],
-      bgcolor: 'red',
-      gradients: {
-        bgcolor: {
-          vector: [0, 0, 80, 80],
-          colors: [{
-            offset: 0,
-            color: 'red',
-          }, {
-            offset: 1,
-            color: 'green',
-          }]          
-        }
-      },
-      size: [80, 50],
-      //bgcolor: 'green',
-      //opacity: 0.5,
-      transform: {
-        //translate: [30, 30],
-        //rotate: 30,
-        scale: [0.5, 0.5],
-      },
-      offsetPath: 'M10,80 q100,120 120,20 q140,-50 160,0',
-      //offsetDistance: 0.5,
-      //offsetRotate: 30,
-      zIndex: 200,
-    })
-
-    layer.appendChild(s)
-
-    s.animate([
-      {offsetDistance: 0},
-      {offsetDistance: 1}
-    ], {
-      duration: 3000,
-      direction: 'alternate',
-      iterations: Infinity,
-    })
-
-    s.animate([
-      {scale: [.5, .5], offsetRotate: 'auto'},
-      {scale: [.5, -.5], offsetRotate: 'reverse'},
-      {scale: [.5, .5], offsetRotate: 'auto'},
-    ], {
-      duration: 6000,
-      iterations: Infinity,
-      easing: 'step-end',
-    })
-
-    window.s = s;
-    //paper.removeChild(s);
 
     // console.log('box', s3.renderBox)
 
@@ -195,7 +139,8 @@
       bgcolor: '#ddd',
       color: 'red',
       //renderMode: 'fill',
-      lineWidth: 6,
+      lineWidth: 16,
+      //border: [10, 'black'],
       lineCap: 'round',
       d: 'M10,80 q100,120 120,20 q140,-50 160,0',
       //d: 'M10 80 h260 v206 h-260Z',
@@ -217,6 +162,63 @@
     
     layer.append(s4)
     window.s4 = s4
+
+    const pathOffset = s4.pathOffset
+
+    const s = new Sprite()
+
+    s.attr({
+      anchor: [0.5, 0.5],
+      pos: [300 + pathOffset[0], 100 + pathOffset[1]],
+      bgcolor: 'red',
+      gradients: {
+        bgcolor: {
+          vector: [0, 0, 80, 80],
+          colors: [{
+            offset: 0,
+            color: 'red',
+          }, {
+            offset: 1,
+            color: 'green',
+          }]          
+        }
+      },
+      size: [80, 50],
+      //bgcolor: 'green',
+      //opacity: 0.5,
+      transform: {
+        //translate: [30, 30],
+        //rotate: 30,
+        scale: [0.5, 0.5],
+      },
+      offsetPath: 'M10,80 q100,120 120,20 q140,-50 160,0',
+      //offsetDistance: 0.5,
+      //offsetRotate: 30,
+      zIndex: 200,
+    })
+
+    layer.appendChild(s)
+
+    s.animate([
+      {offsetDistance: 0},
+      {offsetDistance: 1}
+    ], {
+      duration: 3000,
+      direction: 'alternate',
+      iterations: Infinity,
+    })
+
+    s.animate([
+      {scale: [.5, .5], offsetRotate: 'auto'},
+      {scale: [.5, -.5], offsetRotate: 'reverse'},
+      {scale: [.5, .5], offsetRotate: 'auto'},
+    ], {
+      duration: 6000,
+      iterations: Infinity,
+      easing: 'step-end',
+    })
+
+    window.s = s;
 
     const a1 = new Animator(1000,  p => {
           const colors = [

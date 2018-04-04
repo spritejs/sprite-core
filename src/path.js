@@ -137,7 +137,7 @@ export default class Path extends BaseSprite {
   }
 
   findPath(offsetX, offsetY) {
-    if(this.svg.isPointInPath(offsetX, offsetY)) {
+    if(this.svg && this.svg.isPointInPath(offsetX, offsetY)) {
       return [this.svg]
     }
     return []
@@ -154,6 +154,12 @@ export default class Path extends BaseSprite {
     return [padLeft, padTop]
   }
 
+  get pathSize() {
+    if(!this.svg) return [0, 0]
+    const bounds = this.svg.bounds
+    return [bounds[2] - bounds[0], bounds[3] - bounds[1]]
+  }
+
   get contentSize() {
     if(!this.svg) return super.contentSize
 
@@ -161,14 +167,12 @@ export default class Path extends BaseSprite {
     let [width, height] = this.attr('size')
 
     const lineWidth = this.attr('lineWidth')
-    const pathOffset = this.pathOffset
-    const [borderWidth] = this.attr('border')
 
     if(width === '') {
-      width = bounds[2] + pathOffset[0] - borderWidth + 1.414 * lineWidth | 0
+      width = bounds[2] + 2 * 1.414 * lineWidth | 0
     }
     if(height === '') {
-      height = bounds[3] + pathOffset[1] - borderWidth + 1.414 * lineWidth | 0
+      height = bounds[3] + 2 * 1.414 * lineWidth | 0
     }
 
     return [width, height]
