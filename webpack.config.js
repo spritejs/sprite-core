@@ -41,11 +41,8 @@ module.exports = function (env = {}) {
     externals = {
       'babel-runtime': 'babel-runtime',
       'babel-plugin-transform-decorators-runtime': 'babel-plugin-transform-decorators-runtime',
-      'fast-animation-frame': 'fast-animation-frame',
-      'sprite-animator': 'sprite-animator',
       'sprite-math': 'sprite-math',
       'sprite-utils': 'sprite-utils',
-      'svg-path-to-canvas': 'svg-path-to-canvas',
     }
   }
 
