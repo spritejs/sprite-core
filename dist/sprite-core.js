@@ -8606,11 +8606,15 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
   }, {
     key: 'd',
     set: function set(val) {
-      var path = this.get('path');
-      if (!path) {
-        this.path = { d: val };
+      if (val) {
+        var path = this.get('path');
+        if (!path) {
+          this.path = { d: val };
+        } else {
+          this.path = (0, _assign2.default)(path, { d: val });
+        }
       } else {
-        this.path = (0, _assign2.default)(path, { d: val });
+        this.path = null;
       }
     }
   }, {
