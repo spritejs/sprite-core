@@ -427,18 +427,13 @@ export default class BaseSprite extends BaseNode {
     }
     drawingContext.restore()
 
-
-    const updateHandlers = this.getEventHandlers('update')
-    if(updateHandlers.length) {
-      this.dispatchEvent(
-        'update',
-        {
-          target: this, context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox,
-        },
-        true
-      )
-    }
-    this.lastRenderBox = this.renderBox
+    this.dispatchEvent(
+      'update',
+      {
+        target: this, context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox,
+      },
+      true, true
+    )
 
     return drawingContext
   }

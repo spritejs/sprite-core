@@ -1298,13 +1298,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       }
       drawingContext.restore();
 
-      var updateHandlers = this.getEventHandlers('update');
-      if (updateHandlers.length) {
-        this.dispatchEvent('update', {
-          target: this, context: context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox
-        }, true);
-      }
-      this.lastRenderBox = this.renderBox;
+      this.dispatchEvent('update', {
+        target: this, context: context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox
+      }, true, true);
 
       return drawingContext;
     }
@@ -5472,11 +5468,6 @@ var BaseNode = function () {
         delete this[_eventHandlers][type];
       }
     }
-  }, {
-    key: 'getEventHandlers',
-    value: function getEventHandlers(type) {
-      return this[_eventHandlers][type] || [];
-    }
     // d3-friendly
 
   }, {
@@ -5500,7 +5491,7 @@ var BaseNode = function () {
       var _this = this;
 
       var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var stopDispatch = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      var terminated = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
       if (!evt.stopDispatch) {
         evt.stopDispatch = function () {
@@ -5546,9 +5537,7 @@ var BaseNode = function () {
         this[_collisionState] = false;
       }
 
-      if (stopDispatch) {
-        this.terminated = true;
-      }
+      this.terminated = terminated;
       return this[_collisionState];
     }
     // called when layer appendChild

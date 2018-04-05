@@ -20,9 +20,6 @@ export default class BaseNode {
       delete this[_eventHandlers][type]
     }
   }
-  getEventHandlers(type) {
-    return this[_eventHandlers][type] || []
-  }
   // d3-friendly
   addEventListener(type, handler) {
     return this.on(type, handler)
@@ -33,7 +30,7 @@ export default class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method')
   }
-  dispatchEvent(type, evt, forceTrigger = false, stopDispatch = false) {
+  dispatchEvent(type, evt, forceTrigger = false, terminated = false) {
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
         this.terminated = true
@@ -76,9 +73,7 @@ export default class BaseNode {
       this[_collisionState] = false
     }
 
-    if(stopDispatch) {
-      this.terminated = true
-    }
+    this.terminated = terminated
     return this[_collisionState]
   }
   // called when layer appendChild
