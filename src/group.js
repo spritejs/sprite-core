@@ -2,7 +2,7 @@ import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
 import {attr} from 'sprite-utils'
 import SvgPath from 'svg-path-to-canvas'
-import transformPath from './pathtransform'
+import {pathTransform} from './path-helper'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
@@ -34,7 +34,7 @@ class GroupAttr extends BaseSprite.Attr {
         this.subject.svg = new SvgPath(val)
         this.set('clip', {d: val})
       } else {
-        this.subject.svg = transformPath(val)
+        this.subject.svg = pathTransform(val)
         this.set('clip', val)
       }
     } else {
@@ -75,6 +75,17 @@ export default class Group extends BaseSprite {
       sprites = this[_children].slice(0)
     }
     sprites.forEach(sprite => this.removeChild(sprite))
+  }
+  cloneNode(deepCopy) {
+    const node = super.cloneNode()
+    if(deepCopy) {
+      const children = this.children
+      children.forEach((child) => {
+        const subNode = child.cloneNode(deepCopy)
+        node.append(subNode)
+      })
+    }
+    return node
   }
   get children() {
     return this[_children]

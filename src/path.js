@@ -2,16 +2,15 @@ import BaseSprite from './basesprite'
 import createGradients from './gradient'
 import {Effects} from 'sprite-animator'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
-import pathEffect from 'sprite-path-effect'
+import {pathEffect, pathTransform} from './path-helper'
 import {registerNodeType} from './nodetype'
 import SvgPath from 'svg-path-to-canvas'
-import transformPath from './pathtransform'
 
 Effects.d = pathEffect
 
 Effects.path = function (path1, path2, p, start, end) {
-  path1 = transformPath(path1)
-  path2 = transformPath(path2)
+  path1 = pathTransform(path1)
+  path2 = pathTransform(path2)
   return pathEffect(path1.d, path2.d, p, start, end)
 }
 
@@ -49,7 +48,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
         this.subject.svg = new SvgPath(val)
         this.set('path', {d: val})
       } else {
-        this.subject.svg = transformPath(val)
+        this.subject.svg = pathTransform(val)
         this.set('path', val)
       }
     } else {

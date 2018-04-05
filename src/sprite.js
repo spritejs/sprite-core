@@ -100,11 +100,9 @@ export default class Sprite extends BaseSprite {
     }
   }
 
-  cloneNode(copyContent) {
-    const node = super.cloneNode(copyContent)
-    if(copyContent) {
-      node.textures = this.textures
-    }
+  cloneNode() {
+    const node = super.cloneNode()
+    node.textures = this.textures
     return node
   }
 

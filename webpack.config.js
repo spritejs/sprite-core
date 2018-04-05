@@ -9,6 +9,8 @@ module.exports = function (env = {}) {
     plugins = [],
     jsLoaders = []
 
+  let externals = {}
+
   if(env.production) {
     // compress js in production environment
 
@@ -34,8 +36,17 @@ module.exports = function (env = {}) {
   if(env.production) {
     output.filename = 'sprite-core.min.js'
   } else if(env.module) {
-    output.filename = 'sprite-core.export.js'
-    output.libraryTarget = 'commonjs'
+    output.filename = 'sprite-core.module.js'
+    output.libraryTarget = 'commonjs2'
+    externals = {
+      'babel-runtime': 'babel-runtime',
+      'babel-plugin-transform-decorators-runtime': 'babel-plugin-transform-decorators-runtime',
+      'fast-animation-frame': 'fast-animation-frame',
+      'sprite-animator': 'sprite-animator',
+      'sprite-math': 'sprite-math',
+      'sprite-utils': 'sprite-utils',
+      'svg-path-to-canvas': 'svg-path-to-canvas',
+    }
   }
 
   if(fs.existsSync('./.babelrc')) {
@@ -60,6 +71,7 @@ module.exports = function (env = {}) {
         use: jsLoaders,
       }],
     },
+    externals,
 
     devServer: {
       open: true,

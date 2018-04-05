@@ -54,11 +54,9 @@ export default class BaseSprite extends BaseNode {
     this[_attr].merge(attrs)
   }
 
-  cloneNode(copyContent) {
+  cloneNode() {
     const node = new this.constructor()
-    if(copyContent) {
-      node.merge(this[_attr].serialize())
-    }
+    node.merge(this[_attr].serialize())
     return node
   }
 
