@@ -1656,7 +1656,7 @@ module.exports = function (it, tag, stat) {
 /* 40 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-plugin-transform-decorators-runtime");
+module.exports = require("babel-decorators-runtime");
 
 /***/ }),
 /* 41 */

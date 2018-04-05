@@ -40,9 +40,9 @@ module.exports = function (env = {}) {
     output.libraryTarget = 'commonjs2'
     externals = {
       'babel-runtime': 'babel-runtime',
-      'babel-plugin-transform-decorators-runtime/lib/_applyDecoratedDescriptor': 'babel-plugin-transform-decorators-runtime',
       'sprite-math': 'sprite-math',
       'sprite-utils': 'sprite-utils',
+      'babel-decorators-runtime': 'babel-decorators-runtime',
     }
   }
 

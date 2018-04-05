@@ -1601,10 +1601,7 @@ exports.default = BaseSprite;
 
 /***/ }),
 /* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+/***/ (function(module, exports) {
 
 module.exports = function (target, property, decorators, descriptor, context) {
   var desc = {};
@@ -1633,7 +1630,8 @@ module.exports = function (target, property, decorators, descriptor, context) {
   }
 
   return desc;
-};
+}
+
 
 /***/ }),
 /* 34 */
