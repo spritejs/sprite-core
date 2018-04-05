@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "1.8.23",
+  "version": "1.8.24",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
