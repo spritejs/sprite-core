@@ -10182,7 +10182,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      linearGradients: {},
+      gradients: {},
       offsetDistance: 0
     }, {
       pos: {

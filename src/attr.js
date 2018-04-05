@@ -32,7 +32,7 @@ class SpriteAttr {
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      linearGradients: {},
+      gradients: {},
       offsetDistance: 0,
     }, {
       pos: {
