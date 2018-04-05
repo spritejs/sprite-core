@@ -64,6 +64,6 @@
     "sprite-animator": "^1.2.0",
     "sprite-math": "^1.0.0",
     "sprite-utils": "^1.0.4",
-    "svg-path-to-canvas": "^1.6.0"
+    "svg-path-to-canvas": "^1.7.0"
   }
 }
