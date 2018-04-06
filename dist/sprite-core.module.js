@@ -4120,13 +4120,13 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use fillColor
 var Label = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Label, _BaseSprite);
 
-  function Label(text, attr) {
+  function Label(attr) {
     (0, _classCallCheck3.default)(this, Label);
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Label.__proto__ || (0, _getPrototypeOf2.default)(Label)).call(this, attr));
-
-    _this2.text = String(text);
-    return _this2;
+    if (typeof attr === 'string') {
+      attr = { text: attr };
+    }
+    return (0, _possibleConstructorReturn3.default)(this, (Label.__proto__ || (0, _getPrototypeOf2.default)(Label)).call(this, attr));
   }
 
   (0, _createClass3.default)(Label, [{

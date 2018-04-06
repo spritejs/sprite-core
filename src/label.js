@@ -110,9 +110,11 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 export default class Label extends BaseSprite {
   static Attr = LabelSpriteAttr
 
-  constructor(text, attr) {
+  constructor(attr) {
+    if(typeof attr === 'string') {
+      attr = {text: attr}
+    }
     super(attr)
-    this.text = String(text)
   }
 
   set text(val) {
