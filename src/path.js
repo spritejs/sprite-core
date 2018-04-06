@@ -124,6 +124,13 @@ export default class Path extends BaseSprite {
     super(attr)
   }
 
+  set path(val) {
+    this.attr('path', val)
+  }
+  get path() {
+    return this.attr('path')
+  }
+
   getPointAtLength(length) {
     if(this.svg) {
       const {x, y} = this.svg.getPointAtLength(length)

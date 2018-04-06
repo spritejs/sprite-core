@@ -7054,6 +7054,14 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       return context;
     }
   }, {
+    key: 'path',
+    set: function set(val) {
+      this.attr('path', val);
+    },
+    get: function get() {
+      return this.attr('path');
+    }
+  }, {
     key: 'pathOffset',
     get: function get() {
       var _attr = this.attr('border'),
