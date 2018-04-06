@@ -756,6 +756,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       this.dispatchEvent('update', {
         target: this, context: context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox
       }, true, true);
+      this.lastRenderBox = this.renderBox;
 
       return drawingContext;
     }
