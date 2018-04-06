@@ -432,6 +432,7 @@ export default class BaseSprite extends BaseNode {
       },
       true, true
     )
+    this.lastRenderBox = this.renderBox
 
     return drawingContext
   }

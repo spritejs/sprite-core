@@ -25,7 +25,10 @@
           Label = spritejs.Label,
           Layer = spritejs.Layer
     const context = document.querySelector('#paper canvas').getContext('2d')
-    const layer = new Layer({context})
+    const layer = new Layer({
+      context, 
+      renderMode: 'repaintDirty'
+    })
 
     // console.log('box', s3.renderBox)
 
