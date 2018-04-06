@@ -1,5 +1,5 @@
 import BaseSprite from './basesprite'
-import {parseColorString, attr, deprecate} from 'sprite-utils'
+import {parseColorString, attr} from 'sprite-utils'
 import createGradients from './gradient'
 import {registerNodeType} from './nodetype'
 
@@ -89,7 +89,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   }
 
   @attr
-  @deprecate('Instead use fillColor.')
   set color(val) {
     this.fillColor = val
   }
