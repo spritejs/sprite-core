@@ -23,10 +23,6 @@ class PathSpriteAttr extends BaseSprite.Attr {
       lineJoin: 'miter',
       strokeColor: '',
       fillColor: '',
-      // d: path2d,
-      boxSize: [0, 0],
-      pathRect: [0, 0, 0, 0],
-      pathBounds: [0, 0, 0, 0],
     }, {
       color: {
         get() {
