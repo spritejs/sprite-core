@@ -4015,7 +4015,7 @@ var measureText = function measureText(node, text, font) {
   ctx.restore();
 
   var height = lineHeight || parseFont(font).size * 1.2;
-  return [width, height];
+  return [width, height].map(Math.round);
 };
 
 function calculTextboxSize(node, text, font, lineHeight) {
