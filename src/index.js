@@ -7,6 +7,7 @@ import BaseNode from './basenode'
 import Path from './path'
 import {Effects} from 'sprite-animator'
 import {registerNodeType, createNode} from './nodetype'
+import {Matrix, Vector} from 'sprite-math'
 
 export {
   BaseNode,
@@ -19,4 +20,6 @@ export {
   Effects,
   registerNodeType,
   createNode,
+  Matrix,
+  Vector,
 }

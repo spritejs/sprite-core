@@ -19,6 +19,47 @@
   <script src="https://s2.ssl.qhres.com/!87edaa34/animator-0.3.1.min.js"></script>
   <script src="/js/sprite-core.js"></script>
   <script>
+  const Vector = spritejs.Vector
+  function OBBCollision(s1, s2) {
+    // vertices: [p1, p2, p3, p4]
+    const [p11, p12, p13] = s1.vertices,
+      [p21, p22, p23] = s2.vertices
+
+    const a1 = (new Vector(p12, p11)).unit(),
+      a2 = (new Vector(p13, p12)).unit(),
+      a3 = (new Vector(p22, p21)).unit(),
+      a4 = (new Vector(p23, p22)).unit()
+
+    // The projection of the axis of a vertex in a certain direction
+    function verticesProjection(vertices, axis) {
+      const [p1, p2, p3, p4] = vertices.map(v => axis.dot(new Vector(v)))
+
+      return [Math.min(p1, p2, p3, p4), Math.max(p1, p2, p3, p4)]
+    }
+
+    function projectionIntersect(p1, p2) {
+      const m1 = (p1[0] + p1[1]) / 2,
+        l1 = Math.abs(p1[1] - p1[0]),
+        m2 = (p2[0] + p2[1]) / 2,
+        l2 = Math.abs(p2[1] - p2[0])
+
+      return Math.abs(m2 - m1) <= (l1 + l2) / 2
+    }
+
+    return projectionIntersect(
+      verticesProjection(s1.vertices, a1),
+      verticesProjection(s2.vertices, a1)
+    ) && projectionIntersect(
+      verticesProjection(s1.vertices, a2),
+      verticesProjection(s2.vertices, a2)
+    ) && projectionIntersect(
+      verticesProjection(s1.vertices, a3),
+      verticesProjection(s2.vertices, a3)
+    ) && projectionIntersect(
+      verticesProjection(s1.vertices, a4),
+      verticesProjection(s2.vertices, a4)
+    )
+  }
   ;(async function(){
     const Sprite = spritejs.Sprite,
           Path = spritejs.Path,
@@ -272,7 +313,7 @@
     })
 
     s.on('update', evt => {
-      if(s.OBBCollision(label)){
+      if(OBBCollision(s, label)){
         label.attr('opacity', 0.7)
       } else {
         label.attr('opacity', 0.3)

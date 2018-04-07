@@ -330,58 +330,39 @@ export default class BaseSprite extends BaseNode {
   }
   draw(t, ...args) {
     const drawingContext = this.context
-    if(!drawingContext) {
-      throw new Error('No context!')
-    }
-
-    let context = drawingContext
-
-    const transform = this.transform.m,
-      pos = this.attr('pos'),
-      bound = this.originRect
 
     drawingContext.save()
-    drawingContext.translate(pos[0], pos[1])
-    drawingContext.transform(...transform)
+    drawingContext.translate(...this.attr('pos'))
+    drawingContext.transform(...this.transform.m)
     drawingContext.globalAlpha = this.attr('opacity')
 
-    if(drawingContext.canvas && drawingContext.canvas.cloneNode) {
-      context = this.cache
-      if(!context) {
-        const cacheCanvas = drawingContext.canvas.cloneNode(false)
-        cacheCanvas.width = bound[2]
-        cacheCanvas.height = bound[3]
-        context = cacheCanvas.getContext('2d')
-      }
-    } else {
+    const canuseCache = drawingContext.canvas && drawingContext.canvas.cloneNode
+
+    let context = canuseCache ? this.cache : drawingContext
+
+    const bound = this.originRect
+    if(!canuseCache) {
       context.translate(bound[0], bound[1])
     }
 
-    // too slow in wxapp
-    // if(context === drawingContext) {
-    //   const [w, h] = this.offsetSize
-    //   context.save()
-    //   context.beginPath()
-    //   context.rect(0, 0, w, h)
-    //   context.clip()
-    //   context.closePath()
-    // }
+    if(!context) {
+      const cacheCanvas = drawingContext.canvas.cloneNode()
+      cacheCanvas.width = bound[2]
+      cacheCanvas.height = bound[3]
+      context = cacheCanvas.getContext('2d')
+    }
 
     this.dispatchEvent('beforedraw', {context, target: this, renderTime: t}, true, true)
-    if(context !== this.cache) {
+    if(this.cache !== context) {
       // set cache before render for group
-      if(context !== drawingContext) this.cache = context
+      if(canuseCache) this.cache = context
       context = this.render(t, context)
     }
-    this.dispatchEvent('afterdraw', {context, target: this, renderTime: t}, true, true)
-
-    // if(context === drawingContext) {
-    //   context.restore()
-    // }
 
     if(context !== drawingContext) {
       drawingContext.drawImage(context.canvas, bound[0], bound[1])
     }
+    this.dispatchEvent('afterdraw', {context, target: this, renderTime: t}, true, true)
     drawingContext.restore()
 
     this.dispatchEvent(

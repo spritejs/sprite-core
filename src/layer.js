@@ -31,7 +31,7 @@ export default class Layer extends BaseNode {
     this.outputContext = context
 
     if(context.canvas && context.canvas.cloneNode) {
-      const shadowCanvas = context.canvas.cloneNode(true)
+      const shadowCanvas = context.canvas.cloneNode()
       this.shadowContext = shadowCanvas.getContext('2d')
     }
 
