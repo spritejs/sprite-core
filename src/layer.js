@@ -1,12 +1,11 @@
 import BaseNode from './basenode'
 import Group from './group'
-
-import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 import {Timeline} from 'sprite-animator'
 import {requestAnimationFrame} from 'fast-animation-frame'
 import {registerNodeType} from './nodetype'
 
 import {clearContext} from './helpers/render'
+import {isSpriteDirty, clearDirtyRects} from './helpers/dirty-check'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
@@ -232,21 +231,11 @@ export default class Layer extends BaseNode {
 
     for(let i = 0; i < restEls.length; i++) {
       const unaffectedEl = restEls[i]
-      let affected = false
-
-      for(let j = 0; j < updateEls.length; j++) {
-        const affectedEl = updateEls[j]
-        const box1 = affectedEl.renderBox,
-          box2 = unaffectedEl.renderBox,
-          box3 = affectedEl.lastRenderBox
-
-        if(boxIntersect(box1, box2) || box3 && boxIntersect(box3, box2)) {
-          affected = true
-          break
-        }
+      if(isSpriteDirty(unaffectedEl, updateEls, true)) {
+        affectedSet.add(unaffectedEl)
+      } else {
+        unaffectedSet.add(unaffectedEl)
       }
-      if(affected) affectedSet.add(unaffectedEl)
-      else unaffectedSet.add(unaffectedEl)
     }
 
     if(affectedSet.size > 0 && unaffectedSet.size > 0) {
@@ -256,21 +245,14 @@ export default class Layer extends BaseNode {
         const affectedEls = Array.from(affectedSet),
           unaffectedEls = Array.from(unaffectedSet)
 
-        for(let i = 0; i < affectedEls.length; i++) {
-          const affectedEl = affectedEls[i]
-          for(let j = 0; j < unaffectedEls.length; j++) {
-            const unaffectedEl = unaffectedEls[j]
-            const box1 = affectedEl.renderBox,
-              box2 = unaffectedEl.renderBox
+        for(let i = 0; i < unaffectedEls.length; i++) {
+          const unaffectedEl = unaffectedEls[i]
 
-            if(boxIntersect(box1, box2)) {
-              affectedSet.add(unaffectedEl)
-              unaffectedSet.delete(unaffectedEl)
-              changed = true
-              break
-            }
+          if(isSpriteDirty(unaffectedEl, affectedEls)) {
+            affectedSet.add(unaffectedEl)
+            unaffectedSet.delete(unaffectedEl)
+            break
           }
-          if(changed) break
         }
       } while(changed)
     }
@@ -285,45 +267,10 @@ export default class Layer extends BaseNode {
     outputContext.save()
     outputContext.beginPath()
 
-    for(let i = 0; i < updateEls.length; i++) {
-      const updateEl = updateEls[i]
-      const box = updateEl.renderBox
-
-      let dirtyBox = boxIntersect(box, [0, 0, width, height])
-
-      if(dirtyBox) {
-        const dirtyRect = boxToRect(dirtyBox)
-
-        if(shadowContext) shadowContext.rect(...dirtyRect)
-        outputContext.rect(...dirtyRect)
-      }
-
-      const lastRenderBox = updateEl.lastRenderBox
-      if(lastRenderBox && !boxEqual(lastRenderBox, box)) {
-        dirtyBox = boxIntersect(lastRenderBox, [0, 0, width, height])
-
-        if(dirtyBox) {
-          const dirtyRect = boxToRect(dirtyBox)
-
-          if(shadowContext) shadowContext.rect(...dirtyRect)
-          outputContext.rect(...dirtyRect)
-        }
-      }
-    }
+    clearDirtyRects({shadowContext, outputContext}, updateEls, true)
 
     const affectedEls = Array.from(affectedSet)
-    for(let i = 0; i < affectedEls.length; i++) {
-      const affectedEl = affectedEls[i]
-      const box = affectedEl.renderBox
-      const dirtyBox = boxIntersect(box, [0, 0, width, height])
-
-      if(dirtyBox) {
-        const dirtyRect = boxToRect(dirtyBox)
-
-        if(shadowContext) shadowContext.rect(...dirtyRect)
-        outputContext.rect(...dirtyRect)
-      }
-    }
+    clearDirtyRects({shadowContext, outputContext}, affectedEls, false)
 
     if(shadowContext) {
       shadowContext.clip()
@@ -336,12 +283,10 @@ export default class Layer extends BaseNode {
     const renderEls = [...updateSet, ...affectedSet]
     this.sortChildren(renderEls)
 
+    this.drawSprites(renderEls, t)
     if(shadowContext) {
-      this.drawSprites(renderEls, t)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
       shadowContext.restore()
-    } else {
-      this.drawSprites(renderEls, t)
     }
 
     outputContext.restore()
