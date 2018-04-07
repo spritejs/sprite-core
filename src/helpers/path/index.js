@@ -179,7 +179,7 @@ export function pathEffect(pathA, pathB, p, s, e) {
   return lerp(pathA, pathB, ep)
 }
 
-export function pathTransform(path) {
+export function createSvgPath(path) {
   if(typeof path === 'string') path = {d: path}
   const p = new SvgPath(path.d)
   if(path.transform || path.trim) {

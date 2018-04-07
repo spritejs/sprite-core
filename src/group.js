@@ -1,8 +1,7 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
 import {attr, sortOrderedSprites} from 'sprite-utils'
-import SvgPath from 'svg-path-to-canvas'
-import {pathTransform} from './helpers/path'
+import {createSvgPath} from './helpers/path'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
@@ -19,13 +18,9 @@ class GroupAttr extends BaseSprite.Attr {
   set clip(val) {
     this.clearCache()
     if(val) {
-      if(typeof val === 'string') {
-        this.subject.svg = new SvgPath(val)
-        this.set('clip', {d: val})
-      } else {
-        this.subject.svg = pathTransform(val)
-        this.set('clip', val)
-      }
+      val = typeof val === 'string' ? {d: val} : val
+      this.subject.svg = createSvgPath(val)
+      this.set('clip', val)
     } else {
       this.subject.svg = null
       this.set('clip', null)

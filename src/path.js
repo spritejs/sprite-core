@@ -2,15 +2,14 @@ import BaseSprite from './basesprite'
 import {findColor} from './helpers/render'
 import {Effects} from 'sprite-animator'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
-import {pathEffect, pathTransform} from './helpers/path'
+import {pathEffect, createSvgPath} from './helpers/path'
 import {registerNodeType} from './nodetype'
-import SvgPath from 'svg-path-to-canvas'
 
 Effects.d = pathEffect
 
 Effects.path = function (path1, path2, p, start, end) {
-  path1 = pathTransform(path1)
-  path2 = pathTransform(path2)
+  path1 = createSvgPath(path1)
+  path2 = createSvgPath(path2)
   return pathEffect(path1.d, path2.d, p, start, end)
 }
 
@@ -40,13 +39,9 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set path(val) {
     this.clearCache()
     if(val) {
-      if(typeof val === 'string') {
-        this.subject.svg = new SvgPath(val)
-        this.set('path', {d: val})
-      } else {
-        this.subject.svg = pathTransform(val)
-        this.set('path', val)
-      }
+      val = typeof val === 'string' ? {d: val} : val
+      this.subject.svg = createSvgPath(val)
+      this.set('path', val)
     } else {
       this.subject.svg = null
       this.set('path', null)
