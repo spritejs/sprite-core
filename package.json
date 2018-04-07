@@ -63,7 +63,7 @@
     "fast-animation-frame": "^0.2.1",
     "sprite-animator": "^1.3.0",
     "sprite-math": "^1.0.0",
-    "sprite-utils": "^1.0.4",
+    "sprite-utils": "^1.2.0",
     "svg-path-to-canvas": "^1.7.0"
   }
 }

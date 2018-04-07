@@ -14,6 +14,8 @@ const _children = Symbol('children'),
   _timeline = Symbol('timeline'),
   _renderDeferer = Symbol('renderDeferrer')
 
+import {sortOrderedSprites} from 'sprite-utils'
+
 export default class Layer extends BaseNode {
   constructor({
     context,
@@ -172,16 +174,6 @@ export default class Layer extends BaseNode {
 
     return Math.round(1000 * (len - 1) / sum)
   }
-  sortChildren(children) {
-    children.sort((a, b) => {
-      const a_zidx = a.attr('zIndex'),
-        b_zidx = b.attr('zIndex')
-      if(a_zidx === b_zidx) {
-        return a.zOrder - b.zOrder
-      }
-      return a_zidx - b_zidx
-    })
-  }
   drawSprites(renderEls, t) {
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i]
@@ -197,7 +189,7 @@ export default class Layer extends BaseNode {
   }
   renderRepaintAll(t) {
     const renderEls = this[_children].filter(e => this.isVisible(e))
-    this.sortChildren(renderEls)
+    sortOrderedSprites(renderEls)
 
     const outputContext = this.outputContext
     clearContext(outputContext)
@@ -281,7 +273,7 @@ export default class Layer extends BaseNode {
     outputContext.clearRect(0, 0, width, height)
 
     const renderEls = [...updateSet, ...affectedSet]
-    this.sortChildren(renderEls)
+    sortOrderedSprites(renderEls)
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
@@ -335,15 +327,8 @@ export default class Layer extends BaseNode {
   dispatchEvent(type, evt) {
     evt.layer = this
     const sprites = this[_children].slice(0)
-    sprites.sort((a, b) => {
-      const a_zidx = a.attr('zIndex'),
-        b_zidx = b.attr('zIndex')
 
-      if(a_zidx === b_zidx) {
-        return b.zOrder - a.zOrder
-      }
-      return b_zidx - a_zidx
-    })
+    sortOrderedSprites(sprites, true)
 
     const targetSprites = []
     for(let i = 0; i < sprites.length; i++) {

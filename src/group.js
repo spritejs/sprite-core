@@ -1,22 +1,11 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {attr} from 'sprite-utils'
+import {attr, sortOrderedSprites} from 'sprite-utils'
 import SvgPath from 'svg-path-to-canvas'
 import {pathTransform} from './helpers/path'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
-
-function sortChildren(children) {
-  children.sort((a, b) => {
-    const a_zidx = a.attr('zIndex'),
-      b_zidx = b.attr('zIndex')
-    if(a_zidx === b_zidx) {
-      return a.zOrder - b.zOrder
-    }
-    return a_zidx - b_zidx
-  })
-}
 
 class GroupAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -55,11 +44,11 @@ export default class Group extends BaseSprite {
   appendChild(sprite, sort = true) {
     this[_children].push(sprite)
     sprite.connect(this, this[_zOrder]++)
-    if(sort) sortChildren(this[_children])
+    if(sort) sortOrderedSprites(this[_children])
   }
   append(...sprites) {
     sprites.forEach(sprite => this.appendChild(sprite, false))
-    sortChildren(this[_children])
+    sortOrderedSprites(this[_children])
   }
   removeChild(sprite) {
     const idx = this[_children].indexOf(sprite)

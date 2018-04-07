@@ -75,6 +75,14 @@ export default class BaseSprite extends BaseNode {
     return this.attr('name')
   }
 
+  set zIndex(val) {
+    this.attr('zIndex', val)
+  }
+
+  get zIndex() {
+    return this.attr('zIndex')
+  }
+
   getAttribute(prop) {
     return this.attr(prop)
   }
