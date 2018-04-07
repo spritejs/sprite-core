@@ -138,7 +138,7 @@ export default class Path extends BaseSprite {
   }
 
   findPath(offsetX, offsetY) {
-    const rect = this.originRect
+    const rect = this.originalRect
     const pathOffset = this.pathOffset
     if(this.svg && this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])) {
       return [this.svg]

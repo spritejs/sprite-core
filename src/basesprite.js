@@ -189,7 +189,7 @@ export default class BaseSprite extends BaseNode {
     return this.offsetSize
   }
 
-  get boundRect() {
+  get boundingRect() {
     const anchor = this.attr('anchor'),
       transform = this.transform
 
@@ -216,7 +216,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   // rect before transform
-  get originRect() {
+  get originalRect() {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')
 
@@ -225,8 +225,8 @@ export default class BaseSprite extends BaseNode {
       width, height]
   }
 
-  get originRenderRect() {
-    const bound = this.originRect,
+  get originalRenderRect() {
+    const bound = this.originalRect,
       pos = this.attr('pos')
 
     return [pos[0] + bound[0],
@@ -236,7 +236,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get renderBox() {
-    const bound = this.boundRect,
+    const bound = this.boundingRect,
       pos = this.attr('pos')
 
     return [pos[0] + bound[0] - 1,
@@ -246,7 +246,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get renderRect() {
-    const bound = this.boundRect,
+    const bound = this.boundingRect,
       pos = this.attr('pos')
 
     return [pos[0] + bound[0],
@@ -256,7 +256,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get vertices() {
-    const vertices = rectVertices(this.originRect),
+    const vertices = rectVertices(this.originalRect),
       transform = this.transform,
       [x0, y0] = this.attr('pos')
 
@@ -323,7 +323,7 @@ export default class BaseSprite extends BaseNode {
 
     if(parentX >= x && parentX - x < w
      && parentY >= y && parentY - y < h) {
-      const [ox, oy, ow, oh] = this.originRect
+      const [ox, oy, ow, oh] = this.originalRect
 
       const [nx, ny] = this.pointToOffset(parentX, parentY)
 
@@ -387,7 +387,7 @@ export default class BaseSprite extends BaseNode {
     drawingContext.transform(...this.transform.m)
     drawingContext.globalAlpha = this.attr('opacity')
 
-    const bound = this.originRect
+    const bound = this.originalRect
 
     let cachableContext = this.cache || copyContext(drawingContext, bound[2], bound[3])
     const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t}

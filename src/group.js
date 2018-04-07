@@ -87,7 +87,7 @@ export default class Group extends BaseSprite {
     if(super.pointCollision(evt)) {
       if(this.svg) {
         const {offsetX, offsetY} = evt
-        const rect = this.originRect
+        const rect = this.originalRect
         const pathOffset = this.pathOffset
         evt.isInClip = this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])
       }
@@ -123,8 +123,8 @@ export default class Group extends BaseSprite {
   }
   dispatchEvent(type, evt, forceTrigger = false) {
     if(!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
-      const parentX = evt.offsetX - this.originRect[0]
-      const parentY = evt.offsetY - this.originRect[1]
+      const parentX = evt.offsetX - this.originalRect[0]
+      const parentY = evt.offsetY - this.originalRect[1]
       // console.log(evt.parentX, evt.parentY)
 
       const _evt = Object.assign({}, evt)
@@ -158,7 +158,7 @@ export default class Group extends BaseSprite {
       this.svg.beginPath().to(context)
       context.restore()
       context.clip()
-      context.clearRect(0, 0, this.originRect[2], this.originRect[3])
+      context.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
     }
 
     const children = this[_children]
