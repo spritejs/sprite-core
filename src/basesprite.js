@@ -336,29 +336,28 @@ export default class BaseSprite extends BaseNode {
     drawingContext.transform(...this.transform.m)
     drawingContext.globalAlpha = this.attr('opacity')
 
-    const canuseCache = drawingContext.canvas && drawingContext.canvas.cloneNode
-
-    let context = canuseCache ? this.cache : drawingContext
-
     const bound = this.originRect
-    if(!canuseCache) {
-      context.translate(bound[0], bound[1])
-    }
-    if(!context) {
-      context = copyContext(drawingContext, bound[2], bound[3])
-    }
 
-    const evtArgs = {context, target: this, renderTime: t}
+    let cachableContext = this.cache || copyContext(drawingContext, bound[2], bound[3])
+    const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t}
+
+    if(!cachableContext) {
+      drawingContext.translate(bound[0], bound[1])
+    }
 
     this.dispatchEvent('beforedraw', evtArgs, true, true)
-    if(this.cache !== context) {
+
+    if(cachableContext) {
       // set cache before render for group
-      if(canuseCache) this.cache = context
-      context = this.render(t, context)
+      if(!this.cache) {
+        this.cache = cachableContext
+        cachableContext = this.render(t, cachableContext)
+      }
+      drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1])
+    } else {
+      this.render(t, drawingContext)
     }
-    if(canuseCache) {
-      drawingContext.drawImage(context.canvas, bound[0], bound[1])
-    }
+
     this.dispatchEvent('afterdraw', evtArgs, true, true)
     drawingContext.restore()
 

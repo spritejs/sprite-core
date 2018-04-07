@@ -106,7 +106,7 @@ export function findColor(context, sprite, prop) {
 export function copyContext(context, width, height) {
   const canvas = context.canvas
   if(!canvas || !canvas.cloneNode) {
-    throw new Error('Cannot copy this context!')
+    return
   }
   const copied = canvas.cloneNode()
   if(width != null) copied.width = width
