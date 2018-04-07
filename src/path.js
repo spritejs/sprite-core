@@ -143,7 +143,9 @@ export default class Path extends BaseSprite {
   }
 
   findPath(offsetX, offsetY) {
-    if(this.svg && this.svg.isPointInPath(offsetX, offsetY)) {
+    const rect = this.originRect
+    const pathOffset = this.pathOffset
+    if(this.svg && this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])) {
       return [this.svg]
     }
     return []
@@ -161,9 +163,7 @@ export default class Path extends BaseSprite {
   }
 
   get pathSize() {
-    if(!this.svg) return [0, 0]
-    const bounds = this.svg.bounds
-    return [bounds[2] - bounds[0], bounds[3] - bounds[1]]
+    return this.svg ? this.svg.size : [0, 0]
   }
 
   get contentSize() {
@@ -187,9 +187,7 @@ export default class Path extends BaseSprite {
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       const {offsetX, offsetY} = evt
-      const rect = this.originRect
-      const pathOffset = this.pathOffset
-      evt.targetPaths = this.findPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])
+      evt.targetPaths = this.findPath(offsetX, offsetY)
       return true
     }
     return false
