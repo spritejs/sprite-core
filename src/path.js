@@ -1,8 +1,8 @@
 import BaseSprite from './basesprite'
-import createGradients from './gradient'
+import {findColor} from './helpers/render'
 import {Effects} from 'sprite-animator'
 import {parseColorString, attr, deprecate} from 'sprite-utils'
-import {pathEffect, pathTransform} from './path-helper'
+import {pathEffect, pathTransform} from './helpers/path'
 import {registerNodeType} from './nodetype'
 import SvgPath from 'svg-path-to-canvas'
 
@@ -200,8 +200,6 @@ export default class Path extends BaseSprite {
       attr = this.attr()
 
     if(attr.d) {
-      let {strokeColor, fillColor} = attr
-
       context.translate(...this.pathOffset)
       this.svg.beginPath().to(context)
 
@@ -209,25 +207,12 @@ export default class Path extends BaseSprite {
       context.lineCap = attr.lineCap
       context.lineJoin = attr.lineJoin
 
-      const [width, height] = this.contentSize,
-        [borderWidth] = attr.border
-      const gradients = attr.gradients
-      if(gradients && gradients.fillColor) {
-        const rect = gradients.fillColor.rect || [borderWidth, borderWidth,
-          width, height]
-
-        fillColor = createGradients(context, rect, gradients.fillColor)
-      }
+      const fillColor = findColor(context, this, 'fillColor')
       if(fillColor) {
         context.fillStyle = fillColor
       }
 
-      if(gradients && gradients.strokeColor) {
-        const rect = gradients.strokeColor.rect || [borderWidth, borderWidth,
-          width, height]
-
-        strokeColor = createGradients(context, rect, gradients.strokeColor)
-      }
+      let strokeColor = findColor(context, this, 'strokeColor')
       if(strokeColor) {
         context.strokeStyle = strokeColor
       }

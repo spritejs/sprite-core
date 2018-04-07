@@ -2,7 +2,7 @@ import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
 import {attr} from 'sprite-utils'
 import SvgPath from 'svg-path-to-canvas'
-import {pathTransform} from './path-helper'
+import {pathTransform} from './helpers/path'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')

@@ -3,8 +3,9 @@ import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
 import {rectVertices} from 'sprite-utils'
-import createGradients from './gradient'
 import {registerNodeType} from './nodetype'
+
+import {drawRadiusBox, findColor} from './helpers/render'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations')
@@ -439,8 +440,6 @@ export default class BaseSprite extends BaseNode {
 
   render(t, drawingContext) {
     const attr = this.attr(),
-      bgcolor = attr.bgcolor,
-      gradients = attr.gradients,
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize
 
@@ -448,71 +447,41 @@ export default class BaseSprite extends BaseNode {
       return drawingContext // don't need to render
     }
 
-    const [borderWidth, borderColor] = attr.border
+    const borderWidth = attr.border[0]
     const borderRadius = attr.borderRadius
 
     drawingContext.save()
 
     // draw border
-    if(borderWidth || gradients && gradients.border) {
+    if(borderWidth) {
       drawingContext.lineWidth = borderWidth
 
       const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2,
         offsetWidth - borderWidth, offsetHeight - borderWidth,
         borderRadius]
 
-      drawingContext.beginPath()
-      drawingContext.moveTo(x + r, y)
-      drawingContext.arcTo(x + w, y, x + w, y + h, r)
-      drawingContext.arcTo(x + w, y + h, x, y + h, r)
-      drawingContext.arcTo(x, y + h, x, y, r)
-      drawingContext.arcTo(x, y, x + w, y, r)
-      drawingContext.closePath()
-
-      if(gradients && gradients.border) {
-        const rect = gradients.border.rect || [x, y, w, h]
-
-        drawingContext.strokeStyle = createGradients(drawingContext, rect, gradients.border)
-      } else if(borderColor) {
-        drawingContext.strokeStyle = borderColor
-      }
-
+      drawRadiusBox(drawingContext, {x, y, w, h, r})
+      drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
       drawingContext.stroke()
       drawingContext.clip()
     }
 
     // draw bgcolor
-    if(bgcolor || gradients && gradients.bgcolor) {
+    const bgcolor = findColor(drawingContext, this, 'bgcolor')
+    if(bgcolor) {
       const [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         Math.max(0, borderRadius - borderWidth / 2)]
 
-      drawingContext.beginPath()
-      drawingContext.moveTo(x + r, y)
-      drawingContext.arcTo(x + w, y, x + w, y + h, r)
-      drawingContext.arcTo(x + w, y + h, x, y + h, r)
-      drawingContext.arcTo(x, y + h, x, y, r)
-      drawingContext.arcTo(x, y, x + w, y, r)
-      drawingContext.closePath()
+      drawRadiusBox(drawingContext, {x, y, w, h, r})
 
-      if(gradients && gradients.bgcolor) {
-        const rect = gradients.bgcolor.rect || [x, y, w, h]
-
-        drawingContext.fillStyle = createGradients(drawingContext, rect, gradients.bgcolor)
-      } else if(bgcolor) {
-        drawingContext.fillStyle = bgcolor
-      }
-
+      drawingContext.fillStyle = bgcolor
       drawingContext.fill()
     }
 
     drawingContext.restore()
 
-    const padding = attr.padding,
-      paddingTop = padding[0],
-      paddingLeft = padding[3]
-
-    drawingContext.translate(paddingLeft, paddingTop)
+    drawingContext.translate(attr.padding[0], attr.padding[3])
 
     return drawingContext
   }

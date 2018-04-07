@@ -1,9 +1,10 @@
 import BaseSprite from './basesprite'
 import {parseColorString, attr} from 'sprite-utils'
-import createGradients from './gradient'
 import {registerNodeType} from './nodetype'
 
-const parseFont = require('./font/parse-font')
+import {findColor} from './helpers/render'
+
+const parseFont = require('./helpers/parse-font')
 
 const measureText = (node, text, font, lineHeight = '') => {
   const ctx = node.context
@@ -150,35 +151,21 @@ export default class Label extends BaseSprite {
     if(text) {
       context.font = attr.font
       const lines = this.text.split(/\n/)
-      let {strokeColor, fillColor} = attr
 
       context.textBaseline = 'top'
 
-      const align = attr.textAlign,
-        [width, height] = this.contentSize
+      const align = attr.textAlign
 
       context.textBaseline = 'middle'
 
       const [borderWidth] = this.attr('border')
 
-      const gradients = attr.gradients
-
-      if(gradients && gradients.strokeColor) {
-        const rect = gradients.strokeColor.rect || [borderWidth, borderWidth,
-          width, height]
-
-        strokeColor = createGradients(context, rect, gradients.strokeColor)
-      }
+      const strokeColor = findColor(context, this, 'strokeColor')
       if(strokeColor) {
         context.strokeStyle = strokeColor
       }
 
-      if(gradients && gradients.fillColor) {
-        const rect = gradients.fillColor.rect || [borderWidth, borderWidth,
-          width, height]
-
-        fillColor = createGradients(context, rect, gradients.fillColor)
-      }
+      let fillColor = findColor(context, this, 'fillColor')
       if(fillColor) {
         context.fillStyle = fillColor
       }
@@ -188,6 +175,7 @@ export default class Label extends BaseSprite {
       }
 
       let top = borderWidth
+      const width = this.contentSize[0]
 
       lines.forEach((line) => {
         let left = borderWidth
