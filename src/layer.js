@@ -6,6 +6,8 @@ import {Timeline} from 'sprite-animator'
 import {requestAnimationFrame} from 'fast-animation-frame'
 import {registerNodeType} from './nodetype'
 
+import {clearContext} from './helpers/render'
+
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
   _zOrder = Symbol('zOrder'),
@@ -199,18 +201,12 @@ export default class Layer extends BaseNode {
     this.sortChildren(renderEls)
 
     const outputContext = this.outputContext
-    if(outputContext.canvas) {
-      const {width, height} = outputContext.canvas
-      outputContext.clearRect(0, 0, width, height)
-    }
+    clearContext(outputContext)
 
     const shadowContext = this.shadowContext
 
     if(shadowContext) {
-      if(shadowContext.canvas) {
-        const {width, height} = outputContext.canvas
-        shadowContext.clearRect(0, 0, width, height)
-      }
+      clearContext(shadowContext)
       this.drawSprites(renderEls, t)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
     } else {
@@ -446,10 +442,7 @@ export default class Layer extends BaseNode {
     if(!shadowContext) {
       throw new Error('No shadowContext.')
     }
-    if(outputContext.canvas) {
-      const {width, height} = outputContext.canvas
-      outputContext.clearRect(0, 0, width, height)
-    }
+    clearContext(outputContext)
 
     handler.call(this, outputContext)
 

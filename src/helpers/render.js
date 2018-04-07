@@ -114,3 +114,10 @@ export function copyContext(context, width, height) {
 
   return copied.getContext('2d')
 }
+
+export function clearContext(context) {
+  if(context.canvas) {
+    const {width, height} = context.canvas
+    context.clearRect(0, 0, width, height)
+  }
+}
