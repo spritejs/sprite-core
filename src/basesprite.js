@@ -1,6 +1,6 @@
 import SpriteAttr from './attr'
 import BaseNode from './basenode'
-import {Matrix} from 'sprite-math'
+import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
 import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
@@ -328,6 +328,49 @@ export default class BaseSprite extends BaseNode {
       }
     }
   }
+
+  // OBB: http://blog.csdn.net/silangquan/article/details/50812425
+  OBBCollision(sprite) {
+    // vertices: [p1, p2, p3, p4]
+    const [p11, p12, p13] = this.vertices,
+      [p21, p22, p23] = sprite.vertices
+
+    const a1 = (new Vector(p12, p11)).unit(),
+      a2 = (new Vector(p13, p12)).unit(),
+      a3 = (new Vector(p22, p21)).unit(),
+      a4 = (new Vector(p23, p22)).unit()
+
+    // The projection of the axis of a vertex in a certain direction
+    function verticesProjection(vertices, axis) {
+      const [p1, p2, p3, p4] = vertices.map(v => axis.dot(new Vector(v)))
+
+      return [Math.min(p1, p2, p3, p4), Math.max(p1, p2, p3, p4)]
+    }
+
+    function projectionIntersect(p1, p2) {
+      const m1 = (p1[0] + p1[1]) / 2,
+        l1 = Math.abs(p1[1] - p1[0]),
+        m2 = (p2[0] + p2[1]) / 2,
+        l2 = Math.abs(p2[1] - p2[0])
+
+      return Math.abs(m2 - m1) <= (l1 + l2) / 2
+    }
+
+    return projectionIntersect(
+      verticesProjection(this.vertices, a1),
+      verticesProjection(sprite.vertices, a1)
+    ) && projectionIntersect(
+      verticesProjection(this.vertices, a2),
+      verticesProjection(sprite.vertices, a2)
+    ) && projectionIntersect(
+      verticesProjection(this.vertices, a3),
+      verticesProjection(sprite.vertices, a3)
+    ) && projectionIntersect(
+      verticesProjection(this.vertices, a4),
+      verticesProjection(sprite.vertices, a4)
+    )
+  }
+
   draw(t, ...args) {
     const drawingContext = this.context
 
