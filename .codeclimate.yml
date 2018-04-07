@@ -6,6 +6,10 @@ checks:
       threshold: 50
   method-count:
     enabled: false
+  file-lines:
+    enabled: true
+    config:
+      threshold: 350
 exclude_patterns:
 - "config/"
 - "db/"
