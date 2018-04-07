@@ -61,7 +61,7 @@
     "babel-decorators-runtime": "^0.2.0",
     "babel-runtime": "^6.26.0",
     "fast-animation-frame": "^0.2.1",
-    "sprite-animator": "^1.2.0",
+    "sprite-animator": "^1.3.0",
     "sprite-math": "^1.0.0",
     "sprite-utils": "^1.0.4",
     "svg-path-to-canvas": "^1.7.0"
