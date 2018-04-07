@@ -16,49 +16,54 @@ function gradientBox(angle, rect) {
     angle += 360
   }
 
+  let ret = [x, y, x + w, y + h]
   if(angle >= 0 && angle < 90) {
     const tan = Math.tan(Math.PI * angle / 180)
 
     let d = tan * w
 
     if(d <= h) {
-      return [x, y, x + w, y + d]
+      ret = [x, y, x + w, y + d]
+    } else {
+      d = h / tan
+      ret = [x, y, x + d, y + h]
     }
-    d = h / tan
-    return [x, y, x + d, y + h]
   } else if(angle >= 90 && angle < 180) {
     const tan = Math.tan(Math.PI * (angle - 90) / 180)
 
     let d = tan * h
 
     if(d <= w) {
-      return [x + w, y, x + w - d, y + h]
+      ret = [x + w, y, x + w - d, y + h]
+    } else {
+      d = w / tan
+      ret = [x + w, y, x, y + d]
     }
-    d = w / tan
-    return [x + w, y, x, y + d]
   } else if(angle >= 180 && angle < 270) {
     const tan = Math.tan(Math.PI * (angle - 180) / 180)
 
     let d = tan * w
 
     if(d <= h) {
-      return [x + w, y + h, x, y + h - d]
+      ret = [x + w, y + h, x, y + h - d]
+    } else {
+      d = h / tan
+      ret = [x + w, y + h, x + w - d, y]
     }
-    d = h / tan
-    return [x + w, y + h, x + w - d, y]
   } else if(angle >= 270 && angle < 360) {
     const tan = Math.tan(Math.PI * (angle - 270) / 180)
 
     let d = tan * h
 
     if(d <= w) {
-      return [x, y + h, x + d, y]
+      ret = [x, y + h, x + d, y]
+    } else {
+      d = w / tan
+      ret = [x, y + h, x + w, y + h - d]
     }
-    d = w / tan
-    return [x, y + h, x + w, y + h - d]
   }
 
-  return [x, y, x + w, y + h]
+  return ret
 }
 
 export function findColor(context, sprite, prop) {
