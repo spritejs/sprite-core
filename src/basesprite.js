@@ -343,7 +343,8 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originRect
     if(!canuseCache) {
       context.translate(bound[0], bound[1])
-    } else if(!context) {
+    }
+    if(!context) {
       context = copyContext(drawingContext, bound[2], bound[3])
     }
 
