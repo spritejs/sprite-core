@@ -4,6 +4,8 @@ checks:
     enabled: true
     config:
       threshold: 50
+  method-count:
+    enabled: false
 exclude_patterns:
 - "config/"
 - "db/"
