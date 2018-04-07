@@ -343,9 +343,7 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originRect
     if(!canuseCache) {
       context.translate(bound[0], bound[1])
-    }
-
-    if(!context) {
+    } else if(!context) {
       context = copyContext(drawingContext, bound[2], bound[3])
     }
 
@@ -357,8 +355,7 @@ export default class BaseSprite extends BaseNode {
       if(canuseCache) this.cache = context
       context = this.render(t, context)
     }
-
-    if(context !== drawingContext) {
+    if(canuseCache) {
       drawingContext.drawImage(context.canvas, bound[0], bound[1])
     }
     this.dispatchEvent('afterdraw', evtArgs, true, true)
