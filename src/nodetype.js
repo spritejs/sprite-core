@@ -1,3 +1,5 @@
+import querySelectorLimits from './helpers/selector'
+
 const nodeTypes = new Map()
 
 const ownerDocumentDescriptor = {
@@ -31,88 +33,78 @@ const elementProto = {
   },
   /*
     d3-friendly
-    *, nodeType, checker
+    *, nodeType, #id, :name, {nodeType: checker}
   */
   querySelector(selector) {
     const children = this.children
 
+    let ret = null
+
     if(!selector || selector === '*') {
-      return children[0]
+      ret = children[0]
     } else if(typeof selector === 'string') {
       // querySelector('nodeType')
       // querySelector('#id')
       // querySelector(':name')
-
       if(selector.startsWith('#')) {
-        return this.getElementById(selector.slice(1))
-      }
-      if(selector.startsWith(':')) {
+        ret = this.getElementById(selector.slice(1))
+      } else if(selector.startsWith(':')) {
         const name = selector.slice(1)
-
-        for(let i = 0; i < children.length; i++) {
-          const child = children[i]
-          if(child.name === name) {
-            return child
-          }
+        const nodeList = querySelectorLimits(children, c => c.name === name, 1)
+        if(nodeList.length) ret = nodeList[0]
+      } else {
+        const nodeType = getNodeType(selector)
+        if(nodeType) {
+          const nodeList = querySelectorLimits(children, c => c instanceof nodeType, 1)
+          if(nodeList.length) ret = nodeList[0]
         }
-        return null
       }
-      const nodeType = getNodeType(selector)
-      if(nodeType) {
-        for(let i = 0; i < children.length; i++) {
-          const child = children[i]
-          if(child instanceof nodeType) {
-            return child
-          }
+    } else {
+      /*
+        {
+          nodeType: () => {...},   //checker
         }
-        return null
-      }
-      return null
+      */
+      const nodeList = querySelectorLimits(children, (child) => {
+        return Object.entries(selector).some(([type, checker]) => {
+          const nodeType = getNodeType(type)
+          return nodeType && child instanceof nodeType && checker.call(this, child)
+        })
+      }, 1)
+      if(nodeList.length) ret = nodeList[0]
     }
-    for(let i = 0; i < children.length; i++) {
-      const child = children[i]
-      const sel = Object.entries(selector)
-      for(let j = 0; j < sel.length; j++) {
-        const [type, checker] = sel[j]
-        const nodeType = getNodeType(type)
-        if(nodeType && child instanceof nodeType && checker.call(this, child)) {
-          return child
-        }
-      }
-    }
-    return null
+    return ret
   },
   querySelectorAll(selector) {
+    let ret = []
+    const children = this.children
+
     if(!selector || selector === '*') {
-      return this.children
+      ret = [...children]
     } else if(typeof selector === 'string') {
       if(selector.startsWith('#')) {
         const sprite = this.getElementById(selector.slice(1))
-        return sprite ? [sprite] : []
+        ret = sprite ? [sprite] : []
       }
       if(selector.startsWith(':')) {
-        return this.getElementsByName(selector.slice(1))
+        ret = this.getElementsByName(selector.slice(1))
       }
       const nodeType = getNodeType(selector)
       if(nodeType) {
-        return this.children.filter(child => child instanceof nodeType)
+        ret = querySelectorLimits(children, c => c instanceof nodeType)
       }
-      return null
+    } else {
+      ret = querySelectorLimits(children, (child) => {
+        return Object.entries(selector).some(([type, checker]) => {
+          const nodeType = getNodeType(type)
+          if(!nodeType || !(child instanceof nodeType)) {
+            return false
+          }
+          return checker.call(this, child)
+        })
+      })
     }
-    return this.children.filter((child) => {
-      const sel = Object.entries(selector)
-      for(let i = 0; i < sel.length; i++) {
-        const [type, checker] = sel[i]
-        const nodeType = getNodeType(type)
-        if(!nodeType || !(child instanceof nodeType)) {
-          return false
-        }
-        if(!checker.call(this, child)) {
-          return false
-        }
-      }
-      return true
-    })
+    return ret
   },
 }
 
