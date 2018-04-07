@@ -5,7 +5,7 @@ import Animation from './animation'
 import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
-import {drawRadiusBox, findColor} from './helpers/render'
+import {drawRadiusBox, findColor, copyContext} from './helpers/render'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations')
@@ -346,13 +346,12 @@ export default class BaseSprite extends BaseNode {
     }
 
     if(!context) {
-      const cacheCanvas = drawingContext.canvas.cloneNode()
-      cacheCanvas.width = bound[2]
-      cacheCanvas.height = bound[3]
-      context = cacheCanvas.getContext('2d')
+      context = copyContext(drawingContext, bound[2], bound[3])
     }
 
-    this.dispatchEvent('beforedraw', {context, target: this, renderTime: t}, true, true)
+    const evtArgs = {context, target: this, renderTime: t}
+
+    this.dispatchEvent('beforedraw', evtArgs, true, true)
     if(this.cache !== context) {
       // set cache before render for group
       if(canuseCache) this.cache = context
@@ -362,16 +361,10 @@ export default class BaseSprite extends BaseNode {
     if(context !== drawingContext) {
       drawingContext.drawImage(context.canvas, bound[0], bound[1])
     }
-    this.dispatchEvent('afterdraw', {context, target: this, renderTime: t}, true, true)
+    this.dispatchEvent('afterdraw', evtArgs, true, true)
     drawingContext.restore()
 
-    this.dispatchEvent(
-      'update',
-      {
-        target: this, context, renderBox: this.renderBox, lastRenderBox: this.lastRenderBox,
-      },
-      true, true
-    )
+    this.dispatchEvent('update', evtArgs, true, true)
     this.lastRenderBox = this.renderBox
 
     return drawingContext

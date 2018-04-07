@@ -102,3 +102,15 @@ export function findColor(context, sprite, prop) {
   }
   return sprite.attr('border')[1]
 }
+
+export function copyContext(context, width, height) {
+  const canvas = context.canvas
+  if(!canvas || !canvas.cloneNode) {
+    throw new Error('Cannot copy this context!')
+  }
+  const copied = canvas.cloneNode()
+  if(width != null) copied.width = width
+  if(height != null) copied.height = height
+
+  return copied.getContext('2d')
+}
