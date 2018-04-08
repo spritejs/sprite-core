@@ -255,9 +255,10 @@ export default class Layer extends BaseNode {
     if(shadowContext) {
       shadowContext.save()
       shadowContext.beginPath()
+    } else {
+      outputContext.save()
+      outputContext.beginPath()
     }
-    outputContext.save()
-    outputContext.beginPath()
 
     clearDirtyRects({shadowContext, outputContext}, updateEls, true)
 
@@ -267,16 +268,17 @@ export default class Layer extends BaseNode {
     if(shadowContext) {
       shadowContext.clip()
       shadowContext.clearRect(0, 0, width, height)
+    } else {
+      outputContext.clip()
+      outputContext.clearRect(0, 0, width, height)
     }
-
-    outputContext.clip()
-    outputContext.clearRect(0, 0, width, height)
 
     const renderEls = [...updateSet, ...affectedSet]
     sortOrderedSprites(renderEls)
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
+      outputContext.clearRect(0, 0, width, height)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
       shadowContext.restore()
     }
