@@ -8,6 +8,7 @@ export default class BaseNode {
   on(type, handler) {
     this[_eventHandlers][type] = this[_eventHandlers][type] || []
     this[_eventHandlers][type].push(handler)
+    return this
   }
   off(type, handler) {
     if(handler && this[_eventHandlers][type]) {
@@ -19,6 +20,7 @@ export default class BaseNode {
     } else {
       delete this[_eventHandlers][type]
     }
+    return this
   }
   // d3-friendly
   addEventListener(type, handler) {

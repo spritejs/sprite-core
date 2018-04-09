@@ -2070,6 +2070,7 @@ var BaseNode = function () {
     value: function on(type, handler) {
       this[_eventHandlers][type] = this[_eventHandlers][type] || [];
       this[_eventHandlers][type].push(handler);
+      return this;
     }
   }, {
     key: 'off',
@@ -2083,6 +2084,7 @@ var BaseNode = function () {
       } else {
         delete this[_eventHandlers][type];
       }
+      return this;
     }
     // d3-friendly
 
