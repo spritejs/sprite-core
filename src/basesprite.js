@@ -262,7 +262,7 @@ export default class BaseSprite extends BaseNode {
 
     return vertices.map((v) => {
       const [x, y] = transform.transformPoint(v[0], v[1])
-      return [Math.round(x0 + x), Math.round(y0 + y)]
+      return [x0 + x, y0 + y]
     })
   }
 
