@@ -6460,7 +6460,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
           width = _val6[0],
           color = _val6[1];
 
-      this.set('border', [width, (0, _spriteUtils.parseColorString)(color || '#000')]);
+      this.set('border', [(0, _spriteUtils.parseStringInt)(width), (0, _spriteUtils.parseColorString)(color || '#000')]);
     }
   }, {
     key: 'padding',

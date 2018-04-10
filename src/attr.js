@@ -202,7 +202,7 @@ class SpriteAttr {
       val = [val]
     }
     const [width, color] = val
-    this.set('border', [width, parseColorString(color || '#000')])
+    this.set('border', [parseStringInt(width), parseColorString(color || '#000')])
   }
 
   @attr
