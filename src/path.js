@@ -147,14 +147,8 @@ export default class Path extends BaseSprite {
   }
 
   get pathOffset() {
-    const [borderWidth] = this.attr('border')
-    const padding = this.attr('padding')
     const lineWidth = this.attr('lineWidth')
-
-    const padLeft = borderWidth + padding[3] + lineWidth * 1.414,
-      padTop = borderWidth + padding[0] + lineWidth * 1.414
-
-    return [padLeft, padTop]
+    return [lineWidth * 1.414, lineWidth * 1.414]
   }
 
   get pathSize() {

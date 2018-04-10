@@ -189,15 +189,10 @@ export default class Sprite extends BaseSprite {
     const textures = this.textures
 
     if(this.images) {
-      const attr = this.attr(),
-        borderWidth = attr.border[0]
-
       textures.forEach((texture, i) => {
         const img = this.images[i]
         const rect = (texture.rect || [0, 0, ...this.innerSize]).slice(0)
         const srcRect = texture.srcRect
-        rect[0] += borderWidth
-        rect[1] += borderWidth
 
         context.save()
 

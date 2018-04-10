@@ -800,7 +800,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       drawingContext.restore();
 
-      drawingContext.translate(attr.padding[0], attr.padding[3]);
+      drawingContext.translate(borderWidth + attr.padding[0], borderWidth + attr.padding[3]);
 
       return drawingContext;
     }
@@ -1644,10 +1644,6 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _assign = __webpack_require__(2);
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -1818,8 +1814,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
               offsetY = evt.offsetY;
 
           var rect = this.originalRect;
-          var pathOffset = this.pathOffset;
-          evt.isInClip = this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1]);
+          evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
         }
         return true;
       }
@@ -1864,7 +1859,6 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       var clipPath = this.attr('clip');
       if (clipPath) {
         context.save();
-        context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
         this.svg.beginPath().to(context);
         context.restore();
         context.clip();
@@ -1886,26 +1880,12 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       return this[_children];
     }
   }, {
-    key: 'pathOffset',
-    get: function get() {
-      var _attr = this.attr('border'),
-          _attr2 = (0, _slicedToArray3.default)(_attr, 1),
-          borderWidth = _attr2[0];
-
-      var padding = this.attr('padding');
-
-      var padLeft = borderWidth + padding[3],
-          padTop = borderWidth + padding[0];
-
-      return [padLeft, padTop];
-    }
-  }, {
     key: 'contentSize',
     get: function get() {
-      var _attr3 = this.attr('size'),
-          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
-          width = _attr4[0],
-          height = _attr4[1];
+      var _attr = this.attr('size'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
+          width = _attr2[0],
+          height = _attr2[1];
 
       if (width === '' || height === '') {
         if (this.attr('clip')) {
@@ -4027,10 +4007,6 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
 
         context.textBaseline = 'middle';
 
-        var _attr = this.attr('border'),
-            _attr2 = (0, _slicedToArray3.default)(_attr, 1),
-            borderWidth = _attr2[0];
-
         var strokeColor = (0, _render.findColor)(context, this, 'strokeColor');
         if (strokeColor) {
           context.strokeStyle = strokeColor;
@@ -4045,12 +4021,11 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
           fillColor = (0, _spriteUtils.parseColorString)('black');
         }
 
-        var top = borderWidth;
+        var top = 0,
+            left = 0;
         var width = this.contentSize[0];
 
         lines.forEach(function (line) {
-          var left = borderWidth;
-
           var _measureText3 = measureText(_this3, line, font, attr.lineHeight),
               _measureText4 = (0, _slicedToArray3.default)(_measureText3, 2),
               w = _measureText4[0],
@@ -4089,10 +4064,10 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'contentSize',
     get: function get() {
-      var _attr3 = this.attr('size'),
-          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
-          width = _attr4[0],
-          height = _attr4[1];
+      var _attr = this.attr('size'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
+          width = _attr2[0],
+          height = _attr2[1];
 
       var boxSize = this.attr('textboxSize');
 
@@ -4963,17 +4938,8 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'pathOffset',
     get: function get() {
-      var _attr = this.attr('border'),
-          _attr2 = (0, _slicedToArray3.default)(_attr, 1),
-          borderWidth = _attr2[0];
-
-      var padding = this.attr('padding');
       var lineWidth = this.attr('lineWidth');
-
-      var padLeft = borderWidth + padding[3] + lineWidth * 1.414,
-          padTop = borderWidth + padding[0] + lineWidth * 1.414;
-
-      return [padLeft, padTop];
+      return [lineWidth * 1.414, lineWidth * 1.414];
     }
   }, {
     key: 'pathSize',
@@ -4987,10 +4953,10 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
 
       var bounds = this.svg.bounds;
 
-      var _attr3 = this.attr('size'),
-          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
-          width = _attr4[0],
-          height = _attr4[1];
+      var _attr = this.attr('size'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
+          width = _attr2[0],
+          height = _attr2[1];
 
       var lineWidth = this.attr('lineWidth');
 
@@ -5263,15 +5229,10 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
       var textures = this.textures;
 
       if (this.images) {
-        var _attr3 = this.attr(),
-            borderWidth = _attr3.border[0];
-
         textures.forEach(function (texture, i) {
           var img = _this4.images[i];
           var rect = (texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize))).slice(0);
           var srcRect = texture.srcRect;
-          rect[0] += borderWidth;
-          rect[1] += borderWidth;
 
           context.save();
 
@@ -5336,10 +5297,10 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'contentSize',
     get: function get() {
-      var _attr4 = this.attr('size'),
-          _attr5 = (0, _slicedToArray3.default)(_attr4, 2),
-          width = _attr5[0],
-          height = _attr5[1];
+      var _attr3 = this.attr('size'),
+          _attr4 = (0, _slicedToArray3.default)(_attr3, 2),
+          width = _attr4[0],
+          height = _attr4[1];
 
       var boxSize = this.attr('texturesSize');
 

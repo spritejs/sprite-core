@@ -158,8 +158,6 @@ export default class Label extends BaseSprite {
 
       context.textBaseline = 'middle'
 
-      const [borderWidth] = this.attr('border')
-
       const strokeColor = findColor(context, this, 'strokeColor')
       if(strokeColor) {
         context.strokeStyle = strokeColor
@@ -174,11 +172,11 @@ export default class Label extends BaseSprite {
         fillColor = parseColorString('black')
       }
 
-      let top = borderWidth
+      let top = 0,
+        left = 0
       const width = this.contentSize[0]
 
       lines.forEach((line) => {
-        let left = borderWidth
         const [w, h] = measureText(this, line, font, attr.lineHeight)
 
         if(align === 'center') {
