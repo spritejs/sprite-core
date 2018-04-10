@@ -6783,9 +6783,26 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       return this.attr('path');
     }
   }, {
+    key: 'lineWidth',
+    get: function get() {
+      var lineWidth = this.attr('lineWidth'),
+          gradients = this.attr('gradients'),
+          fillColor = this.attr('fillColor'),
+          strokeColor = this.attr('strokeColor');
+
+      var hasStrokeColor = strokeColor || gradients && gradients.strokeColor,
+          hasFillColor = fillColor || gradients && gradients.fillColor;
+
+      if (!hasStrokeColor && hasFillColor) {
+        // fill: ignore stroke
+        return 0;
+      }
+      return lineWidth;
+    }
+  }, {
     key: 'pathOffset',
     get: function get() {
-      var lineWidth = this.attr('lineWidth');
+      var lineWidth = this.lineWidth;
       return [lineWidth * 1.414, lineWidth * 1.414];
     }
   }, {
@@ -6805,7 +6822,7 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           width = _attr2[0],
           height = _attr2[1];
 
-      var lineWidth = this.attr('lineWidth');
+      var lineWidth = this.lineWidth;
 
       if (width === '') {
         width = bounds[2] + 2 * 1.414 * lineWidth | 0;

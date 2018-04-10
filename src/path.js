@@ -146,8 +146,24 @@ export default class Path extends BaseSprite {
     return []
   }
 
+  get lineWidth() {
+    const lineWidth = this.attr('lineWidth'),
+      gradients = this.attr('gradients'),
+      fillColor = this.attr('fillColor'),
+      strokeColor = this.attr('strokeColor')
+
+    const hasStrokeColor = strokeColor || gradients && gradients.strokeColor,
+      hasFillColor = fillColor || gradients && gradients.fillColor
+
+    if(!hasStrokeColor && hasFillColor) {
+      // fill: ignore stroke
+      return 0
+    }
+    return lineWidth
+  }
+
   get pathOffset() {
-    const lineWidth = this.attr('lineWidth')
+    const lineWidth = this.lineWidth
     return [lineWidth * 1.414, lineWidth * 1.414]
   }
 
@@ -161,7 +177,7 @@ export default class Path extends BaseSprite {
     const bounds = this.svg.bounds
     let [width, height] = this.attr('size')
 
-    const lineWidth = this.attr('lineWidth')
+    const lineWidth = this.lineWidth
 
     if(width === '') {
       width = bounds[2] + 2 * 1.414 * lineWidth | 0
