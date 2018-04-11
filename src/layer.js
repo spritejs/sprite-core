@@ -239,10 +239,10 @@ export default class Layer extends BaseNode {
 
         for(let i = 0; i < unaffectedEls.length; i++) {
           const unaffectedEl = unaffectedEls[i]
-
           if(isSpriteDirty(unaffectedEl, affectedEls)) {
             affectedSet.add(unaffectedEl)
             unaffectedSet.delete(unaffectedEl)
+            changed = true
             break
           }
         }

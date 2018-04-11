@@ -113,7 +113,13 @@ export default class BaseSprite extends BaseNode {
   }
 
   get transform() {
-    return new Matrix(this[_attr].get('transformMatrix'))
+    const transform = new Matrix(this[_attr].get('transformMatrix'))
+    const transformOrigin = this.attr('transformOrigin')
+    const t = new Matrix()
+    t.translate(...transformOrigin)
+    t.multiply(transform)
+    t.translate(...transformOrigin.map(v => -v))
+    return t
   }
 
   animate(frames, timing) {
@@ -202,7 +208,10 @@ export default class BaseSprite extends BaseNode {
       [-anchorX * width, (1 - anchorY) * height],
       [(1 - anchorX) * width, (1 - anchorY) * height]]
 
-    const transformed = vertexs.map(v => transform.transformPoint(v[0], v[1]))
+    const transformed = vertexs.map((v) => {
+      return transform.transformPoint(v[0], v[1])
+    })
+
     const vx = transformed.map(v => v[0]),
       vy = transformed.map(v => v[1])
 

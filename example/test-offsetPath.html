@@ -247,6 +247,9 @@
       font: '36px Arial',
       border: [10, 'blue'],
       opacity: 0.3,
+      transformOrigin: [0, 100],
+      // bgcolor: 'red',
+      rotate: 100,
       linearGradients: {
         fillColor: {
           direction: 135,
@@ -262,6 +265,19 @@
     })
 
     layer.append(label)
+    
+    // const rect = label.renderRect
+    // const sss = new Sprite()
+    // sss.attr({
+    //   size: [rect[2], rect[3]],
+    //   pos: [rect[0], rect[1]],
+    //   bgcolor: 'red',
+    //   zIndex: 1000,
+    //   opacity: 0.3,
+    // })
+    // layer.append(sss)
+
+    // console.log(label.renderBox, sss.renderBox)
 
     label.animate([
       {rotate: 0},
@@ -272,6 +288,7 @@
     })
 
     s.on('update', evt => {
+      // console.log(label.renderRect)
       if(s.OBBCollision(label)){
         label.attr('opacity', 0.7)
       } else {

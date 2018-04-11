@@ -26,6 +26,7 @@ class SpriteAttr {
       translate: [0, 0],
       skew: [0, 0],
       transform: 'matrix(1,0,0,1,0,0)',
+      transformOrigin: [0, 0],
       transformMatrix: [1, 0, 0, 1, 0, 0],
       border: [0, 'rgba(0,0,0,0)'],
       borderRadius: 0,
@@ -254,6 +255,11 @@ class SpriteAttr {
 
       this.set('transform', transformStr.join(' '))
     }
+  }
+
+  @attr
+  set transformOrigin(val) {
+    this.set('transformOrigin', val)
   }
 
   @attr
