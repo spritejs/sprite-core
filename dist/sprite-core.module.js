@@ -2664,17 +2664,26 @@ var Timeline = function () {
 
       var timer = this[_timers].get(id);
       var delay = void 0,
-          timerID = null;
+          timerID = null,
+          startTime = void 0,
+          startEntropy = void 0;
 
       if (timer) {
         this.clearTimeout(id);
         if (time.isEntropy) {
           delay = (time.delay - (this.entropy - timer.startEntropy)) / Math.abs(this.playbackRate);
-        } else {
+        } else if (this.playbackRate >= 0) {
           delay = (time.delay - (this.currentTime - timer.startTime)) / this.playbackRate;
+        } else {
+          // playbackRate < 0, back to startPoint
+          delay = (timer.startTime - this.currentTime) / this.playbackRate;
         }
+        startTime = timer.startTime;
+        startEntropy = timer.startEntropy;
       } else {
         delay = time.delay / (time.isEntropy ? Math.abs(this.playbackRate) : this.playbackRate);
+        startTime = this.currentTime;
+        startEntropy = this.entropy;
       }
 
       // if playbackRate is zero, delay will be infinity.
@@ -2698,8 +2707,8 @@ var Timeline = function () {
         timerID: timerID,
         handler: handler,
         time: time,
-        startTime: this.currentTime,
-        startEntropy: this.entropy
+        startTime: startTime,
+        startEntropy: startEntropy
       });
 
       return id;
@@ -7425,7 +7434,7 @@ var _default = function () {
           _this2[_readyDefer].resolve();
           assert(_this2.playState === 'running' || _this2.playState === 'finished', 'An error occured: ' + _this2.playState);
           delete _this2[_readyDefer];
-        }, { entropy: -this.timeline.entropy });
+        }, { delay: -this.timeline.entropy });
       }
     }
   }, {
@@ -7441,7 +7450,7 @@ var _default = function () {
       if (this[_finishedDefer] && !this[_finishedDefer].timerID) {
         this[_finishedDefer].timerID = this.timeline.setTimeout(function () {
           _this3[_finishedDefer].resolve();
-        }, { entropy: duration * iterations + endDelay - this.timeline.entropy });
+        }, { delay: duration * iterations + endDelay - this.timeline.entropy });
       }
     }
   }, {
