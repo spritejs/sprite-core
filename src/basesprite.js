@@ -115,11 +115,14 @@ export default class BaseSprite extends BaseNode {
   get transform() {
     const transform = new Matrix(this[_attr].get('transformMatrix'))
     const transformOrigin = this.attr('transformOrigin')
-    const t = new Matrix()
-    t.translate(...transformOrigin)
-    t.multiply(transform)
-    t.translate(...transformOrigin.map(v => -v))
-    return t
+    if(transformOrigin) {
+      const t = new Matrix()
+      t.translate(...transformOrigin)
+      t.multiply(transform)
+      t.translate(...transformOrigin.map(v => -v))
+      return t
+    }
+    return transform
   }
 
   animate(frames, timing) {

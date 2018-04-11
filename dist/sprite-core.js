@@ -1395,13 +1395,16 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     get: function get() {
       var transform = new _spriteMath.Matrix(this[_attr].get('transformMatrix'));
       var transformOrigin = this.attr('transformOrigin');
-      var t = new _spriteMath.Matrix();
-      t.translate.apply(t, (0, _toConsumableArray3.default)(transformOrigin));
-      t.multiply(transform);
-      t.translate.apply(t, (0, _toConsumableArray3.default)(transformOrigin.map(function (v) {
-        return -v;
-      })));
-      return t;
+      if (transformOrigin) {
+        var t = new _spriteMath.Matrix();
+        t.translate.apply(t, (0, _toConsumableArray3.default)(transformOrigin));
+        t.multiply(transform);
+        t.translate.apply(t, (0, _toConsumableArray3.default)(transformOrigin.map(function (v) {
+          return -v;
+        })));
+        return t;
+      }
+      return transform;
     }
   }, {
     key: 'contentSize',
@@ -8039,7 +8042,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       translate: [0, 0],
       skew: [0, 0],
       transform: 'matrix(1,0,0,1,0,0)',
-      transformOrigin: [0, 0],
+      transformOrigin: '',
       transformMatrix: [1, 0, 0, 1, 0, 0],
       border: [0, 'rgba(0,0,0,0)'],
       borderRadius: 0,
