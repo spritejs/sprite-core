@@ -11497,7 +11497,7 @@ var _default = function () {
         // 开始 pending
         state = 'pending';
       } else {
-        var ed = timeline.entropy - iterations * duration;
+        var ed = timeline.currentTime - iterations * duration;
         if (ed > 0 && ed < endDelay) {
           // 结束 pending
           state = 'pending';
