@@ -2520,7 +2520,8 @@ var Timeline = function () {
       globalTime: this.globalTime,
       localTime: -options.originTime,
       entropy: -options.originTime,
-      playbackRate: options.playbackRate
+      playbackRate: options.playbackRate,
+      globalEntropy: 0
     }];
 
     if (this[_parent]) {
@@ -2734,11 +2735,9 @@ var Timeline = function () {
         entropy: this.entropy,
         playbackRate: this.playbackRate
       };
-
       if (this[_parent]) {
         timeMark.globalEntropy = this[_parent].entropy;
       }
-
       this[_timeMark].push(timeMark);
     }
     // Both currentTime and entropy should be influenced by playbackRate.
@@ -2766,13 +2765,16 @@ var Timeline = function () {
     set: function set(entropy) {
       var idx = this.seekTimeMark(entropy);
       this[_timeMark].length = idx + 1;
-
-      this[_timeMark].push({
+      var timeMark = {
         globalTime: this.globalTime,
         localTime: this.currentTime,
         entropy: entropy,
         playbackRate: this.playbackRate
-      });
+      };
+      if (this[_parent]) {
+        timeMark.globalEntropy = this[_parent].entropy;
+      }
+      this[_timeMark].push(timeMark);
     }
   }, {
     key: 'globalTime',
@@ -7449,6 +7451,8 @@ var _default = function () {
 
       if (this[_finishedDefer] && !this[_finishedDefer].timerID) {
         this[_finishedDefer].timerID = this.timeline.setTimeout(function () {
+          _this3.timeline.entropy = Infinity;
+          _this3.timeline.currentTime = duration * iterations + endDelay;
           _this3[_finishedDefer].resolve();
         }, { delay: duration * iterations + endDelay - this.timeline.entropy });
       }
@@ -7503,7 +7507,13 @@ var _default = function () {
   }, {
     key: 'finish',
     value: function finish() {
+      var _timing4 = this[_timing],
+          duration = _timing4.duration,
+          iterations = _timing4.iterations,
+          endDelay = _timing4.endDelay;
+
       this.timeline.entropy = Infinity;
+      this.timeline.currentTime = duration * iterations + endDelay;
       this[_removeDefer](_readyDefer);
       this[_removeDefer](_finishedDefer, true);
     }
@@ -7527,10 +7537,10 @@ var _default = function () {
     key: 'playState',
     get: function get() {
       var timeline = this.timeline,
-          _timing4 = this[_timing],
-          iterations = _timing4.iterations,
-          duration = _timing4.duration,
-          endDelay = _timing4.endDelay;
+          _timing5 = this[_timing],
+          iterations = _timing5.iterations,
+          duration = _timing5.duration,
+          endDelay = _timing5.endDelay;
 
       var state = 'running';
 
@@ -7555,9 +7565,9 @@ var _default = function () {
   }, {
     key: 'progress',
     get: function get() {
-      var _timing5 = this[_timing],
-          duration = _timing5.duration,
-          iterations = _timing5.iterations;
+      var _timing6 = this[_timing],
+          duration = _timing6.duration,
+          iterations = _timing6.iterations;
 
       var timeline = this.timeline,
           entropy = timeline ? timeline.entropy : 0,
