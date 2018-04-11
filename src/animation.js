@@ -126,8 +126,8 @@ export default class extends Animator {
           that.cancel()
           return
         }
-        if(that.playState === 'idle') return
         sprite.attr(that.frame)
+        if(that.playState === 'idle') return
         if(that.playState === 'running') {
           requestAnimationFrame(update)
         } else if(that.playState === 'paused') {
