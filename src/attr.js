@@ -8,30 +8,6 @@ const _attr = Symbol('attr'),
   _subject = Symbol('subject'),
   _default = Symbol('default')
 
-function isEqual(value1, value2) {
-  if(value1 == null && value2 == null) {
-    return true
-  }
-  const type = typeof value1
-  if((type === 'string' || type === 'number' || type === 'boolean') && value1 === value2) {
-    // primitive equal
-    return true
-  }
-  if(Array.isArray(value1) && Array.isArray(value2)) {
-    if(value1.length !== value2.length) {
-      return false
-    }
-    for(let i = 0; i < value1.length; i++) {
-      const type = typeof value1[i]
-      // nested array or object members, return false
-      if(type !== 'string' && type !== 'number' && type !== 'boolean') return false
-      if(value1[i] !== value2[i]) return false
-    }
-    return true
-  }
-  return false
-}
-
 class SpriteAttr {
   constructor(subject) {
     this[_subject] = subject
@@ -99,22 +75,22 @@ class SpriteAttr {
   quietSet(key, val) {
     this[_attr][key] = val
   }
-  set(key, val, clearCache = false) {
+  set(key, val) {
     if(val == null) {
       val = this[_default][key]
     }
-    if(!isEqual(this[_attr][key], val)) {
-      this[_attr][key] = val
-      this.forceUpdate(clearCache)
-    }
+    this[_attr][key] = val
+    this.forceUpdate()
   }
   get(key) {
     return this[_attr][key]
   }
+  clearCache() {
+    this.subject.cache = null
+    return this
+  }
   forceUpdate(clearCache) {
-    if(this.subject) {
-      this.subject.forceUpdate(clearCache)
-    }
+    this.subject.forceUpdate(clearCache)
     return this
   }
   merge(attrs) {
@@ -153,8 +129,8 @@ class SpriteAttr {
     return this.quietSet('name', String(val))
   }
 
-  @attr
   @parseValue(parseStringFloat, oneOrTwoValues)
+  @attr
   set anchor(val) {
     this.set('anchor', val)
   }
@@ -169,8 +145,8 @@ class SpriteAttr {
     this.set('y', Math.round(val))
   }
 
-  @attr
   @parseValue(parseStringInt)
+  @attr
   set pos(val) {
     if(val == null) {
       val = [0, 0]
@@ -180,10 +156,11 @@ class SpriteAttr {
     this.y = y
   }
 
-  @attr
   @parseValue(parseColorString)
+  @attr
   set bgcolor(val) {
-    this.set('bgcolor', val, true)
+    this.clearCache()
+    this.set('bgcolor', val)
   }
 
   @attr
@@ -193,16 +170,18 @@ class SpriteAttr {
 
   @attr
   set width(val) {
-    this.set('width', Math.round(val), true)
+    this.clearCache()
+    this.set('width', Math.round(val))
   }
 
   @attr
   set height(val) {
-    this.set('height', Math.round(val), true)
+    this.clearCache()
+    this.set('height', Math.round(val))
   }
 
-  @attr
   @parseValue(parseStringInt)
+  @attr
   set size(val) {
     if(val == null) {
       val = ['', '']
@@ -214,27 +193,30 @@ class SpriteAttr {
 
   @attr
   set border(val) {
+    this.clearCache()
     if(!Array.isArray(val)) {
       val = [val]
     }
     const [width, color] = val
-    this.set('border', [parseInt(width, 10), parseColorString(color || '#000')], true)
+    this.set('border', [parseInt(width, 10), parseColorString(color || '#000')])
   }
 
-  @attr
   @parseValue(parseStringInt, fourValuesShortCut)
+  @attr
   set padding(val) {
-    this.set('padding', val, true)
+    this.clearCache()
+    this.set('padding', val)
   }
 
   @attr
   set borderRadius(val) {
-    this.set('borderRadius', val, true)
+    this.clearCache()
+    this.set('borderRadius', val)
   }
 
   // transform attributes
-  @attr
   @parseValue(parseStringTransform)
+  @attr
   set transform(val) {
     /*
       rotate: 0,
@@ -342,8 +324,8 @@ class SpriteAttr {
       }
     }
    */
-  @attr
   @deprecate('Instead use attr.gradients.')
+  @attr
   set linearGradients(val) {
     this.gradients = val
   }
@@ -363,7 +345,8 @@ class SpriteAttr {
    */
   @attr
   set gradients(val) {
-    this.set('gradients', val, true)
+    this.clearCache()
+    this.set('gradients', val)
   }
 
   resetOffset() {

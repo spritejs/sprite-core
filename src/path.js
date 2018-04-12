@@ -37,13 +37,14 @@ class PathSpriteAttr extends BaseSprite.Attr {
   }
   @attr
   set path(val) {
+    this.clearCache()
     if(val) {
       val = typeof val === 'string' ? {d: val} : val
       this.subject.svg = createSvgPath(val)
-      this.set('path', val, true)
+      this.set('path', val)
     } else {
       this.subject.svg = null
-      this.set('path', null, true)
+      this.set('path', null)
     }
   }
 
@@ -63,7 +64,8 @@ class PathSpriteAttr extends BaseSprite.Attr {
 
   @attr
   set lineWidth(val) {
-    this.set('lineWidth', Math.round(val), true)
+    this.clearCache()
+    this.set('lineWidth', Math.round(val))
   }
 
   /**
@@ -71,7 +73,8 @@ class PathSpriteAttr extends BaseSprite.Attr {
    */
   @attr
   set lineCap(val) {
-    this.set('lineCap', val, true)
+    this.clearCache()
+    this.set('lineCap', val)
   }
 
   /**
@@ -79,21 +82,24 @@ class PathSpriteAttr extends BaseSprite.Attr {
    */
   @attr
   set lineJoin(val) {
-    this.set('lineJoin', val, true)
+    this.clearCache()
+    this.set('lineJoin', val)
   }
 
   @attr
   set strokeColor(val) {
-    this.set('strokeColor', parseColorString(val), true)
+    this.clearCache()
+    this.set('strokeColor', parseColorString(val))
   }
 
   @attr
   set fillColor(val) {
-    this.set('fillColor', parseColorString(val), true)
+    this.clearCache()
+    this.set('fillColor', parseColorString(val))
   }
 
-  @attr
   @deprecate('Instead use strokeColor.')
+  @attr
   set color(val) {
     this.strokeColor = val
   }

@@ -58,31 +58,35 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 
   @attr
   set text(val) {
+    this.clearCache()
     val = String(val)
-    this.set('textboxSize', '', true)
-    this.set('text', val, true)
+    this.set('textboxSize', '')
+    this.set('text', val)
   }
 
   @attr
   set textboxSize(val) {
-    this.set('textboxSize', val, true)
+    this.set('textboxSize', val)
   }
 
   @attr
   set font(val) {
+    this.clearCache()
     this.set('textboxSize', '')
-    this.set('font', val, true)
+    this.set('font', val)
   }
 
   @attr
   set lineHeight(val) {
+    this.clearCache()
     this.set('textboxSize', '')
-    this.set('lineHeight', val, true)
+    this.set('lineHeight', val)
   }
 
   @attr
   set textAlign(val) {
-    this.set('textAlign', val, true)
+    this.clearCache()
+    this.set('textAlign', val)
   }
 
   @attr
@@ -92,12 +96,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 
   @attr
   set strokeColor(val) {
-    this.set('strokeColor', parseColorString(val), true)
+    this.clearCache()
+    this.set('strokeColor', parseColorString(val))
   }
 
   @attr
   set fillColor(val) {
-    this.set('fillColor', parseColorString(val), true)
+    this.clearCache()
+    this.set('fillColor', parseColorString(val))
   }
 }
 
