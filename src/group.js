@@ -16,14 +16,13 @@ class GroupAttr extends BaseSprite.Attr {
 
   @attr
   set clip(val) {
-    this.clearCache()
     if(val) {
       val = typeof val === 'string' ? {d: val} : val
       this.subject.svg = createSvgPath(val)
-      this.set('clip', val)
+      this.set('clip', val, true)
     } else {
       this.subject.svg = null
-      this.set('clip', null)
+      this.set('clip', null, true)
     }
   }
 }
