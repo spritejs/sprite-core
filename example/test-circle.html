@@ -50,31 +50,31 @@
     }
 
     Circle.defineAttributes({
-      init() {
-        this.setDefault({
+      init(attr) {
+        attr.setDefault({
           r: 0,
           fillColor: '',
           strokeColor: '',
           lineWidth: 0,
         })
       },
-      r(val) {
-        this.clearCache()
-        this.set('r', val)
+      r(attr, val) {
+        attr.clearCache()
+        attr.set('r', val)
       },
-      fillColor(color) {
-        this.clearCache()
+      fillColor(attr, color) {
+        attr.clearCache()
         color = new Color(color).str
-        this.set('fillColor', color)
+        attr.set('fillColor', color)
       },
-      strokeColor(color) {
-        this.clearCache()
+      strokeColor(attr, color) {
+        attr.clearCache()
         color = new Color(color).str
-        this.set('strokeColor', color)
+        attr.set('strokeColor', color)
       },
-      lineWidth(val) {
-        this.clearCache()
-        this.set('lineWidth', val)
+      lineWidth(attr, val) {
+        attr.clearCache()
+        attr.set('lineWidth', val)
       }
     })
 

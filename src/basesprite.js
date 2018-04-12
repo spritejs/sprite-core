@@ -35,17 +35,16 @@ export default class BaseSprite extends BaseNode {
     this.Attr = class extends this.Attr {
       constructor(subject) {
         super(subject)
-        attrs.init.call(this)
+        attrs.init(this, subject)
       }
     }
-
     Object.entries(attrs).forEach(([prop, handler]) => {
       if(prop !== 'init') {
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
             const oldVal = this.get(prop)
             if(!isPropEqual(oldVal, val)) {
-              handler.call(this, val)
+              handler(this, val)
             }
           },
           get() {
