@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const BaseSprite = spritejs.BaseSprite,
+      Color = spritejs.Color
+
+    const context = document.getElementById('mycanvas').getContext('2d')
+    
+    class Circle extends BaseSprite {
+      get contentSize() {
+        let [width, height] = this.attr('size'),
+          r = this.attr('r'),
+          lineWidth = this.attr('lineWidth')
+
+        if(width === '') {
+          width = r * 2 + lineWidth
+        }
+        if(height === '') {
+          height = r * 2 + lineWidth
+        }
+        return [width, height]
+      }
+      render(t, context) {
+        super.render(t, context)
+        
+        const bounds = this.boundingRect
+        let {strokeColor, fillColor, r, lineWidth} = this.attr()
+        context.lineWidth = lineWidth
+
+        context.beginPath()
+        context.arc(bounds[2] / 2, bounds[3] / 2, r, 0, 2 * Math.PI);
+        if(fillColor) {
+          context.fillStyle = fillColor
+          context.fill()
+        }
+        if(strokeColor && lineWidth) {
+          context.strokeStyle = strokeColor
+          context.stroke()
+        }
+      }
+    }
+
+    Circle.defineAttributes({
+      init() {
+        this.setDefault({
+          r: 0,
+          fillColor: '',
+          strokeColor: '',
+          lineWidth: 0,
+        })
+      },
+      r(val) {
+        this.clearCache()
+        this.set('r', val)
+      },
+      fillColor(color) {
+        this.clearCache()
+        color = new Color(color).str
+        this.set('fillColor', color)
+      },
+      strokeColor(color) {
+        this.clearCache()
+        color = new Color(color).str
+        this.set('strokeColor', color)
+      },
+      lineWidth(val) {
+        this.clearCache()
+        this.set('lineWidth', val)
+      }
+    })
+
+    const s = new Circle({
+      anchor: 0.5,
+      bgcolor: 'hsl(180,50%,50%)',
+      pos: [300, 300],
+      r: 150,
+      lineWidth: 6,
+      strokeColor: 'red',
+      fillColor: 'blue',
+    })
+    s.connect(context).draw()
+    s.on('afterdraw', evt => {
+      // console.log(evt)
+    })
+
+    requestAnimationFrame(function f() {
+      context.clearRect(0, 0, 600, 600)
+      s.draw()
+      requestAnimationFrame(f)
+    })    
+  </script>
+</body>
+</html>

@@ -111,6 +111,12 @@ module.exports = require("babel-runtime/core-js/symbol");
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/entries");
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -132,7 +138,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _entries = __webpack_require__(8);
+var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -311,12 +317,6 @@ function getNodeType(type) {
 }
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/object/entries");
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
@@ -352,6 +352,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty2 = __webpack_require__(58);
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _entries = __webpack_require__(7);
+
+var _entries2 = _interopRequireDefault(_entries);
+
 var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -360,15 +368,15 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _defineProperty2 = __webpack_require__(59);
+var _defineProperty4 = __webpack_require__(60);
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _defineProperty5 = _interopRequireDefault(_defineProperty4);
 
 var _assign = __webpack_require__(2);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _typeof2 = __webpack_require__(60);
+var _typeof2 = __webpack_require__(61);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -422,7 +430,7 @@ var _animation2 = _interopRequireDefault(_animation);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _nodetype = __webpack_require__(7);
+var _nodetype = __webpack_require__(8);
 
 var _render = __webpack_require__(18);
 
@@ -504,7 +512,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         return this;
       } else if (typeof props === 'string') {
         if (val !== undefined) {
-          (0, _assign2.default)(this[_attr], (0, _defineProperty3.default)({}, props, val));
+          (0, _assign2.default)(this[_attr], (0, _defineProperty5.default)({}, props, val));
           return this;
         }
         var attrs = this[_attr].attrs;
@@ -729,7 +737,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // set cache before render for group
         if (!this.cache) {
           this.cache = cachableContext;
-          cachableContext = this.render(t, cachableContext);
+          cachableContext = this.render(t, cachableContext) || cachableContext;
         }
         drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1]);
       } else {
@@ -1009,6 +1017,47 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     get: function get() {
       return this.cacheContext;
     }
+  }], [{
+    key: 'defineAttributes',
+    value: function defineAttributes(attrs) {
+      var _this5 = this;
+
+      this.Attr = function (_Attr) {
+        (0, _inherits3.default)(_class2, _Attr);
+
+        function _class2(subject) {
+          (0, _classCallCheck3.default)(this, _class2);
+
+          var _this4 = (0, _possibleConstructorReturn3.default)(this, (_class2.__proto__ || (0, _getPrototypeOf2.default)(_class2)).call(this, subject));
+
+          attrs.init.call(_this4);
+          return _this4;
+        }
+
+        return _class2;
+      }(this.Attr);
+
+      (0, _entries2.default)(attrs).forEach(function (_ref2) {
+        var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
+            prop = _ref3[0],
+            handler = _ref3[1];
+
+        if (prop !== 'init') {
+          (0, _defineProperty3.default)(_this5.Attr.prototype, prop, {
+            set: function set(val) {
+              var oldVal = this.get(prop);
+              if (!(0, _spriteUtils.isPropEqual)(oldVal, val)) {
+                handler.call(this, val);
+              }
+            },
+            get: function get() {
+              return this.get(prop);
+            }
+          });
+        }
+      });
+      return this.Attr;
+    }
   }]);
   return BaseSprite;
 }(_basenode2.default), _class.Attr = _attr13.default, _temp);
@@ -1047,15 +1096,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
 
-var _effect = __webpack_require__(27);
+var _effect = __webpack_require__(28);
 
 var _effect2 = _interopRequireDefault(_effect);
 
-var _spriteTimeline = __webpack_require__(28);
+var _spriteTimeline = __webpack_require__(29);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(26);
+var _easing = __webpack_require__(27);
 
 var _animator = __webpack_require__(48);
 
@@ -1447,1379 +1496,6 @@ exports.default = BaseNode;
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/promise");
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _assign = __webpack_require__(2);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _get2 = __webpack_require__(10);
-
-var _get3 = _interopRequireDefault(_get2);
-
-var _getOwnPropertyDescriptor = __webpack_require__(16);
-
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
-
-var _getPrototypeOf = __webpack_require__(9);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(3);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(12);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(11);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _symbol = __webpack_require__(6);
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _desc, _value, _class, _class2, _temp;
-
-var _basesprite = __webpack_require__(13);
-
-var _basesprite2 = _interopRequireDefault(_basesprite);
-
-var _nodetype = __webpack_require__(7);
-
-var _spriteUtils = __webpack_require__(5);
-
-var _path = __webpack_require__(24);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _applyDecoratedDescriptor = __webpack_require__(14);
-
-var _children = (0, _symbol2.default)('children'),
-    _zOrder = (0, _symbol2.default)('zOrder');
-
-var GroupAttr = (_class = function (_BaseSprite$Attr) {
-  (0, _inherits3.default)(GroupAttr, _BaseSprite$Attr);
-
-  function GroupAttr(subject) {
-    (0, _classCallCheck3.default)(this, GroupAttr);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GroupAttr.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr)).call(this, subject));
-
-    _this.setDefault({
-      clip: null
-    });
-    return _this;
-  }
-
-  (0, _createClass3.default)(GroupAttr, [{
-    key: 'clip',
-    set: function set(val) {
-      this.clearCache();
-      if (val) {
-        val = typeof val === 'string' ? { d: val } : val;
-        this.subject.svg = (0, _path.createSvgPath)(val);
-        this.set('clip', val);
-      } else {
-        this.subject.svg = null;
-        this.set('clip', null);
-      }
-    }
-  }]);
-  return GroupAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype)), _class);
-var Group = (_temp = _class2 = function (_BaseSprite) {
-  (0, _inherits3.default)(Group, _BaseSprite);
-
-  function Group(attr) {
-    (0, _classCallCheck3.default)(this, Group);
-
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Group.__proto__ || (0, _getPrototypeOf2.default)(Group)).call(this, attr));
-
-    _this2[_children] = [];
-    _this2[_zOrder] = 0;
-    return _this2;
-  }
-
-  (0, _createClass3.default)(Group, [{
-    key: 'appendChild',
-    value: function appendChild(sprite) {
-      var sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-      this[_children].push(sprite);
-      sprite.connect(this, this[_zOrder]++);
-      if (sort) (0, _spriteUtils.sortOrderedSprites)(this[_children]);
-    }
-  }, {
-    key: 'append',
-    value: function append() {
-      var _this3 = this;
-
-      for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
-        sprites[_key] = arguments[_key];
-      }
-
-      sprites.forEach(function (sprite) {
-        return _this3.appendChild(sprite, false);
-      });
-      (0, _spriteUtils.sortOrderedSprites)(this[_children]);
-    }
-  }, {
-    key: 'removeChild',
-    value: function removeChild(sprite) {
-      var idx = this[_children].indexOf(sprite);
-      if (idx === -1) {
-        return null;
-      }
-      this[_children].splice(idx, 1);
-      sprite.disconnect(this);
-      return sprite;
-    }
-  }, {
-    key: 'remove',
-    value: function remove() {
-      var _this4 = this;
-
-      for (var _len2 = arguments.length, sprites = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        sprites[_key2] = arguments[_key2];
-      }
-
-      if (sprites.length === 0) {
-        sprites = this[_children].slice(0);
-      }
-      sprites.forEach(function (sprite) {
-        return _this4.removeChild(sprite);
-      });
-    }
-  }, {
-    key: 'cloneNode',
-    value: function cloneNode(deepCopy) {
-      var node = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'cloneNode', this).call(this);
-      if (deepCopy) {
-        var children = this.children;
-        children.forEach(function (child) {
-          var subNode = child.cloneNode(deepCopy);
-          node.append(subNode);
-        });
-      }
-      return node;
-    }
-  }, {
-    key: 'pointCollision',
-    value: function pointCollision(evt) {
-      if ((0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'pointCollision', this).call(this, evt)) {
-        if (this.svg) {
-          var offsetX = evt.offsetX,
-              offsetY = evt.offsetY;
-
-          var rect = this.originalRect;
-          evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
-        }
-        return true;
-      }
-      return false;
-    }
-  }, {
-    key: 'dispatchEvent',
-    value: function dispatchEvent(type, evt) {
-      var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-      if (!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
-        var parentX = evt.offsetX - this.originalRect[0];
-        var parentY = evt.offsetY - this.originalRect[1];
-        // console.log(evt.parentX, evt.parentY)
-
-        var _evt = (0, _assign2.default)({}, evt);
-        _evt.parentX = parentX;
-        _evt.parentY = parentY;
-
-        var targetSprites = [];
-
-        for (var i = 0; i < this[_children].length && evt.isInClip !== false; i++) {
-          var sprite = this[_children][i];
-          var hit = sprite.dispatchEvent(type, _evt, forceTrigger);
-          if (hit) {
-            targetSprites.push(sprite);
-          }
-          if (evt.terminated && !evt.type.startsWith('mouse')) {
-            break;
-          }
-        }
-
-        evt.targetSprites = targetSprites;
-        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, forceTrigger);
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render(t, drawingContext) {
-      var context = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
-
-      var clipPath = this.attr('clip');
-      if (clipPath) {
-        context.save();
-        this.svg.beginPath().to(context);
-        context.restore();
-        context.clip();
-        context.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
-      }
-
-      var children = this[_children];
-
-      for (var i = 0; i < children.length; i++) {
-        var child = children[i];
-        child.draw(t);
-      }
-
-      return context;
-    }
-  }, {
-    key: 'children',
-    get: function get() {
-      return this[_children];
-    }
-  }, {
-    key: 'contentSize',
-    get: function get() {
-      var _attr = this.attr('size'),
-          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
-          width = _attr2[0],
-          height = _attr2[1];
-
-      if (width === '' || height === '') {
-        if (this.attr('clip')) {
-          var svg = this.svg;
-          var bounds = svg.bounds;
-          width = bounds[2];
-          height = bounds[3];
-        } else {
-          var right = void 0,
-              bottom = void 0;
-
-          right = 0;
-          bottom = 0;
-          this[_children].forEach(function (sprite) {
-            var renderBox = sprite.renderBox;
-            right = Math.max(right, renderBox[2]);
-            bottom = Math.max(bottom, renderBox[3]);
-          });
-          width = right;
-          height = bottom;
-        }
-      }
-      return [width, height];
-    }
-  }]);
-  return Group;
-}(_basesprite2.default), _class2.Attr = GroupAttr, _temp);
-exports.default = Group;
-
-
-(0, _nodetype.registerNodeType)('group', Group, true);
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _entries = __webpack_require__(8);
-
-var _entries2 = _interopRequireDefault(_entries);
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _toArray2 = __webpack_require__(33);
-
-var _toArray3 = _interopRequireDefault(_toArray2);
-
-exports.pathEffect = pathEffect;
-exports.createSvgPath = createSvgPath;
-
-var _sort = __webpack_require__(44);
-
-var _svgPathToCanvas = __webpack_require__(29);
-
-var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _subShapes(shapes, count) {
-  var _loop = function _loop(i) {
-    var shape = shapes[shapes.length - 1];
-    var newShape = [];
-    var x = shape[0][0],
-        y = shape[0][1];
-    shape.forEach(function () {
-      newShape.push([x, y, x, y, x, y, x, y]);
-    });
-
-    shapes.push(newShape);
-  };
-
-  for (var i = 0; i < count; i++) {
-    _loop(i);
-  }
-} // https://github.com/AlloyTeam/pasition
-
-function _upShapes(shapes, count) {
-  var _loop2 = function _loop2(i) {
-    var shape = shapes[shapes.length - 1];
-    var newShape = [];
-
-    shape.forEach(function (curve) {
-      newShape.push(curve.slice(0));
-    });
-    shapes.push(newShape);
-  };
-
-  for (var i = 0; i < count; i++) {
-    _loop2(i);
-  }
-}
-
-function split(x1, y1, x2, y2, x3, y3, x4, y4, t) {
-  return {
-    left: _split(x1, y1, x2, y2, x3, y3, x4, y4, t),
-    right: _split(x4, y4, x3, y3, x2, y2, x1, y1, 1 - t, true)
-  };
-}
-
-function _split(x1, y1, x2, y2, x3, y3, x4, y4, t, reverse) {
-  var x12 = (x2 - x1) * t + x1;
-  var y12 = (y2 - y1) * t + y1;
-
-  var x23 = (x3 - x2) * t + x2;
-  var y23 = (y3 - y2) * t + y2;
-
-  var x34 = (x4 - x3) * t + x3;
-  var y34 = (y4 - y3) * t + y3;
-
-  var x123 = (x23 - x12) * t + x12;
-  var y123 = (y23 - y12) * t + y12;
-
-  var x234 = (x34 - x23) * t + x23;
-  var y234 = (y34 - y23) * t + y23;
-
-  var x1234 = (x234 - x123) * t + x123;
-  var y1234 = (y234 - y123) * t + y123;
-
-  if (reverse) {
-    return [x1234, y1234, x123, y123, x12, y12, x1, y1];
-  }
-  return [x1, y1, x12, y12, x123, y123, x1234, y1234];
-}
-
-function _splitCurves(curves, count) {
-  var i = 0,
-      index = 0;
-
-  for (; i < count; i++) {
-    var curve = curves[index];
-    var cs = split(curve[0], curve[1], curve[2], curve[3], curve[4], curve[5], curve[6], curve[7], 0.5);
-    curves.splice(index, 1);
-    curves.splice(index, 0, cs.left, cs.right);
-
-    index += 2;
-    if (index >= curves.length - 1) {
-      index = 0;
-    }
-  }
-}
-
-function pathToShapes(path) {
-  var x = 0,
-      y = 0;
-  var shapes = [];
-  path.forEach(function (p) {
-    var _p = (0, _toArray3.default)(p),
-        cmd = _p[0],
-        points = _p.slice(1);
-
-    if (cmd === 'M') {
-      x = points[0];
-      y = points[1];
-    } else {
-      shapes.push([x, y].concat((0, _toConsumableArray3.default)(points)));
-      x = points[4];
-      y = points[5];
-    }
-  });
-  return [shapes];
-}
-
-// match two path
-function match(pathA, pathB) {
-  var minCurves = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
-
-  var shapesA = pathToShapes(pathA.path);
-  var shapesB = pathToShapes(pathB.path);
-
-  var lenA = shapesA.length,
-      lenB = shapesB.length;
-
-  if (lenA > lenB) {
-    _subShapes(shapesB, lenA - lenB);
-  } else if (lenA < lenB) {
-    _upShapes(shapesA, lenB - lenA);
-  }
-
-  shapesA = (0, _sort.sort)(shapesA, shapesB);
-
-  shapesA.forEach(function (curves, index) {
-    var lenA = curves.length,
-        lenB = shapesB[index].length;
-
-    if (lenA > lenB) {
-      if (lenA < minCurves) {
-        _splitCurves(curves, minCurves - lenA);
-        _splitCurves(shapesB[index], minCurves - lenB);
-      } else {
-        _splitCurves(shapesB[index], lenA - lenB);
-      }
-    } else if (lenA < lenB) {
-      if (lenB < minCurves) {
-        _splitCurves(curves, minCurves - lenA);
-        _splitCurves(shapesB[index], minCurves - lenB);
-      } else {
-        _splitCurves(curves, lenB - lenA);
-      }
-    }
-  });
-
-  shapesA.forEach(function (curves, index) {
-    shapesA[index] = (0, _sort.sortCurves)(curves, shapesB[index]);
-  });
-
-  return [shapesA, shapesB];
-}
-
-function lerpPoints(x1, y1, x2, y2, t) {
-  return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
-}
-
-function lerpCurve(curveA, curveB, t) {
-  return lerpPoints(curveA[0], curveA[1], curveB[0], curveB[1], t).concat(lerpPoints(curveA[2], curveA[3], curveB[2], curveB[3], t)).concat(lerpPoints(curveA[4], curveA[5], curveB[4], curveB[5], t)).concat(lerpPoints(curveA[6], curveA[7], curveB[6], curveB[7], t));
-}
-
-function lerp(pathA, pathB, t) {
-  var _match = match(pathA, pathB),
-      _match2 = (0, _slicedToArray3.default)(_match, 2),
-      shapesA = _match2[0],
-      shapesB = _match2[1];
-
-  return shapesA.map(function (shapeA, i) {
-    var shapeB = shapesB[i];
-    return shapeA.map(function (curveA, i) {
-      var curveB = shapeB[i];
-      var curve = lerpCurve(curveA, curveB, t);
-      if (i === 0) {
-        return 'M' + curve[0] + ' ' + curve[1] + ' C' + curve[2] + ' ' + curve[3] + ', ' + curve[4] + ' ' + curve[5] + ', ' + curve[6] + ' ' + curve[7];
-      }
-      return curve[2] + ' ' + curve[3] + ', ' + curve[4] + ' ' + curve[5] + ', ' + curve[6] + ' ' + curve[7];
-    });
-  }).join(' ') + 'z';
-}
-
-function pathEffect(pathA, pathB, p, s, e) {
-  var ep = (p - s) / (e - s);
-  if (ep <= 0) return pathA;
-  if (ep >= 1) return pathB;
-  pathA = new _svgPathToCanvas2.default(pathA);
-  pathB = new _svgPathToCanvas2.default(pathB);
-  return lerp(pathA, pathB, ep);
-}
-
-function createSvgPath(path) {
-  if (typeof path === 'string') path = { d: path };
-  var p = new _svgPathToCanvas2.default(path.d);
-  if (path.transform || path.trim) {
-    if (path.transform) {
-      (0, _entries2.default)(path.transform).forEach(function (_ref) {
-        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-            key = _ref2[0],
-            value = _ref2[1];
-
-        if (!Array.isArray(value)) value = [value];
-        p[key].apply(p, (0, _toConsumableArray3.default)(value));
-      });
-    }
-    if (path.trim) {
-      p.trim();
-    }
-  }
-  return p;
-}
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var _entries = __webpack_require__(8);
-
-var _entries2 = _interopRequireDefault(_entries);
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* eslint-disable no-undef */
-function nowtime() {
-  if (typeof performance !== 'undefined' && performance.now) {
-    return performance.now();
-  } else if (typeof process !== 'undefined' && process.hrtime) {
-    var _process$hrtime = process.hrtime(),
-        _process$hrtime2 = (0, _slicedToArray3.default)(_process$hrtime, 2),
-        s = _process$hrtime2[0],
-        ns = _process$hrtime2[1];
-
-    return s * 1e3 + ns * 1e-6;
-  }
-  return Date.now ? Date.now() : new Date().getTime();
-}
-/* eslint-enable no-undef */
-
-var _requestAnimationFrame = void 0,
-    _cancelAnimationFrame = void 0;
-
-if (typeof requestAnimationFrame === 'undefined') {
-  _requestAnimationFrame = function _requestAnimationFrame(fn) {
-    return setTimeout(function () {
-      fn(nowtime());
-    }, 16);
-  };
-  _cancelAnimationFrame = function _cancelAnimationFrame(id) {
-    return clearTimeout(id);
-  };
-} else {
-  _requestAnimationFrame = requestAnimationFrame;
-  _cancelAnimationFrame = cancelAnimationFrame;
-}
-
-var steps = [];
-var timerId = void 0,
-    id = 0;
-
-var FastAnimationFrame = {
-  requestAnimationFrame: function requestAnimationFrame(step) {
-    steps[++id] = step;
-
-    if (timerId == null) {
-      timerId = _requestAnimationFrame(function (t) {
-        timerId = null;
-        (0, _entries2.default)(steps).forEach(function (_ref) {
-          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-              id = _ref2[0],
-              callback = _ref2[1];
-
-          callback(t);
-          delete steps[id];
-        });
-      });
-    }
-    return id;
-  },
-  cancelAnimationFrame: function cancelAnimationFrame(id) {
-    delete steps[id];
-    if (!steps.length && timerId) {
-      _cancelAnimationFrame(timerId);
-      timerId = null;
-    }
-  }
-};
-
-module.exports = FastAnimationFrame;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseEasing = exports.Easings = undefined;
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _map = __webpack_require__(15);
-
-var _map2 = _interopRequireDefault(_map);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var BezierEasing = __webpack_require__(47);
-var bezierFuncCache = new _map2.default();
-
-function getBezierEasing() {
-  for (var _len = arguments.length, value = Array(_len), _key = 0; _key < _len; _key++) {
-    value[_key] = arguments[_key];
-  }
-
-  var easing = bezierFuncCache.get(value);
-  if (easing) {
-    return easing;
-  }
-  easing = BezierEasing.apply(undefined, value);
-  bezierFuncCache.set(value, easing);
-  return easing;
-}
-
-function getStepsEasing(step) {
-  var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'end';
-
-  return function (p, frames) {
-    for (var i = 1; i < frames.length; i++) {
-      var offset = frames[i].offset;
-
-      if (p <= offset) {
-        var start = frames[i - 1].offset,
-            end = offset;
-        var fp = (p - start) / (end - start),
-            d = 1 / step;
-
-        var t = fp / d;
-        if (pos === 'end') {
-          t = Math.floor(t);
-        } else {
-          t = Math.ceil(t);
-        }
-
-        return d * t * (end - start) + start;
-      }
-    }
-    return 0;
-  };
-}
-
-function parseEasingStr(easingStr) {
-  var pattern = /^cubic-bezier\((.*)\)/,
-      matched = easingStr.match(pattern);
-
-  if (matched) {
-    var value = matched[1].trim();
-    value = value.split(',').map(function (v) {
-      return parseFloat(v.trim());
-    });
-    return getBezierEasing.apply(undefined, (0, _toConsumableArray3.default)(value));
-  }
-
-  pattern = /^steps\((.*)\)/;
-  matched = easingStr.match(pattern);
-
-  if (matched) {
-    var _value = matched[1].trim();
-    _value = _value.split(',').map(function (v) {
-      return v.trim();
-    });
-
-    var _value2 = _value,
-        _value3 = (0, _slicedToArray3.default)(_value2, 2),
-        step = _value3[0],
-        pos = _value3[1];
-
-    return getStepsEasing(parseInt(step, 10), pos);
-  }
-  return easingStr;
-}
-
-var Easings = {
-  linear: function linear(p) {
-    return p;
-  },
-
-  ease: getBezierEasing(0.25, 0.1, 0.25, 1),
-  'ease-in': getBezierEasing(0.42, 0, 1, 1),
-  'ease-out': getBezierEasing(0, 0, 0.58, 1),
-  'ease-in-out': getBezierEasing(0.42, 0, 0.58, 1),
-  // 'step-start': function(p, frames){
-  //   let ret = 0
-  //   for(let i = 0; i < frames.length; i++){
-  //     const {offset} = frames[i]
-  //     ret = offset
-  //     if(p < offset){
-  //       break
-  //     }
-  //   }
-  //   return ret
-  // },
-  // 'step-end': function(p, frames){
-  //   let ret = 0
-  //   for(let i = 0; i < frames.length; i++){
-  //     const {offset} = frames[i]
-  //     if(p < offset){
-  //       break
-  //     }
-  //     ret = offset
-  //   }
-  //   return ret
-  // }
-  'step-start': getStepsEasing(1, 'start'),
-  'step-end': getStepsEasing(1, 'end')
-};
-
-function parseEasing(easing) {
-  if (typeof easing === 'string') {
-    if (!Easings[easing]) {
-      easing = parseEasingStr(easing);
-    } else {
-      // load default Easing
-      easing = Easings[easing];
-    }
-  } else if (easing.type === 'cubic-bezier') {
-    easing = getBezierEasing.apply(undefined, (0, _toConsumableArray3.default)(easing.value));
-  } else if (easing.type === 'steps') {
-    easing = getStepsEasing(easing.step, easing.pos);
-  }
-  return easing;
-}
-
-exports.Easings = Easings;
-exports.parseEasing = parseEasing;
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  // s - startFrame, e - endFrame
-  default: function _default(from, to, p, s, e) {
-    if (typeof from === 'number' && typeof to === 'number') {
-      return from + (p - s) / (e - s) * (to - from);
-    }
-
-    if (p - s > e - p) {
-      return to;
-    }
-    return from;
-  }
-};
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _isFinite = __webpack_require__(56);
-
-var _isFinite2 = _interopRequireDefault(_isFinite);
-
-var _map = __webpack_require__(15);
-
-var _map2 = _interopRequireDefault(_map);
-
-var _assign = __webpack_require__(2);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _classCallCheck2 = __webpack_require__(3);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(4);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _symbol = __webpack_require__(6);
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _utils = __webpack_require__(50);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var defaultOptions = {
-  originTime: 0,
-  playbackRate: 1.0
-};
-
-var _timeMark = (0, _symbol2.default)('timeMark'),
-    _playbackRate = (0, _symbol2.default)('playbackRate'),
-    _timers = (0, _symbol2.default)('timers'),
-    _originTime = (0, _symbol2.default)('originTime'),
-    _timerID = (0, _symbol2.default)('timerID'),
-    _setTimer = (0, _symbol2.default)('setTimer'),
-    _parent = (0, _symbol2.default)('parent');
-
-var Timeline = function () {
-  function Timeline(options, parent) {
-    (0, _classCallCheck3.default)(this, Timeline);
-
-    if (options instanceof Timeline) {
-      parent = options;
-      options = {};
-    }
-
-    options = (0, _assign2.default)({}, defaultOptions, options);
-
-    if (parent) {
-      this[_parent] = parent;
-    }
-
-    // timeMark records the reference points on timeline
-    // Each time we change the playbackRate or currentTime or entropy
-    // A new timeMark will be generated
-    // timeMark sorted by entropy
-    // If you reset entropy, all the timeMarks behind the new entropy
-    // should be dropped
-    this[_timeMark] = [{
-      globalTime: this.globalTime,
-      localTime: -options.originTime,
-      entropy: -options.originTime,
-      playbackRate: options.playbackRate,
-      globalEntropy: 0
-    }];
-
-    if (this[_parent]) {
-      this[_timeMark][0].globalEntropy = this[_parent].entropy;
-    }
-
-    this[_originTime] = options.originTime;
-    this[_playbackRate] = options.playbackRate;
-    this[_timers] = new _map2.default();
-    this[_timerID] = 0;
-  }
-
-  (0, _createClass3.default)(Timeline, [{
-    key: 'fork',
-    value: function fork(options) {
-      return new Timeline(options, this);
-    }
-  }, {
-    key: 'seekGlobalTime',
-    value: function seekGlobalTime(seekEntropy) {
-      var idx = this.seekTimeMark(seekEntropy),
-          timeMark = this[_timeMark][idx];
-
-      var entropy = timeMark.entropy,
-          playbackRate = timeMark.playbackRate,
-          globalTime = timeMark.globalTime;
-
-
-      return globalTime + (seekEntropy - entropy) / Math.abs(playbackRate);
-    }
-  }, {
-    key: 'seekLocalTime',
-    value: function seekLocalTime(seekEntropy) {
-      var idx = this.seekTimeMark(seekEntropy),
-          timeMark = this[_timeMark][idx];
-
-      var localTime = timeMark.localTime,
-          entropy = timeMark.entropy,
-          playbackRate = timeMark.playbackRate;
-
-
-      if (playbackRate > 0) {
-        return localTime + (seekEntropy - entropy);
-      }
-      return localTime - (seekEntropy - entropy);
-    }
-  }, {
-    key: 'seekTimeMark',
-    value: function seekTimeMark(entropy) {
-      var timeMark = this[_timeMark];
-
-      var l = 0,
-          r = timeMark.length - 1;
-
-      if (entropy <= timeMark[l].entropy) {
-        return l;
-      }
-      if (entropy >= timeMark[r].entropy) {
-        return r;
-      }
-
-      var m = Math.floor((l + r) / 2); // binary search
-
-      while (m > l && m < r) {
-        if (entropy === timeMark[m].entropy) {
-          return m;
-        } else if (entropy < timeMark[m].entropy) {
-          r = m;
-        } else if (entropy > timeMark[m].entropy) {
-          l = m;
-        }
-        m = Math.floor((l + r) / 2);
-      }
-
-      return l;
-    }
-  }, {
-    key: 'clearTimeout',
-    value: function (_clearTimeout) {
-      function clearTimeout(_x) {
-        return _clearTimeout.apply(this, arguments);
-      }
-
-      clearTimeout.toString = function () {
-        return _clearTimeout.toString();
-      };
-
-      return clearTimeout;
-    }(function (id) {
-      var timer = this[_timers].get(id);
-
-      if (timer && timer.timerID != null) {
-        if (this[_parent]) {
-          this[_parent].clearTimeout(timer.timerID);
-        } else {
-          clearTimeout(timer.timerID);
-        }
-      }
-      this[_timers].delete(id);
-    })
-  }, {
-    key: 'clearInterval',
-    value: function clearInterval(id) {
-      return this.clearTimeout(id);
-    }
-    /*
-      setTimeout(func, {delay: 100, isEntropy: true})
-      setTimeout(func, {entropy: 100})
-      setTimeout(func, 100})
-     */
-
-  }, {
-    key: 'setTimeout',
-    value: function setTimeout(handler) {
-      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { delay: 0 };
-
-      return this[_setTimer](handler, time);
-    }
-  }, {
-    key: 'setInterval',
-    value: function setInterval(handler) {
-      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { delay: 0 };
-
-      var that = this;
-      var id = this[_setTimer](function step() {
-        // reset timer before handler cause we may clearTimeout in handler()
-        that[_setTimer](step, time, id);
-        handler();
-      }, time);
-
-      return id;
-    }
-  }, {
-    key: _setTimer,
-    value: function value(handler, time) {
-      var _this = this;
-
-      var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ++this[_timerID];
-
-      time = (0, _utils.formatDelay)(time);
-
-      var timer = this[_timers].get(id);
-      var delay = void 0,
-          timerID = null,
-          startTime = void 0,
-          startEntropy = void 0;
-
-      if (timer) {
-        this.clearTimeout(id);
-        if (time.isEntropy) {
-          delay = (time.delay - (this.entropy - timer.startEntropy)) / Math.abs(this.playbackRate);
-        } else if (this.playbackRate >= 0) {
-          delay = (time.delay - (this.currentTime - timer.startTime)) / this.playbackRate;
-        } else {
-          // playbackRate < 0, back to startPoint
-          delay = (timer.startTime - this.currentTime) / this.playbackRate;
-        }
-        startTime = timer.startTime;
-        startEntropy = timer.startEntropy;
-      } else {
-        delay = time.delay / (time.isEntropy ? Math.abs(this.playbackRate) : this.playbackRate);
-        startTime = this.currentTime;
-        startEntropy = this.entropy;
-      }
-
-      // if playbackRate is zero, delay will be infinity.
-      if ((0, _isFinite2.default)(delay)) {
-        delay = Math.ceil(delay);
-
-        var parent = this[_parent],
-            globalTimeout = parent ? parent.setTimeout.bind(parent) : setTimeout;
-
-        // if(parent) {
-        //   delay = {delay, isEntropy: true}
-        // }
-
-        timerID = globalTimeout(function () {
-          _this[_timers].delete(id);
-          handler();
-        }, delay);
-      }
-
-      this[_timers].set(id, {
-        timerID: timerID,
-        handler: handler,
-        time: time,
-        startTime: startTime,
-        startEntropy: startEntropy
-      });
-
-      return id;
-    }
-  }, {
-    key: 'lastTimeMark',
-    get: function get() {
-      return this[_timeMark][this[_timeMark].length - 1];
-    }
-  }, {
-    key: 'currentTime',
-    get: function get() {
-      var _lastTimeMark = this.lastTimeMark,
-          localTime = _lastTimeMark.localTime,
-          globalTime = _lastTimeMark.globalTime;
-
-      return localTime + (this.globalTime - globalTime) * this.playbackRate;
-    },
-    set: function set(time) {
-      var timeMark = {
-        globalTime: this.globalTime,
-        localTime: time,
-        entropy: this.entropy,
-        playbackRate: this.playbackRate
-      };
-      if (this[_parent]) {
-        timeMark.globalEntropy = this[_parent].entropy;
-      }
-      this[_timeMark].push(timeMark);
-    }
-    // Both currentTime and entropy should be influenced by playbackRate.
-    // If current playbackRate is negative, the currentTime should go backwards
-    // while the entropy remain to go forwards.
-    // Both of the initial values is set to -originTime
-
-  }, {
-    key: 'entropy',
-    get: function get() {
-      var _lastTimeMark2 = this.lastTimeMark,
-          globalTime = _lastTimeMark2.globalTime,
-          entropy = _lastTimeMark2.entropy,
-          globalEntropy = _lastTimeMark2.globalEntropy;
-
-      if (this[_parent]) {
-        return entropy + Math.abs((this[_parent].entropy - globalEntropy) * this.playbackRate);
-      }
-      return entropy + Math.abs((this.globalTime - globalTime) * this.playbackRate);
-    },
-
-    // change entropy will NOT cause currentTime changing but may influence the pass
-    // and the future of the timeline. (It may change the result of seek***Time)
-    // While entropy is set, all the marks behind will be droped
-    set: function set(entropy) {
-      var idx = this.seekTimeMark(entropy);
-      this[_timeMark].length = idx + 1;
-      var timeMark = {
-        globalTime: this.globalTime,
-        localTime: this.currentTime,
-        entropy: entropy,
-        playbackRate: this.playbackRate
-      };
-      if (this[_parent]) {
-        timeMark.globalEntropy = this[_parent].entropy;
-      }
-      this[_timeMark].push(timeMark);
-    }
-  }, {
-    key: 'globalTime',
-    get: function get() {
-      if (this[_parent]) {
-        return this[_parent].currentTime;
-      }
-
-      return (0, _utils.nowtime)();
-    }
-  }, {
-    key: 'playbackRate',
-    get: function get() {
-      return this[_playbackRate];
-    },
-    set: function set(rate) {
-      var _this2 = this;
-
-      if (rate !== this.playbackRate) {
-        var currentTime = this.currentTime;
-        // force currentTime updating
-        this.currentTime = currentTime;
-        this[_playbackRate] = rate;
-        // set new playbackRate in new time mark
-        this.lastTimeMark.playbackRate = rate;
-
-        var timers = [].concat((0, _toConsumableArray3.default)(this[_timers]));
-        timers.forEach(function (_ref) {
-          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-              id = _ref2[0],
-              timer = _ref2[1];
-
-          _this2[_setTimer](timer.handler, timer.time, id);
-        });
-      }
-    }
-  }]);
-  return Timeline;
-}();
-
-module.exports = Timeline;
-
-/***/ }),
-/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -3775,6 +2451,1379 @@ module.exports = SvgPath;
 /******/ ]);
 
 /***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/promise");
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _assign = __webpack_require__(2);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _get2 = __webpack_require__(10);
+
+var _get3 = _interopRequireDefault(_get2);
+
+var _getOwnPropertyDescriptor = __webpack_require__(16);
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+var _getPrototypeOf = __webpack_require__(9);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(3);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(4);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(12);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(11);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _symbol = __webpack_require__(6);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _desc, _value, _class, _class2, _temp;
+
+var _basesprite = __webpack_require__(13);
+
+var _basesprite2 = _interopRequireDefault(_basesprite);
+
+var _nodetype = __webpack_require__(8);
+
+var _spriteUtils = __webpack_require__(5);
+
+var _path = __webpack_require__(25);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _applyDecoratedDescriptor = __webpack_require__(14);
+
+var _children = (0, _symbol2.default)('children'),
+    _zOrder = (0, _symbol2.default)('zOrder');
+
+var GroupAttr = (_class = function (_BaseSprite$Attr) {
+  (0, _inherits3.default)(GroupAttr, _BaseSprite$Attr);
+
+  function GroupAttr(subject) {
+    (0, _classCallCheck3.default)(this, GroupAttr);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (GroupAttr.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr)).call(this, subject));
+
+    _this.setDefault({
+      clip: null
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(GroupAttr, [{
+    key: 'clip',
+    set: function set(val) {
+      this.clearCache();
+      if (val) {
+        val = typeof val === 'string' ? { d: val } : val;
+        this.subject.svg = (0, _path.createSvgPath)(val);
+        this.set('clip', val);
+      } else {
+        this.subject.svg = null;
+        this.set('clip', null);
+      }
+    }
+  }]);
+  return GroupAttr;
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype)), _class);
+var Group = (_temp = _class2 = function (_BaseSprite) {
+  (0, _inherits3.default)(Group, _BaseSprite);
+
+  function Group(attr) {
+    (0, _classCallCheck3.default)(this, Group);
+
+    var _this2 = (0, _possibleConstructorReturn3.default)(this, (Group.__proto__ || (0, _getPrototypeOf2.default)(Group)).call(this, attr));
+
+    _this2[_children] = [];
+    _this2[_zOrder] = 0;
+    return _this2;
+  }
+
+  (0, _createClass3.default)(Group, [{
+    key: 'appendChild',
+    value: function appendChild(sprite) {
+      var sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      this[_children].push(sprite);
+      sprite.connect(this, this[_zOrder]++);
+      if (sort) (0, _spriteUtils.sortOrderedSprites)(this[_children]);
+    }
+  }, {
+    key: 'append',
+    value: function append() {
+      var _this3 = this;
+
+      for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
+        sprites[_key] = arguments[_key];
+      }
+
+      sprites.forEach(function (sprite) {
+        return _this3.appendChild(sprite, false);
+      });
+      (0, _spriteUtils.sortOrderedSprites)(this[_children]);
+    }
+  }, {
+    key: 'removeChild',
+    value: function removeChild(sprite) {
+      var idx = this[_children].indexOf(sprite);
+      if (idx === -1) {
+        return null;
+      }
+      this[_children].splice(idx, 1);
+      sprite.disconnect(this);
+      return sprite;
+    }
+  }, {
+    key: 'remove',
+    value: function remove() {
+      var _this4 = this;
+
+      for (var _len2 = arguments.length, sprites = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        sprites[_key2] = arguments[_key2];
+      }
+
+      if (sprites.length === 0) {
+        sprites = this[_children].slice(0);
+      }
+      sprites.forEach(function (sprite) {
+        return _this4.removeChild(sprite);
+      });
+    }
+  }, {
+    key: 'cloneNode',
+    value: function cloneNode(deepCopy) {
+      var node = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'cloneNode', this).call(this);
+      if (deepCopy) {
+        var children = this.children;
+        children.forEach(function (child) {
+          var subNode = child.cloneNode(deepCopy);
+          node.append(subNode);
+        });
+      }
+      return node;
+    }
+  }, {
+    key: 'pointCollision',
+    value: function pointCollision(evt) {
+      if ((0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'pointCollision', this).call(this, evt)) {
+        if (this.svg) {
+          var offsetX = evt.offsetX,
+              offsetY = evt.offsetY;
+
+          var rect = this.originalRect;
+          evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
+        }
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'dispatchEvent',
+    value: function dispatchEvent(type, evt) {
+      var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      if (!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
+        var parentX = evt.offsetX - this.originalRect[0];
+        var parentY = evt.offsetY - this.originalRect[1];
+        // console.log(evt.parentX, evt.parentY)
+
+        var _evt = (0, _assign2.default)({}, evt);
+        _evt.parentX = parentX;
+        _evt.parentY = parentY;
+
+        var targetSprites = [];
+
+        for (var i = 0; i < this[_children].length && evt.isInClip !== false; i++) {
+          var sprite = this[_children][i];
+          var hit = sprite.dispatchEvent(type, _evt, forceTrigger);
+          if (hit) {
+            targetSprites.push(sprite);
+          }
+          if (evt.terminated && !evt.type.startsWith('mouse')) {
+            break;
+          }
+        }
+
+        evt.targetSprites = targetSprites;
+        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, forceTrigger);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render(t, drawingContext) {
+      var context = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+
+      var clipPath = this.attr('clip');
+      if (clipPath) {
+        context.save();
+        this.svg.beginPath().to(context);
+        context.restore();
+        context.clip();
+        context.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
+      }
+
+      var children = this[_children];
+
+      for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        child.draw(t);
+      }
+
+      return context;
+    }
+  }, {
+    key: 'children',
+    get: function get() {
+      return this[_children];
+    }
+  }, {
+    key: 'contentSize',
+    get: function get() {
+      var _attr = this.attr('size'),
+          _attr2 = (0, _slicedToArray3.default)(_attr, 2),
+          width = _attr2[0],
+          height = _attr2[1];
+
+      if (width === '' || height === '') {
+        if (this.attr('clip')) {
+          var svg = this.svg;
+          var bounds = svg.bounds;
+          width = bounds[2];
+          height = bounds[3];
+        } else {
+          var right = void 0,
+              bottom = void 0;
+
+          right = 0;
+          bottom = 0;
+          this[_children].forEach(function (sprite) {
+            var renderBox = sprite.renderBox;
+            right = Math.max(right, renderBox[2]);
+            bottom = Math.max(bottom, renderBox[3]);
+          });
+          width = right;
+          height = bottom;
+        }
+      }
+      return [width, height];
+    }
+  }]);
+  return Group;
+}(_basesprite2.default), _class2.Attr = GroupAttr, _temp);
+exports.default = Group;
+
+
+(0, _nodetype.registerNodeType)('group', Group, true);
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _entries = __webpack_require__(7);
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _toArray2 = __webpack_require__(33);
+
+var _toArray3 = _interopRequireDefault(_toArray2);
+
+exports.pathEffect = pathEffect;
+exports.createSvgPath = createSvgPath;
+
+var _sort = __webpack_require__(44);
+
+var _svgPathToCanvas = __webpack_require__(21);
+
+var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _subShapes(shapes, count) {
+  var _loop = function _loop(i) {
+    var shape = shapes[shapes.length - 1];
+    var newShape = [];
+    var x = shape[0][0],
+        y = shape[0][1];
+    shape.forEach(function () {
+      newShape.push([x, y, x, y, x, y, x, y]);
+    });
+
+    shapes.push(newShape);
+  };
+
+  for (var i = 0; i < count; i++) {
+    _loop(i);
+  }
+} // https://github.com/AlloyTeam/pasition
+
+function _upShapes(shapes, count) {
+  var _loop2 = function _loop2(i) {
+    var shape = shapes[shapes.length - 1];
+    var newShape = [];
+
+    shape.forEach(function (curve) {
+      newShape.push(curve.slice(0));
+    });
+    shapes.push(newShape);
+  };
+
+  for (var i = 0; i < count; i++) {
+    _loop2(i);
+  }
+}
+
+function split(x1, y1, x2, y2, x3, y3, x4, y4, t) {
+  return {
+    left: _split(x1, y1, x2, y2, x3, y3, x4, y4, t),
+    right: _split(x4, y4, x3, y3, x2, y2, x1, y1, 1 - t, true)
+  };
+}
+
+function _split(x1, y1, x2, y2, x3, y3, x4, y4, t, reverse) {
+  var x12 = (x2 - x1) * t + x1;
+  var y12 = (y2 - y1) * t + y1;
+
+  var x23 = (x3 - x2) * t + x2;
+  var y23 = (y3 - y2) * t + y2;
+
+  var x34 = (x4 - x3) * t + x3;
+  var y34 = (y4 - y3) * t + y3;
+
+  var x123 = (x23 - x12) * t + x12;
+  var y123 = (y23 - y12) * t + y12;
+
+  var x234 = (x34 - x23) * t + x23;
+  var y234 = (y34 - y23) * t + y23;
+
+  var x1234 = (x234 - x123) * t + x123;
+  var y1234 = (y234 - y123) * t + y123;
+
+  if (reverse) {
+    return [x1234, y1234, x123, y123, x12, y12, x1, y1];
+  }
+  return [x1, y1, x12, y12, x123, y123, x1234, y1234];
+}
+
+function _splitCurves(curves, count) {
+  var i = 0,
+      index = 0;
+
+  for (; i < count; i++) {
+    var curve = curves[index];
+    var cs = split(curve[0], curve[1], curve[2], curve[3], curve[4], curve[5], curve[6], curve[7], 0.5);
+    curves.splice(index, 1);
+    curves.splice(index, 0, cs.left, cs.right);
+
+    index += 2;
+    if (index >= curves.length - 1) {
+      index = 0;
+    }
+  }
+}
+
+function pathToShapes(path) {
+  var x = 0,
+      y = 0;
+  var shapes = [];
+  path.forEach(function (p) {
+    var _p = (0, _toArray3.default)(p),
+        cmd = _p[0],
+        points = _p.slice(1);
+
+    if (cmd === 'M') {
+      x = points[0];
+      y = points[1];
+    } else {
+      shapes.push([x, y].concat((0, _toConsumableArray3.default)(points)));
+      x = points[4];
+      y = points[5];
+    }
+  });
+  return [shapes];
+}
+
+// match two path
+function match(pathA, pathB) {
+  var minCurves = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
+
+  var shapesA = pathToShapes(pathA.path);
+  var shapesB = pathToShapes(pathB.path);
+
+  var lenA = shapesA.length,
+      lenB = shapesB.length;
+
+  if (lenA > lenB) {
+    _subShapes(shapesB, lenA - lenB);
+  } else if (lenA < lenB) {
+    _upShapes(shapesA, lenB - lenA);
+  }
+
+  shapesA = (0, _sort.sort)(shapesA, shapesB);
+
+  shapesA.forEach(function (curves, index) {
+    var lenA = curves.length,
+        lenB = shapesB[index].length;
+
+    if (lenA > lenB) {
+      if (lenA < minCurves) {
+        _splitCurves(curves, minCurves - lenA);
+        _splitCurves(shapesB[index], minCurves - lenB);
+      } else {
+        _splitCurves(shapesB[index], lenA - lenB);
+      }
+    } else if (lenA < lenB) {
+      if (lenB < minCurves) {
+        _splitCurves(curves, minCurves - lenA);
+        _splitCurves(shapesB[index], minCurves - lenB);
+      } else {
+        _splitCurves(curves, lenB - lenA);
+      }
+    }
+  });
+
+  shapesA.forEach(function (curves, index) {
+    shapesA[index] = (0, _sort.sortCurves)(curves, shapesB[index]);
+  });
+
+  return [shapesA, shapesB];
+}
+
+function lerpPoints(x1, y1, x2, y2, t) {
+  return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
+}
+
+function lerpCurve(curveA, curveB, t) {
+  return lerpPoints(curveA[0], curveA[1], curveB[0], curveB[1], t).concat(lerpPoints(curveA[2], curveA[3], curveB[2], curveB[3], t)).concat(lerpPoints(curveA[4], curveA[5], curveB[4], curveB[5], t)).concat(lerpPoints(curveA[6], curveA[7], curveB[6], curveB[7], t));
+}
+
+function lerp(pathA, pathB, t) {
+  var _match = match(pathA, pathB),
+      _match2 = (0, _slicedToArray3.default)(_match, 2),
+      shapesA = _match2[0],
+      shapesB = _match2[1];
+
+  return shapesA.map(function (shapeA, i) {
+    var shapeB = shapesB[i];
+    return shapeA.map(function (curveA, i) {
+      var curveB = shapeB[i];
+      var curve = lerpCurve(curveA, curveB, t);
+      if (i === 0) {
+        return 'M' + curve[0] + ' ' + curve[1] + ' C' + curve[2] + ' ' + curve[3] + ', ' + curve[4] + ' ' + curve[5] + ', ' + curve[6] + ' ' + curve[7];
+      }
+      return curve[2] + ' ' + curve[3] + ', ' + curve[4] + ' ' + curve[5] + ', ' + curve[6] + ' ' + curve[7];
+    });
+  }).join(' ') + 'z';
+}
+
+function pathEffect(pathA, pathB, p, s, e) {
+  var ep = (p - s) / (e - s);
+  if (ep <= 0) return pathA;
+  if (ep >= 1) return pathB;
+  pathA = new _svgPathToCanvas2.default(pathA);
+  pathB = new _svgPathToCanvas2.default(pathB);
+  return lerp(pathA, pathB, ep);
+}
+
+function createSvgPath(path) {
+  if (typeof path === 'string') path = { d: path };
+  var p = new _svgPathToCanvas2.default(path.d);
+  if (path.transform || path.trim) {
+    if (path.transform) {
+      (0, _entries2.default)(path.transform).forEach(function (_ref) {
+        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+
+        if (!Array.isArray(value)) value = [value];
+        p[key].apply(p, (0, _toConsumableArray3.default)(value));
+      });
+    }
+    if (path.trim) {
+      p.trim();
+    }
+  }
+  return p;
+}
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var _entries = __webpack_require__(7);
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable no-undef */
+function nowtime() {
+  if (typeof performance !== 'undefined' && performance.now) {
+    return performance.now();
+  } else if (typeof process !== 'undefined' && process.hrtime) {
+    var _process$hrtime = process.hrtime(),
+        _process$hrtime2 = (0, _slicedToArray3.default)(_process$hrtime, 2),
+        s = _process$hrtime2[0],
+        ns = _process$hrtime2[1];
+
+    return s * 1e3 + ns * 1e-6;
+  }
+  return Date.now ? Date.now() : new Date().getTime();
+}
+/* eslint-enable no-undef */
+
+var _requestAnimationFrame = void 0,
+    _cancelAnimationFrame = void 0;
+
+if (typeof requestAnimationFrame === 'undefined') {
+  _requestAnimationFrame = function _requestAnimationFrame(fn) {
+    return setTimeout(function () {
+      fn(nowtime());
+    }, 16);
+  };
+  _cancelAnimationFrame = function _cancelAnimationFrame(id) {
+    return clearTimeout(id);
+  };
+} else {
+  _requestAnimationFrame = requestAnimationFrame;
+  _cancelAnimationFrame = cancelAnimationFrame;
+}
+
+var steps = [];
+var timerId = void 0,
+    id = 0;
+
+var FastAnimationFrame = {
+  requestAnimationFrame: function requestAnimationFrame(step) {
+    steps[++id] = step;
+
+    if (timerId == null) {
+      timerId = _requestAnimationFrame(function (t) {
+        timerId = null;
+        (0, _entries2.default)(steps).forEach(function (_ref) {
+          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+              id = _ref2[0],
+              callback = _ref2[1];
+
+          callback(t);
+          delete steps[id];
+        });
+      });
+    }
+    return id;
+  },
+  cancelAnimationFrame: function cancelAnimationFrame(id) {
+    delete steps[id];
+    if (!steps.length && timerId) {
+      _cancelAnimationFrame(timerId);
+      timerId = null;
+    }
+  }
+};
+
+module.exports = FastAnimationFrame;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseEasing = exports.Easings = undefined;
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _map = __webpack_require__(15);
+
+var _map2 = _interopRequireDefault(_map);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BezierEasing = __webpack_require__(47);
+var bezierFuncCache = new _map2.default();
+
+function getBezierEasing() {
+  for (var _len = arguments.length, value = Array(_len), _key = 0; _key < _len; _key++) {
+    value[_key] = arguments[_key];
+  }
+
+  var easing = bezierFuncCache.get(value);
+  if (easing) {
+    return easing;
+  }
+  easing = BezierEasing.apply(undefined, value);
+  bezierFuncCache.set(value, easing);
+  return easing;
+}
+
+function getStepsEasing(step) {
+  var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'end';
+
+  return function (p, frames) {
+    for (var i = 1; i < frames.length; i++) {
+      var offset = frames[i].offset;
+
+      if (p <= offset) {
+        var start = frames[i - 1].offset,
+            end = offset;
+        var fp = (p - start) / (end - start),
+            d = 1 / step;
+
+        var t = fp / d;
+        if (pos === 'end') {
+          t = Math.floor(t);
+        } else {
+          t = Math.ceil(t);
+        }
+
+        return d * t * (end - start) + start;
+      }
+    }
+    return 0;
+  };
+}
+
+function parseEasingStr(easingStr) {
+  var pattern = /^cubic-bezier\((.*)\)/,
+      matched = easingStr.match(pattern);
+
+  if (matched) {
+    var value = matched[1].trim();
+    value = value.split(',').map(function (v) {
+      return parseFloat(v.trim());
+    });
+    return getBezierEasing.apply(undefined, (0, _toConsumableArray3.default)(value));
+  }
+
+  pattern = /^steps\((.*)\)/;
+  matched = easingStr.match(pattern);
+
+  if (matched) {
+    var _value = matched[1].trim();
+    _value = _value.split(',').map(function (v) {
+      return v.trim();
+    });
+
+    var _value2 = _value,
+        _value3 = (0, _slicedToArray3.default)(_value2, 2),
+        step = _value3[0],
+        pos = _value3[1];
+
+    return getStepsEasing(parseInt(step, 10), pos);
+  }
+  return easingStr;
+}
+
+var Easings = {
+  linear: function linear(p) {
+    return p;
+  },
+
+  ease: getBezierEasing(0.25, 0.1, 0.25, 1),
+  'ease-in': getBezierEasing(0.42, 0, 1, 1),
+  'ease-out': getBezierEasing(0, 0, 0.58, 1),
+  'ease-in-out': getBezierEasing(0.42, 0, 0.58, 1),
+  // 'step-start': function(p, frames){
+  //   let ret = 0
+  //   for(let i = 0; i < frames.length; i++){
+  //     const {offset} = frames[i]
+  //     ret = offset
+  //     if(p < offset){
+  //       break
+  //     }
+  //   }
+  //   return ret
+  // },
+  // 'step-end': function(p, frames){
+  //   let ret = 0
+  //   for(let i = 0; i < frames.length; i++){
+  //     const {offset} = frames[i]
+  //     if(p < offset){
+  //       break
+  //     }
+  //     ret = offset
+  //   }
+  //   return ret
+  // }
+  'step-start': getStepsEasing(1, 'start'),
+  'step-end': getStepsEasing(1, 'end')
+};
+
+function parseEasing(easing) {
+  if (typeof easing === 'string') {
+    if (!Easings[easing]) {
+      easing = parseEasingStr(easing);
+    } else {
+      // load default Easing
+      easing = Easings[easing];
+    }
+  } else if (easing.type === 'cubic-bezier') {
+    easing = getBezierEasing.apply(undefined, (0, _toConsumableArray3.default)(easing.value));
+  } else if (easing.type === 'steps') {
+    easing = getStepsEasing(easing.step, easing.pos);
+  }
+  return easing;
+}
+
+exports.Easings = Easings;
+exports.parseEasing = parseEasing;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  // s - startFrame, e - endFrame
+  default: function _default(from, to, p, s, e) {
+    if (typeof from === 'number' && typeof to === 'number') {
+      return from + (p - s) / (e - s) * (to - from);
+    }
+
+    if (p - s > e - p) {
+      return to;
+    }
+    return from;
+  }
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _isFinite = __webpack_require__(56);
+
+var _isFinite2 = _interopRequireDefault(_isFinite);
+
+var _map = __webpack_require__(15);
+
+var _map2 = _interopRequireDefault(_map);
+
+var _assign = __webpack_require__(2);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _classCallCheck2 = __webpack_require__(3);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(4);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _symbol = __webpack_require__(6);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _utils = __webpack_require__(50);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultOptions = {
+  originTime: 0,
+  playbackRate: 1.0
+};
+
+var _timeMark = (0, _symbol2.default)('timeMark'),
+    _playbackRate = (0, _symbol2.default)('playbackRate'),
+    _timers = (0, _symbol2.default)('timers'),
+    _originTime = (0, _symbol2.default)('originTime'),
+    _timerID = (0, _symbol2.default)('timerID'),
+    _setTimer = (0, _symbol2.default)('setTimer'),
+    _parent = (0, _symbol2.default)('parent');
+
+var Timeline = function () {
+  function Timeline(options, parent) {
+    (0, _classCallCheck3.default)(this, Timeline);
+
+    if (options instanceof Timeline) {
+      parent = options;
+      options = {};
+    }
+
+    options = (0, _assign2.default)({}, defaultOptions, options);
+
+    if (parent) {
+      this[_parent] = parent;
+    }
+
+    // timeMark records the reference points on timeline
+    // Each time we change the playbackRate or currentTime or entropy
+    // A new timeMark will be generated
+    // timeMark sorted by entropy
+    // If you reset entropy, all the timeMarks behind the new entropy
+    // should be dropped
+    this[_timeMark] = [{
+      globalTime: this.globalTime,
+      localTime: -options.originTime,
+      entropy: -options.originTime,
+      playbackRate: options.playbackRate,
+      globalEntropy: 0
+    }];
+
+    if (this[_parent]) {
+      this[_timeMark][0].globalEntropy = this[_parent].entropy;
+    }
+
+    this[_originTime] = options.originTime;
+    this[_playbackRate] = options.playbackRate;
+    this[_timers] = new _map2.default();
+    this[_timerID] = 0;
+  }
+
+  (0, _createClass3.default)(Timeline, [{
+    key: 'fork',
+    value: function fork(options) {
+      return new Timeline(options, this);
+    }
+  }, {
+    key: 'seekGlobalTime',
+    value: function seekGlobalTime(seekEntropy) {
+      var idx = this.seekTimeMark(seekEntropy),
+          timeMark = this[_timeMark][idx];
+
+      var entropy = timeMark.entropy,
+          playbackRate = timeMark.playbackRate,
+          globalTime = timeMark.globalTime;
+
+
+      return globalTime + (seekEntropy - entropy) / Math.abs(playbackRate);
+    }
+  }, {
+    key: 'seekLocalTime',
+    value: function seekLocalTime(seekEntropy) {
+      var idx = this.seekTimeMark(seekEntropy),
+          timeMark = this[_timeMark][idx];
+
+      var localTime = timeMark.localTime,
+          entropy = timeMark.entropy,
+          playbackRate = timeMark.playbackRate;
+
+
+      if (playbackRate > 0) {
+        return localTime + (seekEntropy - entropy);
+      }
+      return localTime - (seekEntropy - entropy);
+    }
+  }, {
+    key: 'seekTimeMark',
+    value: function seekTimeMark(entropy) {
+      var timeMark = this[_timeMark];
+
+      var l = 0,
+          r = timeMark.length - 1;
+
+      if (entropy <= timeMark[l].entropy) {
+        return l;
+      }
+      if (entropy >= timeMark[r].entropy) {
+        return r;
+      }
+
+      var m = Math.floor((l + r) / 2); // binary search
+
+      while (m > l && m < r) {
+        if (entropy === timeMark[m].entropy) {
+          return m;
+        } else if (entropy < timeMark[m].entropy) {
+          r = m;
+        } else if (entropy > timeMark[m].entropy) {
+          l = m;
+        }
+        m = Math.floor((l + r) / 2);
+      }
+
+      return l;
+    }
+  }, {
+    key: 'clearTimeout',
+    value: function (_clearTimeout) {
+      function clearTimeout(_x) {
+        return _clearTimeout.apply(this, arguments);
+      }
+
+      clearTimeout.toString = function () {
+        return _clearTimeout.toString();
+      };
+
+      return clearTimeout;
+    }(function (id) {
+      var timer = this[_timers].get(id);
+
+      if (timer && timer.timerID != null) {
+        if (this[_parent]) {
+          this[_parent].clearTimeout(timer.timerID);
+        } else {
+          clearTimeout(timer.timerID);
+        }
+      }
+      this[_timers].delete(id);
+    })
+  }, {
+    key: 'clearInterval',
+    value: function clearInterval(id) {
+      return this.clearTimeout(id);
+    }
+    /*
+      setTimeout(func, {delay: 100, isEntropy: true})
+      setTimeout(func, {entropy: 100})
+      setTimeout(func, 100})
+     */
+
+  }, {
+    key: 'setTimeout',
+    value: function setTimeout(handler) {
+      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { delay: 0 };
+
+      return this[_setTimer](handler, time);
+    }
+  }, {
+    key: 'setInterval',
+    value: function setInterval(handler) {
+      var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { delay: 0 };
+
+      var that = this;
+      var id = this[_setTimer](function step() {
+        // reset timer before handler cause we may clearTimeout in handler()
+        that[_setTimer](step, time, id);
+        handler();
+      }, time);
+
+      return id;
+    }
+  }, {
+    key: _setTimer,
+    value: function value(handler, time) {
+      var _this = this;
+
+      var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ++this[_timerID];
+
+      time = (0, _utils.formatDelay)(time);
+
+      var timer = this[_timers].get(id);
+      var delay = void 0,
+          timerID = null,
+          startTime = void 0,
+          startEntropy = void 0;
+
+      if (timer) {
+        this.clearTimeout(id);
+        if (time.isEntropy) {
+          delay = (time.delay - (this.entropy - timer.startEntropy)) / Math.abs(this.playbackRate);
+        } else if (this.playbackRate >= 0) {
+          delay = (time.delay - (this.currentTime - timer.startTime)) / this.playbackRate;
+        } else {
+          // playbackRate < 0, back to startPoint
+          delay = (timer.startTime - this.currentTime) / this.playbackRate;
+        }
+        startTime = timer.startTime;
+        startEntropy = timer.startEntropy;
+      } else {
+        delay = time.delay / (time.isEntropy ? Math.abs(this.playbackRate) : this.playbackRate);
+        startTime = this.currentTime;
+        startEntropy = this.entropy;
+      }
+
+      // if playbackRate is zero, delay will be infinity.
+      if ((0, _isFinite2.default)(delay)) {
+        delay = Math.ceil(delay);
+
+        var parent = this[_parent],
+            globalTimeout = parent ? parent.setTimeout.bind(parent) : setTimeout;
+
+        // if(parent) {
+        //   delay = {delay, isEntropy: true}
+        // }
+
+        timerID = globalTimeout(function () {
+          _this[_timers].delete(id);
+          handler();
+        }, delay);
+      }
+
+      this[_timers].set(id, {
+        timerID: timerID,
+        handler: handler,
+        time: time,
+        startTime: startTime,
+        startEntropy: startEntropy
+      });
+
+      return id;
+    }
+  }, {
+    key: 'lastTimeMark',
+    get: function get() {
+      return this[_timeMark][this[_timeMark].length - 1];
+    }
+  }, {
+    key: 'currentTime',
+    get: function get() {
+      var _lastTimeMark = this.lastTimeMark,
+          localTime = _lastTimeMark.localTime,
+          globalTime = _lastTimeMark.globalTime;
+
+      return localTime + (this.globalTime - globalTime) * this.playbackRate;
+    },
+    set: function set(time) {
+      var timeMark = {
+        globalTime: this.globalTime,
+        localTime: time,
+        entropy: this.entropy,
+        playbackRate: this.playbackRate
+      };
+      if (this[_parent]) {
+        timeMark.globalEntropy = this[_parent].entropy;
+      }
+      this[_timeMark].push(timeMark);
+    }
+    // Both currentTime and entropy should be influenced by playbackRate.
+    // If current playbackRate is negative, the currentTime should go backwards
+    // while the entropy remain to go forwards.
+    // Both of the initial values is set to -originTime
+
+  }, {
+    key: 'entropy',
+    get: function get() {
+      var _lastTimeMark2 = this.lastTimeMark,
+          globalTime = _lastTimeMark2.globalTime,
+          entropy = _lastTimeMark2.entropy,
+          globalEntropy = _lastTimeMark2.globalEntropy;
+
+      if (this[_parent]) {
+        return entropy + Math.abs((this[_parent].entropy - globalEntropy) * this.playbackRate);
+      }
+      return entropy + Math.abs((this.globalTime - globalTime) * this.playbackRate);
+    },
+
+    // change entropy will NOT cause currentTime changing but may influence the pass
+    // and the future of the timeline. (It may change the result of seek***Time)
+    // While entropy is set, all the marks behind will be droped
+    set: function set(entropy) {
+      var idx = this.seekTimeMark(entropy);
+      this[_timeMark].length = idx + 1;
+      var timeMark = {
+        globalTime: this.globalTime,
+        localTime: this.currentTime,
+        entropy: entropy,
+        playbackRate: this.playbackRate
+      };
+      if (this[_parent]) {
+        timeMark.globalEntropy = this[_parent].entropy;
+      }
+      this[_timeMark].push(timeMark);
+    }
+  }, {
+    key: 'globalTime',
+    get: function get() {
+      if (this[_parent]) {
+        return this[_parent].currentTime;
+      }
+
+      return (0, _utils.nowtime)();
+    }
+  }, {
+    key: 'playbackRate',
+    get: function get() {
+      return this[_playbackRate];
+    },
+    set: function set(rate) {
+      var _this2 = this;
+
+      if (rate !== this.playbackRate) {
+        var currentTime = this.currentTime;
+        // force currentTime updating
+        this.currentTime = currentTime;
+        this[_playbackRate] = rate;
+        // set new playbackRate in new time mark
+        this.lastTimeMark.playbackRate = rate;
+
+        var timers = [].concat((0, _toConsumableArray3.default)(this[_timers]));
+        timers.forEach(function (_ref) {
+          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+              id = _ref2[0],
+              timer = _ref2[1];
+
+          _this2[_setTimer](timer.handler, timer.time, id);
+        });
+      }
+    }
+  }]);
+  return Timeline;
+}();
+
+module.exports = Timeline;
+
+/***/ }),
 /* 30 */
 /***/ (function(module, exports) {
 
@@ -3871,7 +3920,7 @@ var _basesprite2 = _interopRequireDefault(_basesprite);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _nodetype = __webpack_require__(7);
+var _nodetype = __webpack_require__(8);
 
 var _render = __webpack_require__(18);
 
@@ -4142,7 +4191,7 @@ var _assign = __webpack_require__(2);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(22);
+var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -4182,15 +4231,15 @@ var _basenode = __webpack_require__(20);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _group = __webpack_require__(23);
+var _group = __webpack_require__(24);
 
 var _group2 = _interopRequireDefault(_group);
 
 var _spriteAnimator = __webpack_require__(17);
 
-var _fastAnimationFrame = __webpack_require__(25);
+var _fastAnimationFrame = __webpack_require__(26);
 
-var _nodetype = __webpack_require__(7);
+var _nodetype = __webpack_require__(8);
 
 var _render = __webpack_require__(18);
 
@@ -4739,9 +4788,9 @@ var _spriteAnimator = __webpack_require__(17);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _path = __webpack_require__(24);
+var _path = __webpack_require__(25);
 
-var _nodetype = __webpack_require__(7);
+var _nodetype = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4941,11 +4990,11 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           strokeColor = (0, _spriteUtils.parseColorString)('black');
         }
 
-        if (strokeColor) {
-          context.stroke();
-        }
         if (fillColor) {
           context.fill();
+        }
+        if (strokeColor) {
+          context.stroke();
         }
       }
 
@@ -5090,7 +5139,7 @@ var _filters2 = _interopRequireDefault(_filters);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _nodetype = __webpack_require__(7);
+var _nodetype = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5930,13 +5979,13 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _entries = __webpack_require__(8);
+var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
 var _spriteAnimator = __webpack_require__(17);
 
-var _fastAnimationFrame = __webpack_require__(25);
+var _fastAnimationFrame = __webpack_require__(26);
 
 var _spriteMath = __webpack_require__(19);
 
@@ -6140,7 +6189,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _entries = __webpack_require__(8);
+var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -6174,7 +6223,7 @@ var _spriteMath = __webpack_require__(19);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _svgPathToCanvas = __webpack_require__(29);
+var _svgPathToCanvas = __webpack_require__(21);
 
 var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
@@ -6679,7 +6728,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _entries = __webpack_require__(8);
+var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -7131,7 +7180,7 @@ function querySelectorLimits(elements, functor) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createNode = exports.registerNodeType = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.BaseSprite = exports.BaseNode = undefined;
+exports.SvgPath = exports.Color = exports.createNode = exports.registerNodeType = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.BaseSprite = exports.BaseNode = undefined;
 
 var _basesprite = __webpack_require__(13);
 
@@ -7149,7 +7198,7 @@ var _layer = __webpack_require__(35);
 
 var _layer2 = _interopRequireDefault(_layer);
 
-var _group = __webpack_require__(23);
+var _group = __webpack_require__(24);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -7161,9 +7210,15 @@ var _path = __webpack_require__(36);
 
 var _path2 = _interopRequireDefault(_path);
 
+var _nodetype = __webpack_require__(8);
+
 var _spriteAnimator = __webpack_require__(17);
 
-var _nodetype = __webpack_require__(7);
+var _spriteUtils = __webpack_require__(5);
+
+var _svgPathToCanvas = __webpack_require__(21);
+
+var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7177,6 +7232,8 @@ exports.Group = _group2.default;
 exports.Effects = _spriteAnimator.Effects;
 exports.registerNodeType = _nodetype.registerNodeType;
 exports.createNode = _nodetype.createNode;
+exports.Color = _spriteUtils.Color;
+exports.SvgPath = _svgPathToCanvas2.default;
 
 /***/ }),
 /* 47 */
@@ -7300,11 +7357,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _promise = __webpack_require__(22);
+var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(58);
+var _keys = __webpack_require__(59);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -7326,11 +7383,11 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _utils = __webpack_require__(49);
 
-var _spriteTimeline = __webpack_require__(28);
+var _spriteTimeline = __webpack_require__(29);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(26);
+var _easing = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7687,7 +7744,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _entries = __webpack_require__(8);
+var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
@@ -7703,7 +7760,7 @@ var _assign = __webpack_require__(2);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(22);
+var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -7713,7 +7770,7 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
-var _effect = __webpack_require__(27);
+var _effect = __webpack_require__(28);
 
 var _effect2 = _interopRequireDefault(_effect);
 
@@ -7918,7 +7975,7 @@ function formatDelay(delay) {
   }
   return delay;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
 
 /***/ }),
 /* 51 */
@@ -8551,7 +8608,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30), __webpack_require__(21)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30), __webpack_require__(22)))
 
 /***/ }),
 /* 54 */
@@ -8581,16 +8638,22 @@ module.exports = require("babel-runtime/core-js/object/define-properties");
 /* 58 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/core-js/object/define-property");
 
 /***/ }),
 /* 59 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/defineProperty");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
 /* 60 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/defineProperty");
+
+/***/ }),
+/* 61 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/typeof");

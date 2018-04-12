@@ -2,7 +2,7 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices} from 'sprite-utils'
+import {rectVertices, isPropEqual} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, copyContext} from './helpers/render'
@@ -29,6 +29,32 @@ export default class BaseSprite extends BaseNode {
     if(attr) {
       this.attr(attr)
     }
+  }
+
+  static defineAttributes(attrs) {
+    this.Attr = class extends this.Attr {
+      constructor(subject) {
+        super(subject)
+        attrs.init.call(this)
+      }
+    }
+
+    Object.entries(attrs).forEach(([prop, handler]) => {
+      if(prop !== 'init') {
+        Object.defineProperty(this.Attr.prototype, prop, {
+          set(val) {
+            const oldVal = this.get(prop)
+            if(!isPropEqual(oldVal, val)) {
+              handler.call(this, val)
+            }
+          },
+          get() {
+            return this.get(prop)
+          },
+        })
+      }
+    })
+    return this.Attr
   }
 
   get layer() {
@@ -415,7 +441,7 @@ export default class BaseSprite extends BaseNode {
       // set cache before render for group
       if(!this.cache) {
         this.cache = cachableContext
-        cachableContext = this.render(t, cachableContext)
+        cachableContext = this.render(t, cachableContext) || cachableContext
       }
       drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1])
     } else {

@@ -5,8 +5,11 @@ import Layer from './layer'
 import Group from './group'
 import BaseNode from './basenode'
 import Path from './path'
-import {Effects} from 'sprite-animator'
 import {registerNodeType, createNode} from './nodetype'
+
+import {Effects} from 'sprite-animator'
+import {Color} from 'sprite-utils'
+import SvgPath from 'svg-path-to-canvas'
 
 export {
   BaseNode,
@@ -19,4 +22,6 @@ export {
   Effects,
   registerNodeType,
   createNode,
+  Color,
+  SvgPath,
 }

@@ -224,11 +224,11 @@ export default class Path extends BaseSprite {
         strokeColor = parseColorString('black')
       }
 
-      if(strokeColor) {
-        context.stroke()
-      }
       if(fillColor) {
         context.fill()
+      }
+      if(strokeColor) {
+        context.stroke()
       }
     }
 
