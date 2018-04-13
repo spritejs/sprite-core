@@ -7,60 +7,13 @@ import BaseNode from './basenode'
 import Path from './path'
 import Batch from './batch'
 import {registerNodeType, createNode} from './nodetype'
-
 import {Effects} from 'sprite-animator'
 import SvgPath from 'svg-path-to-canvas'
 
-import {
-  Color,
-  parseColor,
-  oneOrTwoValues,
-  parseStringInt,
-  parseStringFloat,
-  parseColorString,
-  fourValuesShortCut,
-  parseStringTransform,
-  boxIntersect,
-  boxToRect,
-  boxEqual,
-  boxUnion,
-  rectToBox,
-  rectVertices,
-  appendUnit,
-  attr,
-  setDeprecation,
-  deprecate,
-  parseValue,
-  sortOrderedSprites,
-  isPropEqual,
-} from 'sprite-utils'
+import utils from 'sprite-utils'
+const Color = utils.Color
 
-const utils = {
-  parseColor,
-  oneOrTwoValues,
-  parseStringInt,
-  parseStringFloat,
-  parseColorString,
-  fourValuesShortCut,
-  parseStringTransform,
-  boxIntersect,
-  boxToRect,
-  boxEqual,
-  boxUnion,
-  rectToBox,
-  rectVertices,
-  appendUnit,
-  attr,
-  setDeprecation,
-  deprecate,
-  parseValue,
-  sortOrderedSprites,
-  isPropEqual,
-}
-
-import {Matrix, Vector} from 'sprite-math'
-
-const math = {Matrix, Vector}
+import math from 'sprite-math'
 
 export {
   utils,

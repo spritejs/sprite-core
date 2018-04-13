@@ -9519,37 +9519,18 @@ var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
 var _spriteUtils = __webpack_require__(9);
 
+var _spriteUtils2 = _interopRequireDefault(_spriteUtils);
+
 var _spriteMath = __webpack_require__(33);
+
+var _spriteMath2 = _interopRequireDefault(_spriteMath);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var utils = {
-  parseColor: _spriteUtils.parseColor,
-  oneOrTwoValues: _spriteUtils.oneOrTwoValues,
-  parseStringInt: _spriteUtils.parseStringInt,
-  parseStringFloat: _spriteUtils.parseStringFloat,
-  parseColorString: _spriteUtils.parseColorString,
-  fourValuesShortCut: _spriteUtils.fourValuesShortCut,
-  parseStringTransform: _spriteUtils.parseStringTransform,
-  boxIntersect: _spriteUtils.boxIntersect,
-  boxToRect: _spriteUtils.boxToRect,
-  boxEqual: _spriteUtils.boxEqual,
-  boxUnion: _spriteUtils.boxUnion,
-  rectToBox: _spriteUtils.rectToBox,
-  rectVertices: _spriteUtils.rectVertices,
-  appendUnit: _spriteUtils.appendUnit,
-  attr: _spriteUtils.attr,
-  setDeprecation: _spriteUtils.setDeprecation,
-  deprecate: _spriteUtils.deprecate,
-  parseValue: _spriteUtils.parseValue,
-  sortOrderedSprites: _spriteUtils.sortOrderedSprites,
-  isPropEqual: _spriteUtils.isPropEqual
-};
+var Color = _spriteUtils2.default.Color;
 
-var math = { Matrix: _spriteMath.Matrix, Vector: _spriteMath.Vector };
-
-exports.utils = utils;
-exports.math = math;
+exports.utils = _spriteUtils2.default;
+exports.math = _spriteMath2.default;
 exports.BaseNode = _basenode2.default;
 exports.BaseSprite = _basesprite2.default;
 exports.Batch = _batch2.default;
@@ -9561,7 +9542,7 @@ exports.Group = _group2.default;
 exports.Effects = _spriteAnimator.Effects;
 exports.registerNodeType = _nodetype.registerNodeType;
 exports.createNode = _nodetype.createNode;
-exports.Color = _spriteUtils.Color;
+exports.Color = Color;
 exports.SvgPath = _svgPathToCanvas2.default;
 
 /***/ }),
