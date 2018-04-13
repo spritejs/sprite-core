@@ -38,7 +38,7 @@ module.exports = function (env = {}) {
   } else if(env.module) {
     output.filename = 'sprite-core.module.js'
     output.libraryTarget = 'commonjs2'
-    externals = [/^babel-runtime/, 'sprite-math', 'sprite-utils', 'babel-decorators-runtime']
+    externals = [/^babel-runtime/, 'babel-decorators-runtime']
   }
 
   if(fs.existsSync('./.babelrc')) {
