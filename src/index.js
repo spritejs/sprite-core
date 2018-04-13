@@ -10,10 +10,10 @@ import {registerNodeType, createNode} from './nodetype'
 import {Effects} from 'sprite-animator'
 import SvgPath from 'svg-path-to-canvas'
 
-import utils from 'sprite-utils'
+import * as utils from 'sprite-utils'
 const Color = utils.Color
 
-import math from 'sprite-math'
+import * as math from 'sprite-math'
 
 export {
   utils,
