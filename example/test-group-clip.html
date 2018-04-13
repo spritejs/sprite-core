@@ -46,6 +46,13 @@
         console.log('group', evt)
       })
 
+      group.animate([
+        {bgcolor: 'red'},
+        {bgcolor: 'green'},
+      ], {
+        duration: 2000,
+      })
+
       sprite.on('click', evt => {
         console.log('sprite')
       })

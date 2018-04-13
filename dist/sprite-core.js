@@ -8344,17 +8344,21 @@ function transformEffect(trans1, trans2, p, start, end) {
 }
 
 function colorEffect(color1, color2, p, start, end) {
-  color1 = (0, _spriteUtils.parseColor)(color1);
-  color2 = (0, _spriteUtils.parseColor)(color2);
-
-  if (color1.model === color2.model) {
-    color1.value = arrayEffect(color1.value, color2.value, p, start, end).map(function (c) {
-      return Math.round(c);
-    });
-    return color1;
+  if (typeof color1 !== 'string' || typeof color2 !== 'string') {
+    return defaultEffect(color1, color2, p, start, end);
   }
 
-  return color2;
+  var c1 = (0, _spriteUtils.parseColor)(color1);
+  var c2 = (0, _spriteUtils.parseColor)(color2);
+
+  if (c1.model === c2.model) {
+    c1.value = arrayEffect(c1.value, c2.value, p, start, end).map(function (c) {
+      return Math.round(c);
+    });
+    return c1.str;
+  }
+
+  return defaultEffect(color1, color2, p, start, end);
 }
 
 (0, _assign2.default)(_spriteAnimator.Effects, {
