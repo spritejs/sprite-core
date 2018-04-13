@@ -328,8 +328,8 @@ export default class Layer extends BaseNode {
     return true
   }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    collisionState = collisionState || this.pointCollision(evt)
-    if(!evt.terminated && collisionState) {
+    const isCollision = collisionState || this.pointCollision(evt)
+    if(!evt.terminated && isCollision) {
       evt.layer = this
 
       const sprites = this[_children].slice(0)
@@ -340,7 +340,7 @@ export default class Layer extends BaseNode {
       if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
         for(let i = 0; i < sprites.length; i++) {
           const sprite = sprites[i]
-          const hit = sprite.dispatchEvent(type, evt, collisionState, false)
+          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
           if(hit) {
             // detect mouseenter/mouseleave
             targetSprites.push(sprite)
@@ -352,7 +352,7 @@ export default class Layer extends BaseNode {
       }
 
       evt.targetSprites = targetSprites
-      super.dispatchEvent(type, evt, collisionState)
+      return super.dispatchEvent(type, evt, collisionState)
     }
   }
   connect(parent, zOrder, zIndex) {

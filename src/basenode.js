@@ -45,9 +45,9 @@ export default class BaseNode {
       evt.type = type
     }
 
-    collisionState = collisionState || this.pointCollision(evt)
+    const isCollision = collisionState || this.pointCollision(evt)
 
-    if(!evt.terminated && collisionState) {
+    if(!evt.terminated && isCollision) {
       evt.target = this
 
       const handlers = this[_eventHandlers][type]

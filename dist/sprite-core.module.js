@@ -1393,9 +1393,9 @@ var BaseNode = function () {
         evt.type = type;
       }
 
-      collisionState = collisionState || this.pointCollision(evt);
+      var isCollision = collisionState || this.pointCollision(evt);
 
-      if (!evt.terminated && collisionState) {
+      if (!evt.terminated && isCollision) {
         evt.target = this;
 
         var handlers = this[_eventHandlers][type];
@@ -2970,8 +2970,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      collisionState = collisionState || this.pointCollision(evt);
-      if (!evt.terminated && collisionState) {
+      var isCollision = collisionState || this.pointCollision(evt);
+      if (!evt.terminated && isCollision) {
         var parentX = evt.offsetX - this.originalRect[0];
         var parentY = evt.offsetY - this.originalRect[1];
         // console.log(evt.parentX, evt.parentY)
@@ -2988,7 +2988,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
           for (var i = 0; i < _sprites.length && evt.isInClip !== false; i++) {
             var sprite = _sprites[i];
-            var hit = sprite.dispatchEvent(type, _evt, collisionState, false);
+            var hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
             if (hit) {
               targetSprites.push(sprite);
             }
@@ -2999,7 +2999,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         }
 
         evt.targetSprites = targetSprites;
-        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
+        return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
       }
     }
   }, {
@@ -4741,8 +4741,8 @@ var Layer = function (_BaseNode) {
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      collisionState = collisionState || this.pointCollision(evt);
-      if (!evt.terminated && collisionState) {
+      var isCollision = collisionState || this.pointCollision(evt);
+      if (!evt.terminated && isCollision) {
         evt.layer = this;
 
         var _sprites = this[_children].slice(0);
@@ -4753,7 +4753,7 @@ var Layer = function (_BaseNode) {
         if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
           for (var i = 0; i < _sprites.length; i++) {
             var sprite = _sprites[i];
-            var hit = sprite.dispatchEvent(type, evt, collisionState, false);
+            var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
             if (hit) {
               // detect mouseenter/mouseleave
               targetSprites.push(sprite);
@@ -4765,7 +4765,7 @@ var Layer = function (_BaseNode) {
         }
 
         evt.targetSprites = targetSprites;
-        (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
+        return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
       }
     }
   }, {

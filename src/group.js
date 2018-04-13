@@ -110,8 +110,8 @@ export default class Group extends BaseSprite {
     return [width, height]
   }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    collisionState = collisionState || this.pointCollision(evt)
-    if(!evt.terminated && collisionState) {
+    const isCollision = collisionState || this.pointCollision(evt)
+    if(!evt.terminated && isCollision) {
       const parentX = evt.offsetX - this.originalRect[0]
       const parentY = evt.offsetY - this.originalRect[1]
       // console.log(evt.parentX, evt.parentY)
@@ -128,7 +128,7 @@ export default class Group extends BaseSprite {
       if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
         for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
           const sprite = sprites[i]
-          const hit = sprite.dispatchEvent(type, _evt, collisionState, false)
+          const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow)
           if(hit) {
             targetSprites.push(sprite)
           }
@@ -139,7 +139,7 @@ export default class Group extends BaseSprite {
       }
 
       evt.targetSprites = targetSprites
-      super.dispatchEvent(type, evt, collisionState)
+      return super.dispatchEvent(type, evt, collisionState)
     }
   }
   render(t, drawingContext) {
