@@ -1,4 +1,5 @@
 import BaseNode from './basenode'
+import Batch from './batch'
 import Group from './group'
 import {Timeline} from 'sprite-animator'
 import {requestAnimationFrame} from 'fast-animation-frame'
@@ -367,6 +368,16 @@ export default class Layer extends BaseNode {
     group.append(...sprites)
     this.appendChild(group)
     return group
+  }
+  batch(...sprites) {
+    sprites.forEach((sprite) => {
+      if(sprite.layer !== this) {
+        this.appendChild(sprite)
+      }
+    })
+    const batch = new Batch(this)
+    batch.add(...sprites)
+    return batch
   }
   adjust(handler, update = true) {
     const outputContext = this.outputContext,

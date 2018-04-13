@@ -37,7 +37,6 @@
         rotate,
         zIndex: 200
       })
-      layer.append(s)
       return s
     }
     
@@ -45,12 +44,10 @@
     for(let i = 0; i < 2000; i++) {
       blocks.push(createRandomBlock())
     }
-    
+    const batch = layer.batch(...blocks)
+
     const colors = ['red', 'blue']
     let i = 0
-    
-    const batch = new Batch(layer)
-    batch.add(...blocks)
 
     setInterval(function f() {
       const bgcolor = colors[++i % 2]

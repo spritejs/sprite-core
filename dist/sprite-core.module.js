@@ -1095,15 +1095,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
 
-var _effect = __webpack_require__(29);
+var _effect = __webpack_require__(30);
 
 var _effect2 = _interopRequireDefault(_effect);
 
-var _spriteTimeline = __webpack_require__(30);
+var _spriteTimeline = __webpack_require__(31);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(28);
+var _easing = __webpack_require__(29);
 
 var _animator = __webpack_require__(49);
 
@@ -1934,7 +1934,7 @@ module.exports = __webpack_require__(3);
 /* 10 */
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(33);
+module.exports = __webpack_require__(34);
 
 /***/ }),
 /* 11 */
@@ -2665,6 +2665,129 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _set = __webpack_require__(24);
+
+var _set2 = _interopRequireDefault(_set);
+
+var _classCallCheck2 = __webpack_require__(2);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(3);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _symbol = __webpack_require__(6);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _batch = (0, _symbol2.default)('batch');
+
+var Batch = function () {
+  function Batch(layer) {
+    (0, _classCallCheck3.default)(this, Batch);
+
+    this.layer = layer;
+    this[_batch] = new _set2.default();
+    this.cache = null;
+  }
+
+  (0, _createClass3.default)(Batch, [{
+    key: 'add',
+    value: function add() {
+      var _this = this;
+
+      for (var _len = arguments.length, nodes = Array(_len), _key = 0; _key < _len; _key++) {
+        nodes[_key] = arguments[_key];
+      }
+
+      nodes.forEach(function (node) {
+        if (!node.layer || node.layer !== _this.layer) {
+          throw new Error('Batch node must append to this layer first!');
+        }
+        if (node[_batch]) {
+          throw new Error('Node already batched!');
+        }
+        var that = _this;
+        Object.defineProperty(node, 'cache', {
+          configurable: true,
+          get: function get() {
+            return that.cache;
+          },
+          set: function set(context) {
+            if (that.baseNode === this) {
+              that.cache = context;
+            } else if (context == null) {
+              throw new Error('Cannot set non-cachable attributes to batch members.Use batch.baseNode.attr(...)');
+            }
+          }
+        });
+        node[_batch] = _this;
+        _this[_batch].add(node);
+      });
+    }
+  }, {
+    key: 'remove',
+    value: function remove() {
+      var _this2 = this;
+
+      for (var _len2 = arguments.length, nodes = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        nodes[_key2] = arguments[_key2];
+      }
+
+      nodes.forEach(function (node) {
+        if (_this2[_batch].has(node)) {
+          delete node[_batch];
+          delete node.cache;
+          _this2[_batch].delete(node);
+        }
+      });
+    }
+  }, {
+    key: 'baseNode',
+    get: function get() {
+      var batchNodes = [].concat((0, _toConsumableArray3.default)(this[_batch]));
+      var baseNode = batchNodes[0],
+          zOrder = Infinity,
+          zIndex = Infinity;
+
+      for (var i = 1; i < batchNodes.length; i++) {
+        var node = batchNodes[i];
+        if (zIndex > node.zIndex) {
+          zIndex = node.zIndex;
+          zOrder = node.zOrder;
+          baseNode = node;
+        } else if (zIndex === node.zIndex && zOrder > node.zOrder) {
+          zOrder = node.zOrder;
+          baseNode = node;
+        }
+      }
+      return baseNode;
+    }
+  }]);
+  return Batch;
+}();
+
+exports.default = Batch;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
 var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
@@ -2715,7 +2838,7 @@ var _nodetype = __webpack_require__(8);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _path = __webpack_require__(26);
+var _path = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2944,7 +3067,7 @@ exports.default = Group;
 (0, _nodetype.registerNodeType)('group', Group, true);
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2966,7 +3089,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _toArray2 = __webpack_require__(33);
+var _toArray2 = __webpack_require__(34);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -3189,7 +3312,7 @@ function createSvgPath(path) {
 }
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3274,7 +3397,7 @@ module.exports = FastAnimationFrame;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3429,7 +3552,7 @@ exports.Easings = Easings;
 exports.parseEasing = parseEasing;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3453,7 +3576,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3831,7 +3954,7 @@ var Timeline = function () {
 module.exports = Timeline;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 var g;
@@ -3858,139 +3981,16 @@ module.exports = g;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/toArray");
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _set = __webpack_require__(24);
-
-var _set2 = _interopRequireDefault(_set);
-
-var _classCallCheck2 = __webpack_require__(2);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(3);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _symbol = __webpack_require__(6);
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _batch = (0, _symbol2.default)('batch');
-
-var Batch = function () {
-  function Batch(layer) {
-    (0, _classCallCheck3.default)(this, Batch);
-
-    this.layer = layer;
-    this[_batch] = new _set2.default();
-    this.cache = null;
-  }
-
-  (0, _createClass3.default)(Batch, [{
-    key: 'add',
-    value: function add() {
-      var _this = this;
-
-      for (var _len = arguments.length, nodes = Array(_len), _key = 0; _key < _len; _key++) {
-        nodes[_key] = arguments[_key];
-      }
-
-      nodes.forEach(function (node) {
-        if (!node.layer || node.layer !== _this.layer) {
-          throw new Error('Batch node must append to this layer first!');
-        }
-        if (node[_batch]) {
-          throw new Error('Node already batched!');
-        }
-        var that = _this;
-        Object.defineProperty(node, 'cache', {
-          configurable: true,
-          get: function get() {
-            return that.cache;
-          },
-          set: function set(context) {
-            if (that.baseNode === this) {
-              that.cache = context;
-            } else if (context == null) {
-              throw new Error('Cannot set non-cachable attributes to batch members.Use batch.baseNode.attr(...)');
-            }
-          }
-        });
-        node[_batch] = _this;
-        _this[_batch].add(node);
-      });
-    }
-  }, {
-    key: 'remove',
-    value: function remove() {
-      var _this2 = this;
-
-      for (var _len2 = arguments.length, nodes = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        nodes[_key2] = arguments[_key2];
-      }
-
-      nodes.forEach(function (node) {
-        if (_this2[_batch].has(node)) {
-          delete node[_batch];
-          delete node.cache;
-          _this2[_batch].delete(node);
-        }
-      });
-    }
-  }, {
-    key: 'baseNode',
-    get: function get() {
-      var batchNodes = [].concat((0, _toConsumableArray3.default)(this[_batch]));
-      var baseNode = batchNodes[0],
-          zOrder = Infinity,
-          zIndex = Infinity;
-
-      for (var i = 1; i < batchNodes.length; i++) {
-        var node = batchNodes[i];
-        if (zIndex > node.zIndex) {
-          zIndex = node.zIndex;
-          zOrder = node.zOrder;
-          baseNode = node;
-        } else if (zIndex === node.zIndex && zOrder > node.zOrder) {
-          zOrder = node.zOrder;
-          baseNode = node;
-        }
-      }
-      return baseNode;
-    }
-  }]);
-  return Batch;
-}();
-
-exports.default = Batch;
 
 /***/ }),
 /* 35 */
@@ -4355,13 +4355,17 @@ var _basenode = __webpack_require__(20);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _group = __webpack_require__(25);
+var _batch = __webpack_require__(25);
+
+var _batch2 = _interopRequireDefault(_batch);
+
+var _group = __webpack_require__(26);
 
 var _group2 = _interopRequireDefault(_group);
 
 var _spriteAnimator = __webpack_require__(17);
 
-var _fastAnimationFrame = __webpack_require__(27);
+var _fastAnimationFrame = __webpack_require__(28);
 
 var _nodetype = __webpack_require__(8);
 
@@ -4778,6 +4782,24 @@ var Layer = function (_BaseNode) {
       return group;
     }
   }, {
+    key: 'batch',
+    value: function batch() {
+      var _this7 = this;
+
+      for (var _len3 = arguments.length, sprites = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        sprites[_key3] = arguments[_key3];
+      }
+
+      sprites.forEach(function (sprite) {
+        if (sprite.layer !== _this7) {
+          _this7.appendChild(sprite);
+        }
+      });
+      var batch = new _batch2.default(this);
+      batch.add.apply(batch, sprites);
+      return batch;
+    }
+  }, {
     key: 'adjust',
     value: function adjust(handler) {
       var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -4912,7 +4934,7 @@ var _spriteAnimator = __webpack_require__(17);
 
 var _spriteUtils = __webpack_require__(5);
 
-var _path = __webpack_require__(26);
+var _path = __webpack_require__(27);
 
 var _nodetype = __webpack_require__(8);
 
@@ -5203,7 +5225,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(32);
+var _stringify = __webpack_require__(33);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -6053,7 +6075,7 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
 /* 40 */
@@ -6109,7 +6131,7 @@ var _entries2 = _interopRequireDefault(_entries);
 
 var _spriteAnimator = __webpack_require__(17);
 
-var _fastAnimationFrame = __webpack_require__(27);
+var _fastAnimationFrame = __webpack_require__(28);
 
 var _spriteMath = __webpack_require__(19);
 
@@ -6305,7 +6327,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _stringify = __webpack_require__(32);
+var _stringify = __webpack_require__(33);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -7322,7 +7344,7 @@ var _layer = __webpack_require__(36);
 
 var _layer2 = _interopRequireDefault(_layer);
 
-var _group = __webpack_require__(25);
+var _group = __webpack_require__(26);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -7334,7 +7356,7 @@ var _path = __webpack_require__(37);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _batch = __webpack_require__(34);
+var _batch = __webpack_require__(25);
 
 var _batch2 = _interopRequireDefault(_batch);
 
@@ -7512,11 +7534,11 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _utils = __webpack_require__(50);
 
-var _spriteTimeline = __webpack_require__(30);
+var _spriteTimeline = __webpack_require__(31);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(28);
+var _easing = __webpack_require__(29);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7899,7 +7921,7 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
-var _effect = __webpack_require__(29);
+var _effect = __webpack_require__(30);
 
 var _effect2 = _interopRequireDefault(_effect);
 
@@ -8737,7 +8759,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31), __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(22)))
 
 /***/ }),
 /* 55 */
