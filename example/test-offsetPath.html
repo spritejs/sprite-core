@@ -77,7 +77,6 @@
       pos: [100, 100],
       size: [50, 50],
       bgcolor: 'red',
-      border: [5, 'blue'],
       opacity: 1,
       zIndex: 101,
       // transform: {
@@ -86,28 +85,26 @@
       //   rotate: 45,
       // },
       transform: 'translate(30,30) rotate(45)',
-      linearGradients: {
-        bgcolor: {
-          direction: 135,
-          colors: [{
-            offset: 0,
-            color: 'red',
-          }, {
-            offset: 1,
-            color: 'green',
-          }]
-        },
-        border: {
-          direction: 135,
-          colors: [{
-            offset: 0,
-            color: '#37c',
-          }, {
-            offset: 1,
-            color: '#c73',
-          }]
-        },
+      bgcolor: {
+        direction: 135,
+        colors: [{
+          offset: 0,
+          color: 'red',
+        }, {
+          offset: 1,
+          color: 'green',
+        }]
       },
+      border: [5, {
+        direction: 135,
+        colors: [{
+          offset: 0,
+          color: '#37c',
+        }, {
+          offset: 1,
+          color: '#c73',
+        }]
+      }],
     })
 
     window.s2 = s2
@@ -140,27 +137,24 @@
       pos: [300, 100],
       //size: [200, 200],
       bgcolor: '#ddd',
-      color: 'red',
       //renderMode: 'fill',
       lineWidth: 16,
       //border: [10, 'black'],
       lineCap: 'round',
       d: 'M10,80 q100,120 120,20 q140,-50 160,0',
       //d: 'M10 80 h260 v206 h-260Z',
-      linearGradients: {
-        strokeColor: {
-          //direction: 45,
-          //rect: [0, 0, 100, 100],
-          vector: [10, 50, 290, 200],
-          colors: [{
-            offset: 0,
-            color: 'rgba(255,0,0,0)',
-          }, {
-            offset: 1,
-            color: 'rgba(255,0,0,0)',
-          }]
-        },
-      }  
+      strokeColor: {
+        //direction: 45,
+        //rect: [0, 0, 100, 100],
+        vector: [10, 50, 290, 200],
+        colors: [{
+          offset: 0,
+          color: 'rgba(255,0,0,10)',
+        }, {
+          offset: 1,
+          color: 'rgba(255,0,0,0)',
+        }]
+      },
     })
     
     layer.append(s4)
@@ -230,9 +224,9 @@
             {offset: p, color: 'rgba(255,0,0,0)'},
           ]
 
-          const linearGradients = s4.attr('linearGradients')
-          linearGradients.strokeColor.colors = colors
-          s4.attr({linearGradients})
+          const strokeColor = s4.attr('strokeColor')
+          strokeColor.colors = colors
+          s4.attr({strokeColor})
     })
 
     a1.animate()
@@ -250,18 +244,16 @@
       transformOrigin: [0, 100],
       // bgcolor: 'red',
       rotate: 100,
-      linearGradients: {
-        fillColor: {
-          direction: 135,
-          colors: [{
-            offset: 0,
-            color: 'red',
-          }, {
-            offset: 1,
-            color: 'green',
-          }]
-        },
-      }      
+      fillColor: {
+        direction: 135,
+        colors: [{
+          offset: 0,
+          color: 'red',
+        }, {
+          offset: 1,
+          color: 'green',
+        }]
+      },
     })
 
     layer.append(label)

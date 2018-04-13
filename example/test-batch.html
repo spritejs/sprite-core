@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Batch = spritejs.Batch
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({
+      context, 
+      // renderMode:'repaintDirty'
+    })
+
+    function createRandomBlock() {
+      const x = Math.random() * 600,
+        y = Math.random() * 600,
+        rotate = Math.random() * 360
+
+      const s = new Sprite({
+        id: 'abc',
+        anchor: 0.5,
+        bgcolor: 'red',
+        opacity: 0.5,
+        size: [20, 20],
+        x,
+        y,
+        border: [1, 'green'],
+        borderRadius: 5,
+        rotate,
+        zIndex: 200
+      })
+      layer.append(s)
+      return s
+    }
+    
+    const blocks = []
+    for(let i = 0; i < 2000; i++) {
+      blocks.push(createRandomBlock())
+    }
+    
+    const colors = ['red', 'blue']
+    let i = 0
+    
+    const batch = new Batch(layer)
+    batch.add(...blocks)
+
+    setInterval(function f() {
+      const bgcolor = colors[++i % 2]
+      batch.baseNode.attr({bgcolor})
+
+      blocks.forEach(block => {
+        const x = Math.random() * 600,
+        y = Math.random() * 600,
+        rotate = Math.random() * 360
+        block.attr({x, y, rotate})
+      })
+    }, 16)
+    // layer.draw()
+    
+  </script>
+</body>
+</html>

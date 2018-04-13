@@ -5,6 +5,7 @@ import Layer from './layer'
 import Group from './group'
 import BaseNode from './basenode'
 import Path from './path'
+import Batch from './batch'
 import {registerNodeType, createNode} from './nodetype'
 
 import {Effects} from 'sprite-animator'
@@ -14,6 +15,7 @@ import SvgPath from 'svg-path-to-canvas'
 export {
   BaseNode,
   BaseSprite,
+  Batch,
   Sprite,
   Label,
   Path,

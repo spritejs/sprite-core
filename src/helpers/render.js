@@ -67,10 +67,17 @@ function gradientBox(angle, rect) {
 }
 
 export function findColor(context, sprite, prop) {
-  const gradients = sprite.attr('gradients')
+  const gradients = sprite.attr('gradients') || {}
+  let color = prop === 'border' ? sprite.attr(prop)[1] : sprite.attr(prop),
+    gradient
 
-  if(gradients && gradients[prop]) {
-    const gradient = gradients[prop]
+  if(gradients[prop]) {
+    gradient = gradients[prop]
+  } else if(typeof color !== 'string') {
+    gradient = color
+  }
+
+  if(gradient) {
     let {colors, vector, direction, rect} = gradient
 
     if(direction != null) {
@@ -83,7 +90,6 @@ export function findColor(context, sprite, prop) {
       vector = gradientBox(direction, rect)
     }
 
-    let color
     if(vector.length === 4) {
       color = context.createLinearGradient(...vector)
     } else if(vector.length === 6) {
@@ -98,14 +104,9 @@ export function findColor(context, sprite, prop) {
     colors.forEach((o) => {
       color.addColorStop(o.offset, o.color)
     })
-
-    return color
   }
 
-  if(prop !== 'border') {
-    return sprite.attr(prop)
-  }
-  return sprite.attr('border')[1]
+  return color
 }
 
 export function copyContext(context, width, height) {
