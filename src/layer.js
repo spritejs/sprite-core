@@ -327,27 +327,33 @@ export default class Layer extends BaseNode {
     }
     return true
   }
-  dispatchEvent(type, evt) {
-    evt.layer = this
-    const sprites = this[_children].slice(0)
+  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+    collisionState = collisionState || this.pointCollision(evt)
+    if(!evt.terminated && collisionState) {
+      evt.layer = this
 
-    sortOrderedSprites(sprites, true)
+      const sprites = this[_children].slice(0)
+      sortOrderedSprites(sprites, true)
 
-    const targetSprites = []
-    for(let i = 0; i < sprites.length; i++) {
-      const sprite = sprites[i]
-      const hit = sprite.dispatchEvent(type, evt)
-      if(hit) {
-        // detect mouseenter/mouseleave
-        targetSprites.push(sprite)
+      const targetSprites = []
+
+      if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+        for(let i = 0; i < sprites.length; i++) {
+          const sprite = sprites[i]
+          const hit = sprite.dispatchEvent(type, evt, collisionState, false)
+          if(hit) {
+            // detect mouseenter/mouseleave
+            targetSprites.push(sprite)
+          }
+          if(evt.terminated && !evt.type.startsWith('mouse')) {
+            break
+          }
+        }
       }
-      if(evt.terminated && !evt.type.startsWith('mouse')) {
-        break
-      }
+
+      evt.targetSprites = targetSprites
+      super.dispatchEvent(type, evt, collisionState)
     }
-
-    evt.targetSprites = targetSprites
-    super.dispatchEvent(type, evt)
   }
   connect(parent, zOrder, zIndex) {
     super.connect(parent, zOrder)

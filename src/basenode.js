@@ -32,7 +32,7 @@ export default class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method')
   }
-  dispatchEvent(type, evt, forceTrigger = false, terminated = false) {
+  dispatchEvent(type, evt, collisionState = false) {
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
         this.terminated = true
@@ -45,7 +45,9 @@ export default class BaseNode {
       evt.type = type
     }
 
-    if(!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
+    collisionState = collisionState || this.pointCollision(evt)
+
+    if(!evt.terminated && collisionState) {
       evt.target = this
 
       const handlers = this[_eventHandlers][type]
@@ -59,7 +61,7 @@ export default class BaseNode {
           _evt.type = 'mouseenter'
           _evt.terminated = false
 
-          this.dispatchEvent('mouseenter', _evt)
+          this.dispatchEvent('mouseenter', _evt, true)
         }
         this[_collisionState] = true
       }
@@ -75,7 +77,6 @@ export default class BaseNode {
       this[_collisionState] = false
     }
 
-    this.terminated = terminated
     return this[_collisionState]
   }
   // called when layer appendChild
@@ -101,7 +102,7 @@ export default class BaseNode {
       this.dispatchEvent('append', {
         parent,
         zOrder,
-      }, true)
+      }, true, true)
     }
 
     return this
@@ -121,7 +122,7 @@ export default class BaseNode {
       this.dispatchEvent('remove', {
         parent,
         zOrder,
-      }, true)
+      }, true, true)
     }
 
     delete this.parent

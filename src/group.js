@@ -36,14 +36,12 @@ export default class Group extends BaseSprite {
     this[_children] = []
     this[_zOrder] = 0
   }
-  appendChild(sprite, sort = true) {
+  appendChild(sprite) {
     this[_children].push(sprite)
     sprite.connect(this, this[_zOrder]++)
-    if(sort) sortOrderedSprites(this[_children])
   }
   append(...sprites) {
-    sprites.forEach(sprite => this.appendChild(sprite, false))
-    sortOrderedSprites(this[_children])
+    sprites.forEach(sprite => this.appendChild(sprite))
   }
   removeChild(sprite) {
     const idx = this[_children].indexOf(sprite)
@@ -111,8 +109,9 @@ export default class Group extends BaseSprite {
     }
     return [width, height]
   }
-  dispatchEvent(type, evt, forceTrigger = false) {
-    if(!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+    collisionState = collisionState || this.pointCollision(evt)
+    if(!evt.terminated && collisionState) {
       const parentX = evt.offsetX - this.originalRect[0]
       const parentY = evt.offsetY - this.originalRect[1]
       // console.log(evt.parentX, evt.parentY)
@@ -121,21 +120,26 @@ export default class Group extends BaseSprite {
       _evt.parentX = parentX
       _evt.parentY = parentY
 
+      const sprites = this[_children].slice(0)
+      sortOrderedSprites(sprites, true)
+
       const targetSprites = []
 
-      for(let i = 0; i < this[_children].length && evt.isInClip !== false; i++) {
-        const sprite = this[_children][i]
-        const hit = sprite.dispatchEvent(type, _evt, forceTrigger)
-        if(hit) {
-          targetSprites.push(sprite)
-        }
-        if(evt.terminated && !evt.type.startsWith('mouse')) {
-          break
+      if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+        for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
+          const sprite = sprites[i]
+          const hit = sprite.dispatchEvent(type, _evt, collisionState, false)
+          if(hit) {
+            targetSprites.push(sprite)
+          }
+          if(evt.terminated && !evt.type.startsWith('mouse')) {
+            break
+          }
         }
       }
 
       evt.targetSprites = targetSprites
-      super.dispatchEvent(type, evt, forceTrigger)
+      super.dispatchEvent(type, evt, collisionState)
     }
   }
   render(t, drawingContext) {
@@ -150,10 +154,11 @@ export default class Group extends BaseSprite {
       context.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
     }
 
-    const children = this[_children]
+    const sprites = this[_children].slice(0)
+    sortOrderedSprites(sprites)
 
-    for(let i = 0; i < children.length; i++) {
-      const child = children[i]
+    for(let i = 0; i < sprites.length; i++) {
+      const child = sprites[i]
       child.draw(t)
     }
 

@@ -2205,8 +2205,7 @@ var BaseNode = function () {
     value: function dispatchEvent(type, evt) {
       var _this = this;
 
-      var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var terminated = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
       if (!evt.stopDispatch) {
         evt.stopDispatch = function () {
@@ -2220,7 +2219,9 @@ var BaseNode = function () {
         evt.type = type;
       }
 
-      if (!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
+      collisionState = collisionState || this.pointCollision(evt);
+
+      if (!evt.terminated && collisionState) {
         evt.target = this;
 
         var handlers = this[_eventHandlers][type];
@@ -2236,7 +2237,7 @@ var BaseNode = function () {
             _evt.type = 'mouseenter';
             _evt.terminated = false;
 
-            this.dispatchEvent('mouseenter', _evt);
+            this.dispatchEvent('mouseenter', _evt, true);
           }
           this[_collisionState] = true;
         }
@@ -2252,7 +2253,6 @@ var BaseNode = function () {
         this[_collisionState] = false;
       }
 
-      this.terminated = terminated;
       return this[_collisionState];
     }
     // called when layer appendChild
@@ -2285,7 +2285,7 @@ var BaseNode = function () {
         this.dispatchEvent('append', {
           parent: parent,
           zOrder: zOrder
-        }, true);
+        }, true, true);
       }
 
       return this;
@@ -2308,7 +2308,7 @@ var BaseNode = function () {
         this.dispatchEvent('remove', {
           parent: parent,
           zOrder: zOrder
-        }, true);
+        }, true, true);
       }
 
       delete this.parent;
@@ -4101,11 +4101,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   (0, _createClass3.default)(Group, [{
     key: 'appendChild',
     value: function appendChild(sprite) {
-      var sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
       this[_children].push(sprite);
       sprite.connect(this, this[_zOrder]++);
-      if (sort) (0, _spriteUtils.sortOrderedSprites)(this[_children]);
     }
   }, {
     key: 'append',
@@ -4117,9 +4114,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       }
 
       sprites.forEach(function (sprite) {
-        return _this3.appendChild(sprite, false);
+        return _this3.appendChild(sprite);
       });
-      (0, _spriteUtils.sortOrderedSprites)(this[_children]);
     }
   }, {
     key: 'removeChild',
@@ -4179,9 +4175,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
-      var forceTrigger = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      if (!evt.terminated && (forceTrigger || this.pointCollision(evt))) {
+      collisionState = collisionState || this.pointCollision(evt);
+      if (!evt.terminated && collisionState) {
         var parentX = evt.offsetX - this.originalRect[0];
         var parentY = evt.offsetY - this.originalRect[1];
         // console.log(evt.parentX, evt.parentY)
@@ -4190,21 +4188,26 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         _evt.parentX = parentX;
         _evt.parentY = parentY;
 
+        var _sprites = this[_children].slice(0);
+        (0, _spriteUtils.sortOrderedSprites)(_sprites, true);
+
         var targetSprites = [];
 
-        for (var i = 0; i < this[_children].length && evt.isInClip !== false; i++) {
-          var sprite = this[_children][i];
-          var hit = sprite.dispatchEvent(type, _evt, forceTrigger);
-          if (hit) {
-            targetSprites.push(sprite);
-          }
-          if (evt.terminated && !evt.type.startsWith('mouse')) {
-            break;
+        if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+          for (var i = 0; i < _sprites.length && evt.isInClip !== false; i++) {
+            var sprite = _sprites[i];
+            var hit = sprite.dispatchEvent(type, _evt, collisionState, false);
+            if (hit) {
+              targetSprites.push(sprite);
+            }
+            if (evt.terminated && !evt.type.startsWith('mouse')) {
+              break;
+            }
           }
         }
 
         evt.targetSprites = targetSprites;
-        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, forceTrigger);
+        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
       }
     }
   }, {
@@ -4221,10 +4224,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         context.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
       }
 
-      var children = this[_children];
+      var sprites = this[_children].slice(0);
+      (0, _spriteUtils.sortOrderedSprites)(sprites);
 
-      for (var i = 0; i < children.length; i++) {
-        var child = children[i];
+      for (var i = 0; i < sprites.length; i++) {
+        var child = sprites[i];
         child.draw(t);
       }
 
@@ -6866,26 +6870,35 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
-      evt.layer = this;
-      var sprites = this[_children].slice(0);
+      var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      (0, _spriteUtils.sortOrderedSprites)(sprites, true);
+      collisionState = collisionState || this.pointCollision(evt);
+      if (!evt.terminated && collisionState) {
+        evt.layer = this;
 
-      var targetSprites = [];
-      for (var i = 0; i < sprites.length; i++) {
-        var sprite = sprites[i];
-        var hit = sprite.dispatchEvent(type, evt);
-        if (hit) {
-          // detect mouseenter/mouseleave
-          targetSprites.push(sprite);
+        var _sprites = this[_children].slice(0);
+        (0, _spriteUtils.sortOrderedSprites)(_sprites, true);
+
+        var targetSprites = [];
+
+        if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+          for (var i = 0; i < _sprites.length; i++) {
+            var sprite = _sprites[i];
+            var hit = sprite.dispatchEvent(type, evt, collisionState, false);
+            if (hit) {
+              // detect mouseenter/mouseleave
+              targetSprites.push(sprite);
+            }
+            if (evt.terminated && !evt.type.startsWith('mouse')) {
+              break;
+            }
+          }
         }
-        if (evt.terminated && !evt.type.startsWith('mouse')) {
-          break;
-        }
+
+        evt.targetSprites = targetSprites;
+        (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
       }
-
-      evt.targetSprites = targetSprites;
-      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt);
     }
   }, {
     key: 'connect',
