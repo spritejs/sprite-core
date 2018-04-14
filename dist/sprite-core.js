@@ -1328,10 +1328,8 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var borderWidth = attr.border[0];
       var borderRadius = attr.borderRadius;
 
-      drawingContext.save();
-
       // draw border
-      if (borderWidth || borderRadius) {
+      if (borderWidth) {
         drawingContext.lineWidth = borderWidth;
 
         var x = borderWidth / 2,
@@ -1342,16 +1340,15 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
 
         (0, _render.drawRadiusBox)(drawingContext, { x: x, y: y, w: w, h: h, r: r });
-        if (borderWidth) {
-          drawingContext.strokeStyle = (0, _render.findColor)(drawingContext, this, 'border');
-          drawingContext.stroke();
-        }
-        drawingContext.clip();
+
+        drawingContext.strokeStyle = (0, _render.findColor)(drawingContext, this, 'border');
+        drawingContext.stroke();
       }
 
       // draw bgcolor
       var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');
-      if (bgcolor) {
+
+      if (bgcolor || borderRadius) {
         var _ref = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
             _x3 = _ref[0],
             _y = _ref[1],
@@ -1362,11 +1359,17 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
         (0, _render.drawRadiusBox)(drawingContext, { x: _x3, y: _y, w: _w, h: _h, r: _r });
 
-        drawingContext.fillStyle = bgcolor;
-        drawingContext.fill();
+        if (bgcolor) {
+          drawingContext.fillStyle = bgcolor;
+          drawingContext.fill();
+        }
+        // we should always clip to prevent the subclass rendering not overflow the box
+        // but in some platform (eg. wxapp), clip regions has very high cost
+        // for performance we allow the region clip only when sprite has borderRadius
+        if (borderRadius) {
+          drawingContext.clip();
+        }
       }
-
-      drawingContext.restore();
 
       drawingContext.translate(borderWidth + attr.padding[3], borderWidth + attr.padding[0]);
 
