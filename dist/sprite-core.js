@@ -1293,12 +1293,15 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           this.cache = cachableContext;
           cachableContext = this.render(t, cachableContext) || cachableContext;
         }
-        drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1]);
       } else {
         this.render(t, drawingContext);
       }
 
       this.dispatchEvent('afterdraw', evtArgs, true, true);
+
+      if (cachableContext) {
+        drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1]);
+      }
       drawingContext.restore();
 
       this.dispatchEvent('update', evtArgs, true, true);
