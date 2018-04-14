@@ -471,10 +471,8 @@ export default class BaseSprite extends BaseNode {
     const borderWidth = attr.border[0]
     const borderRadius = attr.borderRadius
 
-    drawingContext.save()
-
     // draw border
-    if(borderWidth || borderRadius) {
+    if(borderWidth) {
       drawingContext.lineWidth = borderWidth
 
       const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2,
@@ -482,27 +480,25 @@ export default class BaseSprite extends BaseNode {
         borderRadius]
 
       drawRadiusBox(drawingContext, {x, y, w, h, r})
-      if(borderWidth) {
-        drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
-        drawingContext.stroke()
-      }
-      drawingContext.clip()
+
+      drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
+      drawingContext.stroke()
     }
 
     // draw bgcolor
     const bgcolor = findColor(drawingContext, this, 'bgcolor')
+    const [x, y, w, h, r] = [borderWidth, borderWidth,
+      clientWidth, clientHeight,
+      Math.max(0, borderRadius - borderWidth / 2)]
+
+    drawRadiusBox(drawingContext, {x, y, w, h, r})
+
     if(bgcolor) {
-      const [x, y, w, h, r] = [borderWidth, borderWidth,
-        clientWidth, clientHeight,
-        Math.max(0, borderRadius - borderWidth / 2)]
-
-      drawRadiusBox(drawingContext, {x, y, w, h, r})
-
       drawingContext.fillStyle = bgcolor
       drawingContext.fill()
     }
+    drawingContext.clip()
 
-    drawingContext.restore()
 
     drawingContext.translate(borderWidth + attr.padding[3], borderWidth + attr.padding[0])
 
