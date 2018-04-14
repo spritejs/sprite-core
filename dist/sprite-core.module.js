@@ -809,7 +809,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       drawingContext.save();
 
       // draw border
-      if (borderWidth) {
+      if (borderWidth || borderRadius) {
         drawingContext.lineWidth = borderWidth;
 
         var x = borderWidth / 2,
@@ -820,8 +820,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
 
         (0, _render.drawRadiusBox)(drawingContext, { x: x, y: y, w: w, h: h, r: r });
-        drawingContext.strokeStyle = (0, _render.findColor)(drawingContext, this, 'border');
-        drawingContext.stroke();
+        if (borderWidth) {
+          drawingContext.strokeStyle = (0, _render.findColor)(drawingContext, this, 'border');
+          drawingContext.stroke();
+        }
         drawingContext.clip();
       }
 

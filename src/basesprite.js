@@ -474,7 +474,7 @@ export default class BaseSprite extends BaseNode {
     drawingContext.save()
 
     // draw border
-    if(borderWidth) {
+    if(borderWidth || borderRadius) {
       drawingContext.lineWidth = borderWidth
 
       const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2,
@@ -482,8 +482,10 @@ export default class BaseSprite extends BaseNode {
         borderRadius]
 
       drawRadiusBox(drawingContext, {x, y, w, h, r})
-      drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
-      drawingContext.stroke()
+      if(borderWidth) {
+        drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
+        drawingContext.stroke()
+      }
       drawingContext.clip()
     }
 
