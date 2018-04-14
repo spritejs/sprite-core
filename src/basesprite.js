@@ -488,7 +488,7 @@ export default class BaseSprite extends BaseNode {
     // draw bgcolor
     const bgcolor = findColor(drawingContext, this, 'bgcolor')
 
-    if(bgcolor || borderRadius) {
+    if(borderWidth || borderRadius || bgcolor) {
       const [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         Math.max(0, borderRadius - borderWidth / 2)]
@@ -502,7 +502,7 @@ export default class BaseSprite extends BaseNode {
       // we should always clip to prevent the subclass rendering not to overflow the box
       // but in some platform (eg. wxapp), clip regions has very high cost
       // for performance we allow the region clip only when sprite has borderRadius
-      if(borderRadius) {
+      if(borderWidth || borderRadius) {
         drawingContext.clip()
       }
     }

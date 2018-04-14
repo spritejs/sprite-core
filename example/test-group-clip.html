@@ -23,6 +23,7 @@
       const group = new Group({
         pos: [300, 300],
         anchor: [0.5, 0.5],
+        // size: [100, 100],
         clip: {
           d: clipPath,
           transform: {
@@ -31,7 +32,17 @@
         },
         bgcolor: 'grey',
         border: [10, 'blue'],
+        // borderRadius: 50,
       })
+
+      // group.on('afterdraw', ({context}) => {
+      //   context.beginPath()
+      //   context.moveTo(0, 0)
+      //   context.lineTo(1000, 1000)
+      //   context.strokeStyle = 'red'
+      //   context.lineWidth = 10
+      //   context.stroke()
+      // })
 
       fglayer.append(group)
 
