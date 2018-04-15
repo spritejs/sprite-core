@@ -15,7 +15,7 @@
     "graphics"
   ],
   "scripts": {
-    "test": "nyc ava --serial && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
     "lint": "eslint 'src/**/*.js' --fix",
     "start": "webpack-dev-server -d --quiet --port 9090 & http-server example -c-1 -p 9091",
     "benchmark": "webpack-dev-server -d --quiet --port 9090 & http-server benchmark -c-1 -p 9091",
@@ -43,10 +43,14 @@
     "babel-plugin-transform-decorators-runtime": "^0.4.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.3.2",
+    "colors": "^1.2.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.17.0",
     "eslint-config-75team": "^1.0.2",
+    "hamming-distance": "^1.0.0",
+    "imghash": "0.0.3",
     "nyc": "^11.1.0",
+    "pixelmatch": "^4.0.2",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },

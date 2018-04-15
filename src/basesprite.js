@@ -417,7 +417,7 @@ export default class BaseSprite extends BaseNode {
     )
   }
 
-  draw(t, ...args) {
+  draw(t) {
     const drawingContext = this.context
 
     drawingContext.save()
