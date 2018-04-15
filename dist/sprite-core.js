@@ -6617,22 +6617,20 @@ var Layer = function (_BaseNode) {
       }
 
       var updateSet = this[_updateSet];
-      if (!updateSet.size) {
-        return; // nothing to draw
-      }
+      if (updateSet.size) {
+        var renderer = void 0;
+        if (this.renderMode === 'repaintDirty') {
+          renderer = this.renderRepaintDirty.bind(this);
+        } else if (this.renderMode === 'repaintAll') {
+          renderer = this.renderRepaintAll.bind(this);
+        } else {
+          throw new Error('unknown render mode!');
+        }
+        var currentTime = this.timeline.currentTime;
+        renderer(currentTime);
 
-      var renderer = void 0;
-      if (this.renderMode === 'repaintDirty') {
-        renderer = this.renderRepaintDirty.bind(this);
-      } else if (this.renderMode === 'repaintAll') {
-        renderer = this.renderRepaintAll.bind(this);
-      } else {
-        throw new Error('unknown render mode!');
+        (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
       }
-      var currentTime = this.timeline.currentTime;
-      renderer(currentTime);
-
-      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
       if (this[_renderDeferer]) {
         this[_renderDeferer].resolve();
         this[_renderDeferer] = null;

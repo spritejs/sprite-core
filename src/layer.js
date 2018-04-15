@@ -109,25 +109,23 @@ export default class Layer extends BaseNode {
     }
 
     const updateSet = this[_updateSet]
-    if(!updateSet.size) {
-      return // nothing to draw
-    }
+    if(updateSet.size) {
+      let renderer
+      if(this.renderMode === 'repaintDirty') {
+        renderer = this.renderRepaintDirty.bind(this)
+      } else if(this.renderMode === 'repaintAll') {
+        renderer = this.renderRepaintAll.bind(this)
+      } else {
+        throw new Error('unknown render mode!')
+      }
+      const currentTime = this.timeline.currentTime
+      renderer(currentTime)
 
-    let renderer
-    if(this.renderMode === 'repaintDirty') {
-      renderer = this.renderRepaintDirty.bind(this)
-    } else if(this.renderMode === 'repaintAll') {
-      renderer = this.renderRepaintAll.bind(this)
-    } else {
-      throw new Error('unknown render mode!')
+      super.dispatchEvent.call(
+        this, 'update',
+        {target: this, timeline: this.timeline, renderTime: currentTime}, true
+      )
     }
-    const currentTime = this.timeline.currentTime
-    renderer(currentTime)
-
-    super.dispatchEvent.call(
-      this, 'update',
-      {target: this, timeline: this.timeline, renderTime: currentTime}, true
-    )
     if(this[_renderDeferer]) {
       this[_renderDeferer].resolve()
       this[_renderDeferer] = null
