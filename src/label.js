@@ -164,12 +164,12 @@ export default class Label extends BaseSprite {
       }
 
       let fillColor = findColor(context, this, 'fillColor')
-      if(fillColor) {
-        context.fillStyle = fillColor
-      }
 
       if(!strokeColor && !fillColor) {
         fillColor = parseColorString('black')
+      }
+      if(fillColor) {
+        context.fillStyle = fillColor
       }
 
       let top = 0,

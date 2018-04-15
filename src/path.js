@@ -215,12 +215,12 @@ export default class Path extends BaseSprite {
       }
 
       let strokeColor = findColor(context, this, 'strokeColor')
-      if(strokeColor) {
-        context.strokeStyle = strokeColor
-      }
 
       if(!strokeColor && !fillColor) {
         strokeColor = parseColorString('black')
+      }
+      if(strokeColor) {
+        context.strokeStyle = strokeColor
       }
 
       if(fillColor) {
