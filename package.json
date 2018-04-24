@@ -1,13 +1,13 @@
 {
   "name": "sprite-core",
-  "version": "1.16.13",
+  "version": "1.16.14",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib"
   },
   "browser": {
-    "svg-path-to-canvas": "./node_modules/svg-path-to-canvas/dist/svg-path-to-canvas.module"
+    "svg-path-to-canvas": "svg-path-to-canvas/dist/svg-path-to-canvas.module"
   },
   "keywords": [
     "canvas",
