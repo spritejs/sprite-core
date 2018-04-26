@@ -5,6 +5,7 @@ import {registerNodeType} from './nodetype'
 import {findColor} from './helpers/render'
 
 const parseFont = require('./helpers/parse-font')
+const _boxSize = Symbol('boxSize')
 
 const measureText = (node, text, font, lineHeight = '') => {
   const ctx = node.context
@@ -46,7 +47,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       fillColor: '',
       lineHeight: '',
       text: '',
-      textboxSize: '',
     }, {
       color: {
         get() {
@@ -60,26 +60,21 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set text(val) {
     this.clearCache()
     val = String(val)
-    this.set('textboxSize', '')
+    delete this.subject[_boxSize]
     this.set('text', val)
-  }
-
-  @attr
-  set textboxSize(val) {
-    this.set('textboxSize', val)
   }
 
   @attr
   set font(val) {
     this.clearCache()
-    this.set('textboxSize', '')
+    delete this.subject[_boxSize]
     this.set('font', val)
   }
 
   @attr
   set lineHeight(val) {
     this.clearCache()
-    this.set('textboxSize', '')
+    delete this.subject[_boxSize]
     this.set('lineHeight', val)
   }
 
@@ -128,14 +123,12 @@ export default class Label extends BaseSprite {
   get contentSize() {
     const [width, height] = this.attr('size')
 
-    const boxSize = this.attr('textboxSize')
-
-    if(boxSize) {
-      return boxSize
+    if(this[_boxSize]) {
+      return this[_boxSize]
     }
     if(width === '' || height === '') {
       const size = calculTextboxSize(this, this.text, this.attr('font'), this.attr('lineHeight'))
-      this.attr('textboxSize', size)
+      this[_boxSize] = size
       return size || [0, 0]
     }
 

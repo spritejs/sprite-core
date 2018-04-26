@@ -12,6 +12,7 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
+    const Label = spritejs.Label
     const Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
     const fglayer = new Layer({context})
@@ -50,11 +51,27 @@ group.attr({
   pos: [200, 200],
   rotate: 0, 
   border: [1, 'red'],
+  // size: [200, 200],
 })
 
 s1.on('click', evt => {
   console.log(evt)
 })
+
+const t1 = new Label('测试')
+t1.attr({
+  font: '46px Arial',
+  pos: [0, 10],
+  fillColor: 'red',
+})
+
+const t2 = new Label('测试')
+t2.attr({
+  font: '46px Arial',
+  pos: [0, 100],
+  fillColor: 'blue',
+})
+group.append(t1, t2)
 
 group.animate([
   {rotate: 360}

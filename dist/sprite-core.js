@@ -322,6 +322,12 @@ module.exports = { "default": __webpack_require__(144), __esModule: true };
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(155), __esModule: true };
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -355,12 +361,6 @@ exports.deprecate = _decorators.deprecate;
 exports.parseValue = _decorators.parseValue;
 exports.sortOrderedSprites = _utils.sortOrderedSprites;
 exports.isPropEqual = _utils.isPropEqual;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(155), __esModule: true };
 
 /***/ }),
 /* 11 */
@@ -962,7 +962,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -982,7 +982,7 @@ var _animation = __webpack_require__(117);
 
 var _animation2 = _interopRequireDefault(_animation);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _nodetype = __webpack_require__(20);
 
@@ -2004,7 +2004,7 @@ var _iterator = __webpack_require__(132);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -2154,7 +2154,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -2360,7 +2360,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -3248,7 +3248,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -3391,7 +3391,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -3403,7 +3403,7 @@ var _basesprite2 = _interopRequireDefault(_basesprite);
 
 var _nodetype = __webpack_require__(20);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _path = __webpack_require__(80);
 
@@ -4833,7 +4833,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -5531,13 +5531,17 @@ var _slicedToArray2 = __webpack_require__(1);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
+var _symbol = __webpack_require__(9);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
 var _desc, _value, _class, _class2, _temp;
 
 var _basesprite = __webpack_require__(32);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _nodetype = __webpack_require__(20);
 
@@ -5548,6 +5552,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _applyDecoratedDescriptor = __webpack_require__(34);
 
 var parseFont = __webpack_require__(121);
+var _boxSize = (0, _symbol2.default)('boxSize');
 
 var measureText = function measureText(node, text, font) {
   var lineHeight = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
@@ -5602,8 +5607,7 @@ var LabelSpriteAttr = (_class = function (_BaseSprite$Attr) {
       strokeColor: '',
       fillColor: '',
       lineHeight: '',
-      text: '',
-      textboxSize: ''
+      text: ''
     }, {
       color: {
         get: function get() {
@@ -5619,26 +5623,21 @@ var LabelSpriteAttr = (_class = function (_BaseSprite$Attr) {
     set: function set(val) {
       this.clearCache();
       val = String(val);
-      this.set('textboxSize', '');
+      delete this.subject[_boxSize];
       this.set('text', val);
-    }
-  }, {
-    key: 'textboxSize',
-    set: function set(val) {
-      this.set('textboxSize', val);
     }
   }, {
     key: 'font',
     set: function set(val) {
       this.clearCache();
-      this.set('textboxSize', '');
+      delete this.subject[_boxSize];
       this.set('font', val);
     }
   }, {
     key: 'lineHeight',
     set: function set(val) {
       this.clearCache();
-      this.set('textboxSize', '');
+      delete this.subject[_boxSize];
       this.set('lineHeight', val);
     }
   }, {
@@ -5666,7 +5665,7 @@ var LabelSpriteAttr = (_class = function (_BaseSprite$Attr) {
     }
   }]);
   return LabelSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textboxSize', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textboxSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype)), _class);
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype)), _class);
 var Label = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Label, _BaseSprite);
 
@@ -5761,14 +5760,12 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
           width = _attr2[0],
           height = _attr2[1];
 
-      var boxSize = this.attr('textboxSize');
-
-      if (boxSize) {
-        return boxSize;
+      if (this[_boxSize]) {
+        return this[_boxSize];
       }
       if (width === '' || height === '') {
         var size = calculTextboxSize(this, this.text, this.attr('font'), this.attr('lineHeight'));
-        this.attr('textboxSize', size);
+        this[_boxSize] = size;
         return size || [0, 0];
       }
 
@@ -5842,7 +5839,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -5868,7 +5865,7 @@ var _render = __webpack_require__(43);
 
 var _dirtyCheck = __webpack_require__(120);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6434,7 +6431,7 @@ var _render = __webpack_require__(43);
 
 var _spriteAnimator = __webpack_require__(42);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _path = __webpack_require__(80);
 
@@ -6767,7 +6764,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -6781,7 +6778,7 @@ var _filters = __webpack_require__(119);
 
 var _filters2 = _interopRequireDefault(_filters);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _nodetype = __webpack_require__(20);
 
@@ -7633,7 +7630,7 @@ var _fastAnimationFrame = __webpack_require__(106);
 
 var _spriteMath = __webpack_require__(33);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7861,7 +7858,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -7869,7 +7866,7 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class;
 
 var _spriteMath = __webpack_require__(33);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var _svgPathToCanvas = __webpack_require__(53);
 
@@ -8387,7 +8384,7 @@ var _slicedToArray2 = __webpack_require__(1);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8460,7 +8457,7 @@ var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 exports.isSpriteDirty = isSpriteDirty;
 exports.clearDirtyRects = clearDirtyRects;
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8873,7 +8870,7 @@ var _svgPathToCanvas = __webpack_require__(53);
 
 var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
-var _spriteUtils = __webpack_require__(9);
+var _spriteUtils = __webpack_require__(10);
 
 var utils = _interopRequireWildcard(_spriteUtils);
 
@@ -11144,7 +11141,7 @@ var _createClass2 = __webpack_require__(4);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _symbol = __webpack_require__(10);
+var _symbol = __webpack_require__(9);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
