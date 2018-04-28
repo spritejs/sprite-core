@@ -140,8 +140,9 @@ export default class Group extends BaseSprite {
       }
 
       evt.targetSprites = targetSprites
-      return super.dispatchEvent(type, evt, collisionState)
     }
+    // support mouseleave
+    return super.dispatchEvent(type, evt, collisionState)
   }
   render(t, drawingContext) {
     const context = super.render(t, drawingContext)

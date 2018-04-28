@@ -12,10 +12,11 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
+    const Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context, renderMode:'repaintDirty'})
 
-    const s = new Sprite({
+    const s = new Group({
       id: 'abc',
       anchor: 0.5,
       bgcolor: 'red',
@@ -59,13 +60,18 @@
     layer.append(s2)
     // layer.draw()
 
-    s.on('click', evt => {
+    s.on('mouseenter', evt => {
       console.log(evt)
     })
 
-    mycanvas.addEventListener('click', evt => {
+    s.on('mouseleave', evt => {
+      console.log(evt)
+    })
+
+
+    mycanvas.addEventListener('mousemove', evt => {
       const {offsetX, offsetY} = evt
-      s.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+      layer.dispatchEvent('mousemove', {layerX:offsetX, layerY:offsetY, originEvent: evt})
     })
   </script>
 </body>

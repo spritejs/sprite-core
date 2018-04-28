@@ -10,10 +10,11 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const BaseSprite = spritejs.BaseSprite
+    const BaseSprite = spritejs.BaseSprite,
+      Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
 
-    const s = new BaseSprite({
+    const s = new Group({
       anchor: 0.5,
       bgcolor: 'hsl(180,50%,50%)',
       size: [100, 100],
@@ -42,13 +43,17 @@
     })
     s2.connect(context).draw()
 
-    s.on('click', evt => {
+    s.on('mouseenter', evt => {
       console.log(evt)
     })
 
-    mycanvas.addEventListener('click', evt => {
+    s.on('mouseleave', evt => {
+      console.log(evt)
+    })
+
+    mycanvas.addEventListener('mousemove', evt => {
       const {offsetX, offsetY} = evt
-      s.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+      s.dispatchEvent('mousemove', {layerX:offsetX, layerY:offsetY, originEvent: evt})
     })
 
     requestAnimationFrame(function f() {
