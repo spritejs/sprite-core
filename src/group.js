@@ -39,6 +39,7 @@ export default class Group extends BaseSprite {
   appendChild(sprite) {
     this[_children].push(sprite)
     sprite.connect(this, this[_zOrder]++)
+    this.forceUpdate(true)
   }
   append(...sprites) {
     sprites.forEach(sprite => this.appendChild(sprite))
