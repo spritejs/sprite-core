@@ -222,7 +222,7 @@ export default class Path extends BaseSprite {
       const svg = this.svg
       const [ox, oy] = svg.bounds
       if(ox < 0 || oy < 0) {
-        context.translate(-ox, -oy)
+        context.translate(-Math.min(0, ox), -Math.min(0, oy))
       }
       context.translate(...this.pathOffset)
       svg.beginPath().to(context)
