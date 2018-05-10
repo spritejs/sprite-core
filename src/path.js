@@ -179,18 +179,35 @@ export default class Path extends BaseSprite {
     const lineWidth = this.lineWidth
 
     if(width === '') {
-      width = bounds[2] + 2 * 1.414 * lineWidth | 0
+      width = bounds[2] - Math.min(0, bounds[0]) + 2 * 1.414 * lineWidth | 0
     }
     if(height === '') {
-      height = bounds[3] + 2 * 1.414 * lineWidth | 0
+      height = bounds[3] - Math.min(0, bounds[1]) + 2 * 1.414 * lineWidth | 0
     }
 
     return [width, height]
   }
 
+  get originalRect() {
+    const rect = super.originalRect,
+      svg = this.svg
+    if(svg) {
+      const bounds = svg.bounds
+      rect[0] += Math.min(0, bounds[0])
+      rect[1] += Math.min(0, bounds[1])
+    }
+    return rect
+  }
+
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
-      const {offsetX, offsetY} = evt
+      let {offsetX, offsetY} = evt
+      const svg = this.svg
+      if(svg) {
+        const bounds = svg.bounds
+        offsetX += Math.min(0, bounds[0])
+        offsetY += Math.min(0, bounds[1])
+      }
       evt.targetPaths = this.findPath(offsetX, offsetY)
       return true
     }
@@ -202,8 +219,13 @@ export default class Path extends BaseSprite {
       attr = this.attr()
 
     if(attr.d) {
+      const svg = this.svg
+      const [ox, oy] = svg.bounds
+      if(ox < 0 || oy < 0) {
+        context.translate(-ox, -oy)
+      }
       context.translate(...this.pathOffset)
-      this.svg.beginPath().to(context)
+      svg.beginPath().to(context)
 
       context.lineWidth = attr.lineWidth
       context.lineCap = attr.lineCap

@@ -225,17 +225,14 @@ export default class BaseSprite extends BaseNode {
   }
 
   get boundingRect() {
-    const anchor = this.attr('anchor'),
-      transform = this.transform
-
+    const transform = this.transform
+    const [ox, oy] = this.originalRect
     const [width, height] = this.offsetSize
 
-    const [anchorX, anchorY] = anchor
-
-    const vertexs = [[-anchorX * width, -anchorY * height],
-      [(1 - anchorX) * width, -anchorY * height],
-      [-anchorX * width, (1 - anchorY) * height],
-      [(1 - anchorX) * width, (1 - anchorY) * height]]
+    const vertexs = [[ox, oy],
+      [width - ox, oy],
+      [ox, height - oy],
+      [width - ox, height - oy]]
 
     const transformed = vertexs.map((v) => {
       return transform.transformPoint(v[0], v[1])

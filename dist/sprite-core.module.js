@@ -958,18 +958,17 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
   }, {
     key: 'boundingRect',
     get: function get() {
-      var anchor = this.attr('anchor'),
-          transform = this.transform;
+      var transform = this.transform;
+
+      var _originalRect2 = (0, _slicedToArray3.default)(this.originalRect, 2),
+          ox = _originalRect2[0],
+          oy = _originalRect2[1];
 
       var _offsetSize2 = (0, _slicedToArray3.default)(this.offsetSize, 2),
           width = _offsetSize2[0],
           height = _offsetSize2[1];
 
-      var _anchor = (0, _slicedToArray3.default)(anchor, 2),
-          anchorX = _anchor[0],
-          anchorY = _anchor[1];
-
-      var vertexs = [[-anchorX * width, -anchorY * height], [(1 - anchorX) * width, -anchorY * height], [-anchorX * width, (1 - anchorY) * height], [(1 - anchorX) * width, (1 - anchorY) * height]];
+      var vertexs = [[ox, oy], [width - ox, oy], [ox, height - oy], [width - ox, height - oy]];
 
       var transformed = vertexs.map(function (v) {
         return transform.transformPoint(v[0], v[1]);
@@ -4592,13 +4591,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
 var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 var _get2 = __webpack_require__(10);
 
@@ -4809,6 +4808,12 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
         var offsetX = evt.offsetX,
             offsetY = evt.offsetY;
 
+        var svg = this.svg;
+        if (svg) {
+          var bounds = svg.bounds;
+          offsetX += Math.min(0, bounds[0]);
+          offsetY += Math.min(0, bounds[1]);
+        }
         evt.targetPaths = this.findPath(offsetX, offsetY);
         return true;
       }
@@ -4821,8 +4826,17 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           attr = this.attr();
 
       if (attr.d) {
+        var svg = this.svg;
+
+        var _svg$bounds = (0, _slicedToArray3.default)(svg.bounds, 2),
+            ox = _svg$bounds[0],
+            oy = _svg$bounds[1];
+
+        if (ox < 0 || oy < 0) {
+          context.translate(-ox, -oy);
+        }
         context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
-        this.svg.beginPath().to(context);
+        svg.beginPath().to(context);
 
         context.lineWidth = attr.lineWidth;
         context.lineCap = attr.lineCap;
@@ -4903,13 +4917,25 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       var lineWidth = this.lineWidth;
 
       if (width === '') {
-        width = bounds[2] + 2 * 1.414 * lineWidth | 0;
+        width = bounds[2] - Math.min(0, bounds[0]) + 2 * 1.414 * lineWidth | 0;
       }
       if (height === '') {
-        height = bounds[3] + 2 * 1.414 * lineWidth | 0;
+        height = bounds[3] - Math.min(0, bounds[1]) + 2 * 1.414 * lineWidth | 0;
       }
 
       return [width, height];
+    }
+  }, {
+    key: 'originalRect',
+    get: function get() {
+      var rect = (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'originalRect', this),
+          svg = this.svg;
+      if (svg) {
+        var bounds = svg.bounds;
+        rect[0] += Math.min(0, bounds[0]);
+        rect[1] += Math.min(0, bounds[1]);
+      }
+      return rect;
     }
   }]);
   return Path;

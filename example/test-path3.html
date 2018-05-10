@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Path</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Path = spritejs.Path
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const paths = [
+      'M-50,0L-50,100L100,100L100,0z'
+    ]
+    const path = new Path()
+    path.attr({
+      path: {d : paths[0]},
+      anchor: [0, 0],
+      // size: [1000, 1000],
+      pos: [300, 300],
+      strokeColor: 'blue',
+      bgcolor: '#aaa',
+      lineWidth: 1,
+      rotate: 30,
+    })
+    console.log(path.renderRect)
+    path.on('click', evt => {
+      console.log(evt.targetPaths)
+    })
+    // path.animate([
+    //   {d: paths[0]},
+    //   {d: paths[0]},
+    //   {d: paths[1]},
+    //   {d: paths[1]},
+    //   { d: paths[2]},
+    //   {d: paths[2]},
+    //   {d: paths[3]},
+    //   {d: paths[3]},
+    //   {d: paths[4]},
+    //   {d: paths[4]},
+    // ], {
+    //   delay: 1000,
+    //   duration: 10000,
+    //   fill: 'forwards',
+    //   iterations: Infinity,
+    //   direction: 'alternate'
+    // })
+    layer.appendChild(path)
+
+    mycanvas.addEventListener('click', evt => {
+      const {offsetX, offsetY} = evt
+      path.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+    })
+  </script>
+</body>
+</html>
