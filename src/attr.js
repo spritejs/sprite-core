@@ -137,12 +137,12 @@ class SpriteAttr {
 
   @attr
   set x(val) {
-    this.set('x', Math.round(val))
+    this.set('x', val)
   }
 
   @attr
   set y(val) {
-    this.set('y', Math.round(val))
+    this.set('y', val)
   }
 
   @parseValue(parseStringInt)
@@ -171,13 +171,13 @@ class SpriteAttr {
   @attr
   set width(val) {
     this.clearCache()
-    this.set('width', Math.round(val))
+    this.set('width', val)
   }
 
   @attr
   set height(val) {
     this.clearCache()
-    this.set('height', Math.round(val))
+    this.set('height', val)
   }
 
   @parseValue(parseStringInt)

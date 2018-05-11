@@ -986,7 +986,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           maxX = Math.max.apply(Math, (0, _toConsumableArray3.default)(vx)),
           maxY = Math.max.apply(Math, (0, _toConsumableArray3.default)(vy));
 
-      return [].concat((0, _toConsumableArray3.default)([minX, minY].map(Math.floor)), (0, _toConsumableArray3.default)([maxX - minX, maxY - minY].map(Math.ceil)));
+      return [minX, minY].concat([maxX - minX, maxY - minY]);
     }
 
     // rect before transform
@@ -1002,7 +1002,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           anchorX = _attr9[0],
           anchorY = _attr9[1];
 
-      return [Math.floor(-anchorX * width), Math.floor(-anchorY * height), width, height];
+      return [-anchorX * width, -anchorY * height, width, height];
     }
   }, {
     key: 'originalRenderRect',
@@ -6339,12 +6339,12 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'x',
     set: function set(val) {
-      this.set('x', Math.round(val));
+      this.set('x', val);
     }
   }, {
     key: 'y',
     set: function set(val) {
-      this.set('y', Math.round(val));
+      this.set('y', val);
     }
   }, {
     key: 'pos',
@@ -6376,13 +6376,13 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     key: 'width',
     set: function set(val) {
       this.clearCache();
-      this.set('width', Math.round(val));
+      this.set('width', val);
     }
   }, {
     key: 'height',
     set: function set(val) {
       this.clearCache();
-      this.set('height', Math.round(val));
+      this.set('height', val);
     }
   }, {
     key: 'size',

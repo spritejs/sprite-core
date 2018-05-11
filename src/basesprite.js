@@ -246,8 +246,7 @@ export default class BaseSprite extends BaseNode {
       maxX = Math.max(...vx),
       maxY = Math.max(...vy)
 
-    return [...[minX, minY].map(Math.floor),
-      ...[maxX - minX, maxY - minY].map(Math.ceil)]
+    return [...[minX, minY], ...[maxX - minX, maxY - minY]]
   }
 
   // rect before transform
@@ -255,8 +254,8 @@ export default class BaseSprite extends BaseNode {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')
 
-    return [Math.floor(-anchorX * width),
-      Math.floor(-anchorY * height),
+    return [-anchorX * width,
+      -anchorY * height,
       width, height]
   }
 
