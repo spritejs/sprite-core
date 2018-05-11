@@ -423,7 +423,7 @@ export default class BaseSprite extends BaseNode {
 
     const bound = this.originalRect
 
-    let cachableContext = this.cache || copyContext(drawingContext, bound[2], bound[3])
+    let cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]), Math.ceil(bound[3]))
     const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache}
 
     if(!cachableContext) {
