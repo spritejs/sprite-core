@@ -4,6 +4,11 @@ import {createCanvas} from 'canvas'
 
 const test = require('ava')
 
+function box(rect) {
+  const [x, y, w, h] = rect
+  return [...[x, y].map(Math.floor), ...[w, h].map(Math.ceil)]
+}
+
 test('box model', (t) => {
   const block = new Sprite()
   t.deepEqual(block.contentSize, [0, 0])
@@ -45,9 +50,9 @@ test('box model', (t) => {
   t.deepEqual(block.offsetSize, [100, 100])
 
   t.deepEqual(block.originalRect, [-50, -50, 100, 100])
-  t.deepEqual(block.boundingRect, [-71, -71, 142, 142])
-  t.deepEqual(block.originalRenderRect, [335, 250, 100, 100])
-  t.deepEqual(block.renderRect, [314, 229, 142, 142])
+  t.deepEqual(box(block.boundingRect), [-71, -71, 142, 142])
+  t.deepEqual(box(block.originalRenderRect), [335, 250, 100, 100])
+  t.deepEqual(box(block.renderRect), [314, 229, 142, 142])
 
   block.attr({
     padding: 10,
@@ -61,9 +66,9 @@ test('box model', (t) => {
   t.deepEqual(block.offsetSize, [130, 130])
 
   t.deepEqual(block.originalRect, [-65, -65, 130, 130])
-  t.deepEqual(block.boundingRect, [-92, -92, 184, 184])
-  t.deepEqual(block.originalRenderRect, [320, 235, 130, 130])
-  t.deepEqual(block.renderRect, [293, 208, 184, 184])
+  t.deepEqual(box(block.boundingRect), [-92, -92, 184, 184])
+  t.deepEqual(box(block.originalRenderRect), [320, 235, 130, 130])
+  t.deepEqual(box(block.renderRect), [293, 208, 184, 184])
 })
 
 test('red block 150/300', async (t) => {

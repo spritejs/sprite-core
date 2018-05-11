@@ -230,9 +230,9 @@ export default class BaseSprite extends BaseNode {
     const [width, height] = this.offsetSize
 
     const vertexs = [[ox, oy],
-      [width - ox, oy],
-      [ox, height - oy],
-      [width - ox, height - oy]]
+      [width + ox, oy],
+      [ox, height + oy],
+      [width + ox, height + oy]]
 
     const transformed = vertexs.map((v) => {
       return transform.transformPoint(v[0], v[1])
