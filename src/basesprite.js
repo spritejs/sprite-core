@@ -423,11 +423,15 @@ export default class BaseSprite extends BaseNode {
 
     const bound = this.originalRect
 
-    let cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]), Math.ceil(bound[3]))
+    // solve 1px problem
+    let cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]) + 2, Math.ceil(bound[3]) + 2)
     const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache}
 
     if(!cachableContext) {
       drawingContext.translate(bound[0], bound[1])
+    } else {
+      // solve 1px problem
+      cachableContext.translate(1, 1)
     }
 
     this.dispatchEvent('beforedraw', evtArgs, true, true)
