@@ -1081,6 +1081,24 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       return this[_attr].attrs;
     }
   }, {
+    key: 'isVisible',
+    value: function isVisible() {
+      var opacity = this.attr('opacity');
+      if (opacity <= 0) {
+        return false;
+      }
+
+      var _offsetSize = (0, _slicedToArray3.default)(this.offsetSize, 2),
+          width = _offsetSize[0],
+          height = _offsetSize[1];
+
+      if (width <= 0 || height <= 0) {
+        return false;
+      }
+
+      return true;
+    }
+  }, {
     key: 'animate',
     value: function animate(frames, timing) {
       var _this2 = this;
@@ -1317,9 +1335,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     key: 'render',
     value: function render(t, drawingContext) {
       var attr = this.attr(),
-          _offsetSize = (0, _slicedToArray3.default)(this.offsetSize, 2),
-          offsetWidth = _offsetSize[0],
-          offsetHeight = _offsetSize[1],
+          _offsetSize2 = (0, _slicedToArray3.default)(this.offsetSize, 2),
+          offsetWidth = _offsetSize2[0],
+          offsetHeight = _offsetSize2[1],
           _clientSize = (0, _slicedToArray3.default)(this.clientSize, 2),
           clientWidth = _clientSize[0],
           clientHeight = _clientSize[1];
@@ -1490,9 +1508,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           ox = _originalRect2[0],
           oy = _originalRect2[1];
 
-      var _offsetSize2 = (0, _slicedToArray3.default)(this.offsetSize, 2),
-          width = _offsetSize2[0],
-          height = _offsetSize2[1];
+      var _offsetSize3 = (0, _slicedToArray3.default)(this.offsetSize, 2),
+          width = _offsetSize3[0],
+          height = _offsetSize3[1];
 
       var vertexs = [[ox, oy], [width + ox, oy], [ox, height + oy], [width + ox, height + oy]];
 
@@ -1520,9 +1538,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
   }, {
     key: 'originalRect',
     get: function get() {
-      var _offsetSize3 = (0, _slicedToArray3.default)(this.offsetSize, 2),
-          width = _offsetSize3[0],
-          height = _offsetSize3[1],
+      var _offsetSize4 = (0, _slicedToArray3.default)(this.offsetSize, 2),
+          width = _offsetSize4[0],
+          height = _offsetSize4[1],
           _attr8 = this.attr('anchor'),
           _attr9 = (0, _slicedToArray3.default)(_attr8, 2),
           anchorX = _attr9[0],
@@ -5804,10 +5822,6 @@ var _from = __webpack_require__(54);
 
 var _from2 = _interopRequireDefault(_from);
 
-var _slicedToArray2 = __webpack_require__(1);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
 var _assign = __webpack_require__(8);
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -6004,23 +6018,12 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'isVisible',
     value: function isVisible(sprite) {
-      if (sprite.isVisible) {
-        return sprite.isVisible();
-      }
-
-      var opacity = sprite.attr('opacity');
-      if (opacity <= 0) {
+      if (!sprite.isVisible()) {
         return false;
       }
-
-      var _sprite$offsetSize = (0, _slicedToArray3.default)(sprite.offsetSize, 2),
-          width = _sprite$offsetSize[0],
-          height = _sprite$offsetSize[1];
-
-      if (width <= 0 || height <= 0) {
+      if (sprite.parent !== this) {
         return false;
       }
-
       return true;
     }
   }, {

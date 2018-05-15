@@ -138,6 +138,20 @@ export default class BaseSprite extends BaseNode {
     return this[_attr].attrs
   }
 
+  isVisible() {
+    const opacity = this.attr('opacity')
+    if(opacity <= 0) {
+      return false
+    }
+
+    const [width, height] = this.offsetSize
+    if(width <= 0 || height <= 0) {
+      return false
+    }
+
+    return true
+  }
+
   get transform() {
     const transform = new Matrix(this[_attr].get('transformMatrix'))
     const transformOrigin = this.attr('transformOrigin')

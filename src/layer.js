@@ -142,20 +142,12 @@ export default class Layer extends BaseNode {
     this.prepareRender()
   }
   isVisible(sprite) {
-    if(sprite.isVisible) {
-      return sprite.isVisible()
-    }
-
-    const opacity = sprite.attr('opacity')
-    if(opacity <= 0) {
+    if(!sprite.isVisible()) {
       return false
     }
-
-    const [width, height] = sprite.offsetSize
-    if(width <= 0 || height <= 0) {
+    if(sprite.parent !== this) {
       return false
     }
-
     return true
   }
   get fps() {
