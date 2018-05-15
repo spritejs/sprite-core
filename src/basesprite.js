@@ -449,7 +449,7 @@ export default class BaseSprite extends BaseNode {
     this.dispatchEvent('afterdraw', evtArgs, true, true)
 
     if(cachableContext) {
-      drawingContext.drawImage(cachableContext.canvas, bound[0], bound[1])
+      drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1)
     }
     drawingContext.restore()
 
