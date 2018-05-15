@@ -161,6 +161,7 @@ export default class Sprite extends BaseSprite {
       }
       return true
     }
+    return false
   }
 
   set cache(context) {

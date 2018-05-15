@@ -129,14 +129,12 @@ export default class Group extends BaseSprite {
       if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
         for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
           const sprite = sprites[i]
-          if(sprite.isVisible()) {
-            const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow)
-            if(hit) {
-              targetSprites.push(sprite)
-            }
-            if(evt.terminated && !evt.type.startsWith('mouse')) {
-              break
-            }
+          const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow)
+          if(hit) {
+            targetSprites.push(sprite)
+          }
+          if(evt.terminated && !evt.type.startsWith('mouse')) {
+            break
           }
         }
       }

@@ -678,6 +678,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
   }, {
     key: 'pointCollision',
     value: function pointCollision(evt) {
+      if (!this.isVisible()) {
+        return false;
+      }
+
       var parentX = void 0,
           parentY = void 0;
 
@@ -2420,14 +2424,12 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
           for (var i = 0; i < _sprites.length && evt.isInClip !== false; i++) {
             var sprite = _sprites[i];
-            if (sprite.isVisible()) {
-              var hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
-              if (hit) {
-                targetSprites.push(sprite);
-              }
-              if (evt.terminated && !evt.type.startsWith('mouse')) {
-                break;
-              }
+            var hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
+            if (hit) {
+              targetSprites.push(sprite);
+            }
+            if (evt.terminated && !evt.type.startsWith('mouse')) {
+              break;
             }
           }
         }
@@ -4458,15 +4460,13 @@ var Layer = function (_BaseNode) {
         if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
           for (var i = 0; i < _sprites.length; i++) {
             var sprite = _sprites[i];
-            if (sprite.isVisible()) {
-              var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
-              if (hit) {
-                // detect mouseenter/mouseleave
-                targetSprites.push(sprite);
-              }
-              if (evt.terminated && !evt.type.startsWith('mouse')) {
-                break;
-              }
+            var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+            if (hit) {
+              // detect mouseenter/mouseleave
+              targetSprites.push(sprite);
+            }
+            if (evt.terminated && !evt.type.startsWith('mouse')) {
+              break;
             }
           }
         }
@@ -5198,6 +5198,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
         }
         return true;
       }
+      return false;
     }
   }, {
     key: 'render',

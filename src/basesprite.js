@@ -355,6 +355,10 @@ export default class BaseSprite extends BaseNode {
   }
 
   pointCollision(evt) {
+    if(!this.isVisible()) {
+      return false
+    }
+
     let parentX,
       parentY
 
