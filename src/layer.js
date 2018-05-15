@@ -330,13 +330,15 @@ export default class Layer extends BaseNode {
       if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
         for(let i = 0; i < sprites.length; i++) {
           const sprite = sprites[i]
-          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
-          if(hit) {
-            // detect mouseenter/mouseleave
-            targetSprites.push(sprite)
-          }
-          if(evt.terminated && !evt.type.startsWith('mouse')) {
-            break
+          if(sprite.isVisible()) {
+            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
+            if(hit) {
+              // detect mouseenter/mouseleave
+              targetSprites.push(sprite)
+            }
+            if(evt.terminated && !evt.type.startsWith('mouse')) {
+              break
+            }
           }
         }
       }
