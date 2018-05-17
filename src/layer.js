@@ -39,6 +39,14 @@ export default class Layer extends BaseNode {
       this.shadowContext = shadowCanvas.getContext('2d')
     }
 
+    // auto release
+    if(context.canvas && context.canvas.addEventListener) {
+      context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
+        this.timeline.clear()
+        this.remove()
+      })
+    }
+
     this[_children] = []
     this[_updateSet] = new Set()
     this[_zOrder] = 0
