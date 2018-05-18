@@ -20,9 +20,10 @@
       id: 'abc',
       anchor: 0.5,
       bgcolor: 'red',
-      size: [100, 100],
+      size: [500, 500],
       pos: [300, 300],
-      zIndex: 200,
+      zIndex: 0,
+      border: [10, 'blue'],
       gradients: {
         bgcolor: {
           //direction: 90,
@@ -57,7 +58,7 @@
       duration: 2000,
       iterations: Infinity,
     })
-    layer.append(s2)
+    s.append(s2)
     // layer.draw()
 
     s.on('mouseenter', evt => {

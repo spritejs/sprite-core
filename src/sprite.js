@@ -182,7 +182,7 @@ export default class Sprite extends BaseSprite {
   }
 
   render(t, drawingContext) {
-    const context = super.render(t, drawingContext)
+    super.render(t, drawingContext)
     const textures = this.textures
 
     if(this.images) {
@@ -191,7 +191,7 @@ export default class Sprite extends BaseSprite {
         const rect = (texture.rect || [0, 0, ...this.innerSize]).slice(0)
         const srcRect = texture.srcRect
 
-        context.save()
+        drawingContext.save()
 
         if(texture.filter) {
           let outterRect
@@ -210,24 +210,22 @@ export default class Sprite extends BaseSprite {
           const sx = rect[2] / outterRect[2],
             sy = rect[3] / outterRect[3]
 
-          context.filter = filters.compile(texture.filter)
+          drawingContext.filter = filters.compile(texture.filter)
 
           if(srcRect) {
-            context.drawImage(img, ...srcRect, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3])
+            drawingContext.drawImage(img, ...srcRect, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3])
           } else {
-            context.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height)
+            drawingContext.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height)
           }
         } else if(srcRect) {
-          context.drawImage(img, ...srcRect, ...rect)
+          drawingContext.drawImage(img, ...srcRect, ...rect)
         } else {
-          context.drawImage(img, ...rect)
+          drawingContext.drawImage(img, ...rect)
         }
 
-        context.restore()
+        drawingContext.restore()
       })
     }
-
-    return context
   }
 }
 

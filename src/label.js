@@ -136,33 +136,34 @@ export default class Label extends BaseSprite {
   }
 
   render(t, drawingContext) {
-    const context = super.render(t, drawingContext),
-      attr = this.attr(),
+    super.render(t, drawingContext)
+
+    const attr = this.attr(),
       text = this.text,
       font = attr.font
 
     if(text) {
-      context.font = attr.font
+      drawingContext.font = attr.font
       const lines = this.text.split(/\n/)
 
-      context.textBaseline = 'top'
+      drawingContext.textBaseline = 'top'
 
       const align = attr.textAlign
 
-      context.textBaseline = 'middle'
+      drawingContext.textBaseline = 'middle'
 
-      const strokeColor = findColor(context, this, 'strokeColor')
+      const strokeColor = findColor(drawingContext, this, 'strokeColor')
       if(strokeColor) {
-        context.strokeStyle = strokeColor
+        drawingContext.strokeStyle = strokeColor
       }
 
-      let fillColor = findColor(context, this, 'fillColor')
+      let fillColor = findColor(drawingContext, this, 'fillColor')
 
       if(!strokeColor && !fillColor) {
         fillColor = parseColorString('black')
       }
       if(fillColor) {
-        context.fillStyle = fillColor
+        drawingContext.fillStyle = fillColor
       }
 
       let top = 0,
@@ -179,17 +180,15 @@ export default class Label extends BaseSprite {
         }
 
         if(fillColor) {
-          context.fillText(line, left, top + h / 2)
+          drawingContext.fillText(line, left, top + h / 2)
         }
         if(strokeColor) {
-          context.strokeText(line, left, top + h / 2)
+          drawingContext.strokeText(line, left, top + h / 2)
         }
 
         top += h
       })
     }
-
-    return context
   }
 }
 

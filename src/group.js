@@ -1,7 +1,8 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {attr, sortOrderedSprites} from 'sprite-utils'
+import {attr, sortOrderedSprites, boxIntersect} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
+import {copyContext} from './helpers/render'
 
 const _children = Symbol('children'),
   _zOrder = Symbol('zOrder')
@@ -39,7 +40,7 @@ export default class Group extends BaseSprite {
   appendChild(sprite) {
     this[_children].push(sprite)
     sprite.connect(this, this[_zOrder]++)
-    this.forceUpdate(true)
+    this.forceUpdate(true, sprite)
   }
   append(...sprites) {
     sprites.forEach(sprite => this.appendChild(sprite))
@@ -144,16 +145,45 @@ export default class Group extends BaseSprite {
     // support mouseleave
     return super.dispatchEvent(type, evt, collisionState)
   }
+  isNodeVisible(sprite) {
+    if(!sprite.isVisible()) return false
+
+    const [w, h] = this.outerSize
+    const box1 = sprite.renderBox,
+      box2 = [0, 0, w, h]
+    if(boxIntersect(box1, box2)) {
+      return true
+    }
+    return false
+  }
+  clearCache() {
+    super.clearCache()
+    this.baseCache = null
+  }
+  forceUpdate(clearCache, updater) {
+    if(updater) {
+      // child update on group
+      this.cache = null
+      return super.forceUpdate()
+    }
+    return super.forceUpdate(clearCache)
+  }
   render(t, drawingContext) {
-    const context = super.render(t, drawingContext)
+    if(this.baseCache) {
+      drawingContext.drawImage(this.baseCache.canvas, 0, 0)
+    } else {
+      super.render(t, drawingContext)
+      this.baseCache = copyContext(drawingContext)
+      this.baseCache.drawImage(drawingContext.canvas, 0, 0)
+    }
 
     const clipPath = this.attr('clip')
     if(clipPath) {
-      context.save()
-      this.svg.beginPath().to(context)
-      context.restore()
-      context.clip()
-      context.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
+      drawingContext.save()
+      this.svg.beginPath().to(drawingContext)
+      drawingContext.restore()
+      drawingContext.clip()
+      drawingContext.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
     }
 
     const sprites = this[_children].slice(0)
@@ -161,10 +191,10 @@ export default class Group extends BaseSprite {
 
     for(let i = 0; i < sprites.length; i++) {
       const child = sprites[i]
-      child.draw(t)
+      if(this.isNodeVisible(child)) {
+        child.draw(t)
+      }
     }
-
-    return context
   }
 }
 

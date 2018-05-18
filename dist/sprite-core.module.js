@@ -470,7 +470,7 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(19);
+var _render = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -640,6 +640,11 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     // content width / height
 
   }, {
+    key: 'clearCache',
+    value: function clearCache() {
+      this.cache = null;
+    }
+  }, {
     key: 'remove',
     value: function remove() {
       if (!this.parent) return false;
@@ -659,10 +664,12 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var parent = this.parent;
       if (parent) {
         if (parent.forceUpdate) {
-          parent.forceUpdate(true);
+          // is group
+          parent.forceUpdate(clearCache, this);
         } else if (parent.update) {
+          // is layer
           if (clearCache) {
-            this.cache = null;
+            this.clearCache();
           }
           this.parent.update(this);
         }
@@ -801,7 +808,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // set cache before render for group
         if (!this.cache) {
           this.cache = cachableContext;
-          cachableContext = this.render(t, cachableContext) || cachableContext;
+          this.render(t, cachableContext);
         }
       } else {
         this.render(t, drawingContext);
@@ -832,7 +839,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
 
       if (offsetWidth === 0 || offsetHeight === 0) {
-        return drawingContext; // don't need to render
+        return; // don't need to render
       }
 
       var borderWidth = attr.border[0];
@@ -882,8 +889,6 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       }
 
       drawingContext.translate(borderWidth + attr.padding[3], borderWidth + attr.padding[0]);
-
-      return drawingContext;
     }
   }, {
     key: 'layer',
@@ -1163,51 +1168,6 @@ exports.Vector = _vector2.default;
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-decorators-runtime");
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
-
-var _effect = __webpack_require__(30);
-
-var _effect2 = _interopRequireDefault(_effect);
-
-var _spriteTimeline = __webpack_require__(31);
-
-var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
-
-var _easing = __webpack_require__(29);
-
-var _animator = __webpack_require__(55);
-
-var _animator2 = _interopRequireDefault(_animator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.Animator = _animator2.default;
-exports.Easings = _easing.Easings;
-exports.Effects = _effect2.default;
-exports.Timeline = _spriteTimeline2.default;
-
-/***/ }),
-/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1379,6 +1339,51 @@ function clearContext(context) {
     context.clearRect(0, 0, width, height);
   }
 }
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-decorators-runtime");
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
+
+var _effect = __webpack_require__(30);
+
+var _effect2 = _interopRequireDefault(_effect);
+
+var _spriteTimeline = __webpack_require__(31);
+
+var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
+
+var _easing = __webpack_require__(29);
+
+var _animator = __webpack_require__(55);
+
+var _animator2 = _interopRequireDefault(_animator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Animator = _animator2.default;
+exports.Easings = _easing.Easings;
+exports.Effects = _effect2.default;
+exports.Timeline = _spriteTimeline2.default;
 
 /***/ }),
 /* 20 */
@@ -2235,7 +2240,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(17);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -2275,9 +2280,11 @@ var _spriteUtils = __webpack_require__(6);
 
 var _path = __webpack_require__(27);
 
+var _render = __webpack_require__(16);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(16);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _children = (0, _symbol2.default)('children'),
     _zOrder = (0, _symbol2.default)('zOrder');
@@ -2330,7 +2337,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
     value: function appendChild(sprite) {
       this[_children].push(sprite);
       sprite.connect(this, this[_zOrder]++);
-      this.forceUpdate(true);
+      this.forceUpdate(true, sprite);
     }
   }, {
     key: 'append',
@@ -2440,17 +2447,55 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
     }
   }, {
+    key: 'isNodeVisible',
+    value: function isNodeVisible(sprite) {
+      if (!sprite.isVisible()) return false;
+
+      var _outerSize = (0, _slicedToArray3.default)(this.outerSize, 2),
+          w = _outerSize[0],
+          h = _outerSize[1];
+
+      var box1 = sprite.renderBox,
+          box2 = [0, 0, w, h];
+      if ((0, _spriteUtils.boxIntersect)(box1, box2)) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'clearCache',
+    value: function clearCache() {
+      (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'clearCache', this).call(this);
+      this.baseCache = null;
+    }
+  }, {
+    key: 'forceUpdate',
+    value: function forceUpdate(clearCache, updater) {
+      if (updater) {
+        // child update on group
+        this.cache = null;
+        return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'forceUpdate', this).call(this);
+      }
+      return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'forceUpdate', this).call(this, clearCache);
+    }
+  }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      var context = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+      if (this.baseCache) {
+        drawingContext.drawImage(this.baseCache.canvas, 0, 0);
+      } else {
+        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+        this.baseCache = (0, _render.copyContext)(drawingContext);
+        this.baseCache.drawImage(drawingContext.canvas, 0, 0);
+      }
 
       var clipPath = this.attr('clip');
       if (clipPath) {
-        context.save();
-        this.svg.beginPath().to(context);
-        context.restore();
-        context.clip();
-        context.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
+        drawingContext.save();
+        this.svg.beginPath().to(drawingContext);
+        drawingContext.restore();
+        drawingContext.clip();
+        drawingContext.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
       }
 
       var sprites = this[_children].slice(0);
@@ -2458,10 +2503,10 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
       for (var i = 0; i < sprites.length; i++) {
         var child = sprites[i];
-        child.draw(t);
+        if (this.isNodeVisible(child)) {
+          child.draw(t);
+        }
       }
-
-      return context;
     }
   }, {
     key: 'children',
@@ -3746,7 +3791,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(17);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -3788,11 +3833,11 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(19);
+var _render = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(16);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var parseFont = __webpack_require__(46);
 var _boxSize = (0, _symbol2.default)('boxSize');
@@ -3926,33 +3971,34 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
     value: function render(t, drawingContext) {
       var _this3 = this;
 
-      var context = (0, _get3.default)(Label.prototype.__proto__ || (0, _getPrototypeOf2.default)(Label.prototype), 'render', this).call(this, t, drawingContext),
-          attr = this.attr(),
+      (0, _get3.default)(Label.prototype.__proto__ || (0, _getPrototypeOf2.default)(Label.prototype), 'render', this).call(this, t, drawingContext);
+
+      var attr = this.attr(),
           text = this.text,
           font = attr.font;
 
       if (text) {
-        context.font = attr.font;
+        drawingContext.font = attr.font;
         var lines = this.text.split(/\n/);
 
-        context.textBaseline = 'top';
+        drawingContext.textBaseline = 'top';
 
         var align = attr.textAlign;
 
-        context.textBaseline = 'middle';
+        drawingContext.textBaseline = 'middle';
 
-        var strokeColor = (0, _render.findColor)(context, this, 'strokeColor');
+        var strokeColor = (0, _render.findColor)(drawingContext, this, 'strokeColor');
         if (strokeColor) {
-          context.strokeStyle = strokeColor;
+          drawingContext.strokeStyle = strokeColor;
         }
 
-        var fillColor = (0, _render.findColor)(context, this, 'fillColor');
+        var fillColor = (0, _render.findColor)(drawingContext, this, 'fillColor');
 
         if (!strokeColor && !fillColor) {
           fillColor = (0, _spriteUtils.parseColorString)('black');
         }
         if (fillColor) {
-          context.fillStyle = fillColor;
+          drawingContext.fillStyle = fillColor;
         }
 
         var top = 0,
@@ -3972,17 +4018,15 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
           }
 
           if (fillColor) {
-            context.fillText(line, left, top + h / 2);
+            drawingContext.fillText(line, left, top + h / 2);
           }
           if (strokeColor) {
-            context.strokeText(line, left, top + h / 2);
+            drawingContext.strokeText(line, left, top + h / 2);
           }
 
           top += h;
         });
       }
-
-      return context;
     }
   }, {
     key: 'text',
@@ -4094,13 +4138,13 @@ var _group = __webpack_require__(26);
 
 var _group2 = _interopRequireDefault(_group);
 
-var _spriteAnimator = __webpack_require__(18);
+var _spriteAnimator = __webpack_require__(19);
 
 var _fastAnimationFrame = __webpack_require__(28);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(19);
+var _render = __webpack_require__(16);
 
 var _dirtyCheck = __webpack_require__(45);
 
@@ -4629,7 +4673,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(17);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -4663,9 +4707,9 @@ var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _render = __webpack_require__(19);
+var _render = __webpack_require__(16);
 
-var _spriteAnimator = __webpack_require__(18);
+var _spriteAnimator = __webpack_require__(19);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -4675,7 +4719,7 @@ var _nodetype = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(16);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 _spriteAnimator.Effects.d = _path.pathEffect;
 
@@ -4848,8 +4892,8 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      var context = (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'render', this).call(this, t, drawingContext),
-          attr = this.attr();
+      (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'render', this).call(this, t, drawingContext);
+      var attr = this.attr();
 
       if (attr.d) {
         var svg = this.svg;
@@ -4859,38 +4903,36 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
             oy = _svg$bounds[1];
 
         if (ox < 0 || oy < 0) {
-          context.translate(-Math.min(0, ox), -Math.min(0, oy));
+          drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy));
         }
-        context.translate.apply(context, (0, _toConsumableArray3.default)(this.pathOffset));
-        svg.beginPath().to(context);
+        drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.pathOffset));
+        svg.beginPath().to(drawingContext);
 
-        context.lineWidth = attr.lineWidth;
-        context.lineCap = attr.lineCap;
-        context.lineJoin = attr.lineJoin;
+        drawingContext.lineWidth = attr.lineWidth;
+        drawingContext.lineCap = attr.lineCap;
+        drawingContext.lineJoin = attr.lineJoin;
 
-        var fillColor = (0, _render.findColor)(context, this, 'fillColor');
+        var fillColor = (0, _render.findColor)(drawingContext, this, 'fillColor');
         if (fillColor) {
-          context.fillStyle = fillColor;
+          drawingContext.fillStyle = fillColor;
         }
 
-        var strokeColor = (0, _render.findColor)(context, this, 'strokeColor');
+        var strokeColor = (0, _render.findColor)(drawingContext, this, 'strokeColor');
 
         if (!strokeColor && !fillColor) {
           strokeColor = (0, _spriteUtils.parseColorString)('black');
         }
         if (strokeColor) {
-          context.strokeStyle = strokeColor;
+          drawingContext.strokeStyle = strokeColor;
         }
 
         if (fillColor) {
-          context.fill();
+          drawingContext.fill();
         }
         if (strokeColor) {
-          context.stroke();
+          drawingContext.stroke();
         }
       }
-
-      return context;
     }
   }, {
     key: 'path',
@@ -5003,7 +5045,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(17);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -5047,7 +5089,7 @@ var _nodetype = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(16);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _texturesCache = (0, _symbol2.default)('_texturesCache');
 var _images = (0, _symbol2.default)('_images');
@@ -5215,7 +5257,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
     value: function render(t, drawingContext) {
       var _this4 = this;
 
-      var context = (0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'render', this).call(this, t, drawingContext);
+      (0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'render', this).call(this, t, drawingContext);
       var textures = this.textures;
 
       if (this.images) {
@@ -5224,7 +5266,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           var rect = (texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize))).slice(0);
           var srcRect = texture.srcRect;
 
-          context.save();
+          drawingContext.save();
 
           if (texture.filter) {
             var outterRect = void 0;
@@ -5246,24 +5288,22 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
             var sx = rect[2] / outterRect[2],
                 sy = rect[3] / outterRect[3];
 
-            context.filter = _filters2.default.compile(texture.filter);
+            drawingContext.filter = _filters2.default.compile(texture.filter);
 
             if (srcRect) {
-              context.drawImage.apply(context, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
+              drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
             } else {
-              context.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height);
+              drawingContext.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height);
             }
           } else if (srcRect) {
-            context.drawImage.apply(context, [img].concat((0, _toConsumableArray3.default)(srcRect), (0, _toConsumableArray3.default)(rect)));
+            drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), (0, _toConsumableArray3.default)(rect)));
           } else {
-            context.drawImage.apply(context, [img].concat((0, _toConsumableArray3.default)(rect)));
+            drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(rect)));
           }
 
-          context.restore();
+          drawingContext.restore();
         });
       }
-
-      return context;
     }
   }, {
     key: 'images',
@@ -5883,7 +5923,7 @@ var _entries = __webpack_require__(8);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _spriteAnimator = __webpack_require__(18);
+var _spriteAnimator = __webpack_require__(19);
 
 var _fastAnimationFrame = __webpack_require__(28);
 
@@ -6092,7 +6132,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = __webpack_require__(17);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -6148,7 +6188,7 @@ var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(16);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _attr = (0, _symbol2.default)('attr'),
     _temp = (0, _symbol2.default)('store'),
@@ -6240,7 +6280,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
         val = this[_default][key];
       }
       this[_attr][key] = val;
-      this.forceUpdate();
+      this.subject.forceUpdate();
     }
   }, {
     key: 'get',
@@ -6250,13 +6290,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'clearCache',
     value: function clearCache() {
-      this.subject.cache = null;
-      return this;
-    }
-  }, {
-    key: 'forceUpdate',
-    value: function forceUpdate(clearCache) {
-      this.subject.forceUpdate(clearCache);
+      this.subject.clearCache();
       return this;
     }
   }, {
@@ -7138,7 +7172,7 @@ var _batch2 = _interopRequireDefault(_batch);
 
 var _nodetype = __webpack_require__(7);
 
-var _spriteAnimator = __webpack_require__(18);
+var _spriteAnimator = __webpack_require__(19);
 
 var _svgPathToCanvas = __webpack_require__(22);
 

@@ -322,6 +322,10 @@ export default class BaseSprite extends BaseNode {
     return this.cacheContext
   }
 
+  clearCache() {
+    this.cache = null
+  }
+
   remove() {
     if(!this.parent) return false
     this.parent.removeChild(this)
@@ -336,10 +340,12 @@ export default class BaseSprite extends BaseNode {
     const parent = this.parent
     if(parent) {
       if(parent.forceUpdate) {
-        parent.forceUpdate(true)
+        // is group
+        parent.forceUpdate(clearCache, this)
       } else if(parent.update) {
+        // is layer
         if(clearCache) {
-          this.cache = null
+          this.clearCache()
         }
         this.parent.update(this)
       }
@@ -442,7 +448,7 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originalRect
 
     // solve 1px problem
-    let cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]) + 2, Math.ceil(bound[3]) + 2)
+    const cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]) + 2, Math.ceil(bound[3]) + 2)
     const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache}
 
     if(!cachableContext) {
@@ -458,7 +464,7 @@ export default class BaseSprite extends BaseNode {
       // set cache before render for group
       if(!this.cache) {
         this.cache = cachableContext
-        cachableContext = this.render(t, cachableContext) || cachableContext
+        this.render(t, cachableContext)
       }
     } else {
       this.render(t, drawingContext)
@@ -483,7 +489,7 @@ export default class BaseSprite extends BaseNode {
       [clientWidth, clientHeight] = this.clientSize
 
     if(offsetWidth === 0 || offsetHeight === 0) {
-      return drawingContext // don't need to render
+      return // don't need to render
     }
 
     const borderWidth = attr.border[0]
@@ -526,8 +532,6 @@ export default class BaseSprite extends BaseNode {
     }
 
     drawingContext.translate(borderWidth + attr.padding[3], borderWidth + attr.padding[0])
-
-    return drawingContext
   }
 }
 

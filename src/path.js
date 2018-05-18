@@ -215,45 +215,43 @@ export default class Path extends BaseSprite {
   }
 
   render(t, drawingContext) {
-    const context = super.render(t, drawingContext),
-      attr = this.attr()
+    super.render(t, drawingContext)
+    const attr = this.attr()
 
     if(attr.d) {
       const svg = this.svg
       const [ox, oy] = svg.bounds
       if(ox < 0 || oy < 0) {
-        context.translate(-Math.min(0, ox), -Math.min(0, oy))
+        drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy))
       }
-      context.translate(...this.pathOffset)
-      svg.beginPath().to(context)
+      drawingContext.translate(...this.pathOffset)
+      svg.beginPath().to(drawingContext)
 
-      context.lineWidth = attr.lineWidth
-      context.lineCap = attr.lineCap
-      context.lineJoin = attr.lineJoin
+      drawingContext.lineWidth = attr.lineWidth
+      drawingContext.lineCap = attr.lineCap
+      drawingContext.lineJoin = attr.lineJoin
 
-      const fillColor = findColor(context, this, 'fillColor')
+      const fillColor = findColor(drawingContext, this, 'fillColor')
       if(fillColor) {
-        context.fillStyle = fillColor
+        drawingContext.fillStyle = fillColor
       }
 
-      let strokeColor = findColor(context, this, 'strokeColor')
+      let strokeColor = findColor(drawingContext, this, 'strokeColor')
 
       if(!strokeColor && !fillColor) {
         strokeColor = parseColorString('black')
       }
       if(strokeColor) {
-        context.strokeStyle = strokeColor
+        drawingContext.strokeStyle = strokeColor
       }
 
       if(fillColor) {
-        context.fill()
+        drawingContext.fill()
       }
       if(strokeColor) {
-        context.stroke()
+        drawingContext.stroke()
       }
     }
-
-    return context
   }
 }
 

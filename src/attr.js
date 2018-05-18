@@ -80,17 +80,13 @@ class SpriteAttr {
       val = this[_default][key]
     }
     this[_attr][key] = val
-    this.forceUpdate()
+    this.subject.forceUpdate()
   }
   get(key) {
     return this[_attr][key]
   }
   clearCache() {
-    this.subject.cache = null
-    return this
-  }
-  forceUpdate(clearCache) {
-    this.subject.forceUpdate(clearCache)
+    this.subject.clearCache()
     return this
   }
   merge(attrs) {
