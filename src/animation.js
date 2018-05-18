@@ -100,6 +100,17 @@ export default class extends Animator {
     return super.playState
   }
 
+  get finished() {
+    // set last frame when finished
+    // because while the web page is not focused
+    // requestAnimationFrame will not trigger while deferTime of
+    // the animator is still running
+    const sprite = this.target
+    return super.finished.then(() => {
+      sprite.attr(this.frame)
+    })
+  }
+
   play() {
     if(!this.target.parent || this.playState === 'running') {
       return
