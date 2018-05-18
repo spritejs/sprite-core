@@ -11,7 +11,6 @@ class TextureAttr extends BaseSprite.Attr {
   constructor(subject) {
     super(subject)
     this.setDefault({
-      texturesSize: [0, 0],
       textures: [],
     })
   }
@@ -68,11 +67,8 @@ class TextureAttr extends BaseSprite.Attr {
       }
       return image
     })
-    this.set('texturesSize', [width, height])
-  }
 
-  get texturesSize() {
-    return this.get('texturesSize')
+    subject.texturesSize = [width, height]
   }
 }
 
@@ -124,7 +120,7 @@ export default class Sprite extends BaseSprite {
   get contentSize() {
     let [width, height] = this.attr('size')
 
-    const boxSize = this.attr('texturesSize')
+    const boxSize = this.texturesSize || [0, 0]
 
     if(width === '') {
       width = boxSize[0] | 0

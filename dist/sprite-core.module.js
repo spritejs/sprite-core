@@ -5054,7 +5054,6 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TextureAttr.__proto__ || (0, _getPrototypeOf2.default)(TextureAttr)).call(this, subject));
 
     _this.setDefault({
-      texturesSize: [0, 0],
       textures: []
     });
     return _this;
@@ -5103,7 +5102,8 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
         }
         return image;
       });
-      this.set('texturesSize', [width, height]);
+
+      subject.texturesSize = [width, height];
     }
   }, {
     key: 'textures',
@@ -5121,11 +5121,6 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
 
       this.set('textures', textures);
       this.loadTextures(textures);
-    }
-  }, {
-    key: 'texturesSize',
-    get: function get() {
-      return this.get('texturesSize');
     }
   }]);
   return TextureAttr;
@@ -5290,7 +5285,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           width = _attr4[0],
           height = _attr4[1];
 
-      var boxSize = this.attr('texturesSize');
+      var boxSize = this.texturesSize || [0, 0];
 
       if (width === '') {
         width = boxSize[0] | 0;
