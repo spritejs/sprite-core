@@ -1,5 +1,5 @@
 import {Animator, Effects} from 'sprite-animator'
-import {requestAnimationFrame} from 'fast-animation-frame'
+import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame'
 import {Matrix} from 'sprite-math'
 import {parseColor, parseStringTransform} from 'sprite-utils'
 
@@ -108,6 +108,7 @@ export default class extends Animator {
     const sprite = this.target
     return super.finished.then(() => {
       sprite.attr(this.frame)
+      cancelAnimationFrame(this.requestId)
     })
   }
 
@@ -129,7 +130,7 @@ export default class extends Animator {
 
     const that = this
     this.ready.then(() => {
-      requestAnimationFrame(function update() {
+      that.requestId = requestAnimationFrame(function update() {
         const target = that.target
         if(typeof document !== 'undefined'
           && document.contains
@@ -144,10 +145,10 @@ export default class extends Animator {
         sprite.attr(that.frame)
         if(that.playState === 'idle') return
         if(that.playState === 'running') {
-          requestAnimationFrame(update)
+          that.requestId = requestAnimationFrame(update)
         } else if(that.playState === 'paused') {
           that.ready.then(() => {
-            requestAnimationFrame(update)
+            that.requestId = requestAnimationFrame(update)
           })
         }
       })
