@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
@@ -41,10 +41,11 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.3.2",
     "colors": "^1.2.1",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.1",
     "eslint": "^4.17.0",
     "eslint-config-75team": "^1.0.2",
     "hamming-distance": "^1.0.0",
+    "http-server": "^0.11.1",
     "imghash": "0.0.3",
     "nyc": "^11.1.0",
     "pixelmatch": "^4.0.2",
