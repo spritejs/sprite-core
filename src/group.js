@@ -37,29 +37,6 @@ export default class Group extends BaseSprite {
     this[_children] = []
     this[_zOrder] = 0
   }
-  appendChild(sprite) {
-    this[_children].push(sprite)
-    sprite.connect(this, this[_zOrder]++)
-    this.forceUpdate(true, sprite)
-  }
-  append(...sprites) {
-    sprites.forEach(sprite => this.appendChild(sprite))
-  }
-  removeChild(sprite) {
-    const idx = this[_children].indexOf(sprite)
-    if(idx === -1) {
-      return null
-    }
-    this[_children].splice(idx, 1)
-    sprite.disconnect(this)
-    return sprite
-  }
-  remove(...sprites) {
-    if(sprites.length === 0) {
-      sprites = this[_children].slice(0)
-    }
-    sprites.forEach(sprite => this.removeChild(sprite))
-  }
   cloneNode(deepCopy) {
     const node = super.cloneNode()
     if(deepCopy) {
@@ -197,5 +174,8 @@ export default class Group extends BaseSprite {
     }
   }
 }
+
+import groupApi from './helpers/group'
+Object.assign(Group.prototype, groupApi)
 
 registerNodeType('group', Group, true)

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context, renderMode:'repaintDirty'})
+
+    const g = new Group()
+    layer.append(g)
+
+    const s = new Sprite()
+    s.attr({
+      bgcolor: 'green',
+      size: [100, 100],
+      pos: [100, 100],
+    })
+    g.append(s)
+  
+    const s2 = new Sprite()
+    s2.attr({
+      bgcolor: 'red',
+      size: [100, 100],
+      pos: [200, 200],
+    })
+    g.append(s2)
+  
+    const s3 = new Sprite()
+    s3.attr({
+      bgcolor: 'blue',
+      size: [100, 100],
+      pos: [150, 150],
+    })
+    // layer.append(s3)
+    g.insertBefore(s3, s2)
+    console.log(s2.zOrder, s3.zOrder)
+  </script>
+</body>
+</html>

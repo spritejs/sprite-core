@@ -23,6 +23,7 @@ export default class Layer extends BaseNode {
     handleEvent,
     evaluateFPS,
     renderMode,
+    shadowContext,
   } = {}) {
     super()
 
@@ -34,9 +35,13 @@ export default class Layer extends BaseNode {
 
     this.outputContext = context
 
-    if(context.canvas && context.canvas.cloneNode) {
-      const shadowCanvas = context.canvas.cloneNode()
-      this.shadowContext = shadowCanvas.getContext('2d')
+    if(shadowContext !== false) {
+      if(typeof shadowContext === 'object') {
+        this.shadowContext = shadowContext
+      } else if(context.canvas && context.canvas.cloneNode) {
+        const shadowCanvas = context.canvas.cloneNode()
+        this.shadowContext = shadowCanvas.getContext('2d')
+      }
     }
 
     // auto release
@@ -57,34 +62,6 @@ export default class Layer extends BaseNode {
 
   get children() {
     return this[_children]
-  }
-
-  insertBefore(newchild, refchild) {
-    const idx = this[_children].indexOf(refchild)
-    if(idx >= 0) {
-      this.removeChild(newchild)
-      this[_children].splice(idx, 0, newchild)
-      newchild.connect(this, refchild.zOrder)
-      this.update(newchild)
-
-      for(let i = idx + 1; i < this[_children].length; i++) {
-        const child = this[_children][i],
-          zOrder = child.zOrder + 1
-
-        delete child.zOrder
-        Object.defineProperty(this, 'zOrder', {
-          value: zOrder,
-          writable: false,
-          configurable: true,
-        })
-
-        this.update(child)
-      }
-
-      this[_zOrder]++
-    }
-
-    return newchild
   }
 
   get timeline() {
@@ -285,34 +262,6 @@ export default class Layer extends BaseNode {
     outputContext.restore()
     this[_updateSet].clear()
   }
-  appendChild(sprite, update = true) {
-    this.removeChild(sprite)
-    this[_children].push(sprite)
-    sprite.connect(this, this[_zOrder]++)
-    if(update) this.update(sprite)
-    return sprite
-  }
-  append(...sprites) {
-    sprites.forEach(sprite => this.appendChild(sprite))
-  }
-  removeChild(sprite) {
-    const idx = this[_children].indexOf(sprite)
-    if(idx === -1) {
-      return null
-    }
-    this[_children].splice(idx, 1)
-    if(this.isVisible(sprite) || sprite.lastRenderBox) {
-      sprite.forceUpdate()
-    }
-    sprite.disconnect(this)
-    return sprite
-  }
-  remove(...args) {
-    if(args.length === 0) {
-      args = this[_children].slice(0)
-    }
-    return args.map(child => this.removeChild(child))
-  }
   pointCollision(evt) {
     if(this.outputContext.canvas) {
       const {layerX, layerY} = evt
@@ -401,5 +350,8 @@ export default class Layer extends BaseNode {
     this[_updateSet].clear()
   }
 }
+
+import groupApi from './helpers/group'
+Object.assign(Layer.prototype, groupApi)
 
 registerNodeType('layer', Layer, true)
