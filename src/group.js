@@ -146,7 +146,9 @@ export default class Group extends BaseSprite {
     return super.forceUpdate(clearCache)
   }
   render(t, drawingContext) {
-    if(this.baseCache) {
+    if(this.baseCache
+      && drawingContext.canvas.width === this.baseCache.canvas.width
+      && drawingContext.canvas.height === this.baseCache.canvas.height) {
       drawingContext.drawImage(this.baseCache.canvas, 0, 0)
     } else {
       super.render(t, drawingContext)
