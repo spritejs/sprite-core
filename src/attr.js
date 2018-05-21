@@ -264,10 +264,9 @@ class SpriteAttr {
   @attr
   set scale(val) {
     val = oneOrTwoValues(val)
-    const oldVal = this.loadObj('scale') || [1, 1]
+    const oldVal = this.get('scale') || [1, 1]
     const delta = [val[0] / oldVal[0], val[1] / oldVal[1]]
     this.set('scale', val)
-    this.saveObj('scale', val.slice(0))
 
     const offsetAngle = this.get('offsetAngle')
     if(offsetAngle) {
@@ -285,10 +284,9 @@ class SpriteAttr {
 
   @attr
   set translate(val) {
-    const oldVal = this.loadObj('translate') || [0, 0]
+    const oldVal = this.get('translate') || [0, 0]
     const delta = [val[0] - oldVal[0], val[1] - oldVal[1]]
     this.set('translate', val)
-    this.saveObj('translate', val.slice(0))
     const transform = new Matrix(this.get('transformMatrix'))
     transform.translate(...delta)
     this.set('transformMatrix', transform.m)
@@ -296,10 +294,9 @@ class SpriteAttr {
 
   @attr
   set skew(val) {
-    const oldVal = this.loadObj('skew') || [0, 0]
+    const oldVal = this.get('skew') || [0, 0]
     const invm = new Matrix().skew(...oldVal).inverse()
     this.set('skew', val)
-    this.saveObj('skew', val.slice(0))
     const transform = new Matrix(this.get('transformMatrix'))
     transform.multiply(invm).skew(...val)
     this.set('transformMatrix', transform.m)
