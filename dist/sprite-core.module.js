@@ -1434,14 +1434,28 @@ var BaseNode = function () {
   (0, _createClass3.default)(BaseNode, [{
     key: 'on',
     value: function on(type, handler) {
-      this[_eventHandlers][type] = this[_eventHandlers][type] || [];
-      this[_eventHandlers][type].push(handler);
+      var _this = this;
+
+      if (Array.isArray(type)) {
+        type.forEach(function (t) {
+          return _this.on(t, handler);
+        });
+      } else {
+        this[_eventHandlers][type] = this[_eventHandlers][type] || [];
+        this[_eventHandlers][type].push(handler);
+      }
       return this;
     }
   }, {
     key: 'off',
     value: function off(type, handler) {
-      if (handler && this[_eventHandlers][type]) {
+      var _this2 = this;
+
+      if (Array.isArray(type)) {
+        type.forEach(function (t) {
+          return _this2.off(t, handler);
+        });
+      } else if (handler && this[_eventHandlers][type]) {
         var idx = this[_eventHandlers][type].indexOf(handler);
 
         if (idx >= 0) {
@@ -1472,13 +1486,13 @@ var BaseNode = function () {
   }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
-      var _this = this;
+      var _this3 = this;
 
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
       if (!evt.stopDispatch) {
         evt.stopDispatch = function () {
-          _this.terminated = true;
+          _this3.terminated = true;
         };
       }
       if (evt.type !== type) {
@@ -1496,7 +1510,7 @@ var BaseNode = function () {
         var handlers = this[_eventHandlers][type];
         if (handlers) {
           handlers.forEach(function (handler) {
-            return handler.call(_this, evt);
+            return handler.call(_this3, evt);
           });
         }
 

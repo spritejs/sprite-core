@@ -6,12 +6,18 @@ export default class BaseNode {
     this[_eventHandlers] = {}
   }
   on(type, handler) {
-    this[_eventHandlers][type] = this[_eventHandlers][type] || []
-    this[_eventHandlers][type].push(handler)
+    if(Array.isArray(type)) {
+      type.forEach(t => this.on(t, handler))
+    } else {
+      this[_eventHandlers][type] = this[_eventHandlers][type] || []
+      this[_eventHandlers][type].push(handler)
+    }
     return this
   }
   off(type, handler) {
-    if(handler && this[_eventHandlers][type]) {
+    if(Array.isArray(type)) {
+      type.forEach(t => this.off(t, handler))
+    } else if(handler && this[_eventHandlers][type]) {
       const idx = this[_eventHandlers][type].indexOf(handler)
 
       if(idx >= 0) {
