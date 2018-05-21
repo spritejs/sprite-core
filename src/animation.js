@@ -156,8 +156,14 @@ export default class extends Animator {
   }
 
   // 防止异步设置了不该设置的属性
-  cancel() {
-    super.cancel()
-    this.target.attr(this.frame)
+  cancel(preserveState = false) {
+    cancelAnimationFrame(this.requestId)
+    if(preserveState) {
+      this.target.attr(this.frame)
+      super.cancel()
+    } else {
+      super.cancel()
+      this.target.attr(this.frame)
+    }
   }
 }
