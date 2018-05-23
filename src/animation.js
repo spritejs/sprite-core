@@ -142,11 +142,13 @@ export default class extends Animator {
           that.cancel()
           return
         }
+        const playState = that.playState
         sprite.attr(that.frame)
-        if(that.playState === 'idle') return
-        if(that.playState === 'running') {
+        if(playState === 'idle') return
+        if(playState === 'running') {
           that.requestId = requestAnimationFrame(update)
-        } else if(that.playState === 'paused') {
+        } else if(playState === 'paused' || playState === 'pending' && that.timeline.currentTime < 0) {
+          // playbackRate < 0 will cause playState reset to pending...
           that.ready.then(() => {
             that.requestId = requestAnimationFrame(update)
           })
@@ -155,7 +157,6 @@ export default class extends Animator {
     })
   }
 
-  // 防止异步设置了不该设置的属性
   cancel(preserveState = false) {
     cancelAnimationFrame(this.requestId)
     if(preserveState) {

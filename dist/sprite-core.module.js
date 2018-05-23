@@ -3165,13 +3165,13 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _isFinite = __webpack_require__(74);
 
 var _isFinite2 = _interopRequireDefault(_isFinite);
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _map = __webpack_require__(13);
 
@@ -3342,6 +3342,16 @@ var Timeline = function () {
     value: function clearInterval(id) {
       return this.clearTimeout(id);
     }
+  }, {
+    key: 'clear',
+    value: function clear() {
+      var _this = this;
+
+      // clear all running timers
+      var timers = this[_timers];[].concat((0, _toConsumableArray3.default)(timers.keys())).forEach(function (id) {
+        _this.clearTimeout(id);
+      });
+    }
     /*
       setTimeout(func, {delay: 100, isEntropy: true})
       setTimeout(func, {entropy: 100})
@@ -3372,7 +3382,7 @@ var Timeline = function () {
   }, {
     key: _setTimer,
     value: function value(handler, time) {
-      var _this = this;
+      var _this2 = this;
 
       var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ++this[_timerID];
 
@@ -3414,7 +3424,7 @@ var Timeline = function () {
         // }
 
         timerID = globalTimeout(function () {
-          _this[_timers].delete(id);
+          _this2[_timers].delete(id);
           handler();
         }, delay);
       }
@@ -3506,7 +3516,7 @@ var Timeline = function () {
       return this[_playbackRate];
     },
     set: function set(rate) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (rate !== this.playbackRate) {
         var currentTime = this.currentTime;
@@ -3522,7 +3532,7 @@ var Timeline = function () {
               id = _ref2[0],
               timer = _ref2[1];
 
-          _this2[_setTimer](timer.handler, timer.time, id);
+          _this3[_setTimer](timer.handler, timer.time, id);
         });
       }
     }
@@ -6088,11 +6098,13 @@ var _default = function (_Animator) {
             that.cancel();
             return;
           }
+          var playState = that.playState;
           sprite.attr(that.frame);
-          if (that.playState === 'idle') return;
-          if (that.playState === 'running') {
+          if (playState === 'idle') return;
+          if (playState === 'running') {
             that.requestId = (0, _fastAnimationFrame.requestAnimationFrame)(update);
-          } else if (that.playState === 'paused') {
+          } else if (playState === 'paused' || playState === 'pending' && that.timeline.currentTime < 0) {
+            // playbackRate < 0 will cause playState reset to pending...
             that.ready.then(function () {
               that.requestId = (0, _fastAnimationFrame.requestAnimationFrame)(update);
             });
@@ -6100,9 +6112,6 @@ var _default = function (_Animator) {
         });
       });
     }
-
-    // 防止异步设置了不该设置的属性
-
   }, {
     key: 'cancel',
     value: function cancel() {
@@ -7802,7 +7811,6 @@ swizzle.wrap = function (fn) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
 
 var _promise = __webpack_require__(24);
 
@@ -7876,11 +7884,11 @@ var defaultTiming = {
     playState: idle --> pending --> running --> pending --> finished
    */
 };
-var _default = function () {
-  function _default(initState, keyframes, timing) {
+var _class = function () {
+  function _class(initState, keyframes, timing) {
     var _this = this;
 
-    (0, _classCallCheck3.default)(this, _default);
+    (0, _classCallCheck3.default)(this, _class);
 
     if (Array.isArray(initState)) {
       var _ref = [initState[0], initState, keyframes];
@@ -7922,7 +7930,7 @@ var _default = function () {
     this.timeline = null; // idle, no effect
   }
 
-  (0, _createClass3.default)(_default, [{
+  (0, _createClass3.default)(_class, [{
     key: 'pause',
     value: function pause() {
       this.timeline.playbackRate = 0;
@@ -8108,7 +8116,7 @@ var _default = function () {
         return initState;
       }
 
-      var entropy = this.timeline.entropy,
+      var currentTime = this.timeline.currentTime,
           keyframes = this[_keyframes].slice(0);
 
       var _getProgress = (0, _utils.getProgress)(this.timeline, this[_timing], this.progress),
@@ -8116,7 +8124,7 @@ var _default = function () {
           inverted = _getProgress.inverted;
 
       var frameState = initState;
-      if (entropy < 0 && playState === 'pending') {
+      if (currentTime < 0 && playState === 'pending') {
         // 在开始前 delay 阶段
         if (fill === 'backwards' || fill === 'both') {
           frameState = inverted ? keyframes[keyframes.length - 1] : keyframes[0];
@@ -8175,10 +8183,10 @@ var _default = function () {
       return this[_finishedDefer].promise;
     }
   }]);
-  return _default;
+  return _class;
 }();
 
-exports.default = _default;
+exports.default = _class;
 
 /***/ }),
 /* 58 */
