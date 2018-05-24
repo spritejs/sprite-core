@@ -1343,7 +1343,6 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       }
       drawingContext.restore();
 
-      this.dispatchEvent('update', evtArgs, true, true);
       this.lastRenderBox = this.renderBox;
 
       return drawingContext;
@@ -6191,6 +6190,9 @@ var Layer = function (_BaseNode) {
         if (child.parent === this) {
           if (this.isVisible(child)) {
             child.draw(t);
+            if (this[_updateSet].has(child)) {
+              child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
+            }
           } else {
             // invisible, only need to remove lastRenderBox
             delete child.lastRenderBox;
