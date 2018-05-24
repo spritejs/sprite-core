@@ -57,11 +57,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get layer() {
-    let node = this
-    do {
-      node = node.parent
-    } while(node != null && !(node.drawSprites))
-    return node
+    return this.parent && this.parent.layer
   }
 
   serialize() {
@@ -190,7 +186,7 @@ export default class BaseSprite extends BaseNode {
       configurable: true,
     })
     this[_animations].forEach((animation) => {
-      animation.baseTimeline = parent.timeline
+      animation.baseTimeline = parent.layer.timeline
       animation.play()
       animation.finished.then(() => {
         this[_animations].delete(animation)

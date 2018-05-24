@@ -149,7 +149,10 @@ export default class Group extends BaseSprite {
     if(this.baseCache
       && drawingContext.canvas.width === this.baseCache.canvas.width
       && drawingContext.canvas.height === this.baseCache.canvas.height) {
-      drawingContext.drawImage(this.baseCache.canvas, 0, 0)
+      const [borderWidth] = this.attr('border'),
+        padding = this.attr('padding')
+      drawingContext.drawImage(this.baseCache.canvas, -1, -1)
+      drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
     } else {
       super.render(t, drawingContext)
       this.baseCache = copyContext(drawingContext)

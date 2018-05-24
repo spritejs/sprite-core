@@ -60,6 +60,10 @@ export default class Layer extends BaseNode {
     this[_renderDeferer] = null
   }
 
+  get layer() {
+    return this
+  }
+
   get children() {
     return this[_children]
   }
