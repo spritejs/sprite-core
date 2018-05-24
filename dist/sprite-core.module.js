@@ -7439,7 +7439,7 @@ var _class = function () {
         this[_readyDefer].timerID = this.timeline.setTimeout(function () {
           _this2[_readyDefer].resolve();
           delete _this2[_readyDefer];
-        }, { delay: Math.max(-this.timeline.currentTime, 0), heading: false });
+        }, { delay: Math.max(-this.timeline.currentTime, 0), heading: this.timeline.paused });
       }
     }
   }, {
