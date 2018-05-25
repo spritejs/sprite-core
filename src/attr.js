@@ -131,11 +131,13 @@ class SpriteAttr {
     this.set('anchor', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set x(val) {
     this.set('x', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set y(val) {
     this.set('y', val)
@@ -164,12 +166,14 @@ class SpriteAttr {
     this.set('opacity', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set width(val) {
     this.clearCache()
     this.set('width', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set height(val) {
     this.clearCache()
@@ -248,11 +252,13 @@ class SpriteAttr {
     }
   }
 
+  @parseValue(parseFloat)
   @attr
   set transformOrigin(val) {
     this.set('transformOrigin', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set rotate(val) {
     const delta = this.get('rotate') - val
@@ -261,6 +267,7 @@ class SpriteAttr {
     this.set('transformMatrix', transform.m)
   }
 
+  @parseValue(parseStringFloat, oneOrTwoValues)
   @attr
   set scale(val) {
     val = oneOrTwoValues(val)
@@ -405,11 +412,13 @@ class SpriteAttr {
     this.saveObj('offsetPath', offsetPath)
     this.resetOffset()
   }
+  @parseValue(parseFloat)
   @attr
   set offsetDistance(val) {
     this.set('offsetDistance', val)
     this.resetOffset()
   }
+  @parseValue(parseFloat)
   @attr
   set offsetRotate(val) {
     this.set('offsetRotate', val)

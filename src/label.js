@@ -1,5 +1,5 @@
 import BaseSprite from './basesprite'
-import {parseColorString, attr} from 'sprite-utils'
+import {parseValue, parseColorString, attr} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {findColor} from './helpers/render'
@@ -71,6 +71,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.set('font', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set lineHeight(val) {
     this.clearCache()
@@ -89,16 +90,18 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.fillColor = val
   }
 
+  @parseValue(parseColorString)
   @attr
   set strokeColor(val) {
     this.clearCache()
-    this.set('strokeColor', parseColorString(val))
+    this.set('strokeColor', val)
   }
 
+  @parseValue(parseColorString)
   @attr
   set fillColor(val) {
     this.clearCache()
-    this.set('fillColor', parseColorString(val))
+    this.set('fillColor', val)
   }
 }
 
