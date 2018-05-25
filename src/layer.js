@@ -306,8 +306,11 @@ export default class Layer extends BaseNode {
       }
 
       evt.targetSprites = targetSprites
-      return super.dispatchEvent(type, evt, collisionState)
     }
+
+    // stopDispatch can only terminate event in the same level
+    evt.terminated = false
+    return super.dispatchEvent(type, evt, collisionState)
   }
   connect(parent, zOrder, zIndex) {
     super.connect(parent, zOrder)

@@ -2236,7 +2236,9 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
         evt.targetSprites = targetSprites;
       }
-      // support mouseleave
+
+      // stopDispatch can only terminate event in the same level
+      evt.terminated = false;
       return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
     }
   }, {
@@ -4560,8 +4562,11 @@ var Layer = function (_BaseNode) {
         }
 
         evt.targetSprites = targetSprites;
-        return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
       }
+
+      // stopDispatch can only terminate event in the same level
+      evt.terminated = false;
+      return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
     }
   }, {
     key: 'connect',

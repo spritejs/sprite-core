@@ -119,7 +119,9 @@ export default class Group extends BaseSprite {
 
       evt.targetSprites = targetSprites
     }
-    // support mouseleave
+
+    // stopDispatch can only terminate event in the same level
+    evt.terminated = false
     return super.dispatchEvent(type, evt, collisionState)
   }
   isNodeVisible(sprite) {
