@@ -117,14 +117,19 @@ export default class BaseSprite extends BaseNode {
 
   attr(props, val) {
     if(typeof props === 'object') {
-      Object.assign(this[_attr], props)
+      Object.entries(props).forEach(([prop, value]) => {
+        this.attr(prop, value)
+      })
       return this
     } else if(typeof props === 'string') {
+      const attrs = this[_attr].attrs
       if(val !== undefined) {
+        if(typeof val === 'function') {
+          val = val(attrs[props])
+        }
         Object.assign(this[_attr], {[props]: val})
         return this
       }
-      const attrs = this[_attr].attrs
       return attrs[props]
     }
 
