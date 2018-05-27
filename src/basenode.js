@@ -83,7 +83,7 @@ export default class BaseNode {
       this[_collisionState] = false
     }
 
-    return this[_collisionState]
+    return isCollision
   }
   // called when layer appendChild
   connect(parent, zOrder = 0) {

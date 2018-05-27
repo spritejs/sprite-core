@@ -48,10 +48,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       lineHeight: '',
       text: '',
     }, {
-      color: {
-        get() {
-          return this.fillColor
-        },
+      color() {
+        return this.fillColor
       },
     })
   }

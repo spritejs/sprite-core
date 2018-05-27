@@ -98,7 +98,10 @@ export default class Sprite extends BaseSprite {
 
   cloneNode() {
     const node = super.cloneNode()
-    node.textures = this.textures
+    node.textures = this.textures.map((texture, i) => {
+      texture.image = this.images[i]
+      return texture
+    })
     return node
   }
 

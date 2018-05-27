@@ -23,15 +23,11 @@ class PathSpriteAttr extends BaseSprite.Attr {
       strokeColor: '',
       fillColor: '',
     }, {
-      color: {
-        get() {
-          return this.strokeColor
-        },
+      color() {
+        return this.strokeColor
       },
-      d: {
-        get() {
-          return this.path ? JSON.parse(this.path).d : null
-        },
+      d() {
+        return this.path ? this.path.d : null
       },
     })
   }

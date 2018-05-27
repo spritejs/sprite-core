@@ -39,20 +39,14 @@ class SpriteAttr {
       gradients: {},
       offsetDistance: 0,
     }, {
-      pos: {
-        get() {
-          return [this.x, this.y]
-        },
+      pos() {
+        return [this.x, this.y]
       },
-      size: {
-        get() {
-          return [this.width, this.height]
-        },
+      size() {
+        return [this.width, this.height]
       },
-      linearGradients: {
-        get() {
-          return this.gradients
-        },
+      linearGradients() {
+        return this.gradients
       },
     })
     this[_temp] = new Map() // save non-serialized values
@@ -68,8 +62,14 @@ class SpriteAttr {
     })
     Object.assign(this[_default], _attrs)
     Object.assign(this[_attr], _attrs)
-    Object.defineProperties(this[_attr], props)
-    Object.assign(this[_props], props)
+    const _p = {}
+    Object.entries(props).forEach(([prop, getter]) => {
+      _p[prop] = {
+        get: getter.bind(this),
+      }
+    })
+    Object.defineProperties(this[_attr], _p)
+    Object.assign(this[_props], _p)
   }
 
   saveObj(key, val) {

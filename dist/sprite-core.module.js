@@ -1554,7 +1554,7 @@ var BaseNode = function () {
         this[_collisionState] = false;
       }
 
-      return this[_collisionState];
+      return isCollision;
     }
     // called when layer appendChild
 
@@ -4007,10 +4007,8 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
       lineHeight: '',
       text: ''
     }, {
-      color: {
-        get: function get() {
-          return this.fillColor;
-        }
+      color: function color() {
+        return this.fillColor;
       }
     });
     return _this;
@@ -4797,15 +4795,11 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.deprecate)('Instead use strokeColo
       strokeColor: '',
       fillColor: ''
     }, {
-      color: {
-        get: function get() {
-          return this.strokeColor;
-        }
+      color: function color() {
+        return this.strokeColor;
       },
-      d: {
-        get: function get() {
-          return this.path ? JSON.parse(this.path).d : null;
-        }
+      d: function d() {
+        return this.path ? this.path.d : null;
       }
     });
     return _this;
@@ -5261,14 +5255,19 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
   (0, _createClass3.default)(Sprite, [{
     key: 'cloneNode',
     value: function cloneNode() {
+      var _this3 = this;
+
       var node = (0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'cloneNode', this).call(this);
-      node.textures = this.textures;
+      node.textures = this.textures.map(function (texture, i) {
+        texture.image = _this3.images[i];
+        return texture;
+      });
       return node;
     }
   }, {
     key: 'pointCollision',
     value: function pointCollision(evt) {
-      var _this3 = this;
+      var _this4 = this;
 
       if ((0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'pointCollision', this).call(this, evt)) {
         var textures = this.textures;
@@ -5291,7 +5290,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           offsetY += height * anchorY;
 
           textures.forEach(function (texture) {
-            var _ref2 = texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this3.innerSize)),
+            var _ref2 = texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize)),
                 _ref3 = (0, _slicedToArray3.default)(_ref2, 4),
                 x = _ref3[0],
                 y = _ref3[1],
@@ -5311,15 +5310,15 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      var _this4 = this;
+      var _this5 = this;
 
       (0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'render', this).call(this, t, drawingContext);
       var textures = this.textures;
 
       if (this.images) {
         textures.forEach(function (texture, i) {
-          var img = _this4.images[i];
-          var rect = (texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize))).slice(0);
+          var img = _this5.images[i];
+          var rect = (texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this5.innerSize))).slice(0);
           var srcRect = texture.srcRect;
 
           drawingContext.save();
@@ -5801,20 +5800,14 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       gradients: {},
       offsetDistance: 0
     }, {
-      pos: {
-        get: function get() {
-          return [this.x, this.y];
-        }
+      pos: function pos() {
+        return [this.x, this.y];
       },
-      size: {
-        get: function get() {
-          return [this.width, this.height];
-        }
+      size: function size() {
+        return [this.width, this.height];
       },
-      linearGradients: {
-        get: function get() {
-          return this.gradients;
-        }
+      linearGradients: function linearGradients() {
+        return this.gradients;
       }
     });
     this[_temp] = new _map2.default(); // save non-serialized values
@@ -5823,6 +5816,8 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   (0, _createClass3.default)(SpriteAttr, [{
     key: 'setDefault',
     value: function setDefault(attrs) {
+      var _this = this;
+
       var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       var _attrs = {};
@@ -5838,8 +5833,18 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       });
       (0, _assign2.default)(this[_default], _attrs);
       (0, _assign2.default)(this[_attr], _attrs);
-      (0, _defineProperties2.default)(this[_attr], props);
-      (0, _assign2.default)(this[_props], props);
+      var _p = {};
+      (0, _entries2.default)(props).forEach(function (_ref3) {
+        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+            prop = _ref4[0],
+            getter = _ref4[1];
+
+        _p[prop] = {
+          get: getter.bind(_this)
+        };
+      });
+      (0, _defineProperties2.default)(this[_attr], _p);
+      (0, _assign2.default)(this[_props], _p);
     }
   }, {
     key: 'saveObj',
@@ -5890,18 +5895,18 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'merge',
     value: function merge(attrs) {
-      var _this = this;
+      var _this2 = this;
 
       if (typeof attrs === 'string') {
         attrs = JSON.parse(attrs);
       }
-      (0, _entries2.default)(attrs).forEach(function (_ref3) {
-        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
-            key = _ref4[0],
-            value = _ref4[1];
+      (0, _entries2.default)(attrs).forEach(function (_ref5) {
+        var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
+            key = _ref6[0],
+            value = _ref6[1];
 
-        if (_this[_default][key] !== value && key in _this) {
-          _this[key] = value;
+        if (_this2[_default][key] !== value && key in _this2) {
+          _this2[key] = value;
         }
       });
 
@@ -5977,12 +5982,12 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'attrs',
     get: function get() {
-      var _this2 = this;
+      var _this3 = this;
 
       var ret = {};
       (0, _keys2.default)(this[_attr]).forEach(function (key) {
-        if (key in _this2) {
-          ret[key] = _this2[key];
+        if (key in _this3) {
+          ret[key] = _this3[key];
         }
       });
       (0, _defineProperties2.default)(ret, this[_props]);
@@ -6107,7 +6112,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'transform',
     set: function set(val) {
-      var _this3 = this;
+      var _this4 = this;
 
       /*
         rotate: 0,
@@ -6130,15 +6135,15 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
         this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
         var transformStr = [];
 
-        (0, _entries2.default)(val).forEach(function (_ref5) {
-          var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
-              key = _ref6[0],
-              value = _ref6[1];
+        (0, _entries2.default)(val).forEach(function (_ref7) {
+          var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
+              key = _ref8[0],
+              value = _ref8[1];
 
           if (key === 'matrix' && Array.isArray(value)) {
-            _this3.set('transformMatrix', new _spriteMath.Matrix(value).m);
+            _this4.set('transformMatrix', new _spriteMath.Matrix(value).m);
           } else {
-            _this3[key] = value;
+            _this4[key] = value;
           }
           transformStr.push(key + '(' + value + ')');
         });
@@ -6193,10 +6198,10 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'skew',
     set: function set(val) {
-      var _ref7, _transform$multiply;
+      var _ref9, _transform$multiply;
 
       var oldVal = this.get('skew') || [0, 0];
-      var invm = (_ref7 = new _spriteMath.Matrix()).skew.apply(_ref7, (0, _toConsumableArray3.default)(oldVal)).inverse();
+      var invm = (_ref9 = new _spriteMath.Matrix()).skew.apply(_ref9, (0, _toConsumableArray3.default)(oldVal)).inverse();
       this.set('skew', val);
       var transform = new _spriteMath.Matrix(this.get('transformMatrix'));
       (_transform$multiply = transform.multiply(invm)).skew.apply(_transform$multiply, (0, _toConsumableArray3.default)(val));
