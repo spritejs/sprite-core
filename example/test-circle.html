@@ -75,7 +75,7 @@
       lineWidth(attr, val) {
         attr.clearCache()
         attr.set('lineWidth', val)
-      }
+      },
     })
 
     const s = new Circle({
@@ -88,7 +88,7 @@
       fillColor: 'blue',
     })
     s.connect(context).draw()
-    s.on('afterdraw', evt => {
+    s.on('afterdraw', (evt) => {
       // console.log(evt)
     })
 
@@ -96,7 +96,7 @@
       context.clearRect(0, 0, 600, 600)
       s.draw()
       requestAnimationFrame(f)
-    })    
+    })
   </script>
 </body>
 </html>

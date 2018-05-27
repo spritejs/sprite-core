@@ -40,6 +40,7 @@ export default class BaseSprite extends BaseNode {
     }
     Object.entries(attrs).forEach(([prop, handler]) => {
       if(prop !== 'init') {
+        this.Attr.prototype.__attributeNames.push(prop)
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
             const oldVal = this.get(prop)
