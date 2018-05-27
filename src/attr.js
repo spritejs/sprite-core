@@ -279,7 +279,6 @@ class SpriteAttr {
     }
   }
 
-  @parseValue(parseFloat)
   @attr
   set transformOrigin(val) {
     this.set('transformOrigin', val)
