@@ -6,13 +6,16 @@ import SvgPath from 'svg-path-to-canvas'
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
   _subject = Symbol('subject'),
-  _default = Symbol('default')
+  _default = Symbol('default'),
+  _props = Symbol('props')
 
 class SpriteAttr {
   constructor(subject) {
     this[_subject] = subject
     this[_default] = {}
     this[_attr] = {}
+    this[_props] = {}
+
     this.setDefault({
       anchor: [0, 0],
       x: 0,
@@ -56,13 +59,17 @@ class SpriteAttr {
   }
 
   setDefault(attrs, props = {}) {
-    Object.assign(this[_default], attrs)
-    Object.assign(this[_attr], attrs)
+    const _attrs = {}
+    Object.entries(attrs).forEach(([attr, val]) => {
+      if(val != null && typeof val === 'object') {
+        val = JSON.stringify(val)
+      }
+      _attrs[attr] = val
+    })
+    Object.assign(this[_default], _attrs)
+    Object.assign(this[_attr], _attrs)
     Object.defineProperties(this[_attr], props)
-  }
-
-  getAttrState() {
-    return this[_attr]
+    Object.assign(this[_props], props)
   }
 
   saveObj(key, val) {
@@ -73,17 +80,38 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
+    if(val != null && typeof val === 'object') {
+      val = JSON.stringify(val)
+    }
     this[_attr][key] = val
   }
   set(key, val) {
     if(val == null) {
       val = this[_default][key]
+    } else if(typeof val === 'object') {
+      val = JSON.stringify(val)
     }
-    this[_attr][key] = val
-    this.subject.forceUpdate()
+    if(this[_attr][key] !== val) {
+      this[_attr][key] = val
+      this.subject.forceUpdate()
+    }
   }
   get(key) {
-    return this[_attr][key]
+    let val = this[_attr][key]
+    if(typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
+      val = JSON.parse(val)
+    }
+    return val
+  }
+  get attrs() {
+    const ret = {}
+    Object.keys(this[_attr]).forEach((key) => {
+      if(key in this) {
+        ret[key] = this[key]
+      }
+    })
+    Object.defineProperties(ret, this[_props])
+    return ret
   }
   clearCache() {
     this.subject.clearCache()
@@ -103,11 +131,7 @@ class SpriteAttr {
   }
 
   serialize() {
-    return JSON.stringify(this[_attr])
-  }
-
-  get attrs() {
-    return this[_attr]
+    return JSON.stringify(this.attrs)
   }
 
   get subject() {
@@ -227,9 +251,9 @@ class SpriteAttr {
      */
     Object.assign(this[_attr], {
       rotate: 0,
-      scale: [1, 1],
-      translate: [0, 0],
-      skew: [0, 0],
+      scale: '[1, 1]',
+      translate: '[0, 0]',
+      skew: '[0, 0]',
     })
 
     if(Array.isArray(val)) {
@@ -371,6 +395,7 @@ class SpriteAttr {
         [x, y] = offsetPath.getPointAtLength(len)
 
       let angle = this.offsetRotate
+
       if(angle === 'auto' || angle === 'reverse') {
         const [x1, y1] = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1)
 
@@ -412,15 +437,19 @@ class SpriteAttr {
     this.saveObj('offsetPath', offsetPath)
     this.resetOffset()
   }
+
   @parseValue(parseFloat)
   @attr
   set offsetDistance(val) {
     this.set('offsetDistance', val)
     this.resetOffset()
   }
-  @parseValue(parseFloat)
+
   @attr
   set offsetRotate(val) {
+    if(typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
+      val = parseFloat(val)
+    }
     this.set('offsetRotate', val)
     this.resetOffset()
   }

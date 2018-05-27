@@ -122,21 +122,20 @@ export default class BaseSprite extends BaseNode {
       })
       return this
     } else if(typeof props === 'string') {
-      const attrs = this[_attr].attrs
       if(val !== undefined) {
         if(typeof val === 'function') {
-          val = val(attrs[props])
+          val = val(this[_attr][props])
         }
         Object.assign(this[_attr], {[props]: val})
         return this
       }
-      return attrs[props]
+      return this[_attr][props]
     }
 
     return this[_attr].attrs
   }
   attrs() {
-    return this[_attr].attrs
+    return this.attr()
   }
 
   isVisible() {
@@ -191,7 +190,9 @@ export default class BaseSprite extends BaseNode {
       configurable: true,
     })
     this[_animations].forEach((animation) => {
-      animation.baseTimeline = parent.layer.timeline
+      if(parent.layer) {
+        animation.baseTimeline = parent.layer.timeline
+      }
       animation.play()
       animation.finished.then(() => {
         this[_animations].delete(animation)
@@ -355,8 +356,8 @@ export default class BaseSprite extends BaseNode {
 
   // layer position to sprite offset
   pointToOffset(x, y) {
-    const attr = this.attr()
-    const [dx, dy] = [x - attr.x, y - attr.y]
+    const [x0, y0] = this.attr('pos')
+    const [dx, dy] = [x - x0, y - y0]
     const transform = this.transform
     return transform.inverse().transformPoint(dx, dy)
   }
@@ -484,7 +485,9 @@ export default class BaseSprite extends BaseNode {
   }
 
   render(t, drawingContext) {
-    const attr = this.attr(),
+    const border = this.attr('border'),
+      borderRadius = this.attr('borderRadius'),
+      padding = this.attr('padding'),
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize
 
@@ -492,8 +495,7 @@ export default class BaseSprite extends BaseNode {
       return // don't need to render
     }
 
-    const borderWidth = attr.border[0]
-    const borderRadius = attr.borderRadius
+    const borderWidth = border[0]
 
     // draw border
     if(borderWidth) {
@@ -531,7 +533,7 @@ export default class BaseSprite extends BaseNode {
       }
     }
 
-    drawingContext.translate(borderWidth + attr.padding[3], borderWidth + attr.padding[0])
+    drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
   }
 }
 

@@ -30,7 +30,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
       },
       d: {
         get() {
-          return this.path ? this.path.d : null
+          return this.path ? JSON.parse(this.path).d : null
         },
       },
     })
@@ -216,9 +216,12 @@ export default class Path extends BaseSprite {
 
   render(t, drawingContext) {
     super.render(t, drawingContext)
-    const attr = this.attr()
+    const d = this.attr('d'),
+      lineWidth = this.attr('lineWidth'),
+      lineCap = this.attr('lineCap'),
+      lineJoin = this.attr('lineJoin')
 
-    if(attr.d) {
+    if(d) {
       const svg = this.svg
       const [ox, oy] = svg.bounds
       if(ox < 0 || oy < 0) {
@@ -227,9 +230,9 @@ export default class Path extends BaseSprite {
       drawingContext.translate(...this.pathOffset)
       svg.beginPath().to(drawingContext)
 
-      drawingContext.lineWidth = attr.lineWidth
-      drawingContext.lineCap = attr.lineCap
-      drawingContext.lineJoin = attr.lineJoin
+      drawingContext.lineWidth = lineWidth
+      drawingContext.lineCap = lineCap
+      drawingContext.lineJoin = lineJoin
 
       const fillColor = findColor(drawingContext, this, 'fillColor')
       if(fillColor) {

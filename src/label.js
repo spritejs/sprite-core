@@ -141,17 +141,18 @@ export default class Label extends BaseSprite {
   render(t, drawingContext) {
     super.render(t, drawingContext)
 
-    const attr = this.attr(),
-      text = this.text,
-      font = attr.font
+    const textAlign = this.attr('textAlign'),
+      font = this.attr('font'),
+      lineHeight = this.attr('lineHeight'),
+      text = this.text
 
     if(text) {
-      drawingContext.font = attr.font
+      drawingContext.font = font
       const lines = this.text.split(/\n/)
 
       drawingContext.textBaseline = 'top'
 
-      const align = attr.textAlign
+      const align = textAlign
 
       drawingContext.textBaseline = 'middle'
 
@@ -174,7 +175,7 @@ export default class Label extends BaseSprite {
       const width = this.contentSize[0]
 
       lines.forEach((line) => {
-        const [w, h] = measureText(this, line, font, attr.lineHeight)
+        const [w, h] = measureText(this, line, font, lineHeight)
 
         if(align === 'center') {
           left += (width - w) / 2
