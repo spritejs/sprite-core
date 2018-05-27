@@ -35,8 +35,8 @@ class TextureAttr extends BaseSprite.Attr {
       return texture
     })
 
-    this.set('textures', textures)
     this.loadTextures(textures)
+    this.set('textures', textures)
   }
 
   loadTextures(textures) {
@@ -46,7 +46,8 @@ class TextureAttr extends BaseSprite.Attr {
     let width = 0,
       height = 0
 
-    subject.images = textures.map(({image, rect, srcRect}) => {
+    subject.images = textures.map((texture) => {
+      const {image, rect, srcRect} = texture
       let w,
         h
       if(rect) {
@@ -65,10 +66,12 @@ class TextureAttr extends BaseSprite.Attr {
       if(height < h) {
         height = h
       }
+      delete texture.image
       return image
     })
 
     subject.texturesSize = [width, height]
+    return textures
   }
 }
 

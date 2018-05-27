@@ -390,7 +390,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _defineProperty2 = __webpack_require__(73);
+var _defineProperty2 = __webpack_require__(36);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -3871,7 +3871,7 @@ module.exports = require("babel-runtime/core-js/json/stringify");
 /* 36 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/core-js/object/define-property");
 
 /***/ }),
 /* 37 */
@@ -5176,10 +5176,10 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
       var width = 0,
           height = 0;
 
-      subject.images = textures.map(function (_ref) {
-        var image = _ref.image,
-            rect = _ref.rect,
-            srcRect = _ref.srcRect;
+      subject.images = textures.map(function (texture) {
+        var image = texture.image,
+            rect = texture.rect,
+            srcRect = texture.srcRect;
 
         var w = void 0,
             h = void 0;
@@ -5199,10 +5199,12 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
         if (height < h) {
           height = h;
         }
+        delete texture.image;
         return image;
       });
 
       subject.texturesSize = [width, height];
+      return textures;
     }
   }, {
     key: 'textures',
@@ -5218,8 +5220,8 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
         return texture;
       });
 
-      this.set('textures', textures);
       this.loadTextures(textures);
+      this.set('textures', textures);
     }
   }]);
   return TextureAttr;
@@ -5290,12 +5292,12 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           offsetY += height * anchorY;
 
           textures.forEach(function (texture) {
-            var _ref2 = texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize)),
-                _ref3 = (0, _slicedToArray3.default)(_ref2, 4),
-                x = _ref3[0],
-                y = _ref3[1],
-                w = _ref3[2],
-                h = _ref3[3];
+            var _ref = texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this4.innerSize)),
+                _ref2 = (0, _slicedToArray3.default)(_ref, 4),
+                x = _ref2[0],
+                y = _ref2[1],
+                w = _ref2[2],
+                h = _ref2[3];
 
             if (offsetX >= x && offsetX - x < w && offsetY >= y && offsetY - y < h) {
               // touched textures
@@ -5704,9 +5706,9 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _keys = __webpack_require__(36);
+var _defineProperty = __webpack_require__(36);
 
-var _keys2 = _interopRequireDefault(_keys);
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
 var _defineProperties = __webpack_require__(72);
 
@@ -5915,7 +5917,9 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'serialize',
     value: function serialize() {
-      return (0, _stringify2.default)(this.attrs);
+      var attrs = this.attrs;
+      delete attrs.id;
+      return (0, _stringify2.default)(attrs);
     }
   }, {
     key: 'resetOffset',
@@ -5985,12 +5989,13 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       var _this3 = this;
 
       var ret = {};
-      (0, _keys2.default)(this[_attr]).forEach(function (key) {
-        if (key in _this3) {
+      this.__attributeNames.forEach(function (key) {
+        if (key in _this3[_props]) {
+          (0, _defineProperty2.default)(ret, key, _this3[_props][key]);
+        } else {
           ret[key] = _this3[key];
         }
       });
-      (0, _defineProperties2.default)(ret, this[_props]);
       return ret;
     }
   }, {
@@ -7394,7 +7399,7 @@ var _promise = __webpack_require__(24);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(36);
+var _keys = __webpack_require__(73);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -8253,9 +8258,21 @@ var _utils = __webpack_require__(34);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function attr(target, prop, descriptor) {
+  target.__attributeNames = target.__attributeNames || [];
+  target.__attributeNames.push(prop);
   if (!descriptor.get) {
     descriptor.get = function () {
       return this.get(prop);
+    };
+  } else {
+    // enable set default to user defined getter
+    var _getter = descriptor.get;
+    descriptor.get = function () {
+      var ret = _getter.call(this);
+      if (ret == null) {
+        ret = this.get(prop);
+      }
+      return ret;
     };
   }
   var _setter = descriptor.set;
@@ -8907,7 +8924,7 @@ module.exports = require("babel-runtime/core-js/object/define-properties");
 /* 73 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/define-property");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ })
 /******/ ]);

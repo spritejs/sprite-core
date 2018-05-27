@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "1.23.3",
+  "version": "1.24.0",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
@@ -44,6 +44,7 @@
     "coveralls": "^3.0.1",
     "eslint": "^4.17.0",
     "eslint-config-75team": "^1.0.2",
+    "eslint-plugin-html": "^4.0.3",
     "hamming-distance": "^1.0.0",
     "http-server": "^0.11.1",
     "imghash": "0.0.3",
@@ -65,7 +66,7 @@
     "fast-animation-frame": "^0.3.0",
     "sprite-animator": "^1.6.1",
     "sprite-math": "^1.0.0",
-    "sprite-utils": "^1.4.1",
+    "sprite-utils": "^1.4.3",
     "svg-path-to-canvas": "^1.8.1"
   }
 }

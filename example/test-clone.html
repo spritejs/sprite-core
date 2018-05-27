@@ -12,9 +12,8 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
-    const Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode:'repaintDirty'})
+    const layer = new Layer({context, renderMode: 'repaintDirty'})
 
     const s = new Sprite()
     s.attr({
@@ -23,7 +22,7 @@
       anchor: [0.5, 0.5],
       bgcolor: 'red',
     })
-    s2 = s.cloneNode()
+    const s2 = s.cloneNode()
     s2.attr({
       pos: [300, 300],
     })
@@ -31,21 +30,24 @@
 
     const img = document.createElement('img')
     img.src = 'https://p0.ssl.qhimg.com/t010824825edcb60364.png'
-    img.onload = function() {
+    img.onload = function () {
       const p = new Sprite()
       p.attr({
-        textures: [{id:"test", image: img}],
+        id: 'abc',
+        textures: [{id: 'test', image: img}],
         pos: [500, 200],
       })
       layer.append(p)
 
-      p2 = p.cloneNode()
+      const p2 = p.cloneNode()
       p2.attr({
         pos: [500, 500],
       })
-      console.log(p2.texturesSize)
-      console.log(p2.attr())
+
       layer.append(p2)
+
+      window.p = p
+      window.p2 = p2
     }
   </script>
 </body>

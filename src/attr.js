@@ -105,12 +105,13 @@ class SpriteAttr {
   }
   get attrs() {
     const ret = {}
-    Object.keys(this[_attr]).forEach((key) => {
-      if(key in this) {
+    this.__attributeNames.forEach((key) => {
+      if(key in this[_props]) {
+        Object.defineProperty(ret, key, this[_props][key])
+      } else {
         ret[key] = this[key]
       }
     })
-    Object.defineProperties(ret, this[_props])
     return ret
   }
   clearCache() {
@@ -131,7 +132,9 @@ class SpriteAttr {
   }
 
   serialize() {
-    return JSON.stringify(this.attrs)
+    const attrs = this.attrs
+    delete attrs.id
+    return JSON.stringify(attrs)
   }
 
   get subject() {
