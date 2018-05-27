@@ -139,14 +139,6 @@ export default class Group extends BaseSprite {
     super.clearCache()
     this.baseCache = null
   }
-  forceUpdate(clearCache, updater) {
-    if(updater) {
-      // child update on group
-      this.cache = null
-      return super.forceUpdate()
-    }
-    return super.forceUpdate(clearCache)
-  }
   render(t, drawingContext) {
     if(this.baseCache
       && drawingContext.canvas.width === this.baseCache.canvas.width

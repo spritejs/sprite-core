@@ -93,7 +93,7 @@ class SpriteAttr {
     }
     if(this[_attr][key] !== val) {
       this[_attr][key] = val
-      this.subject.forceUpdate()
+      this.subject.forceUpdate(this.__clearCacheTag)
     }
   }
   get(key) {
@@ -115,7 +115,7 @@ class SpriteAttr {
     return ret
   }
   clearCache() {
-    this.subject.clearCache()
+    this.__clearCacheTag = true
     return this
   }
   merge(attrs) {

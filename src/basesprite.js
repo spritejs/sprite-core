@@ -327,6 +327,9 @@ export default class BaseSprite extends BaseNode {
 
   clearCache() {
     this.cache = null
+    if(this.parent && this.parent.cache) {
+      this.parent.cahce = null
+    }
   }
 
   remove() {
@@ -342,14 +345,15 @@ export default class BaseSprite extends BaseNode {
   forceUpdate(clearCache = false) {
     const parent = this.parent
     if(parent) {
+      if(clearCache) {
+        this.clearCache()
+      }
       if(parent.forceUpdate) {
         // is group
-        parent.forceUpdate(clearCache, this)
+        parent.cache = null
+        parent.forceUpdate()
       } else if(parent.update) {
         // is layer
-        if(clearCache) {
-          this.clearCache()
-        }
         this.parent.update(this)
       }
     }
