@@ -1225,11 +1225,11 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     value: function forceUpdate() {
       var clearCache = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
+      if (clearCache) {
+        this.clearCache();
+      }
       var parent = this.parent;
       if (parent) {
-        if (clearCache) {
-          this.clearCache();
-        }
         if (parent.forceUpdate) {
           // is group
           parent.cache = null;

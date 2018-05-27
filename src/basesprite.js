@@ -343,11 +343,11 @@ export default class BaseSprite extends BaseNode {
   }
 
   forceUpdate(clearCache = false) {
+    if(clearCache) {
+      this.clearCache()
+    }
     const parent = this.parent
     if(parent) {
-      if(clearCache) {
-        this.clearCache()
-      }
       if(parent.forceUpdate) {
         // is group
         parent.cache = null
