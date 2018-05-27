@@ -1139,7 +1139,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
             set: function set(val) {
               var oldVal = this.get(prop);
               if (!(0, _spriteUtils.isPropEqual)(oldVal, val)) {
+                this.__clearCacheTag = false;
                 handler(this, val);
+                delete this.__clearCacheTag;
               }
             },
             get: function get() {

@@ -45,7 +45,9 @@ export default class BaseSprite extends BaseNode {
           set(val) {
             const oldVal = this.get(prop)
             if(!isPropEqual(oldVal, val)) {
+              this.__clearCacheTag = false
               handler(this, val)
+              delete this.__clearCacheTag
             }
           },
           get() {
