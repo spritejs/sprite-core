@@ -39,6 +39,13 @@ export default class BaseSprite extends BaseNode {
       }
     }
     Object.entries(attrs).forEach(([prop, handler]) => {
+      let getter = function () {
+        return this.get(prop)
+      }
+      if(typeof handler !== 'function' && handler.set) {
+        getter = handler.get || getter
+        handler = handler.set
+      }
       if(prop !== 'init') {
         this.Attr.prototype.__attributeNames.push(prop)
         Object.defineProperty(this.Attr.prototype, prop, {
@@ -46,13 +53,16 @@ export default class BaseSprite extends BaseNode {
             const oldVal = this.get(prop)
             if(!isPropEqual(oldVal, val)) {
               this.__clearCacheTag = false
+              this.__updateTag = false
               handler(this, val)
+              if(this.subject && this.__updateTag) {
+                this.subject.forceUpdate(this.__clearCacheTag)
+              }
+              delete this.__updateTag
               delete this.__clearCacheTag
             }
           },
-          get() {
-            return this.get(prop)
-          },
+          get: getter,
         })
       }
     })

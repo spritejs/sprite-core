@@ -74,6 +74,7 @@ class SpriteAttr {
 
   saveObj(key, val) {
     this[_temp].set(key, val)
+    this.__updateTag = true
   }
   loadObj(key) {
     return this[_temp].get(key)
@@ -93,7 +94,7 @@ class SpriteAttr {
     }
     if(this[_attr][key] !== val) {
       this[_attr][key] = val
-      this.subject.forceUpdate(this.__clearCacheTag)
+      this.__updateTag = true
     }
   }
   get(key) {

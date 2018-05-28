@@ -1133,6 +1133,13 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
             prop = _ref5[0],
             handler = _ref5[1];
 
+        var getter = function getter() {
+          return this.get(prop);
+        };
+        if (typeof handler !== 'function' && handler.set) {
+          getter = handler.get || getter;
+          handler = handler.set;
+        }
         if (prop !== 'init') {
           _this6.Attr.prototype.__attributeNames.push(prop);
           (0, _defineProperty3.default)(_this6.Attr.prototype, prop, {
@@ -1140,13 +1147,17 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
               var oldVal = this.get(prop);
               if (!(0, _spriteUtils.isPropEqual)(oldVal, val)) {
                 this.__clearCacheTag = false;
+                this.__updateTag = false;
                 handler(this, val);
+                if (this.subject && this.__updateTag) {
+                  this.subject.forceUpdate(this.__clearCacheTag);
+                }
+                delete this.__updateTag;
                 delete this.__clearCacheTag;
               }
             },
-            get: function get() {
-              return this.get(prop);
-            }
+
+            get: getter
           });
         }
       });
@@ -5849,6 +5860,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     key: 'saveObj',
     value: function saveObj(key, val) {
       this[_temp].set(key, val);
+      this.__updateTag = true;
     }
   }, {
     key: 'loadObj',
@@ -5873,7 +5885,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       }
       if (this[_attr][key] !== val) {
         this[_attr][key] = val;
-        this.subject.forceUpdate(this.__clearCacheTag);
+        this.__updateTag = true;
       }
     }
   }, {
@@ -8277,7 +8289,12 @@ function attr(target, prop, descriptor) {
     var oldVal = this.get(prop);
     if (!(0, _utils.isPropEqual)(oldVal, val)) {
       this.__clearCacheTag = false;
+      this.__updateTag = false;
       _setter.call(this, val);
+      if (this.subject && this.__updateTag) {
+        this.subject.forceUpdate(this.__clearCacheTag);
+      }
+      delete this.__updateTag;
       delete this.__clearCacheTag;
     }
   };
