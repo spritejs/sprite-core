@@ -525,7 +525,7 @@ export default class BaseSprite extends BaseNode {
       if(borderStyle !== 'solid') {
         const dashOffset = this.attr('dashOffset')
         drawingContext.lineDashOffset = dashOffset
-        if(borderStyle === 'dash') {
+        if(borderStyle === 'dashed') {
           borderStyle = [borderWidth * 3, borderWidth * 3]
         }
         drawingContext.setLineDash(borderStyle)

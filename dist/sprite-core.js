@@ -1403,7 +1403,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         if (borderStyle !== 'solid') {
           var dashOffset = this.attr('dashOffset');
           drawingContext.lineDashOffset = dashOffset;
-          if (borderStyle === 'dash') {
+          if (borderStyle === 'dashed') {
             borderStyle = [borderWidth * 3, borderWidth * 3];
           }
           drawingContext.setLineDash(borderStyle);
