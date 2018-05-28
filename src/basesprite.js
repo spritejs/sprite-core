@@ -174,7 +174,27 @@ export default class BaseSprite extends BaseNode {
     }
     return transform
   }
-
+  transition(sec, easing = 'linear') {
+    const that = this
+    return {
+      attr(prop, val) {
+        if(typeof prop === 'string') {
+          prop = {[prop]: val}
+        }
+        Object.entries(prop).forEach(([key, value]) => {
+          if(typeof value === 'function') {
+            prop[key] = value(that.attr(key))
+          }
+        })
+        const anim = that.animate([prop], {
+          duration: sec * 1000,
+          fill: 'forwards',
+          easing,
+        })
+        return anim.finished
+      }
+    }
+  }
   animate(frames, timing) {
     const animation = new Animation(this, frames, timing)
     if(this.layer) {

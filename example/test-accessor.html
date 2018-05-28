@@ -62,10 +62,12 @@
     })
     s.append(s2)
     
-    setTimeout(() => {
+    setTimeout(async () => {
       s2.attr({
-        y: y => y + 50,
+        y: y => y + 150,
       })
+      await s2.transition(1.5, 'ease-in').attr({y: y => y - 150})
+      await s2.transition(1.5, 'steps(3, end)').attr({y: y => y + 150})
     }, 1000)
   </script>
 </body>
