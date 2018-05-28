@@ -1,7 +1,7 @@
 import BaseSprite from './basesprite'
 import {findColor} from './helpers/render'
 import {Effects} from 'sprite-animator'
-import {parseColorString, attr, deprecate} from 'sprite-utils'
+import {parseColorString, parseValue, attr, deprecate} from 'sprite-utils'
 import {pathEffect, createSvgPath} from './helpers/path'
 import {registerNodeType} from './nodetype'
 
@@ -18,6 +18,8 @@ class PathSpriteAttr extends BaseSprite.Attr {
     super(subject)
     this.setDefault({
       lineWidth: 1,
+      lineDash: null,
+      lineDashOffset: 0,
       lineCap: 'butt',
       lineJoin: 'miter',
       strokeColor: '',
@@ -58,10 +60,24 @@ class PathSpriteAttr extends BaseSprite.Attr {
     }
   }
 
+  @parseValue(parseFloat)
   @attr
   set lineWidth(val) {
     this.clearCache()
     this.set('lineWidth', Math.round(val))
+  }
+
+  @attr
+  set lineDash(val) {
+    this.clearCache()
+    this.set('lineDash', val)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set lineDashOffset(val) {
+    this.clearCache()
+    this.set('lineDashOffset', val)
   }
 
   /**
@@ -215,7 +231,8 @@ export default class Path extends BaseSprite {
     const d = this.attr('d'),
       lineWidth = this.attr('lineWidth'),
       lineCap = this.attr('lineCap'),
-      lineJoin = this.attr('lineJoin')
+      lineJoin = this.attr('lineJoin'),
+      lineDash = this.attr('lineDash')
 
     if(d) {
       const svg = this.svg
@@ -229,6 +246,13 @@ export default class Path extends BaseSprite {
       drawingContext.lineWidth = lineWidth
       drawingContext.lineCap = lineCap
       drawingContext.lineJoin = lineJoin
+
+      if(lineDash != null) {
+        drawingContext.setLineDash(lineDash)
+
+        const lineDashOffset = this.attr('lineDashOffset')
+        drawingContext.lineDashOffset = lineDashOffset
+      }
 
       const fillColor = findColor(drawingContext, this, 'fillColor')
       if(fillColor) {

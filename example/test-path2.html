@@ -27,6 +27,7 @@
       strokeColor: 'blue',
       bgcolor: '#aaa',
       lineWidth: 1,
+      lineDash: [5, 5],
       gradients: {
         fillColor: {
           vector: [0, 0, 100, 0],
@@ -41,6 +42,13 @@
     console.log(path.renderRect)
     path.on('click', evt => {
       console.log(evt.targetPaths)
+    })
+
+    path.animate([
+      {lineDashOffset: 10},
+    ], {
+      duration: 1000,
+      iterations: Infinity,
     })
     // path.animate([
     //   {d: paths[0]},
