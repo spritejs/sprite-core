@@ -68,7 +68,7 @@ function gradientBox(angle, rect) {
 
 export function findColor(context, sprite, prop) {
   const gradients = sprite.attr('gradients') || {}
-  let color = prop === 'border' ? sprite.attr(prop)[1] : sprite.attr(prop),
+  let color = prop === 'border' ? sprite.attr(prop).color : sprite.attr(prop),
     gradient
 
   if(gradients[prop]) {
@@ -84,7 +84,7 @@ export function findColor(context, sprite, prop) {
       if(prop === 'border') {
         rect = rect || [0, 0, ...sprite.outerSize]
       } else {
-        const borderWidth = sprite.attr('border')[0]
+        const {width: borderWidth} = sprite.attr('border')
         rect = rect || [borderWidth, borderWidth, ...sprite.innerSize]
       }
       vector = gradientBox(direction, rect)

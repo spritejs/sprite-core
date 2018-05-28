@@ -235,7 +235,7 @@ export default class BaseSprite extends BaseNode {
 
   // content + padding + border
   get offsetSize() {
-    const [borderWidth] = this.attr('border'),
+    const {width: borderWidth} = this.attr('border'),
       [width, height] = this.clientSize
 
     return [width + 2 * borderWidth,
@@ -509,7 +509,8 @@ export default class BaseSprite extends BaseNode {
       return // don't need to render
     }
 
-    const borderWidth = border[0]
+    const borderWidth = border.width
+    let borderStyle = border.style
 
     // draw border
     if(borderWidth) {
@@ -521,6 +522,14 @@ export default class BaseSprite extends BaseNode {
 
       drawRadiusBox(drawingContext, {x, y, w, h, r})
 
+      if(borderStyle !== 'solid') {
+        const dashOffset = this.attr('dashOffset')
+        drawingContext.lineDashOffset = dashOffset
+        if(borderStyle === 'dash') {
+          borderStyle = [borderWidth * 3, borderWidth * 3]
+        }
+        drawingContext.setLineDash(borderStyle)
+      }
       drawingContext.strokeStyle = findColor(drawingContext, this, 'border')
       drawingContext.stroke()
     }

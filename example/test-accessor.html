@@ -23,11 +23,15 @@
       size: [500, 500],
       pos: [300, 300],
       zIndex: 0,
-      border: [10, 'blue'],
+      border: {
+        width: 2,
+        color: 'blue',
+        style: [15, 10],
+      },
       gradients: {
         bgcolor: {
-          //direction: 90,
-          //rect: [0, 0, 100, 100],
+          // direction: 90,
+          // rect: [0, 0, 100, 100],
           vector: [50, 50, 10, 70, 80, 100],
           colors: [{
             offset: 0,
@@ -35,18 +39,26 @@
           }, {
             offset: 1,
             color: 'rgba(255,0,0,1)',
-          }]
+          }],
         },
-      }  
+      },
     })
     layer.append(s)
+    
+    s.animate([
+      {dashOffset: 25},
+    ], {
+      duration: 500,
+      iterations: Infinity,
+      // direction: 'alternate',
+    })
     // layer.draw()
     
     const s2 = new Sprite({
       anchor: 0.5,
       bgcolor: 'green',
       size: [50, 50],
-      pos: ['100', 100]
+      pos: ['100', 100],
     })
     s.append(s2)
     

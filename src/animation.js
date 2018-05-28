@@ -74,7 +74,11 @@ Object.assign(Effects, {
   transform: transformEffect,
   bgcolor: colorEffect,
   border(v1, v2, p, start, end) {
-    return [defaultEffect(v1[0], v2[0], p, start, end), colorEffect(v1[1], v2[1], p, start, end)]
+    return {
+      width: defaultEffect(v1.width, v2.width, p, start, end),
+      color: colorEffect(v1[1], v2[1], p, start, end),
+      style: defaultEffect(v1.style, v2.style, p, start, end),
+    }
   },
   scale: arrayEffect,
   translate: arrayEffect,

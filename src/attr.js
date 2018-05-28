@@ -31,8 +31,14 @@ class SpriteAttr {
       transform: 'matrix(1,0,0,1,0,0)',
       transformOrigin: '',
       transformMatrix: [1, 0, 0, 1, 0, 0],
-      border: [0, 'rgba(0,0,0,0)'],
+      border: {
+        width: 0,
+        color: 'rgba(0,0,0,0)',
+        style: 'solid',
+      },
+      // border: [0, 'rgba(0,0,0,0)'],
       borderRadius: 0,
+      dashOffset: 0,
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
@@ -222,11 +228,24 @@ class SpriteAttr {
   @attr
   set border(val) {
     this.clearCache()
-    if(!Array.isArray(val)) {
-      val = [val]
+    if(typeof val === 'number' || typeof val === 'string') {
+      val = {
+        width: parseFloat(val),
+      }
+    } else if(Array.isArray(val)) {
+      val = {
+        width: parseFloat(val[0]),
+        color: parseColorString(val[1] || '#000'),
+      }
+    } else {
+      val.color = parseColorString(val.color || '#000')
     }
-    const [width, color] = val
-    this.set('border', [parseInt(width, 10), parseColorString(color || '#000')])
+    val = Object.assign({
+      width: 1,
+      color: parseColorString('#000'),
+      style: 'solid',
+    }, val)
+    this.set('border', val)
   }
 
   @parseValue(parseStringInt, fourValuesShortCut)
@@ -236,10 +255,18 @@ class SpriteAttr {
     this.set('padding', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set borderRadius(val) {
     this.clearCache()
     this.set('borderRadius', val)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set dashOffset(val) {
+    this.clearCache()
+    this.set('dashOffset', val)
   }
 
   // transform attributes
