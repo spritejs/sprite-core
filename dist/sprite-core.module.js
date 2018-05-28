@@ -592,6 +592,35 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       return true;
     }
   }, {
+    key: 'transition',
+    value: function transition(sec) {
+      var easing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'linear';
+
+      var that = this;
+      return {
+        attr: function attr(prop, val) {
+          if (typeof prop === 'string') {
+            prop = (0, _defineProperty5.default)({}, prop, val);
+          }
+          (0, _entries2.default)(prop).forEach(function (_ref3) {
+            var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+                key = _ref4[0],
+                value = _ref4[1];
+
+            if (typeof value === 'function') {
+              prop[key] = value(that.attr(key));
+            }
+          });
+          var anim = that.animate([prop], {
+            duration: sec * 1000,
+            fill: 'forwards',
+            easing: easing
+          });
+          return anim.finished;
+        }
+      };
+    }
+  }, {
     key: 'animate',
     value: function animate(frames, timing) {
       var _this3 = this;
@@ -894,15 +923,15 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');
 
       if (borderWidth || borderRadius || bgcolor) {
-        var _ref3 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x3 = _ref3[0],
-            _y = _ref3[1],
-            _w = _ref3[2],
-            _h = _ref3[3],
-            _r = _ref3[4];
+        var _ref5 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
+            _x4 = _ref5[0],
+            _y = _ref5[1],
+            _w = _ref5[2],
+            _h = _ref5[3],
+            _r = _ref5[4];
 
 
-        (0, _render.drawRadiusBox)(drawingContext, { x: _x3, y: _y, w: _w, h: _h, r: _r });
+        (0, _render.drawRadiusBox)(drawingContext, { x: _x4, y: _y, w: _w, h: _h, r: _r });
 
         if (bgcolor) {
           drawingContext.fillStyle = bgcolor;
@@ -1135,10 +1164,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
         return _class2;
       }(this.Attr);
-      (0, _entries2.default)(attrs).forEach(function (_ref4) {
-        var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
-            prop = _ref5[0],
-            handler = _ref5[1];
+      (0, _entries2.default)(attrs).forEach(function (_ref6) {
+        var _ref7 = (0, _slicedToArray3.default)(_ref6, 2),
+            prop = _ref7[0],
+            handler = _ref7[1];
 
         var getter = function getter() {
           return this.get(prop);
