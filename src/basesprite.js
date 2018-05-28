@@ -2,7 +2,7 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices, isPropEqual} from 'sprite-utils'
+import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, copyContext} from './helpers/render'
@@ -50,17 +50,14 @@ export default class BaseSprite extends BaseNode {
         this.Attr.prototype.__attributeNames.push(prop)
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
-            const oldVal = this.get(prop)
-            if(!isPropEqual(oldVal, val)) {
-              this.__clearCacheTag = false
-              this.__updateTag = false
-              handler(this, val)
-              if(this.subject && this.__updateTag) {
-                this.subject.forceUpdate(this.__clearCacheTag)
-              }
-              delete this.__updateTag
-              delete this.__clearCacheTag
+            this.__clearCacheTag = false
+            this.__updateTag = false
+            handler(this, val)
+            if(this.subject && this.__updateTag) {
+              this.subject.forceUpdate(this.__clearCacheTag)
             }
+            delete this.__updateTag
+            delete this.__clearCacheTag
           },
           get: getter,
         })
