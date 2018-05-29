@@ -5754,13 +5754,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _toConsumableArray2 = __webpack_require__(3);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _from = __webpack_require__(55);
 
 var _from2 = _interopRequireDefault(_from);
+
+var _toConsumableArray2 = __webpack_require__(3);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _assign = __webpack_require__(9);
 
@@ -5939,12 +5939,7 @@ var Layer = function (_BaseNode) {
     key: 'update',
     value: function update(target) {
       if (target && this[_updateSet].has(target)) return;
-
-      // invisible... return
-      if (target && !target.lastRenderBox && !this.isVisible(target)) return;
-
       if (target) this[_updateSet].add(target);
-
       this.prepareRender();
     }
   }, {
@@ -5964,14 +5959,15 @@ var Layer = function (_BaseNode) {
       for (var i = 0; i < renderEls.length; i++) {
         var child = renderEls[i];
         if (child.parent === this) {
-          if (this.isVisible(child)) {
+          var isVisible = this.isVisible(child);
+          if (isVisible) {
             child.draw(t);
-            if (this[_updateSet].has(child)) {
-              child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
-            }
           } else {
             // invisible, only need to remove lastRenderBox
             delete child.lastRenderBox;
+          }
+          if (this[_updateSet].has(child)) {
+            child.dispatchEvent('update', { target: child, renderTime: t, isVisible: isVisible }, true, true);
           }
         }
       }
@@ -5979,11 +5975,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'renderRepaintAll',
     value: function renderRepaintAll(t) {
-      var _this3 = this;
-
-      var renderEls = this[_children].filter(function (e) {
-        return _this3.isVisible(e);
-      });
+      var renderEls = this[_children];
       (0, _spriteUtils.sortOrderedSprites)(renderEls);
 
       var outputContext = this.outputContext;
@@ -6004,7 +5996,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'renderRepaintDirty',
     value: function renderRepaintDirty(t) {
-      var _this4 = this;
+      var _this3 = this;
 
       if (!this.outputContext.canvas) {
         console.warn('Cannot use repaintDirty, fallback to repaintAll!');
@@ -6017,7 +6009,7 @@ var Layer = function (_BaseNode) {
 
       var updateSet = this[_updateSet];
       var children = this[_children].filter(function (e) {
-        return _this4.isVisible(e);
+        return _this3.isVisible(e);
       });
       var restEls = children.filter(function (el) {
         return !updateSet.has(el);
@@ -6025,7 +6017,9 @@ var Layer = function (_BaseNode) {
       var affectedSet = new _set2.default(),
           unaffectedSet = new _set2.default();
 
-      var updateEls = (0, _from2.default)(updateSet);
+      var updateEls = [].concat((0, _toConsumableArray3.default)(updateSet)).filter(function (e) {
+        return _this3.isVisible(e);
+      });
 
       for (var i = 0; i < restEls.length; i++) {
         var unaffectedEl = restEls[i];
@@ -6175,15 +6169,15 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'batch',
     value: function batch() {
-      var _this5 = this;
+      var _this4 = this;
 
       for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
         sprites[_key] = arguments[_key];
       }
 
       sprites.forEach(function (sprite) {
-        if (sprite.layer !== _this5) {
-          _this5.appendChild(sprite);
+        if (sprite.layer !== _this4) {
+          _this4.appendChild(sprite);
         }
       });
       var batch = new _batch2.default(this);

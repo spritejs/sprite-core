@@ -122,12 +122,7 @@ export default class Layer extends BaseNode {
   }
   update(target) {
     if(target && this[_updateSet].has(target)) return
-
-    // invisible... return
-    if(target && !target.lastRenderBox && !this.isVisible(target)) return
-
     if(target) this[_updateSet].add(target)
-
     this.prepareRender()
   }
   isVisible(sprite) {
@@ -158,20 +153,21 @@ export default class Layer extends BaseNode {
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i]
       if(child.parent === this) {
-        if(this.isVisible(child)) {
+        const isVisible = this.isVisible(child)
+        if(isVisible) {
           child.draw(t)
-          if(this[_updateSet].has(child)) {
-            child.dispatchEvent('update', {target: child, renderTime: t}, true, true)
-          }
         } else {
           // invisible, only need to remove lastRenderBox
           delete child.lastRenderBox
+        }
+        if(this[_updateSet].has(child)) {
+          child.dispatchEvent('update', {target: child, renderTime: t, isVisible}, true, true)
         }
       }
     }
   }
   renderRepaintAll(t) {
-    const renderEls = this[_children].filter(e => this.isVisible(e))
+    const renderEls = this[_children]
     sortOrderedSprites(renderEls)
 
     const outputContext = this.outputContext
@@ -202,7 +198,7 @@ export default class Layer extends BaseNode {
     const affectedSet = new Set(),
       unaffectedSet = new Set()
 
-    const updateEls = Array.from(updateSet)
+    const updateEls = [...updateSet].filter(e => this.isVisible(e))
 
     for(let i = 0; i < restEls.length; i++) {
       const unaffectedEl = restEls[i]
