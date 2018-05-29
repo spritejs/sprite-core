@@ -1,23 +1,23 @@
-const _zOrder = Symbol('zOrder'),
-  _update = Symbol('update')
+const _zOrder = Symbol('zOrder')
+
+function _update(parent, child) {
+  if(parent.update) {
+    // layer
+    parent.update(child)
+  } else {
+    // group
+    parent.forceUpdate(true, child)
+  }
+}
 
 export default {
-  [_update](sprite) {
-    if(this.update) {
-      // layer
-      this.update(sprite)
-    } else {
-      // group
-      this.forceUpdate(true, sprite)
-    }
-  },
   appendChild(sprite, update = true) {
     this.removeChild(sprite)
     this.children.push(sprite)
     this[_zOrder] = this[_zOrder] || 0
     sprite.connect(this, this[_zOrder]++)
     if(update) {
-      this[_update](sprite)
+      _update(this, sprite)
     }
     return sprite
   },
@@ -48,7 +48,7 @@ export default {
       this.removeChild(newchild)
       this.children.splice(idx, 0, newchild)
       newchild.connect(this, refchild.zOrder)
-      this[_update](newchild)
+      _update(this, newchild)
 
       for(let i = idx + 1; i < this.children.length; i++) {
         const child = this.children[i],
@@ -61,7 +61,7 @@ export default {
           configurable: true,
         })
 
-        this[_update](child)
+        _update(this, child)
       }
 
       this[_zOrder] = this[_zOrder] || 0
