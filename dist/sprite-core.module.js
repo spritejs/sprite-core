@@ -397,7 +397,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _defineProperty4 = __webpack_require__(73);
+var _defineProperty4 = __webpack_require__(72);
 
 var _defineProperty5 = _interopRequireDefault(_defineProperty4);
 
@@ -3216,10 +3216,6 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _isFinite = __webpack_require__(69);
-
-var _isFinite2 = _interopRequireDefault(_isFinite);
-
 var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -3468,7 +3464,9 @@ var Timeline = function () {
       }
 
       // if playbackRate is zero, delay will be infinity.
-      if ((0, _isFinite2.default)(delay) || parent) {
+      // For wxapp bugs, cannot use Number.isFinite yet.
+      if (isFinite(delay) || parent) {
+        // eslint-disable-line no-restricted-globals
         delay = Math.ceil(delay);
         if (globalTimeout !== setTimeout) {
           delay = { delay: delay, heading: heading };
@@ -5471,7 +5469,7 @@ var _defineProperty = __webpack_require__(35);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _defineProperties = __webpack_require__(71);
+var _defineProperties = __webpack_require__(70);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
@@ -7181,7 +7179,7 @@ var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(72);
+var _keys = __webpack_require__(71);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -8161,7 +8159,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sortOrderedSprites = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
 
-var _isNan = __webpack_require__(70);
+var _isNan = __webpack_require__(69);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -8945,28 +8943,22 @@ module.exports = require("babel-runtime/core-js/get-iterator");
 /* 69 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/number/is-finite");
+module.exports = require("babel-runtime/core-js/number/is-nan");
 
 /***/ }),
 /* 70 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/number/is-nan");
+module.exports = require("babel-runtime/core-js/object/define-properties");
 
 /***/ }),
 /* 71 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/define-properties");
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports) {
-
 module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
-/* 73 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/defineProperty");
