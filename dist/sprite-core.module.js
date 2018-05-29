@@ -2421,16 +2421,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _zOrder = (0, _symbol2.default)('zOrder');
 
-function _update(parent, child) {
-  if (parent.update) {
-    // layer
-    parent.update(child);
-  } else {
-    // group
-    parent.forceUpdate(true, child);
-  }
-}
-
 exports.default = {
   appendChild: function appendChild(sprite) {
     var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -2440,7 +2430,7 @@ exports.default = {
     this[_zOrder] = this[_zOrder] || 0;
     sprite.connect(this, this[_zOrder]++);
     if (update) {
-      _update(this, sprite);
+      sprite.forceUpdate();
     }
     return sprite;
   },
@@ -2487,7 +2477,7 @@ exports.default = {
       this.removeChild(newchild);
       this.children.splice(idx, 0, newchild);
       newchild.connect(this, refchild.zOrder);
-      _update(this, newchild);
+      newchild.forceUpdate();
 
       for (var i = idx + 1; i < this.children.length; i++) {
         var child = this.children[i],
@@ -2499,8 +2489,6 @@ exports.default = {
           writable: false,
           configurable: true
         });
-
-        _update(this, child);
       }
 
       this[_zOrder] = this[_zOrder] || 0;

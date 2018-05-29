@@ -192,7 +192,7 @@ export default class BaseSprite extends BaseNode {
           easing,
         })
         return anim.finished
-      }
+      },
     }
   }
   animate(frames, timing) {
