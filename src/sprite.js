@@ -169,7 +169,7 @@ export default class Sprite extends BaseSprite {
 
   set cache(context) {
     if(context == null) {
-      cacheContextPool.put(...this[_texturesCache])
+      cacheContextPool.put(...this[_texturesCache].values())
       this[_texturesCache].clear()
       return
     }

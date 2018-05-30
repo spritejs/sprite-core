@@ -1551,14 +1551,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     key: 'draw',
     value: function draw(t) {
       var drawingContext = this.context;
-
-      drawingContext.save();
-      drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.attr('pos')));
-      drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(this.transform.m));
-      drawingContext.globalAlpha = this.attr('opacity');
-
       var bound = this.originalRect;
-
       var cachableContext = null;
       // solve 1px problem
       if (this[_cachePriority] > 6) {
@@ -1572,7 +1565,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       }
 
       this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10);
-      var evtArgs = { context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache };
+      var evtArgs = { context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache };
+
+      this.dispatchEvent('beforedraw', evtArgs, true, true);
+
+      drawingContext.save();
+      drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.attr('pos')));
+      drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(this.transform.m));
+      drawingContext.globalAlpha = this.attr('opacity');
 
       if (!cachableContext) {
         drawingContext.translate(bound[0], bound[1]);
@@ -1580,8 +1580,6 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // solve 1px problem
         cachableContext.translate(1, 1);
       }
-
-      this.dispatchEvent('beforedraw', evtArgs, true, true);
 
       if (cachableContext) {
         // set cache before render for group
@@ -1593,14 +1591,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         this.render(t, drawingContext);
       }
 
-      this.dispatchEvent('afterdraw', evtArgs, true, true);
-
       if (cachableContext) {
         drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1);
       }
       drawingContext.restore();
 
       this.lastRenderBox = this.renderBox;
+
+      this.dispatchEvent('afterdraw', evtArgs, true, true);
 
       return drawingContext;
     }
@@ -1638,7 +1636,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
         (0, _render.drawRadiusBox)(drawingContext, { x: x, y: y, w: w, h: h, r: r });
 
-        if (borderStyle !== 'solid') {
+        if (borderStyle && borderStyle !== 'solid') {
           var dashOffset = this.attr('dashOffset');
           drawingContext.lineDashOffset = dashOffset;
           if (borderStyle === 'dashed') {
@@ -7003,7 +7001,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
     key: 'cache',
     set: function set(context) {
       if (context == null) {
-        _render.cacheContextPool.put.apply(_render.cacheContextPool, (0, _toConsumableArray3.default)(this[_texturesCache]));
+        _render.cacheContextPool.put.apply(_render.cacheContextPool, (0, _toConsumableArray3.default)(this[_texturesCache].values()));
         this[_texturesCache].clear();
         return;
       }

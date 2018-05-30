@@ -487,14 +487,7 @@ export default class BaseSprite extends BaseNode {
 
   draw(t) {
     const drawingContext = this.context
-
-    drawingContext.save()
-    drawingContext.translate(...this.attr('pos'))
-    drawingContext.transform(...this.transform.m)
-    drawingContext.globalAlpha = this.attr('opacity')
-
     const bound = this.originalRect
-
     let cachableContext = null
     // solve 1px problem
     if(this[_cachePriority] > 6) {
@@ -508,7 +501,14 @@ export default class BaseSprite extends BaseNode {
     }
 
     this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10)
-    const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache}
+    const evtArgs = {context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache}
+
+    this.dispatchEvent('beforedraw', evtArgs, true, true)
+
+    drawingContext.save()
+    drawingContext.translate(...this.attr('pos'))
+    drawingContext.transform(...this.transform.m)
+    drawingContext.globalAlpha = this.attr('opacity')
 
     if(!cachableContext) {
       drawingContext.translate(bound[0], bound[1])
@@ -516,8 +516,6 @@ export default class BaseSprite extends BaseNode {
       // solve 1px problem
       cachableContext.translate(1, 1)
     }
-
-    this.dispatchEvent('beforedraw', evtArgs, true, true)
 
     if(cachableContext) {
       // set cache before render for group
@@ -529,14 +527,14 @@ export default class BaseSprite extends BaseNode {
       this.render(t, drawingContext)
     }
 
-    this.dispatchEvent('afterdraw', evtArgs, true, true)
-
     if(cachableContext) {
       drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1)
     }
     drawingContext.restore()
 
     this.lastRenderBox = this.renderBox
+
+    this.dispatchEvent('afterdraw', evtArgs, true, true)
 
     return drawingContext
   }
@@ -565,7 +563,7 @@ export default class BaseSprite extends BaseNode {
 
       drawRadiusBox(drawingContext, {x, y, w, h, r})
 
-      if(borderStyle !== 'solid') {
+      if(borderStyle && borderStyle !== 'solid') {
         const dashOffset = this.attr('dashOffset')
         drawingContext.lineDashOffset = dashOffset
         if(borderStyle === 'dashed') {
