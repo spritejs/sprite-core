@@ -3,6 +3,7 @@ import filters from './filters'
 
 import {rectToBox, boxToRect, boxUnion, attr} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
+import {cacheContextPool} from './helpers/render'
 
 const _texturesCache = Symbol('_texturesCache')
 const _images = Symbol('_images')
@@ -168,6 +169,7 @@ export default class Sprite extends BaseSprite {
 
   set cache(context) {
     if(context == null) {
+      cacheContextPool.put(...this[_texturesCache])
       this[_texturesCache].clear()
       return
     }

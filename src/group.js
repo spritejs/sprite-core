@@ -2,10 +2,11 @@ import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
 import {attr, sortOrderedSprites, boxIntersect} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
-import {copyContext} from './helpers/render'
+import {cacheContextPool, findColor} from './helpers/render'
 
 const _children = Symbol('children'),
-  _zOrder = Symbol('zOrder')
+  _zOrder = Symbol('zOrder'),
+  _baseCachePriority = Symbol('baseCachePriority')
 
 class GroupAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -137,9 +138,14 @@ export default class Group extends BaseSprite {
   }
   clearCache() {
     super.clearCache()
-    this.baseCache = null
+    this[_baseCachePriority] = 0
+    if(this.baseCache) {
+      cacheContextPool.put(this.baseCache)
+      this.baseCache = null
+    }
   }
   render(t, drawingContext) {
+    this[_baseCachePriority] = Math.min(this[_baseCachePriority] + 1, 10)
     if(this.baseCache
       && drawingContext.canvas.width === this.baseCache.canvas.width
       && drawingContext.canvas.height === this.baseCache.canvas.height) {
@@ -148,9 +154,19 @@ export default class Group extends BaseSprite {
       drawingContext.drawImage(this.baseCache.canvas, -1, -1)
       drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
     } else {
+      if(this.baseCache) {
+        cacheContextPool.put(this.baseCache)
+      }
       super.render(t, drawingContext)
-      this.baseCache = copyContext(drawingContext)
-      this.baseCache.drawImage(drawingContext.canvas, 0, 0)
+      if(this.cache && this[_baseCachePriority] > 6) {
+        const bgcolor = findColor(drawingContext, this, 'bgcolor')
+        if(bgcolor) {
+          this.baseCache = cacheContextPool.get(drawingContext)
+          this.baseCache.canvas.width = drawingContext.canvas.width
+          this.baseCache.canvas.height = drawingContext.canvas.height
+          this.baseCache.drawImage(drawingContext.canvas, 0, 0)
+        }
+      }
     }
 
     const clipPath = this.attr('clip')

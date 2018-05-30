@@ -5,10 +5,11 @@ import Animation from './animation'
 import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
-import {drawRadiusBox, findColor, copyContext} from './helpers/render'
+import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
 
 const _attr = Symbol('attr'),
-  _animations = Symbol('animations')
+  _animations = Symbol('animations'),
+  _cachePriority = Symbol('cachePriority')
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -25,12 +26,15 @@ export default class BaseSprite extends BaseNode {
 
     this[_attr] = new this.constructor.Attr(this)
     this[_animations] = new Set()
+    this[_cachePriority] = 0
 
     if(attr) {
       this.attr(attr)
     }
   }
-
+  get cachePriority() {
+    return this[_cachePriority]
+  }
   static defineAttributes(attrs) {
     this.Attr = class extends this.Attr {
       constructor(subject) {
@@ -89,7 +93,6 @@ export default class BaseSprite extends BaseNode {
   cloneNode() {
     const node = new this.constructor()
     node.merge(this[_attr].serialize())
-    node.cache = this.cache
     return node
   }
 
@@ -233,6 +236,9 @@ export default class BaseSprite extends BaseNode {
 
   disconnect(parent) {
     this[_animations].forEach(animation => animation.cancel())
+    if(this.cache) {
+      cacheContextPool.put(this.cache)
+    }
     const ret = super.disconnect(parent)
     delete this.context
     return ret
@@ -347,6 +353,9 @@ export default class BaseSprite extends BaseNode {
   }
 
   set cache(context) {
+    if(this.cacheContext && context !== this.cacheContext) {
+      cacheContextPool.put(this.cacheContext)
+    }
     this.cacheContext = context
   }
 
@@ -355,9 +364,11 @@ export default class BaseSprite extends BaseNode {
   }
 
   clearCache() {
+    this[_cachePriority] = 0
     this.cache = null
     if(this.parent && this.parent.cache) {
-      this.parent.cahce = null
+      this.parent[_cachePriority] = 0
+      this.parent.cache = null
     }
   }
 
@@ -379,6 +390,7 @@ export default class BaseSprite extends BaseNode {
     if(parent) {
       if(parent.forceUpdate) {
         // is group
+        parent[_cachePriority] = 0
         parent.cache = null
         parent.forceUpdate()
       } else if(parent.update) {
@@ -483,8 +495,19 @@ export default class BaseSprite extends BaseNode {
 
     const bound = this.originalRect
 
+    let cachableContext = null
     // solve 1px problem
-    const cachableContext = this.cache || copyContext(drawingContext, Math.ceil(bound[2]) + 2, Math.ceil(bound[3]) + 2)
+    if(this[_cachePriority] > 6) {
+      if(this.cache) {
+        cachableContext = this.cache
+      } else {
+        cachableContext = cacheContextPool.get(drawingContext)
+        cachableContext.canvas.width = Math.ceil(bound[2]) + 2
+        cachableContext.canvas.height = Math.ceil(bound[3]) + 2
+      }
+    }
+
+    this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10)
     const evtArgs = {context: cachableContext || drawingContext, target: this, renderTime: t, fromCache: !!this.cache}
 
     if(!cachableContext) {

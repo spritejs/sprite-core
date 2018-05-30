@@ -109,16 +109,27 @@ export function findColor(context, sprite, prop) {
   return color
 }
 
-export function copyContext(context, width, height) {
-  const canvas = context.canvas
-  if(!canvas || !canvas.cloneNode) {
-    return
-  }
-  const copied = canvas.cloneNode()
-  if(width != null) copied.width = width
-  if(height != null) copied.height = height
+const contextPool = []
+export const cacheContextPool = {
+  get(context) {
+    if(contextPool.length > 0) {
+      return contextPool.pop()
+    }
 
-  return copied.getContext('2d')
+    const canvas = context.canvas
+    if(!canvas || !canvas.cloneNode) {
+      return
+    }
+    const copied = canvas.cloneNode()
+    return copied.getContext('2d')
+  },
+  put(...contexts) {
+    contexts.forEach((context) => {
+      context.canvas.width = 0
+      context.canvas.height = 0
+    })
+    contextPool.push(...contexts)
+  },
 }
 
 export function clearContext(context) {
