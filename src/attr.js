@@ -324,7 +324,12 @@ class SpriteAttr {
   @parseValue(parseStringFloat, oneOrTwoValues)
   @attr
   set scale(val) {
-    val = oneOrTwoValues(val)
+    val = oneOrTwoValues(val).map((v) => {
+      if(Math.abs(v) > 0.001) {
+        return v
+      }
+      return v > 0 ? 0.001 : -0.001
+    })
     const oldVal = this.get('scale') || [1, 1]
     const delta = [val[0] / oldVal[0], val[1] / oldVal[1]]
     this.set('scale', val)
