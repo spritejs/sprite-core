@@ -1580,7 +1580,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         drawingContext.globalAlpha *= this.attr('opacity');
         drawingContext.translate(bound[0], bound[1]);
       } else {
-        drawingContext.globalAlpha = this.attr('opacity');
+        cachableContext.globalAlpha = this.attr('opacity');
         // solve 1px problem
         cachableContext.translate(1, 1);
       }
