@@ -62,7 +62,7 @@ class SpriteAttr {
     const _attrs = {}
     Object.entries(attrs).forEach(([attr, val]) => {
       if(val != null && typeof val === 'object') {
-        val = JSON.stringify(val)
+        val = JSON.stringify({__spritejs$__: val})
       }
       _attrs[attr] = val
     })
@@ -88,7 +88,7 @@ class SpriteAttr {
 
   quietSet(key, val) {
     if(val != null && typeof val === 'object') {
-      val = JSON.stringify(val)
+      val = JSON.stringify({__spritejs$__: val})
     }
     this[_attr][key] = val
   }
@@ -96,7 +96,7 @@ class SpriteAttr {
     if(val == null) {
       val = this[_default][key]
     } else if(typeof val === 'object') {
-      val = JSON.stringify(val)
+      val = JSON.stringify({__spritejs$__: val})
     }
     if(this[_attr][key] !== val) {
       this[_attr][key] = val
@@ -106,7 +106,7 @@ class SpriteAttr {
   get(key) {
     let val = this[_attr][key]
     if(typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
-      val = JSON.parse(val)
+      val = JSON.parse(val).__spritejs$__
     }
     return val
   }

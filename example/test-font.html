@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    html, document {
+      font-size: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div style="font-size:5vw">abb</div>
+  <div style="font-size:2rem">abb</div>
+  <canvas id="mycanvas" width="1600" height="1600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Label = spritejs.Label
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context, renderMode: 'repaintDirty'})
+
+    const s = new Group({
+      id: 'abc',
+      anchor: 0.5,
+      bgcolor: 'red',
+      size: [500, 500],
+      pos: [300, 300],
+      zIndex: 0,
+      border: [10, 'blue'],
+      gradients: {
+        bgcolor: {
+          vector: [50, 50, 10, 70, 80, 100],
+          colors: [{
+            offset: 0,
+            color: 'rgba(255,0,0,0.5)',
+          }, {
+            offset: 1,
+            color: 'rgba(255,0,0,1)',
+          }],
+        },
+      },
+    })
+    layer.append(s)
+    
+    const s2 = new Label('spritejs')
+    s2.attr({
+      // font: '5vw "宋体"',
+      font: '2rem "宋体"',
+      anchor: 0.5,
+      bgcolor: 'green',
+      pos: [250, 250],
+    })
+
+    s.append(s2)
+  </script>
+</body>
+</html>

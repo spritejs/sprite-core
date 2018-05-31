@@ -113,7 +113,7 @@ module.exports = require("babel-runtime/core-js/object/assign");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOrderedSprites = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
+exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
 
 var _utils = __webpack_require__(60);
 
@@ -122,6 +122,7 @@ var _decorators = __webpack_require__(59);
 exports.Color = _utils.Color;
 exports.parseColor = _utils.parseColor;
 exports.oneOrTwoValues = _utils.oneOrTwoValues;
+exports.praseString = _utils.praseString;
 exports.parseStringInt = _utils.parseStringInt;
 exports.parseStringFloat = _utils.parseStringFloat;
 exports.parseColorString = _utils.parseColorString;
@@ -138,6 +139,7 @@ exports.attr = _decorators.attr;
 exports.setDeprecation = _decorators.setDeprecation;
 exports.deprecate = _decorators.deprecate;
 exports.parseValue = _decorators.parseValue;
+exports.resolveValue = _decorators.resolveValue;
 exports.sortOrderedSprites = _utils.sortOrderedSprites;
 
 /***/ }),
@@ -1045,6 +1047,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10);
       var evtArgs = { context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache };
 
+      drawingContext.save();
       this.dispatchEvent('beforedraw', evtArgs, true, true);
 
       drawingContext.save();
@@ -1077,6 +1080,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       this.lastRenderBox = this.renderBox;
 
       this.dispatchEvent('afterdraw', evtArgs, true, true);
+      drawingContext.restore();
 
       return drawingContext;
     }
@@ -5652,7 +5656,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
             val = _ref2[1];
 
         if (val != null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-          val = (0, _stringify2.default)(val);
+          val = (0, _stringify2.default)({ __spritejs$__: val });
         }
         _attrs[attr] = val;
       });
@@ -5686,7 +5690,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     key: 'quietSet',
     value: function quietSet(key, val) {
       if (val != null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-        val = (0, _stringify2.default)(val);
+        val = (0, _stringify2.default)({ __spritejs$__: val });
       }
       this[_attr][key] = val;
     }
@@ -5696,7 +5700,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       if (val == null) {
         val = this[_default][key];
       } else if ((typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-        val = (0, _stringify2.default)(val);
+        val = (0, _stringify2.default)({ __spritejs$__: val });
       }
       if (this[_attr][key] !== val) {
         this[_attr][key] = val;
@@ -5708,7 +5712,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     value: function get(key) {
       var val = this[_attr][key];
       if (typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
-        val = JSON.parse(val);
+        val = JSON.parse(val).__spritejs$__;
       }
       return val;
     }
@@ -6299,7 +6303,7 @@ var weights = 'bold|bolder|lighter|[1-9]00',
     styles = 'italic|oblique',
     variants = 'small-caps',
     stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
-    units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q',
+    units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh',
     string = '\'([^\']+)\'|"([^"]+)"|[\\w-]+';
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
@@ -6317,8 +6321,6 @@ var sizeFamilyRe = new RegExp('([\\d\\.]+)(' + units + ') *' + '((?:' + string +
 
 var cache = {};
 
-var defaultHeight = 16; // pt, common browser default
-
 /**
  * Parse font `str`.
  *
@@ -6328,7 +6330,16 @@ var defaultHeight = 16; // pt, common browser default
  * @api private
  */
 
-module.exports = function (str) {
+module.exports = function f(str, defaultHeight) {
+  if (defaultHeight == null) {
+    if (typeof window !== 'undefined' && window.getComputedStyle) {
+      var root = window.getComputedStyle(document.documentElement).fontSize;
+      defaultHeight = f(root + ' Arial', 16).size;
+    } else {
+      defaultHeight = 16;
+    }
+  }
+
   // Cached
   if (cache[str]) return cache[str];
 
@@ -6387,6 +6398,18 @@ module.exports = function (str) {
     case 'q':
       font.size *= 96 / 25.4 / 4;
       break;
+  }
+
+  if (font.unit === 'vw') {
+    if (typeof document !== 'undefined' && document.documentElement) {
+      var width = document.documentElement.clientWidth;
+      font.size = width * font.size / 100;
+    }
+  } else if (font.unit === 'vh') {
+    if (typeof document !== 'undefined' && document.documentElement) {
+      var height = document.documentElement.clientHeight;
+      font.size = height * font.size / 100;
+    }
   }
 
   return cache[str] = font;
@@ -8095,6 +8118,7 @@ exports.attr = attr;
 exports.setDeprecation = setDeprecation;
 exports.deprecate = deprecate;
 exports.parseValue = parseValue;
+exports.resolveValue = resolveValue;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8210,6 +8234,24 @@ function parseValue() {
   };
 }
 
+function resolveValue() {
+  for (var _len4 = arguments.length, resolvers = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+    resolvers[_key4] = arguments[_key4];
+  }
+
+  return function (target, prop, descriptor) {
+    var getter = descriptor.get;
+
+    descriptor.get = function (val) {
+      val = getter.call(this);
+      val = resolvers.reduce(function (v, resolver) {
+        return resolver(v);
+      }, val);
+      return val;
+    };
+  };
+}
+
 /***/ }),
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -8220,7 +8262,7 @@ function parseValue() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOrderedSprites = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
+exports.sortOrderedSprites = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
 
 var _isNan = __webpack_require__(69);
 
@@ -8326,24 +8368,26 @@ function parseStringTransform(str) {
   return ret;
 }
 
-function parseValuesString(str) {
-  var isInt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
+function parseValuesString(str, parser) {
   if (typeof str === 'string') {
     var values = str.split(/[\s,]+/g);
     return values.map(function (v) {
-      return isInt ? parseInt(v, 10) : parseFloat(v);
+      return parser ? parser(v) : v;
     });
   }
   return str;
 }
 
+function praseString(str) {
+  return parseValuesString(str);
+}
+
 function parseStringInt(str) {
-  return parseValuesString(str, true);
+  return parseValuesString(str, parseInt);
 }
 
 function parseStringFloat(str) {
-  return parseValuesString(str, false);
+  return parseValuesString(str, parseFloat);
 }
 
 function oneOrTwoValues(val) {
@@ -8451,6 +8495,7 @@ function sortOrderedSprites(sprites) {
 
 exports.parseColor = parseColor;
 exports.oneOrTwoValues = oneOrTwoValues;
+exports.praseString = praseString;
 exports.parseStringInt = parseStringInt;
 exports.parseStringFloat = parseStringFloat;
 exports.parseColorString = parseColorString;

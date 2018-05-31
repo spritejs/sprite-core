@@ -10,7 +10,7 @@ const weights = 'bold|bolder|lighter|[1-9]00'
   , styles = 'italic|oblique'
   , variants = 'small-caps'
   , stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded'
-  , units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q'
+  , units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh'
   , string = '\'([^\']+)\'|"([^"]+)"|[\\w-]+'
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
@@ -30,8 +30,6 @@ const sizeFamilyRe = new RegExp(
 
 const cache = {}
 
-const defaultHeight = 16 // pt, common browser default
-
 /**
  * Parse font `str`.
  *
@@ -41,7 +39,16 @@ const defaultHeight = 16 // pt, common browser default
  * @api private
  */
 
-module.exports = function (str) {
+module.exports = function f(str, defaultHeight) {
+  if(defaultHeight == null) {
+    if(typeof window !== 'undefined' && window.getComputedStyle) {
+      const root = window.getComputedStyle(document.documentElement).fontSize
+      defaultHeight = f(`${root} Arial`, 16).size
+    } else {
+      defaultHeight = 16
+    }
+  }
+
   // Cached
   if (cache[str]) return cache[str]
 
@@ -98,6 +105,18 @@ module.exports = function (str) {
     case 'q':
       font.size *= 96 / 25.4 / 4
       break
+  }
+
+  if(font.unit === 'vw') {
+    if(typeof document !== 'undefined' && document.documentElement) {
+      const width = document.documentElement.clientWidth
+      font.size = width * font.size / 100
+    }
+  } else if(font.unit === 'vh') {
+    if(typeof document !== 'undefined' && document.documentElement) {
+      const height = document.documentElement.clientHeight
+      font.size = height * font.size / 100
+    }    
   }
 
   return (cache[str] = font)

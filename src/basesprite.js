@@ -503,6 +503,7 @@ export default class BaseSprite extends BaseNode {
     this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10)
     const evtArgs = {context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache}
 
+    drawingContext.save()
     this.dispatchEvent('beforedraw', evtArgs, true, true)
 
     drawingContext.save()
@@ -535,6 +536,7 @@ export default class BaseSprite extends BaseNode {
     this.lastRenderBox = this.renderBox
 
     this.dispatchEvent('afterdraw', evtArgs, true, true)
+    drawingContext.restore()
 
     return drawingContext
   }
