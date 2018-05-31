@@ -198,7 +198,7 @@ export default class Layer extends BaseNode {
     const affectedSet = new Set(),
       unaffectedSet = new Set()
 
-    const updateEls = [...updateSet].filter(e => this.isVisible(e))
+    const updateEls = [...updateSet].filter(e => this.isVisible(e) || e.lastRenderBox)
 
     for(let i = 0; i < restEls.length; i++) {
       const unaffectedEl = restEls[i]
