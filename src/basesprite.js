@@ -509,12 +509,11 @@ export default class BaseSprite extends BaseNode {
     drawingContext.save()
     drawingContext.translate(...this.attr('pos'))
     drawingContext.transform(...this.transform.m)
+    drawingContext.globalAlpha *= this.attr('opacity')
 
     if(!cachableContext) {
-      drawingContext.globalAlpha *= this.attr('opacity')
       drawingContext.translate(bound[0], bound[1])
     } else {
-      cachableContext.globalAlpha = this.attr('opacity')
       // solve 1px problem
       cachableContext.translate(1, 1)
     }
