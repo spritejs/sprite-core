@@ -6034,7 +6034,7 @@ var Layer = function (_BaseNode) {
           unaffectedSet = new _set2.default();
 
       var updateEls = [].concat((0, _toConsumableArray3.default)(updateSet)).filter(function (e) {
-        return _this3.isVisible(e);
+        return _this3.isVisible(e) || e.lastRenderBox;
       });
 
       for (var i = 0; i < restEls.length; i++) {
