@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {attr, sortOrderedSprites, boxIntersect} from 'sprite-utils'
+import {attr, boxIntersect} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
 import {cacheContextPool, findColor} from './helpers/render'
 
@@ -100,8 +100,7 @@ export default class Group extends BaseSprite {
       _evt.parentX = parentX
       _evt.parentY = parentY
 
-      const sprites = this[_children].slice(0)
-      sortOrderedSprites(sprites, true)
+      const sprites = this[_children].slice(0).reverse()
 
       const targetSprites = []
 
@@ -178,8 +177,7 @@ export default class Group extends BaseSprite {
       drawingContext.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
     }
 
-    const sprites = this[_children].slice(0)
-    sortOrderedSprites(sprites)
+    const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
       const child = sprites[i]

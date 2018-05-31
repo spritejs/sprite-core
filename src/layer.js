@@ -168,7 +168,6 @@ export default class Layer extends BaseNode {
   }
   renderRepaintAll(t) {
     const renderEls = this[_children]
-    sortOrderedSprites(renderEls)
 
     const outputContext = this.outputContext
     clearContext(outputContext)
@@ -282,8 +281,7 @@ export default class Layer extends BaseNode {
     if(!evt.terminated && isCollision) {
       evt.layer = this
 
-      const sprites = this[_children].slice(0)
-      sortOrderedSprites(sprites, true)
+      const sprites = this[_children].slice(0).reverse()
 
       const targetSprites = []
 

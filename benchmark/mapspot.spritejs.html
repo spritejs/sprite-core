@@ -28,7 +28,7 @@
 </head>
 <body>
   <div>fps: <span id="fps">--</span> | sprites: <span id="spriteCount">1</span></div>
-  <canvas id="paper" width="800" height="800">
+  <canvas id="paper" width="1800" height="1800">
   </canvas>
 
   <script src="https://s3.ssl.qhres.com/!ed7dc4fe/animator-0.3.2.js"></script>
@@ -38,7 +38,7 @@
   <script>
   (async function () {
     const context = document.getElementById('paper').getContext('2d')
-    const layer = new spritejs.Layer({context, evaluateFPS: true})
+    const layer = new spritejs.Layer({context, evaluateFPS: true,  handleEvent: false})
 
     function wait(ms) {
       return new Promise((resolve) => {
@@ -76,11 +76,11 @@
         if(p < 0.5) {
           const s = 0.8 + 0.6 * p
           // sprite.attr({scale: [s, s]})
-          sprite.attr({pos: [x + s * 50, y]})
+          sprite.attr({x: x + s * 50})
         } else {
           const s = 1.1 - 0.6 * (p - 0.5)
           // sprite.attr({scale: [s, s]})
-          sprite.attr({pos: [x + s * 50, y]})
+          sprite.attr({x: x + s * 50})
         }
         if(p === 1) {
           startTime = Date.now()
@@ -114,7 +114,7 @@
       //   iterations: Infinity,
       // })
       layer.append(sprite)
-      await wait(100)
+      await wait(16)
     }
   
     // 显示 fps ，注意，因为本框架采用的是非定时渲染，即只有 sprite 有更新时才渲染
