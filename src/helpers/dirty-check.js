@@ -1,21 +1,21 @@
 
 import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 
-export function isSpriteDirty(sprite, dirtyEls, isUpdateEl = false) {
-  for(let i = 0; i < dirtyEls.length; i++) {
-    const dirtyEl = dirtyEls[i]
-    const box1 = dirtyEl.renderBox,
-      box2 = sprite.renderBox,
-      box3 = dirtyEl.lastRenderBox
+// export function isSpriteDirty(sprite, dirtyEls, isUpdateEl = false) {
+//   for(let i = 0; i < dirtyEls.length; i++) {
+//     const dirtyEl = dirtyEls[i]
+//     const box1 = dirtyEl.renderBox,
+//       box2 = sprite.renderBox,
+//       box3 = dirtyEl.lastRenderBox
 
-    if(boxIntersect(box1, box2) || isUpdateEl && box3 && boxIntersect(box3, box2)) {
-      return true
-    }
-  }
-  return false
-}
+//     if(boxIntersect(box1, box2) || isUpdateEl && box3 && boxIntersect(box3, box2)) {
+//       return true
+//     }
+//   }
+//   return false
+// }
 
-function clearDirtyRect({shadowContext, outputContext}, box, width, height) {
+export function clearDirtyRect({shadowContext, outputContext}, box, width, height) {
   const dirtyBox = boxIntersect(box, [0, 0, width, height])
 
   if(dirtyBox) {

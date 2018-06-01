@@ -591,7 +591,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _defineProperty4 = __webpack_require__(72);
+var _defineProperty4 = __webpack_require__(71);
 
 var _defineProperty5 = _interopRequireDefault(_defineProperty4);
 
@@ -3707,7 +3707,7 @@ var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _isNan = __webpack_require__(69);
+var _isNan = __webpack_require__(68);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -4284,10 +4284,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _from = __webpack_require__(67);
-
-var _from2 = _interopRequireDefault(_from);
-
 var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -4357,8 +4353,6 @@ var _nodetype = __webpack_require__(7);
 var _render = __webpack_require__(13);
 
 var _dirtyCheck = __webpack_require__(45);
-
-var _spriteUtils = __webpack_require__(6);
 
 var _group3 = __webpack_require__(27);
 
@@ -4525,89 +4519,31 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'renderRepaintDirty',
     value: function renderRepaintDirty(t) {
-      var _this3 = this;
-
-      if (!this.outputContext.canvas) {
-        console.warn('Cannot use repaintDirty, fallback to repaintAll!');
-        return this.renderRepaintAll(t);
-      }
-      var _outputContext$canvas = this.outputContext.canvas,
-          width = _outputContext$canvas.width,
-          height = _outputContext$canvas.height;
-
-
-      var updateSet = this[_updateSet];
-      var children = this[_children].filter(function (e) {
-        return _this3.isVisible(e);
-      });
-      var restEls = children.filter(function (el) {
-        return !updateSet.has(el);
-      });
-      var affectedSet = new _set2.default(),
-          unaffectedSet = new _set2.default();
-
-      var updateEls = [].concat((0, _toConsumableArray3.default)(updateSet)).filter(function (e) {
-        return _this3.isVisible(e) || e.lastRenderBox;
-      });
-
-      for (var i = 0; i < restEls.length; i++) {
-        var unaffectedEl = restEls[i];
-        if ((0, _dirtyCheck.isSpriteDirty)(unaffectedEl, updateEls, true)) {
-          affectedSet.add(unaffectedEl);
-        } else {
-          unaffectedSet.add(unaffectedEl);
-        }
-      }
-
-      if (affectedSet.size > 0 && unaffectedSet.size > 0) {
-        var changed = void 0;
-        do {
-          changed = false;
-          var _affectedEls = (0, _from2.default)(affectedSet),
-              unaffectedEls = (0, _from2.default)(unaffectedSet);
-
-          for (var _i = 0; _i < unaffectedEls.length; _i++) {
-            var _unaffectedEl = unaffectedEls[_i];
-            if ((0, _dirtyCheck.isSpriteDirty)(_unaffectedEl, _affectedEls)) {
-              affectedSet.add(_unaffectedEl);
-              unaffectedSet.delete(_unaffectedEl);
-              changed = true;
-              break;
-            }
-          }
-        } while (changed);
-      }
-
       var shadowContext = this.shadowContext;
       var outputContext = this.outputContext;
+
+      var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
+      var renderEls = this[_children];
 
       if (shadowContext) {
         shadowContext.save();
         shadowContext.beginPath();
-      } else {
-        outputContext.save();
-        outputContext.beginPath();
       }
+      outputContext.save();
+      outputContext.beginPath();
 
       (0, _dirtyCheck.clearDirtyRects)({ shadowContext: shadowContext, outputContext: outputContext }, updateEls, true);
 
-      var affectedEls = (0, _from2.default)(affectedSet);
-      (0, _dirtyCheck.clearDirtyRects)({ shadowContext: shadowContext, outputContext: outputContext }, affectedEls, false);
-
       if (shadowContext) {
         shadowContext.clip();
-        shadowContext.clearRect(0, 0, width, height);
-      } else {
         outputContext.clip();
-        outputContext.clearRect(0, 0, width, height);
+        (0, _render.clearContext)(shadowContext);
       }
-
-      var renderEls = [].concat((0, _toConsumableArray3.default)(updateSet), (0, _toConsumableArray3.default)(affectedSet));
-      (0, _spriteUtils.sortOrderedSprites)(renderEls);
+      outputContext.clip();
+      (0, _render.clearContext)(outputContext);
 
       this.drawSprites(renderEls, t);
       if (shadowContext) {
-        outputContext.clearRect(0, 0, width, height);
         outputContext.drawImage(shadowContext.canvas, 0, 0);
         shadowContext.restore();
       }
@@ -4621,9 +4557,9 @@ var Layer = function (_BaseNode) {
       if (this.outputContext.canvas) {
         var layerX = evt.layerX,
             layerY = evt.layerY;
-        var _outputContext$canvas2 = this.outputContext.canvas,
-            width = _outputContext$canvas2.width,
-            height = _outputContext$canvas2.height;
+        var _outputContext$canvas = this.outputContext.canvas,
+            width = _outputContext$canvas.width,
+            height = _outputContext$canvas.height;
 
 
         if (layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
@@ -4697,15 +4633,15 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'batch',
     value: function batch() {
-      var _this4 = this;
+      var _this3 = this;
 
       for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
         sprites[_key] = arguments[_key];
       }
 
       sprites.forEach(function (sprite) {
-        if (sprite.layer !== _this4) {
-          _this4.appendChild(sprite);
+        if (sprite.layer !== _this3) {
+          _this3.appendChild(sprite);
         }
       });
       var batch = new _batch2.default(this);
@@ -5836,7 +5772,7 @@ var _typeof2 = __webpack_require__(24);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _defineProperties = __webpack_require__(70);
+var _defineProperties = __webpack_require__(69);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
@@ -6504,28 +6440,26 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-exports.isSpriteDirty = isSpriteDirty;
+exports.clearDirtyRect = clearDirtyRect;
 exports.clearDirtyRects = clearDirtyRects;
 
 var _spriteUtils = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function isSpriteDirty(sprite, dirtyEls) {
-  var isUpdateEl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+// export function isSpriteDirty(sprite, dirtyEls, isUpdateEl = false) {
+//   for(let i = 0; i < dirtyEls.length; i++) {
+//     const dirtyEl = dirtyEls[i]
+//     const box1 = dirtyEl.renderBox,
+//       box2 = sprite.renderBox,
+//       box3 = dirtyEl.lastRenderBox
 
-  for (var i = 0; i < dirtyEls.length; i++) {
-    var dirtyEl = dirtyEls[i];
-    var box1 = dirtyEl.renderBox,
-        box2 = sprite.renderBox,
-        box3 = dirtyEl.lastRenderBox;
-
-    if ((0, _spriteUtils.boxIntersect)(box1, box2) || isUpdateEl && box3 && (0, _spriteUtils.boxIntersect)(box3, box2)) {
-      return true;
-    }
-  }
-  return false;
-}
+//     if(boxIntersect(box1, box2) || isUpdateEl && box3 && boxIntersect(box3, box2)) {
+//       return true
+//     }
+//   }
+//   return false
+// }
 
 function clearDirtyRect(_ref, box, width, height) {
   var shadowContext = _ref.shadowContext,
@@ -7546,7 +7480,7 @@ var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(71);
+var _keys = __webpack_require__(70);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -7928,7 +7862,7 @@ var _entries = __webpack_require__(8);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _getIterator2 = __webpack_require__(68);
+var _getIterator2 = __webpack_require__(67);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -9052,34 +8986,28 @@ function isPointInPath(_ref, x, y) {
 /* 67 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/array/from");
+module.exports = require("babel-runtime/core-js/get-iterator");
 
 /***/ }),
 /* 68 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/get-iterator");
+module.exports = require("babel-runtime/core-js/number/is-nan");
 
 /***/ }),
 /* 69 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/number/is-nan");
+module.exports = require("babel-runtime/core-js/object/define-properties");
 
 /***/ }),
 /* 70 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/define-properties");
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports) {
-
 module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
-/* 72 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/defineProperty");

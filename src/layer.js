@@ -6,7 +6,7 @@ import {requestAnimationFrame} from 'fast-animation-frame'
 import {registerNodeType} from './nodetype'
 
 import {clearContext} from './helpers/render'
-import {isSpriteDirty, clearDirtyRects} from './helpers/dirty-check'
+import {clearDirtyRects} from './helpers/dirty-check'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
@@ -14,8 +14,6 @@ const _children = Symbol('children'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
   _renderDeferer = Symbol('renderDeferrer')
-
-import {sortOrderedSprites} from 'sprite-utils'
 
 export default class Layer extends BaseNode {
   constructor({
@@ -185,78 +183,31 @@ export default class Layer extends BaseNode {
     this[_updateSet].clear()
   }
   renderRepaintDirty(t) {
-    if(!this.outputContext.canvas) {
-      console.warn('Cannot use repaintDirty, fallback to repaintAll!')
-      return this.renderRepaintAll(t)
-    }
-    const {width, height} = this.outputContext.canvas
-
-    const updateSet = this[_updateSet]
-    const children = this[_children].filter(e => this.isVisible(e))
-    const restEls = children.filter(el => !updateSet.has(el))
-    const affectedSet = new Set(),
-      unaffectedSet = new Set()
-
-    const updateEls = [...updateSet].filter(e => this.isVisible(e) || e.lastRenderBox)
-
-    for(let i = 0; i < restEls.length; i++) {
-      const unaffectedEl = restEls[i]
-      if(isSpriteDirty(unaffectedEl, updateEls, true)) {
-        affectedSet.add(unaffectedEl)
-      } else {
-        unaffectedSet.add(unaffectedEl)
-      }
-    }
-
-    if(affectedSet.size > 0 && unaffectedSet.size > 0) {
-      let changed
-      do {
-        changed = false
-        const affectedEls = Array.from(affectedSet),
-          unaffectedEls = Array.from(unaffectedSet)
-
-        for(let i = 0; i < unaffectedEls.length; i++) {
-          const unaffectedEl = unaffectedEls[i]
-          if(isSpriteDirty(unaffectedEl, affectedEls)) {
-            affectedSet.add(unaffectedEl)
-            unaffectedSet.delete(unaffectedEl)
-            changed = true
-            break
-          }
-        }
-      } while(changed)
-    }
-
     const shadowContext = this.shadowContext
     const outputContext = this.outputContext
+
+    const updateEls = [...this[_updateSet]]
+    const renderEls = this[_children]
 
     if(shadowContext) {
       shadowContext.save()
       shadowContext.beginPath()
-    } else {
-      outputContext.save()
-      outputContext.beginPath()
     }
+    outputContext.save()
+    outputContext.beginPath()
 
     clearDirtyRects({shadowContext, outputContext}, updateEls, true)
 
-    const affectedEls = Array.from(affectedSet)
-    clearDirtyRects({shadowContext, outputContext}, affectedEls, false)
-
     if(shadowContext) {
       shadowContext.clip()
-      shadowContext.clearRect(0, 0, width, height)
-    } else {
       outputContext.clip()
-      outputContext.clearRect(0, 0, width, height)
+      clearContext(shadowContext)
     }
-
-    const renderEls = [...updateSet, ...affectedSet]
-    sortOrderedSprites(renderEls)
+    outputContext.clip()
+    clearContext(outputContext)
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
-      outputContext.clearRect(0, 0, width, height)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
       shadowContext.restore()
     }
