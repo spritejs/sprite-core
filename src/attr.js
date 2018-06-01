@@ -42,7 +42,7 @@ class SpriteAttr {
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      // gradients: {},
+      gradients: {},
       offsetDistance: 0,
     }, {
       pos() {
@@ -88,7 +88,7 @@ class SpriteAttr {
     }
     if(typeof val === 'object') {
       const oldVal = this[_attr][key]
-      if(JSON.stringify(val) === JSON.stringify(oldVal)) {
+      if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
         return
       }
     }

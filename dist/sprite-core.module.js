@@ -5859,7 +5859,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      // gradients: {},
+      gradients: {},
       offsetDistance: 0
     }, {
       pos: function pos() {
@@ -5921,7 +5921,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       }
       if ((typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
         var oldVal = this[_attr][key];
-        if ((0, _stringify2.default)(val) === (0, _stringify2.default)(oldVal)) {
+        if (oldVal !== val && (0, _stringify2.default)(val) === (0, _stringify2.default)(oldVal)) {
           return;
         }
       }
