@@ -512,9 +512,6 @@ export default class BaseSprite extends BaseNode {
     const evtArgs = {context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache}
 
     drawingContext.save()
-    this.dispatchEvent('beforedraw', evtArgs, true, true)
-
-    drawingContext.save()
     drawingContext.translate(...this.attr('pos'))
     drawingContext.transform(...this.transform.m)
     drawingContext.globalAlpha *= this.attr('opacity')
@@ -525,6 +522,8 @@ export default class BaseSprite extends BaseNode {
       // solve 1px problem
       cachableContext.translate(1, 1)
     }
+
+    this.dispatchEvent('beforedraw', evtArgs, true, true)
 
     if(cachableContext) {
       // set cache before render for group
@@ -539,12 +538,11 @@ export default class BaseSprite extends BaseNode {
     if(cachableContext) {
       drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1)
     }
-    drawingContext.restore()
-
-    this.lastRenderBox = this.renderBox
 
     this.dispatchEvent('afterdraw', evtArgs, true, true)
+
     drawingContext.restore()
+    this.lastRenderBox = this.renderBox
 
     return drawingContext
   }

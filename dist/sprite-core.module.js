@@ -1057,9 +1057,6 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var evtArgs = { context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache };
 
       drawingContext.save();
-      this.dispatchEvent('beforedraw', evtArgs, true, true);
-
-      drawingContext.save();
       drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.attr('pos')));
       drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(this.transform.m));
       drawingContext.globalAlpha *= this.attr('opacity');
@@ -1070,6 +1067,8 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // solve 1px problem
         cachableContext.translate(1, 1);
       }
+
+      this.dispatchEvent('beforedraw', evtArgs, true, true);
 
       if (cachableContext) {
         // set cache before render for group
@@ -1084,12 +1083,11 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       if (cachableContext) {
         drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1);
       }
-      drawingContext.restore();
-
-      this.lastRenderBox = this.renderBox;
 
       this.dispatchEvent('afterdraw', evtArgs, true, true);
+
       drawingContext.restore();
+      this.lastRenderBox = this.renderBox;
 
       return drawingContext;
     }
