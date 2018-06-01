@@ -7972,9 +7972,9 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
        */
       (0, _assign2.default)(this[_attr], {
         rotate: 0,
-        scale: '[1, 1]',
-        translate: '[0, 0]',
-        skew: '[0, 0]'
+        scale: [1, 1],
+        translate: [0, 0],
+        skew: [0, 0]
       });
 
       if (Array.isArray(val)) {
