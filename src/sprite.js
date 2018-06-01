@@ -196,7 +196,7 @@ export default class Sprite extends BaseSprite {
     if(this.images) {
       textures.forEach((texture, i) => {
         const img = this.images[i]
-        const rect = (texture.rect || [0, 0, ...this.innerSize]).slice(0)
+        const rect = texture.rect || [0, 0, ...this.innerSize]
         const srcRect = texture.srcRect
 
         drawingContext.save()

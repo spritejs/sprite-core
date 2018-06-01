@@ -77,7 +77,7 @@ Object.assign(Effects, {
     return {
       width: defaultEffect(v1.width, v2.width, p, start, end),
       color: colorEffect(v1[1], v2[1], p, start, end),
-      style: defaultEffect(v1.style, v2.style, p, start, end),
+      style: arrayEffect(v1.style, v2.style, p, start, end),
     }
   },
   scale: arrayEffect,

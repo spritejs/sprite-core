@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/js/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -113,12 +113,13 @@ module.exports = require("babel-runtime/core-js/object/assign");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
+exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = exports.notice = undefined;
 
-var _utils = __webpack_require__(60);
+var _utils = __webpack_require__(34);
 
-var _decorators = __webpack_require__(59);
+var _decorators = __webpack_require__(60);
 
+exports.notice = _utils.notice;
 exports.Color = _utils.Color;
 exports.parseColor = _utils.parseColor;
 exports.oneOrTwoValues = _utils.oneOrTwoValues;
@@ -176,7 +177,7 @@ var _map2 = _interopRequireDefault(_map);
 exports.registerNodeType = registerNodeType;
 exports.createNode = createNode;
 
-var _selector = __webpack_require__(47);
+var _selector = __webpack_require__(48);
 
 var _selector2 = _interopRequireDefault(_selector);
 
@@ -582,7 +583,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _defineProperty2 = __webpack_require__(35);
+var _defineProperty2 = __webpack_require__(36);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -644,7 +645,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _attr13 = __webpack_require__(42);
+var _attr13 = __webpack_require__(43);
 
 var _attr14 = _interopRequireDefault(_attr13);
 
@@ -654,7 +655,7 @@ var _basenode2 = _interopRequireDefault(_basenode);
 
 var _spriteMath = __webpack_require__(16);
 
-var _animation = __webpack_require__(41);
+var _animation = __webpack_require__(42);
 
 var _animation2 = _interopRequireDefault(_animation);
 
@@ -755,6 +756,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
             val = val(this[_attr][props]);
           }
           (0, _assign2.default)(this[_attr], (0, _defineProperty5.default)({}, props, val));
+          if (props === 'zIndex' && this.parent) {
+            this.parent.children.sort(function (a, b) {
+              if (a.zIndex === b.zIndex) {
+                return a.zOrder - b.zOrder;
+              }
+              return a.zIndex - b.zIndex;
+            });
+          }
           return this;
         }
         return this[_attr][props];
@@ -1435,11 +1444,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Vector = exports.Matrix = undefined;
 
-var _matrix = __webpack_require__(56);
+var _matrix = __webpack_require__(57);
 
 var _matrix2 = _interopRequireDefault(_matrix);
 
-var _vector = __webpack_require__(57);
+var _vector = __webpack_require__(58);
 
 var _vector2 = _interopRequireDefault(_vector);
 
@@ -1482,7 +1491,7 @@ var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
 var _easing = __webpack_require__(31);
 
-var _animator = __webpack_require__(54);
+var _animator = __webpack_require__(55);
 
 var _animator2 = _interopRequireDefault(_animator);
 
@@ -1727,7 +1736,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toArray2 = __webpack_require__(36);
+var _toArray2 = __webpack_require__(37);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -2319,8 +2328,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         _evt.parentX = parentX;
         _evt.parentY = parentY;
 
-        var sprites = this[_children].slice(0);
-        (0, _spriteUtils.sortOrderedSprites)(sprites, true);
+        var sprites = this[_children].slice(0).reverse();
 
         var targetSprites = [];
 
@@ -2406,8 +2414,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         drawingContext.clearRect(0, 0, this.originalRect[2], this.originalRect[3]);
       }
 
-      var sprites = this[_children].slice(0);
-      (0, _spriteUtils.sortOrderedSprites)(sprites);
+      var sprites = this[_children];
 
       for (var i = 0; i < sprites.length; i++) {
         var child = sprites[i];
@@ -2485,9 +2492,23 @@ exports.default = {
     var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
     this.removeChild(sprite);
-    this.children.push(sprite);
+
+    var children = this.children;
+    children.push(sprite);
+
     this[_zOrder] = this[_zOrder] || 0;
     sprite.connect(this, this[_zOrder]++);
+
+    for (var i = children.length - 1; i > 0; i--) {
+      var a = children[i],
+          b = children[i - 1];
+
+      if (a.zIndex < b.zIndex) {
+        children[i] = b;
+        children[i - 1] = a;
+      }
+    }
+
     if (update) {
       sprite.forceUpdate();
     }
@@ -2535,19 +2556,24 @@ exports.default = {
     if (idx >= 0) {
       this.removeChild(newchild);
       this.children.splice(idx, 0, newchild);
-      newchild.connect(this, refchild.zOrder);
+      var refZOrder = refchild.zOrder;
+      newchild.connect(this, refZOrder);
       newchild.forceUpdate();
 
-      for (var i = idx + 1; i < this.children.length; i++) {
-        var child = this.children[i],
-            zOrder = child.zOrder + 1;
+      for (var i = 0; i < this.children.length; i++) {
+        if (i !== idx) {
+          var child = this.children[i],
+              zOrder = child.zOrder;
 
-        delete child.zOrder;
-        Object.defineProperty(child, 'zOrder', {
-          value: zOrder,
-          writable: false,
-          configurable: true
-        });
+          if (zOrder >= refZOrder) {
+            delete child.zOrder;
+            Object.defineProperty(child, 'zOrder', {
+              value: zOrder + 1,
+              writable: false,
+              configurable: true
+            });
+          }
+        }
       }
 
       this[_zOrder] = this[_zOrder] || 0;
@@ -2581,14 +2607,14 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _toArray2 = __webpack_require__(36);
+var _toArray2 = __webpack_require__(37);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
 exports.pathEffect = pathEffect;
 exports.createSvgPath = createSvgPath;
 
-var _sort = __webpack_require__(46);
+var _sort = __webpack_require__(47);
 
 var _svgPathToCanvas = __webpack_require__(22);
 
@@ -3111,7 +3137,7 @@ var _map2 = _interopRequireDefault(_map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BezierEasing = __webpack_require__(49);
+var BezierEasing = __webpack_require__(50);
 var bezierFuncCache = new _map2.default();
 
 function getBezierEasing() {
@@ -3299,7 +3325,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(58);
+var _utils = __webpack_require__(59);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3667,24 +3693,297 @@ module.exports = Timeline;
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("babel-runtime/core-js/json/stringify");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sortOrderedSprites = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.notice = exports.Color = undefined;
+
+var _set = __webpack_require__(20);
+
+var _set2 = _interopRequireDefault(_set);
+
+var _isNan = __webpack_require__(69);
+
+var _isNan2 = _interopRequireDefault(_isNan);
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _classCallCheck2 = __webpack_require__(2);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(3);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var colorString = __webpack_require__(52);
+
+var Color = function () {
+  function Color(color) {
+    (0, _classCallCheck3.default)(this, Color);
+
+    if (typeof color === 'string') {
+      var _colorString$get = colorString.get(color),
+          model = _colorString$get.model,
+          value = _colorString$get.value;
+
+      this.model = model;
+      this.value = value;
+    } else {
+      this.model = color.model;
+      this.value = color.value;
+    }
+  }
+
+  (0, _createClass3.default)(Color, [{
+    key: 'toString',
+    value: function toString() {
+      var _value = (0, _slicedToArray3.default)(this.value, 4),
+          a = _value[0],
+          b = _value[1],
+          c = _value[2],
+          d = _value[3];
+
+      var model = this.model;
+
+      if (model === 'rgb') {
+        return model + 'a(' + a + ',' + b + ',' + c + ',' + d + ')';
+      }
+      return model + 'a(' + a + ',' + b + '%,' + c + '%,' + d + ')';
+    }
+  }, {
+    key: 'str',
+    get: function get() {
+      return String(this);
+    }
+  }]);
+  return Color;
+}();
+
+exports.Color = Color;
+
+
+var parseColor = function parseColor(color) {
+  return new Color(color);
+};
+
+function parseColorString(color) {
+  if (color && typeof color === 'string') {
+    return parseColor(color).toString();
+  }
+  return color;
+}
+
+function parseStringTransform(str) {
+  if (typeof str !== 'string') return str;
+
+  var rules = str.match(/(?:^|\s)+((?:scale|rotate|translate|skew|matrix)\([^()]+\))/g);
+  var ret = {};
+  if (rules) {
+    rules.forEach(function (rule) {
+      var matched = rule.match(/(scale|rotate|translate|skew|matrix)\(([^()]+)\)/);
+
+      var _matched = (0, _slicedToArray3.default)(matched, 3),
+          m = _matched[1],
+          v = _matched[2];
+
+      if (m === 'rotate') {
+        ret[m] = parseStringFloat(v)[0];
+      } else {
+        ret[m] = parseStringFloat(v);
+      }
+    });
+  }
+
+  return ret;
+}
+
+function parseValuesString(str, parser) {
+  if (typeof str === 'string') {
+    var values = str.split(/[\s,]+/g);
+    return values.map(function (v) {
+      return parser ? parser(v) : v;
+    });
+  }
+  return str;
+}
+
+function praseString(str) {
+  return parseValuesString(str);
+}
+
+function parseStringInt(str) {
+  return parseValuesString(str, parseInt);
+}
+
+function parseStringFloat(str) {
+  return parseValuesString(str, parseFloat);
+}
+
+function oneOrTwoValues(val) {
+  if (!Array.isArray(val)) {
+    return [val, val];
+  } else if (val.length === 1) {
+    return [val[0], val[0]];
+  }
+  return val;
+}
+
+function fourValuesShortCut(val) {
+  if (!Array.isArray(val)) {
+    return [val, val, val, val];
+  } else if (val.length === 1) {
+    return [val[0], val[0], val[0], val[0]];
+  } else if (val.length === 2) {
+    return [val[0], val[1], val[0], val[1]];
+  }
+  return [].concat((0, _toConsumableArray3.default)(val), [0, 0, 0, 0]).slice(0, 4);
+}
+
+function boxIntersect(box1, box2) {
+  // left, top, right, buttom
+  var _ref = [box1[0], box1[1], box1[2], box1[3]],
+      l1 = _ref[0],
+      t1 = _ref[1],
+      r1 = _ref[2],
+      b1 = _ref[3],
+      _ref2 = [box2[0], box2[1], box2[2], box2[3]],
+      l2 = _ref2[0],
+      t2 = _ref2[1],
+      r2 = _ref2[2],
+      b2 = _ref2[3];
+
+
+  var t = Math.max(t1, t2),
+      r = Math.min(r1, r2),
+      b = Math.min(b1, b2),
+      l = Math.max(l1, l2);
+
+  if (b >= t && r >= l) {
+    return [l, t, r, b];
+  }
+  return null;
+}
+
+function boxToRect(box) {
+  return [box[0], box[1], box[2] - box[0], box[3] - box[1]];
+}
+
+function boxEqual(box1, box2) {
+  return box1[0] === box2[0] && box1[1] === box2[1] && box1[2] === box2[2] && box1[3] === box2[3];
+}
+
+function rectToBox(rect) {
+  return [rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]];
+}
+
+function rectVertices(rect) {
+  var _rectToBox = rectToBox(rect),
+      _rectToBox2 = (0, _slicedToArray3.default)(_rectToBox, 4),
+      x1 = _rectToBox2[0],
+      y1 = _rectToBox2[1],
+      x2 = _rectToBox2[2],
+      y2 = _rectToBox2[3];
+
+  return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]];
+}
+
+function boxUnion(box1, box2) {
+  if (!box1) return box2;
+  if (!box2) return box1;
+
+  return [Math.min(box1[0], box2[0]), Math.min(box1[1], box2[1]), Math.max(box1[2], box2[2]), Math.max(box1[3], box2[3])];
+}
+
+function appendUnit(value) {
+  var defaultUnit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'px';
+
+  if (value === '') {
+    return value;
+  }
+  if (typeof value === 'string' && (0, _isNan2.default)(Number(value))) {
+    return value;
+  }
+  return value + defaultUnit;
+}
+
+function sortOrderedSprites(sprites) {
+  var reversed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+  return sprites.sort(function (a, b) {
+    if (reversed) {
+      ;
+      var _ref3 = [b, a];
+      a = _ref3[0];
+      b = _ref3[1];
+    }if (a.zIndex === b.zIndex) {
+      return a.zOrder - b.zOrder;
+    }
+    return a.zIndex - b.zIndex;
+  });
+}
+
+var noticed = new _set2.default();
+function notice(msg) {
+  var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'warn';
+
+  if (typeof console !== 'undefined' && !noticed.has(msg)) {
+    console[level](msg); // eslint-disable-line no-console
+    noticed.add(msg);
+  }
+}
+
+exports.notice = notice;
+exports.parseColor = parseColor;
+exports.oneOrTwoValues = oneOrTwoValues;
+exports.praseString = praseString;
+exports.parseStringInt = parseStringInt;
+exports.parseStringFloat = parseStringFloat;
+exports.parseColorString = parseColorString;
+exports.fourValuesShortCut = fourValuesShortCut;
+exports.parseStringTransform = parseStringTransform;
+exports.boxIntersect = boxIntersect;
+exports.boxToRect = boxToRect;
+exports.boxEqual = boxEqual;
+exports.boxUnion = boxUnion;
+exports.rectToBox = rectToBox;
+exports.rectVertices = rectVertices;
+exports.appendUnit = appendUnit;
+exports.sortOrderedSprites = sortOrderedSprites;
 
 /***/ }),
 /* 35 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/define-property");
+module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toArray");
+module.exports = require("babel-runtime/core-js/object/define-property");
 
 /***/ }),
 /* 37 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/toArray");
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3747,7 +4046,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _applyDecoratedDescriptor = __webpack_require__(17);
 
-var parseFont = __webpack_require__(45);
+var parseFont = __webpack_require__(46);
 var _boxSize = (0, _symbol2.default)('boxSize');
 
 var measureText = function measureText(node, text, font) {
@@ -3974,7 +4273,7 @@ exports.default = Label;
 (0, _nodetype.registerNodeType)('label', Label);
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4057,7 +4356,7 @@ var _nodetype = __webpack_require__(7);
 
 var _render = __webpack_require__(13);
 
-var _dirtyCheck = __webpack_require__(44);
+var _dirtyCheck = __webpack_require__(45);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -4207,7 +4506,6 @@ var Layer = function (_BaseNode) {
     key: 'renderRepaintAll',
     value: function renderRepaintAll(t) {
       var renderEls = this[_children];
-      (0, _spriteUtils.sortOrderedSprites)(renderEls);
 
       var outputContext = this.outputContext;
       (0, _render.clearContext)(outputContext);
@@ -4345,8 +4643,7 @@ var Layer = function (_BaseNode) {
       if (!evt.terminated && isCollision) {
         evt.layer = this;
 
-        var sprites = this[_children].slice(0);
-        (0, _spriteUtils.sortOrderedSprites)(sprites, true);
+        var sprites = this[_children].slice(0).reverse();
 
         var targetSprites = [];
 
@@ -4493,7 +4790,7 @@ exports.default = Layer;
 (0, _nodetype.registerNodeType)('layer', Layer, true);
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4878,7 +5175,7 @@ exports.default = Path;
 (0, _nodetype.registerNodeType)('path', Path);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4889,7 +5186,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(34);
+var _stringify = __webpack_require__(35);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -4943,7 +5240,7 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _filters = __webpack_require__(43);
+var _filters = __webpack_require__(44);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -5136,7 +5433,7 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
       if (this.images) {
         textures.forEach(function (texture, i) {
           var img = _this5.images[i];
-          var rect = (texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this5.innerSize))).slice(0);
+          var rect = texture.rect || [0, 0].concat((0, _toConsumableArray3.default)(_this5.innerSize));
           var srcRect = texture.srcRect;
 
           drawingContext.save();
@@ -5248,7 +5545,7 @@ exports.default = Sprite;
 (0, _nodetype.registerNodeType)('sprite', Sprite);
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5395,7 +5692,7 @@ function colorEffect(color1, color2, p, start, end) {
     return {
       width: defaultEffect(v1.width, v2.width, p, start, end),
       color: colorEffect(v1[1], v2[1], p, start, end),
-      style: defaultEffect(v1.style, v2.style, p, start, end)
+      style: arrayEffect(v1.style, v2.style, p, start, end)
     };
   },
 
@@ -5509,7 +5806,7 @@ var _default = function (_Animator) {
 exports.default = _default;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5527,25 +5824,21 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _defineProperty = __webpack_require__(35);
+var _defineProperty = __webpack_require__(36);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _defineProperties = __webpack_require__(70);
-
-var _defineProperties2 = _interopRequireDefault(_defineProperties);
-
-var _assign = __webpack_require__(5);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _stringify = __webpack_require__(34);
+var _stringify = __webpack_require__(35);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
 var _typeof2 = __webpack_require__(24);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _defineProperties = __webpack_require__(70);
+
+var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
 var _slicedToArray2 = __webpack_require__(0);
 
@@ -5554,6 +5847,10 @@ var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 var _entries = __webpack_require__(8);
 
 var _entries2 = _interopRequireDefault(_entries);
+
+var _assign = __webpack_require__(5);
+
+var _assign2 = _interopRequireDefault(_assign);
 
 var _map = __webpack_require__(14);
 
@@ -5626,7 +5923,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      gradients: {},
+      // gradients: {},
       offsetDistance: 0
     }, {
       pos: function pos() {
@@ -5649,24 +5946,13 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
 
       var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      var _attrs = {};
-      (0, _entries2.default)(attrs).forEach(function (_ref) {
-        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-            attr = _ref2[0],
-            val = _ref2[1];
-
-        if (val != null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-          val = (0, _stringify2.default)({ __spritejs$__: val });
-        }
-        _attrs[attr] = val;
-      });
-      (0, _assign2.default)(this[_default], _attrs);
-      (0, _assign2.default)(this[_attr], _attrs);
+      (0, _assign2.default)(this[_default], attrs);
+      (0, _assign2.default)(this[_attr], attrs);
       var _p = {};
-      (0, _entries2.default)(props).forEach(function (_ref3) {
-        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
-            prop = _ref4[0],
-            getter = _ref4[1];
+      (0, _entries2.default)(props).forEach(function (_ref) {
+        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+            prop = _ref2[0],
+            getter = _ref2[1];
 
         _p[prop] = {
           get: getter.bind(_this)
@@ -5689,9 +5975,6 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'quietSet',
     value: function quietSet(key, val) {
-      if (val != null && (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-        val = (0, _stringify2.default)({ __spritejs$__: val });
-      }
       this[_attr][key] = val;
     }
   }, {
@@ -5699,22 +5982,20 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     value: function set(key, val) {
       if (val == null) {
         val = this[_default][key];
-      } else if ((typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
-        val = (0, _stringify2.default)({ __spritejs$__: val });
       }
-      if (this[_attr][key] !== val) {
-        this[_attr][key] = val;
-        this.__updateTag = true;
+      if ((typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
+        var oldVal = this[_attr][key];
+        if ((0, _stringify2.default)(val) === (0, _stringify2.default)(oldVal)) {
+          return;
+        }
       }
+      this[_attr][key] = val;
+      this.__updateTag = true;
     }
   }, {
     key: 'get',
     value: function get(key) {
-      var val = this[_attr][key];
-      if (typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
-        val = JSON.parse(val).__spritejs$__;
-      }
-      return val;
+      return this[_attr][key];
     }
   }, {
     key: 'clearCache',
@@ -5730,10 +6011,10 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       if (typeof attrs === 'string') {
         attrs = JSON.parse(attrs);
       }
-      (0, _entries2.default)(attrs).forEach(function (_ref5) {
-        var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
-            key = _ref6[0],
-            value = _ref6[1];
+      (0, _entries2.default)(attrs).forEach(function (_ref3) {
+        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+            key = _ref4[0],
+            value = _ref4[1];
 
         if (_this2[_default][key] !== value && key in _this2) {
           _this2[key] = value;
@@ -5982,10 +6263,10 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
         this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
         var transformStr = [];
 
-        (0, _entries2.default)(val).forEach(function (_ref7) {
-          var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
-              key = _ref8[0],
-              value = _ref8[1];
+        (0, _entries2.default)(val).forEach(function (_ref5) {
+          var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
+              key = _ref6[0],
+              value = _ref6[1];
 
           if (key === 'matrix' && Array.isArray(value)) {
             _this4.set('transformMatrix', new _spriteMath.Matrix(value).m);
@@ -6050,10 +6331,10 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'skew',
     set: function set(val) {
-      var _ref9, _transform$multiply;
+      var _ref7, _transform$multiply;
 
       var oldVal = this.get('skew') || [0, 0];
-      var invm = (_ref9 = new _spriteMath.Matrix()).skew.apply(_ref9, (0, _toConsumableArray3.default)(oldVal)).inverse();
+      var invm = (_ref7 = new _spriteMath.Matrix()).skew.apply(_ref7, (0, _toConsumableArray3.default)(oldVal)).inverse();
       this.set('skew', val);
       var transform = new _spriteMath.Matrix(this.get('transformMatrix'));
       (_transform$multiply = transform.multiply(invm)).skew.apply(_transform$multiply, (0, _toConsumableArray3.default)(val));
@@ -6135,7 +6416,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
 exports.default = SpriteAttr;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6209,7 +6490,7 @@ exports.default = {
 }; // http://www.runoob.com/cssref/css3-pr-filter.html
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6285,7 +6566,7 @@ function clearDirtyRects(_ref2, dirtyEls) {
 }
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6418,7 +6699,7 @@ module.exports = function f(str, defaultHeight) {
 /* eslint-enable */
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6580,7 +6861,7 @@ exports.sort = sort;
 exports.sortCurves = sortCurves;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6607,7 +6888,7 @@ function querySelectorLimits(elements, functor) {
 }
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6622,15 +6903,15 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _sprite = __webpack_require__(40);
+var _sprite = __webpack_require__(41);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
-var _label = __webpack_require__(37);
+var _label = __webpack_require__(38);
 
 var _label2 = _interopRequireDefault(_label);
 
-var _layer = __webpack_require__(38);
+var _layer = __webpack_require__(39);
 
 var _layer2 = _interopRequireDefault(_layer);
 
@@ -6642,7 +6923,7 @@ var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _path = __webpack_require__(39);
+var _path = __webpack_require__(40);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -6689,7 +6970,7 @@ exports.Color = Color;
 exports.SvgPath = _svgPathToCanvas2.default;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports) {
 
 /**
@@ -6799,7 +7080,7 @@ module.exports = function bezier (mX1, mY1, mX2, mY2) {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6958,12 +7239,12 @@ module.exports = {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(50);
-var swizzle = __webpack_require__(53);
+var colorNames = __webpack_require__(51);
+var swizzle = __webpack_require__(54);
 
 var reverseNames = {};
 
@@ -7197,7 +7478,7 @@ function hexDouble(num) {
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7215,13 +7496,13 @@ module.exports = function isArrayish(obj) {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayish = __webpack_require__(52);
+var isArrayish = __webpack_require__(53);
 
 var concat = Array.prototype.concat;
 var slice = Array.prototype.slice;
@@ -7251,7 +7532,7 @@ swizzle.wrap = function (fn) {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7285,7 +7566,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(55);
+var _utils = __webpack_require__(56);
 
 var _spriteTimeline = __webpack_require__(33);
 
@@ -7633,7 +7914,7 @@ var _class = function () {
 exports.default = _class;
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7829,7 +8110,7 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7846,7 +8127,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 var Matrix = function Matrix(m) {
   m = m || [1, 0, 0, 1, 0, 0];
-  this.m = m.slice(0);
+  this.m = [m[0], m[1], m[2], m[3], m[4], m[5]];
 };
 
 Matrix.prototype.unit = function () {
@@ -7967,7 +8248,7 @@ Matrix.prototype.transformVector = function (px, py) {
 exports.default = Matrix;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8052,7 +8333,7 @@ var Vector = function () {
 exports.default = Vector;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8100,7 +8381,7 @@ function formatDelay(delay) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8109,18 +8390,13 @@ function formatDelay(delay) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _set = __webpack_require__(20);
-
-var _set2 = _interopRequireDefault(_set);
-
 exports.attr = attr;
 exports.setDeprecation = setDeprecation;
 exports.deprecate = deprecate;
 exports.parseValue = parseValue;
 exports.resolveValue = resolveValue;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _utils = __webpack_require__(34);
 
 function attr(target, prop, descriptor) {
   target.__attributeNames = target.__attributeNames || [];
@@ -8154,16 +8430,11 @@ function attr(target, prop, descriptor) {
   return descriptor;
 }
 
-var deprecationSet = new _set2.default();
-
 function setDeprecation(apiName) {
   var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
   msg = '[Deprecation] ' + apiName + ' has been deprecated.' + msg;
-  if (!deprecationSet.has(msg)) {
-    deprecationSet.add(msg);
-    console.warn(msg);
-  }
+  (0, _utils.notice)(msg);
 }
 
 function deprecate() {
@@ -8251,264 +8522,6 @@ function resolveValue() {
     };
   };
 }
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sortOrderedSprites = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = undefined;
-
-var _isNan = __webpack_require__(69);
-
-var _isNan2 = _interopRequireDefault(_isNan);
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _classCallCheck2 = __webpack_require__(2);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(3);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var colorString = __webpack_require__(51);
-
-var Color = function () {
-  function Color(color) {
-    (0, _classCallCheck3.default)(this, Color);
-
-    if (typeof color === 'string') {
-      var _colorString$get = colorString.get(color),
-          model = _colorString$get.model,
-          value = _colorString$get.value;
-
-      this.model = model;
-      this.value = value;
-    } else {
-      this.model = color.model;
-      this.value = color.value;
-    }
-  }
-
-  (0, _createClass3.default)(Color, [{
-    key: 'toString',
-    value: function toString() {
-      var _value = (0, _slicedToArray3.default)(this.value, 4),
-          a = _value[0],
-          b = _value[1],
-          c = _value[2],
-          d = _value[3];
-
-      var model = this.model;
-
-      if (model === 'rgb') {
-        return model + 'a(' + a + ',' + b + ',' + c + ',' + d + ')';
-      }
-      return model + 'a(' + a + ',' + b + '%,' + c + '%,' + d + ')';
-    }
-  }, {
-    key: 'str',
-    get: function get() {
-      return String(this);
-    }
-  }]);
-  return Color;
-}();
-
-exports.Color = Color;
-
-
-var parseColor = function parseColor(color) {
-  return new Color(color);
-};
-
-function parseColorString(color) {
-  if (color && typeof color === 'string') {
-    return parseColor(color).toString();
-  }
-  return color;
-}
-
-function parseStringTransform(str) {
-  if (typeof str !== 'string') return str;
-
-  var rules = str.match(/(?:^|\s)+((?:scale|rotate|translate|skew|matrix)\([^()]+\))/g);
-  var ret = {};
-  if (rules) {
-    rules.forEach(function (rule) {
-      var matched = rule.match(/(scale|rotate|translate|skew|matrix)\(([^()]+)\)/);
-
-      var _matched = (0, _slicedToArray3.default)(matched, 3),
-          m = _matched[1],
-          v = _matched[2];
-
-      if (m === 'rotate') {
-        ret[m] = parseStringFloat(v)[0];
-      } else {
-        ret[m] = parseStringFloat(v);
-      }
-    });
-  }
-
-  return ret;
-}
-
-function parseValuesString(str, parser) {
-  if (typeof str === 'string') {
-    var values = str.split(/[\s,]+/g);
-    return values.map(function (v) {
-      return parser ? parser(v) : v;
-    });
-  }
-  return str;
-}
-
-function praseString(str) {
-  return parseValuesString(str);
-}
-
-function parseStringInt(str) {
-  return parseValuesString(str, parseInt);
-}
-
-function parseStringFloat(str) {
-  return parseValuesString(str, parseFloat);
-}
-
-function oneOrTwoValues(val) {
-  if (!Array.isArray(val)) {
-    return [val, val];
-  } else if (val.length === 1) {
-    return [val[0], val[0]];
-  }
-  return val;
-}
-
-function fourValuesShortCut(val) {
-  if (!Array.isArray(val)) {
-    return [val, val, val, val];
-  } else if (val.length === 1) {
-    return [val[0], val[0], val[0], val[0]];
-  } else if (val.length === 2) {
-    return [val[0], val[1], val[0], val[1]];
-  }
-  return [].concat((0, _toConsumableArray3.default)(val), [0, 0, 0, 0]).slice(0, 4);
-}
-
-function boxIntersect(box1, box2) {
-  // left, top, right, buttom
-  var _ref = [box1[0], box1[1], box1[2], box1[3]],
-      l1 = _ref[0],
-      t1 = _ref[1],
-      r1 = _ref[2],
-      b1 = _ref[3],
-      _ref2 = [box2[0], box2[1], box2[2], box2[3]],
-      l2 = _ref2[0],
-      t2 = _ref2[1],
-      r2 = _ref2[2],
-      b2 = _ref2[3];
-
-
-  var t = Math.max(t1, t2),
-      r = Math.min(r1, r2),
-      b = Math.min(b1, b2),
-      l = Math.max(l1, l2);
-
-  if (b >= t && r >= l) {
-    return [l, t, r, b];
-  }
-  return null;
-}
-
-function boxToRect(box) {
-  return [box[0], box[1], box[2] - box[0], box[3] - box[1]];
-}
-
-function boxEqual(box1, box2) {
-  return box1[0] === box2[0] && box1[1] === box2[1] && box1[2] === box2[2] && box1[3] === box2[3];
-}
-
-function rectToBox(rect) {
-  return [rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]];
-}
-
-function rectVertices(rect) {
-  var _rectToBox = rectToBox(rect),
-      _rectToBox2 = (0, _slicedToArray3.default)(_rectToBox, 4),
-      x1 = _rectToBox2[0],
-      y1 = _rectToBox2[1],
-      x2 = _rectToBox2[2],
-      y2 = _rectToBox2[3];
-
-  return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]];
-}
-
-function boxUnion(box1, box2) {
-  if (!box1) return box2;
-  if (!box2) return box1;
-
-  return [Math.min(box1[0], box2[0]), Math.min(box1[1], box2[1]), Math.max(box1[2], box2[2]), Math.max(box1[3], box2[3])];
-}
-
-function appendUnit(value) {
-  var defaultUnit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'px';
-
-  if (value === '') {
-    return value;
-  }
-  if (typeof value === 'string' && (0, _isNan2.default)(Number(value))) {
-    return value;
-  }
-  return value + defaultUnit;
-}
-
-function sortOrderedSprites(sprites) {
-  var reversed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-  return sprites.sort(function (a, b) {
-    if (reversed) {
-      ;
-      var _ref3 = [b, a];
-      a = _ref3[0];
-      b = _ref3[1];
-    }if (a.zIndex === b.zIndex) {
-      return a.zOrder - b.zOrder;
-    }
-    return a.zIndex - b.zIndex;
-  });
-}
-
-exports.parseColor = parseColor;
-exports.oneOrTwoValues = oneOrTwoValues;
-exports.praseString = praseString;
-exports.parseStringInt = parseStringInt;
-exports.parseStringFloat = parseStringFloat;
-exports.parseColorString = parseColorString;
-exports.fourValuesShortCut = fourValuesShortCut;
-exports.parseStringTransform = parseStringTransform;
-exports.boxIntersect = boxIntersect;
-exports.boxToRect = boxToRect;
-exports.boxEqual = boxEqual;
-exports.boxUnion = boxUnion;
-exports.rectToBox = rectToBox;
-exports.rectVertices = rectVertices;
-exports.appendUnit = appendUnit;
-exports.sortOrderedSprites = sortOrderedSprites;
 
 /***/ }),
 /* 61 */

@@ -1,13 +1,25 @@
 const _zOrder = Symbol('zOrder')
-import {sortOrderedSprites} from 'sprite-utils'
 
 export default {
   appendChild(sprite, update = true) {
     this.removeChild(sprite)
-    this.children.push(sprite)
+
+    const children = this.children
+    children.push(sprite)
+
     this[_zOrder] = this[_zOrder] || 0
     sprite.connect(this, this[_zOrder]++)
-    sortOrderedSprites(this.children)
+
+    for(let i = children.length - 1; i > 0; i--) {
+      const a = children[i],
+        b = children[i - 1]
+
+      if(a.zIndex < b.zIndex) {
+        children[i] = b
+        children[i - 1] = a
+      }
+    }
+
     if(update) {
       sprite.forceUpdate()
     }

@@ -42,7 +42,7 @@ class SpriteAttr {
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
-      gradients: {},
+      // gradients: {},
       offsetDistance: 0,
     }, {
       pos() {
@@ -59,15 +59,8 @@ class SpriteAttr {
   }
 
   setDefault(attrs, props = {}) {
-    const _attrs = {}
-    Object.entries(attrs).forEach(([attr, val]) => {
-      if(val != null && typeof val === 'object') {
-        val = JSON.stringify({__spritejs$__: val})
-      }
-      _attrs[attr] = val
-    })
-    Object.assign(this[_default], _attrs)
-    Object.assign(this[_attr], _attrs)
+    Object.assign(this[_default], attrs)
+    Object.assign(this[_attr], attrs)
     const _p = {}
     Object.entries(props).forEach(([prop, getter]) => {
       _p[prop] = {
@@ -87,28 +80,23 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
-    if(val != null && typeof val === 'object') {
-      val = JSON.stringify({__spritejs$__: val})
-    }
     this[_attr][key] = val
   }
   set(key, val) {
     if(val == null) {
       val = this[_default][key]
-    } else if(typeof val === 'object') {
-      val = JSON.stringify({__spritejs$__: val})
     }
-    if(this[_attr][key] !== val) {
-      this[_attr][key] = val
-      this.__updateTag = true
+    if(typeof val === 'object') {
+      const oldVal = this[_attr][key]
+      if(JSON.stringify(val) === JSON.stringify(oldVal)) {
+        return
+      }
     }
+    this[_attr][key] = val
+    this.__updateTag = true
   }
   get(key) {
-    let val = this[_attr][key]
-    if(typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
-      val = JSON.parse(val).__spritejs$__
-    }
-    return val
+    return this[_attr][key]
   }
   get attrs() {
     const ret = {}

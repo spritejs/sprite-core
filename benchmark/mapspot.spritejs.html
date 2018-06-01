@@ -75,12 +75,12 @@
         p = Math.min(p, 1)
         if(p < 0.5) {
           const s = 0.8 + 0.6 * p
-          // sprite.attr({scale: [s, s]})
-          sprite.attr({x: x + s * 50})
+          sprite.attr({scale: [s, s]})
+          // sprite.attr({x: x + s * 50})
         } else {
           const s = 1.1 - 0.6 * (p - 0.5)
-          // sprite.attr({scale: [s, s]})
-          sprite.attr({x: x + s * 50})
+          sprite.attr({scale: [s, s]})
+          // sprite.attr({x: x + s * 50})
         }
         if(p === 1) {
           startTime = Date.now()

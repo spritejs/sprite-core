@@ -2,7 +2,7 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices, sortOrderedSprites} from 'sprite-utils'
+import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
@@ -141,7 +141,12 @@ export default class BaseSprite extends BaseNode {
         }
         Object.assign(this[_attr], {[props]: val})
         if(props === 'zIndex' && this.parent) {
-          sortOrderedSprites(this.parent.children)
+          this.parent.children.sort((a, b) => {
+            if(a.zIndex === b.zIndex) {
+              return a.zOrder - b.zOrder
+            }
+            return a.zIndex - b.zIndex
+          })
         }
         return this
       }
