@@ -391,20 +391,17 @@ export default class BaseSprite extends BaseNode {
   }
 
   forceUpdate(clearCache = false) {
+    this.isDirty = true
     if(clearCache) {
       this.clearCache()
     }
     const parent = this.parent
     if(parent) {
-      if(parent.forceUpdate) {
+      if(parent[_cachePriority] != null) {
         // is group
         parent[_cachePriority] = 0
-        parent.cache = null
-        parent.forceUpdate()
-      } else if(parent.update) {
-        // is layer
-        this.parent.update(this)
       }
+      this.parent.update(this)
     }
   }
 

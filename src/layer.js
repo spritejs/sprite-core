@@ -158,7 +158,8 @@ export default class Layer extends BaseNode {
           // invisible, only need to remove lastRenderBox
           delete child.lastRenderBox
         }
-        if(this[_updateSet].has(child)) {
+        if(child.isDirty) {
+          child.isDirty = false
           child.dispatchEvent('update', {target: child, renderTime: t, isVisible}, true, true)
         }
       }

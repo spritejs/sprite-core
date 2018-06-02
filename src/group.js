@@ -53,6 +53,10 @@ export default class Group extends BaseSprite {
   get children() {
     return this[_children]
   }
+  update(child) {
+    this.cache = null
+    this.forceUpdate()
+  }
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       if(this.svg) {
@@ -191,9 +195,14 @@ export default class Group extends BaseSprite {
     const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
-      const child = sprites[i]
-      if(this.isNodeVisible(child)) {
+      const child = sprites[i],
+        isVisible = this.isNodeVisible(child)
+      if(isVisible) {
         child.draw(t)
+      }
+      if(child.isDirty) {
+        child.isDirty = false
+        child.dispatchEvent('update', {target: child, renderTime: t, isVisible}, true, true)
       }
     }
   }
