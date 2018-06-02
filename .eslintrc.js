@@ -3,6 +3,7 @@ module.exports = {
   plugins: ["html"],
   globals: {
     spritejs: true,
+    wx: true,
   },
   rules: {
     // 'import/no-mutable-exports': 'off',

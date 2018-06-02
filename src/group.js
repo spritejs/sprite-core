@@ -37,6 +37,7 @@ export default class Group extends BaseSprite {
     super(attr)
     this[_children] = []
     this[_zOrder] = 0
+    this[_baseCachePriority] = 0
   }
   cloneNode(deepCopy) {
     const node = super.cloneNode()
@@ -145,26 +146,36 @@ export default class Group extends BaseSprite {
   }
   render(t, drawingContext) {
     this[_baseCachePriority] = Math.min(this[_baseCachePriority] + 1, 10)
+    const bound = this.originalRect,
+      bw = Math.ceil(bound[2]) + 2,
+      bh = Math.ceil(bound[3]) + 2
+
     if(this.baseCache
-      && drawingContext.canvas.width === this.baseCache.canvas.width
-      && drawingContext.canvas.height === this.baseCache.canvas.height) {
+      && bw === this.baseCache.canvas.width
+      && bh === this.baseCache.canvas.height) {
       const {width: borderWidth} = this.attr('border'),
         padding = this.attr('padding')
       drawingContext.drawImage(this.baseCache.canvas, -1, -1)
       drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
     } else {
       if(this.baseCache) {
+        this[_baseCachePriority] = 0
         cacheContextPool.put(this.baseCache)
       }
-      super.render(t, drawingContext)
-      if(this.cache && this[_baseCachePriority] > 6) {
+      if(this[_baseCachePriority] > 6) {
         const bgcolor = findColor(drawingContext, this, 'bgcolor')
         if(bgcolor) {
           this.baseCache = cacheContextPool.get(drawingContext)
-          this.baseCache.canvas.width = drawingContext.canvas.width
-          this.baseCache.canvas.height = drawingContext.canvas.height
-          this.baseCache.drawImage(drawingContext.canvas, 0, 0)
+          this.baseCache.canvas.width = bw
+          this.baseCache.canvas.height = bh
+          super.render(t, this.baseCache)
+          drawingContext.drawImage(this.baseCache.canvas, -1, -1)
+          const {width: borderWidth} = this.attr('border'),
+            padding = this.attr('padding')
+          drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
         }
+      } else {
+        super.render(t, drawingContext)
       }
     }
 

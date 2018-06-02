@@ -498,7 +498,7 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originalRect
     let cachableContext = null
     // solve 1px problem
-    if(this[_cachePriority] > 6) {
+    if(this.cachePriority > 6) {
       if(this.cache) {
         cachableContext = this.cache
       } else {
@@ -599,7 +599,7 @@ export default class BaseSprite extends BaseNode {
       }
       // we should always clip to prevent the subclass rendering not to overflow the box
       // but clip is very slow in wxapp simulator...
-      if(typeof wx === 'undefined' || typeof requestAnimationFrame === 'undefined') {
+      if(!(typeof wx !== 'undefined' && wx.navigateToMiniProgram && typeof requestAnimationFrame !== 'undefined')) {
         drawingContext.clip()
       }
     }
