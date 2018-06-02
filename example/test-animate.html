@@ -56,10 +56,17 @@
       {pos: [100, 100]}
     ], {
       delay: 2000,
-      duration: 12000,
+      duration: 5000,
       iterations: 2,
     })
     s.append(s2)
+
+    s2.on('update', (evt) => {
+      console.log('s2 update')
+    })
+    s.on('update', (evt) => {
+      console.log('s update')
+    })
     // layer.append(s2)
     window.s2 = s2
     // window.anim = animation
