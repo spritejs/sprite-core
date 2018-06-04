@@ -60,13 +60,17 @@
       iterations: 2,
     })
     s.append(s2)
+    animation.playbackRate = 0
+    animation.finished.then(() => {
+      console.log('finished')
+    })
 
-    s2.on('update', (evt) => {
-      console.log('s2 update')
-    })
-    s.on('update', (evt) => {
-      console.log('s update')
-    })
+    // s2.on('update', (evt) => {
+    //   console.log('s2 update')
+    // })
+    // s.on('update', (evt) => {
+    //   console.log('s update')
+    // })
     // layer.append(s2)
     window.s2 = s2
     // window.anim = animation

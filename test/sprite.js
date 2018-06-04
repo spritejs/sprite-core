@@ -1,6 +1,6 @@
 import {Sprite, Layer} from '../src'
 import {compare} from './helpers'
-import {createCanvas} from 'canvas'
+import {createCanvas, loadImage} from 'canvas'
 
 const test = require('ava')
 
@@ -117,5 +117,65 @@ test('red block 150/300', async (t) => {
   })
   layer.draw()
   isEqual = await compare(canvas, 'red-block-150-300-left-top')
+  t.truthy(isEqual)
+})
+
+test('draw guanguan', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const img = await loadImage('./test/res/guanguan1.png')
+
+  const s = new Sprite()
+  s.attr({
+    textures: [img],
+    pos: [150, 150],
+    anchor: 0.5,
+  })
+  layer.append(s)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'image-guanguan')
+  t.truthy(isEqual)
+})
+
+test('draw guanguan body', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const img = await loadImage('./test/res/guanguan_p.png')
+
+  const s = new Sprite()
+  s.attr({
+    textures: [{image: img, srcRect: [0, 41, 86, 56]}],
+    pos: [150, 150],
+    anchor: 0.5,
+  })
+  layer.append(s)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'image-guanguan-body')
+  t.truthy(isEqual)
+})
+
+test('draw guanguan body filter', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const img = await loadImage('./test/res/guanguan_p.png')
+
+  const s = new Sprite()
+  s.attr({
+    textures: [{image: img, srcRect: [0, 41, 86, 56], filter: {opacity: 0.5}}],
+    pos: [150, 150],
+    anchor: 0.5,
+  })
+  layer.append(s)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'image-guanguan-body-filter')
   t.truthy(isEqual)
 })

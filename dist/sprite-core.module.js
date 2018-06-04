@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/js/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 49);
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -117,7 +117,7 @@ exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports
 
 var _utils = __webpack_require__(34);
 
-var _decorators = __webpack_require__(60);
+var _decorators = __webpack_require__(61);
 
 exports.notice = _utils.notice;
 exports.Color = _utils.Color;
@@ -177,7 +177,7 @@ var _map2 = _interopRequireDefault(_map);
 exports.registerNodeType = registerNodeType;
 exports.createNode = createNode;
 
-var _selector = __webpack_require__(48);
+var _selector = __webpack_require__(49);
 
 var _selector2 = _interopRequireDefault(_selector);
 
@@ -645,7 +645,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _attr13 = __webpack_require__(43);
+var _attr13 = __webpack_require__(44);
 
 var _attr14 = _interopRequireDefault(_attr13);
 
@@ -655,7 +655,7 @@ var _basenode2 = _interopRequireDefault(_basenode);
 
 var _spriteMath = __webpack_require__(16);
 
-var _animation = __webpack_require__(42);
+var _animation = __webpack_require__(43);
 
 var _animation2 = _interopRequireDefault(_animation);
 
@@ -689,6 +689,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     _this[_attr] = new _this.constructor.Attr(_this);
     _this[_animations] = new _set2.default();
     _this[_cachePriority] = 0;
+    _this.__cachePolicyThreshold = 6;
 
     if (attr) {
       _this.attr(attr);
@@ -1040,13 +1041,17 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var bound = this.originalRect;
       var cachableContext = null;
       // solve 1px problem
-      if (this.cachePriority > 6) {
+      if (this.cachePriority > this.__cachePolicyThreshold) {
         if (this.cache) {
           cachableContext = this.cache;
         } else {
           cachableContext = _render.cacheContextPool.get(drawingContext);
-          cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
-          cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
+          if (cachableContext) {
+            cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
+            cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
+          } else {
+            this.__cachePolicyThreshold = Infinity;
+          }
         }
       }
 
@@ -1438,11 +1443,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Vector = exports.Matrix = undefined;
 
-var _matrix = __webpack_require__(57);
+var _matrix = __webpack_require__(58);
 
 var _matrix2 = _interopRequireDefault(_matrix);
 
-var _vector = __webpack_require__(58);
+var _vector = __webpack_require__(59);
 
 var _vector2 = _interopRequireDefault(_vector);
 
@@ -1485,7 +1490,7 @@ var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
 var _easing = __webpack_require__(31);
 
-var _animator = __webpack_require__(55);
+var _animator = __webpack_require__(56);
 
 var _animator2 = _interopRequireDefault(_animator);
 
@@ -1730,7 +1735,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toArray2 = __webpack_require__(37);
+var _toArray2 = __webpack_require__(38);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -1752,14 +1757,14 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _spriteMath = __webpack_require__(16);
 
-var _platform = __webpack_require__(66);
+var _platform = __webpack_require__(67);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var parse = __webpack_require__(65);
-var abs = __webpack_require__(62);
-var normalize = __webpack_require__(64);
-var isSvgPath = __webpack_require__(63);
+var parse = __webpack_require__(66);
+var abs = __webpack_require__(63);
+var normalize = __webpack_require__(65);
+var isSvgPath = __webpack_require__(64);
 
 
 var _path = (0, _symbol2.default)('path');
@@ -2399,20 +2404,25 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           this[_baseCachePriority] = 0;
           _render.cacheContextPool.put(this.baseCache);
         }
-        if (this[_baseCachePriority] > 6) {
+        if (this[_baseCachePriority] > this.__cachePolicyThreshold) {
           var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');
           if (bgcolor) {
             this.baseCache = _render.cacheContextPool.get(drawingContext);
-            this.baseCache.canvas.width = bw;
-            this.baseCache.canvas.height = bh;
-            (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, this.baseCache);
-            drawingContext.drawImage(this.baseCache.canvas, -1, -1);
+            if (this.baseCache) {
+              this.baseCache.canvas.width = bw;
+              this.baseCache.canvas.height = bh;
+              (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, this.baseCache);
+              drawingContext.drawImage(this.baseCache.canvas, -1, -1);
 
-            var _attr2 = this.attr('border'),
-                _borderWidth = _attr2.width,
-                _padding = this.attr('padding');
+              var _attr2 = this.attr('border'),
+                  _borderWidth = _attr2.width,
+                  _padding = this.attr('padding');
 
-            drawingContext.translate(_borderWidth + _padding[3], _borderWidth + _padding[0]);
+              drawingContext.translate(_borderWidth + _padding[3], _borderWidth + _padding[0]);
+            } else {
+              this.__cachePolicyThreshold = Infinity;
+              (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+            }
           }
         } else {
           (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
@@ -2626,14 +2636,14 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _toArray2 = __webpack_require__(37);
+var _toArray2 = __webpack_require__(38);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
 exports.pathEffect = pathEffect;
 exports.createSvgPath = createSvgPath;
 
-var _sort = __webpack_require__(47);
+var _sort = __webpack_require__(48);
 
 var _svgPathToCanvas = __webpack_require__(22);
 
@@ -3156,7 +3166,7 @@ var _map2 = _interopRequireDefault(_map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BezierEasing = __webpack_require__(50);
+var BezierEasing = __webpack_require__(51);
 var bezierFuncCache = new _map2.default();
 
 function getBezierEasing() {
@@ -3344,7 +3354,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(59);
+var _utils = __webpack_require__(60);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3358,7 +3368,8 @@ var _timeMark = (0, _symbol2.default)('timeMark'),
     _timers = (0, _symbol2.default)('timers'),
     _originTime = (0, _symbol2.default)('originTime'),
     _setTimer = (0, _symbol2.default)('setTimer'),
-    _parent = (0, _symbol2.default)('parent');
+    _parent = (0, _symbol2.default)('parent'),
+    _createTime = (0, _symbol2.default)('createTime');
 
 var Timeline = function () {
   function Timeline(options, parent) {
@@ -3389,6 +3400,8 @@ var Timeline = function () {
       globalEntropy: 0
     }];
 
+    this[_createTime] = (0, _utils.nowtime)();
+
     if (this[_parent]) {
       this[_timeMark][0].globalEntropy = this[_parent].entropy;
     }
@@ -3399,6 +3412,26 @@ var Timeline = function () {
   }
 
   (0, _createClass3.default)(Timeline, [{
+    key: 'markTime',
+    value: function markTime() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref$time = _ref.time,
+          time = _ref$time === undefined ? this.currentTime : _ref$time,
+          _ref$entropy = _ref.entropy,
+          entropy = _ref$entropy === undefined ? this.entropy : _ref$entropy,
+          _ref$playbackRate = _ref.playbackRate,
+          playbackRate = _ref$playbackRate === undefined ? this.playbackRate : _ref$playbackRate;
+
+      var timeMark = {
+        globalTime: this.globalTime,
+        localTime: time,
+        entropy: entropy,
+        playbackRate: playbackRate,
+        globalEntropy: this.globalEntropy
+      };
+      this[_timeMark].push(timeMark);
+    }
+  }, {
     key: 'fork',
     value: function fork(options) {
       return new Timeline(options, this);
@@ -3463,6 +3496,20 @@ var Timeline = function () {
       return l;
     }
   }, {
+    key: 'updateTimers',
+    value: function updateTimers() {
+      var _this = this;
+
+      var timers = [].concat((0, _toConsumableArray3.default)(this[_timers]));
+      timers.forEach(function (_ref2) {
+        var _ref3 = (0, _slicedToArray3.default)(_ref2, 2),
+            id = _ref3[0],
+            timer = _ref3[1];
+
+        _this[_setTimer](timer.handler, timer.time, id);
+      });
+    }
+  }, {
     key: 'clearTimeout',
     value: function (_clearTimeout) {
       function clearTimeout(_x) {
@@ -3494,11 +3541,11 @@ var Timeline = function () {
   }, {
     key: 'clear',
     value: function clear() {
-      var _this = this;
+      var _this2 = this;
 
       // clear all running timers
       var timers = this[_timers];[].concat((0, _toConsumableArray3.default)(timers.keys())).forEach(function (id) {
-        _this.clearTimeout(id);
+        _this2.clearTimeout(id);
       });
     }
     /*
@@ -3531,7 +3578,7 @@ var Timeline = function () {
   }, {
     key: _setTimer,
     value: function value(handler, time) {
-      var _this2 = this;
+      var _this3 = this;
 
       var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (0, _symbol2.default)('timerID');
 
@@ -3576,7 +3623,7 @@ var Timeline = function () {
           delay = { delay: delay, heading: heading };
         }
         timerID = globalTimeout(function () {
-          _this2[_timers].delete(id);
+          _this3[_timers].delete(id);
           handler();
         }, delay);
       }
@@ -3611,16 +3658,35 @@ var Timeline = function () {
       return localTime + (this.globalTime - globalTime) * this.playbackRate;
     },
     set: function set(time) {
-      var timeMark = {
-        globalTime: this.globalTime,
-        localTime: time,
-        entropy: this.entropy,
-        playbackRate: this.playbackRate
-      };
-      if (this[_parent]) {
-        timeMark.globalEntropy = this[_parent].entropy;
-      }
-      this[_timeMark].push(timeMark);
+      var from = this.currentTime,
+          to = time,
+          timers = this[_timers];
+
+      this.markTime({ time: time });[].concat((0, _toConsumableArray3.default)(timers)).forEach(function (_ref4) {
+        var _ref5 = (0, _slicedToArray3.default)(_ref4, 2),
+            id = _ref5[0],
+            timer = _ref5[1];
+
+        var _timer$time = timer.time,
+            isEntropy = _timer$time.isEntropy,
+            delay = _timer$time.delay,
+            heading = _timer$time.heading,
+            handler = timer.handler,
+            startTime = timer.startTime;
+
+
+        if (!isEntropy) {
+          var endTime = startTime + delay;
+          if (delay === 0 || heading !== false && (to - from) * delay < 0 || from < endTime && endTime < to || from > endTime && endTime > to) {
+            handler();
+            timers.delete(id);
+          }
+        } else if (delay === 0) {
+          handler();
+          timers.delete(id);
+        }
+      });
+      this.updateTimers();
     }
     // Both currentTime and entropy should be influenced by playbackRate.
     // If current playbackRate is negative, the currentTime should go backwards
@@ -3631,32 +3697,27 @@ var Timeline = function () {
     key: 'entropy',
     get: function get() {
       var _lastTimeMark2 = this.lastTimeMark,
-          globalTime = _lastTimeMark2.globalTime,
           entropy = _lastTimeMark2.entropy,
           globalEntropy = _lastTimeMark2.globalEntropy;
 
-      if (this[_parent]) {
-        return entropy + Math.abs((this[_parent].entropy - globalEntropy) * this.playbackRate);
-      }
-      return entropy + Math.abs((this.globalTime - globalTime) * this.playbackRate);
+      return entropy + Math.abs((this.globalEntropy - globalEntropy) * this.playbackRate);
     },
 
     // change entropy will NOT cause currentTime changing but may influence the pass
     // and the future of the timeline. (It may change the result of seek***Time)
     // While entropy is set, all the marks behind will be droped
     set: function set(entropy) {
-      var idx = this.seekTimeMark(entropy);
-      this[_timeMark].length = idx + 1;
-      var timeMark = {
-        globalTime: this.globalTime,
-        localTime: this.currentTime,
-        entropy: entropy,
-        playbackRate: this.playbackRate
-      };
-      if (this[_parent]) {
-        timeMark.globalEntropy = this[_parent].entropy;
+      if (this.entropy > entropy) {
+        var idx = this.seekTimeMark(entropy);
+        this[_timeMark].length = idx + 1;
       }
-      this[_timeMark].push(timeMark);
+      this.markTime({ entropy: entropy });
+      this.updateTimers();
+    }
+  }, {
+    key: 'globalEntropy',
+    get: function get() {
+      return this[_parent] ? this[_parent].entropy : (0, _utils.nowtime)() - this[_createTime];
     }
   }, {
     key: 'globalTime',
@@ -3673,24 +3734,10 @@ var Timeline = function () {
       return this[_playbackRate];
     },
     set: function set(rate) {
-      var _this3 = this;
-
       if (rate !== this.playbackRate) {
-        var currentTime = this.currentTime;
-        // force currentTime updating
-        this.currentTime = currentTime;
+        this.markTime({ playbackRate: rate });
         this[_playbackRate] = rate;
-        // set new playbackRate in new time mark
-        this.lastTimeMark.playbackRate = rate;
-
-        var timers = [].concat((0, _toConsumableArray3.default)(this[_timers]));
-        timers.forEach(function (_ref) {
-          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-              id = _ref2[0],
-              timer = _ref2[1];
-
-          _this3[_setTimer](timer.handler, timer.time, id);
-        });
+        this.updateTimers();
       }
     }
   }, {
@@ -3726,7 +3773,7 @@ var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _isNan = __webpack_require__(68);
+var _isNan = __webpack_require__(69);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -3748,7 +3795,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var colorString = __webpack_require__(52);
+var colorString = __webpack_require__(53);
 
 var Color = function () {
   function Color(color) {
@@ -3999,10 +4046,16 @@ module.exports = require("babel-runtime/core-js/object/define-property");
 /* 37 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toArray");
+module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
 /* 38 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/toArray");
+
+/***/ }),
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4065,7 +4118,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _applyDecoratedDescriptor = __webpack_require__(17);
 
-var parseFont = __webpack_require__(46);
+var parseFont = __webpack_require__(47);
 var _boxSize = (0, _symbol2.default)('boxSize');
 
 var measureText = function measureText(node, text, font) {
@@ -4292,7 +4345,7 @@ exports.default = Label;
 (0, _nodetype.registerNodeType)('label', Label);
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4371,7 +4424,7 @@ var _nodetype = __webpack_require__(7);
 
 var _render = __webpack_require__(13);
 
-var _dirtyCheck = __webpack_require__(45);
+var _dirtyCheck = __webpack_require__(46);
 
 var _group3 = __webpack_require__(27);
 
@@ -4746,7 +4799,7 @@ exports.default = Layer;
 (0, _nodetype.registerNodeType)('layer', Layer, true);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5131,7 +5184,7 @@ exports.default = Path;
 (0, _nodetype.registerNodeType)('path', Path);
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5196,7 +5249,7 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _filters = __webpack_require__(44);
+var _filters = __webpack_require__(45);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -5501,7 +5554,7 @@ exports.default = Sprite;
 (0, _nodetype.registerNodeType)('sprite', Sprite);
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5536,9 +5589,9 @@ var _inherits2 = __webpack_require__(11);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _assign = __webpack_require__(5);
+var _keys = __webpack_require__(37);
 
-var _assign2 = _interopRequireDefault(_assign);
+var _keys2 = _interopRequireDefault(_keys);
 
 var _toConsumableArray2 = __webpack_require__(1);
 
@@ -5551,6 +5604,10 @@ var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 var _entries = __webpack_require__(8);
 
 var _entries2 = _interopRequireDefault(_entries);
+
+var _assign = __webpack_require__(5);
+
+var _assign2 = _interopRequireDefault(_assign);
 
 var _spriteAnimator = __webpack_require__(19);
 
@@ -5573,35 +5630,14 @@ function arrayEffect(arr1, arr2, p, start, end) {
   return defaultEffect(arr1, arr2, p, start, end);
 }
 
-function transformMatrix(trans) {
-  if (Array.isArray(trans)) {
-    return trans;
-  }
-  var transform = new _spriteMath.Matrix();
-
-  (0, _entries2.default)(trans).forEach(function (_ref) {
-    var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-        key = _ref2[0],
-        value = _ref2[1];
-
-    if (Array.isArray(value)) {
-      transform[key].apply(transform, (0, _toConsumableArray3.default)(value));
-    } else {
-      transform[key](value);
-    }
-  });
-
-  return transform;
-}
-
 function objectEffect(obj1, obj2, p, start, end) {
   var t1 = (0, _assign2.default)({}, obj2, obj1),
       t2 = (0, _assign2.default)({}, obj1, obj2);
 
-  (0, _entries2.default)(t1).forEach(function (_ref3) {
-    var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
-        key = _ref4[0],
-        value = _ref4[1];
+  (0, _entries2.default)(t1).forEach(function (_ref) {
+    var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
 
     t1[key] = arrayEffect(value, t2[key], p, start, end);
   });
@@ -5609,23 +5645,54 @@ function objectEffect(obj1, obj2, p, start, end) {
   return t1;
 }
 
+function getTransformMatrix(trans) {
+  var matrix = new _spriteMath.Matrix();
+  (0, _entries2.default)(trans).forEach(function (_ref3) {
+    var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+        key = _ref4[0],
+        val = _ref4[1];
+
+    if (key === 'matrix') {
+      matrix = new _spriteMath.Matrix(val);
+    } else if (Array.isArray(val)) {
+      var _matrix;
+
+      (_matrix = matrix)[key].apply(_matrix, (0, _toConsumableArray3.default)(val));
+    } else if (key === 'scale') {
+      matrix.scale(val, val);
+    } else {
+      matrix[key](val);
+    }
+  });
+  return matrix.m;
+}
+
+function arrayEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (var i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function transformEffect(trans1, trans2, p, start, end) {
   trans1 = (0, _spriteUtils.parseStringTransform)(trans1);
   trans2 = (0, _spriteUtils.parseStringTransform)(trans2);
 
+  if (!arrayEqual((0, _keys2.default)(trans1), (0, _keys2.default)(trans2))) {
+    trans1 = getTransformMatrix(trans1);
+    trans2 = getTransformMatrix(trans2);
+  }
+
   if (Array.isArray(trans1) || Array.isArray(trans2)) {
-    trans1 = transformMatrix(trans1);
-    trans2 = transformMatrix(trans2);
     return arrayEffect(trans1, trans2, p, start, end);
   }
   return objectEffect(trans1, trans2, p, start, end);
 }
 
 function colorEffect(color1, color2, p, start, end) {
-  if (typeof color1 !== 'string' || typeof color2 !== 'string') {
-    return defaultEffect(color1, color2, p, start, end);
-  }
-
   var c1 = (0, _spriteUtils.parseColor)(color1);
   var c2 = (0, _spriteUtils.parseColor)(color2);
 
@@ -5655,10 +5722,6 @@ function colorEffect(color1, color2, p, start, end) {
   scale: arrayEffect,
   translate: arrayEffect,
   skew: arrayEffect,
-  zIndex: function zIndex(v1, v2, p, start, end) {
-    return Math.round(defaultEffect(v1, v2, p, start, end));
-  },
-
   color: colorEffect,
   strokeColor: colorEffect,
   fillColor: colorEffect
@@ -5685,20 +5748,16 @@ var _default = function (_Animator) {
 
       (0, _get3.default)(_default.prototype.__proto__ || (0, _getPrototypeOf2.default)(_default.prototype), 'play', this).call(this);
 
-      var sprite = this.target,
-          layer = sprite.parent;
-
-      if (!layer) {
-        throw new Error('no context');
-      }
+      var sprite = this.target;
 
       sprite.attr(this.frame);
 
       var that = this;
       this.ready.then(function () {
+        sprite.attr(that.frame);
         that.requestId = (0, _fastAnimationFrame.requestAnimationFrame)(function update() {
           var target = that.target;
-          if (typeof document !== 'undefined' && document.contains && target.layer && target.layer.canvas && !document.documentElement.contains(target.layer.canvas)) {
+          if (typeof document !== 'undefined' && document.documentElement && document.documentElement.contains && target.layer && target.layer.canvas && !document.documentElement.contains(target.layer.canvas)) {
             // if dom element has been removed stop animation.
             // it usually occurs in single page applications.
             that.cancel();
@@ -5712,6 +5771,7 @@ var _default = function (_Animator) {
           } else if (playState === 'paused' || playState === 'pending' && that.timeline.currentTime < 0) {
             // playbackRate < 0 will cause playState reset to pending...
             that.ready.then(function () {
+              sprite.attr(that.frame);
               that.requestId = (0, _fastAnimationFrame.requestAnimationFrame)(update);
             });
           }
@@ -5762,7 +5822,7 @@ var _default = function (_Animator) {
 exports.default = _default;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5792,7 +5852,7 @@ var _typeof2 = __webpack_require__(24);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _defineProperties = __webpack_require__(69);
+var _defineProperties = __webpack_require__(70);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
@@ -6372,7 +6432,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
 exports.default = SpriteAttr;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6446,7 +6506,7 @@ exports.default = {
 }; // http://www.runoob.com/cssref/css3-pr-filter.html
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6520,7 +6580,7 @@ function clearDirtyRects(_ref2, dirtyEls) {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6653,7 +6713,7 @@ module.exports = function f(str, defaultHeight) {
 /* eslint-enable */
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6815,7 +6875,7 @@ exports.sort = sort;
 exports.sortCurves = sortCurves;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6842,7 +6902,7 @@ function querySelectorLimits(elements, functor) {
 }
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6857,15 +6917,15 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _sprite = __webpack_require__(41);
+var _sprite = __webpack_require__(42);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
-var _label = __webpack_require__(38);
+var _label = __webpack_require__(39);
 
 var _label2 = _interopRequireDefault(_label);
 
-var _layer = __webpack_require__(39);
+var _layer = __webpack_require__(40);
 
 var _layer2 = _interopRequireDefault(_layer);
 
@@ -6877,7 +6937,7 @@ var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _path = __webpack_require__(40);
+var _path = __webpack_require__(41);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -6924,7 +6984,7 @@ exports.Color = Color;
 exports.SvgPath = _svgPathToCanvas2.default;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 /**
@@ -7034,7 +7094,7 @@ module.exports = function bezier (mX1, mY1, mX2, mY2) {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7193,12 +7253,12 @@ module.exports = {
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(51);
-var swizzle = __webpack_require__(54);
+var colorNames = __webpack_require__(52);
+var swizzle = __webpack_require__(55);
 
 var reverseNames = {};
 
@@ -7432,7 +7492,7 @@ function hexDouble(num) {
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7450,13 +7510,13 @@ module.exports = function isArrayish(obj) {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayish = __webpack_require__(53);
+var isArrayish = __webpack_require__(54);
 
 var concat = Array.prototype.concat;
 var slice = Array.prototype.slice;
@@ -7486,7 +7546,7 @@ swizzle.wrap = function (fn) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7500,7 +7560,7 @@ var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(70);
+var _keys = __webpack_require__(37);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -7520,7 +7580,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(56);
+var _utils = __webpack_require__(57);
 
 var _spriteTimeline = __webpack_require__(33);
 
@@ -7599,6 +7659,11 @@ var _class = function () {
       }
     });
 
+    // 补齐参数
+    this[_keyframes] = this[_keyframes].map(function (frame) {
+      return (0, _assign2.default)({}, _this[_initState], frame);
+    });
+
     if (this[_keyframes][0].offset !== 0) {
       // 要补第一帧
       this[_keyframes].unshift((0, _assign2.default)({}, this[_initState], { offset: 0 }));
@@ -7623,10 +7688,17 @@ var _class = function () {
       var _this2 = this;
 
       if (this[_readyDefer] && !this[_readyDefer].timerID) {
-        this[_readyDefer].timerID = this.timeline.setTimeout(function () {
-          _this2[_readyDefer].resolve();
-          delete _this2[_readyDefer];
-        }, { delay: Math.max(-this.timeline.currentTime, 0), heading: this.timeline.paused });
+        if (this.timeline.currentTime < 0) {
+          this[_readyDefer].timerID = this.timeline.setTimeout(function () {
+            _this2[_readyDefer].resolve();
+            delete _this2[_readyDefer];
+          }, { delay: -this.timeline.currentTime, heading: false });
+        } else {
+          this[_readyDefer].timerID = this.timeline.setTimeout(function () {
+            _this2[_readyDefer].resolve();
+            delete _this2[_readyDefer];
+          }, { delay: 0, isEntropy: true });
+        }
       }
     }
   }, {
@@ -7699,7 +7771,6 @@ var _class = function () {
   }, {
     key: 'finish',
     value: function finish() {
-      this.timeline.entropy = Infinity;
       this.timeline.currentTime = Infinity;
       this[_removeDefer](_readyDefer);
       this[_removeDefer](_finishedDefer, true);
@@ -7752,22 +7823,23 @@ var _class = function () {
   }, {
     key: 'progress',
     get: function get() {
+      if (!this.timeline) return 0;
+
       var _timing5 = this[_timing],
           duration = _timing5.duration,
           iterations = _timing5.iterations;
 
       var timeline = this.timeline,
-          entropy = timeline ? timeline.entropy : 0,
           playState = this.playState;
 
       var p = void 0;
 
       if (playState === 'idle') {
         p = 0;
-      } else if (playState === 'paused' && entropy < 0) {
+      } else if (playState === 'paused' && timeline.currentTime < 0) {
         p = 0;
       } else if (playState === 'pending') {
-        if (entropy < 0) {
+        if (timeline.currentTime < 0) {
           p = 0;
         } else {
           var time = timeline.seekLocalTime(iterations * duration);
@@ -7868,7 +7940,7 @@ var _class = function () {
 exports.default = _class;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7882,7 +7954,7 @@ var _entries = __webpack_require__(8);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _getIterator2 = __webpack_require__(67);
+var _getIterator2 = __webpack_require__(68);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -8064,7 +8136,7 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 }
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8202,7 +8274,7 @@ Matrix.prototype.transformVector = function (px, py) {
 exports.default = Matrix;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8287,7 +8359,7 @@ var Vector = function () {
 exports.default = Vector;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8335,7 +8407,7 @@ function formatDelay(delay) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8478,7 +8550,7 @@ function resolveValue() {
 }
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8671,7 +8743,7 @@ module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8747,7 +8819,7 @@ function absolutize(path) {
 /* eslint-enable */
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8765,7 +8837,7 @@ module.exports = function isPath(str) {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8779,7 +8851,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = normalize;
 
-var a2c = __webpack_require__(61);
+var a2c = __webpack_require__(62);
 
 /* eslint-disable */
 function normalize(path) {
@@ -8896,7 +8968,7 @@ function quadratic(x1, y1, cx, cy, x2, y2) {
 /* eslint-enable */
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8961,7 +9033,7 @@ function parseValues(args) {
 /* eslint-enable */
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9003,28 +9075,22 @@ function isPointInPath(_ref, x, y) {
 }
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/get-iterator");
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/number/is-nan");
 
 /***/ }),
-/* 69 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/object/define-properties");
-
-/***/ }),
 /* 70 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/object/keys");
+module.exports = require("babel-runtime/core-js/object/define-properties");
 
 /***/ }),
 /* 71 */

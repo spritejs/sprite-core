@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const {Layer, Sprite} = spritejs
+
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const s = new Sprite()
+    s.attr({
+      anchor: 0.5,
+      pos: [400, 300],
+      size: [50, 50],
+      // bgcolor: 'hsl(360, 50%, 60%)',
+    })
+    layer.append(s)
+
+    s.animate([
+      {border: {width: 10, color: 'red', style: [5, 5]}},
+      // {transform: {rotate: 0}},
+      // {transform: {scale: 2, translate: [-10, -10], rotate: 360}, bgcolor: 'green'},
+    ], {
+      duration: 2000,
+      fill: 'forwards',
+    })
+  </script>
+</body>
+</html>
+

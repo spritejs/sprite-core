@@ -166,17 +166,22 @@ export default class Group extends BaseSprite {
         this[_baseCachePriority] = 0
         cacheContextPool.put(this.baseCache)
       }
-      if(this[_baseCachePriority] > 6) {
+      if(this[_baseCachePriority] > this.__cachePolicyThreshold) {
         const bgcolor = findColor(drawingContext, this, 'bgcolor')
         if(bgcolor) {
           this.baseCache = cacheContextPool.get(drawingContext)
-          this.baseCache.canvas.width = bw
-          this.baseCache.canvas.height = bh
-          super.render(t, this.baseCache)
-          drawingContext.drawImage(this.baseCache.canvas, -1, -1)
-          const {width: borderWidth} = this.attr('border'),
-            padding = this.attr('padding')
-          drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
+          if(this.baseCache) {
+            this.baseCache.canvas.width = bw
+            this.baseCache.canvas.height = bh
+            super.render(t, this.baseCache)
+            drawingContext.drawImage(this.baseCache.canvas, -1, -1)
+            const {width: borderWidth} = this.attr('border'),
+              padding = this.attr('padding')
+            drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
+          } else {
+            this.__cachePolicyThreshold = Infinity
+            super.render(t, drawingContext)
+          }
         }
       } else {
         super.render(t, drawingContext)

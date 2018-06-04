@@ -27,6 +27,7 @@ export default class BaseSprite extends BaseNode {
     this[_attr] = new this.constructor.Attr(this)
     this[_animations] = new Set()
     this[_cachePriority] = 0
+    this.__cachePolicyThreshold = 6
 
     if(attr) {
       this.attr(attr)
@@ -495,13 +496,17 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originalRect
     let cachableContext = null
     // solve 1px problem
-    if(this.cachePriority > 6) {
+    if(this.cachePriority > this.__cachePolicyThreshold) {
       if(this.cache) {
         cachableContext = this.cache
       } else {
         cachableContext = cacheContextPool.get(drawingContext)
-        cachableContext.canvas.width = Math.ceil(bound[2]) + 2
-        cachableContext.canvas.height = Math.ceil(bound[3]) + 2
+        if(cachableContext) {
+          cachableContext.canvas.width = Math.ceil(bound[2]) + 2
+          cachableContext.canvas.height = Math.ceil(bound[3]) + 2
+        } else {
+          this.__cachePolicyThreshold = Infinity
+        }
       }
     }
 

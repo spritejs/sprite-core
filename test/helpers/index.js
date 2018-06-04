@@ -72,6 +72,8 @@ export async function compare(canvas, caseId) {
     fs.writeFileSync(srcFile, canvas.toBuffer())
   } else if(fs.existsSync(diffFile)) {
     fs.unlinkSync(diffFile)
+  } else if(fs.existsSync(srcFile)) {
+    fs.unlinkSync(srcFile)
   }
 
   return isEqual
