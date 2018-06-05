@@ -85,7 +85,7 @@ test.cb('animate-block-remove', (t) => {
   setTimeout(() => {
     t.truthy(anim.timeline.currentTime >= 1000)
     layer.remove(s)
-  }, 1000)
+  }, 1100)
 
   setTimeout(() => {
     t.is(s.attr('y'), 0)

@@ -444,6 +444,18 @@ export default class BaseSprite extends BaseNode {
         evt.offsetX = nx
         evt.offsetY = ny
 
+        if(this.context && this.context.isPointInPath) {
+          const borderWidth = this.attr('border').width,
+            borderRadius = this.attr('borderRadius')
+          if(borderWidth || borderRadius) {
+            const [width, height] = this.outerSize
+            const [x, y, w, h, r] = [0, 0,
+              width, height,
+              Math.max(0, borderRadius + borderWidth / 2)]
+            drawRadiusBox(this.context, {x, y, w, h, r})
+            return this.context.isPointInPath(nx - ox, ny - oy)
+          }
+        }
         return true
       }
     }

@@ -56,10 +56,15 @@
   "nyc": {
     "exclude": [
       "**/src/helpers/path/**/*.js",
+      "**/src/helpers/parse-font.js",
+      "**/src/filters.js",
       "**/test/**/*.js"
     ]
   },
   "ava": {
+    "files": [
+      "**/test/*.js"
+    ],
     "require": [
       "babel-register"
     ],
@@ -70,7 +75,7 @@
     "babel-decorators-runtime": "^0.2.0",
     "babel-runtime": "^6.26.0",
     "fast-animation-frame": "^0.3.0",
-    "sprite-animator": "^1.7.1",
+    "sprite-animator": "^1.7.3",
     "sprite-math": "^1.0.1",
     "sprite-utils": "^1.9.1",
     "svg-path-to-canvas": "^1.8.1"

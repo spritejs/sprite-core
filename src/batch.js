@@ -1,3 +1,5 @@
+import {cacheContextPool} from './helpers/render'
+
 const _batch = Symbol('batch')
 
 export default class Batch {
@@ -12,7 +14,7 @@ export default class Batch {
       zOrder = Infinity,
       zIndex = Infinity
 
-    for(let i = 1; i < batchNodes.length; i++) {
+    for(let i = 0; i < batchNodes.length; i++) {
       const node = batchNodes[i]
       if(zIndex > node.zIndex) {
         zIndex = node.zIndex
@@ -41,10 +43,19 @@ export default class Batch {
         },
         set(context) {
           if(that.baseNode === this) {
+            if(context == null && that.cache) {
+              cacheContextPool.put(that.cache)
+            }
             that.cache = context
           } else if(context == null) {
             throw new Error('Cannot set non-cachable attributes to batch members.Use batch.baseNode.attr(...)')
           }
+        },
+      })
+      Object.defineProperty(node, 'cachePriority', {
+        configurable: true,
+        get() {
+          return Infinity
         },
       })
       node[_batch] = this

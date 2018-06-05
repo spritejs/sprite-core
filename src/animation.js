@@ -70,7 +70,7 @@ function colorEffect(color1, color2, p, start, end) {
 
   if(c1.model === c2.model) {
     c1.value = arrayEffect(c1.value, c2.value, p, start, end).map((c, i) => {
-      return i < 3 ? Math.round(c) : c
+      return i < 3 ? Math.round(c) : Math.round(c * 100) / 100
     })
     return c1.str
   }

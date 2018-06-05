@@ -149,6 +149,14 @@ export default class Group extends BaseSprite {
     }
   }
   render(t, drawingContext) {
+    const clipPath = this.attr('clip')
+    if(clipPath) {
+      drawingContext.save()
+      this.svg.beginPath().to(drawingContext)
+      drawingContext.restore()
+      drawingContext.clip()
+    }
+
     this[_baseCachePriority] = Math.min(this[_baseCachePriority] + 1, 10)
     const bound = this.originalRect,
       bw = Math.ceil(bound[2]) + 2,
@@ -173,7 +181,10 @@ export default class Group extends BaseSprite {
           if(this.baseCache) {
             this.baseCache.canvas.width = bw
             this.baseCache.canvas.height = bh
+            this.baseCache.save()
+            this.baseCache.translate(1, 1)
             super.render(t, this.baseCache)
+            this.baseCache.restore()
             drawingContext.drawImage(this.baseCache.canvas, -1, -1)
             const {width: borderWidth} = this.attr('border'),
               padding = this.attr('padding')
@@ -186,15 +197,6 @@ export default class Group extends BaseSprite {
       } else {
         super.render(t, drawingContext)
       }
-    }
-
-    const clipPath = this.attr('clip')
-    if(clipPath) {
-      drawingContext.save()
-      this.svg.beginPath().to(drawingContext)
-      drawingContext.restore()
-      drawingContext.clip()
-      drawingContext.clearRect(0, 0, this.originalRect[2], this.originalRect[3])
     }
 
     const sprites = this[_children]

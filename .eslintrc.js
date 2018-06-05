@@ -10,7 +10,7 @@ module.exports = {
     'semi-style': ["error", "first"],
     // 禁止一个文件中在忽略空行和注释之后行数超过500行
     'max-lines': ['error', {
-      max: 500,
+      max: 1000,
       skipBlankLines: true,
       skipComments: true
     }],  

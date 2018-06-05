@@ -12,10 +12,9 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
-    const Batch = spritejs.Batch
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({
-      context, 
+      context,
       // renderMode:'repaintDirty'
     })
 
@@ -35,7 +34,7 @@
         border: [1, 'green'],
         borderRadius: 5,
         rotate,
-        zIndex: 200
+        zIndex: 200,
       })
       return s
     }
@@ -49,14 +48,15 @@
     const colors = ['red', 'blue']
     let i = 0
 
-    setInterval(function f() {
+    setInterval(() => {
       const bgcolor = colors[++i % 2]
       batch.baseNode.attr({bgcolor})
 
-      blocks.forEach(block => {
+      blocks.forEach((block) => {
         const x = Math.random() * 600,
-        y = Math.random() * 600,
-        rotate = Math.random() * 360
+          y = Math.random() * 600,
+          rotate = Math.random() * 360
+
         block.attr({x, y, rotate})
       })
     }, 16)

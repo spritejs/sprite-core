@@ -90,7 +90,7 @@ export default class Sprite extends BaseSprite {
     })
    */
   constructor(attr) {
-    if(typeof attr === 'string') {
+    if(attr && attr.constructor !== Object) {
       attr = {textures: [attr]}
     }
     super()

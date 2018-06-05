@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const fglayer = new Layer({context})
+    
+    const g = new Group()
+    g.attr({
+      anchor: 0.5,
+      pos: [600, 300],
+      size: [400, 400],
+      bgcolor: 'grey',
+    })
+    fglayer.append(g)
+
+    const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
+    const g2 = new Group()
+    g2.attr({
+      anchor: 0.5,
+      pos: [200, 200],
+      size: [300, 300],
+      clip: {
+        d: clipPath,
+        transform: {
+          scale: 6,
+          translate: [4, 4],
+        },
+      },
+      bgcolor: 'blue',
+      borderRadius: 200,
+    })
+    g.append(g2)
+
+    const s = new Sprite()
+    s.attr({
+      pos: [40, 50],
+      bgcolor: 'red',
+      borderRadius: 25,
+      size: [50, 50],
+    })
+    g2.append(s)
+
+    s.on('click', (evt) => {
+      console.log(evt.layerX, evt.layerY)
+    })
+
+    mycanvas.addEventListener('click', evt => {
+      const {offsetX, offsetY} = evt
+      fglayer.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+    })
+  </script>
+</body>
+</html>
