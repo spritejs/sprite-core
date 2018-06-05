@@ -58,12 +58,14 @@
       "**/src/helpers/path/**/*.js",
       "**/src/helpers/parse-font.js",
       "**/src/filters.js",
+      "**/src/label.js",
       "**/test/**/*.js"
     ]
   },
   "ava": {
     "files": [
-      "**/test/*.js"
+      "**/test/*.js",
+      "!**/test/label.js"
     ],
     "require": [
       "babel-register"

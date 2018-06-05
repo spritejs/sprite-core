@@ -2,12 +2,6 @@ const {Sprite, Label, Path, Group} = require('../../lib')
 const drawCase = require('./drawcase')
 const {createCanvas, loadImage} = require('canvas')
 
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
-
 drawCase('empty', [10, 10], (layer, size) => {
   const sprite = new Sprite()
   sprite.attr({
@@ -601,7 +595,7 @@ drawCase('batch-1', [1200, 600], async (layer) => {
 })
 
 drawCase('label-48px-Arial', [800, 600], (layer, size) => {
-  const text1 = new Label('SpriteJS.org')
+  const text1 = new Label('SpriteJS.org 中国')
 
   text1.attr({
     anchor: 0.5,
@@ -609,7 +603,6 @@ drawCase('label-48px-Arial', [800, 600], (layer, size) => {
     font: '48px Arial',
     color: '#fff',
     bgcolor: 'blue',
-    renderMode: 'stroke',
     lineHeight: 75,
     padding: [0, 50, 0, 50],
   })
@@ -619,7 +612,7 @@ drawCase('label-48px-Arial', [800, 600], (layer, size) => {
 })
 
 drawCase('label-2rem-Song', [800, 600], async (layer, size) => {
-  const text1 = new Label('SpriteJS.org')
+  const text1 = new Label('SpriteJS.org 中国')
 
   text1.attr({
     anchor: 0.5,
@@ -632,5 +625,65 @@ drawCase('label-2rem-Song', [800, 600], async (layer, size) => {
   })
 
   layer.append(text1)
+  await layer.prepareRender()
+})
+
+drawCase('offset-path', [800, 600], async (layer, size) => {
+  const path = new Path(),
+    d = 'M10,80 q100,120 120,20 q140,-50 160,0'
+
+  path.attr({
+    pos: [110, 150],
+    color: 'red',
+    d,
+  })
+  layer.append(path)
+
+  const s = new Sprite()
+
+  s.attr({
+    anchor: [0.5, 0.5],
+    pos: [110, 150],
+    size: [50, 25],
+    bgcolor: 'red',
+    offsetPath: d,
+    offsetDistance: 0.5,
+    zIndex: 200,
+  })
+  layer.appendChild(s)
+
+  const s2 = s.cloneNode()
+  s2.attr({
+    offsetDistance: 0.3,
+    offsetRotate: 60,
+    bgcolor: 'blue',
+    zIndex: 400,
+  })
+  layer.appendChild(s2)
+
+  s.attr({
+    offsetDistance: 0.7,
+  })
+
+  await layer.prepareRender()
+})
+
+drawCase('gradients-block', [300, 300], async (layer, size) => {
+  const s = new Sprite()
+
+  s.attr({
+    anchor: 0.5,
+    pos: [150, 150],
+    bgcolor: {
+      vector: [0, 0, 100, 100],
+      colors: [
+        {offset: 0, color: 'red'},
+        {offset: 1, color: 'green'},
+      ],
+    },
+    size: [100, 100],
+  })
+
+  layer.append(s)
   await layer.prepareRender()
 })

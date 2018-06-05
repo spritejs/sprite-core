@@ -311,6 +311,11 @@ test('sprite event', async (t) => {
   })
   s.textures = [img]
 
+  s.on('append', (evt) => {
+    t.is(evt.zOrder, 0)
+    t.is(evt.parent, layer)
+  })
+
   const s2 = s.cloneNode()
   s2.attr({
     anchor: [0, 0],
@@ -335,4 +340,53 @@ test('sprite event', async (t) => {
 
   layer.dispatchEvent('click', {layerX: 10, layerY: 10})
   layer.dispatchEvent('click', {layerX: 160, layerY: 160})
+
+  s2.on('remove', (evt) => {
+    t.is(evt.zOrder, 1)
+  })
+  layer.remove(s2)
+
+  t.throws(() => {
+    s2.disconnect()
+  })
+})
+
+test('draw gradients block', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const s = new Sprite()
+
+  s.attr({
+    anchor: 0.5,
+    pos: [150, 150],
+    bgcolor: {
+      vector: [0, 0, 100, 100],
+      colors: [
+        {offset: 0, color: 'red'},
+        {offset: 1, color: 'green'},
+      ],
+    },
+    size: [100, 100],
+  })
+
+  layer.append(s)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'gradients-block')
+  t.truthy(isEqual)
+
+  t.throws(() => {
+    s.attr({
+      bgcolor: {
+        vector: [0, 1],
+        colors: [
+          {offset: 0, color: 'red'},
+          {offset: 1, color: 'green'},
+        ],
+      },
+    })
+    layer.draw()
+  })
 })

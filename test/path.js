@@ -1,4 +1,4 @@
-import {Path, Layer} from '../src'
+import {Path, Sprite, Layer} from '../src'
 import {compare} from './helpers'
 import {createCanvas} from 'canvas'
 
@@ -228,5 +228,50 @@ test('draw path 6', async (t) => {
   await layer.prepareRender()
 
   const isEqual = await compare(canvas, 'path-6')
+  t.truthy(isEqual)
+})
+
+test('offset distance', async (t) => {
+  const canvas = createCanvas(800, 600),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const path = new Path(),
+    d = 'M10,80 q100,120 120,20 q140,-50 160,0'
+
+  path.attr({
+    pos: [110, 150],
+    color: 'red',
+    d,
+  })
+  layer.append(path)
+
+  const s = new Sprite()
+
+  s.attr({
+    anchor: [0.5, 0.5],
+    pos: [110, 150],
+    size: [50, 25],
+    bgcolor: 'red',
+    offsetPath: d,
+    offsetDistance: 0.5,
+    zIndex: 200,
+  })
+  layer.appendChild(s)
+
+  const s2 = s.cloneNode()
+  s2.attr({
+    offsetDistance: 0.3,
+    offsetRotate: 60,
+    bgcolor: 'blue',
+    zIndex: 400,
+  })
+  layer.appendChild(s2)
+
+  s.attr({
+    offsetDistance: 0.7,
+  })
+
+  await layer.prepareRender()
+  const isEqual = await compare(canvas, 'offset-path')
   t.truthy(isEqual)
 })

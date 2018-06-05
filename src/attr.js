@@ -118,8 +118,20 @@ class SpriteAttr {
       attrs = JSON.parse(attrs)
     }
     Object.entries(attrs).forEach(([key, value]) => {
-      if(this[_default][key] !== value && key in this) {
-        this[key] = value
+      if(this[_default][key] !== value) {
+        if(key !== 'offsetPath'
+          && key !== 'offsetDistance'
+          && key !== 'offsetRotate'
+          && key !== 'offsetAngle'
+          && key !== 'offsetPoint') {
+          this[key] = value
+        } else if(key === 'offsetPath') {
+          const offsetPath = new SvgPath(value)
+          this.set('offsetPath', offsetPath.d)
+          this.saveObj('offsetPath', offsetPath)
+        } else {
+          this.set(key, value)
+        }
       }
     })
 
@@ -129,6 +141,10 @@ class SpriteAttr {
   serialize() {
     const attrs = this.attrs
     delete attrs.id
+    const offsetAngle = this.get('offsetAngle')
+    if(offsetAngle != null) attrs.offsetAngle = offsetAngle
+    const offsetPoint = this.get('offsetPoint')
+    if(offsetPoint != null) attrs.offsetPoint = offsetPoint
     return JSON.stringify(attrs)
   }
 
