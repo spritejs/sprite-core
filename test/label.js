@@ -8,7 +8,7 @@ test('draw text', async (t) => {
   const canvas = createCanvas(800, 600),
     layer = new Layer({context: canvas.getContext('2d')})
 
-  const text1 = new Label('SpriteJS.org 中国')
+  const text1 = new Label('SpriteJS.org')
 
   text1.attr({
     anchor: 0.5,
@@ -31,7 +31,7 @@ test('draw text 2', async (t) => {
   const canvas = createCanvas(800, 600),
     layer = new Layer({context: canvas.getContext('2d')})
 
-  const text1 = new Label('SpriteJS.org 中国')
+  const text1 = new Label('SpriteJS.org')
 
   text1.attr({
     anchor: 0.5,

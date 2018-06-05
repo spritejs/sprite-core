@@ -106,24 +106,6 @@ drawCase('red-block-150-300-right-top', [300, 300], (layer, [width, height]) => 
   return layer.prepareRender()
 })
 
-drawCase('label-48px-Arial', [800, 600], (layer, size) => {
-  const text1 = new Label('SpriteJS.org 中国')
-
-  text1.attr({
-    anchor: 0.5,
-    pos: [400, 300],
-    font: '48px Arial',
-    color: '#fff',
-    bgcolor: 'blue',
-    renderMode: 'stroke',
-    lineHeight: 75,
-    padding: [0, 50, 0, 50],
-  })
-
-  layer.append(text1)
-  return layer.prepareRender()
-})
-
 drawCase('animate-block-1', [600, 600], async (layer, [width, height]) => {
   const s = new Sprite()
   s.attr({
@@ -618,8 +600,26 @@ drawCase('batch-1', [1200, 600], async (layer) => {
   await layer.prepareRender()
 })
 
+drawCase('label-48px-Arial', [800, 600], (layer, size) => {
+  const text1 = new Label('SpriteJS.org')
+
+  text1.attr({
+    anchor: 0.5,
+    pos: [400, 300],
+    font: '48px Arial',
+    color: '#fff',
+    bgcolor: 'blue',
+    renderMode: 'stroke',
+    lineHeight: 75,
+    padding: [0, 50, 0, 50],
+  })
+
+  layer.append(text1)
+  return layer.prepareRender()
+})
+
 drawCase('label-2rem-Song', [800, 600], async (layer, size) => {
-  const text1 = new Label('SpriteJS.org 中国')
+  const text1 = new Label('SpriteJS.org')
 
   text1.attr({
     anchor: 0.5,
