@@ -4,7 +4,7 @@ import {createCanvas} from 'canvas'
 
 const test = require('ava')
 
-test('draw text', async (t) => {
+test.skip('draw text', async (t) => {
   const canvas = createCanvas(800, 600),
     layer = new Layer({context: canvas.getContext('2d')})
 
@@ -27,7 +27,7 @@ test('draw text', async (t) => {
   t.truthy(isEqual)
 })
 
-test('draw text 2', async (t) => {
+test.skip('draw text 2', async (t) => {
   const canvas = createCanvas(800, 600),
     layer = new Layer({context: canvas.getContext('2d')})
 
