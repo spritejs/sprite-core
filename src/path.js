@@ -204,9 +204,10 @@ export default class Path extends BaseSprite {
     const rect = super.originalRect,
       svg = this.svg
     if(svg) {
-      const bounds = svg.bounds
-      rect[0] += Math.min(0, bounds[0])
-      rect[1] += Math.min(0, bounds[1])
+      const bounds = svg.bounds,
+        offset = this.pathOffset
+      rect[0] += Math.min(0, bounds[0]) - offset[0]
+      rect[1] += Math.min(0, bounds[1]) - offset[1]
     }
     return rect
   }

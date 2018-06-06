@@ -7032,9 +7032,10 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
       var rect = (0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'originalRect', this),
           svg = this.svg;
       if (svg) {
-        var bounds = svg.bounds;
-        rect[0] += Math.min(0, bounds[0]);
-        rect[1] += Math.min(0, bounds[1]);
+        var bounds = svg.bounds,
+            offset = this.pathOffset;
+        rect[0] += Math.min(0, bounds[0]) - offset[0];
+        rect[1] += Math.min(0, bounds[1]) - offset[1];
       }
       return rect;
     }

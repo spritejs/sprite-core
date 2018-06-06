@@ -55,13 +55,13 @@ test('sprite size & pos', (t) => {
     pos: [5, 15],
   })
   t.deepEqual(s.clientSize, [10, 10])
-  t.deepEqual(s.renderRect, [5, 15, 10, 10])
+  t.deepEqual(s.attr('pos'), [5, 15])
   s.attr({
     size: null,
     pos: null,
   })
   t.deepEqual(s.clientSize, [12, 12])
-  t.deepEqual(s.renderRect, [0, 0, 12, 12])
+  t.deepEqual(s.attr('pos'), [0, 0])
 })
 
 test('sprite visible', (t) => {
