@@ -3298,7 +3298,7 @@ var Batch = function () {
           },
           set: function set(context) {
             if (that.baseNode === this) {
-              if (context == null && that.cache) {
+              if (that.cache && context !== that.cache) {
                 _render.cacheContextPool.put(that.cache);
               }
               that.cache = context;
@@ -3610,6 +3610,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         if (this.baseCache) {
           this[_baseCachePriority] = 0;
           _render.cacheContextPool.put(this.baseCache);
+          this.baseCache = null;
         }
         if (this[_baseCachePriority] > this.__cachePolicyThreshold) {
           var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');

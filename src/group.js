@@ -173,6 +173,7 @@ export default class Group extends BaseSprite {
       if(this.baseCache) {
         this[_baseCachePriority] = 0
         cacheContextPool.put(this.baseCache)
+        this.baseCache = null
       }
       if(this[_baseCachePriority] > this.__cachePolicyThreshold) {
         const bgcolor = findColor(drawingContext, this, 'bgcolor')

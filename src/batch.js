@@ -45,7 +45,7 @@ export default class Batch {
         },
         set(context) {
           if(that.baseNode === this) {
-            if(context == null && that.cache) {
+            if(that.cache && context !== that.cache) {
               cacheContextPool.put(that.cache)
             }
             that.cache = context
