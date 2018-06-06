@@ -1,4 +1,4 @@
-const {Sprite, Label, Path, Group} = require('../../lib')
+const {BaseSprite, Sprite, Label, Path, Group, Color} = require('../../lib')
 const drawCase = require('./drawcase')
 const {createCanvas, loadImage} = require('canvas')
 
@@ -665,6 +665,24 @@ drawCase('offset-path', [800, 600], async (layer, size) => {
     offsetDistance: 0.7,
   })
 
+  const s3 = s.cloneNode()
+  s3.attr({
+    offsetDistance: 1.0,
+    offsetRotate: '45',
+    bgcolor: 'green',
+    zIndex: 600,
+  })
+  layer.appendChild(s3)
+
+  const s4 = s.cloneNode()
+  s4.attr({
+    offsetDistance: 0,
+    offsetRotate: 'reverse',
+    bgcolor: 'cyan',
+    scale: 1.2,
+  })
+  layer.appendChild(s4)
+
   await layer.prepareRender()
 })
 
@@ -678,12 +696,198 @@ drawCase('gradients-block', [300, 300], async (layer, size) => {
       vector: [0, 0, 100, 100],
       colors: [
         {offset: 0, color: 'red'},
-        {offset: 1, color: 'green'},
+        {offset: 1, color: 'blue'},
+      ],
+    },
+    border: {
+      width: 2,
+      style: 'dashed',
+      color: 'blue',
+    },
+    size: [100, 100],
+  })
+
+  layer.append(s)
+  await layer.prepareRender()
+})
+
+drawCase('gradients-block-2', [300, 300], async (layer, size) => {
+  const s = new Sprite()
+
+  s.attr({
+    anchor: 0.5,
+    pos: [150, 150],
+    bgcolor: {
+      vector: [20, 20, 75, 75, 20, 20],
+      colors: [
+        {offset: 0, color: 'red'},
+        {offset: 1, color: 'blue'},
       ],
     },
     size: [100, 100],
   })
 
   layer.append(s)
+  await layer.prepareRender()
+})
+
+drawCase('obb-collision', [300, 300], async (layer, size) => {
+  const s = new Sprite()
+  s.attr({
+    anchor: 0.5,
+    pos: [100, 100],
+    bgcolor: 'red',
+    size: [20, 40],
+    rotate: 30,
+  })
+
+  const s2 = s.cloneNode()
+  s2.attr({
+    rotate: 60,
+    pos: [120, 90],
+    bgcolor: 'blue',
+  })
+
+  const s3 = s.cloneNode()
+  s3.attr({
+    rotate: 90,
+    pos: [200, 20],
+    bgcolor: 'green',
+  })
+  layer.append(s, s2, s3)
+
+  await layer.prepareRender()
+})
+
+drawCase('transition', [300, 300], async (layer, size) => {
+  const s = new Sprite()
+  s.attr({
+    anchor: 0.5,
+    pos: [30, 100],
+    bgcolor: 'red',
+    size: [20, 40],
+    rotate: 30,
+  })
+
+  const s2 = s.cloneNode()
+  const s3 = s.cloneNode()
+  layer.append(s, s2, s3)
+
+  await s2.transition(0.2).attr({
+    x: x => x + 100,
+  })
+
+  await s3.transition(0.2).attr({
+    x: x => x + 200,
+  })
+
+  await layer.prepareRender()
+})
+
+drawCase('rotate-origin', [300, 300], async (layer, size) => {
+  const s = new Sprite()
+  s.attr({
+    anchor: 0.5,
+    pos: [150, 150],
+    bgcolor: 'red',
+    size: [20, 40],
+  })
+
+  const s2 = s.cloneNode()
+  s2.attr({
+    transformOrigin: [0, -150],
+    pos: [150, 150],
+    bgcolor: 'blue',
+  })
+
+  s.attr({
+    rotate: 45,
+  })
+
+  s2.attr({
+    rotate: 45,
+  })
+
+  layer.append(s, s2)
+
+  await layer.prepareRender()
+})
+
+drawCase('user-circle', [600, 600], async (layer, size) => {
+  class Circle extends BaseSprite {
+    get contentSize() {
+      let [width, height] = this.attr('size')
+      const r = this.attr('r')
+      const lineWidth = this.attr('lineWidth')
+
+      if(width === '') {
+        width = r * 2 + lineWidth
+      }
+      if(height === '') {
+        height = r * 2 + lineWidth
+      }
+      return [width, height]
+    }
+    render(t, context) {
+      super.render(t, context)
+
+      const bounds = this.boundingRect
+      const {strokeColor, fillColor, r, lineWidth} = this.attr()
+      context.lineWidth = lineWidth
+
+      context.beginPath()
+      context.arc(bounds[2] / 2, bounds[3] / 2, r, 0, 2 * Math.PI)
+      if(fillColor) {
+        context.fillStyle = fillColor
+        context.fill()
+      }
+      if(strokeColor && lineWidth) {
+        context.strokeStyle = strokeColor
+        context.stroke()
+      }
+    }
+  }
+
+  Circle.defineAttributes({
+    init(attr) {
+      attr.setDefault({
+        r: 0,
+        fillColor: '',
+        strokeColor: '',
+        lineWidth: 0,
+      })
+    },
+    r(attr, val) {
+      attr.clearCache()
+      attr.set('r', val)
+    },
+    fillColor(attr, color) {
+      attr.clearCache()
+      color = new Color(color).str
+      attr.set('fillColor', color)
+    },
+    strokeColor(attr, color) {
+      attr.clearCache()
+      color = new Color(color).str
+      attr.set('strokeColor', color)
+    },
+    lineWidth(attr, val) {
+      attr.clearCache()
+      attr.set('lineWidth', val)
+    },
+  })
+
+  const s = new Circle({
+    anchor: 0.5,
+    bgcolor: 'hsl(180,50%,50%)',
+    pos: [300, 300],
+    r: 150,
+    lineWidth: 6,
+    strokeColor: 'red',
+    fillColor: 'blue',
+  })
+
+  layer.append(s)
+
   await layer.prepareRender()
 })

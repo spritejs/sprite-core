@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+    
+    const s = new Sprite()
+
+    s.attr({
+      anchor: 0.5,
+      pos: [150, 150],
+      bgcolor: {
+        vector: [0, 0, 100, 100],
+        colors: [
+          {offset: 0, color: 'red'},
+          {offset: 1, color: 'green'},
+        ],
+      },
+      border: {
+        width: 16,
+        style: 'solid',
+        color: 'green',
+      },
+      size: [100, 100],
+    })
+    s.attr('bgcolor', 'blue')
+    layer.append(s)
+
+    console.log(s.cache)
+  </script>
+</body>
+</html>

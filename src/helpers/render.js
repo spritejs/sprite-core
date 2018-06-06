@@ -8,6 +8,7 @@ export function drawRadiusBox(context, {x, y, w, h, r}) {
   context.closePath()
 }
 
+/* istanbul ignore next  */
 function gradientBox(angle, rect) {
   const [x, y, w, h] = rect
 
@@ -72,6 +73,7 @@ export function findColor(context, sprite, prop) {
     gradient
 
   if(gradients[prop]) {
+    /* istanbul ignore next */
     gradient = gradients[prop]
   } else if(typeof color !== 'string') {
     gradient = color
@@ -80,6 +82,7 @@ export function findColor(context, sprite, prop) {
   if(gradient) {
     let {colors, vector, direction, rect} = gradient
 
+    /* istanbul ignore if  */
     if(direction != null) {
       if(prop === 'border') {
         rect = rect || [0, 0, ...sprite.outerSize]
@@ -94,10 +97,10 @@ export function findColor(context, sprite, prop) {
       color = context.createLinearGradient(...vector)
     } else if(vector.length === 6) {
       color = context.createRadialGradient(...vector)
-    } else if(vector.length === 3) {
+    } /* istanbul ignore next  */ else if(vector.length === 3) {
       // for wxapp
       color = context.createCircularGradient(...vector)
-    } else {
+    } /* istanbul ignore next  */ else {
       throw Error('Invalid gradient vector!')
     }
 
@@ -109,7 +112,9 @@ export function findColor(context, sprite, prop) {
   return color
 }
 
-const contextPool = []
+const contextPool = [],
+  maxPollSize = 20
+
 export const cacheContextPool = {
   get(context) {
     if(contextPool.length > 0) {
@@ -124,11 +129,15 @@ export const cacheContextPool = {
     return copied.getContext('2d')
   },
   put(...contexts) {
-    contexts.forEach((context) => {
+    contexts.every((context) => {
       context.canvas.width = 0
       context.canvas.height = 0
+      contextPool.push(context)
+      return contextPool.length < maxPollSize
     })
-    contextPool.push(...contexts)
+  },
+  get size() {
+    return contextPool.length
   },
 }
 

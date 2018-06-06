@@ -271,6 +271,24 @@ test('offset distance', async (t) => {
     offsetDistance: 0.7,
   })
 
+  const s3 = s.cloneNode()
+  s3.attr({
+    offsetDistance: 1.0,
+    offsetRotate: '45',
+    bgcolor: 'green',
+    zIndex: 600,
+  })
+  layer.appendChild(s3)
+
+  const s4 = s.cloneNode()
+  s4.attr({
+    offsetDistance: 0,
+    offsetRotate: 'reverse',
+    bgcolor: 'cyan',
+    scale: 1.2,
+  })
+  layer.appendChild(s4)
+
   await layer.prepareRender()
   const isEqual = await compare(canvas, 'offset-path')
   t.truthy(isEqual)

@@ -19,10 +19,9 @@ test('draw path', async (t) => {
       size: [20, 20],
       bgcolor: 'red',
     })
-    layer.append(block)
+    // layer.append(block)
     blocks.push(block)
   }
-  await layer.prepareRender()
 
   const batched = layer.batch(...blocks)
   batched.baseNode.attr('bgcolor', 'blue')
@@ -33,4 +32,10 @@ test('draw path', async (t) => {
 
   const isEqual = await compare(canvas, 'batch-1')
   t.truthy(isEqual)
+
+  batched.remove(blocks[0])
+  t.is(batched.baseNode, blocks[1])
+
+  batched.add(blocks[0])
+  t.is(batched.baseNode, blocks[0])
 })

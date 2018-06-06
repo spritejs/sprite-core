@@ -2,6 +2,7 @@ import querySelectorLimits from './helpers/selector'
 
 const nodeTypes = new Map()
 
+/* istanbul ignore next  */
 const ownerDocumentDescriptor = {
   get() {
     const that = this

@@ -52,6 +52,7 @@ class SpriteAttr {
         return [this.width, this.height]
       },
       linearGradients() {
+        /* istanbul ignore next  */
         return this.gradients
       },
     })
@@ -204,14 +205,14 @@ class SpriteAttr {
     this.set('opacity', val)
   }
 
-  @parseValue(parseFloat)
+  @parseValue((val) => { return val ? parseFloat(val) : val })
   @attr
   set width(val) {
     this.clearCache()
     this.set('width', val)
   }
 
-  @parseValue(parseFloat)
+  @parseValue((val) => { return val ? parseFloat(val) : val })
   @attr
   set height(val) {
     this.clearCache()
@@ -332,7 +333,7 @@ class SpriteAttr {
       if(Math.abs(v) > 0.001) {
         return v
       }
-      return v > 0 ? 0.001 : -0.001
+      return 1 / v > 0 ? 0.001 : -0.001
     })
     const oldVal = this.get('scale') || [1, 1]
     const delta = [val[0] / oldVal[0], val[1] / oldVal[1]]
@@ -392,7 +393,7 @@ class SpriteAttr {
    */
   @deprecate('Instead use attr.gradients.')
   @attr
-  set linearGradients(val) {
+  set linearGradients(val) /* istanbul ignore next  */ {
     this.gradients = val
   }
 
@@ -430,12 +431,15 @@ class SpriteAttr {
     }
 
     if(offsetPath != null) {
-      const len = dis * offsetPath.getTotalLength(),
-        [x, y] = offsetPath.getPointAtLength(len)
+      let len = dis * offsetPath.getTotalLength()
+      const [x, y] = offsetPath.getPointAtLength(len)
 
       let angle = this.offsetRotate
 
       if(angle === 'auto' || angle === 'reverse') {
+        if(angle === 'reverse' && len === 0) {
+          len = 1
+        }
         const [x1, y1] = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1)
 
         if(x1 === x && y1 === y) { // last point

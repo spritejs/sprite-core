@@ -30,9 +30,11 @@ export default class Batch {
   add(...nodes) {
     nodes.forEach((node) => {
       if(!node.layer || node.layer !== this.layer) {
+        /* istanbul ignore next  */
         throw new Error('Batch node must append to this layer first!')
       }
       if(node[_batch]) {
+        /* istanbul ignore next  */
         throw new Error('Node already batched!')
       }
       const that = this

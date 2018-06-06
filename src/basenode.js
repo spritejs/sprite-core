@@ -41,7 +41,7 @@ export default class BaseNode {
   dispatchEvent(type, evt, collisionState = false) {
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
-        this.terminated = true
+        evt.terminated = true
       }
     }
     if(evt.type !== type) {

@@ -2,7 +2,7 @@ const _zOrder = Symbol('zOrder')
 
 export default {
   appendChild(sprite, update = true) {
-    this.removeChild(sprite)
+    sprite.remove()
 
     const children = this.children
     children.push(sprite)
@@ -39,12 +39,6 @@ export default {
     }
     sprite.disconnect(this)
     return sprite
-  },
-  remove(...args) {
-    if(args.length === 0) {
-      args = this.children.slice(0)
-    }
-    return args.map(child => this.removeChild(child))
   },
   insertBefore(newchild, refchild) {
     const idx = this.children.indexOf(refchild)

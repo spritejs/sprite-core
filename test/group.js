@@ -48,21 +48,6 @@ test('draw group 2', async (t) => {
 
   const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
 
-  const g = new Group()
-  g.attr({
-    pos: [150, 150],
-    anchor: 0.5,
-    bgcolor: 'grey',
-    rotate: 45,
-    clip: {
-      d: clipPath,
-      transform: {
-        scale: 3,
-      },
-    },
-  })
-  layer.append(g)
-
   const s1 = new Sprite()
   s1.attr({
     size: [50, 50],
@@ -86,7 +71,19 @@ test('draw group 2', async (t) => {
     y: y => y + 50,
   })
 
-  g.append(s1, s2, s3, s4)
+  const g = layer.group(s1, s2, s3, s4)
+  g.attr({
+    pos: [150, 150],
+    anchor: 0.5,
+    bgcolor: 'grey',
+    rotate: 45,
+    clip: {
+      d: clipPath,
+      transform: {
+        scale: 3,
+      },
+    },
+  })
 
   await layer.prepareRender()
 
@@ -151,7 +148,6 @@ test('draw group 3 not cached', async (t) => {
   t.truthy(isEqual)
 })
 
-
 test('draw group 3 cached', async (t) => {
   const canvas = createCanvas(300, 300),
     layer = new Layer({context: canvas.getContext('2d')})
@@ -204,7 +200,78 @@ test('draw group 3 cached', async (t) => {
     })
     await layer.prepareRender() // eslint-disable-line no-await-in-loop
   }
+  t.truthy(g.cache != null)
   t.truthy(g.baseCache != null)
+
+  s3.attr({
+    y: y => y + 20,
+  })
+  await layer.prepareRender()
+
+  g.clearCache()
+  t.truthy(g.baseCache == null)
+
+  const isEqual = await compare(canvas, 'group-3')
+  t.truthy(isEqual)
+})
+
+test('draw group 3-2 cached', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  canvas.cloneNode = function f() {
+    const c = createCanvas(1, 1)
+    c.cloneNode = f
+    return c
+  }
+
+  const g = new Group()
+  g.attr({
+    pos: [150, 150],
+    anchor: 0.5,
+    bgcolor: 'grey',
+    rotate: 45,
+  })
+  layer.append(g)
+
+  const s1 = new Sprite()
+  s1.attr({
+    size: [50, 50],
+    borderRadius: 25,
+    bgcolor: 'red',
+  })
+  const s2 = s1.cloneNode()
+  s2.attr({
+    bgcolor: 'blue',
+    x: x => x + 60,
+  })
+  const s3 = s1.cloneNode()
+  s3.attr({
+    bgcolor: 'green',
+    y: y => y + 60,
+  })
+
+  const s4 = s1.cloneNode()
+  s4.attr({
+    x: -1000,
+    y: -1000,
+  })
+
+  g.append(s1, s2, s3, s4)
+
+  await layer.prepareRender()
+
+  for(let i = 0; i < 10; i++) {
+    g.attr({
+      x: x => x + 1,
+    })
+    await layer.prepareRender() // eslint-disable-line no-await-in-loop
+  }
+  t.truthy(g.cache != null)
+  t.truthy(g.baseCache != null)
+
+  s3.clearCache()
+  t.truthy(g.cache == null)
 
   s3.attr({
     y: y => y + 20,

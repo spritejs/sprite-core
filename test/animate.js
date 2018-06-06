@@ -4,6 +4,35 @@ import {createCanvas} from 'canvas'
 
 const test = require('ava')
 
+test('transition', async (t) => {
+  const context = createCanvas(300, 300).getContext('2d')
+  const layer = new Layer({context})
+
+  const s = new Sprite()
+  s.attr({
+    anchor: 0.5,
+    pos: [30, 100],
+    bgcolor: 'red',
+    size: [20, 40],
+    rotate: 30,
+  })
+
+  const s2 = s.cloneNode()
+  const s3 = s.cloneNode()
+  layer.append(s, s2, s3)
+
+  await s2.transition(0.2).attr({
+    x: x => x + 100,
+  })
+
+  await s3.transition(0.2).attr('x', x => x + 200)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(context.canvas, 'transition')
+  t.truthy(isEqual)
+})
+
 test('animate-block-1', async (t) => {
   const context = createCanvas(600, 600).getContext('2d')
   const layer = new Layer({context})
@@ -282,16 +311,14 @@ test.cb('animate-playState', (t) => {
 
   setTimeout(() => {
     t.is(anim.playState, 'running')
-    t.end()
-  }, 500)
+  }, 550)
 
   setTimeout(() => {
     t.is(anim.playState, 'pending')
-    t.end()
-  }, 1500)
+  }, 1550)
 
   setTimeout(() => {
     t.is(anim.playState, 'finished')
     t.end()
-  }, 2500)
+  }, 2050)
 })

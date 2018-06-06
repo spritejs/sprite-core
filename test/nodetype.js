@@ -1,8 +1,35 @@
-import {Layer, Sprite} from '../src'
+import {Layer, Sprite, createNode} from '../src'
 import {compare} from './helpers'
 import {createCanvas} from 'canvas'
 
 const test = require('ava')
+
+test('createNode', (t) => {
+  const s = createNode('sprite'),
+    l = createNode('label'),
+    g = createNode('group'),
+    p = createNode('path'),
+    x = createNode('foo')
+
+  t.is(s.nodeType, 'sprite')
+  t.is(g.nodeType, 'group')
+  t.is(p.nodeType, 'path')
+  t.is(l.nodeType, 'label')
+  t.is(x, null)
+})
+
+test('querySelector', (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  for(let i = 0; i < 10; i++) {
+    const s = new Sprite()
+    layer.appendChild(s)
+  }
+
+  const all = layer.querySelectorAll('*')
+  t.is(all.length, 10)
+})
 
 test('getElementById', async (t) => {
   const canvas = createCanvas(300, 300),
@@ -38,9 +65,9 @@ test('getElementsByName', async (t) => {
     size: [50, 50],
     pos: [300, 300],
     bgcolor: 'transparent',
-    name: 'block',
-    id: 'abc',
   })
+  s.id = 'abc'
+  s.name = 'block'
   layer.append(s)
 
   const anim = s.animate([
@@ -72,12 +99,27 @@ test('getElementsByName', async (t) => {
   const copied = layer.querySelector(':block')
   t.is(copied, layer.children[0])
 
+  t.is(layer.querySelectorAll(':block').length, 9)
+  t.is(layer.querySelectorAll('sprite').length, 9)
+
   const original = layer.querySelectorAll('#abc')
   t.is(original.length, 1)
 
+  t.is(layer.querySelector('*'), s)
+  t.is(layer.querySelector('#abc'), s)
+  t.is(layer.querySelector('#abcd'), null)
+  t.is(layer.querySelector('sprite'), s)
+
   const copied2 = layer.querySelectorAll({
     sprite: s => s.id !== 'abc',
+    label: l => l.id !== 'abc',
   })
   t.is(copied2.length, 8)
+
+  const copied3 = layer.querySelector({
+    sprite: s => s.id !== 'abc',
+    label: l => l.id !== 'abc',
+  })
+  t.is(copied3, layer.children[1])
 })
 

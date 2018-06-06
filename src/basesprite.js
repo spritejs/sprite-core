@@ -6,6 +6,7 @@ import {rectVertices} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
+import {Timeline} from 'sprite-animator'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
@@ -120,12 +121,15 @@ export default class BaseSprite extends BaseNode {
   }
 
   getAttribute(prop) {
+    /* istanbul ignore next */
     return this.attr(prop)
   }
   setAttribute(prop, val) {
+    /* istanbul ignore next */
     return this.attr(prop, val)
   }
   removeAttribute(prop) {
+    /* istanbul ignore next */
     return this.attr(prop, null)
   }
 
@@ -224,6 +228,11 @@ export default class BaseSprite extends BaseNode {
     if(parent && !(parent instanceof BaseNode)) {
       const node = new BaseNode()
       node.context = parent
+      node.timeline = new Timeline()
+      node.update = function () {
+        const currentTime = this.timeline.currentTime
+        node.dispatchEvent('update', {target: this, timeline: this.timeline, renderTime: currentTime}, true)
+      }
       parent = node
     }
     const ret = super.connect(parent, zOrder)
@@ -246,7 +255,7 @@ export default class BaseSprite extends BaseNode {
   disconnect(parent) {
     this[_animations].forEach(animation => animation.cancel())
     if(this.cache) {
-      cacheContextPool.put(this.cache)
+      this.cache = null
     }
     const ret = super.disconnect(parent)
     delete this.context
@@ -415,6 +424,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   pointCollision(evt) {
+    /* istanbul ignore if */
     if(!this.isVisible()) {
       return false
     }
@@ -568,6 +578,7 @@ export default class BaseSprite extends BaseNode {
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize
 
+    /* istanbul ignore if */
     if(offsetWidth === 0 || offsetHeight === 0) {
       return // don't need to render
     }

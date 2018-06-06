@@ -7,6 +7,7 @@ import {registerNodeType} from './nodetype'
 
 import {clearContext} from './helpers/render'
 import {clearDirtyRects} from './helpers/dirty-check'
+import {setDeprecation} from 'sprite-utils'
 
 const _children = Symbol('children'),
   _updateSet = Symbol('updateSet'),
@@ -43,10 +44,11 @@ export default class Layer extends BaseNode {
     }
 
     // auto release
+    /* istanbul ignore if  */
     if(context.canvas && context.canvas.addEventListener) {
       context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
         this.timeline.clear()
-        this.remove()
+        this.clear()
       })
     }
 
@@ -77,7 +79,17 @@ export default class Layer extends BaseNode {
   get canvas() {
     return this.outputContext.canvas
   }
-
+  clear() {
+    const children = this.children.slice(0)
+    return children.map(child => this.removeChild(child))
+  }
+  remove(...args) {
+    if(args.length === 0) {
+      setDeprecation('layer.remove()', 'Instead use layer.clear().')
+      return this.clear()
+    }
+    return args.map(child => this.removeChild(child))
+  }
   prepareRender() {
     if(!this[_renderDeferer]) {
       this[_renderDeferer] = {}
@@ -90,6 +102,7 @@ export default class Layer extends BaseNode {
     return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve()
   }
   draw(t) {
+    /* istanbul ignore if  */
     if(t && this.evaluateFPS) {
       this[_tRecord].push(t)
       this[_tRecord] = this[_tRecord].slice(-10)
@@ -103,6 +116,7 @@ export default class Layer extends BaseNode {
       } else if(this.renderMode === 'repaintAll') {
         renderer = this.renderRepaintAll.bind(this)
       } else {
+        /* istanbul ignore next  */
         throw new Error('unknown render mode!')
       }
       const currentTime = this.timeline.currentTime
@@ -132,7 +146,7 @@ export default class Layer extends BaseNode {
     }
     return true
   }
-  get fps() {
+  get fps() /* istanbul ignore next  */ {
     if(!this.evaluateFPS) {
       return NaN
     }
@@ -226,6 +240,7 @@ export default class Layer extends BaseNode {
       }
       return false
     }
+    /* istanbul ignore next  */
     return true
   }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
@@ -258,7 +273,7 @@ export default class Layer extends BaseNode {
     evt.terminated = false
     return super.dispatchEvent(type, evt, collisionState)
   }
-  connect(parent, zOrder, zIndex) {
+  connect(parent, zOrder, zIndex) /* istanbul ignore next  */ {
     super.connect(parent, zOrder)
     this.zIndex = zIndex
     if(parent && parent.container) {
@@ -266,7 +281,7 @@ export default class Layer extends BaseNode {
     }
     return this
   }
-  disconnect(parent) {
+  disconnect(parent) /* istanbul ignore next  */ {
     if(this.canvas && this.canvas.remove) {
       this.canvas.remove()
     }
@@ -288,7 +303,7 @@ export default class Layer extends BaseNode {
     batch.add(...sprites)
     return batch
   }
-  adjust(handler, update = true) {
+  adjust(handler, update = true) /* istanbul ignore next  */ {
     const outputContext = this.outputContext,
       shadowContext = this.shadowContext
     if(!shadowContext) {
@@ -303,11 +318,13 @@ export default class Layer extends BaseNode {
     }
   }
   clearUpdate() {
+    /* istanbul ignore next  */
     this[_updateSet].clear()
   }
 }
 
 import groupApi from './helpers/group'
+
 Object.assign(Layer.prototype, groupApi)
 
 registerNodeType('layer', Layer, true)

@@ -1,4 +1,5 @@
 import {Sprite, Layer} from '../src'
+import {cacheContextPool} from '../src/helpers/render'
 import {compare} from './helpers'
 import {createCanvas, loadImage} from 'canvas'
 
@@ -287,7 +288,20 @@ test('draw sprite cached', async (t) => {
   })
   layer.append(s)
 
+  s.on('mouseenter', (evt) => {
+    console.log('mouseenter') // eslint-disable-line no-console
+    t.truthy(evt.type === 'mouseenter')
+  })
+  s.on('mouseleave', (evt) => {
+    console.log('mouseleave') // eslint-disable-line no-console
+    t.truthy(evt.type === 'mouseleave')
+  })
+
   await layer.prepareRender()
+
+  layer.dispatchEvent('mousemove', {layerX: 150, layerY: 150})
+  layer.dispatchEvent('mousemove', {layerX: 10, layerY: 10})
+  layer.dispatchEvent('mousemove', {layerX: -10, layerY: -10})
 
   for(let i = 0; i < 10; i++) {
     s.attr({
@@ -297,6 +311,9 @@ test('draw sprite cached', async (t) => {
   }
 
   t.truthy(s.cache != null)
+  s.remove()
+  t.truthy(s.cache == null)
+  t.is(cacheContextPool.size, 1)
 })
 
 test('sprite event', async (t) => {
@@ -353,7 +370,8 @@ test('sprite event', async (t) => {
 
 test('draw gradients block', async (t) => {
   const canvas = createCanvas(300, 300),
-    layer = new Layer({context: canvas.getContext('2d')})
+    context = canvas.getContext('2d'),
+    layer = new Layer({context})
 
   const s = new Sprite()
 
@@ -364,7 +382,58 @@ test('draw gradients block', async (t) => {
       vector: [0, 0, 100, 100],
       colors: [
         {offset: 0, color: 'red'},
-        {offset: 1, color: 'green'},
+        {offset: 1, color: 'blue'},
+      ],
+    },
+    border: {
+      width: 2,
+      style: 'dashed',
+      color: 'blue',
+    },
+    size: [100, 100],
+  })
+
+  s.appendTo(layer)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'gradients-block')
+  t.truthy(isEqual)
+
+  t.truthy(s.remove())
+  t.truthy(s.parent == null)
+  t.falsy(s.remove())
+
+  // t.throws(() => {
+  //   s.attr({
+  //     bgcolor: {
+  //       vector: [0, 1],
+  //       colors: [
+  //         {offset: 0, color: 'red'},
+  //         {offset: 1, color: 'green'},
+  //       ],
+  //     },
+  //   })
+  //   layer.draw()
+  //   s.attr({bgcolor: 'red'})
+  // })
+})
+
+test('draw gradients block 2', async (t) => {
+  const canvas = createCanvas(300, 300),
+    context = canvas.getContext('2d'),
+    layer = new Layer({context})
+
+  const s = new Sprite()
+
+  s.attr({
+    anchor: 0.5,
+    pos: [150, 150],
+    bgcolor: {
+      vector: [20, 20, 75, 75, 20, 20],
+      colors: [
+        {offset: 0, color: 'red'},
+        {offset: 1, color: 'blue'},
       ],
     },
     size: [100, 100],
@@ -374,19 +443,48 @@ test('draw gradients block', async (t) => {
 
   await layer.prepareRender()
 
-  const isEqual = await compare(canvas, 'gradients-block')
+  const isEqual = await compare(canvas, 'gradients-block-2')
   t.truthy(isEqual)
 
-  t.throws(() => {
-    s.attr({
-      bgcolor: {
-        vector: [0, 1],
-        colors: [
-          {offset: 0, color: 'red'},
-          {offset: 1, color: 'green'},
-        ],
-      },
-    })
-    layer.draw()
+  t.truthy(s.remove())
+  t.truthy(s.parent == null)
+  t.falsy(s.remove())
+})
+
+test('offset distance', async (t) => {
+  const canvas = createCanvas(300, 300),
+    context = canvas.getContext('2d'),
+    layer = new Layer({context})
+
+  const s = new Sprite()
+  s.attr({
+    anchor: 0.5,
+    pos: [100, 100],
+    bgcolor: 'red',
+    size: [20, 40],
+    rotate: 30,
   })
+
+  const s2 = s.cloneNode()
+  s2.attr({
+    rotate: 60,
+    pos: [120, 90],
+    bgcolor: 'blue',
+  })
+
+  const s3 = s.cloneNode()
+  s3.attr({
+    rotate: 90,
+    pos: [200, 20],
+    bgcolor: 'green',
+  })
+  layer.append(s, s2, s3)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'obb-collision')
+  t.truthy(isEqual)
+
+  t.truthy(s.OBBCollision(s2))
+  t.truthy(!s.OBBCollision(s3))
 })
