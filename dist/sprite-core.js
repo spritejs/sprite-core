@@ -3634,6 +3634,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
               this.__cachePolicyThreshold = Infinity;
               (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
             }
+          } else {
+            (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
           }
         } else {
           (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);

@@ -194,6 +194,8 @@ export default class Group extends BaseSprite {
             this.__cachePolicyThreshold = Infinity
             super.render(t, drawingContext)
           }
+        } else {
+          super.render(t, drawingContext)
         }
       } else {
         super.render(t, drawingContext)
