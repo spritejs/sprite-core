@@ -3599,47 +3599,49 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           bw = Math.ceil(bound[2]) + 2,
           bh = Math.ceil(bound[3]) + 2;
 
-      if (this.baseCache && bw === this.baseCache.canvas.width && bh === this.baseCache.canvas.height) {
+      if (this.lastBoxSize && (this.lastBoxSize[0] !== bw || this.lastBoxSize[1] !== bh)) {
+        this[_baseCachePriority] = 0;
+        if (this.baseCache) {
+          _render.cacheContextPool.put(this.baseCache);
+          this.baseCache = null;
+        }
+      }
+      this.lastBoxSize = [bw, bh];
+
+      if (this.baseCache) {
         var _attr = this.attr('border'),
             borderWidth = _attr.width,
             padding = this.attr('padding');
 
         drawingContext.drawImage(this.baseCache.canvas, -1, -1);
         drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0]);
-      } else {
-        if (this.baseCache) {
-          this[_baseCachePriority] = 0;
-          _render.cacheContextPool.put(this.baseCache);
-          this.baseCache = null;
-        }
-        if (this[_baseCachePriority] > this.__cachePolicyThreshold) {
-          var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');
-          if (bgcolor) {
-            this.baseCache = _render.cacheContextPool.get(drawingContext);
-            if (this.baseCache) {
-              this.baseCache.canvas.width = bw;
-              this.baseCache.canvas.height = bh;
-              this.baseCache.save();
-              this.baseCache.translate(1, 1);
-              (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, this.baseCache);
-              this.baseCache.restore();
-              drawingContext.drawImage(this.baseCache.canvas, -1, -1);
+      } else if (this[_baseCachePriority] > this.__cachePolicyThreshold) {
+        var bgcolor = (0, _render.findColor)(drawingContext, this, 'bgcolor');
+        if (bgcolor) {
+          this.baseCache = _render.cacheContextPool.get(drawingContext);
+          if (this.baseCache) {
+            this.baseCache.canvas.width = bw;
+            this.baseCache.canvas.height = bh;
+            this.baseCache.save();
+            this.baseCache.translate(1, 1);
+            (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, this.baseCache);
+            this.baseCache.restore();
+            drawingContext.drawImage(this.baseCache.canvas, -1, -1);
 
-              var _attr2 = this.attr('border'),
-                  _borderWidth = _attr2.width,
-                  _padding = this.attr('padding');
+            var _attr2 = this.attr('border'),
+                _borderWidth = _attr2.width,
+                _padding = this.attr('padding');
 
-              drawingContext.translate(_borderWidth + _padding[3], _borderWidth + _padding[0]);
-            } else {
-              this.__cachePolicyThreshold = Infinity;
-              (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
-            }
+            drawingContext.translate(_borderWidth + _padding[3], _borderWidth + _padding[0]);
           } else {
+            this.__cachePolicyThreshold = Infinity;
             (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
           }
         } else {
           (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
         }
+      } else {
+        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
       }
 
       var sprites = this[_children];

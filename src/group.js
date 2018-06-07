@@ -162,44 +162,44 @@ export default class Group extends BaseSprite {
       bw = Math.ceil(bound[2]) + 2,
       bh = Math.ceil(bound[3]) + 2
 
-    if(this.baseCache
-      && bw === this.baseCache.canvas.width
-      && bh === this.baseCache.canvas.height) {
+    if(this.lastBoxSize && (this.lastBoxSize[0] !== bw || this.lastBoxSize[1] !== bh)) {
+      this[_baseCachePriority] = 0
+      if(this.baseCache) {
+        cacheContextPool.put(this.baseCache)
+        this.baseCache = null
+      }
+    }
+    this.lastBoxSize = [bw, bh]
+
+    if(this.baseCache) {
       const {width: borderWidth} = this.attr('border'),
         padding = this.attr('padding')
       drawingContext.drawImage(this.baseCache.canvas, -1, -1)
       drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
-    } else {
-      if(this.baseCache) {
-        this[_baseCachePriority] = 0
-        cacheContextPool.put(this.baseCache)
-        this.baseCache = null
-      }
-      if(this[_baseCachePriority] > this.__cachePolicyThreshold) {
-        const bgcolor = findColor(drawingContext, this, 'bgcolor')
-        if(bgcolor) {
-          this.baseCache = cacheContextPool.get(drawingContext)
-          if(this.baseCache) {
-            this.baseCache.canvas.width = bw
-            this.baseCache.canvas.height = bh
-            this.baseCache.save()
-            this.baseCache.translate(1, 1)
-            super.render(t, this.baseCache)
-            this.baseCache.restore()
-            drawingContext.drawImage(this.baseCache.canvas, -1, -1)
-            const {width: borderWidth} = this.attr('border'),
-              padding = this.attr('padding')
-            drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
-          } else {
-            this.__cachePolicyThreshold = Infinity
-            super.render(t, drawingContext)
-          }
+    } else if(this[_baseCachePriority] > this.__cachePolicyThreshold) {
+      const bgcolor = findColor(drawingContext, this, 'bgcolor')
+      if(bgcolor) {
+        this.baseCache = cacheContextPool.get(drawingContext)
+        if(this.baseCache) {
+          this.baseCache.canvas.width = bw
+          this.baseCache.canvas.height = bh
+          this.baseCache.save()
+          this.baseCache.translate(1, 1)
+          super.render(t, this.baseCache)
+          this.baseCache.restore()
+          drawingContext.drawImage(this.baseCache.canvas, -1, -1)
+          const {width: borderWidth} = this.attr('border'),
+            padding = this.attr('padding')
+          drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
         } else {
+          this.__cachePolicyThreshold = Infinity
           super.render(t, drawingContext)
         }
       } else {
         super.render(t, drawingContext)
       }
+    } else {
+      super.render(t, drawingContext)
     }
 
     const sprites = this[_children]
