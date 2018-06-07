@@ -174,8 +174,8 @@ export default class Path extends BaseSprite {
   }
 
   get pathOffset() {
-    const lineWidth = this.lineWidth
-    return [lineWidth * 1.414, lineWidth * 1.414]
+    const lw = Math.round(this.lineWidth)
+    return [lw, lw]
   }
 
   get pathSize() {
@@ -188,28 +188,33 @@ export default class Path extends BaseSprite {
     const bounds = this.svg.bounds
     let [width, height] = this.attr('size')
 
-    const lineWidth = this.lineWidth
+    const pathOffset = this.pathOffset
 
     if(width === '') {
-      width = bounds[2] - Math.min(0, bounds[0]) + 2 * 1.414 * lineWidth | 0
+      width = bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0]
     }
     if(height === '') {
-      height = bounds[3] - Math.min(0, bounds[1]) + 2 * 1.414 * lineWidth | 0
+      height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1]
     }
 
     return [width, height]
   }
 
   get originalRect() {
-    const rect = super.originalRect,
-      svg = this.svg
+    const svg = this.svg
     if(svg) {
       const bounds = svg.bounds,
         offset = this.pathOffset
-      rect[0] += Math.min(0, bounds[0]) - offset[0]
-      rect[1] += Math.min(0, bounds[1]) - offset[1]
+      const [width, height] = this.offsetSize,
+        [anchorX, anchorY] = this.attr('anchor')
+
+      const rect = [0, 0, width, height]
+      rect[0] = Math.min(0, bounds[0]) - offset[0] - anchorX * (width - 2 * offset[0])
+      rect[1] = Math.min(0, bounds[1]) - offset[1] - anchorY * (height - 2 * offset[1])
+      return rect
     }
-    return rect
+
+    return super.originalRect
   }
 
   pointCollision(evt) {

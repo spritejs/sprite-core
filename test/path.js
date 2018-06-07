@@ -293,3 +293,36 @@ test('offset distance', async (t) => {
   const isEqual = await compare(canvas, 'offset-path')
   t.truthy(isEqual)
 })
+
+test('path anchor', async (t) => {
+  const canvas = createCanvas(600, 600),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const paths = [
+    'M0,0L0,100L100,100L100,0z',
+  ]
+  const path = new Path()
+  path.attr({
+    path: {d: paths[0]},
+    anchor: 0.5,
+    // size: [1000, 1000],
+    pos: [300, 300],
+    strokeColor: 'blue',
+    bgcolor: '#aaa',
+    lineWidth: 10,
+  })
+
+  const block = new Sprite()
+  block.attr({
+    anchor: 0.5,
+    pos: [300, 300],
+    size: [20, 20],
+    bgcolor: 'red',
+  })
+
+  layer.append(path, block)
+
+  await layer.prepareRender()
+  const isEqual = await compare(canvas, 'path-anchor')
+  t.truthy(isEqual)
+})

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Path</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Path = spritejs.Path
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const paths = [
+      'M0,0L0,100L100,100L100,0z',
+    ]
+    const path = new Path()
+    path.attr({
+      path: {d: paths[0]},
+      anchor: 0.5,
+      // size: [1000, 1000],
+      pos: [300, 300],
+      strokeColor: 'blue',
+      bgcolor: '#aaa',
+      lineWidth: 10,
+    })
+
+    const block = new Sprite()
+    block.attr({
+      anchor: 0.5,
+      pos: [300, 300],
+      size: [20, 20],
+      bgcolor: 'red',
+    })
+
+    path.transition(2).attr({
+      scale: [2.0, 2.0],
+    })
+
+    layer.append(path, block)
+  </script>
+</body>
+</html>
