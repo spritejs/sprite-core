@@ -79,10 +79,6 @@ export default class Layer extends BaseNode {
   get canvas() {
     return this.outputContext.canvas
   }
-  clear() {
-    const children = this.children.slice(0)
-    return children.map(child => this.removeChild(child))
-  }
   remove(...args) {
     if(args.length === 0) {
       setDeprecation('layer.remove()', 'Instead use layer.clear().')

@@ -40,6 +40,10 @@ export default {
     sprite.disconnect(this)
     return sprite
   },
+  clear() {
+    const children = this.children.slice(0)
+    return children.map(child => this.removeChild(child))
+  },
   insertBefore(newchild, refchild) {
     const idx = this.children.indexOf(refchild)
     if(idx >= 0) {
