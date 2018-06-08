@@ -15,21 +15,47 @@
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context})
 
+    const center = new Sprite()
+    center.attr({
+      anchor: 0.5,
+      pos: [300, 300],
+      size: [10, 10],
+      bgcolor: 'blue',
+      zIndex: 1000,
+    })
+    layer.append(center)
+
     const s = new Sprite()
     s.attr({
       anchor: 0.5,
-      pos: [400, 300],
+      pos: [300, 300],
       size: [50, 50],
+      border: {width: 5, color: 'green'},
       // bgcolor: 'hsl(360, 50%, 60%)',
     })
     layer.append(s)
 
+    const s22 = s.cloneNode()
+    s22.attr({
+      border: {width: 1, color: 'red'}
+    })
+    layer.append(s22)
+    
+    // let i = 0
+    // setInterval(() => {
+    //   s.attr({
+    //     border: {width: i++, color: 'green'}
+    //   })
+    // }, 1000)
     s.animate([
+      // {size: [100, 100]},
+      // {border: {width: 0, color: 'green'}},
+      // {border: {width: 30, color: 'green'}}
       {border: {width: 10, color: 'red', style: [5, 5]}},
       // {transform: {rotate: 0}},
       // {transform: {scale: 2, translate: [-10, -10], rotate: 360}, bgcolor: 'green'},
     ], {
-      duration: 2000,
+      duration: 5000,
       fill: 'forwards',
     })
   </script>

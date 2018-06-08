@@ -324,19 +324,19 @@ export default class BaseSprite extends BaseNode {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')
 
-    return [Math.floor(-anchorX * width),
-      Math.floor(-anchorY * height),
-      Math.ceil(width), Math.ceil(height)]
+    return [-anchorX * width,
+      -anchorY * height,
+      width, height]
   }
 
   get originalRenderRect() {
     const bound = this.originalRect,
       pos = this.attr('pos')
 
-    return [Math.floor(pos[0] + bound[0]),
-      Math.floor(pos[1] + bound[1]),
-      Math.ceil(bound[2]),
-      Math.ceil(bound[3])]
+    return [pos[0] + bound[0],
+      pos[1] + bound[1],
+      bound[2],
+      bound[3]]
   }
 
   get renderBox() {
@@ -401,10 +401,6 @@ export default class BaseSprite extends BaseNode {
     }
     const parent = this.parent
     if(parent) {
-      if(parent[_cachePriority] != null) {
-        // is group
-        parent[_cachePriority] = 0
-      }
       this.parent.update(this)
     }
   }
@@ -518,8 +514,8 @@ export default class BaseSprite extends BaseNode {
       } else {
         cachableContext = cacheContextPool.get(drawingContext)
         if(cachableContext) {
-          cachableContext.canvas.width = bound[2] + 2
-          cachableContext.canvas.height = bound[3] + 2
+          cachableContext.canvas.width = Math.ceil(bound[2]) + 2
+          cachableContext.canvas.height = Math.ceil(bound[3]) + 2
         } else {
           this.__cachePolicyThreshold = Infinity
         }
@@ -538,7 +534,7 @@ export default class BaseSprite extends BaseNode {
       drawingContext.translate(bound[0], bound[1])
     } else {
       // solve 1px problem
-      cachableContext.translate(1, 1)
+      cachableContext.translate(bound[0] - Math.floor(bound[0]) + 1, bound[1] - Math.floor(bound[1]) + 1)
     }
 
     this.dispatchEvent('beforedraw', evtArgs, true, true)
@@ -554,7 +550,7 @@ export default class BaseSprite extends BaseNode {
     }
 
     if(cachableContext) {
-      drawingContext.drawImage(cachableContext.canvas, bound[0] - 1, bound[1] - 1)
+      drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1)
     }
 
     this.dispatchEvent('afterdraw', evtArgs, true, true)

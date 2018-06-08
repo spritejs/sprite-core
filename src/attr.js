@@ -243,6 +243,7 @@ class SpriteAttr {
         color: parseColorString(val[1] || '#000'),
       }
     } else {
+      val.width = parseFloat(val.width)
       val.color = parseColorString(val.color || '#000')
     }
     val = Object.assign({

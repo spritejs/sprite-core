@@ -201,7 +201,6 @@ test('draw group 3 cached', async (t) => {
     await layer.prepareRender() // eslint-disable-line no-await-in-loop
   }
   t.truthy(g.cache != null)
-  t.truthy(g.baseCache != null)
 
   s3.attr({
     y: y => y + 20,
@@ -268,7 +267,6 @@ test('draw group 3-2 cached', async (t) => {
     await layer.prepareRender() // eslint-disable-line no-await-in-loop
   }
   t.truthy(g.cache != null)
-  t.truthy(g.baseCache != null)
 
   s3.clearCache()
   t.truthy(g.cache == null)
