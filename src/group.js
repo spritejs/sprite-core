@@ -159,8 +159,8 @@ export default class Group extends BaseSprite {
 
     this[_baseCachePriority] = Math.min(this[_baseCachePriority] + 1, 10)
     const bound = this.originalRect,
-      bw = Math.ceil(bound[2]) + 2,
-      bh = Math.ceil(bound[3]) + 2
+      bw = bound[2] + 2,
+      bh = bound[3] + 2
 
     if(this.lastBoxSize && (this.lastBoxSize[0] !== bw || this.lastBoxSize[1] !== bh)) {
       this[_baseCachePriority] = 0

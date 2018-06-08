@@ -324,9 +324,9 @@ export default class BaseSprite extends BaseNode {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')
 
-    return [-anchorX * width,
-      -anchorY * height,
-      width, height]
+    return [Math.floor(-anchorX * width),
+      Math.floor(-anchorY * height),
+      Math.ceil(width), Math.ceil(height)]
   }
 
   get originalRenderRect() {
@@ -524,8 +524,8 @@ export default class BaseSprite extends BaseNode {
       } else {
         cachableContext = cacheContextPool.get(drawingContext)
         if(cachableContext) {
-          cachableContext.canvas.width = Math.ceil(bound[2]) + 2
-          cachableContext.canvas.height = Math.ceil(bound[3]) + 2
+          cachableContext.canvas.width = bound[2] + 2
+          cachableContext.canvas.height = bound[3] + 2
         } else {
           this.__cachePolicyThreshold = Infinity
         }
