@@ -79,6 +79,10 @@ export default class Layer extends BaseNode {
   get canvas() {
     return this.outputContext.canvas
   }
+  get offset() {
+    return [0, 0]
+  }
+
   remove(...args) {
     if(args.length === 0) {
       setDeprecation('layer.remove()', 'Instead use layer.clear().')

@@ -437,7 +437,7 @@ export default class BaseSprite extends BaseNode {
      && parentY >= y && parentY - y < h) {
       const [ox, oy, ow, oh] = this.originalRect
 
-      const [nx, ny] = this.pointToOffset(parentX, parentY)
+      let [nx, ny] = this.pointToOffset(parentX, parentY)
 
       if(nx >= ox && nx - ox < ow
         && ny >= oy && ny - oy < oh) {
@@ -453,6 +453,10 @@ export default class BaseSprite extends BaseNode {
               width, height,
               Math.max(0, borderRadius + borderWidth / 2)]
             drawRadiusBox(this.context, {x, y, w, h, r})
+            if(this.layer && this.layer.offset) {
+              nx += this.layer.offset[0]
+              ny += this.layer.offset[1]
+            }
             return this.context.isPointInPath(nx - ox, ny - oy)
           }
         }
