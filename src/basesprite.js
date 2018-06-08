@@ -2,7 +2,7 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices} from 'sprite-utils'
+import {rectVertices, boxToRect} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
@@ -333,30 +333,24 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originalRect,
       pos = this.attr('pos')
 
-    return [pos[0] + bound[0],
-      pos[1] + bound[1],
-      bound[2],
-      bound[3]]
+    return [Math.floor(pos[0] + bound[0]),
+      Math.floor(pos[1] + bound[1]),
+      Math.ceil(bound[2]),
+      Math.ceil(bound[3])]
   }
 
   get renderBox() {
     const bound = this.boundingRect,
       pos = this.attr('pos')
 
-    return [pos[0] + bound[0] - 1,
-      pos[1] + bound[1] - 1,
-      pos[0] + bound[0] + bound[2] + 1,
-      pos[1] + bound[1] + bound[3] + 1]
+    return [Math.floor(pos[0] + bound[0]),
+      Math.floor(pos[1] + bound[1]),
+      Math.ceil(pos[0] + bound[0] + bound[2]),
+      Math.ceil(pos[1] + bound[1] + bound[3])]
   }
 
   get renderRect() {
-    const bound = this.boundingRect,
-      pos = this.attr('pos')
-
-    return [pos[0] + bound[0],
-      pos[1] + bound[1],
-      bound[2],
-      bound[3]]
+    return boxToRect(this.renderBox)
   }
 
   get vertices() {

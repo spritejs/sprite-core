@@ -1364,7 +1364,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var bound = this.originalRect,
           pos = this.attr('pos');
 
-      return [pos[0] + bound[0], pos[1] + bound[1], bound[2], bound[3]];
+      return [Math.floor(pos[0] + bound[0]), Math.floor(pos[1] + bound[1]), Math.ceil(bound[2]), Math.ceil(bound[3])];
     }
   }, {
     key: 'renderBox',
@@ -1372,15 +1372,12 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var bound = this.boundingRect,
           pos = this.attr('pos');
 
-      return [pos[0] + bound[0] - 1, pos[1] + bound[1] - 1, pos[0] + bound[0] + bound[2] + 1, pos[1] + bound[1] + bound[3] + 1];
+      return [Math.floor(pos[0] + bound[0]), Math.floor(pos[1] + bound[1]), Math.ceil(pos[0] + bound[0] + bound[2]), Math.ceil(pos[1] + bound[1] + bound[3])];
     }
   }, {
     key: 'renderRect',
     get: function get() {
-      var bound = this.boundingRect,
-          pos = this.attr('pos');
-
-      return [pos[0] + bound[0], pos[1] + bound[1], bound[2], bound[3]];
+      return (0, _spriteUtils.boxToRect)(this.renderBox);
     }
   }, {
     key: 'vertices',
@@ -6660,6 +6657,9 @@ function clearDirtyRect(_ref, box, width, height) {
   var shadowContext = _ref.shadowContext,
       outputContext = _ref.outputContext;
 
+  box = box.map(function (b, i) {
+    return i < 2 ? b - 1 : b + 1;
+  });
   var dirtyBox = (0, _spriteUtils.boxIntersect)(box, [0, 0, width, height]);
 
   if (dirtyBox) {

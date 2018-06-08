@@ -16,6 +16,7 @@ import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 // }
 
 export function clearDirtyRect({shadowContext, outputContext}, box, width, height) {
+  box = box.map((b, i) => { return i < 2 ? b - 1 : b + 1 })
   const dirtyBox = boxIntersect(box, [0, 0, width, height])
 
   if(dirtyBox) {

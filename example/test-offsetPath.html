@@ -138,7 +138,7 @@
       //size: [200, 200],
       bgcolor: '#ddd',
       //renderMode: 'fill',
-      lineWidth: 16,
+      lineWidth: 10,
       //border: [10, 'black'],
       lineCap: 'round',
       d: 'M10,80 q100,120 120,20 q140,-50 160,0',
@@ -160,13 +160,19 @@
     layer.append(s4)
     window.s4 = s4
 
-    const pathOffset = s4.pathOffset
+    const ss4 = s4.cloneNode()
+    ss4.attr({
+      lineWidth: 1,
+      strokeColor: 'blue',
+      bgcolor: 'transparent',
+    })
+    layer.append(ss4)
 
     const s = new Sprite()
 
     s.attr({
       anchor: [0.5, 0.5],
-      pos: [300 + pathOffset[0], 100 + pathOffset[1]],
+      pos: [300, 100],
       bgcolor: 'red',
       gradients: {
         bgcolor: {
@@ -257,19 +263,6 @@
     })
 
     layer.append(label)
-    
-    // const rect = label.renderRect
-    // const sss = new Sprite()
-    // sss.attr({
-    //   size: [rect[2], rect[3]],
-    //   pos: [rect[0], rect[1]],
-    //   bgcolor: 'red',
-    //   zIndex: 1000,
-    //   opacity: 0.3,
-    // })
-    // layer.append(sss)
-
-    // console.log(label.renderBox, sss.renderBox)
 
     label.animate([
       {rotate: 0},
