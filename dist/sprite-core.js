@@ -1610,8 +1610,8 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         } else {
           cachableContext = _render.cacheContextPool.get(drawingContext);
           if (cachableContext) {
-            cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
-            cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
+            cachableContext.canvas.width = bound[2] + 2;
+            cachableContext.canvas.height = bound[3] + 2;
           } else {
             this.__cachePolicyThreshold = Infinity;
           }
@@ -1878,7 +1878,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           anchorX = _attr10[0],
           anchorY = _attr10[1];
 
-      return [-anchorX * width, -anchorY * height, width, height];
+      return [Math.floor(-anchorX * width), Math.floor(-anchorY * height), Math.ceil(width), Math.ceil(height)];
     }
   }, {
     key: 'originalRenderRect',
@@ -3596,8 +3596,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
 
       this[_baseCachePriority] = Math.min(this[_baseCachePriority] + 1, 10);
       var bound = this.originalRect,
-          bw = Math.ceil(bound[2]) + 2,
-          bh = Math.ceil(bound[3]) + 2;
+          bw = bound[2] + 2,
+          bh = bound[3] + 2;
 
       if (this.lastBoxSize && (this.lastBoxSize[0] !== bw || this.lastBoxSize[1] !== bh)) {
         this[_baseCachePriority] = 0;
