@@ -1526,53 +1526,45 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         parentY = evt.layerY;
       }
 
-      var _renderRect = (0, _slicedToArray3.default)(this.renderRect, 4),
-          x = _renderRect[0],
-          y = _renderRect[1],
-          w = _renderRect[2],
-          h = _renderRect[3];
+      var _pointToOffset = this.pointToOffset(parentX, parentY),
+          _pointToOffset2 = (0, _slicedToArray3.default)(_pointToOffset, 2),
+          nx = _pointToOffset2[0],
+          ny = _pointToOffset2[1];
 
-      if (parentX >= x && parentX - x < w && parentY >= y && parentY - y < h) {
-        var _originalRect = (0, _slicedToArray3.default)(this.originalRect, 4),
-            ox = _originalRect[0],
-            oy = _originalRect[1],
-            ow = _originalRect[2],
-            oh = _originalRect[3];
+      evt.offsetX = nx;
+      evt.offsetY = ny;
 
-        var _pointToOffset = this.pointToOffset(parentX, parentY),
-            _pointToOffset2 = (0, _slicedToArray3.default)(_pointToOffset, 2),
-            nx = _pointToOffset2[0],
-            ny = _pointToOffset2[1];
+      var _originalRect = (0, _slicedToArray3.default)(this.originalRect, 4),
+          ox = _originalRect[0],
+          oy = _originalRect[1],
+          ow = _originalRect[2],
+          oh = _originalRect[3];
 
-        if (nx >= ox && nx - ox < ow && ny >= oy && ny - oy < oh) {
-          evt.offsetX = nx;
-          evt.offsetY = ny;
+      if (nx >= ox && nx - ox < ow && ny >= oy && ny - oy < oh) {
+        if (this.context && this.context.isPointInPath) {
+          var borderWidth = this.attr('border').width,
+              borderRadius = this.attr('borderRadius');
+          if (borderWidth || borderRadius) {
+            var _outerSize = (0, _slicedToArray3.default)(this.outerSize, 2),
+                width = _outerSize[0],
+                height = _outerSize[1];
 
-          if (this.context && this.context.isPointInPath) {
-            var borderWidth = this.attr('border').width,
-                borderRadius = this.attr('borderRadius');
-            if (borderWidth || borderRadius) {
-              var _outerSize = (0, _slicedToArray3.default)(this.outerSize, 2),
-                  width = _outerSize[0],
-                  height = _outerSize[1];
+            var _ref5 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
+                x = _ref5[0],
+                y = _ref5[1],
+                w = _ref5[2],
+                h = _ref5[3],
+                r = _ref5[4];
 
-              var _ref5 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
-                  _x4 = _ref5[0],
-                  _y = _ref5[1],
-                  _w = _ref5[2],
-                  _h = _ref5[3],
-                  r = _ref5[4];
-
-              (0, _render.drawRadiusBox)(this.context, { x: _x4, y: _y, w: _w, h: _h, r: r });
-              if (this.layer && this.layer.offset) {
-                nx += this.layer.offset[0];
-                ny += this.layer.offset[1];
-              }
-              return this.context.isPointInPath(nx - ox, ny - oy);
+            (0, _render.drawRadiusBox)(this.context, { x: x, y: y, w: w, h: h, r: r });
+            if (this.layer && this.layer.offset) {
+              nx += this.layer.offset[0];
+              ny += this.layer.offset[1];
             }
+            return this.context.isPointInPath(nx - ox, ny - oy);
           }
-          return true;
         }
+        return true;
       }
     }
 
@@ -1737,14 +1729,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       if (this.cache == null || borderWidth || borderRadius || bgcolor) {
         var _ref6 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x5 = _ref6[0],
-            _y2 = _ref6[1],
-            _w2 = _ref6[2],
-            _h2 = _ref6[3],
+            _x4 = _ref6[0],
+            _y = _ref6[1],
+            _w = _ref6[2],
+            _h = _ref6[3],
             _r = _ref6[4];
 
 
-        (0, _render.drawRadiusBox)(drawingContext, { x: _x5, y: _y2, w: _w2, h: _h2, r: _r });
+        (0, _render.drawRadiusBox)(drawingContext, { x: _x4, y: _y, w: _w, h: _h, r: _r });
 
         if (bgcolor) {
           drawingContext.fillStyle = bgcolor;
@@ -3475,7 +3467,8 @@ var GroupAttr = (_class = function (_BaseSprite$Attr) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (GroupAttr.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr)).call(this, subject));
 
     _this.setDefault({
-      clip: null
+      clip: null,
+      virtual: null
     });
     return _this;
   }
@@ -3493,19 +3486,35 @@ var GroupAttr = (_class = function (_BaseSprite$Attr) {
         this.set('clip', null);
       }
     }
+  }, {
+    key: 'virtual',
+    set: function set(val) {
+      if (this.get('virtual') != null) return;
+      this.clearCache();
+      this.set('virtual', !!val);
+      if (val) {
+        this.subject.__cachePolicyThreshold = Infinity;
+      }
+    }
   }]);
   return GroupAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype)), _class);
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'virtual', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'virtual'), _class.prototype)), _class);
 var Group = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Group, _BaseSprite);
 
-  function Group(attr) {
+  function Group() {
+    var attr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     (0, _classCallCheck3.default)(this, Group);
+
+    attr.virtual = !!attr.virtual;
 
     var _this2 = (0, _possibleConstructorReturn3.default)(this, (Group.__proto__ || (0, _getPrototypeOf2.default)(Group)).call(this, attr));
 
     _this2[_children] = [];
     _this2[_zOrder] = 0;
+    // if(isVirtual) {
+    //   this.__cachePolicyThreshold = Infinity
+    // }
     return _this2;
   }
 
@@ -3530,7 +3539,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'pointCollision',
     value: function pointCollision(evt) {
-      if ((0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'pointCollision', this).call(this, evt)) {
+      if ((0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'pointCollision', this).call(this, evt) || this.isVirtual) {
         if (this.svg) {
           var offsetX = evt.offsetX,
               offsetY = evt.offsetY;
@@ -3541,6 +3550,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         return true;
       }
       return false;
+    }
+  }, {
+    key: 'isVisible',
+    value: function isVisible() {
+      return this.isVirtual || (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'isVisible', this).call(this);
     }
   }, {
     key: 'dispatchEvent',
@@ -3586,6 +3600,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
     key: 'isNodeVisible',
     value: function isNodeVisible(sprite) {
       if (!sprite.isVisible()) return false;
+      if (this.isVirtual) return true;
 
       var _outerSize = (0, _slicedToArray3.default)(this.outerSize, 2),
           w = _outerSize[0],
@@ -3609,7 +3624,9 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         drawingContext.clip();
       }
 
-      (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+      if (!this.isVirtual) {
+        (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'render', this).call(this, t, drawingContext);
+      }
 
       var sprites = this[_children];
 
@@ -3626,6 +3643,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       }
     }
   }, {
+    key: 'isVirtual',
+    get: function get() {
+      return this.attr('virtual');
+    }
+  }, {
     key: 'children',
     get: function get() {
       return this[_children];
@@ -3633,6 +3655,10 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'contentSize',
     get: function get() {
+      if (this.isVirtual) {
+        return [0, 0];
+      }
+
       var _attr = this.attr('size'),
           _attr2 = (0, _slicedToArray3.default)(_attr, 2),
           width = _attr2[0],
@@ -6497,7 +6523,7 @@ var Layer = function (_BaseNode) {
     value: function renderRepaintDirty(t) {
       var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
       if (updateEls.some(function (el) {
-        return !!el.attr('filter');
+        return !!el.attr('filter') || el.isVirtual;
       })) {
         return this.renderRepaintAll(t);
       }

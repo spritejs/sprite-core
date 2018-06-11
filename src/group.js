@@ -11,6 +11,7 @@ class GroupAttr extends BaseSprite.Attr {
     super(subject)
     this.setDefault({
       clip: null,
+      virtual: null,
     })
   }
 
@@ -26,15 +27,32 @@ class GroupAttr extends BaseSprite.Attr {
       this.set('clip', null)
     }
   }
+
+  @attr
+  set virtual(val) {
+    if(this.get('virtual') != null) return
+    this.clearCache()
+    this.set('virtual', !!val)
+    if(val) {
+      this.subject.__cachePolicyThreshold = Infinity
+    }
+  }
 }
 
 export default class Group extends BaseSprite {
   static Attr = GroupAttr
 
-  constructor(attr) {
+  constructor(attr = {}) {
+    attr.virtual = !!attr.virtual
     super(attr)
     this[_children] = []
     this[_zOrder] = 0
+    // if(isVirtual) {
+    //   this.__cachePolicyThreshold = Infinity
+    // }
+  }
+  get isVirtual() {
+    return this.attr('virtual')
   }
   cloneNode(deepCopy) {
     const node = super.cloneNode()
@@ -54,7 +72,7 @@ export default class Group extends BaseSprite {
     this.forceUpdate(true)
   }
   pointCollision(evt) {
-    if(super.pointCollision(evt)) {
+    if(super.pointCollision(evt) || this.isVirtual) {
       if(this.svg) {
         const {offsetX, offsetY} = evt
         const rect = this.originalRect
@@ -64,7 +82,14 @@ export default class Group extends BaseSprite {
     }
     return false
   }
+  isVisible() {
+    return this.isVirtual || super.isVisible()
+  }
   get contentSize() {
+    if(this.isVirtual) {
+      return [0, 0]
+    }
+
     let [width, height] = this.attr('size')
 
     if(width === '' || height === '') {
@@ -127,6 +152,7 @@ export default class Group extends BaseSprite {
   }
   isNodeVisible(sprite) {
     if(!sprite.isVisible()) return false
+    if(this.isVirtual) return true
 
     const [w, h] = this.outerSize
     const box1 = sprite.renderBox,
@@ -145,7 +171,9 @@ export default class Group extends BaseSprite {
       drawingContext.clip()
     }
 
-    super.render(t, drawingContext)
+    if(!this.isVirtual) {
+      super.render(t, drawingContext)
+    }
 
     const sprites = this[_children]
 

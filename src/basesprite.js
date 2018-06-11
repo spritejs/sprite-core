@@ -432,37 +432,31 @@ export default class BaseSprite extends BaseNode {
       parentY = evt.layerY
     }
 
-    const [x, y, w, h] = this.renderRect
+    let [nx, ny] = this.pointToOffset(parentX, parentY)
+    evt.offsetX = nx
+    evt.offsetY = ny
 
-    if(parentX >= x && parentX - x < w
-     && parentY >= y && parentY - y < h) {
-      const [ox, oy, ow, oh] = this.originalRect
+    const [ox, oy, ow, oh] = this.originalRect
 
-      let [nx, ny] = this.pointToOffset(parentX, parentY)
-
-      if(nx >= ox && nx - ox < ow
-        && ny >= oy && ny - oy < oh) {
-        evt.offsetX = nx
-        evt.offsetY = ny
-
-        if(this.context && this.context.isPointInPath) {
-          const borderWidth = this.attr('border').width,
-            borderRadius = this.attr('borderRadius')
-          if(borderWidth || borderRadius) {
-            const [width, height] = this.outerSize
-            const [x, y, w, h, r] = [0, 0,
-              width, height,
-              Math.max(0, borderRadius + borderWidth / 2)]
-            drawRadiusBox(this.context, {x, y, w, h, r})
-            if(this.layer && this.layer.offset) {
-              nx += this.layer.offset[0]
-              ny += this.layer.offset[1]
-            }
-            return this.context.isPointInPath(nx - ox, ny - oy)
+    if(nx >= ox && nx - ox < ow
+      && ny >= oy && ny - oy < oh) {
+      if(this.context && this.context.isPointInPath) {
+        const borderWidth = this.attr('border').width,
+          borderRadius = this.attr('borderRadius')
+        if(borderWidth || borderRadius) {
+          const [width, height] = this.outerSize
+          const [x, y, w, h, r] = [0, 0,
+            width, height,
+            Math.max(0, borderRadius + borderWidth / 2)]
+          drawRadiusBox(this.context, {x, y, w, h, r})
+          if(this.layer && this.layer.offset) {
+            nx += this.layer.offset[0]
+            ny += this.layer.offset[1]
           }
+          return this.context.isPointInPath(nx - ox, ny - oy)
         }
-        return true
       }
+      return true
     }
   }
 

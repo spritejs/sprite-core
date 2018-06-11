@@ -199,7 +199,7 @@ export default class Layer extends BaseNode {
   }
   renderRepaintDirty(t) {
     const updateEls = [...this[_updateSet]]
-    if(updateEls.some(el => !!el.attr('filter'))) {
+    if(updateEls.some(el => !!el.attr('filter') || el.isVirtual)) {
       return this.renderRepaintAll(t)
     }
 
