@@ -198,10 +198,14 @@ export default class Layer extends BaseNode {
     this[_updateSet].clear()
   }
   renderRepaintDirty(t) {
+    const updateEls = [...this[_updateSet]]
+    if(updateEls.some(el => !!el.attr('filter'))) {
+      return this.renderRepaintAll(t)
+    }
+
     const shadowContext = this.shadowContext
     const outputContext = this.outputContext
 
-    const updateEls = [...this[_updateSet]]
     const renderEls = this[_children]
 
     if(shadowContext) {

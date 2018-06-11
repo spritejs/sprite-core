@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="900" height="900"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context, renderMode: 'repaintAll'})
+
+    const s = new Sprite()
+    s.attr({
+      size: [100, 100],
+      pos: [200, 200],
+      anchor: [0.5, 0.5],
+      bgcolor: 'red',
+    })
+    const s2 = s.cloneNode()
+    s2.attr({
+      pos: [300, 300],
+    })
+    layer.append(s, s2)
+
+    const img = document.createElement('img')
+    img.src = 'https://p0.ssl.qhimg.com/t010824825edcb60364.png'
+    img.onload = function () {
+      const p = new Sprite()
+      p.attr({
+        id: 'abc',
+        textures: [{
+          id: 'test',
+          image: img,
+          // filter: {dropShadow: [20, 20, 5, '#000']},
+        }],
+        pos: [500, 200],
+        anchor: 0.5,
+        // bgcolor: 'blue',
+        filter: {dropShadow: [10, 10, 5, '#000']},
+      })
+      layer.append(p)
+
+      const p2 = p.cloneNode()
+      p2.attr({
+        pos: [500, 500],
+      })
+
+      layer.append(p2)
+
+      window.p = p
+      window.p2 = p2
+    }
+  </script>
+</body>
+</html>

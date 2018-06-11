@@ -228,9 +228,10 @@ test('draw guanguan filter 3', async (t) => {
 
   const s = new Sprite()
   s.attr({
-    textures: [{image: img, filter: {dropShadow: [2, 2, 10, 'black']}}],
+    textures: [{image: img}],
     pos: [150, 150],
     anchor: 0.5,
+    filter: {dropShadow: [2, 2, 10, 'black']},
   })
   layer.append(s)
 

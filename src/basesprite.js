@@ -7,6 +7,7 @@ import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
 import {Timeline} from 'sprite-animator'
+import filters from './filters'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
@@ -543,6 +544,12 @@ export default class BaseSprite extends BaseNode {
 
     this.dispatchEvent('beforedraw', evtArgs, true, true)
 
+    const filter = this.attr('filter')
+    if(filter) {
+      drawingContext.filter = filters.compile(filter)
+      this[_cachePriority] = 0
+    }
+
     if(cachableContext) {
       // set cache before render for group
       if(!this.cache) {
@@ -619,7 +626,10 @@ export default class BaseSprite extends BaseNode {
       // we should always clip to prevent the subclass rendering not to overflow the box
       // but clip is very slow in wxapp simulator...
       if(!(typeof wx !== 'undefined' && wx.navigateToMiniProgram && typeof requestAnimationFrame !== 'undefined')) {
-        drawingContext.clip()
+        const filter = this.attr('filter')
+        if(!filter) {
+          drawingContext.clip()
+        }
       }
     }
 

@@ -97,7 +97,7 @@ var _isIterable2 = __webpack_require__(125);
 
 var _isIterable3 = _interopRequireDefault(_isIterable2);
 
-var _getIterator2 = __webpack_require__(81);
+var _getIterator2 = __webpack_require__(82);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -217,7 +217,7 @@ module.exports = $export;
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(80);
+var _from = __webpack_require__(81);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -336,7 +336,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = exports.notice = undefined;
 
-var _utils = __webpack_require__(112);
+var _utils = __webpack_require__(113);
 
 var _decorators = __webpack_require__(206);
 
@@ -388,7 +388,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(14);
-var IE8_DOM_DEFINE = __webpack_require__(89);
+var IE8_DOM_DEFINE = __webpack_require__(90);
 var toPrimitive = __webpack_require__(71);
 var dP = Object.defineProperty;
 
@@ -1060,7 +1060,7 @@ module.exports = {};
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(98);
+var $keys = __webpack_require__(99);
 var enumBugKeys = __webpack_require__(59);
 
 module.exports = Object.keys || function keys(O) {
@@ -1178,7 +1178,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _attr13 = __webpack_require__(118);
+var _attr13 = __webpack_require__(119);
 
 var _attr14 = _interopRequireDefault(_attr13);
 
@@ -1188,7 +1188,7 @@ var _basenode2 = _interopRequireDefault(_basenode);
 
 var _spriteMath = __webpack_require__(36);
 
-var _animation = __webpack_require__(117);
+var _animation = __webpack_require__(118);
 
 var _animation2 = _interopRequireDefault(_animation);
 
@@ -1199,6 +1199,10 @@ var _nodetype = __webpack_require__(19);
 var _render = __webpack_require__(27);
 
 var _spriteAnimator = __webpack_require__(35);
+
+var _filters = __webpack_require__(78);
+
+var _filters2 = _interopRequireDefault(_filters);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1635,6 +1639,12 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       this.dispatchEvent('beforedraw', evtArgs, true, true);
 
+      var filter = this.attr('filter');
+      if (filter) {
+        drawingContext.filter = _filters2.default.compile(filter);
+        this[_cachePriority] = 0;
+      }
+
       if (cachableContext) {
         // set cache before render for group
         if (!this.cache) {
@@ -1723,7 +1733,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // we should always clip to prevent the subclass rendering not to overflow the box
         // but clip is very slow in wxapp simulator...
         if (!(typeof wx !== 'undefined' && wx.navigateToMiniProgram && typeof requestAnimationFrame !== 'undefined')) {
-          drawingContext.clip();
+          var filter = this.attr('filter');
+          if (!filter) {
+            drawingContext.clip();
+          }
         }
       }
 
@@ -2003,15 +2016,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
 
-var _effect = __webpack_require__(110);
+var _effect = __webpack_require__(111);
 
 var _effect2 = _interopRequireDefault(_effect);
 
-var _spriteTimeline = __webpack_require__(111);
+var _spriteTimeline = __webpack_require__(112);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(109);
+var _easing = __webpack_require__(110);
 
 var _animator = __webpack_require__(201);
 
@@ -2136,8 +2149,8 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(15);
-var call = __webpack_require__(92);
-var isArrayIter = __webpack_require__(90);
+var call = __webpack_require__(93);
+var isArrayIter = __webpack_require__(91);
 var anObject = __webpack_require__(14);
 var toLength = __webpack_require__(50);
 var getIterFn = __webpack_require__(75);
@@ -2250,7 +2263,7 @@ module.exports = true;
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(14);
-var dPs = __webpack_require__(95);
+var dPs = __webpack_require__(96);
 var enumBugKeys = __webpack_require__(59);
 var IE_PROTO = __webpack_require__(68)('IE_PROTO');
 var Empty = function () { /* empty */ };
@@ -2265,7 +2278,7 @@ var createDict = function () {
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(88).appendChild(iframe);
+  __webpack_require__(89).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -2548,7 +2561,7 @@ var _slicedToArray2 = __webpack_require__(1);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toArray2 = __webpack_require__(84);
+var _toArray2 = __webpack_require__(85);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -2911,13 +2924,13 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 var LIBRARY = __webpack_require__(48);
 var $export = __webpack_require__(2);
-var redefine = __webpack_require__(101);
+var redefine = __webpack_require__(102);
 var hide = __webpack_require__(17);
 var has = __webpack_require__(25);
 var Iterators = __webpack_require__(30);
 var $iterCreate = __webpack_require__(163);
 var setToStringTag = __webpack_require__(44);
-var getPrototypeOf = __webpack_require__(97);
+var getPrototypeOf = __webpack_require__(98);
 var ITERATOR = __webpack_require__(6)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -3073,7 +3086,7 @@ var createDesc = __webpack_require__(43);
 var toIObject = __webpack_require__(18);
 var toPrimitive = __webpack_require__(71);
 var has = __webpack_require__(25);
-var IE8_DOM_DEFINE = __webpack_require__(89);
+var IE8_DOM_DEFINE = __webpack_require__(90);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(11) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -3420,9 +3433,9 @@ var _nodetype = __webpack_require__(19);
 
 var _spriteUtils = __webpack_require__(10);
 
-var _path = __webpack_require__(79);
+var _path = __webpack_require__(80);
 
-var _group = __webpack_require__(78);
+var _group = __webpack_require__(79);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -3648,6 +3661,80 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _entries = __webpack_require__(20);
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _slicedToArray2 = __webpack_require__(1);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _spriteUtils = __webpack_require__(10);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  blur: function blur(px) {
+    return 'blur(' + (0, _spriteUtils.appendUnit)(px) + ')';
+  },
+  brightness: function brightness(percent) {
+    return 'brightness(' + percent + ')';
+  },
+  contrast: function contrast(percent) {
+    return 'contrast(' + percent + ')';
+  },
+  dropShadow: function dropShadow(_ref) {
+    var _ref2 = (0, _slicedToArray3.default)(_ref, 4),
+        offsetX = _ref2[0],
+        offsetY = _ref2[1],
+        shadowRadius = _ref2[2],
+        color = _ref2[3];
+
+    return 'drop-shadow(' + (0, _spriteUtils.appendUnit)(offsetX) + ' ' + (0, _spriteUtils.appendUnit)(offsetY) + ' ' + (0, _spriteUtils.appendUnit)(shadowRadius) + ' ' + color + ')';
+  },
+  grayscale: function grayscale(percent) {
+    return 'grayscale(' + percent + ')';
+  },
+  hueRotate: function hueRotate(value) {
+    return 'hue-rotate(' + (0, _spriteUtils.appendUnit)(value, 'deg') + ')';
+  },
+  invert: function invert(percent) {
+    return 'invert(' + percent + ')';
+  },
+  opacity: function opacity(percent) {
+    return 'opacity(' + percent + ')';
+  },
+  saturate: function saturate(percent) {
+    return 'saturate(' + percent + ')';
+  },
+  sepia: function sepia(percent) {
+    return 'sepia(' + percent + ')';
+  },
+  url: function url(path) {
+    return 'url(' + path + ')';
+  },
+  compile: function compile() {
+    var _this = this;
+
+    var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    return (0, _entries2.default)(filter).reduce(function (accumulator, curVal) {
+      return accumulator.concat(_this[curVal[0]](curVal[1]));
+    }, []).join(' ');
+  }
+}; // http://www.runoob.com/cssref/css3-pr-filter.html
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _symbol = __webpack_require__(7);
 
 var _symbol2 = _interopRequireDefault(_symbol);
@@ -3748,7 +3835,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3770,7 +3857,7 @@ var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _toArray2 = __webpack_require__(84);
+var _toArray2 = __webpack_require__(85);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -3993,31 +4080,31 @@ function createSvgPath(path) {
 }
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(135), __esModule: true };
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(136), __esModule: true };
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(138), __esModule: true };
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(148), __esModule: true };
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4025,7 +4112,7 @@ module.exports = { "default": __webpack_require__(148), __esModule: true };
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(80);
+var _from = __webpack_require__(81);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -4036,7 +4123,7 @@ exports.default = function (arr) {
 };
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4048,8 +4135,8 @@ var ctx = __webpack_require__(15);
 var anInstance = __webpack_require__(56);
 var forOf = __webpack_require__(41);
 var $iterDefine = __webpack_require__(61);
-var step = __webpack_require__(94);
-var setSpecies = __webpack_require__(104);
+var step = __webpack_require__(95);
+var setSpecies = __webpack_require__(105);
 var DESCRIPTORS = __webpack_require__(11);
 var fastKey = __webpack_require__(62).fastKey;
 var validate = __webpack_require__(72);
@@ -4187,7 +4274,7 @@ module.exports = {
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -4202,7 +4289,7 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4268,7 +4355,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(8).document;
@@ -4276,7 +4363,7 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(11) && !__webpack_require__(24)(function () {
@@ -4285,7 +4372,7 @@ module.exports = !__webpack_require__(11) && !__webpack_require__(24)(function (
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -4299,7 +4386,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -4310,7 +4397,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -4328,7 +4415,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(6)('iterator');
@@ -4356,7 +4443,7 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -4365,7 +4452,7 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(13);
@@ -4384,11 +4471,11 @@ module.exports = __webpack_require__(11) ? Object.defineProperties : function de
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(98);
+var $keys = __webpack_require__(99);
 var hiddenKeys = __webpack_require__(59).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
@@ -4397,7 +4484,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -4416,7 +4503,7 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(25);
@@ -4439,7 +4526,7 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -4452,7 +4539,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(14);
@@ -4470,14 +4557,14 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(17);
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4512,7 +4599,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4531,7 +4618,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4552,7 +4639,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -4567,12 +4654,12 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(15);
 var invoke = __webpack_require__(162);
-var html = __webpack_require__(88);
+var html = __webpack_require__(89);
 var cel = __webpack_require__(58);
 var global = __webpack_require__(8);
 var process = global.process;
@@ -4657,7 +4744,7 @@ module.exports = {
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4746,10 +4833,10 @@ var FastAnimationFrame = {
 };
 
 module.exports = FastAnimationFrame;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(108)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(109)))
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -4939,7 +5026,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5094,7 +5181,7 @@ exports.Easings = Easings;
 exports.parseEasing = parseEasing;
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5118,7 +5205,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5556,7 +5643,7 @@ var Timeline = function () {
 module.exports = Timeline;
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5829,7 +5916,7 @@ exports.appendUnit = appendUnit;
 exports.sortOrderedSprites = sortOrderedSprites;
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6119,7 +6206,7 @@ exports.default = Label;
 (0, _nodetype.registerNodeType)('label', Label);
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6192,7 +6279,7 @@ var _group2 = _interopRequireDefault(_group);
 
 var _spriteAnimator = __webpack_require__(35);
 
-var _fastAnimationFrame = __webpack_require__(107);
+var _fastAnimationFrame = __webpack_require__(108);
 
 var _nodetype = __webpack_require__(19);
 
@@ -6202,7 +6289,7 @@ var _dirtyCheck = __webpack_require__(120);
 
 var _spriteUtils = __webpack_require__(10);
 
-var _group3 = __webpack_require__(78);
+var _group3 = __webpack_require__(79);
 
 var _group4 = _interopRequireDefault(_group3);
 
@@ -6388,10 +6475,16 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'renderRepaintDirty',
     value: function renderRepaintDirty(t) {
+      var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
+      if (updateEls.some(function (el) {
+        return !!el.attr('filter');
+      })) {
+        return this.renderRepaintAll(t);
+      }
+
       var shadowContext = this.shadowContext;
       var outputContext = this.outputContext;
 
-      var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
       var renderEls = this[_children];
 
       if (shadowContext) {
@@ -6603,7 +6696,7 @@ exports.default = Layer;
 (0, _nodetype.registerNodeType)('layer', Layer, true);
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6666,7 +6759,7 @@ var _spriteAnimator = __webpack_require__(35);
 
 var _spriteUtils = __webpack_require__(10);
 
-var _path = __webpack_require__(79);
+var _path = __webpack_require__(80);
 
 var _nodetype = __webpack_require__(19);
 
@@ -7000,7 +7093,7 @@ exports.default = Path;
 (0, _nodetype.registerNodeType)('path', Path);
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7011,7 +7104,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(82);
+var _stringify = __webpack_require__(83);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -7065,7 +7158,7 @@ var _basesprite = __webpack_require__(34);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _filters = __webpack_require__(119);
+var _filters = __webpack_require__(78);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -7264,31 +7357,18 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           drawingContext.save();
 
           if (texture.filter) {
-            var outterRect = void 0;
+            (0, _spriteUtils.setDeprecation)('texture.filter', 'Instead use sprite.attr({filter}).');
             var imgRect = srcRect ? [0, 0, srcRect[2], srcRect[3]] : [0, 0, img.width, img.height];
 
-            if (texture.filter.dropShadow) {
-              var dsArr = texture.filter.dropShadow;
-              var shadowRect = [dsArr[0] - 2 * dsArr[2], dsArr[1] - 2 * dsArr[2], imgRect[2] + 4 * dsArr[2], imgRect[3] + 4 * dsArr[2]].map(function (val) {
-                return Math.round(val);
-              });
-
-              outterRect = (0, _spriteUtils.boxToRect)((0, _spriteUtils.boxUnion)((0, _spriteUtils.rectToBox)(shadowRect), (0, _spriteUtils.rectToBox)(imgRect))).map(function (val) {
-                return Math.abs(val);
-              });
-            } else {
-              outterRect = imgRect;
-            }
-
-            var sx = rect[2] / outterRect[2],
-                sy = rect[3] / outterRect[3];
+            var sx = rect[2] / imgRect[2],
+                sy = rect[3] / imgRect[3];
 
             drawingContext.filter = _filters2.default.compile(texture.filter);
 
             if (srcRect) {
-              drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
+              drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
             } else {
-              drawingContext.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height);
+              drawingContext.drawImage(img, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * img.width, sy * img.height);
             }
           } else if (srcRect) {
             drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), (0, _toConsumableArray3.default)(rect)));
@@ -7370,7 +7450,7 @@ exports.default = Sprite;
 (0, _nodetype.registerNodeType)('sprite', Sprite);
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7405,7 +7485,7 @@ var _inherits2 = __webpack_require__(22);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _keys = __webpack_require__(83);
+var _keys = __webpack_require__(84);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -7427,7 +7507,7 @@ var _assign2 = _interopRequireDefault(_assign);
 
 var _spriteAnimator = __webpack_require__(35);
 
-var _fastAnimationFrame = __webpack_require__(107);
+var _fastAnimationFrame = __webpack_require__(108);
 
 var _spriteMath = __webpack_require__(36);
 
@@ -7638,7 +7718,7 @@ var _default = function (_Animator) {
 exports.default = _default;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7660,7 +7740,7 @@ var _defineProperty = __webpack_require__(45);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _stringify = __webpack_require__(82);
+var _stringify = __webpack_require__(83);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -7760,7 +7840,8 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       zIndex: 0,
       offsetRotate: 'auto',
       gradients: {},
-      offsetDistance: 0
+      offsetDistance: 0,
+      filter: ''
     }, {
       pos: function pos() {
         return [this.x, this.y];
@@ -8264,84 +8345,16 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       this.set('offsetRotate', val);
       this.resetOffset();
     }
+  }, {
+    key: 'filter',
+    set: function set(val) {
+      this.clearCache();
+      this.set('filter', val);
+    }
   }]);
   return SpriteAttr;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype)), _class));
+}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype)), _class));
 exports.default = SpriteAttr;
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _entries = __webpack_require__(20);
-
-var _entries2 = _interopRequireDefault(_entries);
-
-var _slicedToArray2 = __webpack_require__(1);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _spriteUtils = __webpack_require__(10);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  blur: function blur(px) {
-    return 'blur(' + (0, _spriteUtils.appendUnit)(px) + ')';
-  },
-  brightness: function brightness(percent) {
-    return 'brightness(' + percent + ')';
-  },
-  contrast: function contrast(percent) {
-    return 'contrast(' + percent + ')';
-  },
-  dropShadow: function dropShadow(_ref) {
-    var _ref2 = (0, _slicedToArray3.default)(_ref, 4),
-        offsetX = _ref2[0],
-        offsetY = _ref2[1],
-        shadowRadius = _ref2[2],
-        color = _ref2[3];
-
-    return 'drop-shadow(' + (0, _spriteUtils.appendUnit)(offsetX) + ' ' + (0, _spriteUtils.appendUnit)(offsetY) + ' ' + (0, _spriteUtils.appendUnit)(shadowRadius) + ' ' + color + ')';
-  },
-  grayscale: function grayscale(percent) {
-    return 'grayscale(' + percent + ')';
-  },
-  hueRotate: function hueRotate(value) {
-    return 'hue-rotate(' + (0, _spriteUtils.appendUnit)(value, 'deg') + ')';
-  },
-  invert: function invert(percent) {
-    return 'invert(' + percent + ')';
-  },
-  opacity: function opacity(percent) {
-    return 'opacity(' + percent + ')';
-  },
-  saturate: function saturate(percent) {
-    return 'saturate(' + percent + ')';
-  },
-  sepia: function sepia(percent) {
-    return 'sepia(' + percent + ')';
-  },
-  url: function url(path) {
-    return 'url(' + path + ')';
-  },
-  compile: function compile() {
-    var _this = this;
-
-    var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    return (0, _entries2.default)(filter).reduce(function (accumulator, curVal) {
-      return accumulator.concat(_this[curVal[0]](curVal[1]));
-    }, []).join(' ');
-  }
-}; // http://www.runoob.com/cssref/css3-pr-filter.html
 
 /***/ }),
 /* 120 */
@@ -8758,15 +8771,15 @@ var _basesprite = __webpack_require__(34);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _sprite = __webpack_require__(116);
+var _sprite = __webpack_require__(117);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
-var _label = __webpack_require__(113);
+var _label = __webpack_require__(114);
 
 var _label2 = _interopRequireDefault(_label);
 
-var _layer = __webpack_require__(114);
+var _layer = __webpack_require__(115);
 
 var _layer2 = _interopRequireDefault(_layer);
 
@@ -8778,7 +8791,7 @@ var _basenode = __webpack_require__(53);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _path = __webpack_require__(115);
+var _path = __webpack_require__(116);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -9693,7 +9706,7 @@ module.exports = function (TYPE, $create) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(12);
-var isArray = __webpack_require__(91);
+var isArray = __webpack_require__(92);
 var SPECIES = __webpack_require__(6)('species');
 
 module.exports = function (original) {
@@ -9805,7 +9818,7 @@ module.exports = function (Constructor, NAME, next) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(8);
-var macrotask = __webpack_require__(106).set;
+var macrotask = __webpack_require__(107).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -9921,7 +9934,7 @@ module.exports = !$assign || __webpack_require__(24)(function () {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(18);
-var gOPN = __webpack_require__(96).f;
+var gOPN = __webpack_require__(97).f;
 var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -10067,13 +10080,13 @@ module.exports = __webpack_require__(0).isIterable = function (it) {
 var ctx = __webpack_require__(15);
 var $export = __webpack_require__(2);
 var toObject = __webpack_require__(32);
-var call = __webpack_require__(92);
-var isArrayIter = __webpack_require__(90);
+var call = __webpack_require__(93);
+var isArrayIter = __webpack_require__(91);
 var toLength = __webpack_require__(50);
 var createProperty = __webpack_require__(160);
 var getIterFn = __webpack_require__(75);
 
-$export($export.S + $export.F * !__webpack_require__(93)(function (iter) { Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(94)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
     var O = toObject(arrayLike);
@@ -10109,7 +10122,7 @@ $export($export.S + $export.F * !__webpack_require__(93)(function (iter) { Array
 "use strict";
 
 var addToUnscopables = __webpack_require__(154);
-var step = __webpack_require__(94);
+var step = __webpack_require__(95);
 var Iterators = __webpack_require__(30);
 var toIObject = __webpack_require__(18);
 
@@ -10149,12 +10162,12 @@ addToUnscopables('entries');
 
 "use strict";
 
-var strong = __webpack_require__(85);
+var strong = __webpack_require__(86);
 var validate = __webpack_require__(72);
 var MAP = 'Map';
 
 // 23.1 Map Objects
-module.exports = __webpack_require__(87)(MAP, function (get) {
+module.exports = __webpack_require__(88)(MAP, function (get) {
   return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.1.3.6 Map.prototype.get(key)
@@ -10209,7 +10222,7 @@ $export($export.S, 'Object', { create: __webpack_require__(49) });
 
 var $export = __webpack_require__(2);
 // 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
-$export($export.S + $export.F * !__webpack_require__(11), 'Object', { defineProperties: __webpack_require__(95) });
+$export($export.S + $export.F * !__webpack_require__(11), 'Object', { defineProperties: __webpack_require__(96) });
 
 
 /***/ }),
@@ -10242,7 +10255,7 @@ __webpack_require__(66)('getOwnPropertyDescriptor', function () {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
 var toObject = __webpack_require__(32);
-var $getPrototypeOf = __webpack_require__(97);
+var $getPrototypeOf = __webpack_require__(98);
 
 __webpack_require__(66)('getPrototypeOf', function () {
   return function getPrototypeOf(it) {
@@ -10290,12 +10303,12 @@ var isObject = __webpack_require__(12);
 var aFunction = __webpack_require__(39);
 var anInstance = __webpack_require__(56);
 var forOf = __webpack_require__(41);
-var speciesConstructor = __webpack_require__(105);
-var task = __webpack_require__(106).set;
+var speciesConstructor = __webpack_require__(106);
+var task = __webpack_require__(107).set;
 var microtask = __webpack_require__(164)();
 var newPromiseCapabilityModule = __webpack_require__(63);
-var perform = __webpack_require__(99);
-var promiseResolve = __webpack_require__(100);
+var perform = __webpack_require__(100);
+var promiseResolve = __webpack_require__(101);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -10490,7 +10503,7 @@ if (!USE_NATIVE) {
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
 __webpack_require__(44)($Promise, PROMISE);
-__webpack_require__(104)(PROMISE);
+__webpack_require__(105)(PROMISE);
 Wrapper = __webpack_require__(0)[PROMISE];
 
 // statics
@@ -10509,7 +10522,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(93)(function (iter) {
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(94)(function (iter) {
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -10561,12 +10574,12 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(93)(function
 
 "use strict";
 
-var strong = __webpack_require__(85);
+var strong = __webpack_require__(86);
 var validate = __webpack_require__(72);
 var SET = 'Set';
 
 // 23.2 Set Objects
-module.exports = __webpack_require__(87)(SET, function (get) {
+module.exports = __webpack_require__(88)(SET, function (get) {
   return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.2.3.1 Set.prototype.add(value)
@@ -10587,7 +10600,7 @@ var global = __webpack_require__(8);
 var has = __webpack_require__(25);
 var DESCRIPTORS = __webpack_require__(11);
 var $export = __webpack_require__(2);
-var redefine = __webpack_require__(101);
+var redefine = __webpack_require__(102);
 var META = __webpack_require__(62).KEY;
 var $fails = __webpack_require__(24);
 var shared = __webpack_require__(69);
@@ -10597,7 +10610,7 @@ var wks = __webpack_require__(6);
 var wksExt = __webpack_require__(74);
 var wksDefine = __webpack_require__(73);
 var enumKeys = __webpack_require__(161);
-var isArray = __webpack_require__(91);
+var isArray = __webpack_require__(92);
 var anObject = __webpack_require__(14);
 var isObject = __webpack_require__(12);
 var toIObject = __webpack_require__(18);
@@ -10730,7 +10743,7 @@ if (!USE_NATIVE) {
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
-  __webpack_require__(96).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(97).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(42).f = $propertyIsEnumerable;
   __webpack_require__(65).f = $getOwnPropertySymbols;
 
@@ -10822,7 +10835,7 @@ setToStringTag(global.JSON, 'JSON', true);
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
-__webpack_require__(102)('Map');
+__webpack_require__(103)('Map');
 
 
 /***/ }),
@@ -10830,7 +10843,7 @@ __webpack_require__(102)('Map');
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
-__webpack_require__(103)('Map');
+__webpack_require__(104)('Map');
 
 
 /***/ }),
@@ -10840,7 +10853,7 @@ __webpack_require__(103)('Map');
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(2);
 
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(86)('Map') });
+$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(87)('Map') });
 
 
 /***/ }),
@@ -10868,8 +10881,8 @@ $export($export.S, 'Object', {
 var $export = __webpack_require__(2);
 var core = __webpack_require__(0);
 var global = __webpack_require__(8);
-var speciesConstructor = __webpack_require__(105);
-var promiseResolve = __webpack_require__(100);
+var speciesConstructor = __webpack_require__(106);
+var promiseResolve = __webpack_require__(101);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -10894,7 +10907,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 // https://github.com/tc39/proposal-promise-try
 var $export = __webpack_require__(2);
 var newPromiseCapability = __webpack_require__(63);
-var perform = __webpack_require__(99);
+var perform = __webpack_require__(100);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -10909,7 +10922,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
-__webpack_require__(102)('Set');
+__webpack_require__(103)('Set');
 
 
 /***/ }),
@@ -10917,7 +10930,7 @@ __webpack_require__(102)('Set');
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
-__webpack_require__(103)('Set');
+__webpack_require__(104)('Set');
 
 
 /***/ }),
@@ -10927,7 +10940,7 @@ __webpack_require__(103)('Set');
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(2);
 
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(86)('Set') });
+$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(87)('Set') });
 
 
 /***/ }),
@@ -11013,7 +11026,7 @@ var _promise = __webpack_require__(55);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(83);
+var _keys = __webpack_require__(84);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -11035,11 +11048,11 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _utils = __webpack_require__(202);
 
-var _spriteTimeline = __webpack_require__(111);
+var _spriteTimeline = __webpack_require__(112);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(109);
+var _easing = __webpack_require__(110);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11407,7 +11420,7 @@ var _entries = __webpack_require__(20);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _getIterator2 = __webpack_require__(81);
+var _getIterator2 = __webpack_require__(82);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -11429,7 +11442,7 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
-var _effect = __webpack_require__(110);
+var _effect = __webpack_require__(111);
 
 var _effect2 = _interopRequireDefault(_effect);
 
@@ -11857,7 +11870,7 @@ function formatDelay(delay) {
   }
   return delay;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(108)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(109)))
 
 /***/ }),
 /* 206 */
@@ -11875,7 +11888,7 @@ exports.deprecate = deprecate;
 exports.parseValue = parseValue;
 exports.resolveValue = resolveValue;
 
-var _utils = __webpack_require__(112);
+var _utils = __webpack_require__(113);
 
 function attr(target, prop, descriptor) {
   target.__attributeNames = target.__attributeNames || [];

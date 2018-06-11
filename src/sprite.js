@@ -1,7 +1,7 @@
 import BaseSprite from './basesprite'
 import filters from './filters'
 
-import {rectToBox, boxToRect, boxUnion, attr} from 'sprite-utils'
+import {attr, setDeprecation} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 import {cacheContextPool} from './helpers/render'
 
@@ -202,28 +202,18 @@ export default class Sprite extends BaseSprite {
         drawingContext.save()
 
         if(texture.filter) {
-          let outterRect
+          setDeprecation('texture.filter', 'Instead use sprite.attr({filter}).')
           const imgRect = srcRect ? [0, 0, srcRect[2], srcRect[3]] : [0, 0, img.width, img.height]
 
-          if(texture.filter.dropShadow) {
-            const dsArr = texture.filter.dropShadow
-            const shadowRect = [dsArr[0] - 2 * dsArr[2], dsArr[1] - 2 * dsArr[2],
-              imgRect[2] + 4 * dsArr[2], imgRect[3] + 4 * dsArr[2]].map(val => Math.round(val))
-
-            outterRect = boxToRect(boxUnion(rectToBox(shadowRect), rectToBox(imgRect))).map(val => Math.abs(val))
-          } else {
-            outterRect = imgRect
-          }
-
-          const sx = rect[2] / outterRect[2],
-            sy = rect[3] / outterRect[3]
+          const sx = rect[2] / imgRect[2],
+            sy = rect[3] / imgRect[3]
 
           drawingContext.filter = filters.compile(texture.filter)
 
           if(srcRect) {
-            drawingContext.drawImage(img, ...srcRect, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3])
+            drawingContext.drawImage(img, ...srcRect, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3])
           } else {
-            drawingContext.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height)
+            drawingContext.drawImage(img, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * img.width, sy * img.height)
           }
         } else if(srcRect) {
           drawingContext.drawImage(img, ...srcRect, ...rect)

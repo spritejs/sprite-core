@@ -115,7 +115,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = exports.notice = undefined;
 
-var _utils = __webpack_require__(34);
+var _utils = __webpack_require__(35);
 
 var _decorators = __webpack_require__(61);
 
@@ -594,7 +594,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _defineProperty2 = __webpack_require__(36);
+var _defineProperty2 = __webpack_require__(37);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -656,7 +656,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _attr13 = __webpack_require__(44);
+var _attr13 = __webpack_require__(45);
 
 var _attr14 = _interopRequireDefault(_attr13);
 
@@ -666,7 +666,7 @@ var _basenode2 = _interopRequireDefault(_basenode);
 
 var _spriteMath = __webpack_require__(17);
 
-var _animation = __webpack_require__(43);
+var _animation = __webpack_require__(44);
 
 var _animation2 = _interopRequireDefault(_animation);
 
@@ -677,6 +677,10 @@ var _nodetype = __webpack_require__(7);
 var _render = __webpack_require__(13);
 
 var _spriteAnimator = __webpack_require__(16);
+
+var _filters = __webpack_require__(27);
+
+var _filters2 = _interopRequireDefault(_filters);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1113,6 +1117,12 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       this.dispatchEvent('beforedraw', evtArgs, true, true);
 
+      var filter = this.attr('filter');
+      if (filter) {
+        drawingContext.filter = _filters2.default.compile(filter);
+        this[_cachePriority] = 0;
+      }
+
       if (cachableContext) {
         // set cache before render for group
         if (!this.cache) {
@@ -1201,7 +1211,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         // we should always clip to prevent the subclass rendering not to overflow the box
         // but clip is very slow in wxapp simulator...
         if (!(typeof wx !== 'undefined' && wx.navigateToMiniProgram && typeof requestAnimationFrame !== 'undefined')) {
-          drawingContext.clip();
+          var filter = this.attr('filter');
+          if (!filter) {
+            drawingContext.clip();
+          }
         }
       }
 
@@ -1481,15 +1494,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
 
-var _effect = __webpack_require__(32);
+var _effect = __webpack_require__(33);
 
 var _effect2 = _interopRequireDefault(_effect);
 
-var _spriteTimeline = __webpack_require__(33);
+var _spriteTimeline = __webpack_require__(34);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(31);
+var _easing = __webpack_require__(32);
 
 var _animator = __webpack_require__(56);
 
@@ -1773,7 +1786,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toArray2 = __webpack_require__(38);
+var _toArray2 = __webpack_require__(39);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -2275,9 +2288,9 @@ var _nodetype = __webpack_require__(7);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _path = __webpack_require__(28);
+var _path = __webpack_require__(29);
 
-var _group = __webpack_require__(27);
+var _group = __webpack_require__(28);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -2503,6 +2516,80 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _entries = __webpack_require__(8);
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _spriteUtils = __webpack_require__(6);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  blur: function blur(px) {
+    return 'blur(' + (0, _spriteUtils.appendUnit)(px) + ')';
+  },
+  brightness: function brightness(percent) {
+    return 'brightness(' + percent + ')';
+  },
+  contrast: function contrast(percent) {
+    return 'contrast(' + percent + ')';
+  },
+  dropShadow: function dropShadow(_ref) {
+    var _ref2 = (0, _slicedToArray3.default)(_ref, 4),
+        offsetX = _ref2[0],
+        offsetY = _ref2[1],
+        shadowRadius = _ref2[2],
+        color = _ref2[3];
+
+    return 'drop-shadow(' + (0, _spriteUtils.appendUnit)(offsetX) + ' ' + (0, _spriteUtils.appendUnit)(offsetY) + ' ' + (0, _spriteUtils.appendUnit)(shadowRadius) + ' ' + color + ')';
+  },
+  grayscale: function grayscale(percent) {
+    return 'grayscale(' + percent + ')';
+  },
+  hueRotate: function hueRotate(value) {
+    return 'hue-rotate(' + (0, _spriteUtils.appendUnit)(value, 'deg') + ')';
+  },
+  invert: function invert(percent) {
+    return 'invert(' + percent + ')';
+  },
+  opacity: function opacity(percent) {
+    return 'opacity(' + percent + ')';
+  },
+  saturate: function saturate(percent) {
+    return 'saturate(' + percent + ')';
+  },
+  sepia: function sepia(percent) {
+    return 'sepia(' + percent + ')';
+  },
+  url: function url(path) {
+    return 'url(' + path + ')';
+  },
+  compile: function compile() {
+    var _this = this;
+
+    var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    return (0, _entries2.default)(filter).reduce(function (accumulator, curVal) {
+      return accumulator.concat(_this[curVal[0]](curVal[1]));
+    }, []).join(' ');
+  }
+}; // http://www.runoob.com/cssref/css3-pr-filter.html
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
@@ -2603,7 +2690,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2625,7 +2712,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _toArray2 = __webpack_require__(38);
+var _toArray2 = __webpack_require__(39);
 
 var _toArray3 = _interopRequireDefault(_toArray2);
 
@@ -2848,7 +2935,7 @@ function createSvgPath(path) {
 }
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2937,10 +3024,10 @@ var FastAnimationFrame = {
 };
 
 module.exports = FastAnimationFrame;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3130,7 +3217,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3285,7 +3372,7 @@ exports.Easings = Easings;
 exports.parseEasing = parseEasing;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3309,7 +3396,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3747,7 +3834,7 @@ var Timeline = function () {
 module.exports = Timeline;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4020,31 +4107,31 @@ exports.appendUnit = appendUnit;
 exports.sortOrderedSprites = sortOrderedSprites;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/object/define-property");
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/object/keys");
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/toArray");
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4334,7 +4421,7 @@ exports.default = Label;
 (0, _nodetype.registerNodeType)('label', Label);
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4407,7 +4494,7 @@ var _group2 = _interopRequireDefault(_group);
 
 var _spriteAnimator = __webpack_require__(16);
 
-var _fastAnimationFrame = __webpack_require__(29);
+var _fastAnimationFrame = __webpack_require__(30);
 
 var _nodetype = __webpack_require__(7);
 
@@ -4417,7 +4504,7 @@ var _dirtyCheck = __webpack_require__(46);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _group3 = __webpack_require__(27);
+var _group3 = __webpack_require__(28);
 
 var _group4 = _interopRequireDefault(_group3);
 
@@ -4603,10 +4690,16 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'renderRepaintDirty',
     value: function renderRepaintDirty(t) {
+      var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
+      if (updateEls.some(function (el) {
+        return !!el.attr('filter');
+      })) {
+        return this.renderRepaintAll(t);
+      }
+
       var shadowContext = this.shadowContext;
       var outputContext = this.outputContext;
 
-      var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
       var renderEls = this[_children];
 
       if (shadowContext) {
@@ -4818,7 +4911,7 @@ exports.default = Layer;
 (0, _nodetype.registerNodeType)('layer', Layer, true);
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4881,7 +4974,7 @@ var _spriteAnimator = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _path = __webpack_require__(28);
+var _path = __webpack_require__(29);
 
 var _nodetype = __webpack_require__(7);
 
@@ -5215,7 +5308,7 @@ exports.default = Path;
 (0, _nodetype.registerNodeType)('path', Path);
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5226,7 +5319,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(35);
+var _stringify = __webpack_require__(36);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -5280,7 +5373,7 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _filters = __webpack_require__(45);
+var _filters = __webpack_require__(27);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -5479,31 +5572,18 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
           drawingContext.save();
 
           if (texture.filter) {
-            var outterRect = void 0;
+            (0, _spriteUtils.setDeprecation)('texture.filter', 'Instead use sprite.attr({filter}).');
             var imgRect = srcRect ? [0, 0, srcRect[2], srcRect[3]] : [0, 0, img.width, img.height];
 
-            if (texture.filter.dropShadow) {
-              var dsArr = texture.filter.dropShadow;
-              var shadowRect = [dsArr[0] - 2 * dsArr[2], dsArr[1] - 2 * dsArr[2], imgRect[2] + 4 * dsArr[2], imgRect[3] + 4 * dsArr[2]].map(function (val) {
-                return Math.round(val);
-              });
-
-              outterRect = (0, _spriteUtils.boxToRect)((0, _spriteUtils.boxUnion)((0, _spriteUtils.rectToBox)(shadowRect), (0, _spriteUtils.rectToBox)(imgRect))).map(function (val) {
-                return Math.abs(val);
-              });
-            } else {
-              outterRect = imgRect;
-            }
-
-            var sx = rect[2] / outterRect[2],
-                sy = rect[3] / outterRect[3];
+            var sx = rect[2] / imgRect[2],
+                sy = rect[3] / imgRect[3];
 
             drawingContext.filter = _filters2.default.compile(texture.filter);
 
             if (srcRect) {
-              drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
+              drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), [sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]]));
             } else {
-              drawingContext.drawImage(img, sx * outterRect[0] + rect[0], sy * outterRect[1] + rect[1], sx * img.width, sy * img.height);
+              drawingContext.drawImage(img, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * img.width, sy * img.height);
             }
           } else if (srcRect) {
             drawingContext.drawImage.apply(drawingContext, [img].concat((0, _toConsumableArray3.default)(srcRect), (0, _toConsumableArray3.default)(rect)));
@@ -5585,7 +5665,7 @@ exports.default = Sprite;
 (0, _nodetype.registerNodeType)('sprite', Sprite);
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5620,7 +5700,7 @@ var _inherits2 = __webpack_require__(11);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _keys = __webpack_require__(37);
+var _keys = __webpack_require__(38);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -5642,7 +5722,7 @@ var _assign2 = _interopRequireDefault(_assign);
 
 var _spriteAnimator = __webpack_require__(16);
 
-var _fastAnimationFrame = __webpack_require__(29);
+var _fastAnimationFrame = __webpack_require__(30);
 
 var _spriteMath = __webpack_require__(17);
 
@@ -5853,7 +5933,7 @@ var _default = function (_Animator) {
 exports.default = _default;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5871,11 +5951,11 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _defineProperty = __webpack_require__(36);
+var _defineProperty = __webpack_require__(37);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _stringify = __webpack_require__(35);
+var _stringify = __webpack_require__(36);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -5975,7 +6055,8 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       zIndex: 0,
       offsetRotate: 'auto',
       gradients: {},
-      offsetDistance: 0
+      offsetDistance: 0,
+      filter: ''
     }, {
       pos: function pos() {
         return [this.x, this.y];
@@ -6479,84 +6560,16 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       this.set('offsetRotate', val);
       this.resetOffset();
     }
+  }, {
+    key: 'filter',
+    set: function set(val) {
+      this.clearCache();
+      this.set('filter', val);
+    }
   }]);
   return SpriteAttr;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype)), _class));
+}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype)), _class));
 exports.default = SpriteAttr;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _entries = __webpack_require__(8);
-
-var _entries2 = _interopRequireDefault(_entries);
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _spriteUtils = __webpack_require__(6);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  blur: function blur(px) {
-    return 'blur(' + (0, _spriteUtils.appendUnit)(px) + ')';
-  },
-  brightness: function brightness(percent) {
-    return 'brightness(' + percent + ')';
-  },
-  contrast: function contrast(percent) {
-    return 'contrast(' + percent + ')';
-  },
-  dropShadow: function dropShadow(_ref) {
-    var _ref2 = (0, _slicedToArray3.default)(_ref, 4),
-        offsetX = _ref2[0],
-        offsetY = _ref2[1],
-        shadowRadius = _ref2[2],
-        color = _ref2[3];
-
-    return 'drop-shadow(' + (0, _spriteUtils.appendUnit)(offsetX) + ' ' + (0, _spriteUtils.appendUnit)(offsetY) + ' ' + (0, _spriteUtils.appendUnit)(shadowRadius) + ' ' + color + ')';
-  },
-  grayscale: function grayscale(percent) {
-    return 'grayscale(' + percent + ')';
-  },
-  hueRotate: function hueRotate(value) {
-    return 'hue-rotate(' + (0, _spriteUtils.appendUnit)(value, 'deg') + ')';
-  },
-  invert: function invert(percent) {
-    return 'invert(' + percent + ')';
-  },
-  opacity: function opacity(percent) {
-    return 'opacity(' + percent + ')';
-  },
-  saturate: function saturate(percent) {
-    return 'saturate(' + percent + ')';
-  },
-  sepia: function sepia(percent) {
-    return 'sepia(' + percent + ')';
-  },
-  url: function url(path) {
-    return 'url(' + path + ')';
-  },
-  compile: function compile() {
-    var _this = this;
-
-    var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    return (0, _entries2.default)(filter).reduce(function (accumulator, curVal) {
-      return accumulator.concat(_this[curVal[0]](curVal[1]));
-    }, []).join(' ');
-  }
-}; // http://www.runoob.com/cssref/css3-pr-filter.html
 
 /***/ }),
 /* 46 */
@@ -6973,15 +6986,15 @@ var _basesprite = __webpack_require__(15);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _sprite = __webpack_require__(42);
+var _sprite = __webpack_require__(43);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
-var _label = __webpack_require__(39);
+var _label = __webpack_require__(40);
 
 var _label2 = _interopRequireDefault(_label);
 
-var _layer = __webpack_require__(40);
+var _layer = __webpack_require__(41);
 
 var _layer2 = _interopRequireDefault(_layer);
 
@@ -6993,7 +7006,7 @@ var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _path = __webpack_require__(41);
+var _path = __webpack_require__(42);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -7616,7 +7629,7 @@ var _promise = __webpack_require__(23);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(37);
+var _keys = __webpack_require__(38);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -7638,11 +7651,11 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _utils = __webpack_require__(57);
 
-var _spriteTimeline = __webpack_require__(33);
+var _spriteTimeline = __webpack_require__(34);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(31);
+var _easing = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8032,7 +8045,7 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
-var _effect = __webpack_require__(32);
+var _effect = __webpack_require__(33);
 
 var _effect2 = _interopRequireDefault(_effect);
 
@@ -8460,7 +8473,7 @@ function formatDelay(delay) {
   }
   return delay;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ }),
 /* 61 */
@@ -8478,7 +8491,7 @@ exports.deprecate = deprecate;
 exports.parseValue = parseValue;
 exports.resolveValue = resolveValue;
 
-var _utils = __webpack_require__(34);
+var _utils = __webpack_require__(35);
 
 function attr(target, prop, descriptor) {
   target.__attributeNames = target.__attributeNames || [];

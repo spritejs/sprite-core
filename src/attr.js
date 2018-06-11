@@ -44,6 +44,7 @@ class SpriteAttr {
       offsetRotate: 'auto',
       gradients: {},
       offsetDistance: 0,
+      filter: '',
     }, {
       pos() {
         return [this.x, this.y]
@@ -496,6 +497,12 @@ class SpriteAttr {
     }
     this.set('offsetRotate', val)
     this.resetOffset()
+  }
+
+  @attr
+  set filter(val) {
+    this.clearCache()
+    this.set('filter', val)
   }
 }
 
