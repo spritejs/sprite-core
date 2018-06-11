@@ -208,9 +208,12 @@ export default class Path extends BaseSprite {
       const [width, height] = this.offsetSize,
         [anchorX, anchorY] = this.attr('anchor')
 
-      const rect = [0, 0, width, height]
-      rect[0] = Math.min(0, bounds[0]) - offset[0] - anchorX * (width - 2 * offset[0])
-      rect[1] = Math.min(0, bounds[1]) - offset[1] - anchorY * (height - 2 * offset[1])
+      const rect = [0, 0, width, height],
+        offsetX = Math.min(0, bounds[0]),
+        offsetY = Math.min(0, bounds[1])
+
+      rect[0] = offsetX - offset[0] - anchorX * (width + offsetX - 2 * offset[0])
+      rect[1] = offsetY - offset[1] - anchorY * (height + offsetY - 2 * offset[1])
       return rect
     }
 

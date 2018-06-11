@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context, renderMode: 'repaintDirty'})
+
+    const s = new Group({
+      id: 'abc',
+      name: 'xxx',
+      anchor: 0.5,
+      bgcolor: 'red',
+      // size: [400, 400],
+      pos: [300, 300],
+      zIndex: 0,
+      // border: [10, 'blue'],
+      gradients: {
+        bgcolor: {
+          vector: [50, 50, 10, 70, 80, 100],
+          colors: [{
+            offset: 0,
+            color: 'rgba(255,0,0,0.5)',
+          }, {
+            offset: 1,
+            color: 'rgba(255,0,0,1)',
+          }],
+        },
+      },
+    })
+    layer.append(s)
+    // layer.draw()
+    
+    const s2 = new Sprite({
+      name: 'xxx',
+      anchor: 0,
+      bgcolor: 'green',
+      size: [50, 50],
+      pos: [-100, -100],
+    })
+
+    const s3 = s2.cloneNode()
+    s3.attr({
+      pos: [80, 80],
+    })
+
+    s.append(s2, s3)
+
+    s.on('click', (evt) => {
+      console.log(evt.targetSprites)
+    })
+
+    mycanvas.addEventListener('click', (evt) => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt})
+    })
+  </script>
+</body>
+</html>

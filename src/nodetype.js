@@ -1,5 +1,3 @@
-import querySelectorLimits from './helpers/selector'
-
 const nodeTypes = new Map()
 
 /* istanbul ignore next  */
@@ -18,9 +16,34 @@ const ownerDocumentDescriptor = {
   },
 }
 
+function getAllSubNodes(parent) {
+  const children = parent.children
+  return children.reduce((list, child) => {
+    if(child.children) {
+      return [...list, child, ...getAllSubNodes(child)]
+    }
+    return [...list, child]
+  }, [])
+}
+
+function querySelectorLimits(node, functor, limits = Infinity) {
+  const nodeList = []
+  const elements = getAllSubNodes(node)
+  for(let i = 0; i < elements.length; i++) {
+    const node = elements[i]
+    if(functor(node)) {
+      nodeList.push(node)
+      if(limits === nodeList.length) {
+        break
+      }
+    }
+  }
+  return nodeList
+}
+
 const elementProto = {
   getElementById(id) {
-    const children = this.children
+    const children = getAllSubNodes(this)
     for(let i = 0; i < children.length; i++) {
       const child = children[i]
       if(child.id === id) {
@@ -30,19 +53,17 @@ const elementProto = {
     return null
   },
   getElementsByName(name) {
-    return this.children.filter(c => c.name === name)
+    return getAllSubNodes(this).filter(c => c.name === name)
   },
   /*
     d3-friendly
     *, nodeType, #id, :name, {nodeType: checker}
   */
   querySelector(selector) {
-    const children = this.children
-
     let ret = null
 
     if(!selector || selector === '*') {
-      ret = children[0]
+      ret = this.children[0]
     } else if(typeof selector === 'string') {
       // querySelector('nodeType')
       // querySelector('#id')
@@ -51,12 +72,12 @@ const elementProto = {
         ret = this.getElementById(selector.slice(1))
       } else if(selector.startsWith(':')) {
         const name = selector.slice(1)
-        const nodeList = querySelectorLimits(children, c => c.name === name, 1)
+        const nodeList = querySelectorLimits(this, c => c.name === name, 1)
         if(nodeList.length) ret = nodeList[0]
       } else {
         const nodeType = getNodeType(selector)
         if(nodeType) {
-          const nodeList = querySelectorLimits(children, c => c instanceof nodeType, 1)
+          const nodeList = querySelectorLimits(this, c => c instanceof nodeType, 1)
           if(nodeList.length) ret = nodeList[0]
         }
       }
@@ -66,7 +87,7 @@ const elementProto = {
           nodeType: () => {...},   //checker
         }
       */
-      const nodeList = querySelectorLimits(children, (child) => {
+      const nodeList = querySelectorLimits(this, (child) => {
         return Object.entries(selector).some(([type, checker]) => {
           const nodeType = getNodeType(type)
           return nodeType && child instanceof nodeType && checker.call(this, child)
@@ -78,10 +99,9 @@ const elementProto = {
   },
   querySelectorAll(selector) {
     let ret = []
-    const children = this.children
 
     if(!selector || selector === '*') {
-      ret = [...children]
+      ret = getAllSubNodes(this)
     } else if(typeof selector === 'string') {
       if(selector.startsWith('#')) {
         const sprite = this.getElementById(selector.slice(1))
@@ -92,10 +112,10 @@ const elementProto = {
       }
       const nodeType = getNodeType(selector)
       if(nodeType) {
-        ret = querySelectorLimits(children, c => c instanceof nodeType)
+        ret = querySelectorLimits(this, c => c instanceof nodeType)
       }
     } else {
-      ret = querySelectorLimits(children, (child) => {
+      ret = querySelectorLimits(this, (child) => {
         return Object.entries(selector).some(([type, checker]) => {
           const nodeType = getNodeType(type)
           if(!nodeType || !(child instanceof nodeType)) {
