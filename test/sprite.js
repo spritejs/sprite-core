@@ -142,8 +142,14 @@ test('draw guanguan', async (t) => {
 })
 
 test('draw guanguan 2', async (t) => {
+  t.plan(2)
+
   const canvas = createCanvas(300, 300),
-    layer = new Layer({context: canvas.getContext('2d'), renderMode: 'repaintDirty'})
+    layer = new Layer({
+      context: canvas.getContext('2d'),
+      renderMode: 'repaintDirty',
+      autoRender: false,
+    })
 
   const img = await loadImage('./test/res/guanguan1.png')
 
@@ -153,6 +159,12 @@ test('draw guanguan 2', async (t) => {
     anchor: 0.5,
   })
   layer.append(s)
+
+  const startTime = Date.now()
+  setTimeout(() => {
+    t.truthy(Date.now() - startTime > 500)
+    layer.draw()
+  }, 550)
 
   await layer.prepareRender()
 

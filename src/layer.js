@@ -18,22 +18,24 @@ const _children = Symbol('children'),
 export default class Layer extends BaseNode {
   constructor({
     context,
-    handleEvent,
-    evaluateFPS,
-    renderMode,
-    shadowContext,
+    handleEvent = true,
+    evaluateFPS = false,
+    renderMode = 'repaintAll',
+    shadowContext = true,
+    autoRender = true,
   } = {}) {
     super()
 
-    this.handleEvent = handleEvent !== false
-    this.evaluateFPS = !!evaluateFPS
+    this.handleEvent = handleEvent
+    this.evaluateFPS = evaluateFPS
+    this.autoRender = autoRender
 
     // renderMode: repaintAll | repaintDirty
-    this.renderMode = renderMode || 'repaintAll'
+    this.renderMode = renderMode
 
     this.outputContext = context
 
-    if(shadowContext !== false) {
+    if(shadowContext) {
       if(typeof shadowContext === 'object') {
         this.shadowContext = shadowContext
       } else if(context.canvas && context.canvas.cloneNode) {
@@ -101,7 +103,7 @@ export default class Layer extends BaseNode {
       this[_renderDeferer] = {}
       this[_renderDeferer].promise = new Promise((resolve, reject) => {
         Object.assign(this[_renderDeferer], {resolve, reject})
-        requestAnimationFrame(this.draw.bind(this))
+        if(this.autoRender) requestAnimationFrame(this.draw.bind(this))
       })
       // .catch(ex => console.error(ex.message))
     }
