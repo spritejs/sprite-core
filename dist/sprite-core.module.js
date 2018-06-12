@@ -170,7 +170,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -397,213 +397,12 @@ module.exports = require("babel-runtime/helpers/possibleConstructorReturn");
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.cacheContextPool = undefined;
-
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _slicedToArray2 = __webpack_require__(0);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-exports.drawRadiusBox = drawRadiusBox;
-exports.findColor = findColor;
-exports.clearContext = clearContext;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function drawRadiusBox(context, _ref) {
-  var x = _ref.x,
-      y = _ref.y,
-      w = _ref.w,
-      h = _ref.h,
-      r = _ref.r;
-
-  context.beginPath();
-  context.moveTo(x + r, y);
-  context.arcTo(x + w, y, x + w, y + h, r);
-  context.arcTo(x + w, y + h, x, y + h, r);
-  context.arcTo(x, y + h, x, y, r);
-  context.arcTo(x, y, x + w, y, r);
-  context.closePath();
-}
-
-/* istanbul ignore next  */
-function gradientBox(angle, rect) {
-  var _rect = (0, _slicedToArray3.default)(rect, 4),
-      x = _rect[0],
-      y = _rect[1],
-      w = _rect[2],
-      h = _rect[3];
-
-  angle %= 360;
-  if (angle < 0) {
-    angle += 360;
-  }
-
-  var ret = [x, y, x + w, y + h];
-  if (angle >= 0 && angle < 90) {
-    var tan = Math.tan(Math.PI * angle / 180);
-
-    var d = tan * w;
-
-    if (d <= h) {
-      ret = [x, y, x + w, y + d];
-    } else {
-      d = h / tan;
-      ret = [x, y, x + d, y + h];
-    }
-  } else if (angle >= 90 && angle < 180) {
-    var _tan = Math.tan(Math.PI * (angle - 90) / 180);
-
-    var _d = _tan * h;
-
-    if (_d <= w) {
-      ret = [x + w, y, x + w - _d, y + h];
-    } else {
-      _d = w / _tan;
-      ret = [x + w, y, x, y + _d];
-    }
-  } else if (angle >= 180 && angle < 270) {
-    var _tan2 = Math.tan(Math.PI * (angle - 180) / 180);
-
-    var _d2 = _tan2 * w;
-
-    if (_d2 <= h) {
-      ret = [x + w, y + h, x, y + h - _d2];
-    } else {
-      _d2 = h / _tan2;
-      ret = [x + w, y + h, x + w - _d2, y];
-    }
-  } else if (angle >= 270 && angle < 360) {
-    var _tan3 = Math.tan(Math.PI * (angle - 270) / 180);
-
-    var _d3 = _tan3 * h;
-
-    if (_d3 <= w) {
-      ret = [x, y + h, x + _d3, y];
-    } else {
-      _d3 = w / _tan3;
-      ret = [x, y + h, x + w, y + h - _d3];
-    }
-  }
-
-  return ret;
-}
-
-function findColor(context, sprite, prop) {
-  var gradients = sprite.attr('gradients') || {};
-  var color = prop === 'border' ? sprite.attr(prop).color : sprite.attr(prop),
-      gradient = void 0;
-
-  if (gradients[prop]) {
-    /* istanbul ignore next */
-    gradient = gradients[prop];
-  } else if (typeof color !== 'string') {
-    gradient = color;
-  }
-
-  if (gradient) {
-    var _gradient = gradient,
-        colors = _gradient.colors,
-        vector = _gradient.vector,
-        direction = _gradient.direction,
-        rect = _gradient.rect;
-
-    /* istanbul ignore if  */
-
-    if (direction != null) {
-      if (prop === 'border') {
-        rect = rect || [0, 0].concat((0, _toConsumableArray3.default)(sprite.outerSize));
-      } else {
-        var _sprite$attr = sprite.attr('border'),
-            borderWidth = _sprite$attr.width;
-
-        rect = rect || [borderWidth, borderWidth].concat((0, _toConsumableArray3.default)(sprite.innerSize));
-      }
-      vector = gradientBox(direction, rect);
-    }
-
-    if (vector.length === 4) {
-      color = context.createLinearGradient.apply(context, (0, _toConsumableArray3.default)(vector));
-    } else if (vector.length === 6) {
-      color = context.createRadialGradient.apply(context, (0, _toConsumableArray3.default)(vector));
-    } /* istanbul ignore next  */else if (vector.length === 3) {
-        // for wxapp
-        color = context.createCircularGradient.apply(context, (0, _toConsumableArray3.default)(vector));
-      } /* istanbul ignore next  */else {
-          throw Error('Invalid gradient vector!');
-        }
-
-    colors.forEach(function (o) {
-      color.addColorStop(o.offset, o.color);
-    });
-  }
-
-  return color;
-}
-
-var contextPool = [],
-    maxPollSize = 20;
-
-var cacheContextPool = exports.cacheContextPool = {
-  get: function get(context) {
-    if (contextPool.length > 0) {
-      return contextPool.pop();
-    }
-
-    var canvas = context.canvas;
-    if (!canvas || !canvas.cloneNode) {
-      return;
-    }
-    var copied = canvas.cloneNode();
-    return copied.getContext('2d');
-  },
-  put: function put() {
-    for (var _len = arguments.length, contexts = Array(_len), _key = 0; _key < _len; _key++) {
-      contexts[_key] = arguments[_key];
-    }
-
-    contexts.every(function (context) {
-      context.canvas.width = 0;
-      context.canvas.height = 0;
-      contextPool.push(context);
-      return contextPool.length < maxPollSize;
-    });
-  },
-
-  get size() {
-    return contextPool.length;
-  }
-};
-
-function clearContext(context) {
-  if (context.canvas) {
-    var _context$canvas = context.canvas,
-        width = _context$canvas.width,
-        height = _context$canvas.height;
-
-    context.clearRect(0, 0, width, height);
-  }
-}
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/map");
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -684,7 +483,7 @@ var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _spriteMath = __webpack_require__(17);
+var _spriteMath = __webpack_require__(16);
 
 var _animation = __webpack_require__(44);
 
@@ -694,9 +493,9 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(13);
+var _render = __webpack_require__(17);
 
-var _spriteAnimator = __webpack_require__(16);
+var _spriteAnimator = __webpack_require__(15);
 
 var _filters = __webpack_require__(27);
 
@@ -1495,7 +1294,7 @@ exports.default = BaseSprite;
 (0, _nodetype.registerNodeType)('basesprite', BaseSprite);
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1528,7 +1327,7 @@ exports.Effects = _effect2.default;
 exports.Timeline = _spriteTimeline2.default;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1551,6 +1350,196 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.Matrix = _matrix2.default;
 exports.Vector = _vector2.default;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cacheContextPool = undefined;
+
+var _toConsumableArray2 = __webpack_require__(1);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+exports.drawRadiusBox = drawRadiusBox;
+exports.findColor = findColor;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function drawRadiusBox(context, _ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      w = _ref.w,
+      h = _ref.h,
+      r = _ref.r;
+
+  context.beginPath();
+  context.moveTo(x + r, y);
+  context.arcTo(x + w, y, x + w, y + h, r);
+  context.arcTo(x + w, y + h, x, y + h, r);
+  context.arcTo(x, y + h, x, y, r);
+  context.arcTo(x, y, x + w, y, r);
+  context.closePath();
+}
+
+/* istanbul ignore next  */
+function gradientBox(angle, rect) {
+  var _rect = (0, _slicedToArray3.default)(rect, 4),
+      x = _rect[0],
+      y = _rect[1],
+      w = _rect[2],
+      h = _rect[3];
+
+  angle %= 360;
+  if (angle < 0) {
+    angle += 360;
+  }
+
+  var ret = [x, y, x + w, y + h];
+  if (angle >= 0 && angle < 90) {
+    var tan = Math.tan(Math.PI * angle / 180);
+
+    var d = tan * w;
+
+    if (d <= h) {
+      ret = [x, y, x + w, y + d];
+    } else {
+      d = h / tan;
+      ret = [x, y, x + d, y + h];
+    }
+  } else if (angle >= 90 && angle < 180) {
+    var _tan = Math.tan(Math.PI * (angle - 90) / 180);
+
+    var _d = _tan * h;
+
+    if (_d <= w) {
+      ret = [x + w, y, x + w - _d, y + h];
+    } else {
+      _d = w / _tan;
+      ret = [x + w, y, x, y + _d];
+    }
+  } else if (angle >= 180 && angle < 270) {
+    var _tan2 = Math.tan(Math.PI * (angle - 180) / 180);
+
+    var _d2 = _tan2 * w;
+
+    if (_d2 <= h) {
+      ret = [x + w, y + h, x, y + h - _d2];
+    } else {
+      _d2 = h / _tan2;
+      ret = [x + w, y + h, x + w - _d2, y];
+    }
+  } else if (angle >= 270 && angle < 360) {
+    var _tan3 = Math.tan(Math.PI * (angle - 270) / 180);
+
+    var _d3 = _tan3 * h;
+
+    if (_d3 <= w) {
+      ret = [x, y + h, x + _d3, y];
+    } else {
+      _d3 = w / _tan3;
+      ret = [x, y + h, x + w, y + h - _d3];
+    }
+  }
+
+  return ret;
+}
+
+function findColor(context, sprite, prop) {
+  var gradients = sprite.attr('gradients') || {};
+  var color = prop === 'border' ? sprite.attr(prop).color : sprite.attr(prop),
+      gradient = void 0;
+
+  if (gradients[prop]) {
+    /* istanbul ignore next */
+    gradient = gradients[prop];
+  } else if (typeof color !== 'string') {
+    gradient = color;
+  }
+
+  if (gradient) {
+    var _gradient = gradient,
+        colors = _gradient.colors,
+        vector = _gradient.vector,
+        direction = _gradient.direction,
+        rect = _gradient.rect;
+
+    /* istanbul ignore if  */
+
+    if (direction != null) {
+      if (prop === 'border') {
+        rect = rect || [0, 0].concat((0, _toConsumableArray3.default)(sprite.outerSize));
+      } else {
+        var _sprite$attr = sprite.attr('border'),
+            borderWidth = _sprite$attr.width;
+
+        rect = rect || [borderWidth, borderWidth].concat((0, _toConsumableArray3.default)(sprite.innerSize));
+      }
+      vector = gradientBox(direction, rect);
+    }
+
+    if (vector.length === 4) {
+      color = context.createLinearGradient.apply(context, (0, _toConsumableArray3.default)(vector));
+    } else if (vector.length === 6) {
+      color = context.createRadialGradient.apply(context, (0, _toConsumableArray3.default)(vector));
+    } /* istanbul ignore next  */else if (vector.length === 3) {
+        // for wxapp
+        color = context.createCircularGradient.apply(context, (0, _toConsumableArray3.default)(vector));
+      } /* istanbul ignore next  */else {
+          throw Error('Invalid gradient vector!');
+        }
+
+    colors.forEach(function (o) {
+      color.addColorStop(o.offset, o.color);
+    });
+  }
+
+  return color;
+}
+
+var contextPool = [],
+    maxPollSize = 20;
+
+var cacheContextPool = exports.cacheContextPool = {
+  get: function get(context) {
+    if (contextPool.length > 0) {
+      return contextPool.pop();
+    }
+
+    var canvas = context.canvas;
+    if (!canvas || !canvas.cloneNode) {
+      return;
+    }
+    var copied = canvas.cloneNode();
+    return copied.getContext('2d');
+  },
+  put: function put() {
+    for (var _len = arguments.length, contexts = Array(_len), _key = 0; _key < _len; _key++) {
+      contexts[_key] = arguments[_key];
+    }
+
+    contexts.every(function (context) {
+      context.canvas.width = 0;
+      context.canvas.height = 0;
+      contextPool.push(context);
+      return contextPool.length < maxPollSize;
+    });
+  },
+
+  get size() {
+    return contextPool.length;
+  }
+};
 
 /***/ }),
 /* 18 */
@@ -1818,7 +1807,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _spriteMath = __webpack_require__(17);
+var _spriteMath = __webpack_require__(16);
 
 var _platform = __webpack_require__(66);
 
@@ -2134,7 +2123,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _render = __webpack_require__(13);
+var _render = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2292,7 +2281,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _desc, _value, _class, _class2, _temp;
 
-var _basesprite = __webpack_require__(15);
+var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -2995,7 +2984,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -3282,7 +3271,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -3456,7 +3445,7 @@ var _toConsumableArray2 = __webpack_require__(1);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -4226,7 +4215,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _dec, _dec2, _dec3, _desc, _value, _class, _class2, _temp;
 
-var _basesprite = __webpack_require__(15);
+var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -4234,7 +4223,7 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(13);
+var _render = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4538,13 +4527,11 @@ var _group = __webpack_require__(26);
 
 var _group2 = _interopRequireDefault(_group);
 
-var _spriteAnimator = __webpack_require__(16);
+var _spriteAnimator = __webpack_require__(15);
 
 var _fastAnimationFrame = __webpack_require__(30);
 
 var _nodetype = __webpack_require__(7);
-
-var _render = __webpack_require__(13);
 
 var _dirtyCheck = __webpack_require__(46);
 
@@ -4614,6 +4601,17 @@ var Layer = function (_BaseNode) {
   }
 
   (0, _createClass3.default)(Layer, [{
+    key: 'clearContext',
+    value: function clearContext(context) {
+      if (context.canvas) {
+        var _context$canvas = context.canvas,
+            width = _context$canvas.width,
+            height = _context$canvas.height;
+
+        context.clearRect(0, 0, width, height);
+      }
+    }
+  }, {
     key: 'remove',
     value: function remove() {
       var _this2 = this;
@@ -4719,12 +4717,12 @@ var Layer = function (_BaseNode) {
       var renderEls = this[_children];
 
       var outputContext = this.outputContext;
-      (0, _render.clearContext)(outputContext);
+      this.clearContext(outputContext);
 
       var shadowContext = this.shadowContext;
 
       if (shadowContext) {
-        (0, _render.clearContext)(shadowContext);
+        this.clearContext(shadowContext);
         this.drawSprites(renderEls, t);
         outputContext.drawImage(shadowContext.canvas, 0, 0);
       } else {
@@ -4760,10 +4758,10 @@ var Layer = function (_BaseNode) {
       if (shadowContext) {
         shadowContext.clip();
         outputContext.clip();
-        (0, _render.clearContext)(shadowContext);
+        this.clearContext(shadowContext);
       }
       outputContext.clip();
-      (0, _render.clearContext)(outputContext);
+      this.clearContext(outputContext);
 
       this.drawSprites(renderEls, t);
       if (shadowContext) {
@@ -4882,7 +4880,7 @@ var Layer = function (_BaseNode) {
       if (!shadowContext) {
         throw new Error('No shadowContext.');
       }
-      (0, _render.clearContext)(outputContext);
+      this.clearContext(outputContext);
 
       handler.call(this, outputContext);
 
@@ -5010,13 +5008,13 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _dec2, _dec3, _desc, _value, _class, _class2, _temp;
 
-var _basesprite = __webpack_require__(15);
+var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _render = __webpack_require__(13);
+var _render = __webpack_require__(17);
 
-var _spriteAnimator = __webpack_require__(16);
+var _spriteAnimator = __webpack_require__(15);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -5380,7 +5378,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -5418,7 +5416,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _desc, _value, _class, _class2, _temp;
 
-var _basesprite = __webpack_require__(15);
+var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -5430,7 +5428,7 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(13);
+var _render = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5769,11 +5767,11 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _spriteAnimator = __webpack_require__(16);
+var _spriteAnimator = __webpack_require__(15);
 
 var _fastAnimationFrame = __webpack_require__(30);
 
-var _spriteMath = __webpack_require__(17);
+var _spriteMath = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -6028,7 +6026,7 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _map = __webpack_require__(14);
+var _map = __webpack_require__(13);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -6046,7 +6044,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _desc, _value, _class;
 
-var _spriteMath = __webpack_require__(17);
+var _spriteMath = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -7004,7 +7002,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SvgPath = exports.Color = exports.createNode = exports.registerNodeType = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
 
-var _basesprite = __webpack_require__(15);
+var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -7038,7 +7036,7 @@ var _batch2 = _interopRequireDefault(_batch);
 
 var _nodetype = __webpack_require__(7);
 
-var _spriteAnimator = __webpack_require__(16);
+var _spriteAnimator = __webpack_require__(15);
 
 var _svgPathToCanvas = __webpack_require__(22);
 
@@ -7048,7 +7046,7 @@ var _spriteUtils = __webpack_require__(6);
 
 var utils = _interopRequireWildcard(_spriteUtils);
 
-var _spriteMath = __webpack_require__(17);
+var _spriteMath = __webpack_require__(16);
 
 var math = _interopRequireWildcard(_spriteMath);
 

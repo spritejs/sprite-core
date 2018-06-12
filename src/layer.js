@@ -5,7 +5,6 @@ import {Timeline} from 'sprite-animator'
 import {requestAnimationFrame} from 'fast-animation-frame'
 import {registerNodeType} from './nodetype'
 
-import {clearContext} from './helpers/render'
 import {clearDirtyRects} from './helpers/dirty-check'
 import {setDeprecation} from 'sprite-utils'
 
@@ -81,6 +80,13 @@ export default class Layer extends BaseNode {
   }
   get offset() {
     return [0, 0]
+  }
+
+  clearContext(context) {
+    if(context.canvas) {
+      const {width, height} = context.canvas
+      context.clearRect(0, 0, width, height)
+    }
   }
 
   remove(...args) {
@@ -183,12 +189,12 @@ export default class Layer extends BaseNode {
     const renderEls = this[_children]
 
     const outputContext = this.outputContext
-    clearContext(outputContext)
+    this.clearContext(outputContext)
 
     const shadowContext = this.shadowContext
 
     if(shadowContext) {
-      clearContext(shadowContext)
+      this.clearContext(shadowContext)
       this.drawSprites(renderEls, t)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
     } else {
@@ -220,10 +226,10 @@ export default class Layer extends BaseNode {
     if(shadowContext) {
       shadowContext.clip()
       outputContext.clip()
-      clearContext(shadowContext)
+      this.clearContext(shadowContext)
     }
     outputContext.clip()
-    clearContext(outputContext)
+    this.clearContext(outputContext)
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
@@ -313,7 +319,7 @@ export default class Layer extends BaseNode {
     if(!shadowContext) {
       throw new Error('No shadowContext.')
     }
-    clearContext(outputContext)
+    this.clearContext(outputContext)
 
     handler.call(this, outputContext)
 

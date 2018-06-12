@@ -140,10 +140,3 @@ export const cacheContextPool = {
     return contextPool.length
   },
 }
-
-export function clearContext(context) {
-  if(context.canvas) {
-    const {width, height} = context.canvas
-    context.clearRect(0, 0, width, height)
-  }
-}
