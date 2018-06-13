@@ -2,7 +2,7 @@ import BaseNode from './basenode'
 import Batch from './batch'
 import Group from './group'
 import {Timeline} from 'sprite-animator'
-import {requestAnimationFrame} from 'fast-animation-frame'
+import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame'
 import {registerNodeType} from './nodetype'
 
 import {clearDirtyRects} from './helpers/dirty-check'
@@ -13,7 +13,8 @@ const _children = Symbol('children'),
   _zOrder = Symbol('zOrder'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
-  _renderDeferer = Symbol('renderDeferrer')
+  _renderDeferer = Symbol('renderDeferrer'),
+  _drawTask = Symbol('drawTask')
 
 export default class Layer extends BaseNode {
   constructor({
@@ -103,7 +104,12 @@ export default class Layer extends BaseNode {
       this[_renderDeferer] = {}
       this[_renderDeferer].promise = new Promise((resolve, reject) => {
         Object.assign(this[_renderDeferer], {resolve, reject})
-        if(this.autoRender) requestAnimationFrame(this.draw.bind(this))
+        if(this.autoRender) {
+          this[_drawTask] = requestAnimationFrame((t) => {
+            delete this[_drawTask]
+            this.draw(t)
+          })
+        }
       })
       // .catch(ex => console.error(ex.message))
     }
@@ -136,6 +142,10 @@ export default class Layer extends BaseNode {
       )
     }
     if(this[_renderDeferer]) {
+      if(this[_drawTask]) {
+        cancelAnimationFrame(this[_drawTask])
+        delete this[_drawTask]
+      }
       this[_renderDeferer].resolve()
       this[_renderDeferer] = null
     }

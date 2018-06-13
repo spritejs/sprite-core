@@ -6333,7 +6333,8 @@ var _children = (0, _symbol2.default)('children'),
     _zOrder = (0, _symbol2.default)('zOrder'),
     _tRecord = (0, _symbol2.default)('tRecord'),
     _timeline = (0, _symbol2.default)('timeline'),
-    _renderDeferer = (0, _symbol2.default)('renderDeferrer');
+    _renderDeferer = (0, _symbol2.default)('renderDeferrer'),
+    _drawTask = (0, _symbol2.default)('drawTask');
 
 var Layer = function (_BaseNode) {
   (0, _inherits3.default)(Layer, _BaseNode);
@@ -6429,7 +6430,12 @@ var Layer = function (_BaseNode) {
         this[_renderDeferer] = {};
         this[_renderDeferer].promise = new _promise2.default(function (resolve, reject) {
           (0, _assign2.default)(_this3[_renderDeferer], { resolve: resolve, reject: reject });
-          if (_this3.autoRender) (0, _fastAnimationFrame.requestAnimationFrame)(_this3.draw.bind(_this3));
+          if (_this3.autoRender) {
+            _this3[_drawTask] = (0, _fastAnimationFrame.requestAnimationFrame)(function (t) {
+              delete _this3[_drawTask];
+              _this3.draw(t);
+            });
+          }
         });
         // .catch(ex => console.error(ex.message))
       }
@@ -6438,6 +6444,10 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'draw',
     value: function draw(t) {
+      if (this[_drawTask]) {
+        (0, _fastAnimationFrame.cancelAnimationFrame)(this[_drawTask]);
+        delete this[_drawTask];
+      }
       /* istanbul ignore if  */
       if (t && this.evaluateFPS) {
         this[_tRecord].push(t);
