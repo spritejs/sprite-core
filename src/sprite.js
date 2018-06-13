@@ -190,9 +190,13 @@ export default class Sprite extends BaseSprite {
   }
 
   render(t, drawingContext) {
-    super.render(t, drawingContext)
+    const hasBg = super.render(t, drawingContext)
+    if(!hasBg && this.textures.length <= 1) {
+      this.__cachePolicyThreshold = Infinity
+    } else {
+      this.__cachePolicyThreshold = 6
+    }
     const textures = this.textures
-
     if(this.images) {
       textures.forEach((texture, i) => {
         const img = this.images[i]

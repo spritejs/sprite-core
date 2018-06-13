@@ -502,22 +502,18 @@ export default class BaseSprite extends BaseNode {
     )
   }
 
-  draw(t) {
-    const drawingContext = this.context
+  draw(t, drawingContext = this.context) {
     const bound = this.originalRect
-    let cachableContext = null
+    let cachableContext = this.cache
+
     // solve 1px problem
-    if(this.cachePriority > this.__cachePolicyThreshold) {
-      if(this.cache) {
-        cachableContext = this.cache
+    if(!cachableContext && this.cachePriority > this.__cachePolicyThreshold) {
+      cachableContext = cacheContextPool.get(drawingContext)
+      if(cachableContext) {
+        cachableContext.canvas.width = Math.ceil(bound[2]) + 2
+        cachableContext.canvas.height = Math.ceil(bound[3]) + 2
       } else {
-        cachableContext = cacheContextPool.get(drawingContext)
-        if(cachableContext) {
-          cachableContext.canvas.width = Math.ceil(bound[2]) + 2
-          cachableContext.canvas.height = Math.ceil(bound[3]) + 2
-        } else {
-          this.__cachePolicyThreshold = Infinity
-        }
+        this.__cachePolicyThreshold = Infinity
       }
     }
 
@@ -561,7 +557,6 @@ export default class BaseSprite extends BaseNode {
     this.dispatchEvent('afterdraw', evtArgs, true, true)
 
     drawingContext.restore()
-    this.lastRenderBox = this.renderBox
 
     return drawingContext
   }
@@ -574,8 +569,13 @@ export default class BaseSprite extends BaseNode {
       [clientWidth, clientHeight] = this.clientSize
 
     /* istanbul ignore if */
-    if(offsetWidth === 0 || offsetHeight === 0) {
-      return // don't need to render
+    if(offsetWidth === 0 || offsetHeight === 0) return
+    if(border.width <= 0
+      && borderRadius <= 0
+      && !this.attr('bgcolor')
+      && !this.attr('gradients').bgcolor) {
+      drawingContext.translate(padding[3], padding[0])
+      return false // don't need to render
     }
 
     const borderWidth = border.width
@@ -628,6 +628,8 @@ export default class BaseSprite extends BaseNode {
     }
 
     drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0])
+
+    return true
   }
 }
 

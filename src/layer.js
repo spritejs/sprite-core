@@ -186,6 +186,11 @@ export default class Layer extends BaseNode {
         const isVisible = this.isVisible(child)
         if(isVisible) {
           child.draw(t)
+          if(this.renderMode === 'repaintDirty') {
+            child.lastRenderBox = child.renderBox
+          } else {
+            child.lastRenderBox = 'no-calc'
+          }
         } else {
           // invisible, only need to remove lastRenderBox
           delete child.lastRenderBox
@@ -217,7 +222,7 @@ export default class Layer extends BaseNode {
   }
   renderRepaintDirty(t) {
     const updateEls = [...this[_updateSet]]
-    if(updateEls.some(el => !!el.attr('filter') || el.isVirtual)) {
+    if(updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
       return this.renderRepaintAll(t)
     }
 

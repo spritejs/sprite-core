@@ -181,7 +181,7 @@ export default class Group extends BaseSprite {
       const child = sprites[i],
         isVisible = this.isNodeVisible(child)
       if(isVisible) {
-        child.draw(t)
+        child.draw(t, drawingContext)
       }
       if(child.isDirty) {
         child.isDirty = false
