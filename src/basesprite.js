@@ -42,7 +42,7 @@ export default class BaseSprite extends BaseNode {
     this.Attr = class extends this.Attr {
       constructor(subject) {
         super(subject)
-        attrs.init(this, subject)
+        if(attrs.init) attrs.init(this, subject)
       }
     }
     Object.entries(attrs).forEach(([prop, handler]) => {

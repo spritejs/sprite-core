@@ -1769,7 +1769,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
           var _this5 = (0, _possibleConstructorReturn3.default)(this, (_class2.__proto__ || (0, _getPrototypeOf2.default)(_class2)).call(this, subject));
 
-          attrs.init(_this5, subject);
+          if (attrs.init) attrs.init(_this5, subject);
           return _this5;
         }
 
@@ -6444,10 +6444,6 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'draw',
     value: function draw(t) {
-      if (this[_drawTask]) {
-        (0, _fastAnimationFrame.cancelAnimationFrame)(this[_drawTask]);
-        delete this[_drawTask];
-      }
       /* istanbul ignore if  */
       if (t && this.evaluateFPS) {
         this[_tRecord].push(t);
@@ -6471,6 +6467,10 @@ var Layer = function (_BaseNode) {
         (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
       }
       if (this[_renderDeferer]) {
+        if (this[_drawTask]) {
+          (0, _fastAnimationFrame.cancelAnimationFrame)(this[_drawTask]);
+          delete this[_drawTask];
+        }
         this[_renderDeferer].resolve();
         this[_renderDeferer] = null;
       }
