@@ -7,7 +7,7 @@ import BaseNode from './basenode'
 import Path from './path'
 import Batch from './batch'
 import {registerNodeType, createNode} from './nodetype'
-import {Effects} from 'sprite-animator'
+import {Effects, Easings} from 'sprite-animator'
 import SvgPath from 'svg-path-to-canvas'
 
 import * as utils from 'sprite-utils'
@@ -27,6 +27,7 @@ export {
   Layer,
   Group,
   Effects,
+  Easings,
   registerNodeType,
   createNode,
   Color,

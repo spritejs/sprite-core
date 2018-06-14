@@ -11,7 +11,8 @@ import filters from './filters'
 
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
-  _cachePriority = Symbol('cachePriority')
+  _cachePriority = Symbol('cachePriority'),
+  _effects = Symbol('effects')
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -38,7 +39,13 @@ export default class BaseSprite extends BaseNode {
   get cachePriority() {
     return this[_cachePriority]
   }
-  static defineAttributes(attrs) {
+  static setAttributeEffects(effects = {}) {
+    if(this.prototype[_effects] == null) {
+      this.prototype[_effects] = effects
+    }
+    Object.assign(this.prototype[_effects], effects)
+  }
+  static defineAttributes(attrs, effects) {
     this.Attr = class extends this.Attr {
       constructor(subject) {
         super(subject)
@@ -70,6 +77,7 @@ export default class BaseSprite extends BaseNode {
         })
       }
     })
+    if(effects) this.setAttributeEffects(effects)
     return this.Attr
   }
 
@@ -214,6 +222,7 @@ export default class BaseSprite extends BaseNode {
   }
   animate(frames, timing) {
     const animation = new Animation(this, frames, timing)
+    if(this[_effects]) animation.applyEffects(this[_effects])
     if(this.layer) {
       animation.baseTimeline = this.layer.timeline
       animation.play()

@@ -483,7 +483,7 @@ var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _spriteMath = __webpack_require__(16);
+var _spriteMath = __webpack_require__(15);
 
 var _animation = __webpack_require__(44);
 
@@ -493,9 +493,9 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(17);
+var _render = __webpack_require__(16);
 
-var _spriteAnimator = __webpack_require__(15);
+var _spriteAnimator = __webpack_require__(19);
 
 var _filters = __webpack_require__(27);
 
@@ -505,7 +505,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _attr = (0, _symbol2.default)('attr'),
     _animations = (0, _symbol2.default)('animations'),
-    _cachePriority = (0, _symbol2.default)('cachePriority');
+    _cachePriority = (0, _symbol2.default)('cachePriority'),
+    _effects = (0, _symbol2.default)('effects');
 
 var BaseSprite = (_temp = _class = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
@@ -669,6 +670,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       var _this3 = this;
 
       var animation = new _animation2.default(this, frames, timing);
+      if (this[_effects]) animation.applyEffects(this[_effects]);
       if (this.layer) {
         animation.baseTimeline = this.layer.timeline;
         animation.play();
@@ -1236,8 +1238,18 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       return this.cacheContext;
     }
   }], [{
+    key: 'setAttributeEffects',
+    value: function setAttributeEffects() {
+      var effects = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (this.prototype[_effects] == null) {
+        this.prototype[_effects] = effects;
+      }
+      (0, _assign2.default)(this.prototype[_effects], effects);
+    }
+  }, {
     key: 'defineAttributes',
-    value: function defineAttributes(attrs) {
+    value: function defineAttributes(attrs, effects) {
       var _this6 = this;
 
       this.Attr = function (_Attr) {
@@ -1284,6 +1296,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           });
         }
       });
+      if (effects) this.setAttributeEffects(effects);
       return this.Attr;
     }
   }]);
@@ -1296,39 +1309,6 @@ exports.default = BaseSprite;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
-
-var _effect = __webpack_require__(33);
-
-var _effect2 = _interopRequireDefault(_effect);
-
-var _spriteTimeline = __webpack_require__(34);
-
-var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
-
-var _easing = __webpack_require__(32);
-
-var _animator = __webpack_require__(55);
-
-var _animator2 = _interopRequireDefault(_animator);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.Animator = _animator2.default;
-exports.Easings = _easing.Easings;
-exports.Effects = _effect2.default;
-exports.Timeline = _spriteTimeline2.default;
-
-/***/ }),
-/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1353,7 +1333,7 @@ exports.Matrix = _matrix2.default;
 exports.Vector = _vector2.default;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1543,16 +1523,49 @@ var cacheContextPool = exports.cacheContextPool = {
 };
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-decorators-runtime");
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/object/get-own-property-descriptor");
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
+
+var _effect = __webpack_require__(33);
+
+var _effect2 = _interopRequireDefault(_effect);
+
+var _spriteTimeline = __webpack_require__(34);
+
+var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
+
+var _easing = __webpack_require__(32);
+
+var _animator = __webpack_require__(55);
+
+var _animator2 = _interopRequireDefault(_animator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Animator = _animator2.default;
+exports.Easings = _easing.Easings;
+exports.Effects = _effect2.default;
+exports.Timeline = _spriteTimeline2.default;
 
 /***/ }),
 /* 20 */
@@ -1817,7 +1830,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _spriteMath = __webpack_require__(16);
+var _spriteMath = __webpack_require__(15);
 
 var _platform = __webpack_require__(66);
 
@@ -2133,7 +2146,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _render = __webpack_require__(17);
+var _render = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2261,7 +2274,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(19);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -2307,7 +2320,7 @@ var _group2 = _interopRequireDefault(_group);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(18);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _children = (0, _symbol2.default)('children'),
     _zOrder = (0, _symbol2.default)('zOrder');
@@ -4195,7 +4208,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(19);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -4237,11 +4250,11 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(17);
+var _render = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(18);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var parseFont = __webpack_require__(47);
 var _boxSize = (0, _symbol2.default)('boxSize');
@@ -4541,7 +4554,7 @@ var _group = __webpack_require__(26);
 
 var _group2 = _interopRequireDefault(_group);
 
-var _spriteAnimator = __webpack_require__(15);
+var _spriteAnimator = __webpack_require__(19);
 
 var _fastAnimationFrame = __webpack_require__(30);
 
@@ -5014,7 +5027,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(19);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -5048,9 +5061,7 @@ var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _render = __webpack_require__(17);
-
-var _spriteAnimator = __webpack_require__(15);
+var _render = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -5060,15 +5071,7 @@ var _nodetype = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(18);
-
-_spriteAnimator.Effects.d = _path.pathEffect;
-
-_spriteAnimator.Effects.path = function (path1, path2, p, start, end) {
-  path1 = (0, _path.createSvgPath)(path1);
-  path2 = (0, _path.createSvgPath)(path2);
-  return (0, _path.pathEffect)(path1.d, path2.d, p, start, end);
-};
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var PathSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (0, _spriteUtils.parseValue)(parseFloat), _dec3 = (0, _spriteUtils.deprecate)('Instead use strokeColor.'), (_class = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(PathSpriteAttr, _BaseSprite$Attr);
@@ -5388,6 +5391,15 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
 exports.default = Path;
 
 
+Path.setAttributeEffects({
+  d: _path.pathEffect,
+  path: function path(path1, path2, p, start, end) {
+    path1 = (0, _path.createSvgPath)(path1);
+    path2 = (0, _path.createSvgPath)(path2);
+    return (0, _path.pathEffect)(path1.d, path2.d, p, start, end);
+  }
+});
+
 (0, _nodetype.registerNodeType)('path', Path);
 
 /***/ }),
@@ -5422,7 +5434,7 @@ var _get2 = __webpack_require__(10);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(19);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -5464,11 +5476,11 @@ var _spriteUtils = __webpack_require__(6);
 
 var _nodetype = __webpack_require__(7);
 
-var _render = __webpack_require__(17);
+var _render = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(18);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _texturesCache = (0, _symbol2.default)('_texturesCache');
 var _images = (0, _symbol2.default)('_images');
@@ -5807,11 +5819,11 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _spriteAnimator = __webpack_require__(15);
+var _spriteAnimator = __webpack_require__(19);
 
 var _fastAnimationFrame = __webpack_require__(30);
 
-var _spriteMath = __webpack_require__(16);
+var _spriteMath = __webpack_require__(15);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -5905,6 +5917,9 @@ function colorEffect(color1, color2, p, start, end) {
 }
 
 (0, _assign2.default)(_spriteAnimator.Effects, {
+  arrayEffect: arrayEffect,
+  transformEffect: transformEffect,
+  colorEffect: colorEffect,
   pos: arrayEffect,
   size: arrayEffect,
   transform: transformEffect,
@@ -6030,7 +6045,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = __webpack_require__(19);
+var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -6084,7 +6099,7 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _desc, _value, _class;
 
-var _spriteMath = __webpack_require__(16);
+var _spriteMath = __webpack_require__(15);
 
 var _spriteUtils = __webpack_require__(6);
 
@@ -6094,7 +6109,7 @@ var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _applyDecoratedDescriptor = __webpack_require__(18);
+var _applyDecoratedDescriptor = __webpack_require__(17);
 
 var _attr = (0, _symbol2.default)('attr'),
     _temp = (0, _symbol2.default)('store'),
@@ -7040,7 +7055,7 @@ exports.sortCurves = sortCurves;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SvgPath = exports.Color = exports.createNode = exports.registerNodeType = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
+exports.SvgPath = exports.Color = exports.createNode = exports.registerNodeType = exports.Easings = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
 
 var _basesprite = __webpack_require__(14);
 
@@ -7076,7 +7091,7 @@ var _batch2 = _interopRequireDefault(_batch);
 
 var _nodetype = __webpack_require__(7);
 
-var _spriteAnimator = __webpack_require__(15);
+var _spriteAnimator = __webpack_require__(19);
 
 var _svgPathToCanvas = __webpack_require__(22);
 
@@ -7086,7 +7101,7 @@ var _spriteUtils = __webpack_require__(6);
 
 var utils = _interopRequireWildcard(_spriteUtils);
 
-var _spriteMath = __webpack_require__(16);
+var _spriteMath = __webpack_require__(15);
 
 var math = _interopRequireWildcard(_spriteMath);
 
@@ -7107,6 +7122,7 @@ exports.Path = _path2.default;
 exports.Layer = _layer2.default;
 exports.Group = _group2.default;
 exports.Effects = _spriteAnimator.Effects;
+exports.Easings = _spriteAnimator.Easings;
 exports.registerNodeType = _nodetype.registerNodeType;
 exports.createNode = _nodetype.createNode;
 exports.Color = Color;

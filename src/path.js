@@ -1,17 +1,8 @@
 import BaseSprite from './basesprite'
 import {findColor} from './helpers/render'
-import {Effects} from 'sprite-animator'
 import {parseColorString, parseValue, attr, deprecate} from 'sprite-utils'
 import {pathEffect, createSvgPath} from './helpers/path'
 import {registerNodeType} from './nodetype'
-
-Effects.d = pathEffect
-
-Effects.path = function (path1, path2, p, start, end) {
-  path1 = createSvgPath(path1)
-  path2 = createSvgPath(path2)
-  return pathEffect(path1.d, path2.d, p, start, end)
-}
 
 class PathSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -286,5 +277,14 @@ export default class Path extends BaseSprite {
     }
   }
 }
+
+Path.setAttributeEffects({
+  d: pathEffect,
+  path(path1, path2, p, start, end) {
+    path1 = createSvgPath(path1)
+    path2 = createSvgPath(path2)
+    return pathEffect(path1.d, path2.d, p, start, end)
+  },
+})
 
 registerNodeType('path', Path)

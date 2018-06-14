@@ -79,6 +79,9 @@ function colorEffect(color1, color2, p, start, end) {
 }
 
 Object.assign(Effects, {
+  arrayEffect,
+  transformEffect,
+  colorEffect,
   pos: arrayEffect,
   size: arrayEffect,
   transform: transformEffect,
