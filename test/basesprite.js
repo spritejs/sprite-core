@@ -74,9 +74,9 @@ test('sprite visible', (t) => {
   const canvas = createCanvas(600, 600),
     layer = new Layer({context: canvas.getContext('2d')})
 
-  t.falsy(layer.isVisible(s))
+  t.falsy(layer.isNodeVisible(s))
   layer.append(s)
-  t.truthy(layer.isVisible(s))
+  t.truthy(layer.isNodeVisible(s))
 
   s.attr({
     opacity: 0,

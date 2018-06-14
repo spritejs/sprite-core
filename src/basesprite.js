@@ -184,6 +184,9 @@ export default class BaseSprite extends BaseNode {
       return false
     }
 
+    if(this.parent && this.parent.isVisible) {
+      return this.parent.isVisible()
+    }
     return true
   }
 

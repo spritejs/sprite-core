@@ -155,7 +155,13 @@ export default class Layer extends BaseNode {
     if(target) this[_updateSet].add(target)
     this.prepareRender()
   }
-  isVisible(sprite) {
+  isVisible() {
+    if(this.canvas) {
+      return this.canvas.width > 0 && this.canvas.height > 0
+    }
+    return true
+  }
+  isNodeVisible(sprite) {
     if(!sprite.isVisible()) {
       return false
     }
@@ -183,7 +189,7 @@ export default class Layer extends BaseNode {
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i]
       if(child.parent === this) {
-        const isVisible = this.isVisible(child)
+        const isVisible = this.isNodeVisible(child)
         if(isVisible) {
           child.draw(t)
           if(this.renderMode === 'repaintDirty') {

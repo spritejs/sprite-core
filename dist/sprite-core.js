@@ -1155,6 +1155,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         return false;
       }
 
+      if (this.parent && this.parent.isVisible) {
+        return this.parent.isVisible();
+      }
       return true;
     }
   }, {
@@ -6491,7 +6494,15 @@ var Layer = function (_BaseNode) {
     }
   }, {
     key: 'isVisible',
-    value: function isVisible(sprite) {
+    value: function isVisible() {
+      if (this.canvas) {
+        return this.canvas.width > 0 && this.canvas.height > 0;
+      }
+      return true;
+    }
+  }, {
+    key: 'isNodeVisible',
+    value: function isNodeVisible(sprite) {
       if (!sprite.isVisible()) {
         return false;
       }
@@ -6506,7 +6517,7 @@ var Layer = function (_BaseNode) {
       for (var i = 0; i < renderEls.length; i++) {
         var child = renderEls[i];
         if (child.parent === this) {
-          var isVisible = this.isVisible(child);
+          var isVisible = this.isNodeVisible(child);
           if (isVisible) {
             child.draw(t);
             if (this.renderMode === 'repaintDirty') {
