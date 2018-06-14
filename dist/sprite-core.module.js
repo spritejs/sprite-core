@@ -944,7 +944,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         this.render(t, drawingContext);
       }
 
-      if (cachableContext) {
+      if (cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
         drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1);
       }
 
@@ -2468,23 +2468,6 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
-    key: 'isNodeVisible',
-    value: function isNodeVisible(sprite) {
-      if (!sprite.isVisible()) return false;
-      if (this.isVirtual) return true;
-
-      var _outerSize = (0, _slicedToArray3.default)(this.outerSize, 2),
-          w = _outerSize[0],
-          h = _outerSize[1];
-
-      var box1 = sprite.renderBox,
-          box2 = [0, 0, w, h];
-      if ((0, _spriteUtils.boxIntersect)(box1, box2)) {
-        return true;
-      }
-      return false;
-    }
-  }, {
     key: 'render',
     value: function render(t, drawingContext) {
       var clipPath = this.attr('clip');
@@ -2502,14 +2485,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       var sprites = this[_children];
 
       for (var i = 0; i < sprites.length; i++) {
-        var child = sprites[i],
-            isVisible = this.isNodeVisible(child);
-        if (isVisible) {
-          child.draw(t, drawingContext);
-        }
+        var child = sprites[i];
+        child.draw(t, drawingContext);
         if (child.isDirty) {
           child.isDirty = false;
-          child.dispatchEvent('update', { target: child, renderTime: t, isVisible: isVisible }, true, true);
+          child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
         }
       }
     }
@@ -4773,7 +4753,9 @@ var Layer = function (_BaseNode) {
       if (shadowContext) {
         this.clearContext(shadowContext);
         this.drawSprites(renderEls, t);
-        outputContext.drawImage(shadowContext.canvas, 0, 0);
+        if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+          outputContext.drawImage(shadowContext.canvas, 0, 0);
+        }
       } else {
         this.drawSprites(renderEls, t);
       }
@@ -4814,7 +4796,9 @@ var Layer = function (_BaseNode) {
 
       this.drawSprites(renderEls, t);
       if (shadowContext) {
-        outputContext.drawImage(shadowContext.canvas, 0, 0);
+        if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+          outputContext.drawImage(shadowContext.canvas, 0, 0);
+        }
         shadowContext.restore();
       }
 
@@ -4933,7 +4917,7 @@ var Layer = function (_BaseNode) {
 
       handler.call(this, outputContext);
 
-      if (update) {
+      if (update && shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
         outputContext.drawImage(shadowContext.canvas, 0, 0);
       }
     }

@@ -559,7 +559,7 @@ export default class BaseSprite extends BaseNode {
       this.render(t, drawingContext)
     }
 
-    if(cachableContext) {
+    if(cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
       drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1)
     }
 

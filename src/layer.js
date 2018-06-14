@@ -213,7 +213,9 @@ export default class Layer extends BaseNode {
     if(shadowContext) {
       this.clearContext(shadowContext)
       this.drawSprites(renderEls, t)
-      outputContext.drawImage(shadowContext.canvas, 0, 0)
+      if(shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+        outputContext.drawImage(shadowContext.canvas, 0, 0)
+      }
     } else {
       this.drawSprites(renderEls, t)
     }
@@ -250,7 +252,9 @@ export default class Layer extends BaseNode {
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
-      outputContext.drawImage(shadowContext.canvas, 0, 0)
+      if(shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+        outputContext.drawImage(shadowContext.canvas, 0, 0)
+      }
       shadowContext.restore()
     }
 
@@ -340,7 +344,7 @@ export default class Layer extends BaseNode {
 
     handler.call(this, outputContext)
 
-    if(update) {
+    if(update && shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
       outputContext.drawImage(shadowContext.canvas, 0, 0)
     }
   }

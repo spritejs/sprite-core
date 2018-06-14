@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {attr, boxIntersect} from 'sprite-utils'
+import {attr} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
 
 const _children = Symbol('children'),
@@ -154,18 +154,6 @@ export default class Group extends BaseSprite {
 
     return super.dispatchEvent(type, evt, collisionState, swallow)
   }
-  isNodeVisible(sprite) {
-    if(!sprite.isVisible()) return false
-    if(this.isVirtual) return true
-
-    const [w, h] = this.outerSize
-    const box1 = sprite.renderBox,
-      box2 = [0, 0, w, h]
-    if(boxIntersect(box1, box2)) {
-      return true
-    }
-    return false
-  }
   render(t, drawingContext) {
     const clipPath = this.attr('clip')
     if(clipPath) {
@@ -182,14 +170,11 @@ export default class Group extends BaseSprite {
     const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
-      const child = sprites[i],
-        isVisible = this.isNodeVisible(child)
-      if(isVisible) {
-        child.draw(t, drawingContext)
-      }
+      const child = sprites[i]
+      child.draw(t, drawingContext)
       if(child.isDirty) {
         child.isDirty = false
-        child.dispatchEvent('update', {target: child, renderTime: t, isVisible}, true, true)
+        child.dispatchEvent('update', {target: child, renderTime: t}, true, true)
       }
     }
   }
