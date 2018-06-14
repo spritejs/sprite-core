@@ -692,7 +692,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
         node.timeline = new _spriteAnimator.Timeline();
         node.update = function () {
           var currentTime = this.timeline.currentTime;
-          node.dispatchEvent('update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
+          node.dispatchEvent('update', { target: this, timeline: this.timeline, renderTime: currentTime }, true, true);
         };
         parent = node;
       }
@@ -1601,6 +1601,11 @@ var BaseNode = function () {
   }
 
   (0, _createClass3.default)(BaseNode, [{
+    key: 'getEventHandlers',
+    value: function getEventHandlers(type) {
+      return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers];
+    }
+  }, {
     key: 'on',
     value: function on(type, handler) {
       var _this = this;
@@ -1658,7 +1663,11 @@ var BaseNode = function () {
       var _this3 = this;
 
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
+      if (swallow && this.getEventHandlers(type).length === 0) {
+        return;
+      }
       if (!evt.stopDispatch) {
         evt.stopDispatch = function () {
           evt.terminated = true;
@@ -2407,21 +2416,24 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      var isCollision = collisionState || this.pointCollision(evt);
-      if (!evt.terminated && isCollision) {
-        var parentX = evt.offsetX - this.originalRect[0];
-        var parentY = evt.offsetY - this.originalRect[1];
-        // console.log(evt.parentX, evt.parentY)
+      if (swallow && this.getEventHandlers(type).length === 0) {
+        return;
+      }
+      if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+        var isCollision = collisionState || this.pointCollision(evt);
+        if (isCollision) {
+          var parentX = evt.offsetX - this.originalRect[0];
+          var parentY = evt.offsetY - this.originalRect[1];
+          // console.log(evt.parentX, evt.parentY)
 
-        var _evt = (0, _assign2.default)({}, evt);
-        _evt.parentX = parentX;
-        _evt.parentY = parentY;
+          var _evt = (0, _assign2.default)({}, evt);
+          _evt.parentX = parentX;
+          _evt.parentY = parentY;
 
-        var sprites = this[_children].slice(0).reverse();
+          var sprites = this[_children].slice(0).reverse();
 
-        var targetSprites = [];
+          var targetSprites = [];
 
-        if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
           for (var i = 0; i < sprites.length && evt.isInClip !== false; i++) {
             var sprite = sprites[i];
             var hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
@@ -2432,14 +2444,15 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
               break;
             }
           }
-        }
 
-        evt.targetSprites = targetSprites;
+          evt.targetSprites = targetSprites;
+          // stopDispatch can only terminate event in the same level
+          evt.terminated = false;
+          return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
+        }
       }
 
-      // stopDispatch can only terminate event in the same level
-      evt.terminated = false;
-      return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
+      return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
     key: 'isNodeVisible',
@@ -4820,15 +4833,15 @@ var Layer = function (_BaseNode) {
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-      var isCollision = collisionState || this.pointCollision(evt);
-      if (!evt.terminated && isCollision) {
-        evt.layer = this;
+      if (swallow && this.getEventHandlers(type).length === 0) {
+        return;
+      }
 
-        var sprites = this[_children].slice(0).reverse();
-
-        var targetSprites = [];
-
-        if (!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+      if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+        var isCollision = collisionState || this.pointCollision(evt);
+        if (isCollision) {
+          var sprites = this[_children].slice(0).reverse(),
+              targetSprites = [];
           for (var i = 0; i < sprites.length; i++) {
             var sprite = sprites[i];
             var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
@@ -4840,14 +4853,14 @@ var Layer = function (_BaseNode) {
               break;
             }
           }
+          evt.targetSprites = targetSprites;
+          // stopDispatch can only terminate event in the same level
+          evt.terminated = false;
+          return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
         }
-
-        evt.targetSprites = targetSprites;
       }
 
-      // stopDispatch can only terminate event in the same level
-      evt.terminated = false;
-      return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState);
+      return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
     key: 'connect',

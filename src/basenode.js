@@ -5,6 +5,9 @@ export default class BaseNode {
   constructor() {
     this[_eventHandlers] = {}
   }
+  getEventHandlers(type) {
+    return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers]
+  }
   on(type, handler) {
     if(Array.isArray(type)) {
       type.forEach(t => this.on(t, handler))
@@ -38,7 +41,10 @@ export default class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method')
   }
-  dispatchEvent(type, evt, collisionState = false) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+    if(swallow && this.getEventHandlers(type).length === 0) {
+      return
+    }
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
         evt.terminated = true

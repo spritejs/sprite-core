@@ -116,21 +116,24 @@ export default class Group extends BaseSprite {
     return [width, height]
   }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    const isCollision = collisionState || this.pointCollision(evt)
-    if(!evt.terminated && isCollision) {
-      const parentX = evt.offsetX - this.originalRect[0]
-      const parentY = evt.offsetY - this.originalRect[1]
-      // console.log(evt.parentX, evt.parentY)
+    if(swallow && this.getEventHandlers(type).length === 0) {
+      return
+    }
+    if(!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+      const isCollision = collisionState || this.pointCollision(evt)
+      if(isCollision) {
+        const parentX = evt.offsetX - this.originalRect[0]
+        const parentY = evt.offsetY - this.originalRect[1]
+        // console.log(evt.parentX, evt.parentY)
 
-      const _evt = Object.assign({}, evt)
-      _evt.parentX = parentX
-      _evt.parentY = parentY
+        const _evt = Object.assign({}, evt)
+        _evt.parentX = parentX
+        _evt.parentY = parentY
 
-      const sprites = this[_children].slice(0).reverse()
+        const sprites = this[_children].slice(0).reverse()
 
-      const targetSprites = []
+        const targetSprites = []
 
-      if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
         for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
           const sprite = sprites[i]
           const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow)
@@ -141,14 +144,15 @@ export default class Group extends BaseSprite {
             break
           }
         }
-      }
 
-      evt.targetSprites = targetSprites
+        evt.targetSprites = targetSprites
+        // stopDispatch can only terminate event in the same level
+        evt.terminated = false
+        return super.dispatchEvent(type, evt, isCollision, swallow)
+      }
     }
 
-    // stopDispatch can only terminate event in the same level
-    evt.terminated = false
-    return super.dispatchEvent(type, evt, collisionState)
+    return super.dispatchEvent(type, evt, collisionState, swallow)
   }
   isNodeVisible(sprite) {
     if(!sprite.isVisible()) return false

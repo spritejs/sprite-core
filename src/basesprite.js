@@ -232,7 +232,7 @@ export default class BaseSprite extends BaseNode {
       node.timeline = new Timeline()
       node.update = function () {
         const currentTime = this.timeline.currentTime
-        node.dispatchEvent('update', {target: this, timeline: this.timeline, renderTime: currentTime}, true)
+        node.dispatchEvent('update', {target: this, timeline: this.timeline, renderTime: currentTime}, true, true)
       }
       parent = node
     }

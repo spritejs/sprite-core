@@ -271,15 +271,15 @@ export default class Layer extends BaseNode {
     return true
   }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    const isCollision = collisionState || this.pointCollision(evt)
-    if(!evt.terminated && isCollision) {
-      evt.layer = this
+    if(swallow && this.getEventHandlers(type).length === 0) {
+      return
+    }
 
-      const sprites = this[_children].slice(0).reverse()
-
-      const targetSprites = []
-
-      if(!swallow && type !== 'mouseenter' && type !== 'mouseleave') {
+    if(!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+      const isCollision = collisionState || this.pointCollision(evt)
+      if(isCollision) {
+        const sprites = this[_children].slice(0).reverse(),
+          targetSprites = []
         for(let i = 0; i < sprites.length; i++) {
           const sprite = sprites[i]
           const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
@@ -291,14 +291,14 @@ export default class Layer extends BaseNode {
             break
           }
         }
+        evt.targetSprites = targetSprites
+        // stopDispatch can only terminate event in the same level
+        evt.terminated = false
+        return super.dispatchEvent(type, evt, isCollision, swallow)
       }
-
-      evt.targetSprites = targetSprites
     }
 
-    // stopDispatch can only terminate event in the same level
-    evt.terminated = false
-    return super.dispatchEvent(type, evt, collisionState)
+    return super.dispatchEvent(type, evt, collisionState, swallow)
   }
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */ {
     super.connect(parent, zOrder)
