@@ -11,7 +11,6 @@ class GroupAttr extends BaseSprite.Attr {
     super(subject)
     this.setDefault({
       clip: null,
-      virtual: null,
     })
   }
 
@@ -27,32 +26,31 @@ class GroupAttr extends BaseSprite.Attr {
       this.set('clip', null)
     }
   }
-
-  @attr
-  set virtual(val) {
-    if(this.get('virtual') != null) return
-    this.clearCache()
-    this.set('virtual', !!val)
-    if(val) {
-      this.subject.__cachePolicyThreshold = Infinity
-    }
-  }
 }
 
 export default class Group extends BaseSprite {
   static Attr = GroupAttr
 
   constructor(attr = {}) {
-    attr.virtual = !!attr.virtual
     super(attr)
     this[_children] = []
     this[_zOrder] = 0
-    // if(isVirtual) {
-    //   this.__cachePolicyThreshold = Infinity
-    // }
+  }
+  get cachePriority() {
+    // virtual group disable cache
+    if(this.isVirtual) return 0
+    return super.cachePriority
   }
   get isVirtual() {
-    return this.attr('virtual')
+    const {width: borderWidth} = this.attr('border'),
+      borderRadius = this.attr('borderRadius'),
+      bgcolor = this.attr('bgcolor'),
+      {bgcolor: bgGradient} = this.attr('gradients'),
+      [width, height] = this.attr('size'),
+      [anchorX, anchorY] = this.attr('anchor')
+
+    return !anchorX && !anchorY && !width && !height && !borderRadius
+      && !borderWidth && !bgcolor && !bgGradient
   }
   cloneNode(deepCopy) {
     const node = super.cloneNode()

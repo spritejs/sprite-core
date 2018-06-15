@@ -402,6 +402,36 @@ drawCase('group-1', [300, 300], async (layer) => {
   await layer.prepareRender()
 })
 
+drawCase('group-1-virtual', [300, 300], async (layer) => {
+  const g = new Group()
+  g.attr({
+    pos: [150, 150],
+    rotate: 45,
+  })
+  layer.append(g)
+
+  const s1 = new Sprite()
+  s1.attr({
+    size: [50, 50],
+    borderRadius: 25,
+    bgcolor: 'red',
+  })
+  const s2 = s1.cloneNode()
+  s2.attr({
+    bgcolor: 'blue',
+    x: x => x + 50,
+  })
+  const s3 = s1.cloneNode()
+  s3.attr({
+    bgcolor: 'green',
+    y: y => y + 50,
+  })
+
+  g.append(s1, s2, s3)
+
+  await layer.prepareRender()
+})
+
 drawCase('group-2', [300, 300], async (layer) => {
   const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
 

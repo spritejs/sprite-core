@@ -40,6 +40,44 @@ test('draw group 1', async (t) => {
 
   const isEqual = await compare(canvas, 'group-1')
   t.truthy(isEqual)
+  t.falsy(g.isVirtual)
+})
+
+test('draw virtual group 1', async (t) => {
+  const canvas = createCanvas(300, 300),
+    layer = new Layer({context: canvas.getContext('2d')})
+
+  const g = new Group()
+  g.attr({
+    pos: [150, 150],
+    rotate: 45,
+  })
+  layer.append(g)
+
+  const s1 = new Sprite()
+  s1.attr({
+    size: [50, 50],
+    borderRadius: 25,
+    bgcolor: 'red',
+  })
+  const s2 = s1.cloneNode()
+  s2.attr({
+    bgcolor: 'blue',
+    x: x => x + 50,
+  })
+  const s3 = s1.cloneNode()
+  s3.attr({
+    bgcolor: 'green',
+    y: y => y + 50,
+  })
+
+  g.append(s1, s2, s3)
+
+  await layer.prepareRender()
+
+  const isEqual = await compare(canvas, 'group-1-virtual')
+  t.truthy(isEqual)
+  t.truthy(g.isVirtual)
 })
 
 test('draw group 2', async (t) => {

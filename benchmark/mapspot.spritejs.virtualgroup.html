@@ -58,7 +58,7 @@
       const x = 100 + Math.random() * 600,
         y = 100 + Math.random() * 600
 
-      const group = new spritejs.Group({virtual: true})
+      const group = new spritejs.Group()
       group.attr({
         pos: [x, y],
         // bgcolor: 'rgba(33,33,33,0.3)',
@@ -130,7 +130,7 @@
     window.fglayer = layer
     window.paper = paper
 
-    for(let i = 0; i < 300; i++) {
+    for(let i = 0; i < 500; i++) {
       spriteCount.innerHTML = i + 1
       await randomCircle()
     }
