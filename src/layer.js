@@ -107,9 +107,7 @@ export default class Layer extends BaseNode {
         if(this.autoRender) {
           this[_drawTask] = requestAnimationFrame(() => {
             delete this[_drawTask]
-            if(this[_updateSet].size) {
-              this.draw()
-            }
+            this.draw()
           })
         }
       })
