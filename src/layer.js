@@ -105,9 +105,11 @@ export default class Layer extends BaseNode {
       this[_renderDeferer].promise = new Promise((resolve, reject) => {
         Object.assign(this[_renderDeferer], {resolve, reject})
         if(this.autoRender) {
-          this[_drawTask] = requestAnimationFrame((t) => {
+          this[_drawTask] = requestAnimationFrame(() => {
             delete this[_drawTask]
-            this.draw(t)
+            if(this[_updateSet].size) {
+              this.draw()
+            }
           })
         }
       })
@@ -115,32 +117,30 @@ export default class Layer extends BaseNode {
     }
     return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve()
   }
-  draw(t) {
+  draw(clearContext = true) {
     /* istanbul ignore if  */
-    if(t && this.evaluateFPS) {
-      this[_tRecord].push(t)
+    if(this.evaluateFPS) {
+      this[_tRecord].push(Date.now())
       this[_tRecord] = this[_tRecord].slice(-10)
     }
 
-    const updateSet = this[_updateSet]
-    if(updateSet.size) {
-      let renderer
-      if(this.renderMode === 'repaintDirty') {
-        renderer = this.renderRepaintDirty.bind(this)
-      } else if(this.renderMode === 'repaintAll') {
-        renderer = this.renderRepaintAll.bind(this)
-      } else {
-        /* istanbul ignore next  */
-        throw new Error('unknown render mode!')
-      }
-      const currentTime = this.timeline.currentTime
-      renderer(currentTime)
-
-      super.dispatchEvent.call(
-        this, 'update',
-        {target: this, timeline: this.timeline, renderTime: currentTime}, true
-      )
+    let renderer
+    if(this.renderMode === 'repaintDirty') {
+      renderer = this.renderRepaintDirty.bind(this)
+    } else if(this.renderMode === 'repaintAll') {
+      renderer = this.renderRepaintAll.bind(this)
+    } else {
+      /* istanbul ignore next  */
+      throw new Error('unknown render mode!')
     }
+    const currentTime = this.timeline.currentTime
+    renderer(currentTime, clearContext)
+
+    super.dispatchEvent.call(
+      this, 'update',
+      {target: this, timeline: this.timeline, renderTime: currentTime}, true
+    )
+
     if(this[_renderDeferer]) {
       if(this[_drawTask]) {
         cancelAnimationFrame(this[_drawTask])
@@ -208,11 +208,11 @@ export default class Layer extends BaseNode {
       }
     }
   }
-  renderRepaintAll(t) {
+  renderRepaintAll(t, clearContext = true) {
     const renderEls = this[_children]
 
     const outputContext = this.outputContext
-    this.clearContext(outputContext)
+    if(clearContext) this.clearContext(outputContext)
 
     const shadowContext = this.shadowContext
 
@@ -228,10 +228,10 @@ export default class Layer extends BaseNode {
 
     this[_updateSet].clear()
   }
-  renderRepaintDirty(t) {
+  renderRepaintDirty(t, clearContext = true) {
     const updateEls = [...this[_updateSet]]
     if(updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
-      return this.renderRepaintAll(t)
+      return this.renderRepaintAll(t, clearContext)
     }
 
     const shadowContext = this.shadowContext
@@ -254,7 +254,7 @@ export default class Layer extends BaseNode {
       this.clearContext(shadowContext)
     }
     outputContext.clip()
-    this.clearContext(outputContext)
+    if(clearContext) this.clearContext(outputContext)
 
     this.drawSprites(renderEls, t)
     if(shadowContext) {
