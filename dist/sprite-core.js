@@ -7391,10 +7391,12 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
       var _this3 = this;
 
       var node = (0, _get3.default)(Sprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(Sprite.prototype), 'cloneNode', this).call(this);
-      node.textures = this.textures.map(function (texture, i) {
-        texture.image = _this3.images[i];
-        return texture;
-      });
+      if (this.images) {
+        node.textures = this.textures.map(function (texture, i) {
+          texture.image = _this3.images[i];
+          return texture;
+        });
+      }
       return node;
     }
   }, {
