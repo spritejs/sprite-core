@@ -4837,7 +4837,7 @@ var Layer = function (_BaseNode) {
             height = _outputContext$canvas.height;
 
 
-        if (layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
+        if (layerX == null && layerY == null || layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
           return true;
         }
         return false;

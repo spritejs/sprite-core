@@ -270,7 +270,8 @@ export default class Layer extends BaseNode {
       const {layerX, layerY} = evt
       const {width, height} = this.outputContext.canvas
 
-      if(layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
+      if(layerX == null && layerY == null
+        || layerX >= 0 && layerY >= 0 && layerX < width && layerY < height) {
         return true
       }
       return false
