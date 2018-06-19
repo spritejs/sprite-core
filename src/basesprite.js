@@ -203,9 +203,14 @@ export default class BaseSprite extends BaseNode {
     return transform
   }
   transition(sec, easing = 'linear') {
-    const that = this
+    const that = this,
+      _animation = Symbol('animation')
     return {
+      [_animation]: null,
       attr(prop, val) {
+        if(this[_animation]) {
+          this[_animation].finish()
+        }
         if(typeof prop === 'string') {
           prop = {[prop]: val}
         }
@@ -214,12 +219,12 @@ export default class BaseSprite extends BaseNode {
             prop[key] = value(that.attr(key))
           }
         })
-        const anim = that.animate([prop], {
+        this[_animation] = that.animate([prop], {
           duration: sec * 1000,
           fill: 'forwards',
           easing,
         })
-        return anim.finished
+        return this[_animation].finished
       },
     }
   }
