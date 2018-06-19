@@ -3789,6 +3789,8 @@ var Timeline = function () {
       return localTime + (this.globalTime - globalTime) * this.playbackRate;
     },
     set: function set(time) {
+      var _this4 = this;
+
       var from = this.currentTime,
           to = time,
           timers = this[_timers];
@@ -3810,11 +3812,11 @@ var Timeline = function () {
           var endTime = startTime + delay;
           if (delay === 0 || heading !== false && (to - from) * delay < 0 || from < endTime && endTime < to || from > endTime && endTime > to) {
             handler();
-            timers.delete(id);
+            _this4.clearTimeout(id);
           }
         } else if (delay === 0) {
           handler();
-          timers.delete(id);
+          _this4.clearTimeout(id);
         }
       });
       this.updateTimers();
@@ -5964,6 +5966,14 @@ var _default = function (_Animator) {
   }
 
   (0, _createClass3.default)(_default, [{
+    key: 'finish',
+    value: function finish() {
+      (0, _get3.default)(_default.prototype.__proto__ || (0, _getPrototypeOf2.default)(_default.prototype), 'finish', this).call(this);
+      (0, _fastAnimationFrame.cancelAnimationFrame)(this.requestId);
+      var sprite = this.target;
+      sprite.attr(this.frame);
+    }
+  }, {
     key: 'play',
     value: function play() {
       if (!this.target.parent || this.playState === 'running') {
@@ -7196,17 +7206,23 @@ function newtonRaphsonIterate (aX, aGuessT, mX1, mX2) {
  return aGuessT;
 }
 
+function LinearEasing (x) {
+  return x;
+}
+
 module.exports = function bezier (mX1, mY1, mX2, mY2) {
   if (!(0 <= mX1 && mX1 <= 1 && 0 <= mX2 && mX2 <= 1)) {
     throw new Error('bezier x values must be in [0, 1] range');
   }
 
+  if (mX1 === mY1 && mX2 === mY2) {
+    return LinearEasing;
+  }
+
   // Precompute samples table
   var sampleValues = float32ArraySupported ? new Float32Array(kSplineTableSize) : new Array(kSplineTableSize);
-  if (mX1 !== mY1 || mX2 !== mY2) {
-    for (var i = 0; i < kSplineTableSize; ++i) {
-      sampleValues[i] = calcBezier(i * kSampleStepSize, mX1, mX2);
-    }
+  for (var i = 0; i < kSplineTableSize; ++i) {
+    sampleValues[i] = calcBezier(i * kSampleStepSize, mX1, mX2);
   }
 
   function getTForX (aX) {
@@ -7234,9 +7250,6 @@ module.exports = function bezier (mX1, mY1, mX2, mY2) {
   }
 
   return function BezierEasing (x) {
-    if (mX1 === mY1 && mX2 === mY2) {
-      return x; // linear
-    }
     // Because JavaScript number are imprecise, we should guarantee the extremes are right.
     if (x === 0) {
       return 0;
@@ -7904,16 +7917,12 @@ var _class = function () {
   }, {
     key: _removeDefer,
     value: function value(deferID) {
-      var complete = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var defered = this[deferID],
           timeline = this.timeline;
 
 
       if (defered && timeline) {
         timeline.clearTimeout(defered.timerID);
-        if (complete) {
-          defered.resolve();
-        }
       }
       delete this[deferID];
     }
@@ -7929,7 +7938,7 @@ var _class = function () {
     value: function finish() {
       this.timeline.currentTime = Infinity;
       this[_removeDefer](_readyDefer);
-      this[_removeDefer](_finishedDefer, true);
+      this[_removeDefer](_finishedDefer);
     }
   }, {
     key: 'applyEffects',

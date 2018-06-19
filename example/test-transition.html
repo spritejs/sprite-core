@@ -48,34 +48,29 @@
       size: [50, 50],
       pos: [100, 100]
     })
-    const animation = s2.animate([
-      {pos: [100, 100]},
-      {pos: [100, 300]},
-      {pos: [300, 300]},
-      {pos: [300, 100]},
-      {pos: [100, 100]}
-    ], {
-      delay: 2000,
-      duration: 5000,
-      iterations: 2,
-    })
-    s.append(s2)
-    // animation.playbackRate = 0.1
-    animation.finished.then(() => {
-      console.log('finished')
+
+
+    s2.on('mouseenter', evt => {
+      transition.attr({
+        width: 100,
+      })
     })
 
-    // s2.on('update', (evt) => {
-    //   console.log('s2 update')
-    // })
-    // s.on('update', (evt) => {
-    //   console.log('s update')
-    // })
-    // layer.append(s2)
-    window.s2 = s2
-    // window.anim = animation
-    window.layer = layer
-    // layer.draw()
+    s2.on('mouseleave', evt => {
+      transition.attr({
+        width: 50,
+      })
+    })
+
+    s.append(s2)
+
+    const transition = s2.transition(3)
+
+
+    mycanvas.addEventListener('mousemove', evt => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('mousemove', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+    })
   </script>
 </body>
 </html>
