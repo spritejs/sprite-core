@@ -540,7 +540,10 @@ export default class BaseSprite extends BaseNode {
     drawingContext.save()
     drawingContext.translate(...this.attr('pos'))
     drawingContext.transform(...this.transform.m)
-    drawingContext.globalAlpha *= this.attr('opacity')
+
+    // fix for wxapp
+    const alpha = drawingContext.globalAlpha != null ? drawingContext.globalAlpha : 1
+    drawingContext.globalAlpha = alpha * this.attr('opacity')
 
     if(!cachableContext) {
       drawingContext.translate(bound[0], bound[1])

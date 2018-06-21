@@ -924,7 +924,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       drawingContext.save();
       drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.attr('pos')));
       drawingContext.transform.apply(drawingContext, (0, _toConsumableArray3.default)(this.transform.m));
-      drawingContext.globalAlpha *= this.attr('opacity');
+
+      // fix for wxapp
+      var alpha = drawingContext.globalAlpha != null ? drawingContext.globalAlpha : 1;
+      drawingContext.globalAlpha = alpha * this.attr('opacity');
 
       if (!cachableContext) {
         drawingContext.translate(bound[0], bound[1]);
