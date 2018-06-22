@@ -523,10 +523,14 @@ export default class BaseSprite extends BaseNode {
     const bound = this.originalRect
     let cachableContext = this.cache
 
-    // solve 1px problem
-    if(!cachableContext && this.cachePriority > this.__cachePolicyThreshold) {
+    const filter = this.attr('filter'),
+      shadow = this.attr('shadow')
+
+    // filter & shadow require cachableContext
+    if(!cachableContext && (filter || shadow || this.cachePriority > this.__cachePolicyThreshold)) {
       cachableContext = cacheContextPool.get(drawingContext)
       if(cachableContext) {
+        // +2 to solve 1px problem
         cachableContext.canvas.width = Math.ceil(bound[2]) + 2
         cachableContext.canvas.height = Math.ceil(bound[3]) + 2
       } else {
@@ -554,12 +558,6 @@ export default class BaseSprite extends BaseNode {
 
     this.dispatchEvent('beforedraw', evtArgs, true, true)
 
-    const filter = this.attr('filter')
-    if(filter) {
-      drawingContext.filter = filters.compile(filter)
-      this[_cachePriority] = 0
-    }
-
     if(cachableContext) {
       // set cache before render for group
       if(!this.cache) {
@@ -571,6 +569,20 @@ export default class BaseSprite extends BaseNode {
     }
 
     if(cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
+      if(filter) {
+        drawingContext.filter = filters.compile(filter)
+      }
+      if(shadow) {
+        let {blur, color, offset} = shadow
+        blur = blur || 1
+        color = color || 'rgba(0,0,0,1)'
+        drawingContext.shadowBlur = blur
+        drawingContext.shadowColor = color
+        if(offset) {
+          drawingContext.shadowOffsetX = offset[0]
+          drawingContext.shadowOffsetY = offset[1]
+        }
+      }
       drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1)
     }
 

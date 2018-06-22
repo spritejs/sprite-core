@@ -949,3 +949,37 @@ drawCase('path-anchor', [600, 600], async (layer, size) => {
 
   await layer.prepareRender()
 })
+
+drawCase('path-shadow', [600, 600], async (layer, size) => {
+  const paths = [
+    'M0,0L0,100L100,100L100,0z',
+  ]
+  const path = new Path()
+  path.attr({
+    path: {d: paths[0]},
+    anchor: 0.5,
+    // size: [1000, 1000],
+    pos: [300, 300],
+    strokeColor: 'blue',
+    bgcolor: '#aaa',
+    lineWidth: 10,
+    shadow: {
+      blur: 10,
+      offset: [10, 10],
+      color: 'blue',
+    },
+  })
+
+  const block = new Sprite()
+  block.attr({
+    anchor: 0.5,
+    pos: [300, 300],
+    size: [20, 20],
+    bgcolor: 'red',
+  })
+
+  layer.append(path, block)
+
+  await layer.prepareRender()
+})
+

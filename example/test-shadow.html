@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Path = spritejs.Path
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const s = new Sprite({
+      id: 'abc',
+      anchor: 0.5,
+      bgcolor: 'red',
+      size: [100, 100],
+      pos: [300, 300],
+      zIndex: 0,
+      border: [10, 'blue'],
+      borderRadius: 20,
+      shadow: {
+        blur: 10,
+        offset: [10, 10],
+      },
+      // filter: {
+      //   dropShadow: [0, 0, 5, '#000'],
+      //   grayscale: '50%',
+      // },
+    })
+    layer.append(s)
+
+    const p = new Path('M0,0L0,100L100,100z')
+    p.attr({
+      fillColor: 'blue',
+      pos: [100, 100],
+      shadow: {
+        blur: 15,
+        color: 'red',
+        offset: [15, 15],
+      },
+    })
+    layer.append(p)
+
+    s.transition(10.0).attr({
+      x: x => x + 100,
+    })
+  </script>
+</body>
+</html>

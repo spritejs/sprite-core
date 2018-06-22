@@ -44,7 +44,8 @@ class SpriteAttr {
       offsetRotate: 'auto',
       gradients: {},
       offsetDistance: 0,
-      filter: '',
+      filter: '', // filter: {blur, ...}
+      shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
     }, {
       pos() {
         return [this.x, this.y]
@@ -501,8 +502,12 @@ class SpriteAttr {
 
   @attr
   set filter(val) {
-    this.clearCache()
     this.set('filter', val)
+  }
+
+  @attr
+  set shadow(val) {
+    this.set('shadow', val)
   }
 }
 
