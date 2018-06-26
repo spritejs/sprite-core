@@ -1,9 +1,37 @@
 const _eventHandlers = Symbol('eventHandlers'),
-  _collisionState = Symbol('collisionState')
+  _collisionState = Symbol('collisionState'),
+  _data = Symbol('data')
 
 export default class BaseNode {
   constructor() {
     this[_eventHandlers] = {}
+    this[_data] = {}
+  }
+  get dataset() {
+    return this[_data]
+  }
+  data(props, val) {
+    if(typeof props === 'object') {
+      Object.entries(props).forEach(([prop, value]) => {
+        this.data(prop, value)
+      })
+      return this
+    } else if(typeof props === 'string') {
+      if(val !== undefined) {
+        if(typeof val === 'function') {
+          val = val(this[_data][props])
+        }
+        if(val && typeof val.then === 'function') {
+          return val.then((res) => {
+            this[_data][props] = res
+          })
+        }
+        this[_data][props] = val
+        return this
+      }
+      return this[_data][props]
+    }
+    return this[_data]
   }
   getEventHandlers(type) {
     return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers]

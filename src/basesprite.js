@@ -143,6 +143,17 @@ export default class BaseSprite extends BaseNode {
   }
 
   attr(props, val) {
+    const setVal = (key, value) => {
+      this[_attr][key] = value
+      if(key === 'zIndex' && this.parent) {
+        this.parent.children.sort((a, b) => {
+          if(a.zIndex === b.zIndex) {
+            return a.zOrder - b.zOrder
+          }
+          return a.zIndex - b.zIndex
+        })
+      }
+    }
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
         this.attr(prop, value)
@@ -153,15 +164,12 @@ export default class BaseSprite extends BaseNode {
         if(typeof val === 'function') {
           val = val(this[_attr][props])
         }
-        Object.assign(this[_attr], {[props]: val})
-        if(props === 'zIndex' && this.parent) {
-          this.parent.children.sort((a, b) => {
-            if(a.zIndex === b.zIndex) {
-              return a.zOrder - b.zOrder
-            }
-            return a.zIndex - b.zIndex
+        if(val && typeof val.then === 'function') {
+          return val.then((res) => {
+            setVal(props, res)
           })
         }
+        setVal(props, val)
         return this
       }
       return this[_attr][props]
@@ -169,7 +177,7 @@ export default class BaseSprite extends BaseNode {
 
     return this[_attr].attrs
   }
-  attrs() {
+  get attrs() {
     return this.attr()
   }
 
