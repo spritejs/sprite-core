@@ -213,12 +213,20 @@ export default class BaseSprite extends BaseNode {
   transition(sec, easing = 'linear') {
     const that = this,
       _animation = Symbol('animation')
+
     return {
       [_animation]: null,
-      attr(prop, val) {
+      end(finish = true) {
         if(this[_animation]) {
-          this[_animation].finish()
+          if(finish) {
+            this[_animation].finish()
+          } else {
+            this[_animation].cancel()
+          }
         }
+      },
+      attr(prop, val) {
+        this.end()
         if(typeof prop === 'string') {
           prop = {[prop]: val}
         }

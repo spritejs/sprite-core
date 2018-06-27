@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <div>
+  <button id="widthBtn">width</button>
+  <button id="heightBtn">height</button>
+  <button id="borderRadiusBtn">borderRadius</button>
+  <button id="bgcolorBtn">bgcolor</button>
+  </div>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const s = new Sprite({
+      anchor: 0.5,
+      bgcolor: 'green',
+      size: [50, 50],
+      pos: [300, 300],
+    })
+
+    layer.append(s)
+    
+    let transition = null
+    widthBtn.onclick = function(){
+      if(transition) transition.end(false)
+      transition = s.transition(1.0)
+      transition.attr({width: width => width * 2})
+    }
+    heightBtn.onclick = function(){
+      if(transition) transition.end(false)
+      transition = s.transition(1.0)
+      transition.attr({height: height => height * 2})
+    }
+
+    borderRadiusBtn.onclick = function(){
+      if(transition) transition.end(false)
+      transition = s.transition(1.0)
+      transition.attr({borderRadius: 20})
+    }
+    bgcolorBtn.onclick = function(){
+      if(transition) transition.end(false)
+      transition = s.transition(1.0)
+      transition.attr({bgcolor: 'red'})
+    }
+  </script>
+</body>
+</html>
