@@ -10,7 +10,13 @@ import {registerNodeType, createNode} from './nodetype'
 import {Effects, Easings} from 'sprite-animator'
 import SvgPath from 'svg-path-to-canvas'
 
+import {findColor, cacheContextPool} from './helpers/render'
+
 import * as utils from 'sprite-utils'
+
+utils.findColor = findColor
+utils.cacheContextPool = cacheContextPool
+
 const Color = utils.Color
 
 import * as math from 'sprite-math'
