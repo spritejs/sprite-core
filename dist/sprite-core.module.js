@@ -652,15 +652,22 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           _animation = (0, _symbol2.default)('animation');
 
       return _ref5 = {}, (0, _defineProperty5.default)(_ref5, _animation, null), (0, _defineProperty5.default)(_ref5, 'end', function end() {
-        var finish = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-        if (this[_animation]) {
-          if (finish) {
-            this[_animation].finish();
+        var animation = this[_animation];
+        if (animation && (animation.playState === 'running' || animation.playState === 'pending')) {
+          animation.finish();
+        }
+      }), (0, _defineProperty5.default)(_ref5, 'reverse', function reverse() {
+        var animation = this[_animation];
+        if (animation) {
+          if (animation.playState === 'running' || animation.playState === 'pending') {
+            animation.playbackRate = -animation.playbackRate;
           } else {
-            this[_animation].cancel();
+            var direction = animation.timing.direction;
+            animation.timing.direction = direction === 'reverse' ? 'normal' : 'reverse';
+            animation.play();
           }
         }
+        return animation.finished;
       }), (0, _defineProperty5.default)(_ref5, 'attr', function attr(prop, val) {
         this.end();
         if (typeof prop === 'string') {
@@ -1044,14 +1051,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       if (this.cache == null || borderWidth || borderRadius || bgcolor) {
         var _ref7 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x6 = _ref7[0],
+            _x5 = _ref7[0],
             _y = _ref7[1],
             _w = _ref7[2],
             _h = _ref7[3],
             _r = _ref7[4];
 
 
-        (0, _render.drawRadiusBox)(drawingContext, { x: _x6, y: _y, w: _w, h: _h, r: _r });
+        (0, _render.drawRadiusBox)(drawingContext, { x: _x5, y: _y, w: _w, h: _h, r: _r });
 
         if (bgcolor) {
           drawingContext.fillStyle = bgcolor;
@@ -8146,6 +8153,11 @@ var _class = function () {
         frameState = (0, _utils.getCurrentFrame)(this[_timing], keyframes, this[_effects], p);
       }
       return frameState;
+    }
+  }, {
+    key: 'timing',
+    get: function get() {
+      return this[_timing];
     }
   }, {
     key: 'baseTimeline',

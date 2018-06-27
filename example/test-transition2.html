@@ -32,25 +32,29 @@
     
     let transition = null
     widthBtn.onclick = function(){
-      if(transition) transition.end(false)
+      if(transition) transition.end()
       transition = s.transition(1.0)
-      transition.attr({width: width => width * 2})
+      transition.attr({width: width => width * 2}).then(function(){
+        console.log('end')
+      })
     }
     heightBtn.onclick = function(){
-      if(transition) transition.end(false)
+      if(transition) transition.end()
       transition = s.transition(1.0)
       transition.attr({height: height => height * 2})
     }
 
     borderRadiusBtn.onclick = function(){
-      if(transition) transition.end(false)
-      transition = s.transition(1.0)
+      if(transition) transition.end()
+      transition = s.transition(10.0)
       transition.attr({borderRadius: 20})
     }
     bgcolorBtn.onclick = function(){
-      if(transition) transition.end(false)
-      transition = s.transition(1.0)
-      transition.attr({bgcolor: 'red'})
+      if(transition) transition.end()
+      transition = s.transition(10.0)
+      transition.attr({bgcolor: 'red'}).then(function(){
+        console.log('end')
+      })
     }
   </script>
 </body>

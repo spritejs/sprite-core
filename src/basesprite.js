@@ -216,14 +216,24 @@ export default class BaseSprite extends BaseNode {
 
     return {
       [_animation]: null,
-      end(finish = true) {
-        if(this[_animation]) {
-          if(finish) {
-            this[_animation].finish()
+      end() {
+        const animation = this[_animation]
+        if(animation && (animation.playState === 'running' || animation.playState === 'pending')) {
+          animation.finish()
+        }
+      },
+      reverse() {
+        const animation = this[_animation]
+        if(animation) {
+          if(animation.playState === 'running' || animation.playState === 'pending') {
+            animation.playbackRate = -animation.playbackRate
           } else {
-            this[_animation].cancel()
+            const direction = animation.timing.direction
+            animation.timing.direction = direction === 'reverse' ? 'normal' : 'reverse'
+            animation.play()
           }
         }
+        return animation.finished
       },
       attr(prop, val) {
         this.end()
