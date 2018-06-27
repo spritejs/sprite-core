@@ -88,11 +88,13 @@ export default class BaseSprite extends BaseNode {
   serialize() {
     const nodeType = this.nodeType,
       attrs = this[_attr].serialize(),
+      dataset = JSON.stringify(this.dataset),
       id = this.id
 
     return {
       nodeType,
       attrs,
+      dataset,
       id,
     }
   }
@@ -104,6 +106,7 @@ export default class BaseSprite extends BaseNode {
   cloneNode() {
     const node = new this.constructor()
     node.merge(this[_attr].serialize())
+    node.data(this.dataset)
     return node
   }
 

@@ -41,6 +41,9 @@ test.cb('sprite data', (t) => {
   s.data('foo', 'bar')
   t.is(s.dataset.foo, 'bar')
 
+  const s2 = s.cloneNode()
+  t.is(s2.dataset.foo, 'bar')
+
   s.data('foo2', 'bar2')
 
   s.data('foo2', async () => {
@@ -48,6 +51,7 @@ test.cb('sprite data', (t) => {
     return 'bar3'
   })
   t.is(s.dataset.foo2, 'bar2')
+  t.is(s2.dataset.foo, 'bar')
 
   setTimeout(() => {
     t.is(s.dataset.foo2, 'bar3')

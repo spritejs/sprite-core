@@ -115,7 +115,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports.deprecate = exports.setDeprecation = exports.attr = exports.appendUnit = exports.rectVertices = exports.rectToBox = exports.boxUnion = exports.boxEqual = exports.boxToRect = exports.boxIntersect = exports.parseStringTransform = exports.fourValuesShortCut = exports.parseColorString = exports.parseStringFloat = exports.parseStringInt = exports.praseString = exports.oneOrTwoValues = exports.parseColor = exports.Color = exports.notice = undefined;
 
-var _utils = __webpack_require__(35);
+var _utils = __webpack_require__(36);
 
 var _decorators = __webpack_require__(60);
 
@@ -441,6 +441,10 @@ var _typeof2 = __webpack_require__(21);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
+var _stringify = __webpack_require__(24);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
@@ -497,7 +501,7 @@ var _render = __webpack_require__(16);
 
 var _spriteAnimator = __webpack_require__(19);
 
-var _filters = __webpack_require__(27);
+var _filters = __webpack_require__(28);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -539,11 +543,13 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     value: function serialize() {
       var nodeType = this.nodeType,
           attrs = this[_attr].serialize(),
+          dataset = (0, _stringify2.default)(this.dataset),
           id = this.id;
 
       return {
         nodeType: nodeType,
         attrs: attrs,
+        dataset: dataset,
         id: id
       };
     }
@@ -557,6 +563,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     value: function cloneNode() {
       var node = new this.constructor();
       node.merge(this[_attr].serialize());
+      node.data(this.dataset);
       return node;
     }
   }, {
@@ -1595,15 +1602,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Timeline = exports.Effects = exports.Easings = exports.Animator = undefined;
 
-var _effect = __webpack_require__(33);
+var _effect = __webpack_require__(34);
 
 var _effect2 = _interopRequireDefault(_effect);
 
-var _spriteTimeline = __webpack_require__(34);
+var _spriteTimeline = __webpack_require__(35);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(32);
+var _easing = __webpack_require__(33);
 
 var _animator = __webpack_require__(55);
 
@@ -2211,10 +2218,16 @@ module.exports = SvgPath;
 /* 24 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/core-js/promise");
+module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
 /* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/core-js/promise");
+
+/***/ }),
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2350,7 +2363,7 @@ var Batch = function () {
 exports.default = Batch;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2411,9 +2424,9 @@ var _nodetype = __webpack_require__(8);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _path = __webpack_require__(29);
+var _path = __webpack_require__(30);
 
-var _group = __webpack_require__(28);
+var _group = __webpack_require__(29);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -2653,7 +2666,7 @@ exports.default = Group;
 (0, _nodetype.registerNodeType)('group', Group, true);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2727,7 +2740,7 @@ exports.default = {
 }; // http://www.runoob.com/cssref/css3-pr-filter.html
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2837,7 +2850,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3082,7 +3095,7 @@ function createSvgPath(path) {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3171,10 +3184,10 @@ var FastAnimationFrame = {
 };
 
 module.exports = FastAnimationFrame;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3364,7 +3377,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3519,7 +3532,7 @@ exports.Easings = Easings;
 exports.parseEasing = parseEasing;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3543,7 +3556,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3983,7 +3996,7 @@ var Timeline = function () {
 module.exports = Timeline;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4254,12 +4267,6 @@ exports.rectToBox = rectToBox;
 exports.rectVertices = rectVertices;
 exports.appendUnit = appendUnit;
 exports.sortOrderedSprites = sortOrderedSprites;
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
 /* 37 */
@@ -4589,7 +4596,7 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(24);
+var _promise = __webpack_require__(25);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -4633,17 +4640,17 @@ var _basenode = __webpack_require__(22);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _batch = __webpack_require__(25);
+var _batch = __webpack_require__(26);
 
 var _batch2 = _interopRequireDefault(_batch);
 
-var _group = __webpack_require__(26);
+var _group = __webpack_require__(27);
 
 var _group2 = _interopRequireDefault(_group);
 
 var _spriteAnimator = __webpack_require__(19);
 
-var _fastAnimationFrame = __webpack_require__(30);
+var _fastAnimationFrame = __webpack_require__(31);
 
 var _nodetype = __webpack_require__(8);
 
@@ -4651,7 +4658,7 @@ var _dirtyCheck = __webpack_require__(46);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _group3 = __webpack_require__(28);
+var _group3 = __webpack_require__(29);
 
 var _group4 = _interopRequireDefault(_group3);
 
@@ -5168,7 +5175,7 @@ var _render = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _path = __webpack_require__(29);
+var _path = __webpack_require__(30);
 
 var _nodetype = __webpack_require__(8);
 
@@ -5517,7 +5524,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(36);
+var _stringify = __webpack_require__(24);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -5571,7 +5578,7 @@ var _basesprite = __webpack_require__(14);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _filters = __webpack_require__(27);
+var _filters = __webpack_require__(28);
 
 var _filters2 = _interopRequireDefault(_filters);
 
@@ -5926,7 +5933,7 @@ var _assign2 = _interopRequireDefault(_assign);
 
 var _spriteAnimator = __webpack_require__(19);
 
-var _fastAnimationFrame = __webpack_require__(30);
+var _fastAnimationFrame = __webpack_require__(31);
 
 var _spriteMath = __webpack_require__(15);
 
@@ -6170,7 +6177,7 @@ var _defineProperty = __webpack_require__(37);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _stringify = __webpack_require__(36);
+var _stringify = __webpack_require__(24);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -7191,7 +7198,7 @@ var _layer = __webpack_require__(41);
 
 var _layer2 = _interopRequireDefault(_layer);
 
-var _group = __webpack_require__(26);
+var _group = __webpack_require__(27);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -7203,7 +7210,7 @@ var _path = __webpack_require__(42);
 
 var _path2 = _interopRequireDefault(_path);
 
-var _batch = __webpack_require__(25);
+var _batch = __webpack_require__(26);
 
 var _batch2 = _interopRequireDefault(_batch);
 
@@ -7822,7 +7829,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = __webpack_require__(24);
+var _promise = __webpack_require__(25);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -7848,11 +7855,11 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _utils = __webpack_require__(56);
 
-var _spriteTimeline = __webpack_require__(34);
+var _spriteTimeline = __webpack_require__(35);
 
 var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
-var _easing = __webpack_require__(32);
+var _easing = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8239,7 +8246,7 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(24);
+var _promise = __webpack_require__(25);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -8249,7 +8256,7 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
-var _effect = __webpack_require__(33);
+var _effect = __webpack_require__(34);
 
 var _effect2 = _interopRequireDefault(_effect);
 
@@ -8677,7 +8684,7 @@ function formatDelay(delay) {
   }
   return delay;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
 /* 60 */
@@ -8695,7 +8702,7 @@ exports.deprecate = deprecate;
 exports.parseValue = parseValue;
 exports.resolveValue = resolveValue;
 
-var _utils = __webpack_require__(35);
+var _utils = __webpack_require__(36);
 
 function attr(target, prop, descriptor) {
   target.__attributeNames = target.__attributeNames || [];
