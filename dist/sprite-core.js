@@ -1199,10 +1199,19 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       var that = this,
           _animation = (0, _symbol2.default)('animation');
-      return _ref5 = {}, (0, _defineProperty5.default)(_ref5, _animation, null), (0, _defineProperty5.default)(_ref5, 'attr', function attr(prop, val) {
+
+      return _ref5 = {}, (0, _defineProperty5.default)(_ref5, _animation, null), (0, _defineProperty5.default)(_ref5, 'end', function end() {
+        var finish = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
         if (this[_animation]) {
-          this[_animation].finish();
+          if (finish) {
+            this[_animation].finish();
+          } else {
+            this[_animation].cancel();
+          }
         }
+      }), (0, _defineProperty5.default)(_ref5, 'attr', function attr(prop, val) {
+        this.end();
         if (typeof prop === 'string') {
           prop = (0, _defineProperty5.default)({}, prop, val);
         }
@@ -1584,14 +1593,14 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
 
       if (this.cache == null || borderWidth || borderRadius || bgcolor) {
         var _ref7 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x5 = _ref7[0],
+            _x6 = _ref7[0],
             _y = _ref7[1],
             _w = _ref7[2],
             _h = _ref7[3],
             _r = _ref7[4];
 
 
-        (0, _render.drawRadiusBox)(drawingContext, { x: _x5, y: _y, w: _w, h: _h, r: _r });
+        (0, _render.drawRadiusBox)(drawingContext, { x: _x6, y: _y, w: _w, h: _h, r: _r });
 
         if (bgcolor) {
           drawingContext.fillStyle = bgcolor;
@@ -11363,6 +11372,9 @@ var _class = function () {
         this[_finishedDefer].timerID = this.timeline.setTimeout(function () {
           _this3[_finishedDefer].resolve();
         }, { delay: delay, heading: false });
+        this[_finishedDefer].reverseTimerID = this.timeline.setTimeout(function () {
+          _this3[_finishedDefer].resolve();
+        }, { delay: -this[_timing].delay - 1, heading: false });
       }
     }
   }, {
@@ -11401,6 +11413,9 @@ var _class = function () {
 
       if (defered && timeline) {
         timeline.clearTimeout(defered.timerID);
+        if (defered.reverseTimerID) {
+          timeline.clearTimeout(defered.reverseTimerID);
+        }
       }
       delete this[deferID];
     }
