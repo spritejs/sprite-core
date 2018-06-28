@@ -24,7 +24,7 @@ test('sprite zIndex', (t) => {
   s.zIndex = 100
   t.is(layer.children[0], s2)
 
-  t.is(s.attrs.zIndex, s.zIndex)
+  t.is(s.attributes.zIndex, s.zIndex)
 
   const s4 = new BaseSprite()
   layer.insertBefore(s4, s2)
@@ -68,9 +68,9 @@ test.cb('sprite attr', (t) => {
       return 'bar'
     },
   })
-  t.is(s.attrs.name, 'foo')
+  t.is(s.attributes.name, 'foo')
   setTimeout(() => {
-    t.is(s.attrs.name, 'bar')
+    t.is(s.attributes.name, 'bar')
     t.end()
   }, 200)
 })

@@ -180,8 +180,9 @@ export default class BaseSprite extends BaseNode {
 
     return this[_attr].attrs
   }
-  get attrs() {
-    return this.attr()
+
+  get attributes() {
+    return this[_attr]
   }
 
   isVisible() {

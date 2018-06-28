@@ -1859,9 +1859,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       return this.attr('zIndex');
     }
   }, {
-    key: 'attrs',
+    key: 'attributes',
     get: function get() {
-      return this.attr();
+      return this[_attr];
     }
   }, {
     key: 'transform',
