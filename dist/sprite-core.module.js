@@ -7996,6 +7996,7 @@ var _class = function () {
         }, { delay: delay, heading: false });
         this[_finishedDefer].reverseTimerID = this.timeline.setTimeout(function () {
           _this3[_finishedDefer].resolve();
+          _this3.timeline = null;
         }, { delay: -this[_timing].delay - 1, heading: false });
       }
     }
@@ -8051,7 +8052,7 @@ var _class = function () {
   }, {
     key: 'finish',
     value: function finish() {
-      this.timeline.currentTime = Infinity;
+      this.timeline.currentTime = Infinity / this.playbackRate;
       this[_removeDefer](_readyDefer);
       this[_removeDefer](_finishedDefer);
     }
