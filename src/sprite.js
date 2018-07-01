@@ -199,7 +199,7 @@ export default class Sprite extends BaseSprite {
       this.__cachePolicyThreshold = 6
     }
     const textures = this.textures
-    if(this.images) {
+    if(this.images && this.images.length) {
       textures.forEach((texture, i) => {
         const img = this.images[i]
         const rect = texture.rect || [0, 0, ...this.innerSize]
