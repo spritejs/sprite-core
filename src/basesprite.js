@@ -40,6 +40,9 @@ export default class BaseSprite extends BaseNode {
     if(this.isVirtual) return -1
     return this[_cachePriority]
   }
+  set cachePriority(priority) {
+    this[_cachePriority] = priority
+  }
   static setAttributeEffects(effects = {}) {
     if(this.prototype[_effects] == null) {
       this.prototype[_effects] = effects
@@ -646,10 +649,6 @@ export default class BaseSprite extends BaseNode {
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize
 
-    const isWeixinSimulator = typeof wx !== 'undefined'
-      && wx.navigateToMiniProgram
-      && typeof requestAnimationFrame !== 'undefined'
-
     /* istanbul ignore if */
     if(offsetWidth === 0 || offsetHeight === 0) return
     if(border.width <= 0
@@ -699,9 +698,8 @@ export default class BaseSprite extends BaseNode {
         drawingContext.fillStyle = bgcolor
         drawingContext.fill()
       }
-      // we should always clip to prevent the subclass rendering not to overflow the box
-      // but clip is very slow in wxapp simulator...
-      if(!isWeixinSimulator) {
+      // clip is expensive, we should only perform clip when it has to.
+      if(borderRadius) {
         drawingContext.clip()
       }
     }

@@ -236,7 +236,13 @@ export default class Path extends BaseSprite {
 
     if(d) {
       const svg = this.svg
-      const [ox, oy] = svg.bounds
+      const [ox, oy, ow, oh] = svg.bounds
+      const [w, h] = this.contentSize
+      if(w < ow || h < oh) {
+        drawingContext.beginPath()
+        drawingContext.rect(0, 0, w, h)
+        drawingContext.clip()
+      }
       if(ox < 0 || oy < 0) {
         drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy))
       }

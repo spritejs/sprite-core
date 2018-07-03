@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Path</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Path = spritejs.Path
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const img = new Image()
+    img.src = 'https://s0.ssl.qhres.com/static/3f2adfd6acc2e390.svg'
+    img.onload = function () {
+      const s = new Sprite()
+      s.attr({
+        size: [10, 10],
+        bgcolor: 'red',
+        anchor: 0.5,
+        pos: [300, 300],
+        zIndex: 1000,
+      })
+      layer.appendChild(s)
+
+      const s2 = new Sprite()
+      s2.attr({
+        textures: [{
+          image: img,
+          rect: [0, 0, 100, 200],
+        }],
+        size: [50, 50],
+        bgcolor: 'red',
+        pos: [200, 200],
+      })
+      layer.appendChild(s2)
+
+      s2.transition(2.0).attr({
+        x: x => x + 50,
+      })
+    }
+  </script>
+</body>
+</html>

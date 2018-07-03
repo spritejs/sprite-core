@@ -21,7 +21,12 @@ const measureText = (node, text, font, lineHeight = '') => {
   return [width, height].map(Math.round)
 }
 
-function calculTextboxSize(node, text, font, lineHeight) {
+function calculTextboxSize(node) {
+  if(!node.context) return ''
+  const text = node.text,
+    font = node.attr('font'),
+    lineHeight = node.attr('lineHeight')
+
   const lines = text.split(/\n/)
   let width = 0,
     height = 0
@@ -31,10 +36,7 @@ function calculTextboxSize(node, text, font, lineHeight) {
     width = Math.max(width, w)
     height += h
   })
-  if(width === 0 && height === 0) {
-    return ''
-  }
-  return [width, height]
+  node[_boxSize] = [width, height]
 }
 
 class LabelSpriteAttr extends BaseSprite.Attr {
@@ -60,6 +62,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     val = String(val)
     delete this.subject[_boxSize]
     this.set('text', val)
+    calculTextboxSize(this.subject)
   }
 
   @attr
@@ -67,6 +70,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.clearCache()
     delete this.subject[_boxSize]
     this.set('font', val)
+    calculTextboxSize(this.subject)
   }
 
   @parseValue(parseFloat)
@@ -75,12 +79,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.clearCache()
     delete this.subject[_boxSize]
     this.set('lineHeight', val)
+    calculTextboxSize(this.subject)
   }
 
   @attr
   set textAlign(val) {
     this.clearCache()
     this.set('textAlign', val)
+    calculTextboxSize(this.subject)
   }
 
   @attr
@@ -120,17 +126,17 @@ export default class Label extends BaseSprite {
     return this.attr('text')
   }
 
+  get textboxSize() {
+    if(!this[_boxSize]) calculTextboxSize(this)
+    return this[_boxSize]
+  }
+
   // override to adapt content size
   get contentSize() {
     const [width, height] = this.attr('size')
 
-    if(this[_boxSize]) {
-      return this[_boxSize]
-    }
     if(width === '' || height === '') {
-      const size = calculTextboxSize(this, this.text, this.attr('font'), this.attr('lineHeight'))
-      this[_boxSize] = size
-      return size || [0, 0]
+      return this.textboxSize
     }
 
     return [width, height]
@@ -145,6 +151,13 @@ export default class Label extends BaseSprite {
       text = this.text
 
     if(text) {
+      const [w, h] = this.contentSize
+      if(this.textboxSize[0] > w
+        || this.textboxSize[1] > h) {
+        drawingContext.beginPath()
+        drawingContext.rect(0, 0, w, h)
+        drawingContext.clip()
+      }
       drawingContext.font = font
       const lines = this.text.split(/\n/)
 

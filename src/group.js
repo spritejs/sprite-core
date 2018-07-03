@@ -144,13 +144,19 @@ export default class Group extends BaseSprite {
   render(t, drawingContext) {
     const clipPath = this.attr('clip')
     if(clipPath) {
-      drawingContext.save()
       this.svg.beginPath().to(drawingContext)
-      drawingContext.restore()
       drawingContext.clip()
     }
 
-    super.render(t, drawingContext)
+    if(!this.isVirtual) {
+      super.render(t, drawingContext)
+      const [w, h] = this.attr('size')
+      if(w !== '' || h !== '') {
+        drawingContext.beginPath()
+        drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1])
+        drawingContext.clip()
+      }
+    }
 
     const sprites = this[_children]
 

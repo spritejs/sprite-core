@@ -192,18 +192,26 @@ export default class Sprite extends BaseSprite {
   }
 
   render(t, drawingContext) {
-    const hasBg = super.render(t, drawingContext)
-    if(!hasBg && this.textures.length <= 1) {
-      this.__cachePolicyThreshold = Infinity
-    } else {
-      this.__cachePolicyThreshold = 6
+    super.render(t, drawingContext)
+    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor
+    if(!bg && this.textures.length <= 1) {
+      this.cachePriority = 0
     }
     const textures = this.textures
+    let cliped = false
     if(this.images && this.images.length) {
       textures.forEach((texture, i) => {
         const img = this.images[i]
-        const rect = texture.rect || [0, 0, ...this.innerSize]
+        const [w, h] = this.contentSize
+        const rect = texture.rect || [0, 0, w, h]
         const srcRect = texture.srcRect
+
+        if(!cliped && texture.rect && (rect[2] - rect[0] > w || rect[3] - rect[1] > h)) {
+          cliped = true
+          drawingContext.beginPath()
+          drawingContext.rect(0, 0, w, h)
+          drawingContext.clip()
+        }
 
         drawingContext.save()
 
