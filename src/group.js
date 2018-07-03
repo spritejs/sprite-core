@@ -36,11 +36,6 @@ export default class Group extends BaseSprite {
     this[_children] = []
     this[_zOrder] = 0
   }
-  get cachePriority() {
-    // virtual group disable cache
-    if(this.isVirtual) return 0
-    return super.cachePriority
-  }
   get isVirtual() {
     const {width: borderWidth} = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
@@ -80,14 +75,8 @@ export default class Group extends BaseSprite {
     }
     return false
   }
-  isVisible() {
-    return this.isVirtual || super.isVisible()
-  }
   get contentSize() {
-    if(this.isVirtual) {
-      return [0, 0]
-    }
-
+    if(this.isVirtual) return [0, 0]
     let [width, height] = this.attr('size')
 
     if(width === '' || height === '') {
@@ -161,15 +150,15 @@ export default class Group extends BaseSprite {
       drawingContext.clip()
     }
 
-    if(!this.isVirtual) {
-      super.render(t, drawingContext)
-    }
+    super.render(t, drawingContext)
 
     const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
       const child = sprites[i]
-      child.draw(t, drawingContext)
+      if(child.isVisible()) {
+        child.draw(t, drawingContext)
+      }
       if(child.isDirty) {
         child.isDirty = false
         child.dispatchEvent('update', {target: child, renderTime: t}, true, true)

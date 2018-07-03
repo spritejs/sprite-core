@@ -37,6 +37,7 @@ export default class BaseSprite extends BaseNode {
     }
   }
   get cachePriority() {
+    if(this.isVirtual) return -1
     return this[_cachePriority]
   }
   static setAttributeEffects(effects = {}) {
@@ -185,11 +186,22 @@ export default class BaseSprite extends BaseNode {
     return this[_attr]
   }
 
+  get isVirtual() {
+    return false
+  }
+
   isVisible() {
+    const display = this.attr('display')
+    if(display === 'none') {
+      return false
+    }
+
     const opacity = this.attr('opacity')
     if(opacity <= 0) {
       return false
     }
+
+    if(this.isVirtual) return true
 
     const [width, height] = this.offsetSize
     if(width <= 0 || height <= 0) {
@@ -312,6 +324,8 @@ export default class BaseSprite extends BaseNode {
 
   // content width / height
   get contentSize() {
+    if(this.isVirtual) return [0, 0]
+
     const [width, height] = this.attr('size')
 
     return [width | 0, height | 0]
@@ -624,6 +638,8 @@ export default class BaseSprite extends BaseNode {
   }
 
   render(t, drawingContext) {
+    if(this.isVirtual) return false
+
     const border = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
       padding = this.attr('padding'),
@@ -640,8 +656,6 @@ export default class BaseSprite extends BaseNode {
       && borderRadius <= 0
       && !this.attr('bgcolor')
       && !this.attr('gradients').bgcolor) {
-      drawingContext.rect(0, 0, offsetWidth, offsetHeight)
-      if(!isWeixinSimulator) drawingContext.clip()
       drawingContext.translate(padding[3], padding[0])
       return false // don't need to render
     }

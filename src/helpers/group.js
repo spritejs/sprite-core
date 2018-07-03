@@ -34,7 +34,7 @@ export default {
       return null
     }
     this.children.splice(idx, 1)
-    if(this.isVisible(sprite) || sprite.lastRenderBox) {
+    if(sprite.isVisible() || sprite.lastRenderBox) {
       sprite.forceUpdate()
     }
     sprite.disconnect(this)

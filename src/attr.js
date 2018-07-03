@@ -39,6 +39,7 @@ class SpriteAttr {
       // border: [0, 'rgba(0,0,0,0)'],
       borderRadius: 0,
       dashOffset: 0,
+      display: '',
       padding: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
@@ -170,6 +171,11 @@ class SpriteAttr {
   @attr
   set anchor(val) {
     this.set('anchor', val)
+  }
+
+  @attr
+  set display(val) {
+    this.set('display', val)
   }
 
   @parseValue(parseFloat)
