@@ -699,7 +699,7 @@ export default class BaseSprite extends BaseNode {
         drawingContext.fill()
       }
       // clip is expensive, we should only perform clip when it has to.
-      if(borderRadius) {
+      if(borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
         drawingContext.clip()
       }
     }

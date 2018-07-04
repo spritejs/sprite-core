@@ -38,7 +38,10 @@
   <script>
   (async function () {
     const context = document.getElementById('paper').getContext('2d')
-    const layer = new spritejs.Layer({context, evaluateFPS: true,  handleEvent: false})
+    const layer = new spritejs.Layer({context, 
+      evaluateFPS: true,
+      handleEvent: false,
+      renderMode: 'repaintAll'})
 
     function wait(ms) {
       return new Promise((resolve) => {

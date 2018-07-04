@@ -1271,7 +1271,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           drawingContext.fill();
         }
         // clip is expensive, we should only perform clip when it has to.
-        if (borderRadius) {
+        if (borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
           drawingContext.clip();
         }
       }
@@ -4942,11 +4942,8 @@ var Layer = function (_BaseNode) {
       (0, _dirtyCheck.clearDirtyRects)({ shadowContext: shadowContext, outputContext: outputContext }, updateEls, true);
 
       if (shadowContext) {
-        shadowContext.clip();
-        outputContext.clip();
         this.clearContext(shadowContext);
       }
-      outputContext.clip();
       if (clearContext) this.clearContext(outputContext);
 
       this.drawSprites(renderEls, t);
@@ -6904,7 +6901,9 @@ function clearDirtyRect(_ref, box, width, height) {
   if (dirtyBox) {
     var dirtyRect = (0, _spriteUtils.boxToRect)(dirtyBox);
 
-    if (shadowContext) shadowContext.rect.apply(shadowContext, (0, _toConsumableArray3.default)(dirtyRect));
+    if (shadowContext) {
+      shadowContext.rect.apply(shadowContext, (0, _toConsumableArray3.default)(dirtyRect));
+    }
     outputContext.rect.apply(outputContext, (0, _toConsumableArray3.default)(dirtyRect));
   }
 }
@@ -6918,6 +6917,8 @@ function clearDirtyRects(_ref2, dirtyEls) {
       height = _outputContext$canvas.height;
 
 
+  if (shadowContext) shadowContext.beginPath();
+  outputContext.beginPath();
   for (var i = 0; i < dirtyEls.length; i++) {
     var dirtyEl = dirtyEls[i];
     var box = dirtyEl.renderBox;
@@ -6931,6 +6932,8 @@ function clearDirtyRects(_ref2, dirtyEls) {
       }
     }
   }
+  if (shadowContext) shadowContext.clip();
+  outputContext.clip();
 }
 
 /***/ }),

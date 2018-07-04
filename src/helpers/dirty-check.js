@@ -22,7 +22,9 @@ export function clearDirtyRect({shadowContext, outputContext}, box, width, heigh
   if(dirtyBox) {
     const dirtyRect = boxToRect(dirtyBox)
 
-    if(shadowContext) shadowContext.rect(...dirtyRect)
+    if(shadowContext) {
+      shadowContext.rect(...dirtyRect)
+    }
     outputContext.rect(...dirtyRect)
   }
 }
@@ -30,6 +32,8 @@ export function clearDirtyRect({shadowContext, outputContext}, box, width, heigh
 export function clearDirtyRects({shadowContext, outputContext}, dirtyEls, isUpdateEl = false) {
   const {width, height} = outputContext.canvas
 
+  if(shadowContext) shadowContext.beginPath()
+  outputContext.beginPath()
   for(let i = 0; i < dirtyEls.length; i++) {
     const dirtyEl = dirtyEls[i]
     const box = dirtyEl.renderBox
@@ -43,4 +47,6 @@ export function clearDirtyRects({shadowContext, outputContext}, dirtyEls, isUpda
       }
     }
   }
+  if(shadowContext) shadowContext.clip()
+  outputContext.clip()
 }

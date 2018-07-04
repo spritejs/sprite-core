@@ -247,11 +247,8 @@ export default class Layer extends BaseNode {
     clearDirtyRects({shadowContext, outputContext}, updateEls, true)
 
     if(shadowContext) {
-      shadowContext.clip()
-      outputContext.clip()
       this.clearContext(shadowContext)
     }
-    outputContext.clip()
     if(clearContext) this.clearContext(outputContext)
 
     this.drawSprites(renderEls, t)
