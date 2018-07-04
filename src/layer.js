@@ -205,6 +205,9 @@ export default class Layer extends BaseNode {
         }
       }
     }
+    if(this.adjustContext && !this.adjustContext._clearTag) {
+      this.adjustContext._clearTag = true
+    }
   }
   renderRepaintAll(t, clearContext = true) {
     const renderEls = this[_children]
@@ -337,18 +340,25 @@ export default class Layer extends BaseNode {
     return batch
   }
   adjust(handler, update = true) /* istanbul ignore next  */ {
-    const outputContext = this.outputContext,
-      shadowContext = this.shadowContext
-    if(!shadowContext) {
-      throw new Error('No shadowContext.')
+    const outputContext = this.outputContext
+    const shadowContext = this.adjustContext || outputContext.canvas.cloneNode().getContext('2d')
+
+    if(!this.adjustContext || this.adjustContext._clearTag) {
+      shadowContext.clearRect(0, 0, shadowContext.canvas.width, shadowContext.canvas.height)
+      shadowContext._clearTag = false
+      shadowContext.drawImage(outputContext.canvas, 0, 0)
+      this.adjustContext = shadowContext
     }
+
     this.clearContext(outputContext)
 
+    outputContext.save()
     handler.call(this, outputContext)
 
     if(update && shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
       outputContext.drawImage(shadowContext.canvas, 0, 0)
     }
+    outputContext.restore()
   }
   clearUpdate() {
     /* istanbul ignore next  */
