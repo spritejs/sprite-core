@@ -14,7 +14,9 @@ const _children = Symbol('children'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
   _renderDeferer = Symbol('renderDeferrer'),
-  _drawTask = Symbol('drawTask')
+  _drawTask = Symbol('drawTask'),
+  _autoRender = Symbol('autoRender'),
+  _adjustTimer = Symbol('adjustTimer')
 
 export default class Layer extends BaseNode {
   constructor({
@@ -22,28 +24,18 @@ export default class Layer extends BaseNode {
     handleEvent = true,
     evaluateFPS = false,
     renderMode = 'repaintAll',
-    shadowContext = true,
     autoRender = true,
   } = {}) {
     super()
 
     this.handleEvent = handleEvent
     this.evaluateFPS = evaluateFPS
-    this.autoRender = autoRender
+    this[_autoRender] = autoRender
 
     // renderMode: repaintAll | repaintDirty
     this.renderMode = renderMode
 
     this.outputContext = context
-
-    if(shadowContext) {
-      if(typeof shadowContext === 'object') {
-        this.shadowContext = shadowContext
-      } else if(context.canvas && context.canvas.cloneNode) {
-        const shadowCanvas = context.canvas.cloneNode()
-        this.shadowContext = shadowCanvas.getContext('2d')
-      }
-    }
 
     // auto release
     /* istanbul ignore if  */
@@ -62,6 +54,16 @@ export default class Layer extends BaseNode {
     this[_renderDeferer] = null
   }
 
+  set autoRender(value) {
+    this[_autoRender] = value
+    if(value) {
+      this.draw()
+    }
+  }
+  get autoRender() {
+    return this[_autoRender]
+  }
+
   get layer() {
     return this
   }
@@ -75,7 +77,7 @@ export default class Layer extends BaseNode {
   }
 
   get context() {
-    return this.shadowContext ? this.shadowContext : this.outputContext
+    return this.outputContext
   }
 
   get canvas() {
@@ -205,28 +207,12 @@ export default class Layer extends BaseNode {
         }
       }
     }
-    if(this.adjustContext && !this.adjustContext._clearTag) {
-      this.adjustContext._clearTag = true
-    }
   }
   renderRepaintAll(t, clearContext = true) {
     const renderEls = this[_children]
-
     const outputContext = this.outputContext
     if(clearContext) this.clearContext(outputContext)
-
-    const shadowContext = this.shadowContext
-
-    if(shadowContext) {
-      this.clearContext(shadowContext)
-      this.drawSprites(renderEls, t)
-      if(shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
-        outputContext.drawImage(shadowContext.canvas, 0, 0)
-      }
-    } else {
-      this.drawSprites(renderEls, t)
-    }
-
+    this.drawSprites(renderEls, t)
     this[_updateSet].clear()
   }
   renderRepaintDirty(t, clearContext = true) {
@@ -235,32 +221,18 @@ export default class Layer extends BaseNode {
       return this.renderRepaintAll(t, clearContext)
     }
 
-    const shadowContext = this.shadowContext
     const outputContext = this.outputContext
 
     const renderEls = this[_children]
 
-    if(shadowContext) {
-      shadowContext.save()
-      shadowContext.beginPath()
-    }
     outputContext.save()
     outputContext.beginPath()
 
-    clearDirtyRects({shadowContext, outputContext}, updateEls, true)
+    clearDirtyRects(outputContext, updateEls, true)
 
-    if(shadowContext) {
-      this.clearContext(shadowContext)
-    }
     if(clearContext) this.clearContext(outputContext)
 
     this.drawSprites(renderEls, t)
-    if(shadowContext) {
-      if(shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
-        outputContext.drawImage(shadowContext.canvas, 0, 0)
-      }
-      shadowContext.restore()
-    }
 
     outputContext.restore()
     this[_updateSet].clear()
@@ -340,25 +312,31 @@ export default class Layer extends BaseNode {
     return batch
   }
   adjust(handler, update = true) /* istanbul ignore next  */ {
+    if(!update) return
     const outputContext = this.outputContext
     const shadowContext = this.adjustContext || outputContext.canvas.cloneNode().getContext('2d')
 
-    if(!this.adjustContext || this.adjustContext._clearTag) {
+    if(!this[_adjustTimer]) {
+      this.autoRender = false
       shadowContext.clearRect(0, 0, shadowContext.canvas.width, shadowContext.canvas.height)
       shadowContext._clearTag = false
       shadowContext.drawImage(outputContext.canvas, 0, 0)
       this.adjustContext = shadowContext
+    } else {
+      clearTimeout(this[_adjustTimer])
     }
+    this[_adjustTimer] = setTimeout(() => {
+      this.autoRender = true
+      delete this[_adjustTimer]
+    }, 100)
 
-    this.clearContext(outputContext)
-
-    outputContext.save()
-    handler.call(this, outputContext)
-
-    if(update && shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+    if(shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+      this.clearContext(outputContext)
+      outputContext.save()
+      handler.call(this, outputContext)
       outputContext.drawImage(shadowContext.canvas, 0, 0)
+      outputContext.restore()
     }
-    outputContext.restore()
   }
   clearUpdate() {
     /* istanbul ignore next  */

@@ -15,38 +15,32 @@ import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils'
 //   return false
 // }
 
-export function clearDirtyRect({shadowContext, outputContext}, box, width, height) {
+export function clearDirtyRect(outputContext, box, width, height) {
   box = box.map((b, i) => { return i < 2 ? b - 1 : b + 1 })
   const dirtyBox = boxIntersect(box, [0, 0, width, height])
 
   if(dirtyBox) {
     const dirtyRect = boxToRect(dirtyBox)
-
-    if(shadowContext) {
-      shadowContext.rect(...dirtyRect)
-    }
     outputContext.rect(...dirtyRect)
   }
 }
 
-export function clearDirtyRects({shadowContext, outputContext}, dirtyEls, isUpdateEl = false) {
+export function clearDirtyRects(outputContext, dirtyEls, isUpdateEl = false) {
   const {width, height} = outputContext.canvas
 
-  if(shadowContext) shadowContext.beginPath()
   outputContext.beginPath()
   for(let i = 0; i < dirtyEls.length; i++) {
     const dirtyEl = dirtyEls[i]
     const box = dirtyEl.renderBox
 
-    clearDirtyRect({shadowContext, outputContext}, box, width, height)
+    clearDirtyRect(outputContext, box, width, height)
 
     if(isUpdateEl) {
       const lastRenderBox = dirtyEl.lastRenderBox
       if(lastRenderBox && !boxEqual(lastRenderBox, box)) {
-        clearDirtyRect({shadowContext, outputContext}, lastRenderBox, width, height)
+        clearDirtyRect(outputContext, lastRenderBox, width, height)
       }
     }
   }
-  if(shadowContext) shadowContext.clip()
   outputContext.clip()
 }

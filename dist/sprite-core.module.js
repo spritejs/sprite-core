@@ -627,11 +627,11 @@ var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _typeof2 = __webpack_require__(21);
+var _typeof2 = __webpack_require__(25);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _stringify = __webpack_require__(24);
+var _stringify = __webpack_require__(23);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -673,7 +673,7 @@ var _attr13 = __webpack_require__(45);
 
 var _attr14 = _interopRequireDefault(_attr13);
 
-var _basenode = __webpack_require__(22);
+var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
@@ -1647,12 +1647,6 @@ module.exports = require("babel-runtime/core-js/set");
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports) {
-
-module.exports = require("babel-runtime/helpers/typeof");
-
-/***/ }),
-/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1675,7 +1669,7 @@ var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _typeof2 = __webpack_require__(21);
+var _typeof2 = __webpack_require__(25);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -1924,7 +1918,7 @@ var BaseNode = function () {
 exports.default = BaseNode;
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2231,16 +2225,22 @@ var SvgPath = function () {
 module.exports = SvgPath;
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/json/stringify");
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/promise");
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/typeof");
 
 /***/ }),
 /* 26 */
@@ -2894,7 +2894,7 @@ exports.createSvgPath = createSvgPath;
 
 var _sort = __webpack_require__(48);
 
-var _svgPathToCanvas = __webpack_require__(23);
+var _svgPathToCanvas = __webpack_require__(22);
 
 var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
@@ -4625,17 +4625,13 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(25);
+var _promise = __webpack_require__(24);
 
 var _promise2 = _interopRequireDefault(_promise);
 
 var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
-
-var _typeof2 = __webpack_require__(21);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
 
 var _getPrototypeOf = __webpack_require__(9);
 
@@ -4665,7 +4661,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _basenode = __webpack_require__(22);
+var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
@@ -4699,7 +4695,9 @@ var _children = (0, _symbol2.default)('children'),
     _tRecord = (0, _symbol2.default)('tRecord'),
     _timeline = (0, _symbol2.default)('timeline'),
     _renderDeferer = (0, _symbol2.default)('renderDeferrer'),
-    _drawTask = (0, _symbol2.default)('drawTask');
+    _drawTask = (0, _symbol2.default)('drawTask'),
+    _autoRender = (0, _symbol2.default)('autoRender'),
+    _adjustTimer = (0, _symbol2.default)('adjustTimer');
 
 var Layer = function (_BaseNode) {
   (0, _inherits3.default)(Layer, _BaseNode);
@@ -4713,8 +4711,6 @@ var Layer = function (_BaseNode) {
         evaluateFPS = _ref$evaluateFPS === undefined ? false : _ref$evaluateFPS,
         _ref$renderMode = _ref.renderMode,
         renderMode = _ref$renderMode === undefined ? 'repaintAll' : _ref$renderMode,
-        _ref$shadowContext = _ref.shadowContext,
-        shadowContext = _ref$shadowContext === undefined ? true : _ref$shadowContext,
         _ref$autoRender = _ref.autoRender,
         autoRender = _ref$autoRender === undefined ? true : _ref$autoRender;
 
@@ -4724,21 +4720,12 @@ var Layer = function (_BaseNode) {
 
     _this.handleEvent = handleEvent;
     _this.evaluateFPS = evaluateFPS;
-    _this.autoRender = autoRender;
+    _this[_autoRender] = autoRender;
 
     // renderMode: repaintAll | repaintDirty
     _this.renderMode = renderMode;
 
     _this.outputContext = context;
-
-    if (shadowContext) {
-      if ((typeof shadowContext === 'undefined' ? 'undefined' : (0, _typeof3.default)(shadowContext)) === 'object') {
-        _this.shadowContext = shadowContext;
-      } else if (context.canvas && context.canvas.cloneNode) {
-        var shadowCanvas = context.canvas.cloneNode();
-        _this.shadowContext = shadowCanvas.getContext('2d');
-      }
-    }
 
     // auto release
     /* istanbul ignore if  */
@@ -4890,9 +4877,6 @@ var Layer = function (_BaseNode) {
           }
         }
       }
-      if (this.adjustContext && !this.adjustContext._clearTag) {
-        this.adjustContext._clearTag = true;
-      }
     }
   }, {
     key: 'renderRepaintAll',
@@ -4900,22 +4884,9 @@ var Layer = function (_BaseNode) {
       var clearContext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       var renderEls = this[_children];
-
       var outputContext = this.outputContext;
       if (clearContext) this.clearContext(outputContext);
-
-      var shadowContext = this.shadowContext;
-
-      if (shadowContext) {
-        this.clearContext(shadowContext);
-        this.drawSprites(renderEls, t);
-        if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
-          outputContext.drawImage(shadowContext.canvas, 0, 0);
-        }
-      } else {
-        this.drawSprites(renderEls, t);
-      }
-
+      this.drawSprites(renderEls, t);
       this[_updateSet].clear();
     }
   }, {
@@ -4930,32 +4901,18 @@ var Layer = function (_BaseNode) {
         return this.renderRepaintAll(t, clearContext);
       }
 
-      var shadowContext = this.shadowContext;
       var outputContext = this.outputContext;
 
       var renderEls = this[_children];
 
-      if (shadowContext) {
-        shadowContext.save();
-        shadowContext.beginPath();
-      }
       outputContext.save();
       outputContext.beginPath();
 
-      (0, _dirtyCheck.clearDirtyRects)({ shadowContext: shadowContext, outputContext: outputContext }, updateEls, true);
+      (0, _dirtyCheck.clearDirtyRects)(outputContext, updateEls, true);
 
-      if (shadowContext) {
-        this.clearContext(shadowContext);
-      }
       if (clearContext) this.clearContext(outputContext);
 
       this.drawSprites(renderEls, t);
-      if (shadowContext) {
-        if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
-          outputContext.drawImage(shadowContext.canvas, 0, 0);
-        }
-        shadowContext.restore();
-      }
 
       outputContext.restore();
       this[_updateSet].clear();
@@ -5061,33 +5018,52 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'adjust',
     value: function adjust(handler) /* istanbul ignore next  */{
+      var _this5 = this;
+
       var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
+      if (!update) return;
       var outputContext = this.outputContext;
       var shadowContext = this.adjustContext || outputContext.canvas.cloneNode().getContext('2d');
 
-      if (!this.adjustContext || this.adjustContext._clearTag) {
+      if (!this[_adjustTimer]) {
+        this.autoRender = false;
         shadowContext.clearRect(0, 0, shadowContext.canvas.width, shadowContext.canvas.height);
         shadowContext._clearTag = false;
         shadowContext.drawImage(outputContext.canvas, 0, 0);
         this.adjustContext = shadowContext;
+      } else {
+        clearTimeout(this[_adjustTimer]);
       }
+      this[_adjustTimer] = setTimeout(function () {
+        _this5.autoRender = true;
+        delete _this5[_adjustTimer];
+      }, 100);
 
-      this.clearContext(outputContext);
-
-      outputContext.save();
-      handler.call(this, outputContext);
-
-      if (update && shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+      if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
+        this.clearContext(outputContext);
+        outputContext.save();
+        handler.call(this, outputContext);
         outputContext.drawImage(shadowContext.canvas, 0, 0);
+        outputContext.restore();
       }
-      outputContext.restore();
     }
   }, {
     key: 'clearUpdate',
     value: function clearUpdate() {
       /* istanbul ignore next  */
       this[_updateSet].clear();
+    }
+  }, {
+    key: 'autoRender',
+    set: function set(value) {
+      this[_autoRender] = value;
+      if (value) {
+        this.draw();
+      }
+    },
+    get: function get() {
+      return this[_autoRender];
     }
   }, {
     key: 'layer',
@@ -5107,7 +5083,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'context',
     get: function get() {
-      return this.shadowContext ? this.shadowContext : this.outputContext;
+      return this.outputContext;
     }
   }, {
     key: 'canvas',
@@ -5571,7 +5547,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = __webpack_require__(24);
+var _stringify = __webpack_require__(23);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -6236,11 +6212,11 @@ var _defineProperty = __webpack_require__(37);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _stringify = __webpack_require__(24);
+var _stringify = __webpack_require__(23);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _typeof2 = __webpack_require__(21);
+var _typeof2 = __webpack_require__(25);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -6282,7 +6258,7 @@ var _spriteMath = __webpack_require__(16);
 
 var _spriteUtils = __webpack_require__(6);
 
-var _svgPathToCanvas = __webpack_require__(23);
+var _svgPathToCanvas = __webpack_require__(22);
 
 var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
@@ -6899,10 +6875,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //   return false
 // }
 
-function clearDirtyRect(_ref, box, width, height) {
-  var shadowContext = _ref.shadowContext,
-      outputContext = _ref.outputContext;
-
+function clearDirtyRect(outputContext, box, width, height) {
   box = box.map(function (b, i) {
     return i < 2 ? b - 1 : b + 1;
   });
@@ -6910,39 +6883,31 @@ function clearDirtyRect(_ref, box, width, height) {
 
   if (dirtyBox) {
     var dirtyRect = (0, _spriteUtils.boxToRect)(dirtyBox);
-
-    if (shadowContext) {
-      shadowContext.rect.apply(shadowContext, (0, _toConsumableArray3.default)(dirtyRect));
-    }
     outputContext.rect.apply(outputContext, (0, _toConsumableArray3.default)(dirtyRect));
   }
 }
 
-function clearDirtyRects(_ref2, dirtyEls) {
-  var shadowContext = _ref2.shadowContext,
-      outputContext = _ref2.outputContext;
+function clearDirtyRects(outputContext, dirtyEls) {
   var isUpdateEl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   var _outputContext$canvas = outputContext.canvas,
       width = _outputContext$canvas.width,
       height = _outputContext$canvas.height;
 
 
-  if (shadowContext) shadowContext.beginPath();
   outputContext.beginPath();
   for (var i = 0; i < dirtyEls.length; i++) {
     var dirtyEl = dirtyEls[i];
     var box = dirtyEl.renderBox;
 
-    clearDirtyRect({ shadowContext: shadowContext, outputContext: outputContext }, box, width, height);
+    clearDirtyRect(outputContext, box, width, height);
 
     if (isUpdateEl) {
       var lastRenderBox = dirtyEl.lastRenderBox;
       if (lastRenderBox && !(0, _spriteUtils.boxEqual)(lastRenderBox, box)) {
-        clearDirtyRect({ shadowContext: shadowContext, outputContext: outputContext }, lastRenderBox, width, height);
+        clearDirtyRect(outputContext, lastRenderBox, width, height);
       }
     }
   }
-  if (shadowContext) shadowContext.clip();
   outputContext.clip();
 }
 
@@ -7273,7 +7238,7 @@ var _group = __webpack_require__(27);
 
 var _group2 = _interopRequireDefault(_group);
 
-var _basenode = __webpack_require__(22);
+var _basenode = __webpack_require__(21);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
@@ -7289,7 +7254,7 @@ var _nodetype = __webpack_require__(8);
 
 var _spriteAnimator = __webpack_require__(19);
 
-var _svgPathToCanvas = __webpack_require__(23);
+var _svgPathToCanvas = __webpack_require__(22);
 
 var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
@@ -7905,7 +7870,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = __webpack_require__(25);
+var _promise = __webpack_require__(24);
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -8327,7 +8292,7 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _promise = __webpack_require__(25);
+var _promise = __webpack_require__(24);
 
 var _promise2 = _interopRequireDefault(_promise);
 
