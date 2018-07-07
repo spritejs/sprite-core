@@ -24,6 +24,7 @@ class SpriteAttr {
       width: '',
       height: '',
       bgcolor: '',
+      flex: null,
       rotate: 0,
       scale: [1, 1],
       translate: [0, 0],
@@ -514,6 +515,11 @@ class SpriteAttr {
   @attr
   set shadow(val) {
     this.set('shadow', val)
+  }
+
+  @attr
+  set flex(val) {
+    this.set('flex', val)
   }
 }
 

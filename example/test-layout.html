@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const FlexLayout = spritejs.FlexLayout
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const g = new FlexLayout()
+    g.attr({
+      pos: [150, 150],
+      width: 300,
+      anchor: 0.5,
+      bgcolor: 'grey'
+    })
+
+
+    
+
+    layer.append(g)
+
+    
+
+    const s1 = new Sprite()
+    s1.attr({
+      size: [50, 50],
+      borderRadius: 25,
+      bgcolor: 'red',
+    })
+    const s2 = s1.cloneNode()
+    s2.attr({
+      width: void 0,
+      bgcolor: 'blue',
+      flex: 1
+    })
+    const s3 = s1.cloneNode()
+    s3.attr({
+      bgcolor: 'green'
+    })
+    g.append(s1, s2, s3)
+
+
+
+
+    g.relayout();
+  </script>
+</body>
+</html>

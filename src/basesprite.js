@@ -566,6 +566,10 @@ export default class BaseSprite extends BaseNode {
     )
   }
 
+  relayout(){
+    
+  }
+
   draw(t, drawingContext = this.context) {
     const bound = this.originalRect
     let cachableContext = this.cache
