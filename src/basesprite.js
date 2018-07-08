@@ -12,7 +12,9 @@ import filters from './filters'
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
   _cachePriority = Symbol('cachePriority'),
-  _effects = Symbol('effects')
+  _effects = Symbol('effects'),
+  _width = Symbol('width'),
+  _height = Symbol('height')
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -330,8 +332,10 @@ export default class BaseSprite extends BaseNode {
     if(this.isVirtual) return [0, 0]
 
     const [width, height] = this.attr('size')
+    const layoutWidth = this.attr('layoutWidth'),
+      layoutHeight = this.attr('layoutHeight')
 
-    return [width | 0, height | 0]
+    return [ layoutWidth | width | 0, layoutHeight | height | 0]
   }
 
   // content + padding
@@ -567,7 +571,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   relayout(){
-    
+
   }
 
   draw(t, drawingContext = this.context) {
@@ -646,6 +650,17 @@ export default class BaseSprite extends BaseNode {
 
   render(t, drawingContext) {
     if(this.isVirtual) return false
+
+
+    if(this[_width] !== this.attr('width') || this[_height] !== this.attr('height') ) {
+      this[_width] = this.attr('width');
+      this[_height] = this.attr('height');
+      if(this.parent.relayout)
+        this.parent.relayout();
+    }
+
+
+
 
     const border = this.attr('border'),
       borderRadius = this.attr('borderRadius'),

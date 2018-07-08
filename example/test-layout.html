@@ -19,10 +19,11 @@
 
     const g = new FlexLayout()
     g.attr({
-      pos: [150, 150],
-      width: 300,
+      pos: [300, 300],
+      width: 400,
       anchor: 0.5,
-      bgcolor: 'grey'
+      bgcolor: 'grey',
+      alignItems: 'stretch'
     })
 
 
@@ -40,20 +41,41 @@
     })
     const s2 = s1.cloneNode()
     s2.attr({
-      width: void 0,
+      size: [50, 50],
       bgcolor: 'blue',
       flex: 1
     })
     const s3 = s1.cloneNode()
     s3.attr({
+      size: [50, 50],
       bgcolor: 'green'
     })
-    g.append(s1, s2, s3)
+
+    const s4 = new Sprite()
+    s4.attr({
+      height: 70,
+      width: 30,
+      borderRadius: 0,
+      bgcolor: 'purple',
+    })
+    g.append(s1, s2, s3, s4)
 
 
 
 
     g.relayout();
+
+
+
+s1.animate([
+  {width: 200},
+  {width: 50 },
+], {
+  duration: 5000,
+  iterations: Infinity,
+  direction: 'alternate',
+})
+
   </script>
 </body>
 </html>

@@ -57,6 +57,9 @@ export class FlexLayout extends Group {
 
     var mainSize, mainStart, mainEnd, mainSign, mainBase,
       crossSize, crossStart, crossEnd, crossSign, crossBase;
+
+    var prefix = attr => attr === 'x' || attr === 'y' ? attr : 'layout' + attr.charAt(0).toUpperCase() + attr.substr(1);
+    
     if (style.flexDirection === 'row') {
       mainSize = 'width';
       mainStart = 'x';
@@ -133,12 +136,15 @@ export class FlexLayout extends Group {
     var mainSpace = this.attr(mainSize);
     var crossSpace = 0;
 
+    // collect items into lines
+
+
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var itemStyle = item.attr();
 
       if (itemStyle[mainSize] === null) {
-        item.attr(mainSize, 0);
+        itemStyle[mainSize] = 0;
       }
 
 
@@ -152,7 +158,7 @@ export class FlexLayout extends Group {
         flexLine.push(item);
       } else {
         if (itemStyle[mainSize] > style[mainSize]) {
-          item.attr(mainSize, style[mainSize]);
+          item.attr(prefix(mainSize), style[mainSize]);
         }
         if (mainSpace < itemStyle[mainSize]) {
           flexLine.mainSpace = mainSpace;
@@ -186,14 +192,16 @@ export class FlexLayout extends Group {
         var itemStyle = item.attr();
 
         if (itemStyle.flex) {
-          item.attr(mainSize, 0);
+          item.attr(prefix(mainSize), 0);
+        } else {
+          item.attr(prefix(mainSize), item.attr(mainSize));
         }
 
-        item.attr(mainSize, item.attr(mainSize) * scale);
+        item.attr(prefix(mainSize), item.attr(prefix(mainSize)) * scale);
 
-        item.attr(mainStart, currentMain);
-        item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize));
-        currentMain = item.attr(mainEnd);
+        item.attr(prefix(mainStart), currentMain);
+        item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)));
+        currentMain = item.attr(prefix(mainEnd));
       }
 
     } else {
@@ -220,11 +228,13 @@ export class FlexLayout extends Group {
             var itemStyle = item.attr();
 
             if (itemStyle.flex) {
-              item.attr(mainSize, (mainSpace / flexTotal) * itemStyle.flex);
+              item.attr(prefix(mainSize), (mainSpace / flexTotal) * itemStyle.flex);
+            } else {
+              item.attr(prefix(mainSize), item.attr(mainSize))
             }
-            item.attr(mainStart, currentMain)
-            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
-            currentMain = item.attr(mainEnd);
+            item.attr(prefix(mainStart), currentMain)
+            item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)))
+            currentMain = item.attr(prefix(mainEnd));
           }
         } else { 
           // There is *NO* flexible flex items, which means, justifyContent shoud work
@@ -250,9 +260,10 @@ export class FlexLayout extends Group {
           }
           for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            item.attr(mainStart, currentMain);
-            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
-            currentMain = item.attr(mainEnd) + step;
+            item.attr(prefix(mainSize), item.attr(mainSize) || 0)
+            item.attr(prefix(mainStart), currentMain);
+            item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)))
+            currentMain = item.attr(prefix(mainEnd)) + step;
           }
         }
       })
@@ -318,36 +329,37 @@ export class FlexLayout extends Group {
 
         var align = item.alignSelf || style.alignItems;
 
-        if (item === null)
-          item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
+        if (item.attr(crossSize) === null || item.attr(crossSize) === undefined || item.attr(crossSize) === '')
+          item.attr(prefix(crossSize), ((align === 'stretch')) ? lineCrossSize : 0)
+        else
+          item.attr(prefix(crossSize), item.attr(crossSize))
 
         if (align === 'flex-start') {
-          item.attr(crossStart, crossBase);
-          item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize));
+          item.attr(prefix(crossStart), crossBase)
+          item.attr(prefix(crossEnd), item.attr(prefix(crossStart)) + crossSign * item.attr(prefix(crossSize)))
         }
 
         if (align === 'flex-end') {
-          item.attr(crossEnd, crossBase + crossSign * lineCrossSize);
-          item.attr(crossStart, item.attr(crossEnd) - crossSign * item.attr(crossSize))
+          item.attr(prefix(crossEnd), crossBase + crossSign * lineCrossSize)
+          item.attr(prefix(crossStart), item.attr(prefix(crossEnd)) - crossSign * item.attr(prefix(crossSize)))
         }
 
         if (align === 'center') {
-          item.attr(crossStart, crossBase + crossSign * (lineCrossSize - itemitem.attr(crossSize)) / 2)
-          item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize));
+          item.attr(prefix(crossStart), crossBase + crossSign * (lineCrossSize - itemitem.attr(prefix(crossSize))) / 2)
+          item.attr(prefix(crossEnd), item.attr(crossStart) + crossSign * item.attr(prefix(crossSize)))
         }
 
         if (align === 'stretch') {
-          item.attr(crossStart, crossBase);
-          item.attr(crossEnd, crossBase + crossSign * ((item.attr(crossSize) !== null && item.attr(crossSize) !== (void 0)) ? item.attr(crossSize) : lineCrossSize))
+          item.attr(prefix(crossStart), crossBase)
+          item.attr(prefix(crossEnd), crossBase + crossSign * ((item.attr(prefix(crossSize)) !== null && item.attr(prefix(crossSize)) !== (void 0)) ? item.attr(prefix(crossSize)) : lineCrossSize))
 
-          item.attr(crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+          item.attr(prefix(crossSize), crossSign * (item.attr(prefix(crossEnd)) - item.attr(prefix(crossStart))))
         }
         
 
       }
       crossBase += crossSign * (lineCrossSize + step);
     });
-    console.log(items);
   }
 
   render(t, drawingContext) {

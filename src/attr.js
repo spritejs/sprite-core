@@ -223,9 +223,23 @@ class SpriteAttr {
 
   @parseValue((val) => { return val ? parseFloat(val) : val })
   @attr
+  set layoutWidth(val) {
+    this.clearCache()
+    this.set('layoutWidth', val)
+  }
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
   set height(val) {
     this.clearCache()
     this.set('height', val)
+  }
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
+  set layoutHeight(val) {
+    this.clearCache()
+    this.set('layoutHeight', val)
   }
 
   @parseValue(parseStringInt)
@@ -517,6 +531,7 @@ class SpriteAttr {
     this.set('shadow', val)
   }
 
+  @parseValue(parseFloat)
   @attr
   set flex(val) {
     this.set('flex', val)
