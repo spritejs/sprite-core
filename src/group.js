@@ -186,7 +186,7 @@ export default class Group extends BaseSprite {
   relayout() {
     // console.log(this.children);
 
-    const items = this.children.slice(0)
+    const items = this.children.filter(child => child.attr('position') !== 'absolute')
 
     items.sort((a, b) => {
       return (a.attributes.order || 0) - (b.attributes.order || 0)
@@ -206,7 +206,9 @@ export default class Group extends BaseSprite {
       crossBase
 
     const prefix = (attr) => {
-      return attr === 'x' || attr === 'y' ? attr : `layout${attr.charAt(0).toUpperCase()}${attr.substr(1)}`
+      return attr === 'x' || attr === 'y'
+        || attr === 'width' || attr === 'height'
+        ? attr : `layout${attr.charAt(0).toUpperCase()}${attr.substr(1)}`
     }
 
     if(style.flexDirection === 'row') {

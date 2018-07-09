@@ -128,6 +128,12 @@ export default class BaseSprite extends BaseNode {
     return this.attr('name')
   }
 
+  get hasLayout() {
+    if(this.attr('position') === 'absolute') return false
+    if(this.parent && this.parent.relayout) return true
+    return false
+  }
+
   set zIndex(val) {
     this.attr('zIndex', val)
   }
@@ -330,10 +336,8 @@ export default class BaseSprite extends BaseNode {
     if(this.isVirtual) return [0, 0]
 
     const [width, height] = this.attr('size')
-    const layoutWidth = this.attr('layoutWidth'),
-      layoutHeight = this.attr('layoutHeight')
 
-    return [layoutWidth | width | 0, layoutHeight | height | 0]
+    return [width | 0, height | 0]
   }
 
   // content + padding

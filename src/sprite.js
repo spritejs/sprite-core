@@ -128,8 +128,6 @@ export default class Sprite extends BaseSprite {
   // override to adapt textures' size
   get contentSize() {
     let [width, height] = this.attr('size')
-    const layoutWidth = this.attr('layoutWidth'),
-      layoutHeight = this.attr('layoutHeight')
 
     const boxSize = this.texturesSize || [0, 0]
 
@@ -140,7 +138,7 @@ export default class Sprite extends BaseSprite {
       height = boxSize[1] | 0
     }
 
-    return [layoutWidth === undefined ? width : layoutWidth, layoutHeight === undefined ? height : layoutHeight]
+    return [width, height]
   }
 
   pointCollision(evt) {

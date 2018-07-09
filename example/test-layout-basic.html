@@ -47,16 +47,20 @@
       bgcolor: 'green',
     })
 
+    s1.attr({
+      width: 100,
+    })
+
     g.append(s1, s2, s3)
 
-    // s1.animate([
-    //   {width: 200},
-    //   {width: 50},
-    // ], {
-    //   duration: 5000,
-    //   iterations: Infinity,
-    //   direction: 'alternate',
-    // })
+    g.animate([
+      {width: 100},
+      {width: 300},
+    ], {
+      duration: 5000,
+      iterations: Infinity,
+      direction: 'alternate',
+    })
 
   </script>
 </body>

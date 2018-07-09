@@ -30,10 +30,10 @@
 
     const s1 = new Sprite()
     s1.attr({
-      size: [50, 50],
+      size: [250, 50],
       borderRadius: 25,
       bgcolor: 'red',
-      flex: 1,
+      // flex: 1,
     })
     const s2 = s1.cloneNode()
     s2.attr({
@@ -45,7 +45,7 @@
     s3.attr({
       size: [50, 50],
       bgcolor: 'green',
-      flex: 0,
+      // flex: 0,
       order: -1,
     })
 
@@ -60,14 +60,14 @@
 
     g.relayout()
 
-    // s1.animate([
-    //   {width: 200},
-    //   {width: 50},
-    // ], {
-    //   duration: 5000,
-    //   iterations: Infinity,
-    //   direction: 'alternate',
-    // })
+    s1.animate([
+      {width: 200},
+      {width: 50},
+    ], {
+      duration: 5000,
+      iterations: Infinity,
+      direction: 'alternate',
+    })
 
   </script>
 </body>
