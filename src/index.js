@@ -6,7 +6,7 @@ import Group from './group'
 import BaseNode from './basenode'
 import Path from './path'
 import Batch from './batch'
-import {FlexLayout} from './layout'
+import FlexLayout from './layout'
 import {registerNodeType, createNode} from './nodetype'
 import {Effects, Easings} from 'sprite-animator'
 import SvgPath from 'svg-path-to-canvas'
@@ -21,8 +21,6 @@ utils.cacheContextPool = cacheContextPool
 const Color = utils.Color
 
 import * as math from 'sprite-math'
-
-
 
 export {
   utils,

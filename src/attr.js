@@ -536,6 +536,11 @@ class SpriteAttr {
   set flex(val) {
     this.set('flex', val)
   }
+
+  @attr
+  set order(val) {
+    this.set('order', val)
+  }
 }
 
 export default SpriteAttr

@@ -12,7 +12,6 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
-    const Group = spritejs.Group
     const FlexLayout = spritejs.FlexLayout
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context})
@@ -23,32 +22,30 @@
       width: 400,
       anchor: 0.5,
       bgcolor: 'grey',
-      alignItems: 'stretch'
+      alignItems: 'stretch',
     })
 
-
-    
-
     layer.append(g)
-
-    
 
     const s1 = new Sprite()
     s1.attr({
       size: [50, 50],
       borderRadius: 25,
       bgcolor: 'red',
+      flex: 1,
     })
     const s2 = s1.cloneNode()
     s2.attr({
       size: [50, 50],
       bgcolor: 'blue',
-      flex: 1
+      flex: 2,
     })
     const s3 = s1.cloneNode()
     s3.attr({
       size: [50, 50],
-      bgcolor: 'green'
+      bgcolor: 'green',
+      flex: 0,
+      order: -1,
     })
 
     const s4 = new Sprite()
@@ -60,21 +57,16 @@
     })
     g.append(s1, s2, s3, s4)
 
+    g.relayout()
 
-
-
-    g.relayout();
-
-
-
-s1.animate([
-  {width: 200},
-  {width: 50 },
-], {
-  duration: 5000,
-  iterations: Infinity,
-  direction: 'alternate',
-})
+    // s1.animate([
+    //   {width: 200},
+    //   {width: 50},
+    // ], {
+    //   duration: 5000,
+    //   iterations: Infinity,
+    //   direction: 'alternate',
+    // })
 
   </script>
 </body>

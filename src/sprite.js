@@ -140,10 +140,7 @@ export default class Sprite extends BaseSprite {
       height = boxSize[1] | 0
     }
 
- 
-
-
-    return [ layoutWidth === void 0 ? width : layoutWidth, layoutHeight === void 0 ? height : layoutHeight]
+    return [layoutWidth === undefined ? width : layoutWidth, layoutHeight === undefined ? height : layoutHeight]
   }
 
   pointCollision(evt) {
