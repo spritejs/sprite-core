@@ -79,6 +79,7 @@ export default class Group extends BaseSprite {
     this[_zOrder] = 0
   }
   get isVirtual() {
+    if(this.attr('display') === 'flex') return false
     const {width: borderWidth} = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
       bgcolor = this.attr('bgcolor'),
@@ -429,10 +430,11 @@ export default class Group extends BaseSprite {
 
     if(isAutoSize(style[crossSize])) { // auto sizing
       crossSpace = 0
-      this.attr(crossSize, 0)
-      for(let i = 0; i < flexLines.length; i++) {
-        this.attr(crossSize, this.attr(crossSize) + flexLines[i].crossSpace)
-      }
+      // let maxSize = 0
+      // for(let i = 0; i < flexLines.length; i++) {
+      //   maxSize += flexLines[i].crossSpace
+      // }
+      // this.attr(crossSize, maxSize)
     } else {
       crossSpace = style[crossSize]
       for(let i = 0; i < flexLines.length; i++) {
