@@ -61,7 +61,7 @@ export default class FlexLayout extends Group {
   relayout() {
     // console.log(this.children);
 
-    const items = this.children
+    const items = this.children.slice(0)
 
     items.sort((a, b) => {
       return (a.attributes.order || 0) - (b.attributes.order || 0)
