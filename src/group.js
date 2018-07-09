@@ -83,8 +83,8 @@ export default class Group extends BaseSprite {
       if(this.attr('clip')) {
         const svg = this.svg
         const bounds = svg.bounds
-        width = bounds[2]
-        height = bounds[3]
+        width = width || bounds[2]
+        height = height || bounds[3]
       } else {
         let right,
           bottom
@@ -96,8 +96,8 @@ export default class Group extends BaseSprite {
           right = Math.max(right, renderBox[2])
           bottom = Math.max(bottom, renderBox[3])
         })
-        width = right
-        height = bottom
+        width = width || right
+        height = height || bottom
       }
     }
     return [width, height]
