@@ -1,9 +1,10 @@
-const {FlexLayout, Sprite} = require('../../lib')
+const {Group, Sprite} = require('../../lib')
 const drawCase = require('./drawcase')
 
 drawCase('layout-basic', [300, 300], (layer, size) => {
-  const g = new FlexLayout()
+  const g = new Group()
   g.attr({
+    display: 'flex',
     pos: [150, 150],
     // width: 300,
     anchor: 0.5,
@@ -34,8 +35,9 @@ drawCase('layout-basic', [300, 300], (layer, size) => {
 })
 
 drawCase('layout-flex', [300, 300], (layer, size) => {
-  const g = new FlexLayout()
+  const g = new Group()
   g.attr({
+    display: 'flex',
     pos: [150, 150],
     width: 300,
     anchor: 0.5,

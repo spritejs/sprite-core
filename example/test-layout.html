@@ -12,17 +12,18 @@
   <script>
     const Sprite = spritejs.Sprite
     const Layer = spritejs.Layer
-    const FlexLayout = spritejs.FlexLayout
+    const Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context})
 
-    const g = new FlexLayout()
+    const g = new Group()
     g.attr({
       pos: [300, 300],
       width: 400,
       anchor: 0.5,
       bgcolor: 'grey',
       alignItems: 'stretch',
+      display: 'flex',
     })
 
     layer.append(g)
