@@ -140,17 +140,22 @@ export default class FlexLayout extends Group {
       crossSign = 1
     }
 
+    function isAutoSize(size) {
+      return size == null || size === ''
+    }
 
     let isAutoMainSize = false
 
-    if(style[mainSize] === null) { // auto sizing
-      this.attr(mainSize, 0)
+    if(isAutoSize(style[mainSize])) { // auto sizing
+      let maxSize = 0
       for(let i = 0; i < items.length; i++) {
-        const item = items[i]
-        if(item.attr(mainSize) !== null || item.attr(mainSize) !== undefined) {
-          this.attr(mainSize, this.attr(mainSize) + item.attr(mainSize))
+        const item = items[i],
+          size = item.attr(mainSize)
+        if(!isAutoSize(size)) {
+          maxSize += size
         }
       }
+      this.attr(mainSize, maxSize)
       isAutoMainSize = true
       // style.flexWrap = 'nowrap';
     }
@@ -169,15 +174,15 @@ export default class FlexLayout extends Group {
       const item = items[i]
       const itemStyle = item.attributes
 
-      if(itemStyle[mainSize] === null) {
+      if(isAutoSize(itemStyle[mainSize])) {
         itemStyle[mainSize] = 0
       }
 
       if(itemStyle.flex) {
         flexLine.push(item)
-      } else if(style.flexWrap === 'nowrap' && isAutoMainSize) {
+      } else if(style.flexWrap === 'nowrap' || isAutoMainSize) {
         mainSpace -= itemStyle[mainSize]
-        if(itemStyle[crossSize] !== null && itemStyle[crossSize] !== undefined) {
+        if(!isAutoSize(itemStyle[crossSize])) {
           crossSpace = Math.max(crossSpace, itemStyle[crossSize])
         }
         flexLine.push(item)
@@ -195,7 +200,7 @@ export default class FlexLayout extends Group {
         } else {
           flexLine.push(item)
         }
-        if(itemStyle[crossSize] !== null && itemStyle[crossSize] !== undefined) {
+        if(!isAutoSize(itemStyle[crossSize])) {
           crossSpace = Math.max(crossSpace, itemStyle[crossSize])
         }
         mainSpace -= itemStyle[mainSize]
@@ -204,7 +209,7 @@ export default class FlexLayout extends Group {
     flexLine.mainSpace = mainSpace
 
     if(style.flexWrap === 'nowrap' || isAutoMainSize) {
-      flexLine.crossSpace = (style[crossSize] !== null) ? style[crossSize] : crossSpace
+      flexLine.crossSpace = !isAutoSize(style[crossSize]) ? style[crossSize] : crossSpace
     } else {
       flexLine.crossSpace = crossSpace
     }
@@ -238,9 +243,7 @@ export default class FlexLayout extends Group {
           const item = items[i]
           const itemStyle = item.attributes
 
-          if((itemStyle.flex !== null) && (itemStyle.flex !== undefined)) {
-            flexTotal += itemStyle.flex
-          }
+          flexTotal += itemStyle.flex
         }
 
         if(flexTotal > 0) {
@@ -297,7 +300,7 @@ export default class FlexLayout extends Group {
     // compute the cross axis sizes
     // align-items, align-self
 
-    if(style[crossSize] === null) { // auto sizing
+    if(isAutoSize(style[crossSize])) { // auto sizing
       crossSpace = 0
       this.attr(crossSize, 0)
       for(let i = 0; i < flexLines.length; i++) {
@@ -351,7 +354,7 @@ export default class FlexLayout extends Group {
 
         const align = item.attributes.alignSelf || style.alignItems
 
-        if(item.attr(crossSize) === null || item.attr(crossSize) === undefined || item.attr(crossSize) === '') {
+        if(isAutoSize(item.attr(crossSize))) {
           item.attr(prefix(crossSize), ((align === 'stretch')) ? lineCrossSize : 0)
         } else {
           item.attr(prefix(crossSize), item.attr(crossSize))
@@ -374,7 +377,7 @@ export default class FlexLayout extends Group {
 
         if(align === 'stretch') {
           item.attr(prefix(crossStart), crossBase)
-          item.attr(prefix(crossEnd), crossBase + crossSign * ((item.attr(prefix(crossSize)) !== null && item.attr(prefix(crossSize)) !== undefined) ? item.attr(prefix(crossSize)) : lineCrossSize))
+          item.attr(prefix(crossEnd), crossBase + crossSign * (!isAutoSize(item.attr(prefix(crossSize))) ? item.attr(prefix(crossSize)) : lineCrossSize))
 
           item.attr(prefix(crossSize), crossSign * (item.attr(prefix(crossEnd)) - item.attr(prefix(crossStart))))
         }
