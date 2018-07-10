@@ -24,6 +24,7 @@
       // height: 100,
       bgcolor: 'grey',
       flexWrap: 'wrap',
+      flexDirection: 'row',
       alignItems: 'stretch',
       justifyContent: 'space-between',
       display: 'flex',
@@ -33,6 +34,7 @@
     const s1 = new Sprite()
     s1.attr({
       size: [50, 50],
+      // anchor: 0.5,
       // borderRadius: 25,
       bgcolor: 'red',
       // flex: 1,
@@ -50,6 +52,9 @@
 
     s1.attr({
       width: 100,
+      rotate: -30,
+      // anchor: 0.5,
+      transformOrigin: [50, 25],
     })
 
     g.append(s1, s2, s3)
@@ -57,14 +62,14 @@
     // g.attr({
     //   width: 300,
     // })
-    g.animate([
-      {width: 100},
-      {width: 300},
-    ], {
-      duration: 5000,
-      iterations: Infinity,
-      direction: 'alternate',
-    })
+    // g.animate([
+    //   {width: 100},
+    //   {width: 300},
+    // ], {
+    //   duration: 5000,
+    //   iterations: Infinity,
+    //   direction: 'alternate',
+    // })
 
   </script>
 </body>

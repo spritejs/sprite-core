@@ -195,69 +195,49 @@ export default class Group extends BaseSprite {
 
     const style = this.attributes
 
-    let mainSize,
-      mainStart,
-      mainEnd,
-      mainSign,
-      mainBase,
-      crossSize,
-      crossStart,
-      crossEnd,
+    let mainSize = 'width',
+      mainStart = 'x',
+      mainEnd = 'layoutRight',
+      mainSign = +1,
+      mainBase = 0,
+      crossSize = 'height',
+      crossStart = 'y',
+      crossEnd = 'layoutBottom',
       crossSign,
       crossBase
 
-    const prefix = (attr) => {
-      return attr === 'x' || attr === 'y'
-        || attr === 'width' || attr === 'height'
-        ? attr : `layout${attr.charAt(0).toUpperCase()}${attr.substr(1)}`
-    }
+    const flexDirection = style.flexDirection
 
-    if(style.flexDirection === 'row') {
+    if(flexDirection === 'row-reverse') {
       mainSize = 'width'
-      mainStart = 'x'
-      mainEnd = 'right'
-      mainSign = +1
-      mainBase = 0
-
-      crossSize = 'height'
-      crossStart = 'y'
-      crossEnd = 'bottom'
-    }
-
-    if(style.flexDirection === 'row-reverse') {
-      mainSize = 'width'
-      mainStart = 'right'
+      mainStart = 'layoutRight'
       mainEnd = 'x'
       mainSign = -1
       mainBase = style.width
 
       crossSize = 'height'
       crossStart = 'y'
-      crossEnd = 'bottom'
-    }
-
-    if(style.flexDirection === 'column') {
+      crossEnd = 'layoutBottom'
+    } else if(flexDirection === 'column') {
       mainSize = 'height'
       mainStart = 'y'
-      mainEnd = 'bottom'
+      mainEnd = 'layoutBottom'
       mainSign = +1
       mainBase = 0
 
       crossSize = 'width'
       crossStart = 'x'
-      crossEnd = 'right'
-    }
-
-    if(style.flexDirection === 'column-reverse') {
+      crossEnd = 'layoutRight'
+    } else if(flexDirection === 'column-reverse') {
       mainSize = 'height'
-      mainStart = 'bottom'
+      mainStart = 'layoutBottom'
       mainEnd = 'y'
       mainSign = -1
       mainBase = style.height
 
       crossSize = 'width'
       crossStart = 'x'
-      crossEnd = 'right'
+      crossEnd = 'layoutRight'
     }
 
     if(style.flexWrap === 'wrap-reverse') {
@@ -272,66 +252,63 @@ export default class Group extends BaseSprite {
       return size == null || size === ''
     }
 
-    let isAutoMainSize = false
+    const isAutoMainSize = isAutoSize(style[mainSize])
 
-    if(isAutoSize(style[mainSize])) { // auto sizing
+    let groupMainSize
+
+    if(isAutoMainSize) { // auto sizing
       let maxSize = 0
       for(let i = 0; i < items.length; i++) {
         const item = items[i],
-          size = item.attr(mainSize)
-        if(!isAutoSize(size)) {
-          maxSize += size
-        }
+          [width, height] = item.offsetSize
+        const size = mainSize === 'width' ? width : height
+        maxSize += size
       }
-      this.attr(mainSize, maxSize)
-      isAutoMainSize = true
-      // style.flexWrap = 'nowrap';
+      if(flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+        mainBase = maxSize
+      }
+      groupMainSize = maxSize
+    } else {
+      groupMainSize = style[mainSize]
     }
-
 
     let flexLine = []
     const flexLines = [flexLine]
 
-    let mainSpace = this.attr(mainSize),
+    let mainSpace = groupMainSize,
       crossSpace = 0
 
     // collect items into lines
-
 
     for(let i = 0; i < items.length; i++) {
       const item = items[i]
       const itemStyle = item.attributes
 
-      if(isAutoSize(itemStyle[mainSize])) {
-        itemStyle[mainSize] = 0
-      }
+      let [itemMainSize, itemCrossSize] = item.offsetSize
+      if(mainSize === 'height') [itemMainSize, itemCrossSize] = [itemCrossSize, itemMainSize]
 
       if(itemStyle.flex) {
         flexLine.push(item)
       } else if(style.flexWrap === 'nowrap' || isAutoMainSize) {
-        mainSpace -= itemStyle[mainSize]
-        if(!isAutoSize(itemStyle[crossSize])) {
-          crossSpace = Math.max(crossSpace, itemStyle[crossSize])
-        }
+        mainSpace -= itemMainSize
+        crossSpace = Math.max(crossSpace, itemCrossSize)
         flexLine.push(item)
       } else {
-        if(itemStyle[mainSize] > style[mainSize]) {
-          item.attr(prefix(mainSize), style[mainSize])
+        if(itemMainSize > groupMainSize) {
+          item.attr(mainSize, groupMainSize)
         }
-        if(mainSpace < itemStyle[mainSize]) {
+        if(mainSpace < itemMainSize) {
           flexLine.mainSpace = mainSpace
           flexLine.crossSpace = crossSpace
           flexLine = [item]
           flexLines.push(flexLine)
-          mainSpace = style[mainSize]
+          mainSpace = groupMainSize
           crossSpace = 0
         } else {
           flexLine.push(item)
         }
-        if(!isAutoSize(itemStyle[crossSize])) {
-          crossSpace = Math.max(crossSpace, itemStyle[crossSize])
-        }
-        mainSpace -= itemStyle[mainSize]
+        crossSpace = Math.max(crossSpace, itemCrossSize)
+        mainSpace -= itemMainSize
       }
     }
     flexLine.mainSpace = mainSpace
@@ -344,23 +321,21 @@ export default class Group extends BaseSprite {
 
     if(mainSpace < 0) {
       // overflow (happens only if container is single line), scale every item
-      const scale = style[mainSize] / (style[mainSize] - mainSpace)
+      const scale = groupMainSize / (groupMainSize - mainSpace)
       let currentMain = mainBase
       for(let i = 0; i < items.length; i++) {
         const item = items[i]
         const itemStyle = item.attributes
 
         if(itemStyle.flex) {
-          item.attr(prefix(mainSize), 0)
-        } else {
-          item.attr(prefix(mainSize), item.attr(mainSize))
+          item.attr(mainSize, 0)
         }
 
-        item.attr(prefix(mainSize), item.attr(prefix(mainSize)) * scale)
+        item.attr(mainSize, item.attr(mainSize) * scale)
 
-        item.attr(prefix(mainStart), currentMain)
-        item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)))
-        currentMain = item.attr(prefix(mainEnd))
+        item.attr(mainStart, currentMain)
+        item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+        currentMain = item.attr(mainEnd)
       }
     } else {
       // process each flex line
@@ -382,44 +357,39 @@ export default class Group extends BaseSprite {
             const itemStyle = item.attributes
 
             if(itemStyle.flex) {
-              item.attr(prefix(mainSize), (mainSpace / flexTotal) * itemStyle.flex)
-            } else {
-              item.attr(prefix(mainSize), item.attr(mainSize))
+              item.attr(mainSize, (mainSpace / flexTotal) * itemStyle.flex)
             }
-            item.attr(prefix(mainStart), currentMain)
-            item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)))
-            currentMain = item.attr(prefix(mainEnd))
+
+            item.attr(mainStart, currentMain)
+            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+            currentMain = item.attr(mainEnd)
           }
         } else {
-          let currentMain,
-            step
-          // There is *NO* flexible flex items, which means, justifyContent shoud work
-          if(style.justifyContent === 'flex-start') {
-            currentMain = mainBase
+          let currentMain = mainBase,
             step = 0
-          }
-          if(style.justifyContent === 'flex-end') {
+          // There is *NO* flexible flex items, which means, justifyContent shoud work
+          const justifyContent = style.justifyContent
+
+          if(justifyContent === 'flex-end') {
             currentMain = mainSpace * mainSign + mainBase
             step = 0
-          }
-          if(style.justifyContent === 'center') {
+          } else if(justifyContent === 'center') {
             currentMain = mainSpace / 2 * mainSign + mainBase
             step = 0
-          }
-          if(style.justifyContent === 'space-between') {
+          } else if(justifyContent === 'space-between') {
             step = mainSpace / (items.length - 1) * mainSign
             currentMain = mainBase
-          }
-          if(style.justifyContent === 'space-around') {
+          } else if(justifyContent === 'space-around') {
             step = mainSpace / items.length * mainSign
             currentMain = step / 2 + mainBase
           }
+
           for(let i = 0; i < items.length; i++) {
             const item = items[i]
-            item.attr(prefix(mainSize), item.attr(mainSize) || 0)
-            item.attr(prefix(mainStart), currentMain)
-            item.attr(prefix(mainEnd), item.attr(prefix(mainStart)) + mainSign * item.attr(prefix(mainSize)))
-            currentMain = item.attr(prefix(mainEnd)) + step
+            item.attr(mainSize, item.attr(mainSize) || 0)
+            item.attr(mainStart, currentMain)
+            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+            currentMain = item.attr(mainEnd) + step
           }
         }
       })
@@ -430,11 +400,6 @@ export default class Group extends BaseSprite {
 
     if(isAutoSize(style[crossSize])) { // auto sizing
       crossSpace = 0
-      // let maxSize = 0
-      // for(let i = 0; i < flexLines.length; i++) {
-      //   maxSize += flexLines[i].crossSpace
-      // }
-      // this.attr(crossSize, maxSize)
     } else {
       crossSpace = style[crossSize]
       for(let i = 0; i < flexLines.length; i++) {
@@ -447,32 +412,19 @@ export default class Group extends BaseSprite {
     } else {
       crossBase = 0
     }
-    // let lineSize = style[crossSize] / flexLines.length
 
-    let step
-    if(style.alignContent === 'flex-start') {
-      crossBase += 0
-      step = 0
-    }
-    if(style.alignContent === 'flex-end') {
+    let step = 0
+    const alignContent = style.alignContent
+
+    if(alignContent === 'flex-end') {
       crossBase += crossSign * crossSpace
-      step = 0
-    }
-    if(style.alignContent === 'center') {
+    } else if(alignContent === 'center') {
       crossBase += crossSign * crossSpace / 2
-      step = 0
-    }
-    if(style.alignContent === 'space-between') {
-      crossBase += 0
+    } else if(alignContent === 'space-between') {
       step = crossSpace / (flexLines.length - 1)
-    }
-    if(style.alignContent === 'space-around') {
+    } else if(alignContent === 'space-around') {
       step = crossSpace / (flexLines.length)
       crossBase += crossSign * step / 2
-    }
-    if(style.alignContent === 'stretch') {
-      crossBase += 0
-      step = 0
     }
 
     flexLines.forEach((items) => {
@@ -484,31 +436,31 @@ export default class Group extends BaseSprite {
         const align = item.attributes.alignSelf || style.alignItems
 
         if(isAutoSize(item.attr(crossSize))) {
-          item.attr(prefix(crossSize), ((align === 'stretch')) ? lineCrossSize : 0)
+          item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
         } else {
-          item.attr(prefix(crossSize), item.attr(crossSize))
+          item.attr(crossSize, item.attr(crossSize))
         }
 
         if(align === 'flex-start') {
-          item.attr(prefix(crossStart), crossBase)
-          item.attr(prefix(crossEnd), item.attr(prefix(crossStart)) + crossSign * item.attr(prefix(crossSize)))
+          item.attr(crossStart, crossBase)
+          item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize))
         }
 
         if(align === 'flex-end') {
-          item.attr(prefix(crossEnd), crossBase + crossSign * lineCrossSize)
-          item.attr(prefix(crossStart), item.attr(prefix(crossEnd)) - crossSign * item.attr(prefix(crossSize)))
+          item.attr(crossEnd, crossBase + crossSign * lineCrossSize)
+          item.attr(crossStart, item.attr(crossEnd) - crossSign * item.attr(crossSize))
         }
 
         if(align === 'center') {
-          item.attr(prefix(crossStart), crossBase + crossSign * (lineCrossSize - item.attr(prefix(crossSize))) / 2)
-          item.attr(prefix(crossEnd), item.attr(crossStart) + crossSign * item.attr(prefix(crossSize)))
+          item.attr(crossStart, crossBase + crossSign * (lineCrossSize - item.attr(crossSize)) / 2)
+          item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize))
         }
 
         if(align === 'stretch') {
-          item.attr(prefix(crossStart), crossBase)
-          item.attr(prefix(crossEnd), crossBase + crossSign * (!isAutoSize(item.attr(prefix(crossSize))) ? item.attr(prefix(crossSize)) : lineCrossSize))
+          item.attr(crossStart, crossBase)
+          item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(item.attr(crossSize)) ? item.attr(crossSize) : lineCrossSize))
 
-          item.attr(prefix(crossSize), crossSign * (item.attr(prefix(crossEnd)) - item.attr(prefix(crossStart))))
+          item.attr(crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         }
       }
       crossBase += crossSign * (lineCrossSize + step)
