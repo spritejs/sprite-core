@@ -11,7 +11,9 @@
   <script src="/js/sprite-core.js"></script>
   <script>
     const Sprite = spritejs.Sprite
+    const Label = spritejs.Label
     const Layer = spritejs.Layer
+    const Path = spritejs.Path
     const Group = spritejs.Group
     const context = document.getElementById('mycanvas').getContext('2d')
     const layer = new Layer({context})
@@ -20,7 +22,7 @@
     g.attr({
       // anchor: 0.5,
       pos: [150, 150],
-      width: 100,
+      width: 120,
       // height: 100,
       bgcolor: 'grey',
       flexWrap: 'wrap',
@@ -48,20 +50,42 @@
     const s3 = s1.cloneNode()
     s3.attr({
       bgcolor: 'green',
+      padding: 8,
+      // scale: [2.0, 1],
     })
 
     s1.attr({
       width: 100,
-      rotate: -30,
-      // anchor: 0.5,
-      transformOrigin: [50, 25],
+      height: 70,
+      // rotate: -30,
+      anchor: 0.5,
+      // transformOrigin: [50, 25],
+      border: [10, 'black'],
+      // padding: [0, 10],
     })
 
     g.append(s1, s2, s3)
-    
-    // g.attr({
-    //   width: 300,
-    // })
+
+    const l = new Label('测试')
+    l.attr({
+      font: '40px Arial',
+      fillColor: 'red',
+      bgcolor: '#37c',
+    })
+    // layer.append(l)
+    g.append(l)
+
+    const p = new Path('M-20,0L100,100L100,-20z')
+    p.attr({
+      strokeColor: 'cyan',
+      lineWidth: 6,
+      // width: 50,
+    })
+    g.append(p)
+
+    g.attr({
+      // width: 400,
+    })
     // g.animate([
     //   {width: 100},
     //   {width: 300},

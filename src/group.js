@@ -269,7 +269,7 @@ export default class Group extends BaseSprite {
       }
       groupMainSize = maxSize
     } else {
-      groupMainSize = style[mainSize]
+      groupMainSize = mainSize === 'width' ? this.offsetSize[0] : this.offsetSize[1]
     }
 
     let flexLine = []
@@ -277,6 +277,19 @@ export default class Group extends BaseSprite {
 
     let mainSpace = groupMainSize,
       crossSpace = 0
+
+    function setBoxSize(item, axis, size) {
+      const borderWidth = item.attr('border').width,
+        [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding')
+
+      if(axis === 'width') {
+        size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft)
+        item.attr({width: size})
+      } else if(axis === 'height') {
+        size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom)
+        item.attr({height: size})
+      }
+    }
 
     // collect items into lines
 
@@ -295,7 +308,8 @@ export default class Group extends BaseSprite {
         flexLine.push(item)
       } else {
         if(itemMainSize > groupMainSize) {
-          item.attr(mainSize, groupMainSize)
+          setBoxSize(item, mainSize, groupMainSize)
+          itemMainSize = groupMainSize
         }
         if(mainSpace < itemMainSize) {
           flexLine.mainSpace = mainSpace
@@ -319,6 +333,16 @@ export default class Group extends BaseSprite {
       flexLine.crossSpace = crossSpace
     }
 
+    function fixAnchor(item) {
+      const [left, top] = item.originalRect
+      if(left) {
+        item.attr({x: x => x - left})
+      }
+      if(top) {
+        item.attr({y: y => y - top})
+      }
+    }
+
     if(mainSpace < 0) {
       // overflow (happens only if container is single line), scale every item
       const scale = groupMainSize / (groupMainSize - mainSpace)
@@ -326,15 +350,17 @@ export default class Group extends BaseSprite {
       for(let i = 0; i < items.length; i++) {
         const item = items[i]
         const itemStyle = item.attributes
+        let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
         if(itemStyle.flex) {
-          item.attr(mainSize, 0)
+          boxSize = 0
         }
 
-        item.attr(mainSize, item.attr(mainSize) * scale)
+        boxSize *= scale
 
         item.attr(mainStart, currentMain)
-        item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+        item.attr(mainEnd, currentMain + mainSign * boxSize)
+        setBoxSize(item, mainSize, boxSize)
         currentMain = item.attr(mainEnd)
       }
     } else {
@@ -355,13 +381,15 @@ export default class Group extends BaseSprite {
           for(let i = 0; i < items.length; i++) {
             const item = items[i]
             const itemStyle = item.attributes
+            let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
             if(itemStyle.flex) {
-              item.attr(mainSize, (mainSpace / flexTotal) * itemStyle.flex)
+              boxSize = (mainSpace / flexTotal) * itemStyle.flex
             }
 
             item.attr(mainStart, currentMain)
-            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+            item.attr(mainEnd, currentMain + mainSign * boxSize)
+            setBoxSize(item, mainSize, boxSize)
             currentMain = item.attr(mainEnd)
           }
         } else {
@@ -386,9 +414,11 @@ export default class Group extends BaseSprite {
 
           for(let i = 0; i < items.length; i++) {
             const item = items[i]
-            item.attr(mainSize, item.attr(mainSize) || 0)
+            const boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
+
             item.attr(mainStart, currentMain)
-            item.attr(mainEnd, item.attr(mainStart) + mainSign * item.attr(mainSize))
+            item.attr(mainEnd, item.attr(mainStart) + mainSign * boxSize)
+            setBoxSize(item, mainSize, boxSize)
             currentMain = item.attr(mainEnd) + step
           }
         }
@@ -435,11 +465,9 @@ export default class Group extends BaseSprite {
 
         const align = item.attributes.alignSelf || style.alignItems
 
-        if(isAutoSize(item.attr(crossSize))) {
-          item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
-        } else {
-          item.attr(crossSize, item.attr(crossSize))
-        }
+        // if(isAutoSize(item.attr(crossSize))) {
+        //   item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
+        // }
 
         if(align === 'flex-start') {
           item.attr(crossStart, crossBase)
@@ -460,8 +488,10 @@ export default class Group extends BaseSprite {
           item.attr(crossStart, crossBase)
           item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(item.attr(crossSize)) ? item.attr(crossSize) : lineCrossSize))
 
-          item.attr(crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+          // item.attr(crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         }
+
+        fixAnchor(item)
       }
       crossBase += crossSign * (lineCrossSize + step)
     })
