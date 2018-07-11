@@ -519,6 +519,11 @@ export default class Group extends BaseSprite {
   }
   clearLayout() {
     this[_layoutTag] = false
+    let parent = this.parent
+    while(parent) {
+      if(parent[_layoutTag]) parent[_layoutTag] = false
+      parent = parent.parent
+    }
   }
   render(t, drawingContext) {
     if(this.attr('display') === 'flex' && !this[_layoutTag]) {
