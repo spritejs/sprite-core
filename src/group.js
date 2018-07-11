@@ -4,7 +4,8 @@ import {attr} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
 
 const _children = Symbol('children'),
-  _zOrder = Symbol('zOrder')
+  _zOrder = Symbol('zOrder'),
+  _layoutTag = Symbol('layoutTag')
 
 class GroupAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -36,36 +37,42 @@ class GroupAttr extends BaseSprite.Attr {
   @attr
   set flexDirection(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('flexDirection', value)
   }
 
   @attr
   set flexWrap(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('flexWrap', value)
   }
 
   @attr
   set flexFlow(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('flexFlow', value)
   }
 
   @attr
   set justifyContent(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('justifyContent', value)
   }
 
   @attr
   set alignItems(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('alignItems', value)
   }
 
   @attr
   set alignContent(value) {
     this.clearCache()
+    this.subject.clearLayout()
     this.set('alignContent', value)
   }
 }
@@ -77,6 +84,7 @@ export default class Group extends BaseSprite {
     super(attr)
     this[_children] = []
     this[_zOrder] = 0
+    this[_layoutTag] = false
   }
   get isVirtual() {
     if(this.attr('display') === 'flex') return false
@@ -188,15 +196,14 @@ export default class Group extends BaseSprite {
     // console.log(this.children);
 
     const items = this.children.filter((child) => {
-      if(child.attr('position') === 'absolute') {
-        return false
+      if(child.hasLayout) {
+        child.attr('layoutWidth', null)
+        child.attr('layoutHeight', null)
       }
-      child.attr('layoutWidth', null)
-      child.attr('layoutHeight', null)
       if(child.relayout) {
         child.relayout()
       }
-      return true
+      return child.hasLayout
     })
 
     items.sort((a, b) => {
@@ -288,18 +295,6 @@ export default class Group extends BaseSprite {
     let mainSpace = groupMainSize,
       crossSpace = 0
 
-    function setBoxSize(item, axis, size) {
-      const borderWidth = item.attr('border').width,
-        [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding')
-
-      if(axis === 'width') {
-        size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft)
-        item.attr({width: size})
-      } else if(axis === 'height') {
-        size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom)
-        item.attr({height: size})
-      }
-    }
     function setBoxLayoutSize(item, axis, size) {
       const borderWidth = item.attr('border').width,
         [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding')
@@ -393,7 +388,7 @@ export default class Group extends BaseSprite {
           const item = items[i]
           const itemStyle = item.attributes
 
-          flexTotal += itemStyle.flex === '' ? 0 : parseInt(itemStyle.flex) 
+          flexTotal += itemStyle.flex === '' ? 0 : parseInt(itemStyle.flex, 10)
         }
 
         if(flexTotal > 0) {
@@ -405,7 +400,7 @@ export default class Group extends BaseSprite {
             let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
             if(itemStyle.flex !== '') {
-              boxSize = (mainSpace / flexTotal) * parseInt(itemStyle.flex) 
+              boxSize = (mainSpace / flexTotal) * parseInt(itemStyle.flex, 10)
             }
 
             item.attr(mainStart, currentMain)
@@ -448,14 +443,14 @@ export default class Group extends BaseSprite {
 
     // compute the cross axis sizes
     // align-items, align-self
-
+    let crossSizeValue
     if(isAutoSize(style[crossSize])) { // auto sizing
       crossSpace = 0
-      var crossSizeValue = 0;
-      for(var i = 0; i < flexLines.length; i++) {
-        crossSizeValue += flexLines[i].crossSpace;
+      crossSizeValue = 0
+      for(let i = 0; i < flexLines.length; i++) {
+        crossSizeValue += flexLines[i].crossSpace
       }
-      setBoxSize(this, crossSize, crossSizeValue);
+      // setBoxSize(this, crossSize, crossSizeValue)
     } else {
       crossSpace = style[crossSize]
       for(let i = 0; i < flexLines.length; i++) {
@@ -464,7 +459,7 @@ export default class Group extends BaseSprite {
     }
 
     if(style.flexWrap === 'wrap-reverse') {
-      crossBase = style[crossSize]
+      crossBase = isAutoSize(style[crossSize]) ? crossSizeValue : style[crossSize]
     } else {
       crossBase = 0
     }
@@ -521,10 +516,12 @@ export default class Group extends BaseSprite {
       }
       crossBase += crossSign * (lineCrossSize + step)
     })
-
+  }
+  clearLayout() {
+    this[_layoutTag] = false
   }
   render(t, drawingContext) {
-    if(this.attr('display') === 'flex') {
+    if(this.attr('display') === 'flex' && !this[_layoutTag]) {
       this.relayout()
     }
 
@@ -555,6 +552,9 @@ export default class Group extends BaseSprite {
         child.isDirty = false
         child.dispatchEvent('update', {target: child, renderTime: t}, true, true)
       }
+    }
+    if(this.attr('display') === 'flex') {
+      this[_layoutTag] = true
     }
   }
 }

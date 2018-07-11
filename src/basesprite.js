@@ -318,6 +318,7 @@ export default class BaseSprite extends BaseNode {
         this[_animations].delete(animation)
       })
     })
+    if(parent && parent.clearLayout) parent.clearLayout()
     return ret
   }
 
@@ -328,6 +329,7 @@ export default class BaseSprite extends BaseNode {
     }
     const ret = super.disconnect(parent)
     delete this.context
+    if(parent && parent.clearLayout) parent.clearLayout()
     return ret
   }
 

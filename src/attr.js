@@ -28,8 +28,9 @@ class SpriteAttr {
       bgcolor: '',
       flex: '',
       order: 0,
-      rotate: 0,
       position: '',
+      alignSelf: '',
+      rotate: 0,
       scale: [1, 1],
       translate: [0, 0],
       skew: [0, 0],
@@ -565,17 +566,26 @@ class SpriteAttr {
   @parseValue(parseFloat)
   @attr
   set flex(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout()
     this.set('flex', val)
   }
 
   @attr
   set order(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout()
     this.set('order', val)
   }
 
   @attr
   set position(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout()
     this.set('position', val)
+  }
+
+  @attr
+  set alignSelf(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout()
+    this.set('alignSelf', val)
   }
 }
 
