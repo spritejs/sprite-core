@@ -128,6 +128,12 @@ export default class BaseSprite extends BaseNode {
     return this.attr('name')
   }
 
+  get hasLayout() {
+    if(this.attr('position') === 'absolute') return false
+    if(this.parent && this.parent.relayout) return true
+    return false
+  }
+
   set zIndex(val) {
     this.attr('zIndex', val)
   }
@@ -564,6 +570,10 @@ export default class BaseSprite extends BaseNode {
       verticesProjection(this.vertices, a4),
       verticesProjection(sprite.vertices, a4)
     )
+  }
+
+  relayout() {
+
   }
 
   draw(t, drawingContext = this.context) {

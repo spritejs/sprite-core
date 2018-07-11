@@ -136,7 +136,9 @@ export default class Label extends BaseSprite {
     const [width, height] = this.attr('size')
 
     if(width === '' || height === '') {
-      return this.textboxSize || [0, 0]
+      const textboxSize = this.textboxSize
+      if(!textboxSize) return [0, 0]
+      return [width || textboxSize[0], height || textboxSize[1]]
     }
 
     return [width, height]

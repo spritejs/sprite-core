@@ -23,8 +23,13 @@ class SpriteAttr {
       opacity: 1,
       width: '',
       height: '',
+      layoutWidth: '',
+      layoutHeight: '',
       bgcolor: '',
+      flex: '',
+      order: 0,
       rotate: 0,
+      position: '',
       scale: [1, 1],
       translate: [0, 0],
       skew: [0, 0],
@@ -52,6 +57,11 @@ class SpriteAttr {
         return [this.x, this.y]
       },
       size() {
+        if(this.subject.hasLayout) {
+          const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
+            height = this.layoutHeight !== '' ? this.layoutHeight : this.height
+          return [width, height]
+        }
         return [this.width, this.height]
       },
       linearGradients() {
@@ -107,8 +117,10 @@ class SpriteAttr {
     this.__attributeNames.forEach((key) => {
       if(key in this[_props]) {
         Object.defineProperty(ret, key, this[_props][key])
-      } else {
+      } else if(key !== 'x' && key !== 'y' && key !== 'width' && key !== 'height') {
         ret[key] = this[key]
+      } else {
+        ret[key] = this.get(key)
       }
     })
     return ret
@@ -181,13 +193,33 @@ class SpriteAttr {
   @parseValue(parseFloat)
   @attr
   set x(val) {
-    this.set('x', val)
+    if(this.subject.hasLayout) {
+      this.set('layoutX', val)
+    } else {
+      this.set('x', val)
+    }
+  }
+  get x() {
+    if(this.subject.hasLayout) {
+      return this.get('layoutX')
+    }
+    return this.get('x')
   }
 
   @parseValue(parseFloat)
   @attr
   set y(val) {
-    this.set('y', val)
+    if(this.subject.hasLayout) {
+      this.set('layoutY', val)
+    } else {
+      this.set('y', val)
+    }
+  }
+  get y() {
+    if(this.subject.hasLayout) {
+      return this.get('layoutY')
+    }
+    return this.get('y')
   }
 
   @parseValue(parseStringInt)
@@ -225,6 +257,20 @@ class SpriteAttr {
   set height(val) {
     this.clearCache()
     this.set('height', val)
+  }
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
+  set layoutWidth(val) {
+    this.clearCache()
+    this.set('layoutWidth', val)
+  }
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
+  set layoutHeight(val) {
+    this.clearCache()
+    this.set('layoutHeight', val)
   }
 
   @parseValue(parseStringInt)
@@ -514,6 +560,22 @@ class SpriteAttr {
   @attr
   set shadow(val) {
     this.set('shadow', val)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set flex(val) {
+    this.set('flex', val)
+  }
+
+  @attr
+  set order(val) {
+    this.set('order', val)
+  }
+
+  @attr
+  set position(val) {
+    this.set('position', val)
   }
 }
 

@@ -188,7 +188,7 @@ export default class Path extends BaseSprite {
       height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1]
     }
 
-    return [width, height]
+    return [width, height].map(Math.ceil)
   }
 
   get originalRect() {

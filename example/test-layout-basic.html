@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite
+    const Label = spritejs.Label
+    const Layer = spritejs.Layer
+    const Path = spritejs.Path
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const g = new Group()
+    g.attr({
+      // anchor: 0.5,
+      pos: [150, 150],
+      width: 120,
+      // height: 100,
+      bgcolor: 'grey',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      justifyContent: 'space-between',
+      display: 'flex',
+    })
+    layer.append(g)
+
+    const s1 = new Sprite()
+    s1.attr({
+      size: [50, 50],
+      // anchor: 0.5,
+      // borderRadius: 25,
+      bgcolor: 'red',
+      // flex: 1,
+    })
+
+    const s2 = s1.cloneNode()
+    s2.attr({
+      bgcolor: 'blue',
+    })
+
+    const s3 = s1.cloneNode()
+    s3.attr({
+      bgcolor: 'green',
+      padding: 8,
+      // scale: [2.0, 1],
+    })
+
+    s1.attr({
+      width: 100,
+      height: 70,
+      // rotate: -30,
+      anchor: 0.5,
+      // transformOrigin: [50, 25],
+      border: [10, 'black'],
+      // padding: [0, 10],
+    })
+
+    g.append(s1, s2, s3)
+
+    const l = new Label('测试')
+    l.attr({
+      font: '40px Arial',
+      fillColor: 'red',
+      bgcolor: '#37c',
+    })
+    // layer.append(l)
+    g.append(l)
+
+    const p = new Path('M-20,0L100,100L100,-20z')
+    p.attr({
+      strokeColor: 'cyan',
+      lineWidth: 6,
+      // width: 50,
+    })
+    g.append(p)
+
+    g.attr({
+      // width: 400,
+    })
+    // g.animate([
+    //   {width: 100},
+    //   {width: 300},
+    // ], {
+    //   duration: 5000,
+    //   iterations: Infinity,
+    //   direction: 'alternate',
+    // })
+
+  </script>
+</body>
+</html>
