@@ -294,13 +294,24 @@ export default class Group extends BaseSprite {
 
       if(axis === 'width') {
         size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft)
+        item.attr({width: size})
+      } else if(axis === 'height') {
+        size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom)
+        item.attr({height: size})
+      }
+    }
+    function setBoxLayoutSize(item, axis, size) {
+      const borderWidth = item.attr('border').width,
+        [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding')
+
+      if(axis === 'width') {
+        size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft)
         item.attr({layoutWidth: size})
       } else if(axis === 'height') {
         size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom)
         item.attr({layoutHeight: size})
       }
     }
-
     // collect items into lines
 
     for(let i = 0; i < items.length; i++) {
@@ -318,7 +329,7 @@ export default class Group extends BaseSprite {
         flexLine.push(item)
       } else {
         if(itemMainSize > groupMainSize) {
-          setBoxSize(item, mainSize, groupMainSize)
+          setBoxLayoutSize(item, mainSize, groupMainSize)
           itemMainSize = groupMainSize
         }
         if(mainSpace < itemMainSize) {
@@ -370,7 +381,7 @@ export default class Group extends BaseSprite {
 
         item.attr(mainStart, currentMain)
         item.attr(mainEnd, currentMain + mainSign * boxSize)
-        setBoxSize(item, mainSize, boxSize)
+        setBoxLayoutSize(item, mainSize, boxSize)
         currentMain = item.attr(mainEnd)
       }
     } else {
@@ -382,7 +393,7 @@ export default class Group extends BaseSprite {
           const item = items[i]
           const itemStyle = item.attributes
 
-          flexTotal += itemStyle.flex
+          flexTotal += itemStyle.flex === '' ? 0 : parseInt(itemStyle.flex) 
         }
 
         if(flexTotal > 0) {
@@ -394,12 +405,12 @@ export default class Group extends BaseSprite {
             let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
             if(itemStyle.flex !== '') {
-              boxSize = (mainSpace / flexTotal) * itemStyle.flex
+              boxSize = (mainSpace / flexTotal) * parseInt(itemStyle.flex) 
             }
 
             item.attr(mainStart, currentMain)
             item.attr(mainEnd, currentMain + mainSign * boxSize)
-            setBoxSize(item, mainSize, boxSize)
+            setBoxLayoutSize(item, mainSize, boxSize)
             currentMain = item.attr(mainEnd)
           }
         } else {
@@ -428,7 +439,7 @@ export default class Group extends BaseSprite {
 
             item.attr(mainStart, currentMain)
             item.attr(mainEnd, item.attr(mainStart) + mainSign * boxSize)
-            setBoxSize(item, mainSize, boxSize)
+            setBoxLayoutSize(item, mainSize, boxSize)
             currentMain = item.attr(mainEnd) + step
           }
         }
@@ -440,6 +451,11 @@ export default class Group extends BaseSprite {
 
     if(isAutoSize(style[crossSize])) { // auto sizing
       crossSpace = 0
+      var crossSizeValue = 0;
+      for(var i = 0; i < flexLines.length; i++) {
+        crossSizeValue += flexLines[i].crossSpace;
+      }
+      setBoxSize(this, crossSize, crossSizeValue);
     } else {
       crossSpace = style[crossSize]
       for(let i = 0; i < flexLines.length; i++) {
@@ -498,13 +514,14 @@ export default class Group extends BaseSprite {
           item.attr(crossStart, crossBase)
           item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(item.attr(crossSize)) ? item.attr(crossSize) : lineCrossSize))
 
-          // item.attr(crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+          setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         }
 
         fixAnchor(item)
       }
       crossBase += crossSign * (lineCrossSize + step)
     })
+
   }
   render(t, drawingContext) {
     if(this.attr('display') === 'flex') {
