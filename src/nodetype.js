@@ -151,6 +151,27 @@ export function createNode(type, ...args) {
   return null
 }
 
+export function createElement(type, attrs, content) {
+  const Node = typeof type === 'string' ? nodeTypes.get(type) : type
+
+  if(!Node) return null
+
+  const sprite = new Node(typeof content === 'string' ? content : undefined)
+
+  if(attrs !== null) {
+    sprite.attr(attrs)
+  }
+
+  if(typeof content === 'object' && sprite.append) {
+    if(content instanceof Array) {
+      sprite.append(...content)
+    } else {
+      sprite.append(content)
+    }
+  }
+  return sprite
+}
+
 function getNodeType(type) {
   return nodeTypes.get(type)
 }

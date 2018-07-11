@@ -1,4 +1,4 @@
-import {Layer, Sprite, createNode} from '../src'
+import {Layer, Sprite, createNode, createElement} from '../src'
 import {compare} from './helpers'
 import {createCanvas} from 'canvas'
 
@@ -14,6 +14,25 @@ test('createNode', (t) => {
   t.is(s.nodeType, 'sprite')
   t.is(g.nodeType, 'group')
   t.is(p.nodeType, 'path')
+  t.is(l.nodeType, 'label')
+  t.is(x, null)
+})
+
+test('createElement', (t) => {
+  const s = createElement(Sprite, {pos: [100, 100]}),
+    l = createElement('label', null, 'test'),
+    g = createElement('group', null, [s]),
+    p = createElement('path'),
+    x = createElement('foo')
+
+  t.is(s.nodeType, 'sprite')
+  t.is(s.attr('x'), 100)
+  t.is(s.attr('y'), 100)
+  t.is(g.nodeType, 'group')
+  t.is(g.children.length, 1)
+  t.is(g.children[0], s)
+  t.is(p.nodeType, 'path')
+  t.is(l.text, 'test')
   t.is(l.nodeType, 'label')
   t.is(x, null)
 })
