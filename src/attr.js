@@ -23,8 +23,10 @@ class SpriteAttr {
       opacity: 1,
       width: '',
       height: '',
+      layoutWidth: '',
+      layoutHeight: '',
       bgcolor: '',
-      flex: 0,
+      flex: '',
       order: 0,
       rotate: 0,
       position: '',
@@ -55,6 +57,11 @@ class SpriteAttr {
         return [this.x, this.y]
       },
       size() {
+        if(this.subject.hasLayout) {
+          const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
+            height = this.layoutHeight !== '' ? this.layoutHeight : this.height
+          return [width, height]
+        }
         return [this.width, this.height]
       },
       linearGradients() {
@@ -242,34 +249,28 @@ class SpriteAttr {
   @attr
   set width(val) {
     this.clearCache()
-    if(this.subject.hasLayout) {
-      this.set('layoutWidth', val)
-    } else {
-      this.set('width', val)
-    }
-  }
-  get width() {
-    if(this.subject.hasLayout) {
-      return this.get('layoutWidth')
-    }
-    return this.get('width')
+    this.set('width', val)
   }
 
   @parseValue((val) => { return val ? parseFloat(val) : val })
   @attr
   set height(val) {
     this.clearCache()
-    if(this.subject.hasLayout) {
-      this.set('layoutHeight', val)
-    } else {
-      this.set('height', val)
-    }
+    this.set('height', val)
   }
-  get height() {
-    if(this.subject.hasLayout) {
-      return this.get('layoutHeight')
-    }
-    return this.get('height')
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
+  set layoutWidth(val) {
+    this.clearCache()
+    this.set('layoutWidth', val)
+  }
+
+  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @attr
+  set layoutHeight(val) {
+    this.clearCache()
+    this.set('layoutHeight', val)
   }
 
   @parseValue(parseStringInt)

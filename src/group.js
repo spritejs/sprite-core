@@ -187,7 +187,17 @@ export default class Group extends BaseSprite {
   relayout() {
     // console.log(this.children);
 
-    const items = this.children.filter(child => child.attr('position') !== 'absolute')
+    const items = this.children.filter((child) => {
+      if(child.attr('position') === 'absolute') {
+        return false
+      }
+      child.attr('layoutWidth', null)
+      child.attr('layoutHeight', null)
+      if(child.relayout) {
+        child.relayout()
+      }
+      return true
+    })
 
     items.sort((a, b) => {
       return (a.attributes.order || 0) - (b.attributes.order || 0)
@@ -284,10 +294,10 @@ export default class Group extends BaseSprite {
 
       if(axis === 'width') {
         size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft)
-        item.attr({width: size})
+        item.attr({layoutWidth: size})
       } else if(axis === 'height') {
         size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom)
-        item.attr({height: size})
+        item.attr({layoutHeight: size})
       }
     }
 
@@ -300,7 +310,7 @@ export default class Group extends BaseSprite {
       let [itemMainSize, itemCrossSize] = item.offsetSize
       if(mainSize === 'height') [itemMainSize, itemCrossSize] = [itemCrossSize, itemMainSize]
 
-      if(itemStyle.flex) {
+      if(itemStyle.flex !== '') {
         flexLine.push(item)
       } else if(style.flexWrap === 'nowrap' || isAutoMainSize) {
         mainSpace -= itemMainSize
@@ -352,7 +362,7 @@ export default class Group extends BaseSprite {
         const itemStyle = item.attributes
         let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
-        if(itemStyle.flex) {
+        if(itemStyle.flex !== '') {
           boxSize = 0
         }
 
@@ -383,7 +393,7 @@ export default class Group extends BaseSprite {
             const itemStyle = item.attributes
             let boxSize = mainSize === 'width' ? item.offsetSize[0] : item.offsetSize[1]
 
-            if(itemStyle.flex) {
+            if(itemStyle.flex !== '') {
               boxSize = (mainSpace / flexTotal) * itemStyle.flex
             }
 
