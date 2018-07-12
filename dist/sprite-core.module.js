@@ -6428,14 +6428,24 @@ var Sprite = (_temp = _class2 = function (_BaseSprite) {
 
       var boxSize = this.texturesSize || [0, 0];
 
+      var w = width,
+          h = height;
+
+
       if (width === '') {
-        width = boxSize[0] | 0;
+        w = boxSize[0] | 0;
+        if (height !== '' && boxSize[1]) {
+          w *= height / boxSize[1];
+        }
       }
       if (height === '') {
-        height = boxSize[1] | 0;
+        h = boxSize[1] | 0;
+        if (width !== '' && boxSize[0]) {
+          h *= width / boxSize[0];
+        }
       }
 
-      return [width, height];
+      return [w, h];
     }
   }, {
     key: 'cache',
