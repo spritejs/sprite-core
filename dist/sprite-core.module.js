@@ -77,19 +77,19 @@ module.exports = require("babel-runtime/helpers/slicedToArray");
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/toConsumableArray");
+module.exports = require("babel-runtime/helpers/classCallCheck");
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/classCallCheck");
+module.exports = require("babel-runtime/helpers/createClass");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("babel-runtime/helpers/createClass");
+module.exports = require("babel-runtime/helpers/toConsumableArray");
 
 /***/ }),
 /* 4 */
@@ -176,7 +176,7 @@ var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -433,7 +433,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cacheContextPool = undefined;
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -637,7 +637,7 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -669,11 +669,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -970,7 +970,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
           _this4[_animations].delete(animation);
         });
       });
-      if (parent && parent.clearLayout) parent.clearLayout();
+      if (this.hasLayout) parent.clearLayout();
       return ret;
     }
   }, {
@@ -982,9 +982,9 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       if (this.cache) {
         this.cache = null;
       }
+      if (this.hasLayout) parent.clearLayout();
       var ret = (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'disconnect', this).call(this, parent);
       delete this.context;
-      if (parent && parent.clearLayout) parent.clearLayout();
       return ret;
     }
 
@@ -1717,11 +1717,11 @@ var _typeof2 = __webpack_require__(21);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -1968,7 +1968,7 @@ exports.default = BaseNode;
 "use strict";
 
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -1984,11 +1984,11 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -2292,7 +2292,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -2300,11 +2300,11 @@ var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -2448,17 +2448,21 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _possibleConstructorReturn2 = __webpack_require__(12);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _set2 = __webpack_require__(71);
+
+var _set3 = _interopRequireDefault(_set2);
 
 var _inherits2 = __webpack_require__(11);
 
@@ -2569,9 +2573,33 @@ var GroupAttr = (_class = function (_BaseSprite$Attr) {
       this.subject.clearLayout();
       this.set('alignContent', value);
     }
+  }, {
+    key: 'width',
+    set: function set(value) {
+      this.subject.clearLayout();
+      (0, _set3.default)(GroupAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr.prototype), 'width', value, this);
+    }
+  }, {
+    key: 'height',
+    set: function set(value) {
+      this.subject.clearLayout();
+      (0, _set3.default)(GroupAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr.prototype), 'height', value, this);
+    }
+  }, {
+    key: 'layoutWidth',
+    set: function set(value) {
+      this.subject.clearLayout();
+      (0, _set3.default)(GroupAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr.prototype), 'layoutWidth', value, this);
+    }
+  }, {
+    key: 'layoutHeight',
+    set: function set(value) {
+      this.subject.clearLayout();
+      (0, _set3.default)(GroupAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr.prototype), 'layoutWidth', value, this);
+    }
   }]);
   return GroupAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexFlow', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexFlow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignContent'), _class.prototype)), _class);
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexFlow', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexFlow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype)), _class);
 var Group = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Group, _BaseSprite);
 
@@ -2820,6 +2848,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           if (itemMainSize > groupMainSize) {
             setBoxLayoutSize(_item, mainSize, groupMainSize);
             itemMainSize = groupMainSize;
+            itemCrossSize = mainSize === 'width' ? _item.offsetSize[1] : _item.offsetSize[0];
           }
           if (mainSpace < itemMainSize) {
             flexLine.mainSpace = mainSpace;
@@ -3010,8 +3039,9 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           if (align === 'stretch') {
             _item6.attr(crossStart, crossBase);
             _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(_item6.attr(crossSize)) ? _item6.attr(crossSize) : lineCrossSize));
-
-            setBoxLayoutSize(_item6, crossSize, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));
+            // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+            var crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
+            _item6.attr(crossAttr, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));
           }
 
           fixAnchor(_item6);
@@ -3023,6 +3053,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
     key: 'clearLayout',
     value: function clearLayout() {
       this[_layoutTag] = false;
+      var parent = this.parent;
+      while (parent) {
+        if (parent[_layoutTag]) parent[_layoutTag] = false;
+        parent = parent.parent;
+      }
     }
   }, {
     key: 'render',
@@ -3340,7 +3375,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -3573,7 +3608,7 @@ function createSvgPath(path) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -3864,7 +3899,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -4038,7 +4073,7 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -4050,11 +4085,11 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4487,7 +4522,7 @@ var _isNan = __webpack_require__(68);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -4495,11 +4530,11 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4782,11 +4817,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -4840,7 +4875,11 @@ var measureText = function measureText(node, text, font) {
 
   ctx.restore();
 
-  var height = lineHeight || parseFont(font).size * 1.2;
+  var _parseFont = parseFont(font),
+      size = _parseFont.size;
+
+  var height = lineHeight || size * 1.2;
+
   return [width, height].map(Math.round);
 };
 
@@ -4880,7 +4919,8 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
       strokeColor: '',
       fillColor: '',
       lineHeight: '',
-      text: ''
+      text: '',
+      flexible: false
     }, {
       color: function color() {
         return this.fillColor;
@@ -4938,9 +4978,15 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
       this.clearCache();
       this.set('fillColor', val);
     }
+  }, {
+    key: 'flexible',
+    set: function set(val) {
+      this.clearCache();
+      this.set('flexible', val);
+    }
   }]);
   return LabelSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype)), _class));
 var Label = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Label, _BaseSprite);
 
@@ -4961,7 +5007,8 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
       (0, _get3.default)(Label.prototype.__proto__ || (0, _getPrototypeOf2.default)(Label.prototype), 'render', this).call(this, t, drawingContext);
 
       var textAlign = this.attr('textAlign'),
-          font = this.attr('font'),
+          flexible = this.attr('flexible'),
+          font = flexible ? this.flexibleFont : this.attr('font'),
           lineHeight = this.attr('lineHeight'),
           text = this.text;
 
@@ -5039,6 +5086,24 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
       if (!this[_boxSize]) calculTextboxSize(this);
       return this[_boxSize];
     }
+  }, {
+    key: 'flexibleFont',
+    get: function get() {
+      var font = this.attr('font');
+      if (this.attr('width') === '' && this.attr('layoutWidth') === '') return font;
+      var textboxSize = this.textboxSize,
+          contentSize = this.contentSize;
+
+      var _parseFont2 = parseFont(font),
+          style = _parseFont2.style,
+          variant = _parseFont2.variant,
+          weight = _parseFont2.weight,
+          size = _parseFont2.size,
+          family = _parseFont2.family;
+
+      size *= contentSize[0] / textboxSize[0];
+      return style + ' ' + variant + ' ' + weight + ' ' + Math.floor(size) + 'px "' + family + '"';
+    }
 
     // override to adapt content size
 
@@ -5053,7 +5118,12 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
       if (width === '' || height === '') {
         var textboxSize = this.textboxSize;
         if (!textboxSize) return [0, 0];
-        return [width || textboxSize[0], height || textboxSize[1]];
+        width = width || textboxSize[0];
+        height = height || textboxSize[1];
+      }
+
+      if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+        height = Math.ceil(height * width / this.textboxSize[0]);
       }
 
       return [width, height];
@@ -5078,7 +5148,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -5098,11 +5168,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -5598,10 +5668,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _toConsumableArray2 = __webpack_require__(1);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
@@ -5622,11 +5688,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -5763,13 +5829,19 @@ var PathSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (
       this.set('fillColor', (0, _spriteUtils.parseColorString)(val));
     }
   }, {
+    key: 'flexible',
+    set: function set(val) {
+      this.clearCache();
+      this.set('flexible', val);
+    }
+  }, {
     key: 'color',
     set: function set(val) {
       this.strokeColor = val;
     }
   }]);
   return PathSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'path', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'path', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype)), _class));
 var Path = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Path, _BaseSprite);
 
@@ -5834,7 +5906,8 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           lineWidth = this.attr('lineWidth'),
           lineCap = this.attr('lineCap'),
           lineJoin = this.attr('lineJoin'),
-          lineDash = this.attr('lineDash');
+          lineDash = this.attr('lineDash'),
+          flexible = this.attr('flexible');
 
       if (d) {
         var svg = this.svg;
@@ -5845,6 +5918,10 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
             ow = _svg$bounds[2],
             oh = _svg$bounds[3];
 
+        var _pathOffset = (0, _slicedToArray3.default)(this.pathOffset, 2),
+            px = _pathOffset[0],
+            py = _pathOffset[1];
+
         var _contentSize = (0, _slicedToArray3.default)(this.contentSize, 2),
             w = _contentSize[0],
             h = _contentSize[1];
@@ -5854,11 +5931,27 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
           drawingContext.rect(0, 0, w, h);
           drawingContext.clip();
         }
+
+        if (flexible) {
+          svg.save();
+          var sw = w / (ow - Math.min(0, ox) + 2 * px);
+          svg.scale(sw, sw);
+          ox *= sw;
+          oy *= sw;
+          px *= sw;
+          py *= sw;
+        }
+
         if (ox < 0 || oy < 0) {
           drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy));
         }
-        drawingContext.translate.apply(drawingContext, (0, _toConsumableArray3.default)(this.pathOffset));
+        drawingContext.translate(px, py);
+
         svg.beginPath().to(drawingContext);
+
+        if (flexible) {
+          svg.restore();
+        }
 
         drawingContext.lineWidth = lineWidth;
         drawingContext.lineCap = lineCap;
@@ -5950,6 +6043,10 @@ var Path = (_temp = _class2 = function (_BaseSprite) {
         height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1];
       }
 
+      if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+        height = Math.ceil(height * width / (bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0]));
+      }
+
       return [width, height].map(Math.ceil);
     }
   }, {
@@ -6012,7 +6109,7 @@ var _stringify = __webpack_require__(24);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -6036,11 +6133,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -6387,11 +6484,11 @@ var _getPrototypeOf = __webpack_require__(9);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -6411,7 +6508,7 @@ var _keys = __webpack_require__(38);
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -6665,7 +6762,7 @@ var _getOwnPropertyDescriptor = __webpack_require__(18);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -6701,11 +6798,11 @@ var _map = __webpack_require__(14);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -7384,7 +7481,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = __webpack_require__(1);
+var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -7554,7 +7651,7 @@ module.exports = function f(str, defaultHeight) {
       break;
     case 'em':
     case 'rem':
-      font.size *= defaultHeight / 0.75;
+      font.size *= defaultHeight;
       break;
     case 'q':
       font.size *= 96 / 25.4 / 4;
@@ -8414,11 +8511,11 @@ var _assign = __webpack_require__(5);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -9146,11 +9243,11 @@ var _slicedToArray2 = __webpack_require__(0);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _classCallCheck2 = __webpack_require__(2);
+var _classCallCheck2 = __webpack_require__(1);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(3);
+var _createClass2 = __webpack_require__(2);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -9964,6 +10061,12 @@ module.exports = require("babel-runtime/core-js/object/define-properties");
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/defineProperty");
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports) {
+
+module.exports = require("babel-runtime/helpers/set");
 
 /***/ })
 /******/ ]);

@@ -22,12 +22,12 @@
     g.attr({
       // anchor: 0.5,
       pos: [150, 150],
-      width: 120,
+      width: 100,
       // height: 100,
       bgcolor: 'grey',
       flexWrap: 'wrap',
       flexDirection: 'row',
-      alignItems: 'stretch',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
       display: 'flex',
     })
@@ -50,7 +50,7 @@
     const s3 = s1.cloneNode()
     s3.attr({
       bgcolor: 'green',
-      padding: 8,
+      // padding: 8,
       // scale: [2.0, 1],
     })
 
@@ -58,7 +58,7 @@
       width: 100,
       height: 70,
       // rotate: -30,
-      anchor: 0.5,
+      // anchor: 0.5,
       // transformOrigin: [50, 25],
       border: [10, 'black'],
       // padding: [0, 10],
@@ -71,20 +71,25 @@
       font: '40px Arial',
       fillColor: 'red',
       bgcolor: '#37c',
+      // width: 100,
+      flexible: true,
     })
     // layer.append(l)
     g.append(l)
 
     const p = new Path('M-20,0L100,100L100,-20z')
     p.attr({
+      // width: 100,
       strokeColor: 'cyan',
       lineWidth: 6,
       // width: 50,
+      flexible: true,
+      bgcolor: 'red',
     })
     g.append(p)
 
     g.attr({
-      // width: 400,
+      width: 300,
     })
     // g.animate([
     //   {width: 100},

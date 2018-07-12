@@ -100,7 +100,7 @@ module.exports = function f(str, defaultHeight) {
       break
     case 'em':
     case 'rem':
-      font.size *= defaultHeight / 0.75
+      font.size *= defaultHeight
       break
     case 'q':
       font.size *= 96 / 25.4 / 4

@@ -101,6 +101,12 @@ class PathSpriteAttr extends BaseSprite.Attr {
     this.set('fillColor', parseColorString(val))
   }
 
+  @attr
+  set flexible(val) {
+    this.clearCache()
+    this.set('flexible', val)
+  }
+
   @deprecate('Instead use strokeColor.')
   @attr
   set color(val) {
@@ -188,6 +194,10 @@ export default class Path extends BaseSprite {
       height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1]
     }
 
+    if(this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+      height = Math.ceil(height * width / (bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0]))
+    }
+
     return [width, height].map(Math.ceil)
   }
 
@@ -232,22 +242,40 @@ export default class Path extends BaseSprite {
       lineWidth = this.attr('lineWidth'),
       lineCap = this.attr('lineCap'),
       lineJoin = this.attr('lineJoin'),
-      lineDash = this.attr('lineDash')
+      lineDash = this.attr('lineDash'),
+      flexible = this.attr('flexible')
 
     if(d) {
       const svg = this.svg
-      const [ox, oy, ow, oh] = svg.bounds
+      let [ox, oy, ow, oh] = svg.bounds
+      let [px, py] = this.pathOffset
       const [w, h] = this.contentSize
       if(w < ow || h < oh) {
         drawingContext.beginPath()
         drawingContext.rect(0, 0, w, h)
         drawingContext.clip()
       }
+
+      if(flexible) {
+        svg.save()
+        const sw = w / (ow - Math.min(0, ox) + 2 * px)
+        svg.scale(sw, sw)
+        ox *= sw
+        oy *= sw
+        px *= sw
+        py *= sw
+      }
+
       if(ox < 0 || oy < 0) {
         drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy))
       }
-      drawingContext.translate(...this.pathOffset)
+      drawingContext.translate(px, py)
+
       svg.beginPath().to(drawingContext)
+
+      if(flexible) {
+        svg.restore()
+      }
 
       drawingContext.lineWidth = lineWidth
       drawingContext.lineCap = lineCap

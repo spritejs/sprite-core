@@ -17,7 +17,9 @@ const measureText = (node, text, font, lineHeight = '') => {
   const {width} = ctx.measureText(text)
   ctx.restore()
 
-  const height = lineHeight || parseFont(font).size * 1.2
+  const {size} = parseFont(font)
+  const height = lineHeight || size * 1.2
+
   return [width, height].map(Math.round)
 }
 
@@ -49,6 +51,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       fillColor: '',
       lineHeight: '',
       text: '',
+      flexible: false,
     }, {
       color() {
         return this.fillColor
@@ -107,6 +110,12 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.clearCache()
     this.set('fillColor', val)
   }
+
+  @attr
+  set flexible(val) {
+    this.clearCache()
+    this.set('flexible', val)
+  }
 }
 
 export default class Label extends BaseSprite {
@@ -131,14 +140,29 @@ export default class Label extends BaseSprite {
     return this[_boxSize]
   }
 
+  get flexibleFont() {
+    const font = this.attr('font')
+    if(this.attr('width') === '' && this.attr('layoutWidth') === '') return font
+    const textboxSize = this.textboxSize,
+      contentSize = this.contentSize
+    let {style, variant, weight, size, family} = parseFont(font)
+    size *= contentSize[0] / textboxSize[0]
+    return `${style} ${variant} ${weight} ${Math.floor(size)}px "${family}"`
+  }
+
   // override to adapt content size
   get contentSize() {
-    const [width, height] = this.attr('size')
+    let [width, height] = this.attr('size')
 
     if(width === '' || height === '') {
       const textboxSize = this.textboxSize
       if(!textboxSize) return [0, 0]
-      return [width || textboxSize[0], height || textboxSize[1]]
+      width = width || textboxSize[0]
+      height = height || textboxSize[1]
+    }
+
+    if(this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+      height = Math.ceil(height * width / this.textboxSize[0])
     }
 
     return [width, height]
@@ -148,7 +172,8 @@ export default class Label extends BaseSprite {
     super.render(t, drawingContext)
 
     const textAlign = this.attr('textAlign'),
-      font = this.attr('font'),
+      flexible = this.attr('flexible'),
+      font = flexible ? this.flexibleFont : this.attr('font'),
       lineHeight = this.attr('lineHeight'),
       text = this.text
 

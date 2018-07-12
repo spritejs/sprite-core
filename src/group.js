@@ -75,6 +75,30 @@ class GroupAttr extends BaseSprite.Attr {
     this.subject.clearLayout()
     this.set('alignContent', value)
   }
+
+  @attr
+  set width(value) {
+    this.subject.clearLayout()
+    super.width = value
+  }
+
+  @attr
+  set height(value) {
+    this.subject.clearLayout()
+    super.height = value
+  }
+
+  @attr
+  set layoutWidth(value) {
+    this.subject.clearLayout()
+    super.layoutWidth = value
+  }
+
+  @attr
+  set layoutHeight(value) {
+    this.subject.clearLayout()
+    super.layoutWidth = value
+  }
 }
 
 export default class Group extends BaseSprite {
@@ -314,6 +338,7 @@ export default class Group extends BaseSprite {
       const itemStyle = item.attributes
 
       let [itemMainSize, itemCrossSize] = item.offsetSize
+
       if(mainSize === 'height') [itemMainSize, itemCrossSize] = [itemCrossSize, itemMainSize]
 
       if(itemStyle.flex !== '') {
@@ -326,6 +351,7 @@ export default class Group extends BaseSprite {
         if(itemMainSize > groupMainSize) {
           setBoxLayoutSize(item, mainSize, groupMainSize)
           itemMainSize = groupMainSize
+          itemCrossSize = mainSize === 'width' ? item.offsetSize[1] : item.offsetSize[0]
         }
         if(mainSpace < itemMainSize) {
           flexLine.mainSpace = mainSpace
@@ -508,8 +534,9 @@ export default class Group extends BaseSprite {
         if(align === 'stretch') {
           item.attr(crossStart, crossBase)
           item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(item.attr(crossSize)) ? item.attr(crossSize) : lineCrossSize))
-
-          setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+          // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+          const crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight'
+          item.attr(crossAttr, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         }
 
         fixAnchor(item)
