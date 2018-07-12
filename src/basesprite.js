@@ -130,7 +130,7 @@ export default class BaseSprite extends BaseNode {
 
   get hasLayout() {
     if(this.attr('position') === 'absolute') return false
-    if(this.parent && this.parent.relayout) return true
+    if(this.parent && this.parent.relayout && this.parent.attr('display') === 'flex') return true
     return false
   }
 

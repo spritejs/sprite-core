@@ -90,7 +90,7 @@ class GroupAttr extends BaseSprite.Attr {
   @attr
   set layoutHeight(value) {
     this.subject.clearLayout()
-    super.layoutWidth = value
+    super.layoutHeight = value
   }
 }
 

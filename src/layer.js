@@ -118,6 +118,12 @@ export default class Layer extends BaseNode {
     return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve()
   }
   draw(clearContext = true) {
+    const renderDeferrer = this[_renderDeferer]
+    this[_renderDeferer] = null
+    if(this[_drawTask]) {
+      cancelAnimationFrame(this[_drawTask])
+      delete this[_drawTask]
+    }
     /* istanbul ignore if  */
     if(this.evaluateFPS) {
       this[_tRecord].push(Date.now())
@@ -141,13 +147,8 @@ export default class Layer extends BaseNode {
       {target: this, timeline: this.timeline, renderTime: currentTime}, true
     )
 
-    if(this[_renderDeferer]) {
-      if(this[_drawTask]) {
-        cancelAnimationFrame(this[_drawTask])
-        delete this[_drawTask]
-      }
-      this[_renderDeferer].resolve()
-      this[_renderDeferer] = null
+    if(renderDeferrer) {
+      renderDeferrer.resolve()
     }
   }
   update(target) {
@@ -186,6 +187,7 @@ export default class Layer extends BaseNode {
     return Math.round(1000 * (len - 1) / sum)
   }
   drawSprites(renderEls, t) {
+    this[_updateSet].clear()
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i]
       if(child.parent === this) {
@@ -213,7 +215,6 @@ export default class Layer extends BaseNode {
     const outputContext = this.outputContext
     if(clearContext) this.clearContext(outputContext)
     this.drawSprites(renderEls, t)
-    this[_updateSet].clear()
   }
   renderRepaintDirty(t, clearContext = true) {
     const updateEls = [...this[_updateSet]]
@@ -235,7 +236,6 @@ export default class Layer extends BaseNode {
     this.drawSprites(renderEls, t)
 
     outputContext.restore()
-    this[_updateSet].clear()
   }
   pointCollision(evt) {
     if(this.outputContext.canvas) {

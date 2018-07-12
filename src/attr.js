@@ -202,7 +202,8 @@ class SpriteAttr {
   }
   get x() {
     if(this.subject.hasLayout) {
-      return this.get('layoutX')
+      const layoutX = this.get('layoutX')
+      return layoutX !== '' ? layoutX : this.get('x')
     }
     return this.get('x')
   }
@@ -218,7 +219,8 @@ class SpriteAttr {
   }
   get y() {
     if(this.subject.hasLayout) {
-      return this.get('layoutY')
+      const layoutY = this.get('layoutY')
+      return layoutY !== '' ? layoutY : this.get('y')
     }
     return this.get('y')
   }
