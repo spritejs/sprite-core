@@ -92,6 +92,12 @@ class GroupAttr extends BaseSprite.Attr {
     this.subject.clearLayout()
     super.layoutHeight = value
   }
+
+  @attr
+  set display(value) {
+    this.subject.clearLayout()
+    super.display = value
+  }
 }
 
 export default class Group extends BaseSprite {
