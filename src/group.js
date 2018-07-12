@@ -49,13 +49,6 @@ class GroupAttr extends BaseSprite.Attr {
   }
 
   @attr
-  set flexFlow(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('flexFlow', value)
-  }
-
-  @attr
   set justifyContent(value) {
     this.clearCache()
     this.subject.clearLayout()
