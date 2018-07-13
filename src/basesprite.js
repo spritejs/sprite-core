@@ -333,11 +333,22 @@ export default class BaseSprite extends BaseNode {
     return ret
   }
 
+  get attrSize() {
+    const [width, height] = this.attr('size')
+    if(!this.hasLayout) {
+      return [width, height]
+    }
+    const layoutWidth = this.attr('layoutWidth'),
+      layoutHeight = this.attr('layoutHeight')
+
+    return [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height]
+  }
+
   // content width / height
   get contentSize() {
     if(this.isVirtual) return [0, 0]
 
-    const [width, height] = this.attr('size')
+    const [width, height] = this.attrSize
 
     return [width | 0, height | 0]
   }
@@ -468,7 +479,6 @@ export default class BaseSprite extends BaseNode {
   }
 
   forceUpdate(clearCache = false) {
-    this.isDirty = true
     if(clearCache) {
       this.clearCache()
     }

@@ -115,7 +115,7 @@ export default class Group extends BaseSprite {
       borderRadius = this.attr('borderRadius'),
       bgcolor = this.attr('bgcolor'),
       {bgcolor: bgGradient} = this.attr('gradients'),
-      [width, height] = this.attr('size'),
+      [width, height] = this.attrSize,
       [anchorX, anchorY] = this.attr('anchor')
 
     return !anchorX && !anchorY && !width && !height && !borderRadius
@@ -136,6 +136,7 @@ export default class Group extends BaseSprite {
     return this[_children]
   }
   update(child) {
+    child.isDirty = true
     this.forceUpdate(true)
   }
   pointCollision(evt) {
@@ -151,7 +152,7 @@ export default class Group extends BaseSprite {
   }
   get contentSize() {
     if(this.isVirtual) return [0, 0]
-    let [width, height] = this.attr('size')
+    let [width, height] = this.attrSize
 
     if(width === '' || height === '') {
       if(this.attr('clip')) {
@@ -564,7 +565,7 @@ export default class Group extends BaseSprite {
 
     if(!this.isVirtual) {
       super.render(t, drawingContext)
-      const [w, h] = this.attr('size')
+      const [w, h] = this.attrSize
       if(w !== '' || h !== '') {
         drawingContext.beginPath()
         drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1])
@@ -575,12 +576,14 @@ export default class Group extends BaseSprite {
     const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
-      const child = sprites[i]
+      const child = sprites[i],
+        isDirty = child.isDirty
+      child.isDirty = false
+
       if(child.isVisible()) {
         child.draw(t, drawingContext)
       }
-      if(child.isDirty) {
-        child.isDirty = false
+      if(isDirty) {
         child.dispatchEvent('update', {target: child, renderTime: t}, true, true)
       }
     }

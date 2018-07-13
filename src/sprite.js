@@ -127,7 +127,7 @@ export default class Sprite extends BaseSprite {
 
   // override to adapt textures' size
   get contentSize() {
-    const [width, height] = this.attr('size')
+    const [width, height] = this.attrSize
     const boxSize = this.texturesSize || [0, 0]
 
     let [w, h] = [width, height]

@@ -58,11 +58,11 @@ class SpriteAttr {
         return [this.x, this.y]
       },
       size() {
-        if(this.subject.hasLayout) {
-          const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
-            height = this.layoutHeight !== '' ? this.layoutHeight : this.height
-          return [width, height]
-        }
+        // if(this.subject.hasLayout) {
+        //   const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
+        //     height = this.layoutHeight !== '' ? this.layoutHeight : this.height
+        //   return [width, height]
+        // }
         return [this.width, this.height]
       },
       linearGradients() {

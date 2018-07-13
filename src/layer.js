@@ -152,8 +152,11 @@ export default class Layer extends BaseNode {
     }
   }
   update(target) {
-    if(target && this[_updateSet].has(target)) return
-    if(target) this[_updateSet].add(target)
+    if(target && target.isDirty) return
+    if(target) {
+      this[_updateSet].add(target)
+      target.isDirty = true
+    }
     this.prepareRender()
   }
   isVisible() {
@@ -189,7 +192,10 @@ export default class Layer extends BaseNode {
   drawSprites(renderEls, t) {
     this[_updateSet].clear()
     for(let i = 0; i < renderEls.length; i++) {
-      const child = renderEls[i]
+      const child = renderEls[i],
+        isDirty = child.isDirty
+      child.isDirty = false
+
       if(child.parent === this) {
         const isVisible = this.isNodeVisible(child)
         if(isVisible) {
@@ -203,8 +209,7 @@ export default class Layer extends BaseNode {
           // invisible, only need to remove lastRenderBox
           delete child.lastRenderBox
         }
-        if(child.isDirty) {
-          child.isDirty = false
+        if(isDirty) {
           child.dispatchEvent('update', {target: child, renderTime: t, isVisible}, true, true)
         }
       }

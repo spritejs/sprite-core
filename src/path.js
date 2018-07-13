@@ -183,7 +183,7 @@ export default class Path extends BaseSprite {
     if(!this.svg) return super.contentSize
 
     const bounds = this.svg.bounds
-    let [width, height] = this.attr('size')
+    let [width, height] = this.attrSize
 
     const pathOffset = this.pathOffset
 

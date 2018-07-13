@@ -152,7 +152,7 @@ export default class Label extends BaseSprite {
 
   // override to adapt content size
   get contentSize() {
-    let [width, height] = this.attr('size')
+    let [width, height] = this.attrSize
 
     if(width === '' || height === '') {
       const textboxSize = this.textboxSize

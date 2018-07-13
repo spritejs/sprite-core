@@ -51,7 +51,7 @@
 
     const s4 = new Sprite()
     s4.attr({
-      height: 70,
+      // height: 70,
       width: 30,
       borderRadius: 0,
       bgcolor: 'purple',
@@ -61,8 +61,8 @@
     g.relayout()
 
     s1.animate([
-      {width: 200},
-      {width: 50},
+      {size: [200, 100]},
+      {size: [50, 50]},
     ], {
       duration: 5000,
       iterations: Infinity,
