@@ -3,9 +3,11 @@ import {parseValue, parseColorString, attr} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {findColor} from './helpers/render'
+import {LineBreaker} from 'css-line-break'
 
 const parseFont = require('./helpers/parse-font')
-const _boxSize = Symbol('boxSize')
+const _boxSize = Symbol('boxSize'),
+  _outputText = Symbol('outputText')
 
 const measureText = (node, text, font, lineHeight = '') => {
   const ctx = node.context
@@ -29,9 +31,47 @@ function calculTextboxSize(node) {
     font = node.attr('font'),
     lineHeight = node.attr('lineHeight')
 
-  const lines = text.split(/\n/)
+  let lines = []
   let width = 0,
     height = 0
+
+  node[_outputText] = text
+  const lineBreak = node.attr('lineBreak'),
+    textboxWidth = node.hasLayout ? node.attr('layoutWidth') : node.attr('width')
+
+  if(lineBreak !== '' && textboxWidth !== '') {
+    const wordBreak = node.attr('wordBreak')
+
+    text.split(/\n/).forEach((line) => {
+      const breaker = LineBreaker(line, {lineBreak, wordBreak})
+      const words = []
+      let bk = breaker.next()
+      while(!bk.done) {
+        words.push(bk.value.slice())
+        bk = breaker.next()
+      }
+      let l = ''
+      words.forEach((word) => {
+        if(!l) {
+          l = word
+        } else {
+          const ll = `${l}${word}`
+          const [w] = measureText(node, ll, font)
+          if(w > textboxWidth) {
+            lines.push(l)
+            l = word
+          } else {
+            l = ll
+          }
+        }
+      })
+      lines.push(l)
+    })
+    // lines = node[_outputText].split(/\n/)
+    node[_outputText] = lines.join('\n')
+  } else {
+    lines = text.split(/\n/)
+  }
 
   lines.forEach((line) => {
     const [w, h] = measureText(node, line, font, lineHeight)
@@ -52,6 +92,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       lineHeight: '',
       text: '',
       flexible: false,
+      lineBreak: '',
+      wordBreak: 'normal',
     }, {
       color() {
         return this.fillColor
@@ -63,7 +105,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set text(val) {
     this.clearCache()
     val = String(val)
-    delete this.subject[_boxSize]
     this.set('text', val)
     calculTextboxSize(this.subject)
   }
@@ -71,7 +112,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set font(val) {
     this.clearCache()
-    delete this.subject[_boxSize]
     this.set('font', val)
     calculTextboxSize(this.subject)
   }
@@ -80,7 +120,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set lineHeight(val) {
     this.clearCache()
-    delete this.subject[_boxSize]
     this.set('lineHeight', val)
     calculTextboxSize(this.subject)
   }
@@ -115,6 +154,32 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set flexible(val) {
     this.clearCache()
     this.set('flexible', val)
+  }
+
+  @attr
+  set lineBreak(val) { // normal, strict, none
+    this.clearCache()
+    this.set('lineBreak', val)
+    calculTextboxSize(this.subject)
+  }
+
+  @attr
+  set wordBreak(val) { // normal | break-all | break-word | keep-all
+    this.clearCache()
+    this.set('wordBreak', val)
+    calculTextboxSize(this.subject)
+  }
+
+  @attr
+  set width(val) {
+    if(this.lineBreak !== '') calculTextboxSize(this.subject)
+    super.width = val
+  }
+
+  @attr
+  set layoutWidth(val) {
+    if(this.lineBreak !== '') calculTextboxSize(this.subject)
+    super.layoutWidth = val
   }
 }
 
@@ -174,11 +239,14 @@ export default class Label extends BaseSprite {
     const textAlign = this.attr('textAlign'),
       flexible = this.attr('flexible'),
       font = flexible ? this.flexibleFont : this.attr('font'),
-      lineHeight = this.attr('lineHeight'),
-      text = this.text
+      lineHeight = this.attr('lineHeight')
+
+    let text = this.text
 
     if(text) {
       const [w, h] = this.contentSize
+      text = this[_outputText] || this.text
+
       if(this.textboxSize[0] > w
         || this.textboxSize[1] > h) {
         drawingContext.beginPath()
@@ -186,7 +254,7 @@ export default class Label extends BaseSprite {
         drawingContext.clip()
       }
       drawingContext.font = font
-      const lines = this.text.split(/\n/)
+      const lines = text.split(/\n/)
 
       drawingContext.textBaseline = 'top'
 

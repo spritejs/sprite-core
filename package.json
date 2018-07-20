@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.5.5",
+  "version": "2.6.0",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
   "directories": {
@@ -79,6 +79,7 @@
   "dependencies": {
     "babel-decorators-runtime": "^0.2.0",
     "babel-runtime": "^6.26.0",
+    "css-line-break": "^1.0.1",
     "fast-animation-frame": "^0.3.0",
     "sprite-animator": "^1.8.5",
     "sprite-math": "^1.0.1",

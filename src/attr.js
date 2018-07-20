@@ -47,6 +47,7 @@ class SpriteAttr {
       dashOffset: 0,
       display: '',
       padding: [0, 0, 0, 0],
+      margin: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
       gradients: {},
@@ -58,11 +59,6 @@ class SpriteAttr {
         return [this.x, this.y]
       },
       size() {
-        // if(this.subject.hasLayout) {
-        //   const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
-        //     height = this.layoutHeight !== '' ? this.layoutHeight : this.height
-        //   return [width, height]
-        // }
         return [this.width, this.height]
       },
       linearGradients() {
@@ -588,6 +584,12 @@ class SpriteAttr {
   set alignSelf(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout()
     this.set('alignSelf', val)
+  }
+
+  @attr
+  set margin(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout()
+    this.set('margin', val)
   }
 }
 
