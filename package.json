@@ -29,6 +29,9 @@
   "bugs": {
     "url": "https://github.com/spritejs/sprite-core/issues"
   },
+  "browser": {
+    "./lib/index.js": "./src/index.js"
+  },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": "^6.26.0",
