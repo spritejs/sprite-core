@@ -46,20 +46,33 @@
     })
     layer.append(s)
     
-    const s2 = new Label('spritejs')
+    const s2 = new Label('  spritejs redefine canvas api 测试测试测试测试测试')
     s2.attr({
       // font: '5vw "宋体"',
-      font: '64px "宋体"',
+      font: '24px "宋体"',
       anchor: 0.5,
       bgcolor: 'grey',
-      pos: [150, 250],
-      size: [150, 80],
+      pos: [250, 250],
+      width: 200,
+      // size: [150, 80],
       // padding: 10,
       // borderRadius: 60,
-      flexible: true,
+      // flexible: true,
+      lineBreak: 'strict',
+      wordBreak: 'normal',
+      // wordBreak: 'break-all',
     })
 
     s.append(s2)
+
+    s2.animate([
+      {width: 100},
+      {width: 300},
+    ], {
+      duration: 5000,
+      iterations: Infinity,
+      direction: 'alternate',
+    })
   </script>
 </body>
 </html>
