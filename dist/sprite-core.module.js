@@ -117,7 +117,7 @@ exports.sortOrderedSprites = exports.resolveValue = exports.parseValue = exports
 
 var _utils = __webpack_require__(36);
 
-var _decorators = __webpack_require__(60);
+var _decorators = __webpack_require__(62);
 
 exports.notice = _utils.notice;
 exports.Color = _utils.Color;
@@ -641,7 +641,7 @@ var _toConsumableArray2 = __webpack_require__(3);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _defineProperty4 = __webpack_require__(70);
+var _defineProperty4 = __webpack_require__(72);
 
 var _defineProperty5 = _interopRequireDefault(_defineProperty4);
 
@@ -695,9 +695,9 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _attr13 = __webpack_require__(45);
+var _attr15 = __webpack_require__(45);
 
-var _attr14 = _interopRequireDefault(_attr13);
+var _attr16 = _interopRequireDefault(_attr15);
 
 var _basenode = __webpack_require__(22);
 
@@ -1341,7 +1341,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     key: 'hasLayout',
     get: function get() {
       if (this.attr('position') === 'absolute') return false;
-      if (this.parent && this.parent.relayout && this.parent.attr('display') === 'flex') return true;
+      if (this.parent && this.parent.relayout) {
+        var display = this.parent.attr('display');
+        return display !== '' && display !== 'static';
+      }
       return false;
     }
   }, {
@@ -1441,6 +1444,20 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
       return [width + 2 * borderWidth, height + 2 * borderWidth];
     }
   }, {
+    key: 'layoutSize',
+    get: function get() {
+      var size = this.offsetSize;
+
+      var _attr9 = this.attr('margin'),
+          _attr10 = (0, _slicedToArray3.default)(_attr9, 4),
+          top = _attr10[0],
+          right = _attr10[1],
+          bottom = _attr10[2],
+          left = _attr10[3];
+
+      return [left + size[0] + right, top + size[1] + bottom];
+    }
+  }, {
     key: 'innerSize',
     get: function get() {
       return this.contentSize;
@@ -1455,13 +1472,17 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     get: function get() {
       var transform = this.transform;
 
-      var _originalRect2 = (0, _slicedToArray3.default)(this.originalRect, 2),
+      var _originalRect2 = (0, _slicedToArray3.default)(this.originalRect, 4),
           ox = _originalRect2[0],
-          oy = _originalRect2[1];
+          oy = _originalRect2[1],
+          width = _originalRect2[2],
+          height = _originalRect2[3];
 
-      var _offsetSize3 = (0, _slicedToArray3.default)(this.offsetSize, 2),
-          width = _offsetSize3[0],
-          height = _offsetSize3[1];
+      if (this.hasLayout) {
+        var margin = this.attr('margin');
+        width += margin[1];
+        height += margin[2];
+      }
 
       var vertexs = [[ox, oy], [width + ox, oy], [ox, height + oy], [width + ox, height + oy]];
 
@@ -1489,15 +1510,22 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
   }, {
     key: 'originalRect',
     get: function get() {
-      var _offsetSize4 = (0, _slicedToArray3.default)(this.offsetSize, 2),
-          width = _offsetSize4[0],
-          height = _offsetSize4[1],
-          _attr9 = this.attr('anchor'),
-          _attr10 = (0, _slicedToArray3.default)(_attr9, 2),
-          anchorX = _attr10[0],
-          anchorY = _attr10[1];
+      var _offsetSize3 = (0, _slicedToArray3.default)(this.offsetSize, 2),
+          width = _offsetSize3[0],
+          height = _offsetSize3[1],
+          _attr11 = this.attr('anchor'),
+          _attr12 = (0, _slicedToArray3.default)(_attr11, 2),
+          anchorX = _attr12[0],
+          anchorY = _attr12[1];
 
-      return [-anchorX * width, -anchorY * height, width, height];
+      var rect = [-anchorX * width, -anchorY * height, width, height];
+
+      if (this.hasLayout) {
+        var margin = this.attr('margin');
+        rect[0] += margin[3];
+        rect[1] += margin[0];
+      }
+      return rect;
     }
   }, {
     key: 'originalRenderRect',
@@ -1525,10 +1553,10 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     get: function get() {
       var vertices = (0, _spriteUtils.rectVertices)(this.originalRect),
           transform = this.transform,
-          _attr11 = this.attr('pos'),
-          _attr12 = (0, _slicedToArray3.default)(_attr11, 2),
-          x0 = _attr12[0],
-          y0 = _attr12[1];
+          _attr13 = this.attr('pos'),
+          _attr14 = (0, _slicedToArray3.default)(_attr13, 2),
+          x0 = _attr14[0],
+          y0 = _attr14[1];
 
 
       return vertices.map(function (v) {
@@ -1615,7 +1643,7 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
     }
   }]);
   return BaseSprite;
-}(_basenode2.default), _class.Attr = _attr14.default, _temp);
+}(_basenode2.default), _class.Attr = _attr16.default, _temp);
 exports.default = BaseSprite;
 
 
@@ -1633,11 +1661,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Vector = exports.Matrix = undefined;
 
-var _matrix = __webpack_require__(57);
+var _matrix = __webpack_require__(59);
 
 var _matrix2 = _interopRequireDefault(_matrix);
 
-var _vector = __webpack_require__(58);
+var _vector = __webpack_require__(60);
 
 var _vector2 = _interopRequireDefault(_vector);
 
@@ -1680,7 +1708,7 @@ var _spriteTimeline2 = _interopRequireDefault(_spriteTimeline);
 
 var _easing = __webpack_require__(33);
 
-var _animator = __webpack_require__(55);
+var _animator = __webpack_require__(57);
 
 var _animator2 = _interopRequireDefault(_animator);
 
@@ -2012,14 +2040,14 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _spriteMath = __webpack_require__(16);
 
-var _platform = __webpack_require__(66);
+var _platform = __webpack_require__(68);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var parse = __webpack_require__(65);
-var abs = __webpack_require__(62);
-var normalize = __webpack_require__(64);
-var isSvgPath = __webpack_require__(63);
+var parse = __webpack_require__(67);
+var abs = __webpack_require__(64);
+var normalize = __webpack_require__(66);
+var isSvgPath = __webpack_require__(65);
 
 
 var _path = (0, _symbol2.default)('path');
@@ -2474,7 +2502,7 @@ var _possibleConstructorReturn2 = __webpack_require__(12);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _set2 = __webpack_require__(71);
+var _set2 = __webpack_require__(73);
 
 var _set3 = _interopRequireDefault(_set2);
 
@@ -2498,9 +2526,15 @@ var _spriteUtils = __webpack_require__(6);
 
 var _path = __webpack_require__(30);
 
+var _layout = __webpack_require__(51);
+
+var layout = _interopRequireWildcard(_layout);
+
 var _group = __webpack_require__(29);
 
 var _group2 = _interopRequireDefault(_group);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2709,359 +2743,25 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'relayout',
     value: function relayout() {
-      // console.log(this.children);
-
       var items = this.children.filter(function (child) {
         if (child.hasLayout) {
           child.attr('layoutWidth', null);
           child.attr('layoutHeight', null);
         }
         if (child.relayout) {
-          child.relayout();
+          var _display = child.attr('display');
+          if (_display !== '' && _display !== 'static') {
+            child.relayout();
+          }
         }
         return child.hasLayout;
       });
 
-      items.sort(function (a, b) {
-        return (a.attributes.order || 0) - (b.attributes.order || 0);
-      });
-
-      var style = this.attributes;
-
-      var mainSize = 'width',
-          mainStart = 'x',
-          mainEnd = 'layoutRight',
-          mainSign = +1,
-          mainBase = 0,
-          crossSize = 'height',
-          crossStart = 'y',
-          crossEnd = 'layoutBottom',
-          crossSign = void 0,
-          crossBase = void 0;
-
-      var flexDirection = style.flexDirection;
-
-      if (flexDirection === 'row-reverse') {
-        mainSize = 'width';
-        mainStart = 'layoutRight';
-        mainEnd = 'x';
-        mainSign = -1;
-        mainBase = style.width;
-
-        crossSize = 'height';
-        crossStart = 'y';
-        crossEnd = 'layoutBottom';
-      } else if (flexDirection === 'column') {
-        mainSize = 'height';
-        mainStart = 'y';
-        mainEnd = 'layoutBottom';
-        mainSign = +1;
-        mainBase = 0;
-
-        crossSize = 'width';
-        crossStart = 'x';
-        crossEnd = 'layoutRight';
-      } else if (flexDirection === 'column-reverse') {
-        mainSize = 'height';
-        mainStart = 'layoutBottom';
-        mainEnd = 'y';
-        mainSign = -1;
-        mainBase = style.height;
-
-        crossSize = 'width';
-        crossStart = 'x';
-        crossEnd = 'layoutRight';
+      var display = this.attr('display');
+      var doLayout = layout[display + 'Layout'];
+      if (doLayout) {
+        doLayout(this, items);
       }
-
-      if (style.flexWrap === 'wrap-reverse') {
-        var _ref = [crossEnd, crossStart];
-        crossStart = _ref[0];
-        crossEnd = _ref[1];
-
-        crossSign = -1;
-      } else {
-        crossBase = 0;
-        crossSign = 1;
-      }
-
-      function isAutoSize(size) {
-        return size == null || size === '';
-      }
-
-      var isAutoMainSize = isAutoSize(style[mainSize]);
-
-      var groupMainSize = void 0;
-
-      if (isAutoMainSize) {
-        // auto sizing
-        var maxSize = 0;
-        for (var i = 0; i < items.length; i++) {
-          var item = items[i],
-              _item$offsetSize = (0, _slicedToArray3.default)(item.offsetSize, 2),
-              width = _item$offsetSize[0],
-              height = _item$offsetSize[1];
-
-          var size = mainSize === 'width' ? width : height;
-          maxSize += size;
-        }
-        if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
-          mainBase = maxSize;
-        }
-        groupMainSize = maxSize;
-      } else {
-        groupMainSize = mainSize === 'width' ? this.offsetSize[0] : this.offsetSize[1];
-      }
-
-      var flexLine = [];
-      var flexLines = [flexLine];
-
-      var mainSpace = groupMainSize,
-          crossSpace = 0;
-
-      function setBoxLayoutSize(item, axis, size) {
-        var borderWidth = item.attr('border').width,
-            _item$attr = item.attr('padding'),
-            _item$attr2 = (0, _slicedToArray3.default)(_item$attr, 4),
-            paddingTop = _item$attr2[0],
-            paddingRight = _item$attr2[1],
-            paddingBottom = _item$attr2[2],
-            paddingLeft = _item$attr2[3];
-
-
-        if (axis === 'width') {
-          size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft);
-          item.attr({ layoutWidth: size });
-        } else if (axis === 'height') {
-          size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom);
-          item.attr({ layoutHeight: size });
-        }
-      }
-      // collect items into lines
-
-      for (var _i = 0; _i < items.length; _i++) {
-        var _item = items[_i];
-        var itemStyle = _item.attributes;
-
-        var _item$offsetSize2 = (0, _slicedToArray3.default)(_item.offsetSize, 2),
-            itemMainSize = _item$offsetSize2[0],
-            itemCrossSize = _item$offsetSize2[1];
-
-        if (mainSize === 'height') {
-          ;
-
-          var _ref2 = [itemCrossSize, itemMainSize];
-          itemMainSize = _ref2[0];
-          itemCrossSize = _ref2[1];
-        }if (itemStyle.flex !== '') {
-          flexLine.push(_item);
-        } else if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-          mainSpace -= itemMainSize;
-          crossSpace = Math.max(crossSpace, itemCrossSize);
-          flexLine.push(_item);
-        } else {
-          if (itemMainSize > groupMainSize) {
-            setBoxLayoutSize(_item, mainSize, groupMainSize);
-            itemMainSize = groupMainSize;
-            itemCrossSize = mainSize === 'width' ? _item.offsetSize[1] : _item.offsetSize[0];
-          }
-          if (mainSpace < itemMainSize) {
-            flexLine.mainSpace = mainSpace;
-            flexLine.crossSpace = crossSpace;
-            flexLine = [_item];
-            flexLines.push(flexLine);
-            mainSpace = groupMainSize;
-            crossSpace = 0;
-          } else {
-            flexLine.push(_item);
-          }
-          crossSpace = Math.max(crossSpace, itemCrossSize);
-          mainSpace -= itemMainSize;
-        }
-      }
-      flexLine.mainSpace = mainSpace;
-
-      if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-        flexLine.crossSpace = !isAutoSize(style[crossSize]) ? style[crossSize] : crossSpace;
-      } else {
-        flexLine.crossSpace = crossSpace;
-      }
-
-      function fixAnchor(item) {
-        var _item$originalRect = (0, _slicedToArray3.default)(item.originalRect, 2),
-            left = _item$originalRect[0],
-            top = _item$originalRect[1];
-
-        if (left) {
-          item.attr({ x: function x(_x4) {
-              return _x4 - left;
-            } });
-        }
-        if (top) {
-          item.attr({ y: function y(_y) {
-              return _y - top;
-            } });
-        }
-      }
-
-      if (mainSpace < 0) {
-        // overflow (happens only if container is single line), scale every item
-        var scale = groupMainSize / (groupMainSize - mainSpace);
-        var currentMain = mainBase;
-        for (var _i2 = 0; _i2 < items.length; _i2++) {
-          var _item2 = items[_i2];
-          var _itemStyle = _item2.attributes;
-          var boxSize = mainSize === 'width' ? _item2.offsetSize[0] : _item2.offsetSize[1];
-
-          if (_itemStyle.flex !== '') {
-            boxSize = 0;
-          }
-
-          boxSize *= scale;
-
-          _item2.attr(mainStart, currentMain);
-          _item2.attr(mainEnd, currentMain + mainSign * boxSize);
-          setBoxLayoutSize(_item2, mainSize, boxSize);
-          currentMain = _item2.attr(mainEnd);
-        }
-      } else {
-        // process each flex line
-        flexLines.forEach(function (items) {
-          var mainSpace = items.mainSpace;
-          var flexTotal = 0;
-          for (var _i3 = 0; _i3 < items.length; _i3++) {
-            var _item3 = items[_i3];
-            var _itemStyle2 = _item3.attributes;
-
-            flexTotal += _itemStyle2.flex === '' ? 0 : parseInt(_itemStyle2.flex, 10);
-          }
-
-          if (flexTotal > 0) {
-            // There is flexible flex items
-            var _currentMain = mainBase;
-            for (var _i4 = 0; _i4 < items.length; _i4++) {
-              var _item4 = items[_i4];
-              var _itemStyle3 = _item4.attributes;
-              var _boxSize = mainSize === 'width' ? _item4.offsetSize[0] : _item4.offsetSize[1];
-
-              if (_itemStyle3.flex !== '') {
-                _boxSize = mainSpace / flexTotal * parseInt(_itemStyle3.flex, 10);
-              }
-
-              _item4.attr(mainStart, _currentMain);
-              _item4.attr(mainEnd, _currentMain + mainSign * _boxSize);
-              setBoxLayoutSize(_item4, mainSize, _boxSize);
-              _currentMain = _item4.attr(mainEnd);
-            }
-          } else {
-            var _currentMain2 = mainBase,
-                _step = 0;
-            // There is *NO* flexible flex items, which means, justifyContent shoud work
-            var justifyContent = style.justifyContent;
-
-            if (justifyContent === 'flex-end') {
-              _currentMain2 = mainSpace * mainSign + mainBase;
-              _step = 0;
-            } else if (justifyContent === 'center') {
-              _currentMain2 = mainSpace / 2 * mainSign + mainBase;
-              _step = 0;
-            } else if (justifyContent === 'space-between') {
-              _step = mainSpace / (items.length - 1) * mainSign;
-              _currentMain2 = mainBase;
-            } else if (justifyContent === 'space-around') {
-              _step = mainSpace / items.length * mainSign;
-              _currentMain2 = _step / 2 + mainBase;
-            }
-
-            for (var _i5 = 0; _i5 < items.length; _i5++) {
-              var _item5 = items[_i5];
-              var _boxSize2 = mainSize === 'width' ? _item5.offsetSize[0] : _item5.offsetSize[1];
-
-              _item5.attr(mainStart, _currentMain2);
-              _item5.attr(mainEnd, _item5.attr(mainStart) + mainSign * _boxSize2);
-              setBoxLayoutSize(_item5, mainSize, _boxSize2);
-              _currentMain2 = _item5.attr(mainEnd) + _step;
-            }
-          }
-        });
-      }
-
-      // compute the cross axis sizes
-      // align-items, align-self
-      var crossSizeValue = void 0;
-      if (isAutoSize(style[crossSize])) {
-        // auto sizing
-        crossSpace = 0;
-        crossSizeValue = 0;
-        for (var _i6 = 0; _i6 < flexLines.length; _i6++) {
-          crossSizeValue += flexLines[_i6].crossSpace;
-        }
-        // setBoxSize(this, crossSize, crossSizeValue)
-      } else {
-        crossSpace = style[crossSize];
-        for (var _i7 = 0; _i7 < flexLines.length; _i7++) {
-          crossSpace -= flexLines[_i7].crossSpace;
-        }
-      }
-
-      if (style.flexWrap === 'wrap-reverse') {
-        crossBase = isAutoSize(style[crossSize]) ? crossSizeValue : style[crossSize];
-      } else {
-        crossBase = 0;
-      }
-
-      var step = 0;
-      var alignContent = style.alignContent;
-
-      if (alignContent === 'flex-end') {
-        crossBase += crossSign * crossSpace;
-      } else if (alignContent === 'center') {
-        crossBase += crossSign * crossSpace / 2;
-      } else if (alignContent === 'space-between') {
-        step = crossSpace / (flexLines.length - 1);
-      } else if (alignContent === 'space-around') {
-        step = crossSpace / flexLines.length;
-        crossBase += crossSign * step / 2;
-      }
-
-      flexLines.forEach(function (items) {
-        var lineCrossSize = style.alignContent === 'stretch' ? items.crossSpace + crossSpace / flexLines.length : items.crossSpace;
-
-        for (var _i8 = 0; _i8 < items.length; _i8++) {
-          var _item6 = items[_i8];
-
-          var align = _item6.attributes.alignSelf || style.alignItems;
-
-          // if(isAutoSize(item.attr(crossSize))) {
-          //   item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
-          // }
-
-          if (align === 'flex-start') {
-            _item6.attr(crossStart, crossBase);
-            _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _item6.attr(crossSize));
-          }
-
-          if (align === 'flex-end') {
-            _item6.attr(crossEnd, crossBase + crossSign * lineCrossSize);
-            _item6.attr(crossStart, _item6.attr(crossEnd) - crossSign * _item6.attr(crossSize));
-          }
-
-          if (align === 'center') {
-            _item6.attr(crossStart, crossBase + crossSign * (lineCrossSize - _item6.attr(crossSize)) / 2);
-            _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _item6.attr(crossSize));
-          }
-
-          if (align === 'stretch') {
-            _item6.attr(crossStart, crossBase);
-            _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(_item6.attr(crossSize)) ? _item6.attr(crossSize) : lineCrossSize));
-            // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
-            var crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
-            _item6.attr(crossAttr, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));
-          }
-
-          fixAnchor(_item6);
-        }
-        crossBase += crossSign * (lineCrossSize + step);
-      });
     }
   }, {
     key: 'clearLayout',
@@ -3922,7 +3622,7 @@ var _map2 = _interopRequireDefault(_map);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BezierEasing = __webpack_require__(50);
+var BezierEasing = __webpack_require__(52);
 var bezierFuncCache = new _map2.default();
 
 function getBezierEasing() {
@@ -4110,7 +3810,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(59);
+var _utils = __webpack_require__(61);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4531,7 +4231,7 @@ var _set = __webpack_require__(20);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _isNan = __webpack_require__(68);
+var _isNan = __webpack_require__(70);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -4553,7 +4253,7 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var colorString = __webpack_require__(52);
+var colorString = __webpack_require__(54);
 
 var Color = function () {
   function Color(color) {
@@ -6803,7 +6503,7 @@ var _typeof2 = __webpack_require__(21);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _defineProperties = __webpack_require__(69);
+var _defineProperties = __webpack_require__(71);
 
 var _defineProperties2 = _interopRequireDefault(_defineProperties);
 
@@ -6903,6 +6603,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       dashOffset: 0,
       display: '',
       padding: [0, 0, 0, 0],
+      margin: [0, 0, 0, 0],
       zIndex: 0,
       offsetRotate: 'auto',
       gradients: {},
@@ -6914,11 +6615,6 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
         return [this.x, this.y];
       },
       size: function size() {
-        // if(this.subject.hasLayout) {
-        //   const width = this.layoutWidth !== '' ? this.layoutWidth : this.width,
-        //     height = this.layoutHeight !== '' ? this.layoutHeight : this.height
-        //   return [width, height]
-        // }
         return [this.width, this.height];
       },
       linearGradients: function linearGradients() {
@@ -7492,9 +7188,15 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
       if (this.subject.hasLayout) this.subject.parent.clearLayout();
       this.set('alignSelf', val);
     }
+  }, {
+    key: 'margin',
+    set: function set(val) {
+      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.set('margin', val);
+    }
   }]);
   return SpriteAttr;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec17, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec18, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec19, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignSelf'), _class.prototype)), _class));
+}(), (_applyDecoratedDescriptor(_class.prototype, 'id', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec6, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec7, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_dec8, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_dec9, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec10, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec11, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec12, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec13, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec14, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec15, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec16, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec17, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec18, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec19, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'margin'), _class.prototype)), _class));
 exports.default = SpriteAttr;
 
 /***/ }),
@@ -7955,6 +7657,391 @@ exports.SvgPath = _svgPathToCanvas2.default;
 
 /***/ }),
 /* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray2 = __webpack_require__(0);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+exports.default = function (container, items) {
+  items.sort(function (a, b) {
+    return (a.attributes.order || 0) - (b.attributes.order || 0);
+  });
+
+  var style = container.attributes;
+
+  var mainSize = 'width',
+      mainStart = 'x',
+      mainEnd = 'layoutRight',
+      mainSign = +1,
+      mainBase = 0,
+      crossSize = 'height',
+      crossStart = 'y',
+      crossEnd = 'layoutBottom',
+      crossSign = void 0,
+      crossBase = void 0;
+
+  var flexDirection = style.flexDirection;
+
+  if (flexDirection === 'row-reverse') {
+    mainSize = 'width';
+    mainStart = 'layoutRight';
+    mainEnd = 'x';
+    mainSign = -1;
+    mainBase = style.width;
+
+    crossSize = 'height';
+    crossStart = 'y';
+    crossEnd = 'layoutBottom';
+  } else if (flexDirection === 'column') {
+    mainSize = 'height';
+    mainStart = 'y';
+    mainEnd = 'layoutBottom';
+    mainSign = +1;
+    mainBase = 0;
+
+    crossSize = 'width';
+    crossStart = 'x';
+    crossEnd = 'layoutRight';
+  } else if (flexDirection === 'column-reverse') {
+    mainSize = 'height';
+    mainStart = 'layoutBottom';
+    mainEnd = 'y';
+    mainSign = -1;
+    mainBase = style.height;
+
+    crossSize = 'width';
+    crossStart = 'x';
+    crossEnd = 'layoutRight';
+  }
+
+  if (style.flexWrap === 'wrap-reverse') {
+    var _ref = [crossEnd, crossStart];
+    crossStart = _ref[0];
+    crossEnd = _ref[1];
+
+    crossSign = -1;
+  } else {
+    crossBase = 0;
+    crossSign = 1;
+  }
+
+  function isAutoSize(size) {
+    return size == null || size === '';
+  }
+
+  var isAutoMainSize = isAutoSize(style[mainSize]);
+
+  var groupMainSize = void 0;
+
+  if (isAutoMainSize) {
+    // auto sizing
+    var maxSize = 0;
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i],
+          _item$layoutSize = (0, _slicedToArray3.default)(item.layoutSize, 2),
+          width = _item$layoutSize[0],
+          height = _item$layoutSize[1];
+
+      var size = mainSize === 'width' ? width : height;
+      maxSize += size;
+    }
+    if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+      mainBase = maxSize;
+    }
+    groupMainSize = maxSize;
+  } else {
+    groupMainSize = mainSize === 'width' ? container.layoutSize[0] : container.layoutSize[1];
+  }
+
+  var flexLine = [];
+  var flexLines = [flexLine];
+
+  var mainSpace = groupMainSize,
+      crossSpace = 0;
+
+  function setBoxLayoutSize(item, axis, size) {
+    var borderWidth = item.attr('border').width,
+        _item$attr = item.attr('padding'),
+        _item$attr2 = (0, _slicedToArray3.default)(_item$attr, 4),
+        paddingTop = _item$attr2[0],
+        paddingRight = _item$attr2[1],
+        paddingBottom = _item$attr2[2],
+        paddingLeft = _item$attr2[3],
+        _item$attr3 = item.attr('margin'),
+        _item$attr4 = (0, _slicedToArray3.default)(_item$attr3, 4),
+        marginTop = _item$attr4[0],
+        marginRight = _item$attr4[1],
+        marginBottom = _item$attr4[2],
+        marginLeft = _item$attr4[3];
+
+
+    if (axis === 'width') {
+      size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft - marginRight - marginLeft);
+      item.attr({ layoutWidth: size });
+    } else if (axis === 'height') {
+      size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom - marginTop - marginBottom);
+      item.attr({ layoutHeight: size });
+    }
+  }
+  // collect items into lines
+
+  for (var _i = 0; _i < items.length; _i++) {
+    var _item = items[_i];
+    var itemStyle = _item.attributes;
+
+    var _item$layoutSize2 = (0, _slicedToArray3.default)(_item.layoutSize, 2),
+        itemMainSize = _item$layoutSize2[0],
+        itemCrossSize = _item$layoutSize2[1];
+
+    if (mainSize === 'height') {
+      ;
+
+      var _ref2 = [itemCrossSize, itemMainSize];
+      itemMainSize = _ref2[0];
+      itemCrossSize = _ref2[1];
+    }if (itemStyle.flex !== '') {
+      flexLine.push(_item);
+    } else if (style.flexWrap === 'nowrap' || isAutoMainSize) {
+      mainSpace -= itemMainSize;
+      crossSpace = Math.max(crossSpace, itemCrossSize);
+      flexLine.push(_item);
+    } else {
+      if (itemMainSize > groupMainSize) {
+        setBoxLayoutSize(_item, mainSize, groupMainSize);
+        itemMainSize = groupMainSize;
+        itemCrossSize = mainSize === 'width' ? _item.layoutSize[1] : _item.layoutSize[0];
+      }
+      if (mainSpace < itemMainSize) {
+        flexLine.mainSpace = mainSpace;
+        flexLine.crossSpace = crossSpace;
+        flexLine = [_item];
+        flexLines.push(flexLine);
+        mainSpace = groupMainSize;
+        crossSpace = 0;
+      } else {
+        flexLine.push(_item);
+      }
+      crossSpace = Math.max(crossSpace, itemCrossSize);
+      mainSpace -= itemMainSize;
+    }
+  }
+  flexLine.mainSpace = mainSpace;
+
+  if (style.flexWrap === 'nowrap' || isAutoMainSize) {
+    flexLine.crossSpace = !isAutoSize(style[crossSize]) ? style[crossSize] : crossSpace;
+  } else {
+    flexLine.crossSpace = crossSpace;
+  }
+
+  function fixAnchor(item) {
+    var _item$originalRect = (0, _slicedToArray3.default)(item.originalRect, 2),
+        left = _item$originalRect[0],
+        top = _item$originalRect[1],
+        margin = item.attr('margin');
+    // console.log(margin[3])
+
+
+    item.attr({ x: function x(_x) {
+        return _x - left + margin[3];
+      } });
+    item.attr({ y: function y(_y) {
+        return _y - top + margin[0];
+      } });
+  }
+
+  if (mainSpace < 0) {
+    // overflow (happens only if container is single line), scale every item
+    var scale = groupMainSize / (groupMainSize - mainSpace);
+    var currentMain = mainBase;
+    for (var _i2 = 0; _i2 < items.length; _i2++) {
+      var _item2 = items[_i2];
+      var _itemStyle = _item2.attributes;
+      var boxSize = mainSize === 'width' ? _item2.layoutSize[0] : _item2.layoutSize[1];
+
+      if (_itemStyle.flex !== '') {
+        boxSize = 0;
+      }
+
+      boxSize *= scale;
+
+      _item2.attr(mainStart, currentMain);
+      _item2.attr(mainEnd, currentMain + mainSign * boxSize);
+      setBoxLayoutSize(_item2, mainSize, boxSize);
+      currentMain = _item2.attr(mainEnd);
+    }
+  } else {
+    // process each flex line
+    flexLines.forEach(function (items) {
+      var mainSpace = items.mainSpace;
+      var flexTotal = 0;
+      for (var _i3 = 0; _i3 < items.length; _i3++) {
+        var _item3 = items[_i3];
+        var _itemStyle2 = _item3.attributes;
+
+        flexTotal += _itemStyle2.flex === '' ? 0 : parseInt(_itemStyle2.flex, 10);
+      }
+
+      if (flexTotal > 0) {
+        // There is flexible flex items
+        var _currentMain = mainBase;
+        for (var _i4 = 0; _i4 < items.length; _i4++) {
+          var _item4 = items[_i4];
+          var _itemStyle3 = _item4.attributes;
+          var _boxSize = mainSize === 'width' ? _item4.layoutSize[0] : _item4.layoutSize[1];
+
+          if (_itemStyle3.flex !== '') {
+            _boxSize = mainSpace / flexTotal * parseInt(_itemStyle3.flex, 10);
+          }
+
+          _item4.attr(mainStart, _currentMain);
+          _item4.attr(mainEnd, _currentMain + mainSign * _boxSize);
+          setBoxLayoutSize(_item4, mainSize, _boxSize);
+          _currentMain = _item4.attr(mainEnd);
+        }
+      } else {
+        var _currentMain2 = mainBase,
+            _step = 0;
+        // There is *NO* flexible flex items, which means, justifyContent shoud work
+        var justifyContent = style.justifyContent;
+
+        if (justifyContent === 'flex-end') {
+          _currentMain2 = mainSpace * mainSign + mainBase;
+          _step = 0;
+        } else if (justifyContent === 'center') {
+          _currentMain2 = mainSpace / 2 * mainSign + mainBase;
+          _step = 0;
+        } else if (justifyContent === 'space-between') {
+          _step = mainSpace / (items.length - 1) * mainSign;
+          _currentMain2 = mainBase;
+        } else if (justifyContent === 'space-around') {
+          _step = mainSpace / items.length * mainSign;
+          _currentMain2 = _step / 2 + mainBase;
+        }
+
+        for (var _i5 = 0; _i5 < items.length; _i5++) {
+          var _item5 = items[_i5];
+          var _boxSize2 = mainSize === 'width' ? _item5.layoutSize[0] : _item5.layoutSize[1];
+
+          _item5.attr(mainStart, _currentMain2);
+          _item5.attr(mainEnd, _item5.attr(mainStart) + mainSign * _boxSize2);
+          setBoxLayoutSize(_item5, mainSize, _boxSize2);
+          _currentMain2 = _item5.attr(mainEnd) + _step;
+        }
+      }
+    });
+  }
+
+  // compute the cross axis sizes
+  // align-items, align-self
+  var crossSizeValue = void 0;
+  if (isAutoSize(style[crossSize])) {
+    // auto sizing
+    crossSpace = 0;
+    crossSizeValue = 0;
+    for (var _i6 = 0; _i6 < flexLines.length; _i6++) {
+      crossSizeValue += flexLines[_i6].crossSpace;
+    }
+    // setBoxSize(container, crossSize, crossSizeValue)
+  } else {
+    crossSpace = style[crossSize];
+    for (var _i7 = 0; _i7 < flexLines.length; _i7++) {
+      crossSpace -= flexLines[_i7].crossSpace;
+    }
+  }
+
+  if (style.flexWrap === 'wrap-reverse') {
+    crossBase = isAutoSize(style[crossSize]) ? crossSizeValue : style[crossSize];
+  } else {
+    crossBase = 0;
+  }
+
+  var step = 0;
+  var alignContent = style.alignContent;
+
+  if (alignContent === 'flex-end') {
+    crossBase += crossSign * crossSpace;
+  } else if (alignContent === 'center') {
+    crossBase += crossSign * crossSpace / 2;
+  } else if (alignContent === 'space-between') {
+    step = crossSpace / (flexLines.length - 1);
+  } else if (alignContent === 'space-around') {
+    step = crossSpace / flexLines.length;
+    crossBase += crossSign * step / 2;
+  }
+
+  flexLines.forEach(function (items) {
+    var lineCrossSize = style.alignContent === 'stretch' ? items.crossSpace + crossSpace / flexLines.length : items.crossSpace;
+
+    for (var _i8 = 0; _i8 < items.length; _i8++) {
+      var _item6 = items[_i8];
+
+      var align = _item6.attributes.alignSelf || style.alignItems;
+
+      // if(isAutoSize(item.attr(crossSize))) {
+      //   item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
+      // }
+
+      if (align === 'flex-start') {
+        _item6.attr(crossStart, crossBase);
+        _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _item6.attr(crossSize));
+      }
+
+      if (align === 'flex-end') {
+        _item6.attr(crossEnd, crossBase + crossSign * lineCrossSize);
+        _item6.attr(crossStart, _item6.attr(crossEnd) - crossSign * _item6.attr(crossSize));
+      }
+
+      if (align === 'center') {
+        _item6.attr(crossStart, crossBase + crossSign * (lineCrossSize - _item6.attr(crossSize)) / 2);
+        _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _item6.attr(crossSize));
+      }
+
+      if (align === 'stretch') {
+        _item6.attr(crossStart, crossBase);
+        _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(_item6.attr(crossSize)) ? _item6.attr(crossSize) : lineCrossSize));
+        // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
+        var crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
+        _item6.attr(crossAttr, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));
+      }
+
+      fixAnchor(_item6);
+    }
+    crossBase += crossSign * (lineCrossSize + step);
+  });
+};
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.flexLayout = undefined;
+
+var _flex = __webpack_require__(50);
+
+var _flex2 = _interopRequireDefault(_flex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.flexLayout = _flex2.default;
+
+/***/ }),
+/* 52 */
 /***/ (function(module, exports) {
 
 /**
@@ -8067,7 +8154,7 @@ module.exports = function bezier (mX1, mY1, mX2, mY2) {
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8226,12 +8313,12 @@ module.exports = {
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(51);
-var swizzle = __webpack_require__(54);
+var colorNames = __webpack_require__(53);
+var swizzle = __webpack_require__(56);
 
 var reverseNames = {};
 
@@ -8465,7 +8552,7 @@ function hexDouble(num) {
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = function isArrayish(obj) {
@@ -8480,13 +8567,13 @@ module.exports = function isArrayish(obj) {
 
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayish = __webpack_require__(53);
+var isArrayish = __webpack_require__(55);
 
 var concat = Array.prototype.concat;
 var slice = Array.prototype.slice;
@@ -8516,7 +8603,7 @@ swizzle.wrap = function (fn) {
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8550,7 +8637,7 @@ var _symbol = __webpack_require__(4);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _utils = __webpack_require__(56);
+var _utils = __webpack_require__(58);
 
 var _spriteTimeline = __webpack_require__(35);
 
@@ -8922,7 +9009,7 @@ var _class = function () {
 exports.default = _class;
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8936,7 +9023,7 @@ var _entries = __webpack_require__(7);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _getIterator2 = __webpack_require__(67);
+var _getIterator2 = __webpack_require__(69);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -9118,7 +9205,7 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 }
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9256,7 +9343,7 @@ Matrix.prototype.transformVector = function (px, py) {
 exports.default = Matrix;
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9341,7 +9428,7 @@ var Vector = function () {
 exports.default = Vector;
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9389,7 +9476,7 @@ function formatDelay(delay) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9541,7 +9628,7 @@ function resolveValue() {
 }
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9734,7 +9821,7 @@ module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
 };
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9810,7 +9897,7 @@ function absolutize(path) {
 /* eslint-enable */
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9828,7 +9915,7 @@ module.exports = function isPath(str) {
 };
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9842,7 +9929,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = normalize;
 
-var a2c = __webpack_require__(61);
+var a2c = __webpack_require__(63);
 
 /* eslint-disable */
 function normalize(path) {
@@ -9959,7 +10046,7 @@ function quadratic(x1, y1, cx, cy, x2, y2) {
 /* eslint-enable */
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10024,7 +10111,7 @@ function parseValues(args) {
 /* eslint-enable */
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10066,31 +10153,31 @@ function isPointInPath(_ref, x, y) {
 }
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/get-iterator");
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/number/is-nan");
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/core-js/object/define-properties");
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/defineProperty");
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports) {
 
 module.exports = require("babel-runtime/helpers/set");
