@@ -130,7 +130,10 @@ export default class BaseSprite extends BaseNode {
 
   get hasLayout() {
     if(this.attr('position') === 'absolute') return false
-    if(this.parent && this.parent.relayout && this.parent.attr('display') === 'flex') return true
+    if(this.parent && this.parent.relayout) {
+      const display = this.parent.attr('display')
+      return display !== '' && display !== 'static'
+    }
     return false
   }
 
@@ -370,6 +373,12 @@ export default class BaseSprite extends BaseNode {
       height + 2 * borderWidth]
   }
 
+  get layoutSize() {
+    const size = this.offsetSize
+    const [top, right, bottom, left] = this.attr('margin')
+    return [left + size[0] + right, top + size[1] + bottom]
+  }
+
   get innerSize() {
     return this.contentSize
   }
@@ -380,8 +389,13 @@ export default class BaseSprite extends BaseNode {
 
   get boundingRect() {
     const transform = this.transform
-    const [ox, oy] = this.originalRect
-    const [width, height] = this.offsetSize
+    let [ox, oy, width, height] = this.originalRect
+
+    if(this.hasLayout) {
+      const margin = this.attr('margin')
+      width += margin[1]
+      height += margin[2]
+    }
 
     const vertexs = [[ox, oy],
       [width + ox, oy],
@@ -408,9 +422,16 @@ export default class BaseSprite extends BaseNode {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')
 
-    return [-anchorX * width,
+    const rect = [-anchorX * width,
       -anchorY * height,
       width, height]
+
+    if(this.hasLayout) {
+      const margin = this.attr('margin')
+      rect[0] += margin[3]
+      rect[1] += margin[0]
+    }
+    return rect
   }
 
   get originalRenderRect() {
