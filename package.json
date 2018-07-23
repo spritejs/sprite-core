@@ -1,8 +1,11 @@
 {
   "name": "sprite-core",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Platform-independent canvas render object model api.",
   "main": "lib/index.js",
+  "esnext": {
+    "./lib/index.js": "./src/index.js"
+  },
   "directories": {
     "lib": "lib"
   },
@@ -14,7 +17,7 @@
   "scripts": {
     "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
     "lint": "eslint 'src/**/*.js' --fix",
-    "start": "webpack-dev-server -d --quiet --port 9090 & http-server example -c-1 -p 9091",
+    "start": "webpack-dev-server --watch-poll",
     "benchmark": "webpack-dev-server -d --quiet --port 9090 & http-server benchmark -c-1 -p 9091",
     "build": "rm -rf dist/* && ./script/build.js",
     "compile": "rm -rf lib/* && babel src -d lib --watch",
@@ -29,15 +32,12 @@
   "bugs": {
     "url": "https://github.com/spritejs/sprite-core/issues"
   },
-  "browser": {
-    "./lib/index.js": "./src/index.js"
-  },
   "devDependencies": {
-    "ava": "^0.21.0",
+    "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.24.0",
     "babel-eslint": "^8.1.1",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-inline-package-json": "^2.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-runtime": "^0.4.0",
@@ -49,12 +49,12 @@
     "eslint-config-75team": "^1.0.2",
     "eslint-plugin-html": "^4.0.3",
     "hamming-distance": "^1.0.0",
-    "http-server": "^0.11.1",
     "imghash": "0.0.3",
     "nyc": "^11.1.0",
     "pixelmatch": "^4.0.2",
-    "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   },
   "nyc": {
     "exclude": [
@@ -80,10 +80,11 @@
     "babel-decorators-runtime": "^0.2.0",
     "babel-runtime": "^6.26.0",
     "css-line-break": "^1.0.1",
-    "fast-animation-frame": "^0.3.0",
-    "sprite-animator": "^1.8.5",
-    "sprite-math": "^1.0.1",
-    "sprite-utils": "^1.10.0",
-    "svg-path-to-canvas": "^1.8.1"
+    "fast-animation-frame": "^0.3.2",
+    "sprite-animator": "^1.9.1",
+    "sprite-math": "^1.0.3",
+    "sprite-timeline": "^1.9.1",
+    "sprite-utils": "^1.10.1",
+    "svg-path-to-canvas": "^1.9.3"
   }
 }
