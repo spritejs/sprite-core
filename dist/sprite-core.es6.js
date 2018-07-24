@@ -3321,6 +3321,30 @@ let BaseNode = class BaseNode {
     if (!evt.terminated && isCollision) {
       evt.target = this;
 
+      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+      if (changedTouches && type === 'touchstart') {
+        const touch = changedTouches[0],
+              layer = this.layer;
+        if (touch && touch.identifier != null) {
+          layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
+          layer.touchedTargets[touch.identifier].push(this);
+        }
+      }
+      if (changedTouches && type.startsWith('touch')) {
+        const touches = evt.originalEvent && evt.originalEvent.touches,
+              layer = this.layer;
+        evt.targetTouches = [];
+
+        Array.from(touches).forEach(touch => {
+          const identifier = touch.identifier;
+          if (layer.touchedTargets[identifier] && layer.touchedTargets[identifier].indexOf(this) >= 0) {
+            evt.targetTouches.push(touch);
+          }
+        });
+        evt.touches = Array.from(touches);
+        evt.changedTouches = Array.from(changedTouches);
+      }
+
       const handlers = this[_eventHandlers][type];
       if (handlers) {
         handlers.forEach(handler => handler.call(this, evt));
@@ -7069,6 +7093,8 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_0__["default"
     this[_tRecord] = []; // calculate FPS
     this[_timeline] = new sprite_animator__WEBPACK_IMPORTED_MODULE_3__["Timeline"]();
     this[_renderDeferer] = null;
+
+    this.touchedTargets = {};
   }
 
   set autoRender(value) {
@@ -7275,24 +7301,43 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_0__["default"
     if (swallow && this.getEventHandlers(type).length === 0) {
       return;
     }
-
     if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
-      const isCollision = collisionState || this.pointCollision(evt);
+      let isCollision = collisionState || this.pointCollision(evt);
+      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+      if (changedTouches && type === 'touchend') {
+        isCollision = true;
+      }
       if (isCollision) {
         const sprites = this[_children].slice(0).reverse(),
               targetSprites = [];
-        for (let i = 0; i < sprites.length; i++) {
-          const sprite = sprites[i];
-          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
-          if (hit) {
-            // detect mouseenter/mouseleave
-            targetSprites.push(sprite);
+
+        if (changedTouches && type === 'touchend') {
+          const touch = changedTouches[0];
+          if (touch && touch.identifier != null) {
+            const targets = this.layer.touchedTargets[touch.identifier];
+            if (targets) {
+              targets.forEach(target => {
+                if (target !== this && target.layer === this) {
+                  target.dispatchEvent(type, evt, true);
+                }
+              });
+              delete this.layer.touchedTargets[touch.identifier];
+            }
           }
-          if (evt.terminated && !evt.type.startsWith('mouse')) {
-            break;
+        } else {
+          for (let i = 0; i < sprites.length; i++) {
+            const sprite = sprites[i];
+            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+            if (hit) {
+              // detect mouseenter/mouseleave
+              targetSprites.push(sprite);
+            }
+            if (evt.terminated && !type.startsWith('mouse')) {
+              break;
+            }
           }
+          evt.targetSprites = targetSprites;
         }
-        evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
         return super.dispatchEvent(type, evt, isCollision, swallow);
@@ -7666,7 +7711,7 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
           if (hit) {
             targetSprites.push(sprite);
           }
-          if (evt.terminated && !evt.type.startsWith('mouse')) {
+          if (evt.terminated && !type.startsWith('mouse')) {
             break;
           }
         }
@@ -8629,7 +8674,8 @@ let PathSpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["p
       lineCap: 'butt',
       lineJoin: 'miter',
       strokeColor: '',
-      fillColor: ''
+      fillColor: '',
+      bounding: 'box'
     }, {
       color() {
         return this.strokeColor;
@@ -8713,10 +8759,15 @@ let PathSpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["p
     this.set('flexible', val);
   }
 
+  set bounding(val) {
+    // box | path
+    this.set('bounding', val);
+  }
+
   set color(val) {
     this.strokeColor = val;
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'path', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_dec, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec2, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec3, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype)), _class));
+}, (_applyDecoratedDescriptor(_class.prototype, 'path', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_dec, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec2, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bounding', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bounding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec3, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype)), _class));
 let Path = (_temp = _class2 = class Path extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
   constructor(attr) {
@@ -8833,6 +8884,9 @@ let Path = (_temp = _class2 = class Path extends _basesprite__WEBPACK_IMPORTED_M
         offsetY += Math.min(0, bounds[1]);
       }
       evt.targetPaths = this.findPath(offsetX, offsetY);
+      if (this.attr('bounding') === 'path') {
+        return evt.targetPaths.length > 0;
+      }
       return true;
     }
     return false;

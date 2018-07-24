@@ -90,6 +90,30 @@ export default class BaseNode {
     if(!evt.terminated && isCollision) {
       evt.target = this
 
+      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches
+      if(changedTouches && type === 'touchstart') {
+        const touch = changedTouches[0],
+          layer = this.layer
+        if(touch && touch.identifier != null) {
+          layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || []
+          layer.touchedTargets[touch.identifier].push(this)
+        }
+      }
+      if(changedTouches && type.startsWith('touch')) {
+        const touches = evt.originalEvent && evt.originalEvent.touches,
+          layer = this.layer
+        evt.targetTouches = []
+
+        Array.from(touches).forEach((touch) => {
+          const identifier = touch.identifier
+          if(layer.touchedTargets[identifier] && layer.touchedTargets[identifier].indexOf(this) >= 0) {
+            evt.targetTouches.push(touch)
+          }
+        })
+        evt.touches = Array.from(touches)
+        evt.changedTouches = Array.from(changedTouches)
+      }
+
       const handlers = this[_eventHandlers][type]
       if(handlers) {
         handlers.forEach(handler => handler.call(this, evt))

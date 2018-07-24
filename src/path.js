@@ -15,6 +15,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
       lineJoin: 'miter',
       strokeColor: '',
       fillColor: '',
+      bounding: 'box',
     }, {
       color() {
         return this.strokeColor
@@ -105,6 +106,11 @@ class PathSpriteAttr extends BaseSprite.Attr {
   set flexible(val) {
     this.clearCache()
     this.set('flexible', val)
+  }
+
+  @attr
+  set bounding(val) { // box | path
+    this.set('bounding', val)
   }
 
   @deprecate('Instead use strokeColor.')
@@ -231,6 +237,9 @@ export default class Path extends BaseSprite {
         offsetY += Math.min(0, bounds[1])
       }
       evt.targetPaths = this.findPath(offsetX, offsetY)
+      if(this.attr('bounding') === 'path') {
+        return evt.targetPaths.length > 0
+      }
       return true
     }
     return false

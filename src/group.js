@@ -203,7 +203,7 @@ export default class Group extends BaseSprite {
           if(hit) {
             targetSprites.push(sprite)
           }
-          if(evt.terminated && !evt.type.startsWith('mouse')) {
+          if(evt.terminated && !type.startsWith('mouse')) {
             break
           }
         }

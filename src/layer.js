@@ -52,6 +52,8 @@ export default class Layer extends BaseNode {
     this[_tRecord] = [] // calculate FPS
     this[_timeline] = new Timeline()
     this[_renderDeferer] = null
+
+    this.touchedTargets = {}
   }
 
   set autoRender(value) {
@@ -260,24 +262,43 @@ export default class Layer extends BaseNode {
     if(swallow && this.getEventHandlers(type).length === 0) {
       return
     }
-
     if(!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
-      const isCollision = collisionState || this.pointCollision(evt)
+      let isCollision = collisionState || this.pointCollision(evt)
+      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches
+      if(changedTouches && type === 'touchend') {
+        isCollision = true
+      }
       if(isCollision) {
         const sprites = this[_children].slice(0).reverse(),
           targetSprites = []
-        for(let i = 0; i < sprites.length; i++) {
-          const sprite = sprites[i]
-          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
-          if(hit) {
-            // detect mouseenter/mouseleave
-            targetSprites.push(sprite)
+
+        if(changedTouches && type === 'touchend') {
+          const touch = changedTouches[0]
+          if(touch && touch.identifier != null) {
+            const targets = this.layer.touchedTargets[touch.identifier]
+            if(targets) {
+              targets.forEach((target) => {
+                if(target !== this && target.layer === this) {
+                  target.dispatchEvent(type, evt, true)
+                }
+              })
+              delete this.layer.touchedTargets[touch.identifier]
+            }
           }
-          if(evt.terminated && !evt.type.startsWith('mouse')) {
-            break
+        } else {
+          for(let i = 0; i < sprites.length; i++) {
+            const sprite = sprites[i]
+            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow)
+            if(hit) {
+              // detect mouseenter/mouseleave
+              targetSprites.push(sprite)
+            }
+            if(evt.terminated && !type.startsWith('mouse')) {
+              break
+            }
           }
+          evt.targetSprites = targetSprites
         }
-        evt.targetSprites = targetSprites
         // stopDispatch can only terminate event in the same level
         evt.terminated = false
         return super.dispatchEvent(type, evt, isCollision, swallow)

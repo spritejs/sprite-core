@@ -28,6 +28,7 @@
       bgcolor: '#aaa',
       lineWidth: 1,
       lineDash: [5, 5],
+      bounding: 'path',
       gradients: {
         fillColor: {
           vector: [0, 0, 100, 0],
@@ -40,9 +41,13 @@
       }
     })
     console.log(path.renderRect)
-    path.on('click', evt => {
-      console.log(evt.targetPaths)
+    path.on('touchstart', (evt) => {
+      console.log(evt.targetPaths, evt.targetTouches)
     })
+    path.on('touchend', (evt) => {
+      console.log(evt.targetPaths, evt)
+    })
+
 
     path.animate([
       {lineDashOffset: 10},
@@ -70,9 +75,17 @@
     // })
     layer.appendChild(path)
 
-    mycanvas.addEventListener('click', evt => {
+    mycanvas.addEventListener('click', (evt) => {
       const {offsetX, offsetY} = evt
-      path.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
+      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originalEvent: evt})
+    })
+    mycanvas.addEventListener('touchstart', (evt) => {
+      const {clientX, clientY} = evt.changedTouches[0]
+      layer.dispatchEvent('touchstart', {layerX: clientX, layerY: clientY, originalEvent: evt})
+    })
+    mycanvas.addEventListener('touchend', (evt) => {
+      const {clientX, clientY} = evt.changedTouches[0]
+      layer.dispatchEvent('touchend', {layerX: clientX, layerY: clientY, originalEvent: evt})
     })
   </script>
 </body>
