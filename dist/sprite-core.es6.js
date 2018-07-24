@@ -3323,9 +3323,10 @@ let BaseNode = class BaseNode {
       evt.type = type;
     }
 
-    const isCollision = collisionState || (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture] || this.pointCollision(evt);
+    const isCollision = collisionState || this.pointCollision(evt);
+    const captured = (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
 
-    if (!evt.terminated && isCollision) {
+    if (!evt.terminated && (isCollision || captured)) {
       evt.target = this;
 
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
@@ -3357,7 +3358,7 @@ let BaseNode = class BaseNode {
         handlers.forEach(handler => handler.call(this, evt));
       }
 
-      if (type === 'mousemove' && !this[_mouseCapture]) {
+      if (isCollision && type === 'mousemove') {
         if (!this[_collisionState]) {
           const _evt = Object.assign({}, evt);
           _evt.type = 'mouseenter';
@@ -3367,7 +3368,9 @@ let BaseNode = class BaseNode {
         }
         this[_collisionState] = true;
       }
-    } else if (type === 'mousemove' && !this[_mouseCapture]) {
+    }
+
+    if (!evt.terminated && !isCollision && type === 'mousemove') {
       if (this[_collisionState]) {
         const _evt = Object.assign({}, evt);
         _evt.type = 'mouseleave';

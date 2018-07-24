@@ -7003,9 +7003,10 @@ var BaseNode = function () {
         evt.type = type;
       }
 
-      var isCollision = collisionState || (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture] || this.pointCollision(evt);
+      var isCollision = collisionState || this.pointCollision(evt);
+      var captured = (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
 
-      if (!evt.terminated && isCollision) {
+      if (!evt.terminated && (isCollision || captured)) {
         evt.target = this;
 
         var changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
@@ -7039,7 +7040,7 @@ var BaseNode = function () {
           });
         }
 
-        if (type === 'mousemove' && !this[_mouseCapture]) {
+        if (isCollision && type === 'mousemove') {
           if (!this[_collisionState]) {
             var _evt = (0, _assign2.default)({}, evt);
             _evt.type = 'mouseenter';
@@ -7049,7 +7050,9 @@ var BaseNode = function () {
           }
           this[_collisionState] = true;
         }
-      } else if (type === 'mousemove' && !this[_mouseCapture]) {
+      }
+
+      if (!evt.terminated && !isCollision && type === 'mousemove') {
         if (this[_collisionState]) {
           var _evt2 = (0, _assign2.default)({}, evt);
           _evt2.type = 'mouseleave';
