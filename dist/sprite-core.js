@@ -6871,7 +6871,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _eventHandlers = (0, _symbol2.default)('eventHandlers'),
     _collisionState = (0, _symbol2.default)('collisionState'),
-    _data = (0, _symbol2.default)('data');
+    _data = (0, _symbol2.default)('data'),
+    _mouseCapture = (0, _symbol2.default)('mouseCapture');
 
 var BaseNode = function () {
   function BaseNode() {
@@ -6970,6 +6971,16 @@ var BaseNode = function () {
       throw Error('you mast override this method');
     }
   }, {
+    key: 'setMouseCapture',
+    value: function setMouseCapture() {
+      this[_mouseCapture] = true;
+    }
+  }, {
+    key: 'releaseMouseCapture',
+    value: function releaseMouseCapture() {
+      this[_mouseCapture] = false;
+    }
+  }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
       var _this4 = this;
@@ -6992,7 +7003,7 @@ var BaseNode = function () {
         evt.type = type;
       }
 
-      var isCollision = collisionState || this.pointCollision(evt);
+      var isCollision = collisionState || (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture] || this.pointCollision(evt);
 
       if (!evt.terminated && isCollision) {
         evt.target = this;
@@ -7028,7 +7039,7 @@ var BaseNode = function () {
           });
         }
 
-        if (type === 'mousemove') {
+        if (type === 'mousemove' && !this[_mouseCapture]) {
           if (!this[_collisionState]) {
             var _evt = (0, _assign2.default)({}, evt);
             _evt.type = 'mouseenter';
@@ -7038,7 +7049,7 @@ var BaseNode = function () {
           }
           this[_collisionState] = true;
         }
-      } else if (type === 'mousemove') {
+      } else if (type === 'mousemove' && !this[_mouseCapture]) {
         if (this[_collisionState]) {
           var _evt2 = (0, _assign2.default)({}, evt);
           _evt2.type = 'mouseleave';

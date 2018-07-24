@@ -47,7 +47,17 @@
     path.on('touchend', (evt) => {
       console.log(evt.targetPaths, evt)
     })
-
+    path.on('mouseup', (evt) => {
+      console.log('mouseup')
+      path.releaseMouseCapture()
+    })
+    path.on('mousemove', (evt) => {
+      console.log('mousemove')
+    })
+    path.on('mousedown', (evt) => {
+      console.log('mousedown')
+      path.setMouseCapture()
+    })
 
     path.animate([
       {lineDashOffset: 10},
@@ -86,6 +96,18 @@
     mycanvas.addEventListener('touchend', (evt) => {
       const {clientX, clientY} = evt.changedTouches[0]
       layer.dispatchEvent('touchend', {layerX: clientX, layerY: clientY, originalEvent: evt})
+    })
+    mycanvas.addEventListener('mouseup', (evt) => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('mouseup', {layerX: offsetX, layerY: offsetY, originalEvent: evt})
+    })
+    mycanvas.addEventListener('mousemove', (evt) => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('mousemove', {layerX: offsetX, layerY: offsetY, originalEvent: evt})
+    })
+    mycanvas.addEventListener('mousedown', (evt) => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('mousedown', {layerX: offsetX, layerY: offsetY, originalEvent: evt})
     })
   </script>
 </body>

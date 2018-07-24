@@ -1,6 +1,7 @@
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
-  _data = Symbol('data')
+  _data = Symbol('data'),
+  _mouseCapture = Symbol('mouseCapture')
 
 export default class BaseNode {
   constructor() {
@@ -69,6 +70,12 @@ export default class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method')
   }
+  setMouseCapture() {
+    this[_mouseCapture] = true
+  }
+  releaseMouseCapture() {
+    this[_mouseCapture] = false
+  }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
     if(swallow && this.getEventHandlers(type).length === 0) {
       return
@@ -85,7 +92,9 @@ export default class BaseNode {
       evt.type = type
     }
 
-    const isCollision = collisionState || this.pointCollision(evt)
+    const isCollision = collisionState
+      || (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture]
+      || this.pointCollision(evt)
 
     if(!evt.terminated && isCollision) {
       evt.target = this
@@ -119,7 +128,7 @@ export default class BaseNode {
         handlers.forEach(handler => handler.call(this, evt))
       }
 
-      if(type === 'mousemove') {
+      if(type === 'mousemove' && !this[_mouseCapture]) {
         if(!this[_collisionState]) {
           const _evt = Object.assign({}, evt)
           _evt.type = 'mouseenter'
@@ -129,7 +138,7 @@ export default class BaseNode {
         }
         this[_collisionState] = true
       }
-    } else if(type === 'mousemove') {
+    } else if(type === 'mousemove' && !this[_mouseCapture]) {
       if(this[_collisionState]) {
         const _evt = Object.assign({}, evt)
         _evt.type = 'mouseleave'

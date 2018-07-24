@@ -3231,7 +3231,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseNode; });
 const _eventHandlers = Symbol('eventHandlers'),
       _collisionState = Symbol('collisionState'),
-      _data = Symbol('data');
+      _data = Symbol('data'),
+      _mouseCapture = Symbol('mouseCapture');
 
 let BaseNode = class BaseNode {
   constructor() {
@@ -3300,6 +3301,12 @@ let BaseNode = class BaseNode {
   pointCollision(evt) {
     throw Error('you mast override this method');
   }
+  setMouseCapture() {
+    this[_mouseCapture] = true;
+  }
+  releaseMouseCapture() {
+    this[_mouseCapture] = false;
+  }
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
     if (swallow && this.getEventHandlers(type).length === 0) {
       return;
@@ -3316,7 +3323,7 @@ let BaseNode = class BaseNode {
       evt.type = type;
     }
 
-    const isCollision = collisionState || this.pointCollision(evt);
+    const isCollision = collisionState || (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture] || this.pointCollision(evt);
 
     if (!evt.terminated && isCollision) {
       evt.target = this;
@@ -3350,7 +3357,7 @@ let BaseNode = class BaseNode {
         handlers.forEach(handler => handler.call(this, evt));
       }
 
-      if (type === 'mousemove') {
+      if (type === 'mousemove' && !this[_mouseCapture]) {
         if (!this[_collisionState]) {
           const _evt = Object.assign({}, evt);
           _evt.type = 'mouseenter';
@@ -3360,7 +3367,7 @@ let BaseNode = class BaseNode {
         }
         this[_collisionState] = true;
       }
-    } else if (type === 'mousemove') {
+    } else if (type === 'mousemove' && !this[_mouseCapture]) {
       if (this[_collisionState]) {
         const _evt = Object.assign({}, evt);
         _evt.type = 'mouseleave';
