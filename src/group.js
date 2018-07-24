@@ -214,7 +214,7 @@ export default class Group extends BaseSprite {
         return super.dispatchEvent(type, evt, isCollision, swallow)
       }
     }
-
+    evt.targetSprites = evt.targetSprites || []
     return super.dispatchEvent(type, evt, collisionState, swallow)
   }
   relayout() {

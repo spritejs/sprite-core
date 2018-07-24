@@ -7353,6 +7353,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_0__["default"
         return super.dispatchEvent(type, evt, isCollision, swallow);
       }
     }
+    evt.targetSprites = evt.targetSprites || [];
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */{
@@ -7731,7 +7732,7 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
         return super.dispatchEvent(type, evt, isCollision, swallow);
       }
     }
-
+    evt.targetSprites = evt.targetSprites || [];
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
   relayout() {

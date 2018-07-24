@@ -304,6 +304,7 @@ export default class Layer extends BaseNode {
         return super.dispatchEvent(type, evt, isCollision, swallow)
       }
     }
+    evt.targetSprites = evt.targetSprites || []
     return super.dispatchEvent(type, evt, collisionState, swallow)
   }
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */ {

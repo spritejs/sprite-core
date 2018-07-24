@@ -12607,6 +12607,7 @@ var Layer = function (_BaseNode) {
           return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
         }
       }
+      evt.targetSprites = evt.targetSprites || [];
       return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
@@ -13178,7 +13179,7 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
         }
       }
-
+      evt.targetSprites = evt.targetSprites || [];
       return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
