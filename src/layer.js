@@ -297,14 +297,13 @@ export default class Layer extends BaseNode {
               break
             }
           }
-          evt.targetSprites = targetSprites
         }
+        evt.targetSprites = targetSprites
         // stopDispatch can only terminate event in the same level
         evt.terminated = false
         return super.dispatchEvent(type, evt, isCollision, swallow)
       }
     }
-
     return super.dispatchEvent(type, evt, collisionState, swallow)
   }
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */ {

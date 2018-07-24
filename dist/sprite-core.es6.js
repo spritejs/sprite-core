@@ -7346,14 +7346,13 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_0__["default"
               break;
             }
           }
-          evt.targetSprites = targetSprites;
         }
+        evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
         return super.dispatchEvent(type, evt, isCollision, swallow);
       }
     }
-
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */{
