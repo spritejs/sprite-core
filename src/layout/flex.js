@@ -89,16 +89,27 @@ export default function (container, items) {
     crossSpace = 0
 
   function setBoxLayoutSize(item, axis, size) {
-    const borderWidth = item.attr('border').width,
-      [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding'),
-      [marginTop, marginRight, marginBottom, marginLeft] = item.attr('margin')
+    const isBorderBox = item.attr('boxSizing') === 'border-box'
+    const [marginTop, marginRight, marginBottom, marginLeft] = item.attr('margin')
+    if(isBorderBox) {
+      if(axis === 'width') {
+        size = Math.max(0, size - marginRight - marginLeft)
+        item.attr({layoutWidth: size})
+      } else if(axis === 'height') {
+        size = Math.max(0, size - marginTop - marginBottom)
+        item.attr({layoutHeight: size})
+      }
+    } else {
+      const borderWidth = item.attr('border').width,
+        [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding')
 
-    if(axis === 'width') {
-      size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft - marginRight - marginLeft)
-      item.attr({layoutWidth: size})
-    } else if(axis === 'height') {
-      size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom - marginTop - marginBottom)
-      item.attr({layoutHeight: size})
+      if(axis === 'width') {
+        size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft - marginRight - marginLeft)
+        item.attr({layoutWidth: size})
+      } else if(axis === 'height') {
+        size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom - marginTop - marginBottom)
+        item.attr({layoutHeight: size})
+      }
     }
   }
   // collect items into lines

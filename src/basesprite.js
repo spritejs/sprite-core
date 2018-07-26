@@ -337,22 +337,29 @@ export default class BaseSprite extends BaseNode {
   }
 
   get attrSize() {
-    const [width, height] = this.attr('size')
-    if(!this.hasLayout) {
-      return [width, height]
-    }
-    const layoutWidth = this.attr('layoutWidth'),
-      layoutHeight = this.attr('layoutHeight')
+    let [width, height] = this.attr('size')
+    const isBorderBox = this.attr('boxSizing') === 'border-box'
 
-    return [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height]
+    if(this.hasLayout) {
+      const layoutWidth = this.attr('layoutWidth'),
+        layoutHeight = this.attr('layoutHeight')
+      ;[width, height] = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height]
+    }
+    if(isBorderBox) {
+      const borderWidth = this.attr('border').width,
+        [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding')
+
+      width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight)
+      height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom)
+    }
+
+    return [width, height]
   }
 
   // content width / height
   get contentSize() {
     if(this.isVirtual) return [0, 0]
-
     const [width, height] = this.attrSize
-
     return [width | 0, height | 0]
   }
 

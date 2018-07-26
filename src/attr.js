@@ -44,6 +44,7 @@ class SpriteAttr {
       },
       // border: [0, 'rgba(0,0,0,0)'],
       borderRadius: 0,
+      boxSizing: 'content-box',
       dashOffset: 0,
       display: '',
       padding: [0, 0, 0, 0],
@@ -319,6 +320,12 @@ class SpriteAttr {
   set borderRadius(val) {
     this.clearCache()
     this.set('borderRadius', val)
+  }
+
+  @attr
+  set boxSizing(val) {
+    this.clearCache()
+    this.set('boxSizing', val)
   }
 
   @parseValue(parseFloat)
