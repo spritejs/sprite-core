@@ -10711,6 +10711,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _toConsumableArray2 = __webpack_require__(42);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _get2 = __webpack_require__(127);
 
 var _get3 = _interopRequireDefault(_get2);
@@ -10751,7 +10755,7 @@ var _symbol = __webpack_require__(85);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _dec, _dec2, _dec3, _desc, _value, _class, _class2, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _desc, _value, _class, _class2, _temp;
 
 var _basesprite = __webpack_require__(1);
 
@@ -10788,6 +10792,11 @@ var measureText = function measureText(node, text, font) {
 
   ctx.restore();
 
+  var letterSpacing = node.attr('letterSpacing');
+  if (letterSpacing) {
+    width += letterSpacing * (text.length - 1);
+  }
+
   var _parseFont = parseFont(font),
       size = _parseFont.size;
 
@@ -10800,7 +10809,8 @@ function calculTextboxSize(node) {
   if (!node.context) return '';
   var text = node.text,
       font = node.attr('font'),
-      lineHeight = node.attr('lineHeight');
+      lineHeight = node.attr('lineHeight'),
+      textIndent = node.attr('textIndent');
 
   var lines = [];
   var width = 0,
@@ -10832,7 +10842,7 @@ function calculTextboxSize(node) {
               _measureText2 = (0, _slicedToArray3.default)(_measureText, 1),
               w = _measureText2[0];
 
-          if (w > textboxWidth) {
+          if (w > (lines.length === 0 ? textboxWidth - textIndent : textboxWidth)) {
             lines.push(l);
             l = word;
           } else {
@@ -10848,19 +10858,20 @@ function calculTextboxSize(node) {
     lines = text.split(/\n/);
   }
 
-  lines.forEach(function (line) {
+  lines.forEach(function (line, idx) {
     var _measureText3 = measureText(node, line, font, lineHeight),
         _measureText4 = (0, _slicedToArray3.default)(_measureText3, 2),
         w = _measureText4[0],
         h = _measureText4[1];
 
+    if (idx === 0) w += textIndent;
     width = Math.max(width, w);
     height += h;
   });
   node[_boxSize] = [width, height];
 }
 
-var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (0, _spriteUtils.parseValue)(_spriteUtils.parseColorString), _dec3 = (0, _spriteUtils.parseValue)(_spriteUtils.parseColorString), (_class = function (_BaseSprite$Attr) {
+var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (0, _spriteUtils.parseValue)(_spriteUtils.parseColorString), _dec3 = (0, _spriteUtils.parseValue)(_spriteUtils.parseColorString), _dec4 = (0, _spriteUtils.parseValue)(parseFloat), _dec5 = (0, _spriteUtils.parseValue)(parseFloat), (_class = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(LabelSpriteAttr, _BaseSprite$Attr);
 
   function LabelSpriteAttr(subject) {
@@ -10877,7 +10888,9 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
       text: '',
       flexible: false,
       lineBreak: '',
-      wordBreak: 'normal'
+      wordBreak: 'normal',
+      letterSpacing: 0,
+      textIndent: 0
     }, {
       color: function color() {
         return this.fillColor;
@@ -10955,6 +10968,20 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
       calculTextboxSize(this.subject);
     }
   }, {
+    key: 'letterSpacing',
+    set: function set(value) {
+      this.clearCache();
+      this.set('letterSpacing', value);
+      calculTextboxSize(this.subject);
+    }
+  }, {
+    key: 'textIndent',
+    set: function set(value) {
+      this.clearCache();
+      this.set('textIndent', value);
+      calculTextboxSize(this.subject);
+    }
+  }, {
     key: 'width',
     set: function set(val) {
       if (this.lineBreak !== '') calculTextboxSize(this.subject);
@@ -10968,7 +10995,7 @@ var LabelSpriteAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = 
     }
   }]);
   return LabelSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec3, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'letterSpacing', [_dec4, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'letterSpacing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textIndent', [_dec5, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textIndent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
 var Label = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Label, _BaseSprite);
 
@@ -11033,8 +11060,10 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
         var top = 0,
             left = 0;
         var width = this.contentSize[0];
+        var letterSpacing = this.attr('letterSpacing'),
+            textIndent = this.attr('textIndent');
 
-        lines.forEach(function (line) {
+        lines.forEach(function (line, idx) {
           var _measureText5 = measureText(_this3, line, font, lineHeight),
               _measureText6 = (0, _slicedToArray3.default)(_measureText5, 2),
               w = _measureText6[0],
@@ -11046,11 +11075,31 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
             left += width - w;
           }
 
-          if (fillColor) {
-            drawingContext.fillText(line, left, top + h / 2);
+          var indent = 0;
+          if (textIndent && idx === 0 && align !== 'right') {
+            indent = textIndent;
           }
-          if (strokeColor) {
-            drawingContext.strokeText(line, left, top + h / 2);
+
+          if (letterSpacing) {
+            var l = left;[].concat((0, _toConsumableArray3.default)(line)).forEach(function (letter, i) {
+              if (idx === 0 && i === 0) {
+                l += indent;
+              }
+              if (fillColor) {
+                drawingContext.fillText(letter, l, top + h / 2);
+              }
+              if (strokeColor) {
+                drawingContext.strokeText(letter, l, top + h / 2);
+              }
+              l += measureText(_this3, letter, font)[0] + letterSpacing;
+            });
+          } else {
+            if (fillColor) {
+              drawingContext.fillText(line, left + indent, top + h / 2);
+            }
+            if (strokeColor) {
+              drawingContext.strokeText(line, left + indent, top + h / 2);
+            }
           }
 
           top += h;

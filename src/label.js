@@ -16,8 +16,13 @@ const measureText = (node, text, font, lineHeight = '') => {
   }
   ctx.save()
   ctx.font = font
-  const {width} = ctx.measureText(text)
+  let {width} = ctx.measureText(text)
   ctx.restore()
+
+  const letterSpacing = node.attr('letterSpacing')
+  if(letterSpacing) {
+    width += letterSpacing * (text.length - 1)
+  }
 
   const {size} = parseFont(font)
   const height = lineHeight || size * 1.2
@@ -29,7 +34,8 @@ function calculTextboxSize(node) {
   if(!node.context) return ''
   const text = node.text,
     font = node.attr('font'),
-    lineHeight = node.attr('lineHeight')
+    lineHeight = node.attr('lineHeight'),
+    textIndent = node.attr('textIndent')
 
   let lines = []
   let width = 0,
@@ -57,7 +63,7 @@ function calculTextboxSize(node) {
         } else {
           const ll = `${l}${word}`
           const [w] = measureText(node, ll, font)
-          if(w > textboxWidth) {
+          if(w > (lines.length === 0 ? textboxWidth - textIndent : textboxWidth)) {
             lines.push(l)
             l = word
           } else {
@@ -73,8 +79,9 @@ function calculTextboxSize(node) {
     lines = text.split(/\n/)
   }
 
-  lines.forEach((line) => {
-    const [w, h] = measureText(node, line, font, lineHeight)
+  lines.forEach((line, idx) => {
+    let [w, h] = measureText(node, line, font, lineHeight)
+    if(idx === 0) w += textIndent
     width = Math.max(width, w)
     height += h
   })
@@ -94,6 +101,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       flexible: false,
       lineBreak: '',
       wordBreak: 'normal',
+      letterSpacing: 0,
+      textIndent: 0,
     }, {
       color() {
         return this.fillColor
@@ -167,6 +176,22 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set wordBreak(val) { // normal | break-all | break-word | keep-all
     this.clearCache()
     this.set('wordBreak', val)
+    calculTextboxSize(this.subject)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set letterSpacing(value) {
+    this.clearCache()
+    this.set('letterSpacing', value)
+    calculTextboxSize(this.subject)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set textIndent(value) {
+    this.clearCache()
+    this.set('textIndent', value)
     calculTextboxSize(this.subject)
   }
 
@@ -279,8 +304,10 @@ export default class Label extends BaseSprite {
       let top = 0,
         left = 0
       const width = this.contentSize[0]
+      const letterSpacing = this.attr('letterSpacing'),
+        textIndent = this.attr('textIndent')
 
-      lines.forEach((line) => {
+      lines.forEach((line, idx) => {
         const [w, h] = measureText(this, line, font, lineHeight)
 
         if(align === 'center') {
@@ -289,11 +316,32 @@ export default class Label extends BaseSprite {
           left += width - w
         }
 
-        if(fillColor) {
-          drawingContext.fillText(line, left, top + h / 2)
+        let indent = 0
+        if(textIndent && idx === 0 && align !== 'right') {
+          indent = textIndent
         }
-        if(strokeColor) {
-          drawingContext.strokeText(line, left, top + h / 2)
+
+        if(letterSpacing) {
+          let l = left
+          ;[...line].forEach((letter, i) => {
+            if(idx === 0 && i === 0) {
+              l += indent
+            }
+            if(fillColor) {
+              drawingContext.fillText(letter, l, top + h / 2)
+            }
+            if(strokeColor) {
+              drawingContext.strokeText(letter, l, top + h / 2)
+            }
+            l += measureText(this, letter, font)[0] + letterSpacing
+          })
+        } else {
+          if(fillColor) {
+            drawingContext.fillText(line, left + indent, top + h / 2)
+          }
+          if(strokeColor) {
+            drawingContext.strokeText(line, left + indent, top + h / 2)
+          }
         }
 
         top += h
