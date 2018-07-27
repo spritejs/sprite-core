@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="800" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Label = spritejs.Label
+    const Layer = spritejs.Layer
+    const Group = spritejs.Group
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context})
+
+    const g = new Group()
+    g.attr({
+      pos: [400, 300],
+      anchor: 0.5,
+      border: {
+        color: 'grey',
+        width: 4,
+      },
+      width: 300,
+      height: 300,
+    })
+    layer.append(g)
+
+    for(let i = 0; i < 20; i++) {
+      const label = new Label(`item ${i + 1}`)
+      label.attr({
+        width: 300,
+        font: '24px "宋体"',
+        fillColor: 'blue',
+        textAlign: 'left',
+        textIndent: 48,
+        y: 10 + 36 * i,
+      })
+      label.on('click', (evt) => {
+        console.log(evt.target.text)
+      })
+      g.append(label)
+    }
+
+    mycanvas.addEventListener('click', (evt) => {
+      const {offsetX, offsetY} = evt
+      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt})
+    })
+  </script>
+</body>
+</html>

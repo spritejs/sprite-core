@@ -185,6 +185,7 @@ class SpriteAttr {
 
   @attr
   set display(val) {
+    this.clearCache()
     this.set('display', val)
   }
 

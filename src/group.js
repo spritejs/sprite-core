@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {attr} from 'sprite-utils'
+import {parseValue, attr} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
 import * as layout from './layout'
 
@@ -18,6 +18,8 @@ class GroupAttr extends BaseSprite.Attr {
       justifyContent: 'flex-start',
       flexWrap: 'nowrap',
       alignContent: 'stretch',
+      scrollTop: 0,
+      scrollLeft: 0,
     })
   }
 
@@ -99,6 +101,20 @@ class GroupAttr extends BaseSprite.Attr {
     this.subject.clearLayout()
     super.display = value
   }
+
+  @parseValue(parseFloat)
+  @attr
+  set scrollLeft(value) {
+    this.clearCache()
+    this.set('scrollLeft', value)
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set scrollTop(value) {
+    this.clearCache()
+    this.set('scrollTop', value)
+  }
 }
 
 export default class Group extends BaseSprite {
@@ -121,6 +137,16 @@ export default class Group extends BaseSprite {
 
     return !anchorX && !anchorY && !width && !height && !borderRadius
       && !borderWidth && !bgcolor && !bgGradient
+  }
+  scrollTo(x, y) {
+    this.attr('scrollLeft', x)
+    this.attr('scrollTop', y)
+  }
+  scrollBy(dx, dy) {
+    const x = this.attr('scrollLeft'),
+      y = this.attr('scrollTop')
+
+    this.scrollTo(x + dx, y + dy)
   }
   cloneNode(deepCopy) {
     const node = super.cloneNode()
@@ -185,8 +211,11 @@ export default class Group extends BaseSprite {
     if(!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
       const isCollision = collisionState || this.pointCollision(evt)
       if(isCollision) {
-        const parentX = evt.offsetX - this.originalRect[0]
-        const parentY = evt.offsetY - this.originalRect[1]
+        const scrollLeft = this.attr('scrollLeft'),
+          scrollTop = this.attr('scrollTop')
+
+        const parentX = evt.offsetX - this.originalRect[0] + scrollLeft
+        const parentY = evt.offsetY - this.originalRect[1] + scrollTop
         // console.log(evt.parentX, evt.parentY)
 
         const _evt = Object.assign({}, evt)
@@ -267,6 +296,11 @@ export default class Group extends BaseSprite {
       }
     }
 
+    drawingContext.save()
+    const scrollLeft = this.attr('scrollLeft'),
+      scrollTop = this.attr('scrollTop')
+
+    drawingContext.translate(-scrollLeft, -scrollTop)
     const sprites = this[_children]
 
     for(let i = 0; i < sprites.length; i++) {
@@ -281,6 +315,8 @@ export default class Group extends BaseSprite {
         child.dispatchEvent('update', {target: child, renderTime: t}, true, true)
       }
     }
+    drawingContext.restore()
+
     if(this.attr('display') === 'flex') {
       this[_layoutTag] = true
     }

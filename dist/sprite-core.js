@@ -4300,6 +4300,7 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
   }, {
     key: 'display',
     set: function set(val) {
+      this.clearCache();
       this.set('display', val);
     }
   }, {
@@ -13028,7 +13029,7 @@ var _symbol = __webpack_require__(85);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _desc, _value, _class, _class2, _temp;
+var _dec, _dec2, _desc, _value, _class, _class2, _temp;
 
 var _basesprite = __webpack_require__(1);
 
@@ -13058,7 +13059,7 @@ var _children = (0, _symbol2.default)('children'),
     _zOrder = (0, _symbol2.default)('zOrder'),
     _layoutTag = (0, _symbol2.default)('layoutTag');
 
-var GroupAttr = (_class = function (_BaseSprite$Attr) {
+var GroupAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (0, _spriteUtils.parseValue)(parseFloat), (_class = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(GroupAttr, _BaseSprite$Attr);
 
   function GroupAttr(subject) {
@@ -13072,7 +13073,9 @@ var GroupAttr = (_class = function (_BaseSprite$Attr) {
       alignItems: 'stretch',
       justifyContent: 'flex-start',
       flexWrap: 'nowrap',
-      alignContent: 'stretch'
+      alignContent: 'stretch',
+      scrollTop: 0,
+      scrollLeft: 0
     });
     return _this;
   }
@@ -13158,9 +13161,21 @@ var GroupAttr = (_class = function (_BaseSprite$Attr) {
       this.subject.clearLayout();
       (0, _set3.default)(GroupAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(GroupAttr.prototype), 'display', value, this);
     }
+  }, {
+    key: 'scrollLeft',
+    set: function set(value) {
+      this.clearCache();
+      this.set('scrollLeft', value);
+    }
+  }, {
+    key: 'scrollTop',
+    set: function set(value) {
+      this.clearCache();
+      this.set('scrollTop', value);
+    }
   }]);
   return GroupAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype)), _class);
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec2, _spriteUtils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollTop'), _class.prototype)), _class));
 var Group = (_temp = _class2 = function (_BaseSprite) {
   (0, _inherits3.default)(Group, _BaseSprite);
 
@@ -13177,6 +13192,20 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }
 
   (0, _createClass3.default)(Group, [{
+    key: 'scrollTo',
+    value: function scrollTo(x, y) {
+      this.attr('scrollLeft', x);
+      this.attr('scrollTop', y);
+    }
+  }, {
+    key: 'scrollBy',
+    value: function scrollBy(dx, dy) {
+      var x = this.attr('scrollLeft'),
+          y = this.attr('scrollTop');
+
+      this.scrollTo(x + dx, y + dy);
+    }
+  }, {
     key: 'cloneNode',
     value: function cloneNode(deepCopy) {
       var node = (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'cloneNode', this).call(this);
@@ -13222,8 +13251,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
         var isCollision = collisionState || this.pointCollision(evt);
         if (isCollision) {
-          var parentX = evt.offsetX - this.originalRect[0];
-          var parentY = evt.offsetY - this.originalRect[1];
+          var scrollLeft = this.attr('scrollLeft'),
+              scrollTop = this.attr('scrollTop');
+
+          var parentX = evt.offsetX - this.originalRect[0] + scrollLeft;
+          var parentY = evt.offsetY - this.originalRect[1] + scrollTop;
           // console.log(evt.parentX, evt.parentY)
 
           var _evt = (0, _assign2.default)({}, evt);
@@ -13314,6 +13346,11 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
         }
       }
 
+      drawingContext.save();
+      var scrollLeft = this.attr('scrollLeft'),
+          scrollTop = this.attr('scrollTop');
+
+      drawingContext.translate(-scrollLeft, -scrollTop);
       var sprites = this[_children];
 
       for (var i = 0; i < sprites.length; i++) {
@@ -13328,6 +13365,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
           child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
         }
       }
+      drawingContext.restore();
+
       if (this.attr('display') === 'flex') {
         this[_layoutTag] = true;
       }

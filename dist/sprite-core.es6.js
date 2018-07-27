@@ -1114,6 +1114,7 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
   }
 
   set display(val) {
+    this.clearCache();
     this.set('display', val);
   }
 
@@ -7581,7 +7582,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(48);
 /* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(50);
 /* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
-var _desc, _value, _class, _class2, _temp;
+var _dec, _dec2, _desc, _value, _class, _class2, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(3);
 
@@ -7595,7 +7596,7 @@ const _children = Symbol('children'),
       _zOrder = Symbol('zOrder'),
       _layoutTag = Symbol('layoutTag');
 
-let GroupAttr = (_class = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
+let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec2 = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
   constructor(subject) {
     super(subject);
     this.setDefault({
@@ -7604,7 +7605,9 @@ let GroupAttr = (_class = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_
       alignItems: 'stretch',
       justifyContent: 'flex-start',
       flexWrap: 'nowrap',
-      alignContent: 'stretch'
+      alignContent: 'stretch',
+      scrollTop: 0,
+      scrollLeft: 0
     });
   }
 
@@ -7676,7 +7679,17 @@ let GroupAttr = (_class = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_
     this.subject.clearLayout();
     super.display = value;
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'clip', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype)), _class);
+
+  set scrollLeft(value) {
+    this.clearCache();
+    this.set('scrollLeft', value);
+  }
+
+  set scrollTop(value) {
+    this.clearCache();
+    this.set('scrollTop', value);
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, 'clip', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec2, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollTop'), _class.prototype)), _class));
 let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
   constructor(attr = {}) {
@@ -7695,6 +7708,16 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
           [anchorX, anchorY] = this.attr('anchor');
 
     return !anchorX && !anchorY && !width && !height && !borderRadius && !borderWidth && !bgcolor && !bgGradient;
+  }
+  scrollTo(x, y) {
+    this.attr('scrollLeft', x);
+    this.attr('scrollTop', y);
+  }
+  scrollBy(dx, dy) {
+    const x = this.attr('scrollLeft'),
+          y = this.attr('scrollTop');
+
+    this.scrollTo(x + dx, y + dy);
   }
   cloneNode(deepCopy) {
     const node = super.cloneNode();
@@ -7758,8 +7781,11 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
     if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
       const isCollision = collisionState || this.pointCollision(evt);
       if (isCollision) {
-        const parentX = evt.offsetX - this.originalRect[0];
-        const parentY = evt.offsetY - this.originalRect[1];
+        const scrollLeft = this.attr('scrollLeft'),
+              scrollTop = this.attr('scrollTop');
+
+        const parentX = evt.offsetX - this.originalRect[0] + scrollLeft;
+        const parentY = evt.offsetY - this.originalRect[1] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
         const _evt = Object.assign({}, evt);
@@ -7840,6 +7866,11 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
       }
     }
 
+    drawingContext.save();
+    const scrollLeft = this.attr('scrollLeft'),
+          scrollTop = this.attr('scrollTop');
+
+    drawingContext.translate(-scrollLeft, -scrollTop);
     const sprites = this[_children];
 
     for (let i = 0; i < sprites.length; i++) {
@@ -7854,6 +7885,8 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
         child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
       }
     }
+    drawingContext.restore();
+
     if (this.attr('display') === 'flex') {
       this[_layoutTag] = true;
     }
