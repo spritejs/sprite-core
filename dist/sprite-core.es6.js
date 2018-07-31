@@ -8452,7 +8452,7 @@ __webpack_require__.r(__webpack_exports__);
     mainStart = 'layoutRight';
     mainEnd = 'x';
     mainSign = -1;
-    mainBase = style.width;
+    mainBase = getSize(style, 'width');
 
     crossSize = 'height';
     crossStart = 'y';
@@ -8472,7 +8472,7 @@ __webpack_require__.r(__webpack_exports__);
     mainStart = 'layoutBottom';
     mainEnd = 'y';
     mainSign = -1;
-    mainBase = style.height;
+    mainBase = getSize(style, 'height');
 
     crossSize = 'width';
     crossStart = 'x';
@@ -8724,28 +8724,26 @@ __webpack_require__.r(__webpack_exports__);
 
       const align = item.attributes.alignSelf || style.alignItems;
 
-      // if(isAutoSize(item.attr(crossSize))) {
-      //   item.attr(crossSize, ((align === 'stretch')) ? lineCrossSize : 0)
-      // }
+      const size = crossSize === 'width' ? item.offsetSize[0] : item.offsetSize[1];
 
       if (align === 'flex-start') {
         item.attr(crossStart, crossBase);
-        item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize));
+        item.attr(crossEnd, item.attr(crossStart) + crossSign * size);
       }
 
       if (align === 'flex-end') {
         item.attr(crossEnd, crossBase + crossSign * lineCrossSize);
-        item.attr(crossStart, item.attr(crossEnd) - crossSign * item.attr(crossSize));
+        item.attr(crossStart, item.attr(crossEnd) - crossSign * size);
       }
 
       if (align === 'center') {
-        item.attr(crossStart, crossBase + crossSign * (lineCrossSize - item.attr(crossSize)) / 2);
-        item.attr(crossEnd, item.attr(crossStart) + crossSign * item.attr(crossSize));
+        item.attr(crossStart, crossBase + crossSign * (lineCrossSize - size) / 2);
+        item.attr(crossEnd, item.attr(crossStart) + crossSign * size);
       }
 
       if (align === 'stretch') {
         item.attr(crossStart, crossBase);
-        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(item.attr(crossSize)) ? item.attr(crossSize) : lineCrossSize));
+        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(item.attributes, crossSize)) ? size : lineCrossSize));
         // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         const crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
         item.attr(crossAttr, crossSign * (item.attr(crossEnd) - item.attr(crossStart)));
