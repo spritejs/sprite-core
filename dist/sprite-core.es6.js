@@ -1612,8 +1612,8 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
 
   set bgimage(val) {
     this.clearCache();
-    if (val.clip9) val.clip9 = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["fourValuesShortCut"])(val.clip9);
-    if (!val.image && this.subject.loadBgImage) {
+    if (val && val.clip9) val.clip9 = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["fourValuesShortCut"])(val.clip9);
+    if (val && !val.image && this.subject.loadBgImage) {
       val = this.subject.loadBgImage(val);
     }
     this.set('bgimage', val);
