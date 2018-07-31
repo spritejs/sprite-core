@@ -11207,8 +11207,7 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
           drawingContext.fillStyle = fillColor;
         }
 
-        var top = 0,
-            left = 0;
+        var top = 0;
         var width = this.contentSize[0];
         var letterSpacing = this.attr('letterSpacing'),
             textIndent = this.attr('textIndent');
@@ -11219,10 +11218,11 @@ var Label = (_temp = _class2 = function (_BaseSprite) {
               w = _measureText6[0],
               h = _measureText6[1];
 
+          var left = 0;
           if (align === 'center') {
-            left += (width - w) / 2;
+            left = (width - w) / 2;
           } else if (align === 'right') {
-            left += width - w;
+            left = width - w;
           }
 
           var indent = 0;

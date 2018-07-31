@@ -6104,8 +6104,7 @@ let Label = (_temp = _class2 = class Label extends _basesprite__WEBPACK_IMPORTED
         drawingContext.fillStyle = fillColor;
       }
 
-      let top = 0,
-          left = 0;
+      let top = 0;
       const width = this.contentSize[0];
       const letterSpacing = this.attr('letterSpacing'),
             textIndent = this.attr('textIndent');
@@ -6113,10 +6112,11 @@ let Label = (_temp = _class2 = class Label extends _basesprite__WEBPACK_IMPORTED
       lines.forEach((line, idx) => {
         const [w, h] = measureText(this, line, font, lineHeight);
 
+        let left = 0;
         if (align === 'center') {
-          left += (width - w) / 2;
+          left = (width - w) / 2;
         } else if (align === 'right') {
-          left += width - w;
+          left = width - w;
         }
 
         let indent = 0;

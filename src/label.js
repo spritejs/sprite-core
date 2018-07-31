@@ -302,8 +302,7 @@ export default class Label extends BaseSprite {
         drawingContext.fillStyle = fillColor
       }
 
-      let top = 0,
-        left = 0
+      let top = 0
       const width = this.contentSize[0]
       const letterSpacing = this.attr('letterSpacing'),
         textIndent = this.attr('textIndent')
@@ -311,10 +310,11 @@ export default class Label extends BaseSprite {
       lines.forEach((line, idx) => {
         const [w, h] = measureText(this, line, font, lineHeight)
 
+        let left = 0
         if(align === 'center') {
-          left += (width - w) / 2
+          left = (width - w) / 2
         } else if(align === 'right') {
-          left += width - w
+          left = width - w
         }
 
         let indent = 0
