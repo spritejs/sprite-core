@@ -111,6 +111,11 @@ export default class BaseSprite extends BaseNode {
     const node = new this.constructor()
     node.merge(this[_attr].serialize())
     node.data(this.dataset)
+    const bgimage = this.attr('bgimage')
+    if(bgimage && bgimage.image) {
+      node.attr('bgimage', null)
+      node.attr('bgimage', Object.assign({}, bgimage))
+    }
     return node
   }
 
@@ -704,7 +709,8 @@ export default class BaseSprite extends BaseNode {
     if(border.width <= 0
       && borderRadius <= 0
       && !this.attr('bgcolor')
-      && !this.attr('gradients').bgcolor) {
+      && !this.attr('gradients').bgcolor
+      && !this.attr('bgimage')) {
       drawingContext.translate(padding[3], padding[0])
       return false // don't need to render
     }
@@ -736,8 +742,9 @@ export default class BaseSprite extends BaseNode {
 
     // draw bgcolor
     const bgcolor = findColor(drawingContext, this, 'bgcolor')
+    const bgimage = this.attr('bgimage')
 
-    if(this.cache == null || borderWidth || borderRadius || bgcolor) {
+    if(this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
       const [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         Math.max(0, borderRadius - borderWidth / 2)]
@@ -748,9 +755,122 @@ export default class BaseSprite extends BaseNode {
         drawingContext.fillStyle = bgcolor
         drawingContext.fill()
       }
+
       // clip is expensive, we should only perform clip when it has to.
-      if(borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
+      if(bgimage && bgimage.display !== 'none' || borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
         drawingContext.clip()
+      }
+
+      if(bgimage && bgimage.display !== 'none') {
+        const {image, display} = bgimage
+        if(image) {
+          let offset = bgimage.offset || [0, 0],
+            w = image.width,
+            h = image.height
+
+          if(display === '.9') {
+            const [top, right, bottom, left] = bgimage.clip9 || [16, 16, 16, 16]
+            const leftTop = [0, 0, left, top],
+              rightTop = [w - right, 0, right, top],
+              rightBottom = [w - right, h - bottom, right, bottom],
+              leftBottom = [0, h - bottom, left, bottom]
+
+            const boxRight = offsetWidth - right - borderWidth,
+              boxBottom = offsetHeight - borderWidth - bottom
+
+            drawingContext.drawImage(image, ...leftTop, borderWidth, borderWidth, left, top)
+            drawingContext.drawImage(image, ...rightTop, boxRight, borderWidth, right, top)
+            drawingContext.drawImage(image, ...rightBottom, boxRight, boxBottom, left, bottom)
+            drawingContext.drawImage(image, ...leftBottom, borderWidth, boxBottom, left, bottom)
+
+            const midWidth = w - left - right
+            let midBoxWidth = clientWidth - left - right
+            let leftOffset = borderWidth + left
+            while(midBoxWidth > 0 && midWidth > 0) {
+              const ww = Math.min(midBoxWidth, midWidth)
+              const topPiece = [left, 0, ww, top],
+                bottomPiece = [left, h - bottom, ww, bottom]
+
+              drawingContext.drawImage(image, ...topPiece, leftOffset, borderWidth, ww, top)
+              drawingContext.drawImage(image, ...bottomPiece, leftOffset, boxBottom, ww, bottom)
+              midBoxWidth -= midWidth
+              if(midBoxWidth > 0) {
+                leftOffset += midWidth
+              }
+            }
+
+            const midHeight = h - top - bottom
+            let midBoxHeight = clientHeight - top - bottom
+            let topOffset = borderWidth + top
+            while(midBoxHeight > 0 && midHeight > 0) {
+              const hh = Math.min(midBoxHeight, midHeight)
+              const leftPiece = [0, top, left, hh],
+                rightPiece = [w - right, top, right, hh]
+
+              drawingContext.drawImage(image, ...leftPiece, borderWidth, topOffset, left, hh)
+              drawingContext.drawImage(image, ...rightPiece, boxRight, topOffset, right, hh)
+              midBoxHeight -= midHeight
+              if(midBoxHeight > 0) {
+                topOffset += midHeight
+              }
+            }
+
+            if(midHeight && midWidth > 0) {
+              midBoxWidth = clientWidth - left - right
+              leftOffset = borderWidth + left
+
+              while(midBoxWidth > 0) {
+                midBoxHeight = clientHeight - top - bottom
+                topOffset = borderWidth + top
+                while(midBoxHeight > 0) {
+                  const ww = Math.min(midBoxWidth, midWidth),
+                    hh = Math.min(midBoxHeight, midHeight)
+                  const midPiece = [left, top, ww, hh]
+                  drawingContext.drawImage(image, ...midPiece, leftOffset, topOffset, ww, hh)
+                  midBoxHeight -= midWidth
+                  if(midBoxHeight > 0) {
+                    topOffset += midHeight
+                  }
+                }
+                midBoxWidth -= midWidth
+                if(midBoxWidth > 0) {
+                  leftOffset += midWidth
+                }
+              }
+            }
+          } else {
+            if(display === 'center') {
+              offset = [(clientWidth - w) * 0.5, (clientHeight - h) * 0.5]
+            } else if(display === 'stretch') {
+              w = clientWidth - offset[0]
+              h = clientHeight - offset[1]
+            }
+            drawingContext.drawImage(image, borderWidth + offset[0], borderWidth + offset[1], w, h)
+
+            if(w > 0 && (display === 'repeat' || display === 'repeatX')) {
+              let cw = clientWidth - borderWidth - offset[0] - w
+              while(cw > borderWidth) {
+                drawingContext.drawImage(image, clientWidth - cw, borderWidth + offset[1], w, h)
+                if(h > 0 && display === 'repeat') {
+                  let ch = clientHeight - borderWidth - offset[1] - h
+                  while(ch > borderWidth) {
+                    drawingContext.drawImage(image, clientWidth - cw, clientHeight - ch, w, h)
+                    ch -= h
+                  }
+                }
+                cw -= w
+              }
+            }
+
+            if(h > 0 && (display === 'repeat' || display === 'repeatY')) {
+              let ch = clientHeight - borderWidth - offset[1] - h
+              while(ch > borderWidth) {
+                drawingContext.drawImage(image, borderWidth + offset[0], clientHeight - ch, w, h)
+                ch -= h
+              }
+            }
+          }
+        }
       }
     }
 

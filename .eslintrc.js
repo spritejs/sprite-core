@@ -7,6 +7,7 @@ module.exports = {
   },
   rules: {
     // 'import/no-mutable-exports': 'off',
+    'no-inner-declarations': 'off',
     'import/prefer-default-export': 'off',
     'semi-style': ["error", "first"],
     // 禁止一个文件中在忽略空行和注释之后行数超过500行

@@ -55,6 +55,7 @@ class SpriteAttr {
       offsetDistance: 0,
       filter: '', // filter: {blur, ...}
       shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
+      bgimage: '',
     }, {
       pos() {
         return [this.x, this.y]
@@ -598,6 +599,20 @@ class SpriteAttr {
   set margin(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout()
     this.set('margin', val)
+  }
+
+  /*
+    {
+      src: image | url,
+      display: 'none' | 'repeatX' | 'repeatY' | 'repeat' | 'stretch' | 'center' | '.9',
+      offset: [x, y],
+      clip9: [paddingTop, paddingRight, paddingBottom, paddingLeft],
+    }
+  */
+  @attr
+  set bgimage(val) {
+    this.clearCache()
+    this.set('bgimage', val)
   }
 }
 

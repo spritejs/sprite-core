@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Label = spritejs.Label
+    const Layer = spritejs.Layer
+    const context = document.getElementById('mycanvas').getContext('2d')
+    const layer = new Layer({context, renderMode: 'repaintDirty'})
+
+    const img = new Image()
+    img.onload = function () {
+      // console.log('load')
+      const s = new Label('测试')
+      s.attr({
+        // textures: [img],
+        textAlign: 'center',
+        font: '34px "宋体"',
+        lineHeight: 300,
+        anchor: 0.5,
+        border: [6, 'black'],
+        pos: [300, 300],
+        size: [300, 300],
+        bgcolor: 'blue',
+        bgimage: {
+          image: img,
+          display: '.9',
+          clip9: [64, 64, 64, 64],
+          // offset: [0, 50],
+        },
+      })
+      layer.append(s)
+    }
+    img.src = '/res/9scale.jpg'
+  </script>
+</body>
+</html>
