@@ -65,17 +65,20 @@
       textIndent: 20,
     })
 
-    const s3 = new Label('text sp')
+    const s3 = new Label('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试.')
     s3.attr({
-      font: '24px "宋体"',
       anchor: 0.5,
-      bgcolor: 'grey',
-      pos: [250, 50],
-      textIndent: 20,
-      letterSpacing: 20,
+      fillColor: '#f37',
+      pos: [150, 150],
+      width: 280,
+      height: 200,
+      font: '22px "宋体"',
+      lineBreak: 'normal',
+      border: [4, '#aaa'],
     })
 
-    s.append(s2, s3)
+    s.append(s2)
+    layer.append(s3)
 
     s2.animate([
       {width: 100},

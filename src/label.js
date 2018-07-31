@@ -270,6 +270,7 @@ export default class Label extends BaseSprite {
 
     if(text) {
       const [w, h] = this.contentSize
+      if(!this[_outputText]) calculTextboxSize(this)
       text = this[_outputText] || this.text
 
       if(this.textboxSize[0] > w

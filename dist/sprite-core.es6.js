@@ -6073,6 +6073,7 @@ let Label = (_temp = _class2 = class Label extends _basesprite__WEBPACK_IMPORTED
 
     if (text) {
       const [w, h] = this.contentSize;
+      if (!this[_outputText]) calculTextboxSize(this);
       text = this[_outputText] || this.text;
 
       if (this.textboxSize[0] > w || this.textboxSize[1] > h) {
