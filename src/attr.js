@@ -613,6 +613,9 @@ class SpriteAttr {
   set bgimage(val) {
     this.clearCache()
     if(val.clip9) val.clip9 = fourValuesShortCut(val.clip9)
+    if(!val.image && this.subject.loadBgImage) {
+      val = this.subject.loadBgImage(val)
+    }
     this.set('bgimage', val)
   }
 }

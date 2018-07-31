@@ -4807,6 +4807,9 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
     set: function set(val) {
       this.clearCache();
       if (val.clip9) val.clip9 = (0, _spriteUtils.fourValuesShortCut)(val.clip9);
+      if (!val.image && this.subject.loadBgImage) {
+        val = this.subject.loadBgImage(val);
+      }
       this.set('bgimage', val);
     }
   }]);
