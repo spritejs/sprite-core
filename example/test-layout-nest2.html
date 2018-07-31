@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <script src="/js/sprite-core.js"></script>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script>
+    const {Layer, Sprite, Group} = spritejs,
+      context = document.getElementById('mycanvas').getContext('2d')
+
+    const layer = new Layer({context})
+
+    const g = new Group() // 父group, 包含两个垂直居中的子group
+    g.attr({
+      anchor: 0,
+      pos: [50, 0],
+      width: 1000,
+      height: 600,
+      bgcolor: 'grey',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    })
+    layer.append(g)
+
+    const s1 = new Sprite()
+    s1.attr({size: [150, 50], bgcolor: 'red', flex: 1, border: [10, 'black']})
+    const s2 = s1.cloneNode()
+    s2.attr({bgcolor: 'blue'})
+    const s3 = s1.cloneNode()
+    s3.attr({bgcolor: 'green'})
+
+    const g1 = new Group() // 子group, 内含三个水平居中(并没有居中),垂直布局的node
+    g1.attr({
+      anchor: 0,
+      height: 200,
+      border: [1, 'blue'],
+      bgcolor: '#fff',
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    })
+    g1.append(s1, s2, s3)
+    layer.append(g1)
+    g.append(g1)
+    const g2 = new Group()
+    g2.attr({
+      anchor: 0,
+      height: 200,
+      border: [1, 'red'],
+      flex: 1,
+    })
+    g.append(g2)
+  </script>
+</body>
+</html>

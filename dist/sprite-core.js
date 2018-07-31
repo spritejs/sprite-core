@@ -14035,6 +14035,13 @@ exports.default = function (container, items) {
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
 
+  function getSize(style, key) {
+    if (container.hasLayout) {
+      var layoutKey = 'layout' + key.slice(0, 1).toUpperCase() + key.slice(1);
+      return style[layoutKey] !== '' ? style[layoutKey] : style[key];
+    }
+    return style[key];
+  }
   var style = container.attributes;
 
   var mainSize = 'width',
@@ -14097,7 +14104,7 @@ exports.default = function (container, items) {
     return size == null || size === '';
   }
 
-  var isAutoMainSize = isAutoSize(style[mainSize]);
+  var isAutoMainSize = isAutoSize(getSize(style, mainSize));
 
   var groupMainSize = void 0;
 
@@ -14110,8 +14117,8 @@ exports.default = function (container, items) {
           width = _item$layoutSize[0],
           height = _item$layoutSize[1];
 
-      var size = mainSize === 'width' ? width : height;
-      maxSize += size;
+      var _size = mainSize === 'width' ? width : height;
+      maxSize += _size;
     }
     if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
       mainBase = maxSize;
@@ -14209,7 +14216,8 @@ exports.default = function (container, items) {
   flexLine.mainSpace = mainSpace;
 
   if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-    flexLine.crossSpace = !isAutoSize(style[crossSize]) ? style[crossSize] : crossSpace;
+    var _size2 = getSize(style, crossSize);
+    flexLine.crossSpace = !isAutoSize(_size2) ? _size2 : crossSpace;
   } else {
     flexLine.crossSpace = crossSpace;
   }
@@ -14315,7 +14323,8 @@ exports.default = function (container, items) {
   // compute the cross axis sizes
   // align-items, align-self
   var crossSizeValue = void 0;
-  if (isAutoSize(style[crossSize])) {
+  var size = getSize(style, crossSize);
+  if (isAutoSize(size)) {
     // auto sizing
     crossSpace = 0;
     crossSizeValue = 0;
@@ -14324,14 +14333,14 @@ exports.default = function (container, items) {
     }
     // setBoxSize(container, crossSize, crossSizeValue)
   } else {
-    crossSpace = style[crossSize];
+    crossSpace = size;
     for (var _i7 = 0; _i7 < flexLines.length; _i7++) {
       crossSpace -= flexLines[_i7].crossSpace;
     }
   }
 
   if (style.flexWrap === 'wrap-reverse') {
-    crossBase = isAutoSize(style[crossSize]) ? crossSizeValue : style[crossSize];
+    crossBase = isAutoSize(size) ? crossSizeValue : size;
   } else {
     crossBase = 0;
   }

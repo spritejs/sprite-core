@@ -8425,6 +8425,13 @@ __webpack_require__.r(__webpack_exports__);
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
 
+  function getSize(style, key) {
+    if (container.hasLayout) {
+      const layoutKey = `layout${key.slice(0, 1).toUpperCase()}${key.slice(1)}`;
+      return style[layoutKey] !== '' ? style[layoutKey] : style[key];
+    }
+    return style[key];
+  }
   const style = container.attributes;
 
   let mainSize = 'width',
@@ -8484,7 +8491,7 @@ __webpack_require__.r(__webpack_exports__);
     return size == null || size === '';
   }
 
-  const isAutoMainSize = isAutoSize(style[mainSize]);
+  const isAutoMainSize = isAutoSize(getSize(style, mainSize));
 
   let groupMainSize;
 
@@ -8574,7 +8581,8 @@ __webpack_require__.r(__webpack_exports__);
   flexLine.mainSpace = mainSpace;
 
   if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-    flexLine.crossSpace = !isAutoSize(style[crossSize]) ? style[crossSize] : crossSpace;
+    const size = getSize(style, crossSize);
+    flexLine.crossSpace = !isAutoSize(size) ? size : crossSpace;
   } else {
     flexLine.crossSpace = crossSpace;
   }
@@ -8672,7 +8680,8 @@ __webpack_require__.r(__webpack_exports__);
   // compute the cross axis sizes
   // align-items, align-self
   let crossSizeValue;
-  if (isAutoSize(style[crossSize])) {
+  const size = getSize(style, crossSize);
+  if (isAutoSize(size)) {
     // auto sizing
     crossSpace = 0;
     crossSizeValue = 0;
@@ -8681,14 +8690,14 @@ __webpack_require__.r(__webpack_exports__);
     }
     // setBoxSize(container, crossSize, crossSizeValue)
   } else {
-    crossSpace = style[crossSize];
+    crossSpace = size;
     for (let i = 0; i < flexLines.length; i++) {
       crossSpace -= flexLines[i].crossSpace;
     }
   }
 
   if (style.flexWrap === 'wrap-reverse') {
-    crossBase = isAutoSize(style[crossSize]) ? crossSizeValue : style[crossSize];
+    crossBase = isAutoSize(size) ? crossSizeValue : size;
   } else {
     crossBase = 0;
   }
