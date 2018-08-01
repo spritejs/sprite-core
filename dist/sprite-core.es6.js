@@ -3521,7 +3521,7 @@ let BaseNode = class BaseNode {
       }
     }
 
-    if (!evt.terminated && !isCollision && type === 'mousemove') {
+    if (!isCollision && type === 'mousemove') {
       if (this[_collisionState]) {
         const _evt = Object.assign({}, evt);
         _evt.type = 'mouseleave';
