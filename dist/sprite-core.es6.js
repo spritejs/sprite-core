@@ -4934,7 +4934,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateFramesOffset", function() { return calculateFramesOffset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProgress", function() { return getProgress; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentFrame", function() { return getCurrentFrame; });
-/* harmony import */ var _effect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _easing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+
 
 function defer() {
   const ret = {};
@@ -4980,6 +4982,9 @@ function calculateFramesOffset(keyframes) {
       offset = frame.offset;
       offsetFrom = i;
     }
+    if (frame.easing != null) {
+      frame.easing = Object(_easing__WEBPACK_IMPORTED_MODULE_0__["parseEasing"])(frame.easing);
+    }
     if (i > 0) {
       // 如果中间某个属性没有了，需要从前一帧复制过来
       keyframes[i] = Object.assign({}, keyframes[i - 1], keyframes[i]);
@@ -5015,7 +5020,7 @@ function getProgress(timeline, timing, p) {
 function calculateFrame(previousFrame, nextFrame, effects, p) {
   const ret = {};
   for (const [key, value] of Object.entries(nextFrame)) {
-    if (key !== 'offset') {
+    if (key !== 'offset' && key !== 'easing') {
       const effect = effects[key] || effects.default;
 
       const v = effect(previousFrame[key], value, p, previousFrame.offset, nextFrame.offset);
@@ -5033,7 +5038,7 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
   if (!effect) {
     // timing.effect 会覆盖掉 Effects 和 animator.applyEffects 中定义的 effects
-    effects = Object.assign({}, effects, _effect__WEBPACK_IMPORTED_MODULE_0__["default"]);
+    effects = Object.assign({}, effects, _effect__WEBPACK_IMPORTED_MODULE_1__["default"]);
   }
 
   let ret = {};
@@ -5046,12 +5051,19 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
     if (offset >= p || i === keyframes.length - 1) {
       const previousFrame = keyframes[i - 1],
-            previousOffset = previousFrame.offset;
+            previousOffset = previousFrame.offset,
+            easing = previousFrame.easing;
+
+      let ep = p;
+      if (easing) {
+        const d = offset - previousOffset;
+        ep = easing((p - previousOffset) / d) * d + previousOffset;
+      }
 
       if (effect) {
-        ret = effect(previousFrame, frame, p, previousOffset, offset);
+        ret = effect(previousFrame, frame, ep, previousOffset, offset);
       } else {
-        ret = calculateFrame(previousFrame, frame, effects, p);
+        ret = calculateFrame(previousFrame, frame, effects, ep);
       }
       break;
     }

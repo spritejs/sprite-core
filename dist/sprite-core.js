@@ -9674,6 +9674,8 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
+var _easing2 = __webpack_require__(181);
+
 var _effect = __webpack_require__(177);
 
 var _effect2 = _interopRequireDefault(_effect);
@@ -9724,6 +9726,9 @@ function calculateFramesOffset(keyframes) {
       offset = frame.offset;
       offsetFrom = i;
     }
+    if (frame.easing != null) {
+      frame.easing = (0, _easing2.parseEasing)(frame.easing);
+    }
     if (i > 0) {
       // 如果中间某个属性没有了，需要从前一帧复制过来
       keyframes[i] = (0, _assign2.default)({}, keyframes[i - 1], keyframes[i]);
@@ -9771,7 +9776,7 @@ function calculateFrame(previousFrame, nextFrame, effects, p) {
       var key = _ref2[0];
       var value = _ref2[1];
 
-      if (key !== 'offset') {
+      if (key !== 'offset' && key !== 'easing') {
         var effect = effects[key] || effects.default;
 
         var v = effect(previousFrame[key], value, p, previousFrame.offset, nextFrame.offset);
@@ -9819,12 +9824,19 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
     if (offset >= p || i === keyframes.length - 1) {
       var previousFrame = keyframes[i - 1],
-          previousOffset = previousFrame.offset;
+          previousOffset = previousFrame.offset,
+          _easing = previousFrame.easing;
+
+      var ep = p;
+      if (_easing) {
+        var d = offset - previousOffset;
+        ep = _easing((p - previousOffset) / d) * d + previousOffset;
+      }
 
       if (effect) {
-        ret = effect(previousFrame, frame, p, previousOffset, offset);
+        ret = effect(previousFrame, frame, ep, previousOffset, offset);
       } else {
-        ret = calculateFrame(previousFrame, frame, effects, p);
+        ret = calculateFrame(previousFrame, frame, effects, ep);
       }
       break;
     }
