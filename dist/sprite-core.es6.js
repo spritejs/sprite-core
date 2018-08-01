@@ -1317,6 +1317,10 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
 
   set border(val) {
     this.clearCache();
+    if (val == null) {
+      this.set('border', null);
+      return;
+    }
     if (typeof val === 'number' || typeof val === 'string') {
       val = {
         width: parseFloat(val)

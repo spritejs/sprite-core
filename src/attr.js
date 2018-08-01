@@ -289,6 +289,10 @@ class SpriteAttr {
   @attr
   set border(val) {
     this.clearCache()
+    if(val == null) {
+      this.set('border', null)
+      return
+    }
     if(typeof val === 'number' || typeof val === 'string') {
       val = {
         width: parseFloat(val),
