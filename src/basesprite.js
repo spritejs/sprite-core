@@ -2,7 +2,7 @@ import SpriteAttr from './attr'
 import BaseNode from './basenode'
 import {Matrix, Vector} from 'sprite-math'
 import Animation from './animation'
-import {rectVertices, boxToRect} from 'sprite-utils'
+import {flow, rectVertices, boxToRect} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render'
@@ -12,7 +12,8 @@ import filters from './filters'
 const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
   _cachePriority = Symbol('cachePriority'),
-  _effects = Symbol('effects')
+  _effects = Symbol('effects'),
+  _flow = Symbol('flow')
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -30,6 +31,7 @@ export default class BaseSprite extends BaseNode {
     this[_attr] = new this.constructor.Attr(this)
     this[_animations] = new Set()
     this[_cachePriority] = 0
+    this[_flow] = {}
     this.__cachePolicyThreshold = 6
 
     if(attr) {
@@ -87,6 +89,22 @@ export default class BaseSprite extends BaseNode {
 
   get layer() {
     return this.parent && this.parent.layer
+  }
+
+  reflow() {
+    this[_flow] = {}
+    // let parent = this.parent
+    // while(parent) {
+    //   if(parent.reflow) parent.reflow()
+    //   parent = parent.parent
+    // }
+  }
+
+  flow(prop, value) {
+    if(value === undefined) {
+      return this[_flow][prop]
+    }
+    this[_flow][prop] = value
   }
 
   serialize() {
@@ -327,6 +345,7 @@ export default class BaseSprite extends BaseNode {
       })
     })
     if(this.hasLayout) parent.clearLayout()
+    this.reflow()
     return ret
   }
 
@@ -336,11 +355,13 @@ export default class BaseSprite extends BaseNode {
       this.cache = null
     }
     if(this.hasLayout) parent.clearLayout()
+    this.reflow()
     const ret = super.disconnect(parent)
     delete this.context
     return ret
   }
 
+  @flow
   get attrSize() {
     let [width, height] = this.attr('size')
     const isBorderBox = this.attr('boxSizing') === 'border-box'
@@ -365,6 +386,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   // content width / height
+  @flow
   get contentSize() {
     if(this.isVirtual) return [0, 0]
     const [width, height] = this.attrSize
@@ -372,6 +394,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   // content + padding
+  @flow
   get clientSize() {
     const [top, right, bottom, left] = this.attr('padding'),
       [width, height] = this.contentSize
@@ -380,6 +403,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   // content + padding + border
+  @flow
   get offsetSize() {
     const {width: borderWidth} = this.attr('border'),
       [width, height] = this.clientSize
@@ -433,6 +457,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   // rect before transform
+  @flow
   get originalRect() {
     const [width, height] = this.offsetSize,
       [anchorX, anchorY] = this.attr('anchor')

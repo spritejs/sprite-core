@@ -18,7 +18,7 @@
     "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
     "lint": "eslint 'src/**/*.js' --fix",
     "start": "webpack-dev-server --watch-poll",
-    "benchmark": "webpack-dev-server -d --quiet --port 9090 & http-server benchmark -c-1 -p 9091",
+    "benchmark": "webpack-dev-server --watch-poll --env.server=benchmark",
     "build": "rm -rf dist/* && ./script/build.js",
     "compile": "rm -rf lib/* && babel src -d lib --watch",
     "prepublishOnly": "rm -rf lib/* && babel src -d lib && npm run build"
@@ -84,7 +84,7 @@
     "sprite-animator": "^1.10.1",
     "sprite-math": "^1.0.3",
     "sprite-timeline": "^1.9.1",
-    "sprite-utils": "^1.10.1",
+    "sprite-utils": "^1.11.0",
     "svg-path-to-canvas": "^1.9.3"
   }
 }

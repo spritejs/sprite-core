@@ -55,7 +55,7 @@ module.exports = function (env = {}) {
     // lets you precisely control what bundle information gets displayed
 
     devServer: {
-      contentBase: path.join(__dirname, 'example'),
+      contentBase: path.join(__dirname, env.server || 'example'),
       compress: true,
       port: 9090,
       // ...

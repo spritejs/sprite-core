@@ -107,6 +107,18 @@ class SpriteAttr {
     }
     this[_attr][key] = val
     this.__updateTag = true
+    // auto reflow
+    if(key === 'width' || key === 'height'
+      || key === 'layoutWidth' || key === 'layoutHeight'
+      || key === 'display'
+      || key === 'anchor'
+      || key === 'border'
+      || key === 'padding'
+      || key === 'boxSizing'
+      || key === 'margin'
+      || key === 'flex') {
+      this.__reflowTag = true
+    }
   }
   get(key) {
     return this[_attr][key]
@@ -126,6 +138,10 @@ class SpriteAttr {
   }
   clearCache() {
     this.__clearCacheTag = true
+    return this
+  }
+  clearFlow() {
+    this.__reflowTag = true
     return this
   }
   merge(attrs) {

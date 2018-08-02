@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {registerNodeType} from './nodetype'
-import {parseValue, attr} from 'sprite-utils'
+import {parseValue, attr, flow} from 'sprite-utils'
 import {createSvgPath} from './helpers/path'
 import * as layout from './layout'
 
@@ -166,6 +166,10 @@ export default class Group extends BaseSprite {
   }
   update(child) {
     child.isDirty = true
+    const attrSize = this.attrSize
+    if(attrSize[0] === '' || attrSize[1] === '') {
+      this.reflow()
+    }
     this.forceUpdate(true)
   }
   pointCollision(evt) {
@@ -179,6 +183,7 @@ export default class Group extends BaseSprite {
     }
     return false
   }
+  @flow
   get contentSize() {
     if(this.isVirtual) return [0, 0]
     let [width, height] = this.attrSize

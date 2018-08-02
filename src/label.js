@@ -1,5 +1,5 @@
 import BaseSprite from './basesprite'
-import {parseValue, parseColorString, attr} from 'sprite-utils'
+import {parseValue, parseColorString, attr, flow} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 
 import {findColor} from './helpers/render'
@@ -85,6 +85,14 @@ function calculTextboxSize(node) {
     width = Math.max(width, w)
     height += h
   })
+
+  const boxSize = node[_boxSize]
+  if(!boxSize || boxSize[0] !== width || boxSize[1] !== height) {
+    const attrSize = node.attrSize
+    if(attrSize[0] === '' || attrSize[1] === '') {
+      node.reflow()
+    }
+  }
   node[_boxSize] = [width, height]
 }
 
@@ -241,6 +249,7 @@ export default class Label extends BaseSprite {
   }
 
   // override to adapt content size
+  @flow
   get contentSize() {
     let [width, height] = this.attrSize
 

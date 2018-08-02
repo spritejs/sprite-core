@@ -1,6 +1,6 @@
 import BaseSprite from './basesprite'
 import {findColor} from './helpers/render'
-import {parseColorString, parseValue, attr, deprecate} from 'sprite-utils'
+import {parseColorString, parseValue, attr, flow, deprecate} from 'sprite-utils'
 import {pathEffect, createSvgPath} from './helpers/path'
 import {registerNodeType} from './nodetype'
 
@@ -28,6 +28,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set path(val) {
     this.clearCache()
+    this.clearFlow()
     if(val) {
       val = typeof val === 'string' ? {d: val} : val
       this.subject.svg = createSvgPath(val)
@@ -56,6 +57,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set lineWidth(val) {
     this.clearCache()
+    this.clearFlow()
     this.set('lineWidth', Math.round(val))
   }
 
@@ -105,6 +107,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set flexible(val) {
     this.clearCache()
+    this.clearFlow()
     this.set('flexible', val)
   }
 
@@ -185,6 +188,7 @@ export default class Path extends BaseSprite {
     return this.svg ? this.svg.size : [0, 0]
   }
 
+  @flow
   get contentSize() {
     if(!this.svg) return super.contentSize
 
@@ -207,6 +211,7 @@ export default class Path extends BaseSprite {
     return [width, height].map(Math.ceil)
   }
 
+  @flow
   get originalRect() {
     const svg = this.svg
     if(svg) {

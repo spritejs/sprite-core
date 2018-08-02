@@ -1,7 +1,7 @@
 import BaseSprite from './basesprite'
 import filters from './filters'
 
-import {attr, setDeprecation} from 'sprite-utils'
+import {attr, flow, setDeprecation} from 'sprite-utils'
 import {registerNodeType} from './nodetype'
 import {cacheContextPool} from './helpers/render'
 
@@ -70,7 +70,13 @@ class TextureAttr extends BaseSprite.Attr {
       delete texture.image
       return image
     })
-
+    const texturesSize = subject.texturesSize
+    if(!texturesSize || texturesSize[0] !== width || texturesSize[1] !== height) {
+      const attrSize = subject.attrSize
+      if(attrSize[0] === '' || attrSize[1] === '') {
+        subject.reflow()
+      }
+    }
     subject.texturesSize = [width, height]
     return textures
   }
@@ -126,6 +132,7 @@ export default class Sprite extends BaseSprite {
   }
 
   // override to adapt textures' size
+  @flow
   get contentSize() {
     const [width, height] = this.attrSize
     const boxSize = this.texturesSize || [0, 0]
