@@ -127,7 +127,8 @@ export default class Group extends BaseSprite {
     this[_layoutTag] = false
   }
   get isVirtual() {
-    if(this.attr('display') === 'flex') return false
+    const display = this.attr('display')
+    if(display !== '') return false
     const {width: borderWidth} = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
       bgcolor = this.attr('bgcolor'),
@@ -277,7 +278,8 @@ export default class Group extends BaseSprite {
     }
   }
   render(t, drawingContext) {
-    if(this.attr('display') === 'flex' && !this[_layoutTag]) {
+    const display = this.attr('display')
+    if(display !== '' && display !== 'static' && !this[_layoutTag]) {
       this.relayout()
     }
 
@@ -318,7 +320,7 @@ export default class Group extends BaseSprite {
     }
     drawingContext.restore()
 
-    if(this.attr('display') === 'flex') {
+    if(display !== '' && display !== 'static') {
       this[_layoutTag] = true
     }
   }

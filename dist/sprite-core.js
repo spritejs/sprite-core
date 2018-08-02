@@ -1100,8 +1100,11 @@ var BaseSprite = (_temp = _class = function (_BaseNode) {
             paddingLeft = _attr7[3];
 
 
-        width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
-        height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
+        if (width !== '') {
+          width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
+        }if (width !== '') {
+          height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
+        }
       }
 
       return [width, height];
@@ -9674,6 +9677,8 @@ exports.calculateFramesOffset = calculateFramesOffset;
 exports.getProgress = getProgress;
 exports.getCurrentFrame = getCurrentFrame;
 
+var _easing2 = __webpack_require__(181);
+
 var _effect = __webpack_require__(177);
 
 var _effect2 = _interopRequireDefault(_effect);
@@ -9724,6 +9729,9 @@ function calculateFramesOffset(keyframes) {
       offset = frame.offset;
       offsetFrom = i;
     }
+    if (frame.easing != null) {
+      frame.easing = (0, _easing2.parseEasing)(frame.easing);
+    }
     if (i > 0) {
       // 如果中间某个属性没有了，需要从前一帧复制过来
       keyframes[i] = (0, _assign2.default)({}, keyframes[i - 1], keyframes[i]);
@@ -9771,7 +9779,7 @@ function calculateFrame(previousFrame, nextFrame, effects, p) {
       var key = _ref2[0];
       var value = _ref2[1];
 
-      if (key !== 'offset') {
+      if (key !== 'offset' && key !== 'easing') {
         var effect = effects[key] || effects.default;
 
         var v = effect(previousFrame[key], value, p, previousFrame.offset, nextFrame.offset);
@@ -9819,12 +9827,19 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
     if (offset >= p || i === keyframes.length - 1) {
       var previousFrame = keyframes[i - 1],
-          previousOffset = previousFrame.offset;
+          previousOffset = previousFrame.offset,
+          _easing = previousFrame.easing;
+
+      var ep = p;
+      if (_easing) {
+        var d = offset - previousOffset;
+        ep = _easing((p - previousOffset) / d) * d + previousOffset;
+      }
 
       if (effect) {
-        ret = effect(previousFrame, frame, p, previousOffset, offset);
+        ret = effect(previousFrame, frame, ep, previousOffset, offset);
       } else {
-        ret = calculateFrame(previousFrame, frame, effects, p);
+        ret = calculateFrame(previousFrame, frame, effects, ep);
       }
       break;
     }
@@ -13475,7 +13490,8 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
-      if (this.attr('display') === 'flex' && !this[_layoutTag]) {
+      var display = this.attr('display');
+      if (display !== '' && display !== 'static' && !this[_layoutTag]) {
         this.relayout();
       }
 
@@ -13520,14 +13536,15 @@ var Group = (_temp = _class2 = function (_BaseSprite) {
       }
       drawingContext.restore();
 
-      if (this.attr('display') === 'flex') {
+      if (display !== '' && display !== 'static') {
         this[_layoutTag] = true;
       }
     }
   }, {
     key: 'isVirtual',
     get: function get() {
-      if (this.attr('display') === 'flex') return false;
+      var display = this.attr('display');
+      if (display !== '') return false;
 
       var _attr = this.attr('border'),
           borderWidth = _attr.width,
@@ -14039,12 +14056,8 @@ exports.default = function (container, items) {
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
 
-  function getSize(style, key) {
-    if (container.hasLayout) {
-      var layoutKey = 'layout' + key.slice(0, 1).toUpperCase() + key.slice(1);
-      return style[layoutKey] !== '' ? style[layoutKey] : style[key];
-    }
-    return style[key];
+  function getSize(node, key) {
+    return key === 'width' ? node.attrSize[0] : node.attrSize[1];
   }
   var style = container.attributes;
 
@@ -14066,7 +14079,7 @@ exports.default = function (container, items) {
     mainStart = 'layoutRight';
     mainEnd = 'x';
     mainSign = -1;
-    mainBase = getSize(style, 'width');
+    mainBase = getSize(container, 'width');
 
     crossSize = 'height';
     crossStart = 'y';
@@ -14086,7 +14099,7 @@ exports.default = function (container, items) {
     mainStart = 'layoutBottom';
     mainEnd = 'y';
     mainSign = -1;
-    mainBase = getSize(style, 'height');
+    mainBase = getSize(container, 'height');
 
     crossSize = 'width';
     crossStart = 'x';
@@ -14108,7 +14121,7 @@ exports.default = function (container, items) {
     return size == null || size === '';
   }
 
-  var isAutoMainSize = isAutoSize(getSize(style, mainSize));
+  var isAutoMainSize = isAutoSize(getSize(container, mainSize));
 
   var groupMainSize = void 0;
 
@@ -14220,7 +14233,7 @@ exports.default = function (container, items) {
   flexLine.mainSpace = mainSpace;
 
   if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-    var _size2 = getSize(style, crossSize);
+    var _size2 = getSize(container, crossSize);
     flexLine.crossSpace = !isAutoSize(_size2) ? _size2 : crossSpace;
   } else {
     flexLine.crossSpace = crossSpace;
@@ -14327,7 +14340,7 @@ exports.default = function (container, items) {
   // compute the cross axis sizes
   // align-items, align-self
   var crossSizeValue = void 0;
-  var size = getSize(style, crossSize);
+  var size = getSize(container, crossSize);
   if (isAutoSize(size)) {
     // auto sizing
     crossSpace = 0;
@@ -14390,7 +14403,7 @@ exports.default = function (container, items) {
 
       if (align === 'stretch') {
         _item6.attr(crossStart, crossBase);
-        _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(_item6.attributes, crossSize)) ? _size3 : lineCrossSize));
+        _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(_item6, crossSize)) ? _size3 : lineCrossSize));
         // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         var crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
         _item6.attr(crossAttr, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));

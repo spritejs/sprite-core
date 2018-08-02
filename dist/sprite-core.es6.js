@@ -542,8 +542,11 @@ let BaseSprite = (_temp = _class = class BaseSprite extends _basenode__WEBPACK_I
       const borderWidth = this.attr('border').width,
             [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
 
-      width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
-      height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
+      if (width !== '') {
+        width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
+      }if (width !== '') {
+        height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
+      }
     }
 
     return [width, height];
@@ -4934,7 +4937,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateFramesOffset", function() { return calculateFramesOffset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProgress", function() { return getProgress; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentFrame", function() { return getCurrentFrame; });
-/* harmony import */ var _effect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _easing__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+
 
 function defer() {
   const ret = {};
@@ -4980,6 +4985,9 @@ function calculateFramesOffset(keyframes) {
       offset = frame.offset;
       offsetFrom = i;
     }
+    if (frame.easing != null) {
+      frame.easing = Object(_easing__WEBPACK_IMPORTED_MODULE_0__["parseEasing"])(frame.easing);
+    }
     if (i > 0) {
       // 如果中间某个属性没有了，需要从前一帧复制过来
       keyframes[i] = Object.assign({}, keyframes[i - 1], keyframes[i]);
@@ -5015,7 +5023,7 @@ function getProgress(timeline, timing, p) {
 function calculateFrame(previousFrame, nextFrame, effects, p) {
   const ret = {};
   for (const [key, value] of Object.entries(nextFrame)) {
-    if (key !== 'offset') {
+    if (key !== 'offset' && key !== 'easing') {
       const effect = effects[key] || effects.default;
 
       const v = effect(previousFrame[key], value, p, previousFrame.offset, nextFrame.offset);
@@ -5033,7 +5041,7 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
   if (!effect) {
     // timing.effect 会覆盖掉 Effects 和 animator.applyEffects 中定义的 effects
-    effects = Object.assign({}, effects, _effect__WEBPACK_IMPORTED_MODULE_0__["default"]);
+    effects = Object.assign({}, effects, _effect__WEBPACK_IMPORTED_MODULE_1__["default"]);
   }
 
   let ret = {};
@@ -5046,12 +5054,19 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 
     if (offset >= p || i === keyframes.length - 1) {
       const previousFrame = keyframes[i - 1],
-            previousOffset = previousFrame.offset;
+            previousOffset = previousFrame.offset,
+            easing = previousFrame.easing;
+
+      let ep = p;
+      if (easing) {
+        const d = offset - previousOffset;
+        ep = easing((p - previousOffset) / d) * d + previousOffset;
+      }
 
       if (effect) {
-        ret = effect(previousFrame, frame, p, previousOffset, offset);
+        ret = effect(previousFrame, frame, ep, previousOffset, offset);
       } else {
-        ret = calculateFrame(previousFrame, frame, effects, p);
+        ret = calculateFrame(previousFrame, frame, effects, ep);
       }
       break;
     }
@@ -7842,7 +7857,8 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
     this[_layoutTag] = false;
   }
   get isVirtual() {
-    if (this.attr('display') === 'flex') return false;
+    const display = this.attr('display');
+    if (display !== '') return false;
     const { width: borderWidth } = this.attr('border'),
           borderRadius = this.attr('borderRadius'),
           bgcolor = this.attr('bgcolor'),
@@ -7990,7 +8006,8 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
     }
   }
   render(t, drawingContext) {
-    if (this.attr('display') === 'flex' && !this[_layoutTag]) {
+    const display = this.attr('display');
+    if (display !== '' && display !== 'static' && !this[_layoutTag]) {
       this.relayout();
     }
 
@@ -8031,7 +8048,7 @@ let Group = (_temp = _class2 = class Group extends _basesprite__WEBPACK_IMPORTED
     }
     drawingContext.restore();
 
-    if (this.attr('display') === 'flex') {
+    if (display !== '' && display !== 'static') {
       this[_layoutTag] = true;
     }
   }
@@ -8429,12 +8446,8 @@ __webpack_require__.r(__webpack_exports__);
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
 
-  function getSize(style, key) {
-    if (container.hasLayout) {
-      const layoutKey = `layout${key.slice(0, 1).toUpperCase()}${key.slice(1)}`;
-      return style[layoutKey] !== '' ? style[layoutKey] : style[key];
-    }
-    return style[key];
+  function getSize(node, key) {
+    return key === 'width' ? node.attrSize[0] : node.attrSize[1];
   }
   const style = container.attributes;
 
@@ -8456,7 +8469,7 @@ __webpack_require__.r(__webpack_exports__);
     mainStart = 'layoutRight';
     mainEnd = 'x';
     mainSign = -1;
-    mainBase = getSize(style, 'width');
+    mainBase = getSize(container, 'width');
 
     crossSize = 'height';
     crossStart = 'y';
@@ -8476,7 +8489,7 @@ __webpack_require__.r(__webpack_exports__);
     mainStart = 'layoutBottom';
     mainEnd = 'y';
     mainSign = -1;
-    mainBase = getSize(style, 'height');
+    mainBase = getSize(container, 'height');
 
     crossSize = 'width';
     crossStart = 'x';
@@ -8495,7 +8508,7 @@ __webpack_require__.r(__webpack_exports__);
     return size == null || size === '';
   }
 
-  const isAutoMainSize = isAutoSize(getSize(style, mainSize));
+  const isAutoMainSize = isAutoSize(getSize(container, mainSize));
 
   let groupMainSize;
 
@@ -8585,7 +8598,7 @@ __webpack_require__.r(__webpack_exports__);
   flexLine.mainSpace = mainSpace;
 
   if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-    const size = getSize(style, crossSize);
+    const size = getSize(container, crossSize);
     flexLine.crossSpace = !isAutoSize(size) ? size : crossSpace;
   } else {
     flexLine.crossSpace = crossSpace;
@@ -8684,7 +8697,7 @@ __webpack_require__.r(__webpack_exports__);
   // compute the cross axis sizes
   // align-items, align-self
   let crossSizeValue;
-  const size = getSize(style, crossSize);
+  const size = getSize(container, crossSize);
   if (isAutoSize(size)) {
     // auto sizing
     crossSpace = 0;
@@ -8747,7 +8760,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (align === 'stretch') {
         item.attr(crossStart, crossBase);
-        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(item.attributes, crossSize)) ? size : lineCrossSize));
+        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(item, crossSize)) ? size : lineCrossSize));
         // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         const crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
         item.attr(crossAttr, crossSign * (item.attr(crossEnd) - item.attr(crossStart)));
