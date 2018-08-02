@@ -72,10 +72,24 @@ export default class BaseSprite extends BaseNode {
           set(val) {
             this.__clearCacheTag = false
             this.__updateTag = false
+            this.__reflowTag = false
             handler(this, val)
+            if(this.subject && this.subject.hasLayout) {
+              const offsetSize = this.subject.offsetSize,
+                layoutSize = this.subject.__layoutSize
+
+              if(!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+                this.subject.parent.clearLayout()
+              }
+              this.subject.__lastLayout = offsetSize
+            }
             if(this.subject && this.__updateTag) {
               this.subject.forceUpdate(this.__clearCacheTag)
+              if(this.__reflowTag) {
+                this.subject.reflow()
+              }
             }
+            delete this.__reflowTag
             delete this.__updateTag
             delete this.__clearCacheTag
           },
