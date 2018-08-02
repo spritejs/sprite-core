@@ -219,10 +219,12 @@ export default class Group extends BaseSprite {
       const isCollision = collisionState || this.pointCollision(evt)
       if(isCollision) {
         const scrollLeft = this.attr('scrollLeft'),
-          scrollTop = this.attr('scrollTop')
+          scrollTop = this.attr('scrollTop'),
+          borderWidth = this.attr('border').width,
+          padding = this.attr('padding')
 
-        const parentX = evt.offsetX - this.originalRect[0] + scrollLeft
-        const parentY = evt.offsetY - this.originalRect[1] + scrollTop
+        const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft
+        const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop
         // console.log(evt.parentX, evt.parentY)
 
         const _evt = Object.assign({}, evt)

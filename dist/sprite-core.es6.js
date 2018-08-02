@@ -614,6 +614,32 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     return this.offsetSize;
   }
 
+  getLayerXY(dx = 0, dy = 0) {
+    const layer = this.layer;
+    if (!layer) return [0, 0];
+    let target = this;
+    let [x, y] = [dx, dy];
+    while (target && target !== layer) {
+      [x, y] = target.offsetToPoint(x, y);
+      const parent = target.parent;
+
+      if (parent !== layer) {
+        const borderWidth = parent.attr('border').width;
+        const padding = parent.attr('padding'),
+              scrollLeft = parent.attr('scrollLeft') || 0,
+              scrollTop = parent.attr('scrollTop') || 0;
+
+        // const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft
+        // const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop
+
+        x = x + parent.originalRect[0] + borderWidth + padding[3] - scrollLeft;
+        y = y + parent.originalRect[1] + borderWidth + padding[0] - scrollTop;
+      }
+      target = parent;
+    }
+    return [x, y];
+  }
+
   get boundingRect() {
     const transform = this.transform;
     let [ox, oy, width, height] = this.originalRect;
@@ -732,6 +758,13 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     const [dx, dy] = [x - x0, y - y0];
     const transform = this.transform;
     return transform.inverse().transformPoint(dx, dy);
+  }
+
+  offsetToPoint(dx, dy) {
+    const transform = this.transform;
+    const [x0, y0] = this.attr('pos');
+    const [x, y] = transform.transformPoint(dx, dy);
+    return [x + x0, y + y0];
   }
 
   pointCollision(evt) {
@@ -8021,10 +8054,12 @@ let Group = (_class2 = (_temp = _class3 = class Group extends _basesprite__WEBPA
       const isCollision = collisionState || this.pointCollision(evt);
       if (isCollision) {
         const scrollLeft = this.attr('scrollLeft'),
-              scrollTop = this.attr('scrollTop');
+              scrollTop = this.attr('scrollTop'),
+              borderWidth = this.attr('border').width,
+              padding = this.attr('padding');
 
-        const parentX = evt.offsetX - this.originalRect[0] + scrollLeft;
-        const parentY = evt.offsetY - this.originalRect[1] + scrollTop;
+        const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+        const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
         const _evt = Object.assign({}, evt);
