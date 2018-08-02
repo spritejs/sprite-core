@@ -3,12 +3,8 @@ export default function (container, items) {
     return (a.attributes.order || 0) - (b.attributes.order || 0)
   })
 
-  function getSize(style, key) {
-    if(container.hasLayout) {
-      const layoutKey = `layout${key.slice(0, 1).toUpperCase()}${key.slice(1)}`
-      return style[layoutKey] !== '' ? style[layoutKey] : style[key]
-    }
-    return style[key]
+  function getSize(node, key) {
+    return key === 'width' ? node.attrSize[0] : node.attrSize[1]
   }
   const style = container.attributes
 
@@ -30,7 +26,7 @@ export default function (container, items) {
     mainStart = 'layoutRight'
     mainEnd = 'x'
     mainSign = -1
-    mainBase = getSize(style, 'width')
+    mainBase = getSize(container, 'width')
 
     crossSize = 'height'
     crossStart = 'y'
@@ -50,7 +46,7 @@ export default function (container, items) {
     mainStart = 'layoutBottom'
     mainEnd = 'y'
     mainSign = -1
-    mainBase = getSize(style, 'height')
+    mainBase = getSize(container, 'height')
 
     crossSize = 'width'
     crossStart = 'x'
@@ -69,7 +65,7 @@ export default function (container, items) {
     return size == null || size === ''
   }
 
-  const isAutoMainSize = isAutoSize(getSize(style, mainSize))
+  const isAutoMainSize = isAutoSize(getSize(container, mainSize))
 
   let groupMainSize
 
@@ -158,7 +154,7 @@ export default function (container, items) {
   flexLine.mainSpace = mainSpace
 
   if(style.flexWrap === 'nowrap' || isAutoMainSize) {
-    const size = getSize(style, crossSize)
+    const size = getSize(container, crossSize)
     flexLine.crossSpace = !isAutoSize(size) ? size : crossSpace
   } else {
     flexLine.crossSpace = crossSpace
@@ -257,7 +253,7 @@ export default function (container, items) {
   // compute the cross axis sizes
   // align-items, align-self
   let crossSizeValue
-  const size = getSize(style, crossSize)
+  const size = getSize(container, crossSize)
   if(isAutoSize(size)) { // auto sizing
     crossSpace = 0
     crossSizeValue = 0
@@ -319,7 +315,7 @@ export default function (container, items) {
 
       if(align === 'stretch') {
         item.attr(crossStart, crossBase)
-        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(item.attributes, crossSize)) ? size : lineCrossSize))
+        item.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(item, crossSize)) ? size : lineCrossSize))
         // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
         const crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight'
         item.attr(crossAttr, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))

@@ -354,8 +354,11 @@ export default class BaseSprite extends BaseNode {
       const borderWidth = this.attr('border').width,
         [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding')
 
-      width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight)
-      height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom)
+      if(width !== '') {
+        width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight)
+      } if(width !== '') {
+        height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom)
+      }
     }
 
     return [width, height]
