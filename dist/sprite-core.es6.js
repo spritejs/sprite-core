@@ -242,13 +242,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     }
     Object.assign(this.prototype[_effects], effects);
   }
-  static defineAttributes(attrs, effects) {
-    this.Attr = class extends this.Attr {
-      constructor(subject) {
-        super(subject);
-        if (attrs.init) attrs.init(this, subject);
-      }
-    };
+  static addAttributes(attrs) {
     Object.entries(attrs).forEach(([prop, handler]) => {
       let getter = function () {
         return this.get(prop);
@@ -263,10 +257,24 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
           set(val) {
             this.__clearCacheTag = false;
             this.__updateTag = false;
+            this.__reflowTag = false;
             handler(this, val);
+            if (this.subject && this.subject.hasLayout) {
+              const offsetSize = this.subject.offsetSize,
+                    layoutSize = this.subject.__layoutSize;
+
+              if (!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+                this.subject.parent.clearLayout();
+              }
+              this.subject.__lastLayout = offsetSize;
+            }
             if (this.subject && this.__updateTag) {
               this.subject.forceUpdate(this.__clearCacheTag);
+              if (this.__reflowTag) {
+                this.subject.reflow();
+              }
             }
+            delete this.__reflowTag;
             delete this.__updateTag;
             delete this.__clearCacheTag;
           },
@@ -274,6 +282,15 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
         });
       }
     });
+  }
+  static defineAttributes(attrs, effects) {
+    this.Attr = class extends this.Attr {
+      constructor(subject) {
+        super(subject);
+        if (attrs.init) attrs.init(this, subject);
+      }
+    };
+    this.addAttributes(attrs);
     if (effects) this.setAttributeEffects(effects);
     return this.Attr;
   }
@@ -7847,7 +7864,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(48);
 /* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(50);
 /* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
-var _dec, _dec2, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
+var _dec, _dec2, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
 
 const _applyDecoratedDescriptor = __webpack_require__(2);
 
@@ -7861,18 +7878,18 @@ const _children = Symbol('children'),
       _zOrder = Symbol('zOrder'),
       _layoutTag = Symbol('layoutTag');
 
-let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec2 = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
+let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec2 = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = (_temp = _class2 = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
+
   constructor(subject) {
     super(subject);
     this.setDefault({
       clip: null,
-      flexDirection: 'row',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      flexWrap: 'nowrap',
-      alignContent: 'stretch',
       scrollTop: 0,
       scrollLeft: 0
+    });
+
+    GroupAttr.inits.forEach(init => {
+      init(this, subject);
     });
   }
 
@@ -7886,38 +7903,6 @@ let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseV
       this.subject.svg = null;
       this.set('clip', null);
     }
-  }
-
-  // flexbox attributes
-
-  set flexDirection(value) {
-    this.clearCache();
-    this.subject.clearLayout();
-    this.set('flexDirection', value);
-  }
-
-  set flexWrap(value) {
-    this.clearCache();
-    this.subject.clearLayout();
-    this.set('flexWrap', value);
-  }
-
-  set justifyContent(value) {
-    this.clearCache();
-    this.subject.clearLayout();
-    this.set('justifyContent', value);
-  }
-
-  set alignItems(value) {
-    this.clearCache();
-    this.subject.clearLayout();
-    this.set('alignItems', value);
-  }
-
-  set alignContent(value) {
-    this.clearCache();
-    this.subject.clearLayout();
-    this.set('alignContent', value);
   }
 
   set width(value) {
@@ -7954,8 +7939,22 @@ let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseV
     this.clearCache();
     this.set('scrollTop', value);
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'clip', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexDirection', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexDirection'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexWrap', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexWrap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'justifyContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'justifyContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignItems', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignItems'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignContent', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignContent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec2, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollTop'), _class.prototype)), _class));
-let Group = (_class2 = (_temp = _class3 = class Group extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {
+}, _class2.inits = [], _temp), (_applyDecoratedDescriptor(_class.prototype, 'clip', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec2, sprite_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollTop'), _class.prototype)), _class));
+
+
+const _layout = Symbol('layout');
+
+let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {
+
+  static applyLayout(name, layout) {
+    this[_layout] = this[_layout] || {};
+    const { attrs, relayout } = layout;
+    if (attrs.init) {
+      GroupAttr.inits.push(attrs.init);
+    }
+    Group.addAttributes(attrs);
+    this[_layout][name] = relayout;
+  }
 
   constructor(attr = {}) {
     super(attr);
@@ -8106,7 +8105,7 @@ let Group = (_class2 = (_temp = _class3 = class Group extends _basesprite__WEBPA
     });
 
     const display = this.attr('display');
-    const doLayout = _layout__WEBPACK_IMPORTED_MODULE_4__[`${display}Layout`];
+    const doLayout = Group[_layout][display];
     if (doLayout) {
       doLayout(this, items);
     }
@@ -8166,12 +8165,13 @@ let Group = (_class2 = (_temp = _class3 = class Group extends _basesprite__WEBPA
       this[_layoutTag] = true;
     }
   }
-}, _class3.Attr = GroupAttr, _temp), (_applyDecoratedDescriptor(_class2.prototype, 'contentSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class2.prototype, 'contentSize'), _class2.prototype)), _class2);
+}, _class4.Attr = GroupAttr, _temp2), (_applyDecoratedDescriptor(_class3.prototype, 'contentSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class3.prototype, 'contentSize'), _class3.prototype)), _class3);
 
 
 
 
 Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_5__["default"]);
+Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_4__["flexLayout"]);
 
 Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('group', Group, true);
 
@@ -8543,8 +8543,7 @@ function permute(input) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _flex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(51);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "flexLayout", function() { return _flex__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "flexLayout", function() { return _flex__WEBPACK_IMPORTED_MODULE_0__; });
 
 
 
@@ -8555,7 +8554,46 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function (container, items) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attrs", function() { return attrs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relayout", function() { return relayout; });
+const attrs = {
+  init(attr) {
+    attr.setDefault({
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      flexWrap: 'nowrap',
+      alignContent: 'stretch'
+    });
+  },
+  flexDirection(attr, value) {
+    attr.clearCache();
+    attr.subject.clearLayout();
+    attr.set('flexDirection', value);
+  },
+  flexWrap(attr, value) {
+    attr.clearCache();
+    attr.subject.clearLayout();
+    attr.set('flexWrap', value);
+  },
+  justifyContent(attr, value) {
+    attr.clearCache();
+    attr.subject.clearLayout();
+    attr.set('justifyContent', value);
+  },
+  alignItems(attr, value) {
+    attr.clearCache();
+    attr.subject.clearLayout();
+    attr.set('alignItems', value);
+  },
+  alignContent(attr, value) {
+    attr.clearCache();
+    attr.subject.clearLayout();
+    attr.set('alignContent', value);
+  }
+};
+
+function relayout(container, items) {
   items.sort((a, b) => {
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
@@ -8884,7 +8922,7 @@ __webpack_require__.r(__webpack_exports__);
     }
     crossBase += crossSign * (lineCrossSize + step);
   });
-});
+}
 
 /***/ }),
 /* 52 */

@@ -9,17 +9,18 @@ const _children = Symbol('children'),
   _layoutTag = Symbol('layoutTag')
 
 class GroupAttr extends BaseSprite.Attr {
+  static inits = []
+
   constructor(subject) {
     super(subject)
     this.setDefault({
       clip: null,
-      flexDirection: 'row',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      flexWrap: 'nowrap',
-      alignContent: 'stretch',
       scrollTop: 0,
       scrollLeft: 0,
+    })
+
+    GroupAttr.inits.forEach((init) => {
+      init(this, subject)
     })
   }
 
@@ -34,42 +35,6 @@ class GroupAttr extends BaseSprite.Attr {
       this.subject.svg = null
       this.set('clip', null)
     }
-  }
-
-  // flexbox attributes
-  @attr
-  set flexDirection(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('flexDirection', value)
-  }
-
-  @attr
-  set flexWrap(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('flexWrap', value)
-  }
-
-  @attr
-  set justifyContent(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('justifyContent', value)
-  }
-
-  @attr
-  set alignItems(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('alignItems', value)
-  }
-
-  @attr
-  set alignContent(value) {
-    this.clearCache()
-    this.subject.clearLayout()
-    this.set('alignContent', value)
   }
 
   @attr
@@ -117,8 +82,20 @@ class GroupAttr extends BaseSprite.Attr {
   }
 }
 
+const _layout = Symbol('layout')
+
 export default class Group extends BaseSprite {
   static Attr = GroupAttr
+
+  static applyLayout(name, layout) {
+    this[_layout] = this[_layout] || {}
+    const {attrs, relayout} = layout
+    if(attrs.init) {
+      GroupAttr.inits.push(attrs.init)
+    }
+    Group.addAttributes(attrs)
+    this[_layout][name] = relayout
+  }
 
   constructor(attr = {}) {
     super(attr)
@@ -271,7 +248,7 @@ export default class Group extends BaseSprite {
     })
 
     const display = this.attr('display')
-    const doLayout = layout[`${display}Layout`]
+    const doLayout = Group[_layout][display]
     if(doLayout) {
       doLayout(this, items)
     }
@@ -335,5 +312,6 @@ export default class Group extends BaseSprite {
 
 import groupApi from './helpers/group'
 Object.assign(Group.prototype, groupApi)
+Group.applyLayout('flex', layout.flexLayout)
 
 registerNodeType('group', Group, true)

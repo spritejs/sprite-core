@@ -1,4 +1,42 @@
-export default function (container, items) {
+export const attrs = {
+  init(attr) {
+    attr.setDefault({
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      flexWrap: 'nowrap',
+      alignContent: 'stretch',
+    })
+  },
+  flexDirection(attr, value) {
+    attr.clearCache()
+    attr.subject.clearLayout()
+    attr.set('flexDirection', value)
+  },
+  flexWrap(attr, value) {
+    attr.clearCache()
+    attr.subject.clearLayout()
+    attr.set('flexWrap', value)
+  },
+  justifyContent(attr, value) {
+    attr.clearCache()
+    attr.subject.clearLayout()
+    attr.set('justifyContent', value)
+  },
+  alignItems(attr, value) {
+    attr.clearCache()
+    attr.subject.clearLayout()
+    attr.set('alignItems', value)
+  },
+  alignContent(attr, value) {
+    attr.clearCache()
+    attr.subject.clearLayout()
+    attr.set('alignContent', value)
+  },
+}
+
+
+export function relayout(container, items) {
   items.sort((a, b) => {
     return (a.attributes.order || 0) - (b.attributes.order || 0)
   })

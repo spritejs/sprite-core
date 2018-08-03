@@ -51,13 +51,7 @@ export default class BaseSprite extends BaseNode {
     }
     Object.assign(this.prototype[_effects], effects)
   }
-  static defineAttributes(attrs, effects) {
-    this.Attr = class extends this.Attr {
-      constructor(subject) {
-        super(subject)
-        if(attrs.init) attrs.init(this, subject)
-      }
-    }
+  static addAttributes(attrs) {
     Object.entries(attrs).forEach(([prop, handler]) => {
       let getter = function () {
         return this.get(prop)
@@ -97,6 +91,15 @@ export default class BaseSprite extends BaseNode {
         })
       }
     })
+  }
+  static defineAttributes(attrs, effects) {
+    this.Attr = class extends this.Attr {
+      constructor(subject) {
+        super(subject)
+        if(attrs.init) attrs.init(this, subject)
+      }
+    }
+    this.addAttributes(attrs)
     if(effects) this.setAttributeEffects(effects)
     return this.Attr
   }
