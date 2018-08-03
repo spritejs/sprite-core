@@ -2,7 +2,8 @@
   "name": "sprite-core",
   "version": "2.9.3",
   "description": "Platform-independent canvas render object model api.",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "sprite-core.d.ts",
   "esnext": {
     "./lib/index.js": "./src/index.js"
   },
