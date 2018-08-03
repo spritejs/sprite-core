@@ -1,5 +1,5 @@
-import * as flexLayout from './flex'
+import * as flexLayout from './flex';
 
 export {
   flexLayout,
-}
+};

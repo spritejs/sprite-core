@@ -1,25 +1,24 @@
-import BaseSprite from './basesprite'
-import Sprite from './sprite'
-import Label from './label'
-import Layer from './layer'
-import Group from './group'
-import BaseNode from './basenode'
-import Path from './path'
-import Batch from './batch'
-import {registerNodeType, createNode, createElement} from './nodetype'
-import {Effects, Easings} from 'sprite-animator'
-import SvgPath from 'svg-path-to-canvas'
+import {Effects, Easings} from 'sprite-animator';
+import SvgPath from 'svg-path-to-canvas';
+import * as utils from 'sprite-utils';
+import * as math from 'sprite-math';
+import BaseSprite from './basesprite';
+import Sprite from './sprite';
+import Label from './label';
+import Layer from './layer';
+import Group from './group';
+import BaseNode from './basenode';
+import Path from './path';
+import Batch from './batch';
+import {registerNodeType, createNode, createElement} from './nodetype';
 
-import {findColor, cacheContextPool} from './helpers/render'
+import {findColor, cacheContextPool} from './helpers/render';
 
-import * as utils from 'sprite-utils'
 
-utils.findColor = findColor
-utils.cacheContextPool = cacheContextPool
+utils.findColor = findColor;
+utils.cacheContextPool = cacheContextPool;
 
-const Color = utils.Color
-
-import * as math from 'sprite-math'
+const Color = utils.Color;
 
 export {
   utils,
@@ -39,4 +38,4 @@ export {
   createElement,
   Color,
   SvgPath,
-}
+};

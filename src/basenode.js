@@ -1,206 +1,218 @@
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
   _data = Symbol('data'),
-  _mouseCapture = Symbol('mouseCapture')
+  _mouseCapture = Symbol('mouseCapture');
 
 export default class BaseNode {
   constructor() {
-    this[_eventHandlers] = {}
-    this[_data] = {}
+    this[_eventHandlers] = {};
+    this[_data] = {};
   }
+
   get dataset() {
-    return this[_data]
+    return this[_data];
   }
+
   data(props, val) {
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
-        this.data(prop, value)
-      })
-      return this
-    } else if(typeof props === 'string') {
+        this.data(prop, value);
+      });
+      return this;
+    } if(typeof props === 'string') {
       if(val !== undefined) {
         if(typeof val === 'function') {
-          val = val(this[_data][props])
+          val = val(this[_data][props]);
         }
         if(val && typeof val.then === 'function') {
           return val.then((res) => {
-            this[_data][props] = res
-          })
+            this[_data][props] = res;
+          });
         }
-        this[_data][props] = val
-        return this
+        this[_data][props] = val;
+        return this;
       }
-      return this[_data][props]
+      return this[_data][props];
     }
-    return this[_data]
+    return this[_data];
   }
+
   getEventHandlers(type) {
-    return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers]
+    return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers];
   }
+
   on(type, handler) {
     if(Array.isArray(type)) {
-      type.forEach(t => this.on(t, handler))
+      type.forEach(t => this.on(t, handler));
     } else {
-      this[_eventHandlers][type] = this[_eventHandlers][type] || []
-      this[_eventHandlers][type].push(handler)
+      this[_eventHandlers][type] = this[_eventHandlers][type] || [];
+      this[_eventHandlers][type].push(handler);
     }
-    return this
+    return this;
   }
+
   off(type, handler) {
     if(Array.isArray(type)) {
-      type.forEach(t => this.off(t, handler))
+      type.forEach(t => this.off(t, handler));
     } else if(handler && this[_eventHandlers][type]) {
-      const idx = this[_eventHandlers][type].indexOf(handler)
+      const idx = this[_eventHandlers][type].indexOf(handler);
 
       if(idx >= 0) {
-        this[_eventHandlers][type].splice(idx, 1)
+        this[_eventHandlers][type].splice(idx, 1);
       }
     } else {
-      delete this[_eventHandlers][type]
+      delete this[_eventHandlers][type];
     }
-    return this
+    return this;
   }
+
   // d3-friendly
   addEventListener(type, handler) {
-    return this.on(type, handler)
+    return this.on(type, handler);
   }
+
   removeEventListener(type, handler) {
-    return this.off(type, handler)
+    return this.off(type, handler);
   }
+
   pointCollision(evt) {
-    throw Error('you mast override this method')
+    throw Error('you mast override this method');
   }
+
   setMouseCapture() {
-    this[_mouseCapture] = true
+    this[_mouseCapture] = true;
   }
+
   releaseMouseCapture() {
-    this[_mouseCapture] = false
+    this[_mouseCapture] = false;
   }
+
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
     if(swallow && this.getEventHandlers(type).length === 0) {
-      return
+      return;
     }
     if(!evt.stopDispatch) {
       evt.stopDispatch = () => {
-        evt.terminated = true
-      }
+        evt.terminated = true;
+      };
     }
     if(evt.type !== type) {
       if(evt.type) {
-        evt.originalType = evt.type
+        evt.originalType = evt.type;
       }
-      evt.type = type
+      evt.type = type;
     }
 
-    const isCollision = collisionState || this.pointCollision(evt)
-    const captured = (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture]
+    const isCollision = collisionState || this.pointCollision(evt);
+    const captured = (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
 
     if(!evt.terminated && (isCollision || captured)) {
-      evt.target = this
+      evt.target = this;
 
-      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches
+      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
       if(changedTouches && type === 'touchstart') {
         const touch = changedTouches[0],
-          layer = this.layer
+          layer = this.layer;
         if(touch && touch.identifier != null) {
-          layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || []
-          layer.touchedTargets[touch.identifier].push(this)
+          layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
+          layer.touchedTargets[touch.identifier].push(this);
         }
       }
       if(changedTouches && type.startsWith('touch')) {
         const touches = evt.originalEvent && evt.originalEvent.touches,
-          layer = this.layer
-        evt.targetTouches = []
+          layer = this.layer;
+        evt.targetTouches = [];
 
         Array.from(touches).forEach((touch) => {
-          const identifier = touch.identifier
+          const identifier = touch.identifier;
           if(layer.touchedTargets[identifier] && layer.touchedTargets[identifier].indexOf(this) >= 0) {
-            evt.targetTouches.push(touch)
+            evt.targetTouches.push(touch);
           }
-        })
-        evt.touches = Array.from(touches)
-        evt.changedTouches = Array.from(changedTouches)
+        });
+        evt.touches = Array.from(touches);
+        evt.changedTouches = Array.from(changedTouches);
       }
 
-      const handlers = this[_eventHandlers][type]
+      const handlers = this[_eventHandlers][type];
       if(handlers) {
-        handlers.forEach(handler => handler.call(this, evt))
+        handlers.forEach(handler => handler.call(this, evt));
       }
 
       if(isCollision && type === 'mousemove') {
         if(!this[_collisionState]) {
-          const _evt = Object.assign({}, evt)
-          _evt.type = 'mouseenter'
-          _evt.terminated = false
+          const _evt = Object.assign({}, evt);
+          _evt.type = 'mouseenter';
+          _evt.terminated = false;
 
-          this.dispatchEvent('mouseenter', _evt, true)
+          this.dispatchEvent('mouseenter', _evt, true);
         }
-        this[_collisionState] = true
+        this[_collisionState] = true;
       }
     }
 
     if(!isCollision && type === 'mousemove') {
       if(this[_collisionState]) {
-        const _evt = Object.assign({}, evt)
-        _evt.type = 'mouseleave'
-        _evt.target = this
-        _evt.terminated = false
+        const _evt = Object.assign({}, evt);
+        _evt.type = 'mouseleave';
+        _evt.target = this;
+        _evt.terminated = false;
 
-        this.dispatchEvent('mouseleave', _evt, true)
+        this.dispatchEvent('mouseleave', _evt, true);
       }
-      this[_collisionState] = false
+      this[_collisionState] = false;
     }
 
-    return isCollision
+    return isCollision;
   }
+
   // called when layer appendChild
   connect(parent, zOrder = 0) {
     if(this.parent) {
       // throw new Error('This node belongs to another parent node! Remove it first...')
-      this.disconnect(this.parent)
+      this.disconnect(this.parent);
     }
 
     Object.defineProperty(this, 'zOrder', {
       value: zOrder,
       writable: false,
       configurable: true,
-    })
+    });
 
     Object.defineProperty(this, 'parent', {
       get: () => parent,
       configurable: true,
-    })
+    });
 
-    const handlers = this[_eventHandlers].append
+    const handlers = this[_eventHandlers].append;
     if(handlers && handlers.length) {
       this.dispatchEvent('append', {
         parent,
         zOrder,
-      }, true, true)
+      }, true, true);
     }
 
-    return this
+    return this;
   }
 
   // override to recycling resources
   disconnect(parent) {
     if(!this.parent || parent !== this.parent) {
-      throw new Error('Invalid node to disconnect')
+      throw new Error('Invalid node to disconnect');
     }
 
-    const zOrder = this.zOrder
-    delete this.zOrder
+    const zOrder = this.zOrder;
+    delete this.zOrder;
 
-    const handlers = this[_eventHandlers].remove
+    const handlers = this[_eventHandlers].remove;
     if(handlers && handlers.length) {
       this.dispatchEvent('remove', {
         parent,
         zOrder,
-      }, true, true)
+      }, true, true);
     }
 
-    delete this.parent
+    delete this.parent;
 
-    return this
+    return this;
   }
 }
