@@ -7895,6 +7895,7 @@ let GroupAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_2__["parseV
 
   set clip(val) {
     this.clearCache();
+    this.clearFlow();
     if (val) {
       val = typeof val === 'string' ? { d: val } : val;
       this.subject.svg = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["createSvgPath"])(val);

@@ -27,6 +27,7 @@ class GroupAttr extends BaseSprite.Attr {
   @attr
   set clip(val) {
     this.clearCache()
+    this.clearFlow()
     if(val) {
       val = typeof val === 'string' ? {d: val} : val
       this.subject.svg = createSvgPath(val)

@@ -13400,6 +13400,7 @@ var GroupAttr = (_dec = (0, _spriteUtils.parseValue)(parseFloat), _dec2 = (0, _s
     key: 'clip',
     set: function set(val) {
       this.clearCache();
+      this.clearFlow();
       if (val) {
         val = typeof val === 'string' ? { d: val } : val;
         this.subject.svg = (0, _path.createSvgPath)(val);
