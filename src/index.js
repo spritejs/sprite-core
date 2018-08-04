@@ -1,4 +1,4 @@
-import {Effects, Easings} from 'sprite-animator';
+import {Effects, Easings, Timeline} from 'sprite-animator';
 import SvgPath from 'svg-path-to-canvas';
 import * as utils from 'sprite-utils';
 import * as math from 'sprite-math';
@@ -33,6 +33,7 @@ export {
   Group,
   Effects,
   Easings,
+  Timeline,
   registerNodeType,
   createNode,
   createElement,

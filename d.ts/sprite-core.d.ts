@@ -81,13 +81,13 @@ declare namespace spritejs {
     width: number,
     color: string,
     style: string,
-  }
+  };
 
   interface ITransition {
     end();
     reverse(): Promise;
     attr(name: string, value: any): Promise;
-  }
+  };
 
   interface ITiming {
     duration: number;
@@ -97,7 +97,13 @@ declare namespace spritejs {
     delay: number;
     endDelay: number;
     direction: string;
-  }
+  };
+
+  interface IPath {
+    d: string;
+    transform: ITransform;
+    trim: boolean;
+  };
 
   class Color {
     constructor(color: String|IColor) :void
@@ -146,7 +152,7 @@ declare namespace spritejs {
   };
 
   private class Attr {
-    constructor(subject: BaseNode);
+    constructor(subject: BaseSprite);
     setDefault(attrs: Object, props: Object = {});
     saveObj(key: string, value: any);
     loadObj(key: string): any;
@@ -158,7 +164,7 @@ declare namespace spritejs {
     clearFlow(): Attr;
     merge(attrs: Object): Attr;
     serialize(): string;
-    subject(): BaseNode;
+    subject(): BaseSprite;
     id: string;
     name: string;
     anchor: IPoint;
@@ -195,10 +201,11 @@ declare namespace spritejs {
   };
 
   class BaseSprite extends BaseNode{
-    static Attr: Attr;
+    static Attr = Attr;
     static setAttributeEffects(effects: Object = {});
     static addAttributes(attrs: Object = {});
-    static defineAttributes(attrs: Object, effects: Object): Attr
+    static defineAttributes(attrs: Object, effects: Object): Attr;
+    constructor(attr?: Object);
     cachePriority: number;
     get layer(): Layer;
     reflow();
@@ -255,23 +262,127 @@ declare namespace spritejs {
   };
 
   class Batch {
-    
+    constructor(layer: Layer);
+    get baseNode(): BaseSprite;
+    add(...nodes: BaseSprite);
+    remove(...nodes: BaseSprite);
+  };
+
+  private class TextureAttr extends Attr {
+    constructor(subject: Sprite);
+    textures: Array;
+    loadTextures(textures: Array);
   };
   
   class Sprite extends BaseSprite {
+    static Attr = TextureAttr;
+    constructor(attr?: Object);
+    cloneNode(): Sprite;
+    images: Array;
+    textures: Array;
+    get clientSize(): ISize;
+    pointCollision(event: IEventArguments): boolean;
+    cache: CanvasRenderingContext2D;
+    render(t: number, context: CanvasRenderingContext2D);
+    nodeType = 'sprite';
+  };
 
+  private class LabelSpriteAttr extends Attr {
+    constructor(subject: Label);
+    text: string;
+    font: string;
+    lineHeight: number;
+    textAlign: string;
+    color: string;
+    strokeColor: string;
+    fillColor: string;
+    flexible: boolean;
+    lineBreak: string;
+    wordBreak: string;
+    letterSpacing: number;
+    textIndent: number;
+    width: number;
+    layoutWidth: number;
   };
   
   class Label extends BaseSprite {
+    static Attr = LabelSpriteAttr;
+    constructor(attr?: Object);
+    text: string;
+    get textBoxSize(): ISize;
+    get flexibleFont(): string;
+    get contentSize(): ISize;
+    render(t: number, context: CanvasRenderingContext2D);
+    nodeType = 'label';
+  };
 
+  private class PathSpriteAttr {
+    constructor(subject: Path);
+    path: IPath;
+    d: string;
+    lineWidth: number;
+    lineDash: Array;
+    lineDashOffset: number;
+    lineCap: string;
+    lineJoin: string;
+    strokeColor: string;
+    fillColor: string;
+    flexible: boolean;
+    bounding: string;
   };
 
   class Path extends BaseSprite {
+    static Attr = PathSpriteAttr;
+    constructor(attr?: Object);
+    path: IPath;
+    getPointAtLength(length: number): IPoint;
+    getPathLength(): number;
+    findPath(offsetX: number, offsetY: number): SvgPath;
+    get lineWidth(): number;
+    get pathOffset(): IPoint;
+    get pathSize(): ISize;
+    get contentSize(): ISize;
+    get originalRect(): IRect;
+    pointCollision(event: IEventArguments): boolean;
+    render(t: number, context: CanvasRenderingContext2D);
+    nodeType = 'path';
+  };
+
+  interface ILayerOptions {
+    context: CanvasRenderingContext2D;
+    handleEvent: boolean;
+    evaluteFPS: boolean;
+    renderMode: string;
+    autoRender: boolean;
+  };
+
+  class Timeline {
 
   };
 
   class Layer extends BaseNode {
-
+    constructor(options: ILayerOptions);
+    autoRender: boolean;
+    get layer(): Layer;
+    get children(): Array;
+    get timeline(): Timeline;
+    get context(): CanvasRenderingContext2D;
+    get canvas(): Canvas;
+    get offset(): IPoint;
+    clearContext(context: CanvasRenderingContext2D);
+    remove(...children: BaseSprite): Array;
+    prepareRender(): Promise;
+    draw(clearContext: boolean = true);
+    update(target: BaseSprite);
+    isVisible(sprite: BaseSprite): boolean;
+    get fps(): number;
+    drawSprites(renderEls: Array, t: number);
+    renderRepaintAll(t: number, clearContext = true);
+    renderRepaintDirty(t: number, clearContext = true);
+    pointCollision(event: IEventArguments): boolean;
+    dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
+    // connect(parent: Scene, zOrder:number = 0);
+    // disconnect(parent: Scene);    
   };
 
   class Group extends BaseSprite {
