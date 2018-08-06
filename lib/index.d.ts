@@ -4,33 +4,33 @@ export as namespace spritejs;
 declare namespace spritejs {
   interface IColor {
     model: string;
-    value: Array;
-  };
+    value: Array<number>;
+  }
   
-  interface ITransformMatrix extends Array {
-    [a: 0]: number;
-    [b: 1]: number;
-    [c: 2]: number;
-    [d: 3]: number;
-    [tx: 4]: number;
-    [ty: 5]: number;      
-  };
+  interface ITransformMatrix extends Array<number> {
+    [0]: number;
+    [1]: number;
+    [2]: number;
+    [3]: number;
+    [4]: number;
+    [5]: number;      
+  }
   
-  interface IPoint extends Array {
-    [x: 0]: number;
-    [y: 1]: number;
-  };
+  interface IPoint extends Array<number> {
+    [0]: number;
+    [1]: number;
+  }
 
-  interface ISize extends Array {
-    [width: 0]: number;
-    [height: 1]: number;
-  };
+  interface ISize extends Array<number> {
+    [0]: number;
+    [1]: number;
+  }
   
-  interface IPoint3D extends Array {
-    [x: 0]: number;
-    [y: 1]: number;
-    [z: 2]: number;
-  };
+  interface IPoint3D extends Array<number> {
+    [0]: number;
+    [1]: number;
+    [2]: number;
+  }
   
   interface IEventArguments {
     type: string;
@@ -42,28 +42,28 @@ declare namespace spritejs {
     layerY?: number;
     parentX?: number;
     parentY?: number;
-  };
+  }
   
-  interface IBox extends Array {
-    [left: 0]: number;
-    [top: 1]: number;
-    [right: 2]: number;
-    [bottom: 3]: number;
-  };
+  interface IBox extends Array<number> {
+    [0]: number;
+    [1]: number;
+    [2]: number;
+    [3]: number;
+  }
 
-  interface IRelativePos extends Array {
-    [top: 0]: number;
-    [right: 1]: number;
-    [bottom: 2]: number;
-    [left: 3]: number;
-  };
+  interface IRelativePos extends Array<number> {
+    [0]: number;
+    [1]: number;
+    [2]: number;
+    [3]: number;
+  }
   
-  interface IRect extends Array {
-    [left: 0]: number;
-    [top: 1]: number;
-    [width: 2]: number;
-    [height: 3]: number;
-  };
+  interface IRect extends Array<number> {
+    [0]: number;
+    [1]: number;
+    [2]: number;
+    [3]: number;
+  }
   
   interface ITransform {
     translate?: IPoint;
@@ -71,23 +71,23 @@ declare namespace spritejs {
     scale?: IPoint;
     skew?: IPoint;
     matrix?: ITransformMatrix;
-  };
+  }
   
   interface IDecorator {
     (target: any, prop: string, descriptor: PropertyDecorator): PropertyDecorator;
-  };
+  }
   
   interface IBorder {
     width: number,
     color: string,
     style: string,
-  };
+  }
 
   interface ITransition {
     end();
-    reverse(): Promise;
-    attr(name: string, value: any): Promise;
-  };
+    reverse(): Promise<Object>;
+    attr(name: string, value: any): Promise<Object>;
+  }
 
   interface ITiming {
     duration: number;
@@ -97,21 +97,21 @@ declare namespace spritejs {
     delay: number;
     endDelay: number;
     direction: string;
-  };
+  }
 
   interface IPath {
     d: string;
     transform: ITransform;
     trim: boolean;
-  };
+  }
 
   class Color {
-    constructor(color: String|IColor) :void
-    toString(): string
-    get str(): string
-  };
+    constructor(color: String|IColor);
+    toString(): string;
+    readonly str: string;
+  }
 
-  declare namespace math {
+  namespace math {
     class Matrix {
       constructor(m: ITransformMatrix);
       unit(): Matrix;
@@ -126,19 +126,19 @@ declare namespace spritejs {
     }
 
     class Vector {
-      constructor(p1: IPoint3D, p2: IPoint3D = [0, 0, 0]);
-      get length(): number;
+      constructor(p1: IPoint3D, p2: IPoint3D);
+      readonly length: number;
       unit(): Vector;
       dot(v: Vector): number;
       cross(v: Vector): Vector;
     }
-  };
+  }
 
   class BaseNode {
     constructor();
-    get dataset(): Object;
+    readonly dataset: Object;
     data(prop: string, val?: any): any;
-    getEventHandlers(type: string): Array;
+    getEventHandlers(type: string): Array<Function>;
     on(type: string, handler: Function): BaseNode;
     off(type: string, handler?: Function): BaseNode;
     addEventListener(type: string, handler: Function): BaseNode;
@@ -147,19 +147,19 @@ declare namespace spritejs {
     setMouseCapture();
     releaseMouseCapture();
     dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
-    connect(parent: BaseNode, zOrder: number = 0): BaseNode;
+    connect(parent: BaseNode, zOrder: number): BaseNode;
     disconnect(parent: BaseNode): BaseNode;
-  };
+  }
 
-  private class Attr {
+  class Attr {
     constructor(subject: BaseSprite);
-    setDefault(attrs: Object, props: Object = {});
+    setDefault(attrs: Object, props: Object);
     saveObj(key: string, value: any);
     loadObj(key: string): any;
     quietSet(key: string, value: any);
     set(key: string, value: any);
     get(key: string): any;
-    get attrs(): Object;
+    readonly attrs: Object;
     clearCache(): Attr;
     clearFlow(): Attr;
     merge(attrs: Object): Attr;
@@ -188,7 +188,6 @@ declare namespace spritejs {
     borderRadius: number;
     boxSizing: string;
     dashOffset: number;
-    display: string;
     padding: IRelativePos;
     margin: IRelativePos;
     zIndex: number;
@@ -198,16 +197,16 @@ declare namespace spritejs {
     filter: Object;
     shadow: Object;
     bgimage: Object;
-  };
+  }
 
   class BaseSprite extends BaseNode{
-    static Attr = Attr;
-    static setAttributeEffects(effects: Object = {});
-    static addAttributes(attrs: Object = {});
+    static Attr;
+    static setAttributeEffects(effects: Object);
+    static addAttributes(attrs: Object);
     static defineAttributes(attrs: Object, effects: Object): Attr;
     constructor(attr?: Object);
     cachePriority: number;
-    get layer(): Layer;
+    readonly layer: Layer;
     reflow();
     flow(prop: string, value: any);
     serialize(): string;
@@ -215,8 +214,8 @@ declare namespace spritejs {
     cloneNode(): BaseSprite;
     id: string;
     name: string;
-    get hasLayout(): boolean;
-    get zIndex(): number;
+    readonly hasLayout: boolean;
+    readonly zIndex: number;
     getAttribute(name: string): any;
     setAttribute(name: string, value: any): BaseSprite;
     removeAttribute(name: string): BaseSprite;
@@ -224,28 +223,28 @@ declare namespace spritejs {
     attr(name: string, value: any): BaseSprite;
     attr(attrs: Object): BaseSprite;
     attr(): Object;
-    get attributes(): Attr;
-    get isVirtual(): boolean;
+    readonly attributes: Attr;
+    readonly isVirtual: boolean;
     isVisible(): boolean;
-    get transform(): ITransformMatrix;
+    readonly transform: ITransformMatrix;
     transition(sec: number, easing: string): ITransition;
-    animate(frames: Array, timing: ITiming): Animation;
-    connect(parent: Group|Layer, zOrder:number = 0);
+    animate(frames: Array<Object>, timing: ITiming): Animation;
+    connect(parent: Group|Layer, zOrder:number);
     disconnect(parent: Group|Layer);
-    get attrSize(): ISize;
-    get contentSize(): ISize;
-    get clientSize(): ISize;
-    get offsetSize(): ISize;
-    get outerSize(): ISize;
-    get innerSize(): ISize;
-    get layoutSize(): ISize;
-    getLayerXY(dx: number = 0, dy: number = 0): IPoint;
-    get boundingRect(): IRect;
-    get originalRect(): IRect;
-    get originalRenderRect(): IRect;
-    get renderBox(): IBox;
-    get renderRect(): IRect;
-    get verticles(): Array;
+    readonly attrSize: ISize;
+    readonly contentSize: ISize;
+    readonly clientSize: ISize;
+    readonly offsetSize: ISize;
+    readonly outerSize: ISize;
+    readonly innerSize: ISize;
+    readonly layoutSize: ISize;
+    getLayerXY(dx: number, dy: number): IPoint;
+    readonly boundingRect: IRect;
+    readonly originalRect: IRect;
+    readonly originalRenderRect: IRect;
+    readonly renderBox: IBox;
+    readonly renderRect: IRect;
+    readonly verticles: Array<IPoint>;
     cache: CanvasRenderingContext2D;
     clearCache();
     remove();
@@ -258,36 +257,35 @@ declare namespace spritejs {
     relayout();
     draw(t: number, context: CanvasRenderingContext2D);
     render(t: number, context: CanvasRenderingContext2D);
-    nodeType = 'basesprite';
-  };
+    nodeType: string;
+  }
 
   class Batch {
     constructor(layer: Layer);
-    get baseNode(): BaseSprite;
-    add(...nodes: BaseSprite);
-    remove(...nodes: BaseSprite);
-  };
+    readonly baseNode: BaseSprite;
+    add(...nodes: Array<BaseSprite>);
+    remove(...nodes: Array<BaseSprite>);
+  }
 
-  private class TextureAttr extends Attr {
+  class TextureAttr extends Attr {
     constructor(subject: Sprite);
-    textures: Array;
-    loadTextures(textures: Array);
-  };
+    textures: Array<Object|string>;
+    loadTextures(textures: Array<Object|string>);
+  }
   
   class Sprite extends BaseSprite {
-    static Attr = TextureAttr;
+    static Attr;
     constructor(attr?: Object);
     cloneNode(): Sprite;
-    images: Array;
-    textures: Array;
-    get clientSize(): ISize;
+    images: Array<ImageBitmap>;
+    textures: Array<Object|string>;
+    readonly clientSize: ISize;
     pointCollision(event: IEventArguments): boolean;
     cache: CanvasRenderingContext2D;
     render(t: number, context: CanvasRenderingContext2D);
-    nodeType = 'sprite';
-  };
+  }
 
-  private class LabelSpriteAttr extends Attr {
+  class LabelSpriteAttr extends Attr {
     constructor(subject: Label);
     text: string;
     font: string;
@@ -303,25 +301,24 @@ declare namespace spritejs {
     textIndent: number;
     width: number;
     layoutWidth: number;
-  };
+  }
   
   class Label extends BaseSprite {
-    static Attr = LabelSpriteAttr;
+    static Attr;
     constructor(attr?: Object);
     text: string;
-    get textBoxSize(): ISize;
-    get flexibleFont(): string;
-    get contentSize(): ISize;
+    readonly textBoxSize: ISize;
+    readonly flexibleFont: string;
+    readonly contentSize: ISize;
     render(t: number, context: CanvasRenderingContext2D);
-    nodeType = 'label';
-  };
+  }
 
-  private class PathSpriteAttr {
+  class PathSpriteAttr {
     constructor(subject: Path);
     path: IPath;
     d: string;
     lineWidth: number;
-    lineDash: Array;
+    lineDash: Array<number>;
     lineDashOffset: number;
     lineCap: string;
     lineJoin: string;
@@ -329,24 +326,23 @@ declare namespace spritejs {
     fillColor: string;
     flexible: boolean;
     bounding: string;
-  };
+  }
 
   class Path extends BaseSprite {
-    static Attr = PathSpriteAttr;
+    static Attr;
     constructor(attr?: Object);
     path: IPath;
     getPointAtLength(length: number): IPoint;
     getPathLength(): number;
     findPath(offsetX: number, offsetY: number): SvgPath;
-    get lineWidth(): number;
-    get pathOffset(): IPoint;
-    get pathSize(): ISize;
-    get contentSize(): ISize;
-    get originalRect(): IRect;
+    readonly lineWidth: number;
+    readonly pathOffset: IPoint;
+    readonly pathSize: ISize;
+    readonly contentSize: ISize;
+    readonly originalRect: IRect;
     pointCollision(event: IEventArguments): boolean;
     render(t: number, context: CanvasRenderingContext2D);
-    nodeType = 'path';
-  };
+  }
 
   interface ILayerOptions {
     context: CanvasRenderingContext2D;
@@ -354,7 +350,7 @@ declare namespace spritejs {
     evaluteFPS: boolean;
     renderMode: string;
     autoRender: boolean;
-  };
+  }
 
   interface ITimeMark {
     globalTime: number;
@@ -362,67 +358,66 @@ declare namespace spritejs {
     entropy: number;
     playbackRate: number;
     globalEntropy: number;
-  };
+  }
 
   class Timeline {
     constructor(options: Object, parent?: Timeline);
-    get parent(): Timeline?;
-    get lastTimeMark(): ITimeMark;
-    markTime({time: number, entropy: number, playbackRate: number} = {});
+    readonly parent: Timeline;
+    readonly lastTimeMark: ITimeMark;
+    markTime(time: Object);
     currentTime: number;
     entropy: number;
-    get globalEntropy(): number;
-    get globalTime(): number;
+    readonly globalEntropy: number;
+    readonly globalTime: number;
     fork(options: Object): Timeline;
     seekGlobalTime(entropy: number): number;
     seekLocalTime(entropy: number): number;
     seekTimeMark(entropy: number): ITimeMark;
     playbackRate: number;
-    get paused(): boolean;
+    readonly paused: boolean;
     updateTimers();
     clearTimeout(id: symbol);
     clearInterval(id: symbol);
     clear();
-    setTimeout(handler: Function, time = {delay: 0}): symbol;
-    setInterval(handler: Function, time = {delay: 0}): symbol;
-  };
+    setTimeout(handler: Function, time): symbol;
+    setInterval(handler: Function, time): symbol;
+  }
 
   class Layer extends BaseNode {
     constructor(options: ILayerOptions);
     autoRender: boolean;
-    get layer(): Layer;
-    get children(): Array;
-    get timeline(): Timeline;
-    get context(): CanvasRenderingContext2D;
-    get canvas(): Canvas;
-    get offset(): IPoint;
+    readonly layer: Layer;
+    readonly children: Array<BaseSprite>;
+    readonly timeline: Timeline;
+    readonly context: CanvasRenderingContext2D;
+    readonly canvas: HTMLCanvasElement;
+    readonly offset: IPoint;
     clearContext(context: CanvasRenderingContext2D);
-    remove(...children: BaseSprite): Array;
-    prepareRender(): Promise;
-    draw(clearContext: boolean = true);
+    remove(...children: Array<BaseSprite>): Array<BaseSprite>;
+    prepareRender(): Promise<Object>;
+    draw(clearContext: boolean);
     update(target: BaseSprite);
     isVisible(sprite: BaseSprite): boolean;
-    get fps(): number;
-    drawSprites(renderEls: Array, t: number);
-    renderRepaintAll(t: number, clearContext = true);
-    renderRepaintDirty(t: number, clearContext = true);
+    readonly fps: number;
+    drawSprites(renderEls: Array<BaseSprite>, t: number);
+    renderRepaintAll(t: number, clearContext);
+    renderRepaintDirty(t: number, clearContext);
     pointCollision(event: IEventArguments): boolean;
     dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
     // connect(parent: Scene, zOrder:number = 0);
     // disconnect(parent: Scene);
-    group(...sprites: BaseSprite): Group;
-    batch(...sprites: BaseSprite): Batch;
-    adjust(...handler: Function, update: boolean);
+    group(...sprites: Array<BaseSprite>): Group;
+    batch(...sprites: Array<BaseSprite>): Batch;
+    adjust(handler: Function, update: boolean);
     clearUpdate();
-    appendChild(sprite: BaseSprite, update = true): BaseSprite;
-    append(...sprites: BaseSprite);
+    appendChild(sprite: BaseSprite, update): BaseSprite;
+    append(...sprites: Array<BaseSprite>);
     removeChild(sprite: BaseSprite): BaseSprite;
-    clear(): Array;
+    clear(): Array<BaseSprite>;
     insertBefore(newChild: BaseSprite, refChild: BaseSprite): BaseSprite;
-    nodeType = 'layer';
-  };
+  }
 
-  private class GroupAttr extends Attr {
+  class GroupAttr extends Attr {
     constructor(subject: Group);
     clip: IPath;
     width: number;
@@ -437,51 +432,51 @@ declare namespace spritejs {
     justifyContent: string;
     alignItems: string;
     alignContent: string;
-  };
+  }
 
   interface ILayout {
     attrs: Object;
-    relayout(container: Group, items: Array);
-  };
+    relayout(container: Group, items: Array<BaseSprite>);
+  }
 
   class Group extends BaseSprite {
-    static Attr = GroupAttr;
+    static Attr;
     static applyLayout(name, layout: ILayout);
     constructor(attr: Object);
-    get isVirtual(): boolean;
+    readonly isVirtual: boolean;
     scrollTo(x: number, y: number);
     scrollBy(dx: number, dy: number);
-    cloneNode(deepCopy: boolean);
-    get children(): Array;
+    cloneNode(): BaseSprite;
+    cloneNode(deepCopy: boolean): BaseSprite;
+    readonly children: Array<BaseSprite>;
     update(child: BaseSprite);
     pointCollision(event: IEventArguments);
-    get contentSize(): ISize;
+    readonly contentSize: ISize;
     dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
     relayout();
     clearLayout();
     render(t: number, context: CanvasRenderingContext2D);
-    appendChild(sprite: BaseSprite, update = true): BaseSprite;
-    append(...sprites: BaseSprite);
+    appendChild(sprite: BaseSprite, update: boolean): BaseSprite;
+    append(...sprites: Array<BaseSprite>);
     removeChild(sprite: BaseSprite): BaseSprite;
-    clear(): Array;
+    clear(): Array<BaseSprite>;
     insertBefore(newChild: BaseSprite, refChild: BaseSprite): BaseSprite;
-    nodeType = 'group';
-  };
+  }
 
 
-  declare var Effects = {
-    default: (from: number, to: number, p: number, s: number, e: number) => number
-  };
+  interface Effects {
+    default: (from: number, to: number, p: number, s: number, e: number) => number;
+  }
   
-  declare var Easings = {
-    linear: (p) => number,
-    ease: (p) => number,
-    'ease-in': (p) => number,
-    'ease-out': (p) => number,
-    'ease-in-out': (p) => number,
-    'step-start': (p) => number,
-    'step-end': (p) => number,
-  };
+  interface Easings {
+    linear: (p) => number;
+    ease: (p) => number;
+    'ease-in': (p) => number;
+    'ease-out': (p) => number;
+    'ease-in-out': (p) => number;
+    'step-start': (p) => number;
+    'step-end': (p) => number;
+  }
 
   function registerNodeType();
   function createNode();
@@ -491,15 +486,15 @@ declare namespace spritejs {
     constructor(d: string);
     save();
     restore();
-    get bounds(): IRect;
-    get size(): ISize;
-    get center(): IPoint;
-    get d(): string;
-    get path(): IPath;
+    readonly bounds: IRect;
+    readonly size: ISize;
+    readonly center: IPoint;
+    readonly d: string;
+    readonly path: IPath;
     isPointInPath(x: number, y: number): boolean;
     getPointAtLength(len: number): IPoint;
     getTotalLength(): number;
-    transform(...args: number): SvgPath;
+    transform(...args: Array<number>): SvgPath;
     translate(x: number, y: number): SvgPath;
     rotate(deg: number): SvgPath;
     scale(x: number, y: number): SvgPath;
@@ -512,36 +507,36 @@ declare namespace spritejs {
     lineWidth(value: number): SvgPath;
     lineCap(value: string): SvgPath;
     lineJoin(value: string): SvgPath;
-  };
+  }
 
-  declare namespace utils {
-    function appendUnit(value: number|string, defaultUnit: string = 'px'): string;
+  namespace utils {
+    function appendUnit(value: number|string, defaultUnit: string): string;
     function attr(target: any, prop: string, descriptor: PropertyDecorator): PropertyDescriptor;
     function boxEqual(box1: IBox, box2: IBox): boolean;
     function boxIntersect(box1: IBox, box2: IBox): boolean;
     function boxToRect(box: IBox): IRect;
     function boxUnion(box1: IBox, box2: IBox): IBox;
-    declare var cacheContextPool = {
-      get: (context: CanvasRenderingContext2D) => CanvasRenderingContext2D,
-      put: (...contexts: CanvasRenderingContext2D) => undefined,
-      get size(): number
-    };
-    function deprecate(...args: string): IDecorator;
+    interface cacheContextPool {
+      get: (context: CanvasRenderingContext2D) => CanvasRenderingContext2D;
+      put: (...contexts: Array<CanvasRenderingContext2D>) => undefined;
+      readonly size: number;
+    }
+    function deprecate(...args: Array<string>): IDecorator;
     function findColor(context: CanvasRenderingContext2D, sprite: BaseSprite, prop: string);
     function flow(target: any, prop: string, descriptor: PropertyDecorator): PropertyDescriptor;
-    function fourValuesShortCut(value: number|Array): Array;
-    function notice(msg: string, level: string = 'warn');
-    function oneOrTwoValues(value: number|Array): Array;
+    function fourValuesShortCut(value: number|Array<number>): Array<number>;
+    function notice(msg: string, level: string);
+    function oneOrTwoValues(value: number|Array<number>): Array<number>;
     function parseColor(color: string|IColor): Color;
     function parseColorString(color: string|IColor): string;
-    function praseString(str: string): Array;
-    function parseStringFloat(str: string): Array;
-    function parseStringInt(str: string): Array;
+    function praseString(str: string): Array<any>;
+    function parseStringFloat(str: string): Array<number>;
+    function parseStringInt(str: string): Array<number>;
     function parseStringTransform(str: string): ITransform;
-    function parseValue(...parsers: Function): IDecorator;
+    function parseValue(...parsers: Array<Function>): IDecorator;
     function rectToBox(rect: IRect): IBox;
-    function rectVertices(rect: IRect): Array;
-    function resolveValue(...resolvers: Function): IDecorator;
-    function sortOrderedSprites(sprites: Array, reversed: boolean = false);
-  };
+    function rectVertices(rect: IRect): Array<IPoint>;
+    function resolveValue(...resolvers: Array<Function>): IDecorator;
+    function sortOrderedSprites(sprites: Array<BaseSprite>, reversed: boolean);
+  }
 }

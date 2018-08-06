@@ -1,9 +1,10 @@
 {
   "name": "sprite-core",
-  "version": "2.9.3",
+  "version": "2.9.5",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
-  "types": "sprite-core.d.ts",
+  "types": "./lib/index.d.ts",
+  "typings": "./lib/index.d.ts",
   "esnext": {
     "./lib/index.js": "./src/index.js"
   },
@@ -21,8 +22,8 @@
     "start": "webpack-dev-server --watch-poll",
     "benchmark": "webpack-dev-server --watch-poll --env.server=benchmark",
     "build": "rm -rf dist/* && ./script/build.js",
-    "compile": "rm -rf lib/* && babel src -d lib --watch",
-    "prepublishOnly": "rm -rf lib/* && babel src -d lib && npm run build"
+    "compile": "rm -rf lib/* && babel src -d lib && cp src/index.d.ts lib/index.d.ts",
+    "prepublishOnly": "npm run compile && npm run build"
   },
   "repository": {
     "type": "git",
