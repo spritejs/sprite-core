@@ -106,6 +106,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Easings", function() { return sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Easings"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Timeline", function() { return sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"]; });
+
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SvgPath", function() { return svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
@@ -3321,7 +3323,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     Object.assign(this.prototype[_effects], effects);
   }
 
-  static addAttributes(attrs) {
+  static addAttributes(attrs = {}) {
     Object.entries(attrs).forEach(([prop, handler]) => {
       let getter = function () {
         return this.get(prop);
@@ -3370,7 +3372,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
         if (attrs.init) attrs.init(this, subject);
       }
     };
-    this.addAttributes(attrs);
+    if (attrs) this.addAttributes(attrs);
     if (effects) this.setAttributeEffects(effects);
     return this.Attr;
   }

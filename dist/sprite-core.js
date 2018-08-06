@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SvgPath = exports.Color = exports.createElement = exports.createNode = exports.registerNodeType = exports.Easings = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
+exports.SvgPath = exports.Color = exports.createElement = exports.createNode = exports.registerNodeType = exports.Timeline = exports.Easings = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
 
 var _spriteAnimator = __webpack_require__(1);
 
@@ -177,6 +177,7 @@ exports.Layer = _layer2.default;
 exports.Group = _group2.default;
 exports.Effects = _spriteAnimator.Effects;
 exports.Easings = _spriteAnimator.Easings;
+exports.Timeline = _spriteAnimator.Timeline;
 exports.registerNodeType = _nodetype.registerNodeType;
 exports.createNode = _nodetype.createNode;
 exports.createElement = _nodetype.createElement;
@@ -8132,8 +8133,10 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
     }
   }, {
     key: 'addAttributes',
-    value: function addAttributes(attrs) {
+    value: function addAttributes() {
       var _this5 = this;
+
+      var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       (0, _entries2.default)(attrs).forEach(function (_ref11) {
         var _ref12 = (0, _slicedToArray3.default)(_ref11, 2),
@@ -8197,7 +8200,7 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
 
         return _class3;
       }(this.Attr);
-      this.addAttributes(attrs);
+      if (attrs) this.addAttributes(attrs);
       if (effects) this.setAttributeEffects(effects);
       return this.Attr;
     }
