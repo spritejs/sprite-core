@@ -356,8 +356,35 @@ declare namespace spritejs {
     autoRender: boolean;
   };
 
-  class Timeline {
+  interface ITimeMark {
+    globalTime: number;
+    localTime: number;
+    entropy: number;
+    playbackRate: number;
+    globalEntropy: number;
+  };
 
+  class Timeline {
+    constructor(options: Object, parent?: Timeline);
+    get parent(): Timeline?;
+    get lastTimeMark(): ITimeMark;
+    markTime({time: number, entropy: number, playbackRate: number} = {});
+    currentTime: number;
+    entropy: number;
+    get globalEntropy(): number;
+    get globalTime(): number;
+    fork(options: Object): Timeline;
+    seekGlobalTime(entropy: number): number;
+    seekLocalTime(entropy: number): number;
+    seekTimeMark(entropy: number): ITimeMark;
+    playbackRate: number;
+    get paused(): boolean;
+    updateTimers();
+    clearTimeout(id: symbol);
+    clearInterval(id: symbol);
+    clear();
+    setTimeout(handler: Function, time = {delay: 0}): symbol;
+    setInterval(handler: Function, time = {delay: 0}): symbol;
   };
 
   class Layer extends BaseNode {
@@ -382,20 +409,78 @@ declare namespace spritejs {
     pointCollision(event: IEventArguments): boolean;
     dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
     // connect(parent: Scene, zOrder:number = 0);
-    // disconnect(parent: Scene);    
+    // disconnect(parent: Scene);
+    group(...sprites: BaseSprite): Group;
+    batch(...sprites: BaseSprite): Batch;
+    adjust(...handler: Function, update: boolean);
+    clearUpdate();
+    appendChild(sprite: BaseSprite, update = true): BaseSprite;
+    append(...sprites: BaseSprite);
+    removeChild(sprite: BaseSprite): BaseSprite;
+    clear(): Array;
+    insertBefore(newChild: BaseSprite, refChild: BaseSprite): BaseSprite;
+    nodeType = 'layer';
+  };
+
+  private class GroupAttr extends Attr {
+    constructor(subject: Group);
+    clip: IPath;
+    width: number;
+    height: number;
+    layoutWidth: number;
+    layoutHeight: number;
+    display: string;
+    scrollLeft: number;
+    scrollTop: number;
+    flexDirection: string;
+    flexWrap: string;
+    justifyContent: string;
+    alignItems: string;
+    alignContent: string;
+  };
+
+  interface ILayout {
+    attrs: Object;
+    relayout(container: Group, items: Array);
   };
 
   class Group extends BaseSprite {
-
+    static Attr = GroupAttr;
+    static applyLayout(name, layout: ILayout);
+    constructor(attr: Object);
+    get isVirtual(): boolean;
+    scrollTo(x: number, y: number);
+    scrollBy(dx: number, dy: number);
+    cloneNode(deepCopy: boolean);
+    get children(): Array;
+    update(child: BaseSprite);
+    pointCollision(event: IEventArguments);
+    get contentSize(): ISize;
+    dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
+    relayout();
+    clearLayout();
+    render(t: number, context: CanvasRenderingContext2D);
+    appendChild(sprite: BaseSprite, update = true): BaseSprite;
+    append(...sprites: BaseSprite);
+    removeChild(sprite: BaseSprite): BaseSprite;
+    clear(): Array;
+    insertBefore(newChild: BaseSprite, refChild: BaseSprite): BaseSprite;
+    nodeType = 'group';
   };
 
 
   declare var Effects = {
-
+    default: (from: number, to: number, p: number, s: number, e: number) => number
   };
   
   declare var Easings = {
-
+    linear: (p) => number,
+    ease: (p) => number,
+    'ease-in': (p) => number,
+    'ease-out': (p) => number,
+    'ease-in-out': (p) => number,
+    'step-start': (p) => number,
+    'step-end': (p) => number,
   };
 
   function registerNodeType();
@@ -403,7 +488,30 @@ declare namespace spritejs {
   function createElement();
 
   class SvgPath {
-
+    constructor(d: string);
+    save();
+    restore();
+    get bounds(): IRect;
+    get size(): ISize;
+    get center(): IPoint;
+    get d(): string;
+    get path(): IPath;
+    isPointInPath(x: number, y: number): boolean;
+    getPointAtLength(len: number): IPoint;
+    getTotalLength(): number;
+    transform(...args: number): SvgPath;
+    translate(x: number, y: number): SvgPath;
+    rotate(deg: number): SvgPath;
+    scale(x: number, y: number): SvgPath;
+    skew(x: number, y: number): SvgPath;
+    trim(): SvgPath;
+    beginPath(): SvgPath;
+    to(context: CanvasRenderingContext2D);
+    strokeStyle(value: string): SvgPath;
+    fillStyle(value: string): SvgPath;
+    lineWidth(value: number): SvgPath;
+    lineCap(value: string): SvgPath;
+    lineJoin(value: string): SvgPath;
   };
 
   declare namespace utils {
