@@ -176,16 +176,6 @@ export default class Layer extends BaseNode {
     return true;
   }
 
-  isNodeVisible(sprite) {
-    if(!sprite.isVisible()) {
-      return false;
-    }
-    if(sprite.parent !== this) {
-      return false;
-    }
-    return true;
-  }
-
   get fps() /* istanbul ignore next  */ {
     if(!this.evaluateFPS) {
       return NaN;
@@ -210,7 +200,7 @@ export default class Layer extends BaseNode {
       child.isDirty = false;
 
       if(child.parent === this) {
-        const isVisible = this.isNodeVisible(child);
+        const isVisible = child.isVisible();
         if(isVisible) {
           child.draw(t);
           if(this.renderMode === 'repaintDirty') {

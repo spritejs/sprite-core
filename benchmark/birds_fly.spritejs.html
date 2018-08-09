@@ -34,47 +34,47 @@
   <script src="/js/sprite-core.js"></script>
   
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const context = document.getElementById('paper').getContext('2d')
-    const fglayer = new Layer({context, evaluateFPS: true})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const context = document.getElementById('paper').getContext('2d');
+    const fglayer = new Layer({context, evaluateFPS: true});
 
-    const birdTexture = new Image()
-    birdTexture.crossOrigin = 'anonymous'
-    birdTexture.src = 'https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png'
+    const birdTexture = new Image();
+    birdTexture.crossOrigin = 'anonymous';
+    birdTexture.src = 'https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png';
 
-    const axisZero = [400, 400]
+    const axisZero = [400, 400];
 
     function pointAdd(p1, p2 = [0, 0]) {
-      return [p1[0] + p2[0], p1[1] + p2[1]].map(Math.round)
+      return [p1[0] + p2[0], p1[1] + p2[1]].map(Math.round);
     }
 
     function pointSub(p1, p2 = [0, 0]) {
-      return [p1[0] - p2[0], p1[1] - p2[1]].map(Math.round)
+      return [p1[0] - p2[0], p1[1] - p2[1]].map(Math.round);
     }
 
     function sleep(time) {
-      return new Promise(resolve => setTimeout(resolve, time))
+      return new Promise(resolve => setTimeout(resolve, time));
     }
 
     async function randomAnimate(bird) {
-      const birdPoint = bird.attr('pos')
-      const randomArc = Math.random() * 2 * Math.PI
+      const birdPoint = bird.attr('pos');
+      const randomArc = Math.random() * 2 * Math.PI;
       const randomPoint = pointAdd([350 * Math.cos(randomArc),
-        350 * Math.sin(randomArc)], axisZero)
-  
-      const dist = pointSub(randomPoint, birdPoint)
-      const distance = Math.round(Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]))
-      const flip = dist[0] < 0 ? -1 : 1
-      const duration = 5 * distance + 100
+        350 * Math.sin(randomArc)], axisZero);
 
-      bird.attr('scale', [flip, 1]) // scale 放在外面，触发缓存
+      const dist = pointSub(randomPoint, birdPoint);
+      const distance = Math.round(Math.sqrt(dist[0] * dist[0] + dist[1] * dist[1]));
+      const flip = dist[0] < 0 ? -1 : 1;
+      const duration = 5 * distance + 100;
+
+      bird.attr('scale', [flip, 1]); // scale 放在外面，触发缓存
 
       const anim = new Animator(duration, (p) => {
-        const pos = pointAdd(birdPoint, [p * dist[0], p * dist[1]])
-        bird.attr({pos})
-      })
-      await anim.animate()
+        const pos = pointAdd(birdPoint, [p * dist[0], p * dist[1]]);
+        bird.attr({pos});
+      });
+      await anim.animate();
 
       // const anim = bird.animate([
       //   {pos: birdPoint},
@@ -85,15 +85,15 @@
       // })
       // await anim.finished
 
-      await sleep(500)
+      await sleep(500);
     }
 
-    let birdCount = 0
-    const wings = [[2, 126, 86, 60], [2, 64, 86, 60], [2, 2, 86, 60]]
+    let birdCount = 0;
+    const wings = [[2, 126, 86, 60], [2, 64, 86, 60], [2, 2, 86, 60]];
 
     async function addBird() {
-      spriteCount.innerHTML = ++birdCount
-      const bird = new Sprite()
+      spriteCount.innerHTML = ++birdCount;
+      const bird = new Sprite();
 
       bird.attr({
         textures: [{image: birdTexture, srcRect: wings[0]}],
@@ -101,37 +101,37 @@
         pos: axisZero,
         size: [86, 60],
         // bgcolor: 'red',
-      })
-      window.bird = bird
+      });
+      window.bird = bird;
 
-      fglayer.appendChild(bird)
+      fglayer.appendChild(bird);
 
-      let idx = 0
+      let idx = 0;
       setInterval(() => {
-        bird.textures = [{image: birdTexture, srcRect: wings[idx++ % 3]}]
-      }, 100)
+        bird.textures = [{image: birdTexture, srcRect: wings[idx++ % 3]}];
+      }, 100);
 
       // noprotect
       do {
-        await randomAnimate(bird)
-      } while(1)
+        await randomAnimate(bird);
+      } while(1);
     }
 
     birdTexture.onload = function () {
-      addBird()
+      addBird();
       requestAnimationFrame(function f() {
         if(birdCount < 600) {
-          addBird()
-          requestAnimationFrame(f)
+          addBird();
+          requestAnimationFrame(f);
         }
-      })
-    }
+      });
+    };
 
     // 显示 fps ，注意，因为本框架采用的是非定时渲染，即只有 sprite 有更新时才渲染
     // 所以所有精灵不运动的时候 fps 也会降下来
     setInterval(() => {
-      fps.innerHTML = fglayer.fps
-    }, 1000)
+      fps.innerHTML = fglayer.fps;
+    }, 1000);
   </script>
 </body>
 </html>

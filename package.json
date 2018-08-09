@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.9.5",
+  "version": "2.9.6",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -19,6 +19,9 @@
   "scripts": {
     "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
     "lint": "eslint 'src/**/*.js' --fix",
+    "lint-test": "eslint 'test/**/*.js' --fix",
+    "lint-example": "eslint 'example/*.html' --fix",
+    "lint-benchmark": "eslint 'benchmark/*.html' --fix",
     "start": "webpack-dev-server --watch-poll",
     "benchmark": "webpack-dev-server --watch-poll --env.server=benchmark",
     "build": "rm -rf dist/* && ./script/build.js",

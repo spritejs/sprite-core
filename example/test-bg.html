@@ -10,15 +10,15 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Label = spritejs.Label
-    const Layer = spritejs.Layer
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintDirty'})
+    const Label = spritejs.Label;
+    const Layer = spritejs.Layer;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
 
-    const img = new Image()
+    const img = new Image();
     img.onload = function () {
       // console.log('load')
-      const s = new Label('测试')
+      const s = new Label('测试');
       s.attr({
         // textures: [img],
         textAlign: 'center',
@@ -35,10 +35,10 @@
           clip9: 64,
           // offset: [0, 50],
         },
-      })
-      layer.append(s)
-    }
-    img.src = 'https://p2.ssl.qhimg.com/t01c18f4e677c09a87e.jpg'
+      });
+      layer.append(s);
+    };
+    img.src = 'https://p2.ssl.qhimg.com/t01c18f4e677c09a87e.jpg';
   </script>
 </body>
 </html>

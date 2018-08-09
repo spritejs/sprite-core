@@ -10,45 +10,45 @@
   <canvas id="mycanvas" width="900" height="900"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintDirty'})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
 
-    const s = new Sprite()
+    const s = new Sprite();
     s.attr({
       size: [100, 100],
       pos: [200, 200],
       anchor: [0.5, 0.5],
       bgcolor: 'red',
-    })
-    const s2 = s.cloneNode()
+    });
+    const s2 = s.cloneNode();
     s2.attr({
       pos: [300, 300],
-    })
-    layer.append(s, s2)
+    });
+    layer.append(s, s2);
 
-    const img = document.createElement('img')
-    img.src = 'https://p0.ssl.qhimg.com/t010824825edcb60364.png'
+    const img = document.createElement('img');
+    img.src = 'https://p0.ssl.qhimg.com/t010824825edcb60364.png';
     img.onload = function () {
-      const p = new Sprite()
+      const p = new Sprite();
       p.attr({
         id: 'abc',
         textures: [{id: 'test', image: img}],
         pos: [500, 200],
-      })
-      layer.append(p)
+      });
+      layer.append(p);
 
-      const p2 = p.cloneNode()
+      const p2 = p.cloneNode();
       p2.attr({
         pos: [500, 500],
-      })
+      });
 
-      layer.append(p2)
+      layer.append(p2);
 
-      window.p = p
-      window.p2 = p2
-    }
+      window.p = p;
+      window.p2 = p2;
+    };
   </script>
 </body>
 </html>

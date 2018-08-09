@@ -10,15 +10,15 @@
   <canvas id="mycanvas" width="1200" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Label = spritejs.Label
-    const Layer = spritejs.Layer
-    const Path = spritejs.Path
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context})
+    const Sprite = spritejs.Sprite;
+    const Label = spritejs.Label;
+    const Layer = spritejs.Layer;
+    const Path = spritejs.Path;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
 
-    const g = new Group()
+    const g = new Group();
     g.attr({
       // anchor: 0.5,
       pos: [150, 150],
@@ -30,29 +30,29 @@
       alignItems: 'flex-start',
       justifyContent: 'space-between',
       display: 'flex',
-    })
-    layer.append(g)
+    });
+    layer.append(g);
 
-    const s1 = new Sprite()
+    const s1 = new Sprite();
     s1.attr({
       size: [50, 50],
       // anchor: 0.5,
       // borderRadius: 25,
       bgcolor: 'red',
       // flex: 1,
-    })
+    });
 
-    const s2 = s1.cloneNode()
+    const s2 = s1.cloneNode();
     s2.attr({
       bgcolor: 'blue',
-    })
+    });
 
-    const s3 = s1.cloneNode()
+    const s3 = s1.cloneNode();
     s3.attr({
       bgcolor: 'green',
       // padding: 8,
       // scale: [2.0, 1],
-    })
+    });
 
     s1.attr({
       width: 100,
@@ -62,22 +62,22 @@
       // transformOrigin: [50, 25],
       border: [10, 'black'],
       // padding: [0, 10],
-    })
+    });
 
-    g.append(s1, s2, s3)
+    g.append(s1, s2, s3);
 
-    const l = new Label('测试')
+    const l = new Label('测试');
     l.attr({
       font: '40px Arial',
       fillColor: 'red',
       bgcolor: '#37c',
       // width: 100,
       flexible: true,
-    })
+    });
     // layer.append(l)
-    g.append(l)
+    g.append(l);
 
-    const p = new Path('M-20,0L100,100L100,-20z')
+    const p = new Path('M-20,0L100,100L100,-20z');
     p.attr({
       // width: 100,
       strokeColor: 'cyan',
@@ -85,12 +85,12 @@
       // width: 50,
       flexible: true,
       bgcolor: 'red',
-    })
-    g.append(p)
+    });
+    g.append(p);
 
     g.attr({
       width: 300,
-    })
+    });
     // g.animate([
     //   {width: 100},
     //   {width: 300},
@@ -99,7 +99,6 @@
     //   iterations: Infinity,
     //   direction: 'alternate',
     // })
-
   </script>
 </body>
 </html>

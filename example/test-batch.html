@@ -10,18 +10,18 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const context = document.getElementById('mycanvas').getContext('2d')
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const context = document.getElementById('mycanvas').getContext('2d');
     const layer = new Layer({
       context,
       // renderMode:'repaintDirty'
-    })
+    });
 
     function createRandomBlock() {
       const x = Math.random() * 600,
         y = Math.random() * 600,
-        rotate = Math.random() * 360
+        rotate = Math.random() * 360;
 
       const s = new Sprite({
         id: 'abc',
@@ -35,33 +35,32 @@
         borderRadius: 5,
         rotate,
         zIndex: 200,
-      })
-      return s
+      });
+      return s;
     }
     
-    const blocks = []
+    const blocks = [];
     for(let i = 0; i < 2000; i++) {
-      blocks.push(createRandomBlock())
+      blocks.push(createRandomBlock());
     }
-    const batch = layer.batch(...blocks)
+    const batch = layer.batch(...blocks);
 
-    const colors = ['red', 'blue']
-    let i = 0
+    const colors = ['red', 'blue'];
+    let i = 0;
 
     setInterval(() => {
-      const bgcolor = colors[++i % 2]
-      batch.baseNode.attr({bgcolor})
+      const bgcolor = colors[++i % 2];
+      batch.baseNode.attr({bgcolor});
 
       blocks.forEach((block) => {
         const x = Math.random() * 600,
           y = Math.random() * 600,
-          rotate = Math.random() * 360
+          rotate = Math.random() * 360;
 
-        block.attr({x, y, rotate})
-      })
-    }, 16)
+        block.attr({x, y, rotate});
+      });
+    }, 16);
     // layer.draw()
-    
-  </script>
+      </script>
 </body>
 </html>

@@ -37,62 +37,62 @@
   
   <script>
   (async function () {
-    const context = document.getElementById('paper').getContext('2d')
-    const layer = new spritejs.Layer({context, evaluateFPS: true})
+    const context = document.getElementById('paper').getContext('2d');
+    const layer = new spritejs.Layer({context, evaluateFPS: true});
 
     function wait(ms) {
       return new Promise((resolve) => {
-        setTimeout(resolve, ms)
-      })
+        setTimeout(resolve, ms);
+      });
     }
 
     function randomColor() {
       const r = 0 | Math.random() * 192,
         g = 0 | Math.random() * 255,
-        b = 0 | Math.random() * 128
+        b = 0 | Math.random() * 128;
 
-      return `rgb(${r},${g},${b})`
+      return `rgb(${r},${g},${b})`;
     }
 
     async function randomCircle(r = 25) {
       const x = 100 + Math.random() * 600,
-        y = 100 + Math.random() * 600
+        y = 100 + Math.random() * 600;
 
-      const group = new spritejs.Group()
+      const group = new spritejs.Group();
       group.attr({
         pos: [x, y],
         // bgcolor: 'rgba(33,33,33,0.3)',
-      })
+      });
 
-      const sprite = new spritejs.Sprite()
+      const sprite = new spritejs.Sprite();
       sprite.attr({
         anchor: 0.5,
         size: [2 * r, 2 * r],
         borderRadius: r,
         bgcolor: randomColor(),
-      })
-      group.append(sprite)
+      });
+      group.append(sprite);
 
       let startTime = Date.now(),
-        T = 2000
+        T = 2000;
 
       requestAnimationFrame(function f() {
-        let p = (Date.now() - startTime) / T
-        p = Math.min(p, 1)
+        let p = (Date.now() - startTime) / T;
+        p = Math.min(p, 1);
         if(p < 0.5) {
-          const s = 0.8 + 0.6 * p
-          sprite.attr({scale: [s, s]})
+          const s = 0.8 + 0.6 * p;
+          sprite.attr({scale: [s, s]});
           // sprite.attr({pos: [s * 50, 0]})
         } else {
-          const s = 1.1 - 0.6 * (p - 0.5)
-          sprite.attr({scale: [s, s]})
+          const s = 1.1 - 0.6 * (p - 0.5);
+          sprite.attr({scale: [s, s]});
           // sprite.attr({pos: [s * 50, 0]})
         }
         if(p === 1) {
-          startTime = Date.now()
+          startTime = Date.now();
         }
-        requestAnimationFrame(f)
-      })
+        requestAnimationFrame(f);
+      });
       // const anim = new Animator(2000, (p) => {
       //   if(p < 0.5) {
       //     const s = 0.8 + 0.6 * p
@@ -119,23 +119,23 @@
       //   duration: 3000,
       //   iterations: Infinity,
       // })
-      layer.append(group)
-      await wait(16)
+      layer.append(group);
+      await wait(16);
     }
   
     // 显示 fps ，注意，因为本框架采用的是非定时渲染，即只有 sprite 有更新时才渲染
     // 所以所有精灵不运动的时候 fps 也会降下来
     setInterval(() => {
-      fps.innerHTML = layer.fps
-    }, 1000)
-    window.fglayer = layer
-    window.paper = paper
+      fps.innerHTML = layer.fps;
+    }, 1000);
+    window.fglayer = layer;
+    window.paper = paper;
 
     for(let i = 0; i < 500; i++) {
-      spriteCount.innerHTML = i + 1
-      await randomCircle()
+      spriteCount.innerHTML = i + 1;
+      await randomCircle();
     }
-  }())
+  }());
   </script>
 </body>
 </html>

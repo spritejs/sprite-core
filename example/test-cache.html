@@ -10,10 +10,10 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintDirty'})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
 
     const s = new Sprite({
       id: 'abc',
@@ -37,8 +37,8 @@
       //     }],
       //   },
       // },
-    })
-    layer.append(s)
+    });
+    layer.append(s);
   </script>
 </body>
 </html>

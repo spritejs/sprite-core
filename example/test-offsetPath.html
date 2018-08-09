@@ -19,16 +19,16 @@
   <script src="https://s2.ssl.qhres.com/!87edaa34/animator-0.3.1.min.js"></script>
   <script src="/js/sprite-core.js"></script>
   <script>
-  ;(async function(){
+  (function () {
     const Sprite = spritejs.Sprite,
-          Path = spritejs.Path,
-          Label = spritejs.Label,
-          Layer = spritejs.Layer
-    const context = document.querySelector('#paper canvas').getContext('2d')
+      Path = spritejs.Path,
+      Label = spritejs.Label,
+      Layer = spritejs.Layer;
+    const context = document.querySelector('#paper canvas').getContext('2d');
     const layer = new Layer({
-      context, 
-      renderMode: 'repaintDirty'
-    })
+      context,
+      renderMode: 'repaintDirty',
+    });
 
     // console.log('box', s3.renderBox)
 
@@ -70,13 +70,13 @@
     //   console.log(evt)
     // })
 
-    const s2 = new Sprite()
+    const s2 = new Sprite();
 
     s2.attr({
       anchor: [0.5, 0.5],
       pos: [100, 100],
       size: [50, 50],
-      bgcolor: 'red',
+      // bgcolor: 'red',
       opacity: 1,
       zIndex: 101,
       // transform: {
@@ -93,7 +93,7 @@
         }, {
           offset: 1,
           color: 'green',
-        }]
+        }],
       },
       border: [5, {
         direction: 135,
@@ -103,13 +103,13 @@
         }, {
           offset: 1,
           color: '#c73',
-        }]
+        }],
       }],
-    })
+    });
 
-    window.s2 = s2
+    window.s2 = s2;
 
-    const s3 = new Sprite()
+    const s3 = new Sprite();
 
     s3.attr({
       anchor: [0.5, 0.5],
@@ -119,33 +119,33 @@
       border: [15, 'blue'],
       opacity: 0.5,
       zIndex: 500,
-    })
+    });
 
 
     layer.append(s2, s3);
 
-    window.s3 = s3
+    window.s3 = s3;
 
-    s2.on('click', e => {
-      console.log(111)
-    })
+    s2.on('click', (e) => {
+      console.log(111);
+    });
 
-    const s4 = new Path()
+    const s4 = new Path();
 
     s4.attr({
       anchor: [0, 0],
       pos: [300, 100],
-      //size: [200, 200],
+      // size: [200, 200],
       bgcolor: '#ddd',
-      //renderMode: 'fill',
+      // renderMode: 'fill',
       lineWidth: 10,
-      //border: [10, 'black'],
+      // border: [10, 'black'],
       lineCap: 'round',
       d: 'M10,80 q100,120 120,20 q140,-50 160,0',
-      //d: 'M10 80 h260 v206 h-260Z',
+      // d: 'M10 80 h260 v206 h-260Z',
       strokeColor: {
-        //direction: 45,
-        //rect: [0, 0, 100, 100],
+        // direction: 45,
+        // rect: [0, 0, 100, 100],
         vector: [10, 50, 290, 200],
         colors: [{
           offset: 0,
@@ -153,22 +153,22 @@
         }, {
           offset: 1,
           color: 'rgba(255,0,0,0)',
-        }]
+        }],
       },
-    })
-    
-    layer.append(s4)
-    window.s4 = s4
+    });
+  
+    layer.append(s4);
+    window.s4 = s4;
 
-    const ss4 = s4.cloneNode()
+    const ss4 = s4.cloneNode();
     ss4.attr({
       lineWidth: 1,
       strokeColor: 'blue',
       bgcolor: 'transparent',
-    })
-    layer.append(ss4)
+    });
+    layer.append(ss4);
 
-    const s = new Sprite()
+    const s = new Sprite();
 
     s.attr({
       anchor: [0.5, 0.5],
@@ -183,63 +183,63 @@
           }, {
             offset: 1,
             color: 'green',
-          }]          
-        }
+          }],
+        },
       },
       size: [80, 50],
-      //bgcolor: 'green',
-      //opacity: 0.5,
+      // bgcolor: 'green',
+      // opacity: 0.5,
       transform: {
-        //translate: [30, 30],
-        //rotate: 30,
+        // translate: [30, 30],
+        // rotate: 30,
         scale: [0.5, 0.5],
       },
       offsetPath: 'M10,80 q100,120 120,20 q140,-50 160,0',
-      //offsetDistance: 0.5,
-      //offsetRotate: 30,
+      // offsetDistance: 0.5,
+      // offsetRotate: 30,
       zIndex: 200,
-    })
+    });
 
-    layer.appendChild(s)
+    layer.appendChild(s);
 
     s.animate([
       {offsetDistance: 0},
-      {offsetDistance: 1}
+      {offsetDistance: 1},
     ], {
       duration: 3000,
       direction: 'alternate',
       iterations: Infinity,
-    })
+    });
 
     s.animate([
-      {scale: [.5, .5], offsetRotate: 'auto'},
-      {scale: [.5, -.5], offsetRotate: 'reverse'},
-      {scale: [.5, .5], offsetRotate: 'auto'},
+      {scale: [0.5, 0.5], offsetRotate: 'auto'},
+      {scale: [0.5, -0.5], offsetRotate: 'reverse'},
+      {scale: [0.5, 0.5], offsetRotate: 'auto'},
     ], {
       duration: 6000,
       iterations: Infinity,
       easing: 'step-end',
-    })
+    });
 
     window.s = s;
 
-    const a1 = new Animator(1000,  p => {
-          const colors = [
-            {offset: 0, color: 'rgba(255,0,0,0)'},
-            {offset: p, color: 'rgba(255,0,0,1)'},
-            {offset: p, color: 'rgba(255,0,0,0)'},
-          ]
+    const a1 = new Animator(1000, (p) => {
+      const colors = [
+        {offset: 0, color: 'rgba(255,0,0,0)'},
+        {offset: p, color: 'rgba(255,0,0,1)'},
+        {offset: p, color: 'rgba(255,0,0,0)'},
+      ];
 
-          const strokeColor = s4.attr('strokeColor')
-          strokeColor.colors = colors
-          s4.attr({strokeColor})
-    })
+      const strokeColor = s4.attr('strokeColor');
+      strokeColor.colors = colors;
+      s4.attr({strokeColor});
+    });
 
-    a1.animate()
+    a1.animate();
 
 
-    const label = new Label('Hello World!\n你好，世界！')
-    
+    const label = new Label('Hello World!\n你好，世界！');
+  
     label.attr({
       anchor: [0.5, 0.5],
       pos: [300, 150],
@@ -258,29 +258,29 @@
         }, {
           offset: 1,
           color: 'green',
-        }]
+        }],
       },
-    })
+    });
 
-    layer.append(label)
+    layer.append(label);
 
     label.animate([
       {rotate: 0},
-      {rotate: 360}
+      {rotate: 360},
     ], {
       duration: 10000,
       iterations: Infinity,
-    })
+    });
 
-    s.on('update', evt => {
+    s.on('update', (evt) => {
       // console.log(label.renderRect)
-      if(s.OBBCollision(label)){
-        label.attr('opacity', 0.7)
+      if(s.OBBCollision(label)) {
+        label.attr('opacity', 0.7);
       } else {
-        label.attr('opacity', 0.3)
+        label.attr('opacity', 0.3);
       }
-    })
-  })()
+    });
+  }());
   </script>
 </body>
 </html>

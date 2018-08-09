@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+<script src="/js/sprite-core.js"></script>
+<canvas id="container" width="800" height="800"></canvas>
+<script>
+    const imgUrl = 'https://s5.ssl.qhres.com/static/ec9f373a383d7664.svg';
+    const {Layer, Sprite} = spritejs;
+    const context = document.getElementById('container').getContext('2d');
+
+    const layer = new Layer({context});
+
+    const sprite = new Sprite();
+    sprite.attr({
+      bgcolor: 'grey',
+      pos: [100, 50],
+      size: [400, 400],
+      // borderRadius: '200',
+      filter: {blur: '10'},
+      rotate: 5,
+      shadow: {
+        offset: [10, 10],
+      },
+    });
+
+    layer.appendChild(sprite);
+    
+    // sprite.transition(5.0).attr({x: x => x + 100})
+</script>
+</body>
+</html>

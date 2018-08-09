@@ -252,6 +252,8 @@ export default class BaseSprite extends BaseNode {
   }
 
   isVisible() {
+    if(!this.parent) return false;
+
     const display = this.attr('display');
     if(display === 'none') {
       return false;
@@ -269,7 +271,7 @@ export default class BaseSprite extends BaseNode {
       return false;
     }
 
-    if(this.parent && this.parent.isVisible) {
+    if(this.parent.isVisible) {
       return this.parent.isVisible();
     }
     return true;

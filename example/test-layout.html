@@ -10,13 +10,13 @@
   <canvas id="mycanvas" width="1200" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
 
-    const g = new Group()
+    const g = new Group();
     g.attr({
       pos: [300, 300],
       width: 400,
@@ -24,41 +24,41 @@
       bgcolor: 'grey',
       alignItems: 'stretch',
       display: 'flex',
-    })
+    });
 
-    layer.append(g)
+    layer.append(g);
 
-    const s1 = new Sprite()
+    const s1 = new Sprite();
     s1.attr({
       size: [250, 50],
       borderRadius: 25,
       bgcolor: 'red',
       // flex: 1,
-    })
-    const s2 = s1.cloneNode()
+    });
+    const s2 = s1.cloneNode();
     s2.attr({
       size: [50, 50],
       bgcolor: 'blue',
       flex: 2,
-    })
-    const s3 = s1.cloneNode()
+    });
+    const s3 = s1.cloneNode();
     s3.attr({
       size: [50, 50],
       bgcolor: 'green',
       // flex: 0,
       order: -1,
-    })
+    });
 
-    const s4 = new Sprite()
+    const s4 = new Sprite();
     s4.attr({
       // height: 70,
       width: 30,
       borderRadius: 0,
       bgcolor: 'purple',
-    })
-    g.append(s1, s2, s3, s4)
+    });
+    g.append(s1, s2, s3, s4);
 
-    g.relayout()
+    g.relayout();
 
     s1.animate([
       {size: [200, 100]},
@@ -67,8 +67,7 @@
       duration: 5000,
       iterations: Infinity,
       direction: 'alternate',
-    })
-
+    });
   </script>
 </body>
 </html>

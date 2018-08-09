@@ -10,11 +10,11 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintAll'})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintAll'});
 
     const s = new Group({
       id: 'abc',
@@ -42,8 +42,8 @@
           }],
         },
       },
-    })
-    layer.append(s)
+    });
+    layer.append(s);
     
     // s.animate([
     //   {dashOffset: 25},
@@ -59,16 +59,16 @@
       bgcolor: 'green',
       size: [50, 50],
       pos: ['100', 100],
-    })
-    s.append(s2)
+    });
+    s.append(s2);
     
     setTimeout(async () => {
       s2.attr({
         y: y => y + 150,
-      })
-      await s2.transition(1.5, 'ease-in').attr({y: y => y - 150})
-      await s2.transition(1.5, 'steps(3, end)').attr({y: y => y + 150})
-    }, 1000)
+      });
+      await s2.transition(1.5, 'ease-in').attr({y: y => y - 150});
+      await s2.transition(1.5, 'steps(3, end)').attr({y: y => y + 150});
+    }, 1000);
   </script>
 </body>
 </html>

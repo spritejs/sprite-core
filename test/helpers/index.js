@@ -1,45 +1,45 @@
-const {createCanvas, loadImage} = require('canvas')
+const {createCanvas, loadImage} = require('canvas');
 
-const imghash = require('imghash')
-const hamming = require('hamming-distance')
-const colors = require('colors')
-const pixelmatch = require('pixelmatch')
-const fs = require('fs')
+const imghash = require('imghash');
+const hamming = require('hamming-distance');
+const colors = require('colors');
+const pixelmatch = require('pixelmatch');
+const fs = require('fs');
 
 async function createCanvasFromFile(src) {
-  const img = await loadImage(src)
-  const canvas = createCanvas(img.width, img.height)
-  canvas.getContext('2d').drawImage(img, 0, 0)
-  return canvas
+  const img = await loadImage(src);
+  const canvas = createCanvas(img.width, img.height);
+  canvas.getContext('2d').drawImage(img, 0, 0);
+  return canvas;
 }
 
 export async function compare(canvas, caseId) {
-  const srcData = canvas.toBuffer()
-  const desCanvas = await createCanvasFromFile(`./test/img/${caseId}.png`)
+  const srcData = canvas.toBuffer();
+  const desCanvas = await createCanvasFromFile(`./test/img/${caseId}.png`);
 
-  const desData = desCanvas.toBuffer()
-  const N = 32
-  const hash1 = imghash.hash(srcData, N)
-  const hash2 = imghash.hash(desData, N)
+  const desData = desCanvas.toBuffer();
+  const N = 32;
+  const hash1 = imghash.hash(srcData, N);
+  const hash2 = imghash.hash(desData, N);
 
-  const results = await Promise.all([hash1, hash2])
+  const results = await Promise.all([hash1, hash2]);
 
-  const dist = hamming(...results)
-  console.warn(colors.cyan(`Hamming distance between canvas and ${caseId} is: ${dist}`))
+  const dist = hamming(...results);
+  console.warn(colors.cyan(`Hamming distance between canvas and ${caseId} is: ${dist}`));
 
-  const diffFile = `./test/img-diff/${caseId}.diff.png`
-  const srcFile = `./test/img-diff/${caseId}.src.png`
+  const diffFile = `./test/img-diff/${caseId}.diff.png`;
+  const srcFile = `./test/img-diff/${caseId}.src.png`;
 
   const width = canvas.width,
-    height = canvas.height
+    height = canvas.height;
   const diffCanvas = createCanvas(width, height),
     srcContext = canvas.getContext('2d'),
     desContext = desCanvas.getContext('2d'),
-    diffContext = diffCanvas.getContext('2d')
+    diffContext = diffCanvas.getContext('2d');
 
-  const img1 = srcContext.getImageData(0, 0, width, height)
-  const img2 = desContext.getImageData(0, 0, width, height)
-  const diff = diffContext.createImageData(width, height)
+  const img1 = srcContext.getImageData(0, 0, width, height);
+  const img2 = desContext.getImageData(0, 0, width, height);
+  const diff = diffContext.createImageData(width, height);
 
   pixelmatch(
     img1.data,
@@ -48,39 +48,39 @@ export async function compare(canvas, caseId) {
     width,
     height,
     {threshold: 0.1}
-  )
-  diffContext.putImageData(diff, 0, 0)
+  );
+  diffContext.putImageData(diff, 0, 0);
 
-  let isEqual = !dist
+  let isEqual = !dist;
 
   if(isEqual) { // hash equal, re-check pixels
-    const data = diff.data
+    const data = diff.data;
     for(let i = 0; i < data.length; i += 4) {
       const r = data[i],
         g = data[i + 1],
-        b = data[i + 2]
+        b = data[i + 2];
 
       if(r === 255 && g === 0 && b === 0) {
-        isEqual = false
-        break
+        isEqual = false;
+        break;
       }
     }
   }
 
   if(!isEqual) {
-    fs.writeFileSync(diffFile, diffCanvas.toBuffer())
-    fs.writeFileSync(srcFile, canvas.toBuffer())
+    fs.writeFileSync(diffFile, diffCanvas.toBuffer());
+    fs.writeFileSync(srcFile, canvas.toBuffer());
   } else {
     if(fs.existsSync(diffFile)) {
-      fs.unlinkSync(diffFile)
+      fs.unlinkSync(diffFile);
     }
     if(fs.existsSync(srcFile)) {
-      fs.unlinkSync(srcFile)
+      fs.unlinkSync(srcFile);
     }
   }
 
-  return isEqual
+  return isEqual;
 }
 
-const drawSprites = require('./drawsprites')
-export {drawSprites}
+const drawSprites = require('./drawsprites');
+export {drawSprites};

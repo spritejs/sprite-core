@@ -18,54 +18,53 @@
     <canvas id="group" width="300" height="300"></canvas>
   </div>
   <script>
-;(function () {
-  const {Group, Sprite, Label, Layer} = spritejs
+(function () {
+  const {Group, Sprite, Label, Layer} = spritejs;
   const canvas = document.getElementById('group'),
-    context = canvas.getContext('2d')
+    context = canvas.getContext('2d');
 
-  const layer = new Layer({context})
+  const layer = new Layer({context});
 
- const group = new Group()
- group.attr({
-   anchor: '0.5',
-   pos: [150, 150],
-   size: [200, 200],
-   border: [1, 'blue']
- })
- layer.append(group)
- const image = new Sprite()
- image.attr({
-   anchor: '0.5',
-   pos: [100, 85],
-   size: [150, 150],
-   bgcolor: 'red',
- })
+  const group = new Group();
+  group.attr({
+    anchor: '0.5',
+    pos: [150, 150],
+    size: [200, 200],
+    border: [1, 'blue'],
+  });
+  layer.append(group);
+  const image = new Sprite();
+  image.attr({
+    anchor: '0.5',
+    pos: [100, 85],
+    size: [150, 150],
+    bgcolor: 'red',
+  });
 
- const label = new Label('发发收发文')
- label.attr({
-   anchor: '0.5',
-   border: [1, 'yellow'],
-   pos: [100, 180],
-   textAlign: 'center',
-   // size: [200, 30]
- })
- group.append(image, label)
- group.on('click', function(e) {
+  const label = new Label('发发收发文');
+  label.attr({
+    anchor: '0.5',
+    border: [1, 'yellow'],
+    pos: [100, 180],
+    textAlign: 'center',
+    // size: [200, 30]
+  });
+  group.append(image, label);
+  group.on('click', (e) => {
     image.animate([
-   {transform: {rotate: 0}},
-   {transform: {rotate: 360}}
- ], {
-   duration: 10000,
-   iterations: Infinity
- })
- })
+      {transform: {rotate: 0}},
+      {transform: {rotate: 360}},
+    ], {
+      duration: 10000,
+      iterations: Infinity,
+    });
+  });
 
-  canvas.addEventListener('click', evt => {
-    const {offsetX, offsetY} = evt
-    layer.dispatchEvent('click', {layerX:offsetX, layerY:offsetY, originEvent: evt})
-  })
-
-}())
+  canvas.addEventListener('click', (evt) => {
+    const {offsetX, offsetY} = evt;
+    layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+  });
+}());
   </script>
 </body>
 </html>

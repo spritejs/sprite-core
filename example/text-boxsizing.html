@@ -31,20 +31,20 @@
   <script src="/js/sprite-core.js"></script>
   <script>
     const {Layer, Sprite} = spritejs,
-      context = document.getElementById('container').getContext('2d')
+      context = document.getElementById('container').getContext('2d');
 
-    const layer = new Layer({context})
+    const layer = new Layer({context});
 
-    const s1 = new Sprite()
+    const s1 = new Sprite();
     s1.attr({
       size: [100, 100],
       pos: [0, 300],
       bgcolor: 'red',
       border: [10, 'blue'],
       boxSizing: 'border-box',
-    })
+    });
 
-    layer.append(s1)
+    layer.append(s1);
   </script>
 </body>
 </html>

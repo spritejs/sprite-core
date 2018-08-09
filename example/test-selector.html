@@ -10,24 +10,24 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintDirty'})
-    const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z'
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
+    const clipPath = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z';
     
-    const center = new Sprite()
+    const center = new Sprite();
     center.attr({
       anchor: 0.5,
       bgcolor: 'black',
       size: [10, 10],
       pos: [300, 300],
       zIndex: 1000,
-    })
-    layer.append(center)
+    });
+    layer.append(center);
 
-    const s = new Group({virtual: true})
+    const s = new Group({virtual: true});
     s.attr({
       clip: {
         d: clipPath,
@@ -56,15 +56,15 @@
           }],
         },
       },
-    })
-    layer.append(s)
+    });
+    layer.append(s);
     // layer.draw()
     s.animate([
       {rotate: 360},
     ], {
       duration: 10000,
       iterations: Infinity,
-    })
+    });
     
     const s2 = new Sprite({
       name: 'xxx',
@@ -72,9 +72,9 @@
       bgcolor: 'red',
       size: [50, 50],
       pos: [-50, 0],
-    })
+    });
 
-    const s3 = s2.cloneNode()
+    const s3 = s2.cloneNode();
     s3.attr({
       anchor: 0.5,
       pos: [0, 0],
@@ -82,18 +82,18 @@
       zIndex: -1,
       bgcolor: 'cyan',
       border: [10, 'blue'],
-    })
+    });
 
-    s.append(s2, s3)
+    s.append(s2, s3);
 
     s.on('click', (evt) => {
-      console.log(evt.targetSprites)
-    })
+      console.log(evt.targetSprites);
+    });
 
     mycanvas.addEventListener('click', (evt) => {
-      const {offsetX, offsetY} = evt
-      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt})
-    })
+      const {offsetX, offsetY} = evt;
+      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
   </script>
 </body>
 </html>

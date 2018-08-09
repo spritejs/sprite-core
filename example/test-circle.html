@@ -11,40 +11,41 @@
   <script src="/js/sprite-core.js"></script>
   <script>
     const BaseSprite = spritejs.BaseSprite,
-      Color = spritejs.Color
+      Color = spritejs.Color;
 
-    const context = document.getElementById('mycanvas').getContext('2d')
+    const context = document.getElementById('mycanvas').getContext('2d');
     
     class Circle extends BaseSprite {
       get contentSize() {
-        let [width, height] = this.attr('size'),
-          r = this.attr('r'),
-          lineWidth = this.attr('lineWidth')
+        let [width, height] = this.attr('size');
+        const r = this.attr('r'),
+          lineWidth = this.attr('lineWidth');
 
         if(width === '') {
-          width = r * 2 + lineWidth
+          width = r * 2 + lineWidth;
         }
         if(height === '') {
-          height = r * 2 + lineWidth
+          height = r * 2 + lineWidth;
         }
-        return [width, height]
+        return [width, height];
       }
-      render(t, context) {
-        super.render(t, context)
-        
-        const bounds = this.boundingRect
-        let {strokeColor, fillColor, r, lineWidth} = this.attr()
-        context.lineWidth = lineWidth
 
-        context.beginPath()
+      render(t, context) {
+        super.render(t, context);
+    
+        const bounds = this.boundingRect;
+        const {strokeColor, fillColor, r, lineWidth} = this.attr();
+        context.lineWidth = lineWidth;
+
+        context.beginPath();
         context.arc(bounds[2] / 2, bounds[3] / 2, r, 0, 2 * Math.PI);
         if(fillColor) {
-          context.fillStyle = fillColor
-          context.fill()
+          context.fillStyle = fillColor;
+          context.fill();
         }
         if(strokeColor && lineWidth) {
-          context.strokeStyle = strokeColor
-          context.stroke()
+          context.strokeStyle = strokeColor;
+          context.stroke();
         }
       }
     }
@@ -56,27 +57,27 @@
           fillColor: '',
           strokeColor: '',
           lineWidth: 0,
-        })
+        });
       },
       r(attr, val) {
-        attr.clearCache()
-        attr.set('r', val)
+        attr.clearCache();
+        attr.set('r', val);
       },
       fillColor(attr, color) {
-        attr.clearCache()
-        color = new Color(color).str
-        attr.set('fillColor', color)
+        attr.clearCache();
+        color = new Color(color).str;
+        attr.set('fillColor', color);
       },
       strokeColor(attr, color) {
-        attr.clearCache()
-        color = new Color(color).str
-        attr.set('strokeColor', color)
+        attr.clearCache();
+        color = new Color(color).str;
+        attr.set('strokeColor', color);
       },
       lineWidth(attr, val) {
-        attr.clearCache()
-        attr.set('lineWidth', val)
+        attr.clearCache();
+        attr.set('lineWidth', val);
       },
-    })
+    });
 
     const s = new Circle({
       anchor: 0.5,
@@ -86,17 +87,17 @@
       lineWidth: 6,
       strokeColor: 'red',
       fillColor: 'blue',
-    })
-    s.connect(context).draw()
+    });
+    s.connect(context).draw();
     s.on('afterdraw', (evt) => {
       // console.log(evt)
-    })
+    });
 
     requestAnimationFrame(function f() {
-      context.clearRect(0, 0, 600, 600)
-      s.draw()
-      requestAnimationFrame(f)
-    })
+      context.clearRect(0, 0, 600, 600);
+      s.draw();
+      requestAnimationFrame(f);
+    });
   </script>
 </body>
 </html>

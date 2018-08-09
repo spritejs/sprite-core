@@ -11,11 +11,11 @@
   <script src="/js/sprite-core.js"></script>
   <script>
     const {Layer, Label} = spritejs,
-      context = document.getElementById('mycanvas').getContext('2d')
+      context = document.getElementById('mycanvas').getContext('2d');
 
-    const layer = new Layer({context})
+    const layer = new Layer({context});
 
-    const label = new Label('click me')
+    const label = new Label('click me');
     label.attr({
       anchor: 0.5,
       pos: [300, 300],
@@ -28,36 +28,36 @@
         color: 'red',
         style: 'solid',
       },
-    })
+    });
 
-    layer.append(label)
+    layer.append(label);
 
-    const transition = label.transition(0.3)
+    const transition = label.transition(0.3);
     label.on('mousedown', (evt) => {
       // console.log(label.attr('width'))
       transition.attr({
         width: width => width + 50,
-      })
-    })
+      });
+    });
 
     label.on('mouseup', (evt) => {
-      transition.reverse()
-    })
+      transition.reverse();
+    });
 
     mycanvas.addEventListener('mousedown', (evt) => {
-      const {offsetX, offsetY} = evt
+      const {offsetX, offsetY} = evt;
       layer.dispatchEvent(
         ['mousedown'],
         {layerX: offsetX, layerY: offsetY, originEvent: evt}
-      )
-    })
+      );
+    });
     mycanvas.addEventListener('mouseup', (evt) => {
-      const {offsetX, offsetY} = evt
+      const {offsetX, offsetY} = evt;
       layer.dispatchEvent(
         ['mouseup'],
         {layerX: offsetX, layerY: offsetY, originEvent: evt}
-      )
-    })
+      );
+    });
   </script>
 </body>
 </html>

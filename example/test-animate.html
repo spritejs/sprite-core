@@ -10,11 +10,11 @@
   <canvas id="mycanvas" width="600" height="600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Sprite = spritejs.Sprite
-    const Layer = spritejs.Layer
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode:'repaintDirty'})
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
 
     const s = new Group({
       id: 'abc',
@@ -38,8 +38,8 @@
           }],
         },
       },
-    })
-    layer.append(s)
+    });
+    layer.append(s);
     // layer.draw()
     
     const s2 = new Sprite({
@@ -47,7 +47,7 @@
       bgcolor: 'green',
       size: [50, 50],
       pos: [100, 100],
-    })
+    });
     const animation = s2.animate([
       {pos: [100, 100], easing: 'ease'},
       {pos: [100, 300], easing: 'ease'},
@@ -58,12 +58,12 @@
       delay: 2000,
       duration: 5000,
       iterations: 2,
-    })
-    s.append(s2)
+    });
+    s.append(s2);
     // animation.playbackRate = 0.1
     animation.finished.then(() => {
-      console.log('finished')
-    })
+      console.log('finished');
+    });
 
     // s2.on('update', (evt) => {
     //   console.log('s2 update')

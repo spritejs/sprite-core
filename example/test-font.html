@@ -17,11 +17,11 @@
   <canvas id="mycanvas" width="1600" height="1600"></canvas>
   <script src="/js/sprite-core.js"></script>
   <script>
-    const Label = spritejs.Label
-    const Layer = spritejs.Layer
-    const Group = spritejs.Group
-    const context = document.getElementById('mycanvas').getContext('2d')
-    const layer = new Layer({context, renderMode: 'repaintAll'})
+    const Label = spritejs.Label;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintAll'});
 
     const s = new Group({
       id: 'abc',
@@ -43,10 +43,10 @@
           }],
         },
       },
-    })
-    layer.append(s)
+    });
+    layer.append(s);
     
-    const s2 = new Label('spritejs redefine canvas api 测试测试测试测试测试')
+    const s2 = new Label('spritejs redefine canvas api 测试测试测试测试测试');
     s2.attr({
       // font: '5vw "宋体"',
       font: '24px "宋体"',
@@ -63,9 +63,9 @@
       // wordBreak: 'break-all',
       letterSpacing: 2,
       textIndent: 20,
-    })
+    });
 
-    const s3 = new Label('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试.')
+    const s3 = new Label('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试.');
     s3.attr({
       anchor: 0.5,
       fillColor: '#000',
@@ -77,10 +77,10 @@
       lineBreak: 'normal',
       border: [4, '#aaa'],
       textIndent: 20,
-    })
+    });
 
-    s.append(s2)
-    layer.append(s3)
+    s.append(s2);
+    layer.append(s3);
 
     s2.animate([
       {width: 100},
@@ -89,7 +89,7 @@
       duration: 5000,
       iterations: Infinity,
       direction: 'alternate',
-    })
+    });
   </script>
 </body>
 </html>
