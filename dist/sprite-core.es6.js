@@ -3520,6 +3520,8 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
   }
 
   isVisible() {
+    if (!this.parent) return false;
+
     const display = this.attr('display');
     if (display === 'none') {
       return false;
@@ -3537,7 +3539,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
       return false;
     }
 
-    if (this.parent && this.parent.isVisible) {
+    if (this.parent.isVisible) {
       return this.parent.isVisible();
     }
     return true;
@@ -7654,16 +7656,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
     return true;
   }
 
-  isNodeVisible(sprite) {
-    if (!sprite.isVisible()) {
-      return false;
-    }
-    if (sprite.parent !== this) {
-      return false;
-    }
-    return true;
-  }
-
   get fps() /* istanbul ignore next  */{
     if (!this.evaluateFPS) {
       return NaN;
@@ -7690,7 +7682,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
       child.isDirty = false;
 
       if (child.parent === this) {
-        const isVisible = this.isNodeVisible(child);
+        const isVisible = child.isVisible();
         if (isVisible) {
           child.draw(t);
           if (this.renderMode === 'repaintDirty') {
