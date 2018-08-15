@@ -5068,6 +5068,7 @@ let BaseNode = class BaseNode {
     }
 
     delete this.parent;
+    delete this.isDirty;
 
     return this;
   }

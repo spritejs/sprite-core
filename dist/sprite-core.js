@@ -9682,6 +9682,7 @@ var BaseNode = function () {
       }
 
       delete this.parent;
+      delete this.isDirty;
 
       return this;
     }
