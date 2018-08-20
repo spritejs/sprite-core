@@ -87,8 +87,13 @@ export default class BaseNode {
     this[_mouseCapture] = false;
   }
 
+  isCaptured(evt) {
+    return (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
+  }
+
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if(swallow && this.getEventHandlers(type).length === 0) {
+    const handlers = this.getEventHandlers(type);
+    if(swallow && handlers.length === 0) {
       return;
     }
     if(!evt.stopDispatch) {
@@ -104,61 +109,54 @@ export default class BaseNode {
     }
 
     const isCollision = collisionState || this.pointCollision(evt);
-    const captured = (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
+    const captured = this.isCaptured(evt);
 
     if(!evt.terminated && (isCollision || captured)) {
       evt.target = this;
 
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
-      if(changedTouches && type === 'touchstart') {
-        const touch = changedTouches[0],
-          layer = this.layer;
-        if(touch && touch.identifier != null) {
-          layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
-          layer.touchedTargets[touch.identifier].push(this);
-        }
-      }
-      if(changedTouches && type.startsWith('touch')) {
-        const touches = evt.originalEvent && evt.originalEvent.touches,
-          layer = this.layer;
-        evt.targetTouches = [];
-
-        Array.from(touches).forEach((touch) => {
-          const identifier = touch.identifier;
-          if(layer.touchedTargets[identifier] && layer.touchedTargets[identifier].indexOf(this) >= 0) {
-            evt.targetTouches.push(touch);
+      if(changedTouches) {
+        if(type === 'touchstart') {
+          const touch = changedTouches[0],
+            layer = this.layer;
+          if(touch && touch.identifier != null) {
+            layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
+            layer.touchedTargets[touch.identifier].push(this);
           }
-        });
-        evt.touches = Array.from(touches);
-        evt.changedTouches = Array.from(changedTouches);
-      }
-
-      const handlers = this[_eventHandlers][type];
-      if(handlers) {
-        handlers.forEach(handler => handler.call(this, evt));
-      }
-
-      if(isCollision && type === 'mousemove') {
-        if(!this[_collisionState]) {
-          const _evt = Object.assign({}, evt);
-          _evt.type = 'mouseenter';
-          _evt.terminated = false;
-
-          this.dispatchEvent('mouseenter', _evt, true);
         }
+        if(type.startsWith('touch')) {
+          const touches = Array.from(evt.originalEvent.touches),
+            layer = this.layer;
+          evt.targetTouches = [];
+
+          touches.forEach((touch) => {
+            const identifier = touch.identifier;
+            if(layer.touchedTargets[identifier] && layer.touchedTargets[identifier].indexOf(this) >= 0) {
+              evt.targetTouches.push(touch);
+            }
+          });
+          evt.touches = touches;
+          evt.changedTouches = Array.from(changedTouches);
+        }
+      }
+
+      handlers.forEach(handler => handler.call(this, evt));
+
+      if(!this[_collisionState] && isCollision && type === 'mousemove') {
+        const _evt = Object.assign({}, evt);
+        _evt.type = 'mouseenter';
+        _evt.terminated = false;
+        this.dispatchEvent('mouseenter', _evt, true);
         this[_collisionState] = true;
       }
     }
 
-    if(!isCollision && type === 'mousemove') {
-      if(this[_collisionState]) {
-        const _evt = Object.assign({}, evt);
-        _evt.type = 'mouseleave';
-        _evt.target = this;
-        _evt.terminated = false;
-
-        this.dispatchEvent('mouseleave', _evt, true);
-      }
+    if(this[_collisionState] && !isCollision && type === 'mousemove') {
+      const _evt = Object.assign({}, evt);
+      _evt.type = 'mouseleave';
+      _evt.target = this;
+      _evt.terminated = false;
+      this.dispatchEvent('mouseleave', _evt, true);
       this[_collisionState] = false;
     }
 

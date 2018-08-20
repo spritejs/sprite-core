@@ -6,6 +6,7 @@ module.exports = {
     wx: true,
   },
   rules: {
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    "complexity": ["warn", 25]
   },
 }

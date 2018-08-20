@@ -786,24 +786,34 @@ export default class BaseSprite extends BaseNode {
     return drawingContext;
   }
 
-  render(t, drawingContext) {
+  get needRender() {
     if(this.isVirtual) return false;
 
+    const [offsetWidth, offsetHeight] = this.offsetSize;
+    if(offsetWidth <= 0 || offsetHeight <= 0) return false;
+
+    const border = this.attr('border');
+
+    if(border.width <= 0
+      && this.attr('borderRadius') <= 0
+      && !this.attr('bgcolor')
+      && !this.attr('gradients').bgcolor
+      && !this.attr('bgimage')) {
+      return false; // don't need to render
+    }
+
+    return true;
+  }
+
+  render(t, drawingContext) {
     const border = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
       padding = this.attr('padding'),
       [offsetWidth, offsetHeight] = this.offsetSize,
       [clientWidth, clientHeight] = this.clientSize;
 
-    /* istanbul ignore if */
-    if(offsetWidth === 0 || offsetHeight === 0) return;
-    if(border.width <= 0
-      && borderRadius <= 0
-      && !this.attr('bgcolor')
-      && !this.attr('gradients').bgcolor
-      && !this.attr('bgimage')) {
-      drawingContext.translate(padding[3], padding[0]);
-      return false; // don't need to render
+    if(!this.needRender) {
+      return false;
     }
 
     const borderWidth = border.width;
@@ -852,122 +862,139 @@ export default class BaseSprite extends BaseNode {
         drawingContext.clip();
       }
 
-      if(bgimage && bgimage.display !== 'none') {
-        const {image, display} = bgimage;
-        if(image) {
-          let offset = bgimage.offset || [0, 0],
-            w = image.width,
-            h = image.height;
-
-          if(display === '.9') {
-            const [top, right, bottom, left] = bgimage.clip9 || [16, 16, 16, 16];
-            const leftTop = [0, 0, left, top],
-              rightTop = [w - right, 0, right, top],
-              rightBottom = [w - right, h - bottom, right, bottom],
-              leftBottom = [0, h - bottom, left, bottom];
-
-            const boxRight = offsetWidth - right - borderWidth,
-              boxBottom = offsetHeight - borderWidth - bottom;
-
-            drawingContext.drawImage(image, ...leftTop, borderWidth, borderWidth, left, top);
-            drawingContext.drawImage(image, ...rightTop, boxRight, borderWidth, right, top);
-            drawingContext.drawImage(image, ...rightBottom, boxRight, boxBottom, left, bottom);
-            drawingContext.drawImage(image, ...leftBottom, borderWidth, boxBottom, left, bottom);
-
-            const midWidth = w - left - right;
-            let midBoxWidth = clientWidth - left - right;
-            let leftOffset = borderWidth + left;
-            while(midBoxWidth > 0 && midWidth > 0) {
-              const ww = Math.min(midBoxWidth, midWidth);
-              const topPiece = [left, 0, ww, top],
-                bottomPiece = [left, h - bottom, ww, bottom];
-
-              drawingContext.drawImage(image, ...topPiece, leftOffset, borderWidth, ww, top);
-              drawingContext.drawImage(image, ...bottomPiece, leftOffset, boxBottom, ww, bottom);
-              midBoxWidth -= midWidth;
-              if(midBoxWidth > 0) {
-                leftOffset += midWidth;
-              }
-            }
-
-            const midHeight = h - top - bottom;
-            let midBoxHeight = clientHeight - top - bottom;
-            let topOffset = borderWidth + top;
-            while(midBoxHeight > 0 && midHeight > 0) {
-              const hh = Math.min(midBoxHeight, midHeight);
-              const leftPiece = [0, top, left, hh],
-                rightPiece = [w - right, top, right, hh];
-
-              drawingContext.drawImage(image, ...leftPiece, borderWidth, topOffset, left, hh);
-              drawingContext.drawImage(image, ...rightPiece, boxRight, topOffset, right, hh);
-              midBoxHeight -= midHeight;
-              if(midBoxHeight > 0) {
-                topOffset += midHeight;
-              }
-            }
-
-            if(midHeight && midWidth > 0) {
-              midBoxWidth = clientWidth - left - right;
-              leftOffset = borderWidth + left;
-
-              while(midBoxWidth > 0) {
-                midBoxHeight = clientHeight - top - bottom;
-                topOffset = borderWidth + top;
-                while(midBoxHeight > 0) {
-                  const ww = Math.min(midBoxWidth, midWidth),
-                    hh = Math.min(midBoxHeight, midHeight);
-                  const midPiece = [left, top, ww, hh];
-                  drawingContext.drawImage(image, ...midPiece, leftOffset, topOffset, ww, hh);
-                  midBoxHeight -= midWidth;
-                  if(midBoxHeight > 0) {
-                    topOffset += midHeight;
-                  }
-                }
-                midBoxWidth -= midWidth;
-                if(midBoxWidth > 0) {
-                  leftOffset += midWidth;
-                }
-              }
-            }
-          } else {
-            if(display === 'center') {
-              offset = [(clientWidth - w) * 0.5, (clientHeight - h) * 0.5];
-            } else if(display === 'stretch') {
-              w = clientWidth - offset[0];
-              h = clientHeight - offset[1];
-            }
-            drawingContext.drawImage(image, borderWidth + offset[0], borderWidth + offset[1], w, h);
-
-            if(w > 0 && (display === 'repeat' || display === 'repeatX')) {
-              let cw = clientWidth - borderWidth - offset[0] - w;
-              while(cw > borderWidth) {
-                drawingContext.drawImage(image, clientWidth - cw, borderWidth + offset[1], w, h);
-                if(h > 0 && display === 'repeat') {
-                  let ch = clientHeight - borderWidth - offset[1] - h;
-                  while(ch > borderWidth) {
-                    drawingContext.drawImage(image, clientWidth - cw, clientHeight - ch, w, h);
-                    ch -= h;
-                  }
-                }
-                cw -= w;
-              }
-            }
-
-            if(h > 0 && (display === 'repeat' || display === 'repeatY')) {
-              let ch = clientHeight - borderWidth - offset[1] - h;
-              while(ch > borderWidth) {
-                drawingContext.drawImage(image, borderWidth + offset[0], clientHeight - ch, w, h);
-                ch -= h;
-              }
-            }
-          }
-        }
+      if(bgimage && bgimage.image && bgimage.display !== 'none') {
+        drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight);
       }
     }
 
     drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0]);
 
     return true;
+  }
+}
+
+function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight) {
+  const w = image.width,
+    h = image.height;
+
+  const [top, right, bottom, left] = clip9 || [16, 16, 16, 16];
+  const leftTop = [0, 0, left, top],
+    rightTop = [w - right, 0, right, top],
+    rightBottom = [w - right, h - bottom, right, bottom],
+    leftBottom = [0, h - bottom, left, bottom];
+
+  const boxRight = offsetWidth - right - borderWidth,
+    boxBottom = offsetHeight - borderWidth - bottom;
+
+  // draw four corners
+  drawingContext.drawImage(image, ...leftTop, borderWidth, borderWidth, left, top);
+  drawingContext.drawImage(image, ...rightTop, boxRight, borderWidth, right, top);
+  drawingContext.drawImage(image, ...rightBottom, boxRight, boxBottom, left, bottom);
+  drawingContext.drawImage(image, ...leftBottom, borderWidth, boxBottom, left, bottom);
+
+  // draw .9 cross
+  const midWidth = w - left - right,
+    midHeight = h - top - bottom;
+
+  if(midWidth > 0) {
+    let midBoxWidth = clientWidth - left - right;
+    let leftOffset = borderWidth + left;
+    while(midBoxWidth > 0) {
+      const ww = Math.min(midBoxWidth, midWidth);
+      const topPiece = [left, 0, ww, top],
+        bottomPiece = [left, h - bottom, ww, bottom];
+
+      drawingContext.drawImage(image, ...topPiece, leftOffset, borderWidth, ww, top);
+      drawingContext.drawImage(image, ...bottomPiece, leftOffset, boxBottom, ww, bottom);
+      midBoxWidth -= midWidth;
+      if(midBoxWidth > 0) {
+        leftOffset += midWidth;
+      }
+    }
+  }
+
+  if(midHeight > 0) {
+    let midBoxHeight = clientHeight - top - bottom;
+    let topOffset = borderWidth + top;
+    while(midBoxHeight > 0) {
+      const hh = Math.min(midBoxHeight, midHeight);
+      const leftPiece = [0, top, left, hh],
+        rightPiece = [w - right, top, right, hh];
+
+      drawingContext.drawImage(image, ...leftPiece, borderWidth, topOffset, left, hh);
+      drawingContext.drawImage(image, ...rightPiece, boxRight, topOffset, right, hh);
+      midBoxHeight -= midHeight;
+      if(midBoxHeight > 0) {
+        topOffset += midHeight;
+      }
+    }
+  }
+
+  if(midHeight && midWidth > 0) {
+    let midBoxWidth = clientWidth - left - right;
+    let leftOffset = borderWidth + left;
+
+    while(midBoxWidth > 0) {
+      let midBoxHeight = clientHeight - top - bottom;
+      let topOffset = borderWidth + top;
+      while(midBoxHeight > 0) {
+        const ww = Math.min(midBoxWidth, midWidth),
+          hh = Math.min(midBoxHeight, midHeight);
+        const midPiece = [left, top, ww, hh];
+        drawingContext.drawImage(image, ...midPiece, leftOffset, topOffset, ww, hh);
+        midBoxHeight -= midWidth;
+        if(midBoxHeight > 0) {
+          topOffset += midHeight;
+        }
+      }
+      midBoxWidth -= midWidth;
+      if(midBoxWidth > 0) {
+        leftOffset += midWidth;
+      }
+    }
+  }
+}
+
+function drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight) {
+  const {image, display, clip9} = bgimage;
+
+  if(display === '.9') {
+    drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight);
+  } else {
+    let offset = bgimage.offset || [0, 0],
+      w = image.width,
+      h = image.height;
+
+    if(display === 'center') {
+      offset = [(clientWidth - w) * 0.5, (clientHeight - h) * 0.5];
+    } else if(display === 'stretch') {
+      w = clientWidth - offset[0];
+      h = clientHeight - offset[1];
+    }
+    drawingContext.drawImage(image, borderWidth + offset[0], borderWidth + offset[1], w, h);
+
+    if(w > 0 && (display === 'repeat' || display === 'repeatX')) {
+      let cw = clientWidth - borderWidth - offset[0] - w;
+      while(cw > borderWidth) {
+        drawingContext.drawImage(image, clientWidth - cw, borderWidth + offset[1], w, h);
+        if(h > 0 && display === 'repeat') {
+          let ch = clientHeight - borderWidth - offset[1] - h;
+          while(ch > borderWidth) {
+            drawingContext.drawImage(image, clientWidth - cw, clientHeight - ch, w, h);
+            ch -= h;
+          }
+        }
+        cw -= w;
+      }
+    }
+
+    if(h > 0 && (display === 'repeat' || display === 'repeatY')) {
+      let ch = clientHeight - borderWidth - offset[1] - h;
+      while(ch > borderWidth) {
+        drawingContext.drawImage(image, borderWidth + offset[0], clientHeight - ch, w, h);
+        ch -= h;
+      }
+    }
   }
 }
 
