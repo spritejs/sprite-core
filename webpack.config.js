@@ -1,29 +1,29 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 
 module.exports = function (env = {}) {
-  let babelConf
+  let babelConf;
 
-  const babelRC = env.esnext ? './.es6.babelrc' : './.babelrc'
+  const babelRC = env.esnext ? './.es6.babelrc' : './.babelrc';
   if(fs.existsSync(babelRC)) {
-    babelConf = JSON.parse(fs.readFileSync(babelRC))
-    babelConf.babelrc = false
+    babelConf = JSON.parse(fs.readFileSync(babelRC));
+    babelConf.babelrc = false;
   }
 
-  const externals = {}
-  const aliasFields = ['browser', 'esnext']
+  const externals = {};
+  const aliasFields = ['browser', 'esnext'];
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: env.esnext ? 'sprite-core.es6' : 'sprite-core',
     publicPath: '/js/',
     library: 'spritejs',
-    libraryTarget: 'umd',
-  }
+    libraryTarget: env.esnext ? 'commonjs2' : 'umd',
+  };
 
   if(env.production) {
-    output.filename += '.min.js'
+    output.filename += '.min.js';
   } else {
-    output.filename += '.js'
+    output.filename += '.js';
   }
 
   return {
@@ -68,5 +68,5 @@ module.exports = function (env = {}) {
 
 
     /* Advanced configuration (click to show) */
-  }
-}
+  };
+};

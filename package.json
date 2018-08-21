@@ -86,7 +86,7 @@
     "babel-runtime": "^6.26.0",
     "css-line-break": "^1.0.1",
     "fast-animation-frame": "^0.3.3",
-    "sprite-animator": "^1.10.3",
+    "sprite-animator": "^1.10.4",
     "sprite-math": "^1.0.4",
     "sprite-utils": "^1.11.1",
     "svg-path-to-canvas": "^1.9.5"
