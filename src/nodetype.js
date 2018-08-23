@@ -130,12 +130,20 @@ const elementProto = {
 };
 
 export function registerNodeType(type, Class, isQuerable = false) {
+  const nodeType = type.toLowerCase();
+  const tagName = type.toUpperCase();
   Object.defineProperty(Class.prototype, 'nodeType', {
     get() {
-      return type;
+      return nodeType;
     },
   });
-  nodeTypes.set(type, Class);
+  // friendly to snabbdom
+  Object.defineProperty(Class.prototype, 'tagName', {
+    get() {
+      return tagName;
+    },
+  });
+  nodeTypes.set(nodeType, Class);
   if(isQuerable && !Class.prototype.ownerDocument) {
     Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
     Class.prototype.namespaceURI = `http://spritejs.org/${type}`;
@@ -144,7 +152,7 @@ export function registerNodeType(type, Class, isQuerable = false) {
 }
 
 export function createNode(type, ...args) {
-  const Class = nodeTypes.get(type);
+  const Class = getNodeType(type);
   if(Class) {
     return new Class(...args);
   }
@@ -152,7 +160,7 @@ export function createNode(type, ...args) {
 }
 
 export function createElement(type, attrs, content) {
-  const Node = typeof type === 'string' ? nodeTypes.get(type) : type;
+  const Node = typeof type === 'string' ? getNodeType(type) : type;
 
   if(!Node) return null;
 
@@ -173,5 +181,5 @@ export function createElement(type, attrs, content) {
 }
 
 function getNodeType(type) {
-  return nodeTypes.get(type);
+  return nodeTypes.get(type.toLowerCase());
 }

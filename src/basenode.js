@@ -163,6 +163,10 @@ export default class BaseNode {
     return isCollision;
   }
 
+  get parentNode() {
+    return this.parent;
+  }
+
   // called when layer appendChild
   connect(parent, zOrder = 0) {
     if(this.parent) {

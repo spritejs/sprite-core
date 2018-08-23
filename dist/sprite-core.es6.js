@@ -5037,6 +5037,10 @@ let BaseNode = class BaseNode {
     return isCollision;
   }
 
+  get parentNode() {
+    return this.parent;
+  }
+
   // called when layer appendChild
   connect(parent, zOrder = 0) {
     if (this.parent) {
@@ -5521,12 +5525,20 @@ const elementProto = {
 };
 
 function registerNodeType(type, Class, isQuerable = false) {
+  const nodeType = type.toLowerCase();
+  const tagName = type.toUpperCase();
   Object.defineProperty(Class.prototype, 'nodeType', {
     get() {
-      return type;
+      return nodeType;
     }
   });
-  nodeTypes.set(type, Class);
+  // friendly to snabbdom
+  Object.defineProperty(Class.prototype, 'tagName', {
+    get() {
+      return tagName;
+    }
+  });
+  nodeTypes.set(nodeType, Class);
   if (isQuerable && !Class.prototype.ownerDocument) {
     Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
     Class.prototype.namespaceURI = `http://spritejs.org/${type}`;
@@ -5535,7 +5547,7 @@ function registerNodeType(type, Class, isQuerable = false) {
 }
 
 function createNode(type, ...args) {
-  const Class = nodeTypes.get(type);
+  const Class = getNodeType(type);
   if (Class) {
     return new Class(...args);
   }
@@ -5543,7 +5555,7 @@ function createNode(type, ...args) {
 }
 
 function createElement(type, attrs, content) {
-  const Node = typeof type === 'string' ? nodeTypes.get(type) : type;
+  const Node = typeof type === 'string' ? getNodeType(type) : type;
 
   if (!Node) return null;
 
@@ -5564,7 +5576,7 @@ function createElement(type, attrs, content) {
 }
 
 function getNodeType(type) {
-  return nodeTypes.get(type);
+  return nodeTypes.get(type.toLowerCase());
 }
 
 /***/ }),
@@ -8131,6 +8143,10 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
     return this[_children];
   }
 
+  get childNodes() {
+    return this[_children];
+  }
+
   update(child) {
     child.isDirty = true;
     const attrSize = this.attrSize;
@@ -9111,6 +9127,9 @@ const _zOrder = Symbol('zOrder');
     return children.map(child => this.removeChild(child));
   },
   insertBefore(newchild, refchild) {
+    if (refchild == null) {
+      return this.appendChild(newchild);
+    }
     const idx = this.children.indexOf(refchild);
     if (idx >= 0) {
       this.removeChild(newchild);

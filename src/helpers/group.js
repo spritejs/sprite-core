@@ -45,6 +45,9 @@ export default {
     return children.map(child => this.removeChild(child));
   },
   insertBefore(newchild, refchild) {
+    if(refchild == null) {
+      return this.appendChild(newchild);
+    }
     const idx = this.children.indexOf(refchild);
     if(idx >= 0) {
       this.removeChild(newchild);

@@ -150,6 +150,10 @@ export default class Group extends BaseSprite {
     return this[_children];
   }
 
+  get childNodes() {
+    return this[_children];
+  }
+
   update(child) {
     child.isDirty = true;
     const attrSize = this.attrSize;

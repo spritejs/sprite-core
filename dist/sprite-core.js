@@ -9656,11 +9656,11 @@ var BaseNode = function () {
 
       return isCollision;
     }
-
-    // called when layer appendChild
-
   }, {
     key: 'connect',
+
+
+    // called when layer appendChild
     value: function connect(parent) {
       var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
@@ -9722,6 +9722,11 @@ var BaseNode = function () {
     key: 'dataset',
     get: function get() {
       return this[_data];
+    }
+  }, {
+    key: 'parentNode',
+    get: function get() {
+      return this.parent;
     }
   }]);
   return BaseNode;
@@ -10329,12 +10334,20 @@ var elementProto = {
 function registerNodeType(type, Class) {
   var isQuerable = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
+  var nodeType = type.toLowerCase();
+  var tagName = type.toUpperCase();
   Object.defineProperty(Class.prototype, 'nodeType', {
     get: function get() {
-      return type;
+      return nodeType;
     }
   });
-  nodeTypes.set(type, Class);
+  // friendly to snabbdom
+  Object.defineProperty(Class.prototype, 'tagName', {
+    get: function get() {
+      return tagName;
+    }
+  });
+  nodeTypes.set(nodeType, Class);
   if (isQuerable && !Class.prototype.ownerDocument) {
     Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
     Class.prototype.namespaceURI = 'http://spritejs.org/' + type;
@@ -10343,7 +10356,7 @@ function registerNodeType(type, Class) {
 }
 
 function createNode(type) {
-  var Class = nodeTypes.get(type);
+  var Class = getNodeType(type);
   if (Class) {
     for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
@@ -10355,7 +10368,7 @@ function createNode(type) {
 }
 
 function createElement(type, attrs, content) {
-  var Node = typeof type === 'string' ? nodeTypes.get(type) : type;
+  var Node = typeof type === 'string' ? getNodeType(type) : type;
 
   if (!Node) return null;
 
@@ -10376,7 +10389,7 @@ function createElement(type, attrs, content) {
 }
 
 function getNodeType(type) {
-  return nodeTypes.get(type);
+  return nodeTypes.get(type.toLowerCase());
 }
 
 /***/ }),
@@ -13719,6 +13732,11 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
       return this[_children];
     }
   }, {
+    key: 'childNodes',
+    get: function get() {
+      return this[_children];
+    }
+  }, {
     key: 'contentSize',
     get: function get() {
       if (this.isVirtual) return [0, 0];
@@ -14688,6 +14706,9 @@ exports.default = {
     });
   },
   insertBefore: function insertBefore(newchild, refchild) {
+    if (refchild == null) {
+      return this.appendChild(newchild);
+    }
     var idx = this.children.indexOf(refchild);
     if (idx >= 0) {
       this.removeChild(newchild);
