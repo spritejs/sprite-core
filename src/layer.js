@@ -77,6 +77,10 @@ export default class Layer extends BaseNode {
     return this[_children];
   }
 
+  get childNodes() {
+    return this[_children];
+  }
+
   get timeline() {
     return this[_timeline];
   }

@@ -7589,6 +7589,10 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
     return this[_children];
   }
 
+  get childNodes() {
+    return this[_children];
+  }
+
   get timeline() {
     return this[_timeline];
   }

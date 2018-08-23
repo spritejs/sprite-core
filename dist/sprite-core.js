@@ -13133,6 +13133,11 @@ var Layer = function (_BaseNode) {
       return this[_children];
     }
   }, {
+    key: 'childNodes',
+    get: function get() {
+      return this[_children];
+    }
+  }, {
     key: 'timeline',
     get: function get() {
       return this[_timeline];
