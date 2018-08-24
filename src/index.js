@@ -11,7 +11,7 @@ import Group from './group';
 import BaseNode from './basenode';
 import Path from './path';
 import Batch from './batch';
-import {registerNodeType, createNode, createElement} from './nodetype';
+import {registerNodeType, createNode, createElement, isValidNodeType} from './nodetype';
 
 import {findColor, cacheContextPool} from './helpers/render';
 
@@ -37,6 +37,7 @@ export {
   Easings,
   Timeline,
   registerNodeType,
+  isValidNodeType,
   createNode,
   createElement,
   Color,

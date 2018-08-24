@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SvgPath = exports.Color = exports.createElement = exports.createNode = exports.registerNodeType = exports.Timeline = exports.Easings = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.DataNode = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
+exports.SvgPath = exports.Color = exports.createElement = exports.createNode = exports.isValidNodeType = exports.registerNodeType = exports.Timeline = exports.Easings = exports.Effects = exports.Group = exports.Layer = exports.Path = exports.Label = exports.Sprite = exports.Batch = exports.DataNode = exports.BaseSprite = exports.BaseNode = exports.math = exports.utils = undefined;
 
 var _spriteAnimator = __webpack_require__(1);
 
@@ -184,6 +184,7 @@ exports.Effects = _spriteAnimator.Effects;
 exports.Easings = _spriteAnimator.Easings;
 exports.Timeline = _spriteAnimator.Timeline;
 exports.registerNodeType = _nodetype.registerNodeType;
+exports.isValidNodeType = _nodetype.isValidNodeType;
 exports.createNode = _nodetype.createNode;
 exports.createElement = _nodetype.createElement;
 exports.Color = Color;
@@ -10179,6 +10180,7 @@ var _map2 = _interopRequireDefault(_map);
 exports.registerNodeType = registerNodeType;
 exports.createNode = createNode;
 exports.createElement = createElement;
+exports.isValidNodeType = isValidNodeType;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10395,6 +10397,10 @@ function createElement(type, attrs, content) {
 
 function getNodeType(type) {
   return nodeTypes.get(type.toLowerCase());
+}
+
+function isValidNodeType(type) {
+  return !!getNodeType(type);
 }
 
 /***/ }),

@@ -183,3 +183,7 @@ export function createElement(type, attrs, content) {
 function getNodeType(type) {
   return nodeTypes.get(type.toLowerCase());
 }
+
+export function isValidNodeType(type) {
+  return !!getNodeType(type);
+}
