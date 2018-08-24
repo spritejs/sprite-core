@@ -260,6 +260,16 @@ declare namespace spritejs {
     nodeType: string;
   }
 
+  class EmptyAttr {
+    readonly attrs: Object;
+    serialize(): String;
+    merge(attrs: string|Object): EmptyAttr;
+  }
+
+  class DataNode extends BaseSprite {
+    static Attr;
+  }
+
   class Batch {
     constructor(layer: Layer);
     readonly baseNode: BaseSprite;
