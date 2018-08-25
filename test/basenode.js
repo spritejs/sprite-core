@@ -60,7 +60,7 @@ test('basenode event 3', (t) => {
     if(evt.terminated) {
       throw new Error('should not called');
     } else {
-      t.is(evt.target, s2);
+      t.is(evt.target, s1); // target is set to the element which the event be first triggered
     }
   })
 

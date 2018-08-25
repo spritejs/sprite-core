@@ -4981,6 +4981,11 @@ let BaseNode = class BaseNode {
         evt.terminated = true;
       };
     }
+    if (!evt.stopPropagation) {
+      evt.stopPropagation = () => {
+        evt.cancelBubble = true;
+      };
+    }
     if (evt.type !== type) {
       if (evt.type) {
         evt.originalType = evt.type;
@@ -4992,7 +4997,7 @@ let BaseNode = class BaseNode {
     const captured = this.isCaptured(evt);
 
     if (!evt.terminated && (isCollision || captured)) {
-      evt.target = this;
+      if (!evt.target) evt.target = this;
 
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
       if (changedTouches) {
@@ -7730,7 +7735,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
     const currentTime = this.timeline.currentTime;
     renderer(currentTime, clearContext);
 
-    super.dispatchEvent.call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
+    super.dispatchEvent.call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true, true);
 
     if (renderDeferrer) {
       renderDeferrer.resolve();
@@ -7862,7 +7867,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
             if (targets) {
               targets.forEach(target => {
                 if (target !== this && target.layer === this) {
-                  target.dispatchEvent(type, evt, true);
+                  target.dispatchEvent(type, evt, true, true);
                 }
               });
               delete this.layer.touchedTargets[touch.identifier];
@@ -7873,6 +7878,10 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
             const sprite = sprites[i];
             const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
             if (hit) {
+              if (evt.targetSprites) {
+                targetSprites.push(...evt.targetSprites);
+                delete evt.targetSprites;
+              }
               // detect mouseenter/mouseleave
               targetSprites.push(sprite);
             }
@@ -7884,10 +7893,18 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
-        return super.dispatchEvent(type, evt, isCollision, swallow);
+        collisionState = isCollision;
       }
     }
     evt.targetSprites = evt.targetSprites || [];
+    if (evt.cancelBubble) {
+      // stop bubbling
+      return false;
+    }
+    if (evt.targetSprites.length > 0) {
+      // bubbling
+      collisionState = true;
+    }
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 
@@ -8279,9 +8296,8 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
-        const _evt = Object.assign({}, evt);
-        _evt.parentX = parentX;
-        _evt.parentY = parentY;
+        evt.parentX = parentX;
+        evt.parentY = parentY;
 
         const sprites = this[_children].slice(0).reverse();
 
@@ -8289,8 +8305,12 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
         for (let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
           const sprite = sprites[i];
-          const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
+          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
           if (hit) {
+            if (evt.targetSprites) {
+              targetSprites.push(...evt.targetSprites);
+              delete evt.targetSprites;
+            }
             targetSprites.push(sprite);
           }
           if (evt.terminated && !type.startsWith('mouse')) {
@@ -8301,10 +8321,18 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
-        return super.dispatchEvent(type, evt, isCollision, swallow);
+        collisionState = isCollision;
       }
     }
     evt.targetSprites = evt.targetSprites || [];
+    if (evt.cancelBubble) {
+      // stop bubbling
+      return false;
+    }
+    if (evt.targetSprites.length > 0) {
+      // bubbling
+      collisionState = true;
+    }
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 

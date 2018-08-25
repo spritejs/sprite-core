@@ -62,8 +62,13 @@
     // window.anim = animation
     // layer.draw()
 
-    s2.on('click', (evt) => {
-      console.log(evt);
+    // s2.on('click', (evt) => {
+    //   console.log(evt);
+    //   evt.stopPropagation();
+    // });
+
+    s.on('click', (evt) => {
+      console.log(evt, evt.targetSprites);
     });
 
     // s.on('mouseleave', (evt) => {

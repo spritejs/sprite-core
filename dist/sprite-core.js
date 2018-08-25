@@ -9599,6 +9599,11 @@ var BaseNode = function () {
           evt.terminated = true;
         };
       }
+      if (!evt.stopPropagation) {
+        evt.stopPropagation = function () {
+          evt.cancelBubble = true;
+        };
+      }
       if (evt.type !== type) {
         if (evt.type) {
           evt.originalType = evt.type;
@@ -9610,7 +9615,7 @@ var BaseNode = function () {
       var captured = this.isCaptured(evt);
 
       if (!evt.terminated && (isCollision || captured)) {
-        evt.target = this;
+        if (!evt.target) evt.target = this;
 
         var changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
         if (changedTouches) {
@@ -12984,7 +12989,7 @@ var Layer = function (_BaseNode) {
       var currentTime = this.timeline.currentTime;
       renderer(currentTime, clearContext);
 
-      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true);
+      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true, true);
 
       if (renderDeferrer) {
         renderDeferrer.resolve();
@@ -13120,7 +13125,7 @@ var Layer = function (_BaseNode) {
               if (targets) {
                 targets.forEach(function (target) {
                   if (target !== _this4 && target.layer === _this4) {
-                    target.dispatchEvent(type, evt, true);
+                    target.dispatchEvent(type, evt, true, true);
                   }
                 });
                 delete this.layer.touchedTargets[touch.identifier];
@@ -13131,6 +13136,10 @@ var Layer = function (_BaseNode) {
               var sprite = sprites[i];
               var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
               if (hit) {
+                if (evt.targetSprites) {
+                  targetSprites.push.apply(targetSprites, (0, _toConsumableArray3.default)(evt.targetSprites));
+                  delete evt.targetSprites;
+                }
                 // detect mouseenter/mouseleave
                 targetSprites.push(sprite);
               }
@@ -13142,10 +13151,18 @@ var Layer = function (_BaseNode) {
           evt.targetSprites = targetSprites;
           // stopDispatch can only terminate event in the same level
           evt.terminated = false;
-          return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
+          collisionState = isCollision;
         }
       }
       evt.targetSprites = evt.targetSprites || [];
+      if (evt.cancelBubble) {
+        // stop bubbling
+        return false;
+      }
+      if (evt.targetSprites.length > 0) {
+        // bubbling
+        collisionState = true;
+      }
       return (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {
@@ -13455,13 +13472,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _assign = __webpack_require__(91);
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _slicedToArray2 = __webpack_require__(3);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _assign = __webpack_require__(91);
+var _toConsumableArray2 = __webpack_require__(60);
 
-var _assign2 = _interopRequireDefault(_assign);
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _get2 = __webpack_require__(181);
 
@@ -13714,9 +13735,8 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
           var parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
           // console.log(evt.parentX, evt.parentY)
 
-          var _evt = (0, _assign2.default)({}, evt);
-          _evt.parentX = parentX;
-          _evt.parentY = parentY;
+          evt.parentX = parentX;
+          evt.parentY = parentY;
 
           var sprites = this[_children].slice(0).reverse();
 
@@ -13724,8 +13744,12 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
 
           for (var i = 0; i < sprites.length && evt.isInClip !== false; i++) {
             var sprite = sprites[i];
-            var hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
+            var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
             if (hit) {
+              if (evt.targetSprites) {
+                targetSprites.push.apply(targetSprites, (0, _toConsumableArray3.default)(evt.targetSprites));
+                delete evt.targetSprites;
+              }
               targetSprites.push(sprite);
             }
             if (evt.terminated && !type.startsWith('mouse')) {
@@ -13736,10 +13760,18 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
           evt.targetSprites = targetSprites;
           // stopDispatch can only terminate event in the same level
           evt.terminated = false;
-          return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, isCollision, swallow);
+          collisionState = isCollision;
         }
       }
       evt.targetSprites = evt.targetSprites || [];
+      if (evt.cancelBubble) {
+        // stop bubbling
+        return false;
+      }
+      if (evt.targetSprites.length > 0) {
+        // bubbling
+        collisionState = true;
+      }
       return (0, _get3.default)(Group.prototype.__proto__ || (0, _getPrototypeOf2.default)(Group.prototype), 'dispatchEvent', this).call(this, type, evt, collisionState, swallow);
     }
   }, {

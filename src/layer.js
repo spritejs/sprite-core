@@ -156,7 +156,7 @@ export default class Layer extends BaseNode {
 
     super.dispatchEvent.call(
       this, 'update',
-      {target: this, timeline: this.timeline, renderTime: currentTime}, true
+      {target: this, timeline: this.timeline, renderTime: currentTime}, true, true
     );
 
     if(renderDeferrer) {
@@ -288,7 +288,7 @@ export default class Layer extends BaseNode {
             if(targets) {
               targets.forEach((target) => {
                 if(target !== this && target.layer === this) {
-                  target.dispatchEvent(type, evt, true);
+                  target.dispatchEvent(type, evt, true, true);
                 }
               });
               delete this.layer.touchedTargets[touch.identifier];
@@ -299,6 +299,10 @@ export default class Layer extends BaseNode {
             const sprite = sprites[i];
             const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
             if(hit) {
+              if(evt.targetSprites) {
+                targetSprites.push(...evt.targetSprites);
+                delete evt.targetSprites;
+              }
               // detect mouseenter/mouseleave
               targetSprites.push(sprite);
             }
@@ -310,10 +314,18 @@ export default class Layer extends BaseNode {
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
-        return super.dispatchEvent(type, evt, isCollision, swallow);
+        collisionState = isCollision;
       }
     }
     evt.targetSprites = evt.targetSprites || [];
+    if(evt.cancelBubble) {
+      // stop bubbling
+      return false;
+    }
+    if(evt.targetSprites.length > 0) {
+      // bubbling
+      collisionState = true;
+    }
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 

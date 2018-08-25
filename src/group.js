@@ -220,9 +220,8 @@ export default class Group extends BaseSprite {
         const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
-        const _evt = Object.assign({}, evt);
-        _evt.parentX = parentX;
-        _evt.parentY = parentY;
+        evt.parentX = parentX;
+        evt.parentY = parentY;
 
         const sprites = this[_children].slice(0).reverse();
 
@@ -230,8 +229,12 @@ export default class Group extends BaseSprite {
 
         for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
           const sprite = sprites[i];
-          const hit = sprite.dispatchEvent(type, _evt, collisionState, swallow);
+          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
           if(hit) {
+            if(evt.targetSprites) {
+              targetSprites.push(...evt.targetSprites);
+              delete evt.targetSprites;
+            }
             targetSprites.push(sprite);
           }
           if(evt.terminated && !type.startsWith('mouse')) {
@@ -242,10 +245,18 @@ export default class Group extends BaseSprite {
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
-        return super.dispatchEvent(type, evt, isCollision, swallow);
+        collisionState = isCollision;
       }
     }
     evt.targetSprites = evt.targetSprites || [];
+    if(evt.cancelBubble) {
+      // stop bubbling
+      return false;
+    }
+    if(evt.targetSprites.length > 0) {
+      // bubbling
+      collisionState = true;
+    }
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 

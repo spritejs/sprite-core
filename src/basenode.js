@@ -101,6 +101,11 @@ export default class BaseNode {
         evt.terminated = true;
       };
     }
+    if(!evt.stopPropagation) {
+      evt.stopPropagation = () => {
+        evt.cancelBubble = true;
+      };
+    }
     if(evt.type !== type) {
       if(evt.type) {
         evt.originalType = evt.type;
@@ -112,7 +117,7 @@ export default class BaseNode {
     const captured = this.isCaptured(evt);
 
     if(!evt.terminated && (isCollision || captured)) {
-      evt.target = this;
+      if(!evt.target) evt.target = this;
 
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
       if(changedTouches) {
