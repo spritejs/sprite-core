@@ -272,7 +272,7 @@ export default class Group extends BaseSprite {
           child.relayout();
         }
       }
-      return child.hasLayout;
+      return child.hasLayout && child.attr('display') !== 'none';
     });
 
     const display = this.attr('display');

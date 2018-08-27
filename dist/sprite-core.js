@@ -13788,7 +13788,7 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
             child.relayout();
           }
         }
-        return child.hasLayout;
+        return child.hasLayout && child.attr('display') !== 'none';
       });
 
       var display = this.attr('display');

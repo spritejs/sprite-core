@@ -8348,7 +8348,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
           child.relayout();
         }
       }
-      return child.hasLayout;
+      return child.hasLayout && child.attr('display') !== 'none';
     });
 
     const display = this.attr('display');
