@@ -9031,8 +9031,8 @@ function relayout(container, items) {
     const [left, top] = item.originalRect,
           margin = item.attr('margin');
     // console.log(margin[3])
-    item.attr({ x: x => x - left + margin[3] });
-    item.attr({ y: y => y - top + margin[0] });
+    item.attr({ layoutX: x => x - left + margin[3] });
+    item.attr({ layoutY: y => y - top + margin[0] });
   }
 
   if (mainSpace < 0) {
