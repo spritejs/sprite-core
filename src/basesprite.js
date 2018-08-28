@@ -210,14 +210,6 @@ export default class BaseSprite extends BaseNode {
   attr(props, val) {
     const setVal = (key, value) => {
       this[_attr][key] = value;
-      if(key === 'zIndex' && this.parent) {
-        this.parent.children.sort((a, b) => {
-          if(a.zIndex === b.zIndex) {
-            return a.zOrder - b.zOrder;
-          }
-          return a.zIndex - b.zIndex;
-        });
-      }
     };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {

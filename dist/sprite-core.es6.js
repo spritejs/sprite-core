@@ -3475,14 +3475,6 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
   attr(props, val) {
     const setVal = (key, value) => {
       this[_attr][key] = value;
-      if (key === 'zIndex' && this.parent) {
-        this.parent.children.sort((a, b) => {
-          if (a.zIndex === b.zIndex) {
-            return a.zOrder - b.zOrder;
-          }
-          return a.zIndex - b.zIndex;
-        });
-      }
     };
     if (typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
@@ -4416,6 +4408,13 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
     return ret;
   }
 
+  set attrs(attrs) {
+    Object.entries(attrs).forEach(([prop, value]) => {
+      this[prop] = value;
+    });
+    return attrs;
+  }
+
   clearCache() {
     this.__clearCacheTag = true;
     return this;
@@ -4699,6 +4698,15 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
 
   set zIndex(val) {
     this.set('zIndex', val);
+    const subject = this.subject;
+    if (subject.parent) {
+      subject.parent.children.sort((a, b) => {
+        if (a.zIndex === b.zIndex) {
+          return a.zOrder - b.zOrder;
+        }
+        return a.zIndex - b.zIndex;
+      });
+    }
   }
 
   /**

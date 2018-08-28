@@ -141,6 +141,13 @@ class SpriteAttr {
     return ret;
   }
 
+  set attrs(attrs) {
+    Object.entries(attrs).forEach(([prop, value]) => {
+      this[prop] = value;
+    });
+    return attrs;
+  }
+
   clearCache() {
     this.__clearCacheTag = true;
     return this;
@@ -468,6 +475,15 @@ class SpriteAttr {
   @attr
   set zIndex(val) {
     this.set('zIndex', val);
+    const subject = this.subject;
+    if(subject.parent) {
+      subject.parent.children.sort((a, b) => {
+        if(a.zIndex === b.zIndex) {
+          return a.zOrder - b.zOrder;
+        }
+        return a.zIndex - b.zIndex;
+      });
+    }
   }
 
   /**
