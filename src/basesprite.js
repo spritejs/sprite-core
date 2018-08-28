@@ -417,6 +417,17 @@ export default class BaseSprite extends BaseNode {
     return [width, height];
   }
 
+  @flow
+  get boxOffsetSize() {
+    if(this.isVirtual) return [0, 0];
+    const [width, height] = this.attr('size');
+    const [top, right, bottom, left] = this.attr('padding');
+    const {width: borderWidth} = this.attr('border'),
+      lw = borderWidth * 2;
+
+    return [left + (width | 0) + right + lw, top + (height | 0) + bottom + lw];
+  }
+
   // content width / height
   @flow
   get contentSize() {

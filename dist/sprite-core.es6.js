@@ -3085,10 +3085,7 @@ swizzle.wrap = function (fn) {
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+/***/ (function(module, exports) {
 
 module.exports = function isArrayish(obj) {
 	if (!obj || typeof obj === 'string') {
@@ -3141,7 +3138,7 @@ function attr(target, prop, descriptor) {
     this.__reflowTag = false;
     _setter.call(this, val);
     if (this.subject && this.subject.hasLayout) {
-      const offsetSize = this.subject.offsetSize,
+      const offsetSize = this.subject.boxOffsetSize,
             layoutSize = this.subject.__lastLayout;
 
       if (!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
@@ -3683,6 +3680,16 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     return [width, height];
   }
 
+  get boxOffsetSize() {
+    if (this.isVirtual) return [0, 0];
+    const [width, height] = this.attr('size');
+    const [top, right, bottom, left] = this.attr('padding');
+    const { width: borderWidth } = this.attr('border'),
+          lw = borderWidth * 2;
+
+    return [left + (width | 0) + right + lw, top + (height | 0) + bottom + lw];
+  }
+
   // content width / height
 
   get contentSize() {
@@ -4101,7 +4108,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
 
     return true;
   }
-}, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'attrSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype)), _class);
+}, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'attrSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [sprite_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype)), _class);
 
 
 
