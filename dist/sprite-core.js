@@ -9589,7 +9589,7 @@ var BaseNode = function () {
 
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
+      // eslint-disable-line complexity
       var handlers = this.getEventHandlers(type);
       if (swallow && handlers.length === 0) {
         return;
@@ -9613,6 +9613,12 @@ var BaseNode = function () {
 
       var isCollision = collisionState || this.pointCollision(evt);
       var captured = this.isCaptured(evt);
+
+      if (this[_collisionState] && type === 'mouseleave') {
+        // dispatched from group
+        this[_collisionState] = false;
+        isCollision = true;
+      }
 
       if (!evt.terminated && (isCollision || captured)) {
         if (!evt.target) evt.target = this;
@@ -9651,7 +9657,7 @@ var BaseNode = function () {
           var _evt = (0, _assign2.default)({}, evt);
           _evt.type = 'mouseenter';
           _evt.terminated = false;
-          this.dispatchEvent('mouseenter', _evt, true);
+          this.dispatchEvent('mouseenter', _evt, true, true);
           this[_collisionState] = true;
         }
       }
@@ -9659,10 +9665,10 @@ var BaseNode = function () {
       if (this[_collisionState] && !isCollision && type === 'mousemove') {
         var _evt2 = (0, _assign2.default)({}, evt);
         _evt2.type = 'mouseleave';
-        _evt2.target = this;
+        delete _evt2.target;
         _evt2.terminated = false;
-        this.dispatchEvent('mouseleave', _evt2, true);
-        this[_collisionState] = false;
+        this.dispatchEvent('mouseleave', _evt2);
+        // this[_collisionState] = false;
       }
 
       return isCollision;
@@ -13108,13 +13114,13 @@ var Layer = function (_BaseNode) {
       if (swallow && this.getEventHandlers(type).length === 0) {
         return;
       }
-      if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+      if (!swallow && !evt.terminated && type !== 'mouseenter') {
         var isCollision = collisionState || this.pointCollision(evt);
         var changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
         if (changedTouches && type === 'touchend') {
           isCollision = true;
         }
-        if (isCollision) {
+        if (isCollision || type === 'mouseleave') {
           var sprites = this[_children].slice(0).reverse(),
               targetSprites = [];
 
@@ -13723,9 +13729,9 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
       if (swallow && this.getEventHandlers(type).length === 0) {
         return;
       }
-      if (!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+      if (!swallow && !evt.terminated && type !== 'mouseenter') {
         var isCollision = collisionState || this.pointCollision(evt);
-        if (isCollision) {
+        if (isCollision || type === 'mouseleave') {
           var scrollLeft = this.attr('scrollLeft'),
               scrollTop = this.attr('scrollTop'),
               borderWidth = this.attr('border').width,

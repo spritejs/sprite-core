@@ -91,7 +91,7 @@ export default class BaseNode {
     return (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false) { // eslint-disable-line complexity
     const handlers = this.getEventHandlers(type);
     if(swallow && handlers.length === 0) {
       return;
@@ -113,8 +113,14 @@ export default class BaseNode {
       evt.type = type;
     }
 
-    const isCollision = collisionState || this.pointCollision(evt);
+    let isCollision = collisionState || this.pointCollision(evt);
     const captured = this.isCaptured(evt);
+
+    if(this[_collisionState] && type === 'mouseleave') {
+      // dispatched from group
+      this[_collisionState] = false;
+      isCollision = true;
+    }
 
     if(!evt.terminated && (isCollision || captured)) {
       if(!evt.target) evt.target = this;
@@ -151,7 +157,7 @@ export default class BaseNode {
         const _evt = Object.assign({}, evt);
         _evt.type = 'mouseenter';
         _evt.terminated = false;
-        this.dispatchEvent('mouseenter', _evt, true);
+        this.dispatchEvent('mouseenter', _evt, true, true);
         this[_collisionState] = true;
       }
     }
@@ -159,10 +165,10 @@ export default class BaseNode {
     if(this[_collisionState] && !isCollision && type === 'mousemove') {
       const _evt = Object.assign({}, evt);
       _evt.type = 'mouseleave';
-      _evt.target = this;
+      delete _evt.target;
       _evt.terminated = false;
-      this.dispatchEvent('mouseleave', _evt, true);
-      this[_collisionState] = false;
+      this.dispatchEvent('mouseleave', _evt);
+      // this[_collisionState] = false;
     }
 
     return isCollision;

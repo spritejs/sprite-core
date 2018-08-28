@@ -271,13 +271,13 @@ export default class Layer extends BaseNode {
     if(swallow && this.getEventHandlers(type).length === 0) {
       return;
     }
-    if(!swallow && !evt.terminated && type !== 'mouseenter' && type !== 'mouseleave') {
+    if(!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
       if(changedTouches && type === 'touchend') {
         isCollision = true;
       }
-      if(isCollision) {
+      if(isCollision || type === 'mouseleave') {
         const sprites = this[_children].slice(0).reverse(),
           targetSprites = [];
 
