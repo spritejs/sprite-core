@@ -23,6 +23,8 @@ class SpriteAttr {
       opacity: 1,
       width: '',
       height: '',
+      layoutX: 0,
+      layoutY: 0,
       layoutWidth: '',
       layoutHeight: '',
       bgcolor: '',
@@ -211,6 +213,7 @@ class SpriteAttr {
   @parseValue(parseStringFloat, oneOrTwoValues)
   @attr
   set anchor(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('anchor', val);
   }
 
@@ -222,38 +225,26 @@ class SpriteAttr {
 
   @parseValue(parseFloat)
   @attr
-  set x(val) {
-    if(this.subject.hasLayout) {
-      this.set('layoutX', val);
-    } else {
-      this.set('x', val);
-    }
+  set layoutX(val) {
+    this.set('layoutX', val);
   }
 
-  get x() {
-    if(this.subject.hasLayout) {
-      const layoutX = this.get('layoutX');
-      return layoutX !== '' ? layoutX : this.get('x');
-    }
-    return this.get('x');
+  @parseValue(parseFloat)
+  @attr
+  set layoutY(val) {
+    this.set('layoutY', val);
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set x(val) {
+    this.set('x', val);
   }
 
   @parseValue(parseFloat)
   @attr
   set y(val) {
-    if(this.subject.hasLayout) {
-      this.set('layoutY', val);
-    } else {
-      this.set('y', val);
-    }
-  }
-
-  get y() {
-    if(this.subject.hasLayout) {
-      const layoutY = this.get('layoutY');
-      return layoutY !== '' ? layoutY : this.get('y');
-    }
-    return this.get('y');
+    this.set('y', val);
   }
 
   @parseValue(parseStringInt)

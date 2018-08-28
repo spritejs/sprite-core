@@ -383,6 +383,16 @@ export default class BaseSprite extends BaseNode {
     return ret;
   }
 
+  get xy() {
+    if(this.hasLayout) {
+      const x = this.attr('layoutX'),
+        y = this.attr('layoutY');
+
+      return [x, y];
+    }
+    return this.attr('pos');
+  }
+
   @flow
   get attrSize() {
     let [width, height] = this.attr('size');
@@ -524,7 +534,7 @@ export default class BaseSprite extends BaseNode {
 
   get originalRenderRect() {
     const bound = this.originalRect,
-      pos = this.attr('pos');
+      pos = this.xy;
 
     return [pos[0] + bound[0],
       pos[1] + bound[1],
@@ -534,7 +544,7 @@ export default class BaseSprite extends BaseNode {
 
   get renderBox() {
     const bound = this.boundingRect,
-      pos = this.attr('pos');
+      pos = this.xy;
 
     return [Math.floor(pos[0] + bound[0]),
       Math.floor(pos[1] + bound[1]),
@@ -549,7 +559,7 @@ export default class BaseSprite extends BaseNode {
   get vertices() {
     const vertices = rectVertices(this.originalRect),
       transform = this.transform,
-      [x0, y0] = this.attr('pos');
+      [x0, y0] = this.xy;
 
     return vertices.map((v) => {
       const [x, y] = transform.transformPoint(v[0], v[1]);
@@ -599,7 +609,7 @@ export default class BaseSprite extends BaseNode {
 
   // layer position to sprite offset
   pointToOffset(x, y) {
-    const [x0, y0] = this.attr('pos');
+    const [x0, y0] = this.xy;
     const [dx, dy] = [x - x0, y - y0];
     const transform = this.transform;
     return transform.inverse().transformPoint(dx, dy);
@@ -607,7 +617,7 @@ export default class BaseSprite extends BaseNode {
 
   offsetToPoint(dx, dy) {
     const transform = this.transform;
-    const [x0, y0] = this.attr('pos');
+    const [x0, y0] = this.xy;
     const [x, y] = transform.transformPoint(dx, dy);
     return [x + x0, y + y0];
   }
@@ -727,7 +737,7 @@ export default class BaseSprite extends BaseNode {
     const evtArgs = {context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache};
 
     drawingContext.save();
-    drawingContext.translate(...this.attr('pos'));
+    drawingContext.translate(...this.xy);
     drawingContext.transform(...this.transform.m);
 
     // fix for wxapp

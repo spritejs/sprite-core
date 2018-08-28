@@ -265,6 +265,8 @@ export default class Group extends BaseSprite {
       if(child.hasLayout) {
         child.attr('layoutWidth', null);
         child.attr('layoutHeight', null);
+        child.attr('layoutX', null);
+        child.attr('layoutY', null);
       }
       if(child.relayout) {
         const display = child.attr('display');

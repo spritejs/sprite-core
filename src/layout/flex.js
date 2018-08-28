@@ -36,7 +36,7 @@ export const attrs = {
 };
 
 
-export function relayout(container, items) {
+export function relayout(container, items) { // eslint-disable-line complexity
   items.sort((a, b) => {
     return (a.attributes.order || 0) - (b.attributes.order || 0);
   });
@@ -47,12 +47,12 @@ export function relayout(container, items) {
   const style = container.attributes;
 
   let mainSize = 'width',
-    mainStart = 'x',
+    mainStart = 'layoutX',
     mainEnd = 'layoutRight',
     mainSign = +1,
     mainBase = 0,
     crossSize = 'height',
-    crossStart = 'y',
+    crossStart = 'layoutY',
     crossEnd = 'layoutBottom',
     crossSign,
     crossBase;
@@ -62,32 +62,32 @@ export function relayout(container, items) {
   if(flexDirection === 'row-reverse') {
     mainSize = 'width';
     mainStart = 'layoutRight';
-    mainEnd = 'x';
+    mainEnd = 'layoutX';
     mainSign = -1;
     mainBase = getSize(container, 'width');
 
     crossSize = 'height';
-    crossStart = 'y';
+    crossStart = 'layoutY';
     crossEnd = 'layoutBottom';
   } else if(flexDirection === 'column') {
     mainSize = 'height';
-    mainStart = 'y';
+    mainStart = 'layoutY';
     mainEnd = 'layoutBottom';
     mainSign = +1;
     mainBase = 0;
 
     crossSize = 'width';
-    crossStart = 'x';
+    crossStart = 'layoutX';
     crossEnd = 'layoutRight';
   } else if(flexDirection === 'column-reverse') {
     mainSize = 'height';
     mainStart = 'layoutBottom';
-    mainEnd = 'y';
+    mainEnd = 'layoutY';
     mainSign = -1;
     mainBase = getSize(container, 'height');
 
     crossSize = 'width';
-    crossStart = 'x';
+    crossStart = 'layoutX';
     crossEnd = 'layoutRight';
   }
 
