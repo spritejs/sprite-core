@@ -144,6 +144,9 @@ class SpriteAttr {
   }
 
   set attrs(attrs) {
+    if(Array.isArray(attrs)) {
+      attrs = Object.assign({}, ...attrs);
+    }
     Object.entries(attrs).forEach(([prop, value]) => {
       this[prop] = value;
     });

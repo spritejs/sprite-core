@@ -100,7 +100,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
     super(subject);
     this.setDefault({
-      font: '16px Arial',
+      font: 'normal normal normal 16px Arial',
       textAlign: 'left',
       strokeColor: '',
       fillColor: '',
@@ -131,6 +131,83 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.clearCache();
     this.set('font', val);
     calculTextboxSize(this.subject);
+  }
+
+  @attr
+  set fontSize(val) {
+    if(val == null) val = '16px';
+    let unit = 'px';
+    if(typeof val === 'string') {
+      const unitReg = /^(\d+)(\w+)/;
+      const matches = val.match(unitReg);
+      if(!matches) {
+        return null;
+      }
+      val = parseInt(matches[1], 10);
+      unit = matches[2];
+    }
+    const font = this.font;
+    const {style, variant, weight, family} = parseFont(font);
+    const fontValue = `${style} ${variant} ${weight} ${val}${unit} ${family}`;
+    this.font = fontValue;
+  }
+
+  get fontSize() {
+    const font = this.font;
+    const {size, unit} = parseFont(font);
+    return `${size}${unit}`;
+  }
+
+  @attr
+  set fontFamily(val) {
+    if(val == null) val = 'Arial';
+    const font = this.font;
+    const {style, variant, weight, size, unit} = parseFont(font);
+    const fontValue = `${style} ${variant} ${weight} ${size}${unit} ${val}`;
+    this.font = fontValue;
+  }
+
+  get fontFamily() {
+    return parseFont(this.font).family;
+  }
+
+  @attr
+  set fontStyle(val) {
+    if(val == null) val = 'normal';
+    const font = this.font;
+    const {variant, weight, size, unit, family} = parseFont(font);
+    const fontValue = `${val} ${variant} ${weight} ${size}${unit} ${family}`;
+    this.font = fontValue;
+  }
+
+  get fontStyle() {
+    return parseFont(this.font).style;
+  }
+
+  @attr
+  set fontVariant(val) {
+    if(val == null) val = 'normal';
+    const font = this.font;
+    const {style, weight, size, unit, family} = parseFont(font);
+    const fontValue = `${style} ${val} ${weight} ${size}${unit} ${family}`;
+    this.font = fontValue;
+  }
+
+  get fontVariant() {
+    return parseFont(this.font).variant;
+  }
+
+  @attr
+  set fontWeight(val) {
+    if(val == null) val = 'normal';
+    const font = this.font;
+    const {style, variant, size, unit, family} = parseFont(font);
+    const fontValue = `${style} ${variant} ${val} ${size}${unit} ${family}`;
+    this.font = fontValue;
+  }
+
+  get fontWeight() {
+    return parseFont(this.font).weight;
   }
 
   @parseValue(parseFloat)
