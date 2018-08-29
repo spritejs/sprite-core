@@ -38,7 +38,12 @@ export const attrs = {
 
 export function relayout(container, items) { // eslint-disable-line complexity
   items.sort((a, b) => {
-    return (a.attributes.order || 0) - (b.attributes.order || 0);
+    const orderA = a.attributes.order | 0,
+      orderB = b.attributes.order | 0;
+    if(orderA !== orderB) {
+      return orderA - orderB;
+    }
+    return a.zOrder - b.zOrder;
   });
 
   function getSize(node, key) {

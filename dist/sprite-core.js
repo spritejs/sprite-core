@@ -14809,7 +14809,12 @@ var attrs = exports.attrs = {
 function relayout(container, items) {
   // eslint-disable-line complexity
   items.sort(function (a, b) {
-    return (a.attributes.order || 0) - (b.attributes.order || 0);
+    var orderA = a.attributes.order | 0,
+        orderB = b.attributes.order | 0;
+    if (orderA !== orderB) {
+      return orderA - orderB;
+    }
+    return a.zOrder - b.zOrder;
   });
 
   function getSize(node, key) {
