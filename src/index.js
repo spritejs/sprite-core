@@ -21,14 +21,26 @@ utils.cacheContextPool = cacheContextPool;
 
 const Color = utils.Color;
 
-const installed = new WeakSet();
+const installed = new WeakMap();
+const _merged = Symbol('merged');
 
-function use(plugin, ...args) {
-  if(installed.has(plugin)) return false;
+function use(plugin, options, merge = true) {
+  if(installed.has(plugin)) {
+    const ret = installed.get(plugin);
+    if(merge && !ret[_merged]) {
+      Object.assign(this, ret);
+      ret[_merged] = true;
+    }
+    return ret;
+  }
   const install = plugin.install || plugin;
-  Object.assign(this, install(this, ...args));
-  installed.add(plugin);
-  return true;
+  const ret = install(this, options);
+  installed.set(plugin, ret);
+  if(merge) {
+    Object.assign(this, ret);
+    ret[_merged] = true;
+  }
+  return ret;
 }
 
 export {
