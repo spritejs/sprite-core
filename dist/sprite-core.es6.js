@@ -170,7 +170,8 @@ const installed = new WeakSet();
 
 function use(plugin, ...args) {
   if (installed.has(plugin)) return false;
-  Object.assign(this, plugin.install(this, ...args));
+  const install = plugin.install || plugin;
+  Object.assign(this, install(this, ...args));
   installed.add(plugin);
   return true;
 }
