@@ -21,7 +21,17 @@ utils.cacheContextPool = cacheContextPool;
 
 const Color = utils.Color;
 
+const installed = new WeakSet();
+
+function use(plugin, ...args) {
+  if(installed.has(plugin)) return false;
+  Object.assign(this, plugin.install(this, ...args));
+  installed.add(plugin);
+  return true;
+}
+
 export {
+  use,
   utils,
   math,
   BaseNode,

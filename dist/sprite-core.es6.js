@@ -91,6 +91,7 @@ module.exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "use", function() { return use; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Color", function() { return Color; });
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Effects", function() { return sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Effects"]; });
@@ -164,6 +165,15 @@ sprite_utils__WEBPACK_IMPORTED_MODULE_2__["findColor"] = _helpers_render__WEBPAC
 sprite_utils__WEBPACK_IMPORTED_MODULE_2__["cacheContextPool"] = _helpers_render__WEBPACK_IMPORTED_MODULE_14__["cacheContextPool"];
 
 const Color = sprite_utils__WEBPACK_IMPORTED_MODULE_2__["Color"];
+
+const installed = new WeakSet();
+
+function use(plugin, ...args) {
+  if (installed.has(plugin)) return false;
+  Object.assign(this, plugin.install(this, ...args));
+  installed.add(plugin);
+  return true;
+}
 
 
 
