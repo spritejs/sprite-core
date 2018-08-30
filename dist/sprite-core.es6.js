@@ -3312,7 +3312,8 @@ const _attr = Symbol('attr'),
       _animations = Symbol('animations'),
       _cachePriority = Symbol('cachePriority'),
       _effects = Symbol('effects'),
-      _flow = Symbol('flow');
+      _flow = Symbol('flow'),
+      _changeStateAction = Symbol('changeStateAction');
 
 let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
@@ -3636,6 +3637,16 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
       });
     }
     this[_animations].add(animation);
+    return animation;
+  }
+
+  changeState(fromState, toState, action) {
+    if (this[_changeStateAction]) this[_changeStateAction].finish();
+    const animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)], Object.assign({ fill: 'forwards' }, action));
+    animation.finished.then(() => {
+      if (this[_changeStateAction] === animation) delete this[_changeStateAction];
+    });
+    this[_changeStateAction] = animation;
     return animation;
   }
 
@@ -4966,26 +4977,29 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
           if (actions) {
             action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
             if (action) {
-              if (subject.__action) subject.__action.finish();
-              subject.dispatchEvent('beforestart', { from: [oldState, fromState], to: [val, toState], action }, true, true);
-              const animation = subject.animate([Object.assign({}, fromState), Object.assign({}, toState)], Object.assign({ fill: 'forwards' }, action));
-              subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-              animation.ready.then(() => {
-                subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-              });
-              animation.finished.then(() => {
-                subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-                if (action === subject.__action) delete subject.__action;
-              });
-              subject.__action = animation;
+              const evt = { from: [oldState, fromState], to: [val, toState], action };
+              subject.dispatchEvent('beforestart', evt, true, true);
+              if (evt.returnValue) {
+                const animation = subject.changeState(fromState, toState, action);
+                subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
+                animation.ready.then(() => {
+                  subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
+                });
+                animation.finished.then(() => {
+                  subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
+                });
+              }
             }
           }
           if (!action) {
-            subject.dispatchEvent('beforestart', { from: [oldState, fromState], to: [val, toState] }, true, true);
-            subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState] }, true, true);
-            subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
-            subject.attr(toState);
-            subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
+            const evt = { from: [oldState, fromState], to: [val, toState] };
+            subject.dispatchEvent('beforestart', evt, true, true);
+            if (evt.returnValue) {
+              subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState] }, true, true);
+              subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
+              subject.attr(toState);
+              subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
+            }
           }
         }
       }
@@ -5099,6 +5113,7 @@ let BaseNode = class BaseNode {
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
     // eslint-disable-line complexity
     const handlers = this.getEventHandlers(type);
+    evt.returnValue = true;
     if (swallow && handlers.length === 0) {
       return;
     }
@@ -5110,6 +5125,11 @@ let BaseNode = class BaseNode {
     if (!evt.stopPropagation) {
       evt.stopPropagation = () => {
         evt.cancelBubble = true;
+      };
+    }
+    if (!evt.preventDefault) {
+      evt.preventDefault = () => {
+        evt.returnValue = false;
       };
     }
     if (evt.type !== type) {

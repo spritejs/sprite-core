@@ -7291,7 +7291,8 @@ var _attr = (0, _symbol2.default)('attr'),
     _animations = (0, _symbol2.default)('animations'),
     _cachePriority = (0, _symbol2.default)('cachePriority'),
     _effects = (0, _symbol2.default)('effects'),
-    _flow = (0, _symbol2.default)('flow');
+    _flow = (0, _symbol2.default)('flow'),
+    _changeStateAction = (0, _symbol2.default)('changeStateAction');
 
 var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
@@ -7521,9 +7522,22 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
       return animation;
     }
   }, {
+    key: 'changeState',
+    value: function changeState(fromState, toState, action) {
+      var _this4 = this;
+
+      if (this[_changeStateAction]) this[_changeStateAction].finish();
+      var animation = this.animate([(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)], (0, _assign2.default)({ fill: 'forwards' }, action));
+      animation.finished.then(function () {
+        if (_this4[_changeStateAction] === animation) delete _this4[_changeStateAction];
+      });
+      this[_changeStateAction] = animation;
+      return animation;
+    }
+  }, {
     key: 'connect',
     value: function connect(parent) {
-      var _this4 = this;
+      var _this5 = this;
 
       var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
@@ -7550,7 +7564,7 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
         }
         animation.play();
         animation.finished.then(function () {
-          _this4[_animations].delete(animation);
+          _this5[_animations].delete(animation);
         });
       });
       if (this.hasLayout) parent.clearLayout();
@@ -8303,7 +8317,7 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
   }, {
     key: 'addAttributes',
     value: function addAttributes() {
-      var _this5 = this;
+      var _this6 = this;
 
       var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -8320,8 +8334,8 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
           handler = handler.set;
         }
         if (prop !== 'init') {
-          _this5.Attr.prototype.__attributeNames.push(prop);
-          (0, _defineProperty3.default)(_this5.Attr.prototype, prop, {
+          _this6.Attr.prototype.__attributeNames.push(prop);
+          (0, _defineProperty3.default)(_this6.Attr.prototype, prop, {
             set: function set(val) {
               this.__clearCacheTag = false;
               this.__updateTag = false;
@@ -8361,10 +8375,10 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
         function _class3(subject) {
           (0, _classCallCheck3.default)(this, _class3);
 
-          var _this6 = (0, _possibleConstructorReturn3.default)(this, (_class3.__proto__ || (0, _getPrototypeOf2.default)(_class3)).call(this, subject));
+          var _this7 = (0, _possibleConstructorReturn3.default)(this, (_class3.__proto__ || (0, _getPrototypeOf2.default)(_class3)).call(this, subject));
 
-          if (attrs.init) attrs.init(_this6, subject);
-          return _this6;
+          if (attrs.init) attrs.init(_this7, subject);
+          return _this7;
         }
 
         return _class3;
@@ -9683,26 +9697,29 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
             if (actions) {
               action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
               if (action) {
-                if (subject.__action) subject.__action.finish();
-                subject.dispatchEvent('beforestart', { from: [oldState, fromState], to: [val, toState], action: action }, true, true);
-                var animation = subject.animate([(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)], (0, _assign2.default)({ fill: 'forwards' }, action));
-                subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                animation.ready.then(function () {
-                  subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                });
-                animation.finished.then(function () {
-                  subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                  if (action === subject.__action) delete subject.__action;
-                });
-                subject.__action = animation;
+                var evt = { from: [oldState, fromState], to: [val, toState], action: action };
+                subject.dispatchEvent('beforestart', evt, true, true);
+                if (evt.returnValue) {
+                  var animation = subject.changeState(fromState, toState, action);
+                  subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                  animation.ready.then(function () {
+                    subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                  });
+                  animation.finished.then(function () {
+                    subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                  });
+                }
               }
             }
             if (!action) {
-              subject.dispatchEvent('beforestart', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              subject.attr(toState);
-              subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
+              var _evt = { from: [oldState, fromState], to: [val, toState] };
+              subject.dispatchEvent('beforestart', _evt, true, true);
+              if (_evt.returnValue) {
+                subject.dispatchEvent('start', { from: [oldState, fromState], to: [val, toState] }, true, true);
+                subject.dispatchEvent('ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
+                subject.attr(toState);
+                subject.dispatchEvent('finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
+              }
             }
           }
         }
@@ -9945,6 +9962,7 @@ var BaseNode = function () {
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
       // eslint-disable-line complexity
       var handlers = this.getEventHandlers(type);
+      evt.returnValue = true;
       if (swallow && handlers.length === 0) {
         return;
       }
@@ -9956,6 +9974,11 @@ var BaseNode = function () {
       if (!evt.stopPropagation) {
         evt.stopPropagation = function () {
           evt.cancelBubble = true;
+        };
+      }
+      if (!evt.preventDefault) {
+        evt.preventDefault = function () {
+          evt.returnValue = false;
         };
       }
       if (evt.type !== type) {
