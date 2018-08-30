@@ -7526,12 +7526,23 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
     value: function changeState(fromState, toState, action) {
       var _this4 = this;
 
-      if (this[_changeStateAction]) this[_changeStateAction].finish();
-      var animation = this.animate([(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)], (0, _assign2.default)({ fill: 'forwards' }, action));
-      animation.finished.then(function () {
-        if (_this4[_changeStateAction] === animation) delete _this4[_changeStateAction];
-      });
-      this[_changeStateAction] = animation;
+      var animation = void 0;
+      if (this[_changeStateAction]) {
+        var currentAnim = this[_changeStateAction].animation;
+        if (this[_changeStateAction].reversable && (currentAnim.playState === 'running' || currentAnim.playState === 'pending') && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
+          currentAnim.playbackRate = -currentAnim.playbackRate;
+          animation = currentAnim;
+        } else {
+          currentAnim.finish();
+        }
+      }
+      if (!animation) {
+        animation = this.animate([(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)], (0, _assign2.default)({ fill: 'forwards' }, action));
+        animation.finished.then(function () {
+          if (_this4[_changeStateAction] && _this4[_changeStateAction].animation === animation) delete _this4[_changeStateAction];
+        });
+      }
+      this[_changeStateAction] = { animation: animation, fromState: fromState, toState: toState, reversable: action.reversable !== false };
       return animation;
     }
   }, {

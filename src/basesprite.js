@@ -343,13 +343,25 @@ export default class BaseSprite extends BaseNode {
   }
 
   changeState(fromState, toState, action) {
-    if(this[_changeStateAction]) this[_changeStateAction].finish();
-    const animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)],
-      Object.assign({fill: 'forwards'}, action));
-    animation.finished.then(() => {
-      if(this[_changeStateAction] === animation) delete this[_changeStateAction];
-    });
-    this[_changeStateAction] = animation;
+    let animation;
+    if(this[_changeStateAction]) {
+      const currentAnim = this[_changeStateAction].animation;
+      if(this[_changeStateAction].reversable && (currentAnim.playState === 'running' || currentAnim.playState === 'pending')
+        && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
+        currentAnim.playbackRate = -currentAnim.playbackRate;
+        animation = currentAnim;
+      } else {
+        currentAnim.finish();
+      }
+    }
+    if(!animation) {
+      animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)],
+        Object.assign({fill: 'forwards'}, action));
+      animation.finished.then(() => {
+        if(this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
+      });
+    }
+    this[_changeStateAction] = {animation, fromState, toState, reversable: action.reversable !== false};
     return animation;
   }
 
