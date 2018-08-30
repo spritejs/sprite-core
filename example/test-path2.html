@@ -105,16 +105,16 @@
       iterations: Infinity,
     });
 
-    path.on('beforestart', (evt) => {
+    path.on('action.beforestart', (evt) => {
       console.log(evt);
     });
-    path.on('start', (evt) => {
+    path.on('action.start', (evt) => {
       console.log(evt);
     });
-    path.on('ready', (evt) => {
+    path.on('action.ready', (evt) => {
       console.log(evt);
     });
-    path.on('finished', (evt) => {
+    path.on('action.finished', (evt) => {
       console.log(evt);
     });
     // path.animate([
