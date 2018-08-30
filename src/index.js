@@ -44,7 +44,7 @@ function use(plugin, options, merge = true) {
     return ret;
   }
   const install = plugin.install || plugin;
-  const ret = install(target, options);
+  const ret = install(target, options) || {};
   installed.set(plugin, ret);
   if(merge) {
     Object.assign(target.__spritejs, ret);

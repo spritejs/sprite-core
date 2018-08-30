@@ -13,7 +13,8 @@ const _attr = Symbol('attr'),
   _animations = Symbol('animations'),
   _cachePriority = Symbol('cachePriority'),
   _effects = Symbol('effects'),
-  _flow = Symbol('flow');
+  _flow = Symbol('flow'),
+  _changeStateAction = Symbol('changeStateAction');
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -338,6 +339,17 @@ export default class BaseSprite extends BaseNode {
       });
     }
     this[_animations].add(animation);
+    return animation;
+  }
+
+  changeState(fromState, toState, action) {
+    if(this[_changeStateAction]) this[_changeStateAction].finish();
+    const animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)],
+      Object.assign({fill: 'forwards'}, action));
+    animation.finished.then(() => {
+      if(this[_changeStateAction] === animation) delete this[_changeStateAction];
+    });
+    this[_changeStateAction] = animation;
     return animation;
   }
 

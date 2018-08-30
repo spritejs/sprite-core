@@ -17,6 +17,9 @@ class SpriteAttr {
     this[_props] = {};
 
     this.setDefault({
+      state: '',
+      states: null,
+      actions: null,
       anchor: [0, 0],
       x: 0,
       y: 0,
@@ -656,6 +659,83 @@ class SpriteAttr {
       val = this.subject.loadBgImage(val);
     }
     this.set('bgimage', val);
+  }
+
+  @attr
+  set states(val) {
+    this.set('states', val);
+  }
+
+  @attr
+  set actions(val) {
+    if(Array.isArray(val)) {
+      const value = {};
+      val.forEach((v) => {
+        let key;
+        if(v.both) {
+          if(v.both.length > 1) {
+            key = v.both.join(':');
+            value[key] = Object.assign({}, v.action);
+            key = v.both.reverse().join(':');
+            value[key] = Object.assign({}, v.action);
+          } else {
+            value[`${v.both[0]}:`] = Object.assign({}, v.action);
+            value[`:${v.both[0]}`] = Object.assign({}, v.action);
+          }
+        } else {
+          key = `${v.from || ''}:${v.to || ''}`;
+          value[key] = Object.assign({}, v.action);
+        }
+      });
+      this.set('actions', value);
+    } else {
+      this.set('actions', val);
+    }
+  }
+
+  @attr
+  set state(val) {
+    const oldState = this.state;
+    if(oldState !== val) {
+      this.set('state', val);
+      const states = this.states;
+      let action = null;
+      if(states) {
+        const toState = states[val];
+        if(toState) {
+          const fromState = states[oldState],
+            actions = this.actions;
+          const subject = this.subject;
+          if(actions) {
+            action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
+            if(action) {
+              const evt = {from: [oldState, fromState], to: [val, toState], action};
+              subject.dispatchEvent('beforestart', evt, true, true);
+              if(evt.returnValue) {
+                const animation = subject.changeState(fromState, toState, action);
+                subject.dispatchEvent('start', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                animation.ready.then(() => {
+                  subject.dispatchEvent('ready', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                });
+                animation.finished.then(() => {
+                  subject.dispatchEvent('finished', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                });
+              }
+            }
+          }
+          if(!action) {
+            const evt = {from: [oldState, fromState], to: [val, toState]};
+            subject.dispatchEvent('beforestart', evt, true, true);
+            if(evt.returnValue) {
+              subject.dispatchEvent('start', {from: [oldState, fromState], to: [val, toState]}, true, true);
+              subject.dispatchEvent('ready', {from: [oldState, fromState], to: [val, toState]}, true, true);
+              subject.attr(toState);
+              subject.dispatchEvent('finished', {from: [oldState, fromState], to: [val, toState]}, true, true);
+            }
+          }
+        }
+      }
+    }
   }
 }
 

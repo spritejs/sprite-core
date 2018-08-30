@@ -93,6 +93,7 @@ export default class BaseNode {
 
   dispatchEvent(type, evt, collisionState = false, swallow = false) { // eslint-disable-line complexity
     const handlers = this.getEventHandlers(type);
+    evt.returnValue = true;
     if(swallow && handlers.length === 0) {
       return;
     }
@@ -104,6 +105,11 @@ export default class BaseNode {
     if(!evt.stopPropagation) {
       evt.stopPropagation = () => {
         evt.cancelBubble = true;
+      };
+    }
+    if(!evt.preventDefault) {
+      evt.preventDefault = () => {
+        evt.returnValue = false;
       };
     }
     if(evt.type !== type) {

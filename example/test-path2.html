@@ -20,6 +20,38 @@
     ];
     const path = new Path();
     path.attr({
+      states: {
+        a: {
+          scale: [0.5, 0.5],
+        },
+        b: {
+          scale: [1.0, 1.0],
+        },
+      },
+      actions: [
+        // {
+        //   from: 'a',
+        //   to: 'b',
+        //   action: {
+        //     duration: 2000,
+        //     easing: 'ease-in-out',
+        //   },
+        // },
+        {
+          both: ['a'],
+          action: {
+            duration: 500,
+            easing: 'ease-in-out',
+          },
+        },
+        {
+          both: ['a', 'b'],
+          action: {
+            duration: 2000,
+            easing: 'ease-in-out',
+          },
+        },
+      ],
       path: {d: paths[0], transform: {rotate: 180}, trim: true},
       anchor: [0, 0],
       // size: [1000, 1000],
@@ -70,6 +102,19 @@
     ], {
       duration: 1000,
       iterations: Infinity,
+    });
+
+    path.on('beforestart', (evt) => {
+      console.log(evt);
+    });
+    path.on('start', (evt) => {
+      console.log(evt);
+    });
+    path.on('ready', (evt) => {
+      console.log(evt);
+    });
+    path.on('finished', (evt) => {
+      console.log(evt);
     });
     // path.animate([
     //   {d: paths[0]},
