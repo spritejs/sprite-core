@@ -8519,9 +8519,13 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         right = 0;
         bottom = 0;
         this[_children].forEach(sprite => {
-          const renderBox = sprite.renderBox;
-          right = Math.max(right, renderBox[2]);
-          bottom = Math.max(bottom, renderBox[3]);
+          if (sprite.attr('display') !== 'none') {
+            const renderBox = sprite.renderBox;
+            if (renderBox) {
+              right = Math.max(right, renderBox[2]);
+              bottom = Math.max(bottom, renderBox[3]);
+            }
+          }
         });
         width = width || right;
         height = height || bottom;
