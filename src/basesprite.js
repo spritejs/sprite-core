@@ -350,6 +350,7 @@ export default class BaseSprite extends BaseNode {
         && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
         currentAnim.playbackRate = -currentAnim.playbackRate;
         animation = currentAnim;
+        animation.__reversed = this[_changeStateAction].action;
       } else {
         currentAnim.finish();
       }
@@ -361,7 +362,7 @@ export default class BaseSprite extends BaseNode {
         if(this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
       });
     }
-    this[_changeStateAction] = {animation, fromState, toState, reversable: action.reversable !== false};
+    this[_changeStateAction] = {animation, fromState, toState, action, reversable: action.reversable !== false};
     return animation;
   }
 

@@ -713,27 +713,38 @@ class SpriteAttr {
             action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
             if(action) {
               const evt = {from: [oldState, fromState], to: [val, toState], action};
-              subject.dispatchEvent('action.beforestart', evt, true, true);
+              subject.dispatchEvent('action-beforestart', evt, true, true);
               if(evt.returnValue) {
                 const animation = subject.changeState(fromState, toState, action);
-                subject.dispatchEvent('action.start', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                const tag = Symbol('tag');
+                animation.tag = tag;
+                if(animation.__reversed) {
+                  subject.dispatchEvent('action-finished', {
+                    from: [val, toState],
+                    to: [oldState, fromState],
+                    action: animation.__reversed,
+                    animation}, true, true);
+                }
+                subject.dispatchEvent('action-start', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
                 animation.ready.then(() => {
-                  subject.dispatchEvent('action.ready', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                  subject.dispatchEvent('action-ready', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
                 });
                 animation.finished.then(() => {
-                  subject.dispatchEvent('action.finished', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                  if(animation.tag === tag) {
+                    subject.dispatchEvent('action-finished', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
+                  }
                 });
               }
             }
           }
           if(!action) {
             const evt = {from: [oldState, fromState], to: [val, toState]};
-            subject.dispatchEvent('action.beforestart', evt, true, true);
+            subject.dispatchEvent('action-beforestart', evt, true, true);
             if(evt.returnValue) {
-              subject.dispatchEvent('action.start', {from: [oldState, fromState], to: [val, toState]}, true, true);
-              subject.dispatchEvent('action.ready', {from: [oldState, fromState], to: [val, toState]}, true, true);
+              subject.dispatchEvent('action-start', {from: [oldState, fromState], to: [val, toState]}, true, true);
+              subject.dispatchEvent('action-ready', {from: [oldState, fromState], to: [val, toState]}, true, true);
               subject.attr(toState);
-              subject.dispatchEvent('action.finished', {from: [oldState, fromState], to: [val, toState]}, true, true);
+              subject.dispatchEvent('action-finished', {from: [oldState, fromState], to: [val, toState]}, true, true);
             }
           }
         }

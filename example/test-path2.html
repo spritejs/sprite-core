@@ -105,17 +105,17 @@
       iterations: Infinity,
     });
 
-    path.on('action.beforestart', (evt) => {
-      console.log(evt);
+    path.on('action-beforestart', (evt) => {
+      console.log(evt.type);
     });
-    path.on('action.start', (evt) => {
-      console.log(evt);
+    path.on('action-start', (evt) => {
+      console.log(evt.type);
     });
-    path.on('action.ready', (evt) => {
-      console.log(evt);
+    path.on('action-ready', (evt) => {
+      console.log(evt.type);
     });
-    path.on('action.finished', (evt) => {
-      console.log(evt);
+    path.on('action-finished', (evt) => {
+      console.log(evt.type, evt.from[0], evt.to[0]);
     });
     // path.animate([
     //   {d: paths[0]},

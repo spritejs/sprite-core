@@ -7532,6 +7532,7 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
         if (this[_changeStateAction].reversable && (currentAnim.playState === 'running' || currentAnim.playState === 'pending') && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
           currentAnim.playbackRate = -currentAnim.playbackRate;
           animation = currentAnim;
+          animation.__reversed = this[_changeStateAction].action;
         } else {
           currentAnim.finish();
         }
@@ -7542,7 +7543,7 @@ var BaseSprite = (_class = (_temp = _class2 = function (_BaseNode) {
           if (_this4[_changeStateAction] && _this4[_changeStateAction].animation === animation) delete _this4[_changeStateAction];
         });
       }
-      this[_changeStateAction] = { animation: animation, fromState: fromState, toState: toState, reversable: action.reversable !== false };
+      this[_changeStateAction] = { animation: animation, fromState: fromState, toState: toState, action: action, reversable: action.reversable !== false };
       return animation;
     }
   }, {
@@ -9712,27 +9713,38 @@ var SpriteAttr = (_dec = (0, _spriteUtils.parseValue)(_spriteUtils.parseStringFl
               action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
               if (action) {
                 var evt = { from: [oldState, fromState], to: [val, toState], action: action };
-                subject.dispatchEvent('action.beforestart', evt, true, true);
+                subject.dispatchEvent('action-beforestart', evt, true, true);
                 if (evt.returnValue) {
                   var animation = subject.changeState(fromState, toState, action);
-                  subject.dispatchEvent('action.start', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                  var tag = (0, _symbol2.default)('tag');
+                  animation.tag = tag;
+                  if (animation.__reversed) {
+                    subject.dispatchEvent('action-finished', {
+                      from: [val, toState],
+                      to: [oldState, fromState],
+                      action: animation.__reversed,
+                      animation: animation }, true, true);
+                  }
+                  subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
                   animation.ready.then(function () {
-                    subject.dispatchEvent('action.ready', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                    subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
                   });
                   animation.finished.then(function () {
-                    subject.dispatchEvent('action.finished', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                    if (animation.tag === tag) {
+                      subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
+                    }
                   });
                 }
               }
             }
             if (!action) {
               var _evt = { from: [oldState, fromState], to: [val, toState] };
-              subject.dispatchEvent('action.beforestart', _evt, true, true);
+              subject.dispatchEvent('action-beforestart', _evt, true, true);
               if (_evt.returnValue) {
-                subject.dispatchEvent('action.start', { from: [oldState, fromState], to: [val, toState] }, true, true);
-                subject.dispatchEvent('action.ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
+                subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState] }, true, true);
+                subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
                 subject.attr(toState);
-                subject.dispatchEvent('action.finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
+                subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
               }
             }
           }
