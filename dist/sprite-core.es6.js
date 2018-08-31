@@ -3185,9 +3185,9 @@ function attr(target, prop, descriptor) {
         this.subject.reflow();
       }
     }
-    delete this.__reflowTag;
-    delete this.__updateTag;
-    delete this.__clearCacheTag;
+    // delete this.__reflowTag;
+    // delete this.__updateTag;
+    // delete this.__clearCacheTag;
   };
   return descriptor;
 }
@@ -3386,9 +3386,9 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
                 this.subject.reflow();
               }
             }
-            delete this.__reflowTag;
-            delete this.__updateTag;
-            delete this.__clearCacheTag;
+            // delete this.__reflowTag;
+            // delete this.__updateTag;
+            // delete this.__clearCacheTag;
           },
           get: getter
         });
@@ -4449,6 +4449,9 @@ let SpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_1__["parse
   }
 
   quietSet(key, val) {
+    if (val == null) {
+      val = this[_default][key];
+    }
     this[_attr][key] = val;
   }
 
@@ -9681,7 +9684,7 @@ let PathSpriteAttr = (_dec = Object(sprite_utils__WEBPACK_IMPORTED_MODULE_0__["p
 
   set bounding(val) {
     // box | path
-    this.set('bounding', val);
+    this.quietSet('bounding', val);
   }
 
   set color(val) {

@@ -88,9 +88,9 @@ export default class BaseSprite extends BaseNode {
                 this.subject.reflow();
               }
             }
-            delete this.__reflowTag;
-            delete this.__updateTag;
-            delete this.__clearCacheTag;
+            // delete this.__reflowTag;
+            // delete this.__updateTag;
+            // delete this.__clearCacheTag;
           },
           get: getter,
         });

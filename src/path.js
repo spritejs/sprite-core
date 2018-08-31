@@ -114,7 +114,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
 
   @attr
   set bounding(val) { // box | path
-    this.set('bounding', val);
+    this.quietSet('bounding', val);
   }
 
   @deprecate('Instead use strokeColor.')

@@ -99,6 +99,9 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
+    if(val == null) {
+      val = this[_default][key];
+    }
     this[_attr][key] = val;
   }
 
