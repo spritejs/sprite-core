@@ -5990,40 +5990,15 @@ var _class, _temp;
 
 
 
-let EmptyAttr = class EmptyAttr {
-  constructor(node) {
-    this.subject = node;
-  }
-
-  get attrs() {
-    const attrs = Object.assign({}, this);
-    delete attrs.subject;
-    return attrs;
-  }
-
-  serialize() {
-    const attrs = this.attrs;
-    delete attrs.id;
-    return JSON.stringify(attrs);
-  }
-
-  merge(attrs) {
-    if (typeof attrs === 'string') {
-      attrs = JSON.parse(attrs);
-    }
-    return Object.assign(this, attrs);
+let DataAttr = class DataAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
+  constructor(subject) {
+    super(subject);
+    this.setDefault({
+      display: 'none'
+    });
   }
 };
-let DataNode = (_temp = _class = class DataNode extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {
-
-  isVisible() {
-    return false;
-  }
-
-  draw() {
-    //  empty;
-  }
-}, _class.Attr = EmptyAttr, _temp);
+let DataNode = (_temp = _class = class DataNode extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {}, _class.Attr = DataAttr, _temp);
 
 
 Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('data', DataNode, true);

@@ -11096,6 +11096,10 @@ var _getPrototypeOf = __webpack_require__(183);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
+var _classCallCheck2 = __webpack_require__(114);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
 var _possibleConstructorReturn2 = __webpack_require__(186);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
@@ -11103,22 +11107,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = __webpack_require__(188);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _assign = __webpack_require__(1);
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _stringify = __webpack_require__(181);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(114);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(115);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _class, _temp;
 
@@ -11130,38 +11118,22 @@ var _nodetype = __webpack_require__(205);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EmptyAttr = function () {
-  function EmptyAttr(node) {
-    (0, _classCallCheck3.default)(this, EmptyAttr);
+var DataAttr = function (_BaseSprite$Attr) {
+  (0, _inherits3.default)(DataAttr, _BaseSprite$Attr);
 
-    this.subject = node;
+  function DataAttr(subject) {
+    (0, _classCallCheck3.default)(this, DataAttr);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DataAttr.__proto__ || (0, _getPrototypeOf2.default)(DataAttr)).call(this, subject));
+
+    _this.setDefault({
+      display: 'none'
+    });
+    return _this;
   }
 
-  (0, _createClass3.default)(EmptyAttr, [{
-    key: 'serialize',
-    value: function serialize() {
-      var attrs = this.attrs;
-      delete attrs.id;
-      return (0, _stringify2.default)(attrs);
-    }
-  }, {
-    key: 'merge',
-    value: function merge(attrs) {
-      if (typeof attrs === 'string') {
-        attrs = JSON.parse(attrs);
-      }
-      return (0, _assign2.default)(this, attrs);
-    }
-  }, {
-    key: 'attrs',
-    get: function get() {
-      var attrs = (0, _assign2.default)({}, this);
-      delete attrs.subject;
-      return attrs;
-    }
-  }]);
-  return EmptyAttr;
-}();
+  return DataAttr;
+}(_basesprite2.default.Attr);
 
 var DataNode = (_temp = _class = function (_BaseSprite) {
   (0, _inherits3.default)(DataNode, _BaseSprite);
@@ -11171,19 +11143,8 @@ var DataNode = (_temp = _class = function (_BaseSprite) {
     return (0, _possibleConstructorReturn3.default)(this, (DataNode.__proto__ || (0, _getPrototypeOf2.default)(DataNode)).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(DataNode, [{
-    key: 'isVisible',
-    value: function isVisible() {
-      return false;
-    }
-  }, {
-    key: 'draw',
-    value: function draw() {
-      //  empty;
-    }
-  }]);
   return DataNode;
-}(_basesprite2.default), _class.Attr = EmptyAttr, _temp);
+}(_basesprite2.default), _class.Attr = DataAttr, _temp);
 
 
 (0, _nodetype.registerNodeType)('data', DataNode, true);
