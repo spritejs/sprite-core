@@ -202,13 +202,12 @@ export function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val,
             };
+          } else {
+            val = parseFloat(val);
           }
-        } else {
-          val = val ? parseFloat(val) : val;
         }
         setter.call(this, val);
       };
-      descriptor.set.__relative = true;
       return descriptor;
     }
   };
