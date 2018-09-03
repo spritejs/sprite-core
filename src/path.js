@@ -71,10 +71,9 @@ class PathSpriteAttr extends BaseSprite.Attr {
     this.set('lineDash', val);
   }
 
-  @parseValue(parseStringFloat)
+  @parseValue(parseFloat)
   @attr
   set lineDashOffset(val) {
-    if(typeof val === 'string') val = parseFloat(val);
     this.clearCache();
     this.set('lineDashOffset', val);
   }
