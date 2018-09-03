@@ -546,7 +546,6 @@ declare namespace spritejs {
     function parseValue(...parsers: Array<Function>): IDecorator;
     function rectToBox(rect: IRect): IBox;
     function rectVertices(rect: IRect): Array<IPoint>;
-    function resolveValue(...resolvers: Array<Function>): IDecorator;
     function sortOrderedSprites(sprites: Array<BaseSprite>, reversed: boolean);
   }
 }
