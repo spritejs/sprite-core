@@ -2,6 +2,8 @@ import {Animator, Effects} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame';
 import {Matrix} from 'sprite-math';
 import {parseColor, parseStringTransform} from 'sprite-utils';
+// to use Timeline.nowtime, fast-animation-frame also implement nowtime, should be extract to use the same code.
+import Timeline from 'sprite-timeline';
 
 const defaultEffect = Effects.default;
 
@@ -114,6 +116,13 @@ export default class extends Animator {
     return super.playState;
   }
 
+  getPlayState(ntime) {
+    if(!this.target.parent) {
+      return 'idle';
+    }
+    return super.getPlayState(ntime);
+  }
+
   get finished() {
     // set last frame when finished
     // because while the web page is not focused
@@ -134,45 +143,17 @@ export default class extends Animator {
   }
 
   play() {
-    if(!this.target.parent || this.playState === 'running') {
+    var ntime = Timeline.nowtime();
+
+    const sprite = this.target;
+    if(!sprite.parent || this.getPlayState(ntime) === 'running') {
       return;
     }
 
-    super.play();
-
-    const sprite = this.target;
-
-    sprite.attr(this.frame);
-
-    const that = this;
+    super.play(ntime);
+    sprite.attr(this.getFrame(ntime));
     this.ready.then(() => {
-      sprite.attr(that.frame);
-      that.requestId = requestAnimationFrame(function update() {
-        const target = that.target;
-        if(typeof document !== 'undefined'
-          && document.documentElement
-          && document.documentElement.contains
-          && target.layer
-          && target.layer.canvas
-          && !document.documentElement.contains(target.layer.canvas)) {
-          // if dom element has been removed stop animation.
-          // it usually occurs in single page applications.
-          that.cancel();
-          return;
-        }
-        const playState = that.playState;
-        sprite.attr(that.frame);
-        if(playState === 'idle') return;
-        if(playState === 'running') {
-          that.requestId = requestAnimationFrame(update);
-        } else if(playState === 'paused' || playState === 'pending' && that.timeline.currentTime < 0) {
-          // playbackRate < 0 will cause playState reset to pending...
-          that.ready.then(() => {
-            sprite.attr(that.frame);
-            that.requestId = requestAnimationFrame(update);
-          });
-        }
-      });
+      animationScheduler.add(this);
     });
   }
 

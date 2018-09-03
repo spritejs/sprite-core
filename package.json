@@ -87,6 +87,7 @@
     "css-line-break": "^1.0.1",
     "fast-animation-frame": "^0.3.3",
     "sprite-animator": "^1.10.4",
+    "sprite-timeline": "^1.9.2",
     "sprite-math": "^1.0.4",
     "sprite-utils": "^1.11.4",
     "svg-path-to-canvas": "^1.9.5"
