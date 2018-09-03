@@ -1,4 +1,4 @@
-import {parseColorString, attr, flow, deprecate, inherit} from './utils';
+import {parseColorString, parseValue, parseStringFloat, attr, flow, deprecate, inherit} from './utils';
 import BaseSprite from './basesprite';
 import {findColor} from './helpers/render';
 import {pathEffect, createSvgPath} from './helpers/path';
@@ -63,14 +63,15 @@ class PathSpriteAttr extends BaseSprite.Attr {
     this.set('lineWidth', Math.round(val));
   }
 
-  @inherit(null)
+  @parseValue(parseStringFloat)
   @attr
   set lineDash(val) {
+    if(typeof val === 'number') val = [val];
     this.clearCache();
     this.set('lineDash', val);
   }
 
-  @inherit(0)
+  @parseValue(parseStringFloat)
   @attr
   set lineDashOffset(val) {
     if(typeof val === 'string') val = parseFloat(val);
