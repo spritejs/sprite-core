@@ -1,9 +1,27 @@
 import {Animator, Effects} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame';
 import {Matrix} from 'sprite-math';
-import {parseColor, parseStringTransform} from 'sprite-utils';
+import {parseColor, parseStringTransform} from './utils';
 
-const defaultEffect = Effects.default;
+const _defaultEffect = Effects.default;
+
+const defaultEffect = (from, to, p, start, end) => {
+  let unit = null;
+  const isStr = typeof from === 'string' && typeof to === 'string';
+  if(isStr && from.endsWith('%') && to.endsWith('%')) {
+    unit = '%';
+  }
+  if(isStr && from.endsWith('rw') && to.endsWith('rw')) {
+    unit = 'rw';
+  }
+  if(isStr && from.endsWith('rh') && to.endsWith('rh')) {
+    unit = 'rh';
+  }
+  const v = _defaultEffect(parseFloat(from), parseFloat(to), p, start, end);
+  return unit ? `${v}${unit}` : v;
+};
+
+Effects.default = defaultEffect;
 
 function arrayEffect(arr1, arr2, p, start, end) {
   if(Array.isArray(arr1)) {

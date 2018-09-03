@@ -1,6 +1,6 @@
 import {Matrix, Vector} from 'sprite-math';
-import {flow, rectVertices, boxToRect} from 'sprite-utils';
 import {Timeline} from 'sprite-animator';
+import {flow, absolute, rectVertices, boxToRect} from './utils';
 import SpriteAttr from './attr';
 import BaseNode from './basenode';
 import Animation from './animation';
@@ -66,7 +66,7 @@ export default class BaseSprite extends BaseNode {
         handler = handler.set;
       }
       if(prop !== 'init') {
-        this.Attr.prototype.__attributeNames.push(prop);
+        this.Attr.prototype.__attributeNames.add(prop);
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
             this.__clearCacheTag = false;
@@ -211,6 +211,10 @@ export default class BaseSprite extends BaseNode {
   attr(props, val) {
     const setVal = (key, value) => {
       this[_attr][key] = value;
+      if(!this[_attr].__attributeNames.has(key)) {
+        this[_attr].__extendAttributes.add(key);
+        this.forceUpdate(true);
+      }
     };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
@@ -408,16 +412,20 @@ export default class BaseSprite extends BaseNode {
     return ret;
   }
 
+  @absolute
   get xy() {
+    let x,
+      y;
     if(this.hasLayout) {
-      const x = this.attr('layoutX'),
-        y = this.attr('layoutY');
-
-      return [x, y];
+      x = this.attr('layoutX');
+      y = this.attr('layoutY');
+    } else {
+      [x, y] = this.attr('pos');
     }
-    return this.attr('pos');
+    return [x, y];
   }
 
+  @absolute
   @flow
   get attrSize() {
     let [width, height] = this.attr('size');
@@ -438,12 +446,12 @@ export default class BaseSprite extends BaseNode {
         height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
       }
     }
-
     return [width, height];
   }
 
+  @absolute
   @flow
-  get boxOffsetSize() {
+  get boxOffsetSize() { // get original boxSize, without layout
     if(this.isVirtual) return [0, 0];
     const [width, height] = this.attr('size');
     const [top, right, bottom, left] = this.attr('padding');

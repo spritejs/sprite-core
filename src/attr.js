@@ -1,7 +1,7 @@
 import {Matrix} from 'sprite-math';
-import {parseColorString, oneOrTwoValues, fourValuesShortCut,
-  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate} from 'sprite-utils';
 import SvgPath from 'svg-path-to-canvas';
+import {parseColorString, oneOrTwoValues, fourValuesShortCut,
+  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate, relative} from './utils';
 
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
@@ -74,6 +74,7 @@ class SpriteAttr {
       },
     });
     this[_temp] = new Map(); // save non-serialized values
+    this.__extendAttributes = new Set();
   }
 
   setDefault(attrs, props = {}) {
@@ -137,14 +138,15 @@ class SpriteAttr {
 
   get attrs() {
     const ret = {};
-    this.__attributeNames.forEach((key) => {
+    [...this.__attributeNames].forEach((key) => {
       if(key in this[_props]) {
         Object.defineProperty(ret, key, this[_props][key]);
-      } else if(key !== 'x' && key !== 'y' && key !== 'width' && key !== 'height') {
-        ret[key] = this[key];
       } else {
-        ret[key] = this.get(key);
+        ret[key] = this[key];
       }
+    });
+    [...this.__extendAttributes].forEach((key) => {
+      ret[key] = this[key];
     });
     return ret;
   }
@@ -232,25 +234,25 @@ class SpriteAttr {
     this.set('display', val);
   }
 
-  @parseValue(parseFloat)
+  @relative('width')
   @attr
   set layoutX(val) {
     this.set('layoutX', val);
   }
 
-  @parseValue(parseFloat)
+  @relative('height')
   @attr
   set layoutY(val) {
     this.set('layoutY', val);
   }
 
-  @parseValue(parseFloat)
+  @relative('width')
   @attr
   set x(val) {
     this.set('x', val);
   }
 
-  @parseValue(parseFloat)
+  @relative('height')
   @attr
   set y(val) {
     this.set('y', val);
@@ -279,28 +281,28 @@ class SpriteAttr {
     this.set('opacity', val);
   }
 
-  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @relative('width')
   @attr
   set width(val) {
     this.clearCache();
     this.set('width', val);
   }
 
-  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @relative('height')
   @attr
   set height(val) {
     this.clearCache();
     this.set('height', val);
   }
 
-  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @relative('width')
   @attr
   set layoutWidth(val) {
     this.clearCache();
     this.set('layoutWidth', val);
   }
 
-  @parseValue((val) => { return val ? parseFloat(val) : val })
+  @relative('height')
   @attr
   set layoutHeight(val) {
     this.clearCache();

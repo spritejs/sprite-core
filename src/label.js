@@ -1,5 +1,5 @@
-import {parseValue, parseColorString, attr, flow} from 'sprite-utils';
 import {LineBreaker} from 'css-line-break';
+import {parseValue, parseColorString, attr, flow, inherit} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 
@@ -126,6 +126,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     calculTextboxSize(this.subject);
   }
 
+  @inherit('normal normal normal 16px Arial')
   @attr
   set font(val) {
     this.clearCache();
@@ -230,6 +231,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.fillColor = val;
   }
 
+  @inherit('')
   @parseValue(parseColorString)
   @attr
   set strokeColor(val) {
@@ -237,6 +239,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.set('strokeColor', val);
   }
 
+  @inherit('')
   @parseValue(parseColorString)
   @attr
   set fillColor(val) {
@@ -250,6 +253,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.set('flexible', val);
   }
 
+  @inherit('')
   @attr
   set lineBreak(val) { // normal, strict, none
     this.clearCache();
@@ -257,6 +261,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     calculTextboxSize(this.subject);
   }
 
+  @inherit('')
   @attr
   set wordBreak(val) { // normal | break-all | break-word | keep-all
     this.clearCache();
@@ -264,17 +269,19 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     calculTextboxSize(this.subject);
   }
 
-  @parseValue(parseFloat)
+  @inherit('')
   @attr
   set letterSpacing(value) {
+    if(typeof value === 'string') value = parseFloat(value);
     this.clearCache();
     this.set('letterSpacing', value);
     calculTextboxSize(this.subject);
   }
 
-  @parseValue(parseFloat)
+  @inherit('')
   @attr
   set textIndent(value) {
+    if(typeof value === 'string') value = parseFloat(value);
     this.clearCache();
     this.set('textIndent', value);
     calculTextboxSize(this.subject);

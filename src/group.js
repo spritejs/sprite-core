@@ -1,4 +1,4 @@
-import {parseValue, attr, flow} from 'sprite-utils';
+import {parseValue, attr, flow} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 import {createSvgPath} from './helpers/path';

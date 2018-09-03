@@ -1,4 +1,4 @@
-import {attr, flow, setDeprecation} from 'sprite-utils';
+import {attr, flow, setDeprecation} from './utils';
 import BaseSprite from './basesprite';
 import filters from './filters';
 

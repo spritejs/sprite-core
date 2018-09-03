@@ -1,7 +1,7 @@
 import {Effects, Easings, Timeline} from 'sprite-animator';
 import SvgPath from 'svg-path-to-canvas';
-import * as utils from 'sprite-utils';
 import * as math from 'sprite-math';
+import * as utils from './utils';
 import BaseSprite from './basesprite';
 import DataNode from './datanode';
 import Sprite from './sprite';

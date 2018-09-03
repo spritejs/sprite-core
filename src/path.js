@@ -1,4 +1,4 @@
-import {parseColorString, parseValue, attr, flow, deprecate} from 'sprite-utils';
+import {parseColorString, attr, flow, deprecate, inherit} from './utils';
 import BaseSprite from './basesprite';
 import {findColor} from './helpers/render';
 import {pathEffect, createSvgPath} from './helpers/path';
@@ -54,23 +54,26 @@ class PathSpriteAttr extends BaseSprite.Attr {
     }
   }
 
-  @parseValue(parseFloat)
+  @inherit(1)
   @attr
   set lineWidth(val) {
+    if(typeof val === 'string') val = parseFloat(val);
     this.clearCache();
     this.clearFlow();
     this.set('lineWidth', Math.round(val));
   }
 
+  @inherit(null)
   @attr
   set lineDash(val) {
     this.clearCache();
     this.set('lineDash', val);
   }
 
-  @parseValue(parseFloat)
+  @inherit(0)
   @attr
   set lineDashOffset(val) {
+    if(typeof val === 'string') val = parseFloat(val);
     this.clearCache();
     this.set('lineDashOffset', val);
   }
@@ -78,6 +81,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   /**
     lineCap: butt|round|square
    */
+  @inherit('butt')
   @attr
   set lineCap(val) {
     this.clearCache();
@@ -87,18 +91,21 @@ class PathSpriteAttr extends BaseSprite.Attr {
   /**
     lineJoin: miter|round|bevel
    */
+  @inherit('miter')
   @attr
   set lineJoin(val) {
     this.clearCache();
     this.set('lineJoin', val);
   }
 
+  @inherit('')
   @attr
   set strokeColor(val) {
     this.clearCache();
     this.set('strokeColor', parseColorString(val));
   }
 
+  @inherit('')
   @attr
   set fillColor(val) {
     this.clearCache();
@@ -112,6 +119,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
     this.set('flexible', val);
   }
 
+  @inherit('box')
   @attr
   set bounding(val) { // box | path
     this.quietSet('bounding', val);

@@ -1,7 +1,8 @@
 import {Timeline} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame';
-import {setDeprecation} from 'sprite-utils';
+import {setDeprecation} from './utils';
 import BaseNode from './basenode';
+import DateNode from './datanode';
 import Batch from './batch';
 import Group from './group';
 import {registerNodeType} from './nodetype';
@@ -18,7 +19,8 @@ const _children = Symbol('children'),
   _renderDeferer = Symbol('renderDeferrer'),
   _drawTask = Symbol('drawTask'),
   _autoRender = Symbol('autoRender'),
-  _adjustTimer = Symbol('adjustTimer');
+  _adjustTimer = Symbol('adjustTimer'),
+  _node = Symbol('node');
 
 export default class Layer extends BaseNode {
   constructor({
@@ -55,7 +57,18 @@ export default class Layer extends BaseNode {
     this[_timeline] = new Timeline();
     this[_renderDeferer] = null;
 
+    this[_node] = new DateNode();
+
     this.touchedTargets = {};
+  }
+
+  attr(...args) {
+    this.prepareRender();
+    return this[_node].attr(...args);
+  }
+
+  get resolution() {
+    return [this.canvas.width, this.canvas.height];
   }
 
   set autoRender(value) {

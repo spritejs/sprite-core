@@ -22,13 +22,12 @@
       s.attr({
         // textures: [img],
         textAlign: 'center',
-        font: '34px "宋体"',
         lineHeight: 300,
         anchor: 0.5,
         border: [6, 'black'],
-        pos: [300, 300],
+        pos: ['50%', 300],
         size: [300, 300],
-        bgcolor: 'blue',
+        // bgcolor: 'blue',
         bgimage: {
           image: img,
           display: '.9',
@@ -37,6 +36,11 @@
         },
       });
       layer.append(s);
+
+      layer.attr({
+        font: '34px "宋体"',
+      });
+      window.s = s;
     };
     img.src = 'https://p2.ssl.qhimg.com/t01c18f4e677c09a87e.jpg';
   </script>

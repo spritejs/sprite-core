@@ -1,5 +1,5 @@
 
-import {boxIntersect, boxEqual, boxToRect} from 'sprite-utils';
+import {boxIntersect, boxEqual, boxToRect} from '../utils';
 
 // export function isSpriteDirty(sprite, dirtyEls, isUpdateEl = false) {
 //   for(let i = 0; i < dirtyEls.length; i++) {
