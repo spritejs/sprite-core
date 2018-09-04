@@ -137,7 +137,7 @@ export default class extends Animator {
 
   finish() {
     super.finish();
-    cancelAnimationFrame(this.requestId);
+    animationScheduler.delete(this);
     const sprite = this.target;
     sprite.attr(this.frame);
   }
@@ -149,12 +149,9 @@ export default class extends Animator {
     if(!sprite.parent || this.getPlayState(ntime) === 'running') {
       return;
     }
-
     super.play(ntime);
     sprite.attr(this.getFrame(ntime));
-    this.ready.then(() => {
-      animationScheduler.add(this);
-    });
+    animationScheduler.add(this);
   }
 
   cancel(preserveState = false) {

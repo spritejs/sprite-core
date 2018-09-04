@@ -5,30 +5,29 @@ const isBrowser = typeof document !== 'undefined'
   && document.documentElement.contains;
 
 class AnimationScheduler {
-  _animations = []
+  _animations = new Set()
   add(animation) {
-    this._animations.push(animation);
-    this.scheduleAnimation();
-  }
-
-
-  scheduleAnimation() {
-    if(this.requestId) return;
-    this.requestId = requestAnimationFrame(() => {
-      var ntime = Timeline.nowtime();
-      this.updateFrame(ntime);
+    animation.ready.then(() => {
+      this._animations.add(animation);
+      animation.target.attr(animation.frame);
+      this.scheduleAnimation();
     });
   }
 
-  updateFrame(ntime) {
-    var nullAnimationCount = 0;
+  delete(animation) {
+    this._animations.delete(animation);
+  }
+
+  scheduleAnimation() {
+    if(this.requestId) return;
+    this.requestId = requestAnimationFrame(this.updateFrame.bind(this));
+  }
+
+  updateFrame() {
+    const ntime = Timeline.nowtime();
     var scheduleNext = false;
-    for(var i = 0; i < this._animations.length; i++) {
-      let animation = this._animations[i];
-      if(animation === null) {
-        nullAnimationCount++;
-        continue;
-      }
+    this._animations.forEach(animation => {
+
       let sprite = animation.target;
 
       if(isBrowser
@@ -38,14 +37,12 @@ class AnimationScheduler {
         // if dom element has been removed stop animation.
         // it usually occurs in single page applications.
         animation.cancel();
-        this._animations[i] = null;
-        continue;
+        return this._animations.delete(animation);
       }
       const playState = animation.getPlayState(ntime);
       sprite.attr(animation.getFrame(ntime));
       if(playState === 'idle') {
-        this._animations[i] = null;
-        continue;
+        return this._animations.delete(animation);
       }
       if(playState === 'running') {
         scheduleNext = true;
@@ -53,15 +50,13 @@ class AnimationScheduler {
         // playbackRate < 0 will cause playState reset to pending...
         this.add(animation)
       }
+    })
+
+    this.requestId = null;
+    if(!scheduleNext) {
+      return;
     }
-    // if there are more than 10 animation is finished we do a cleaning, avoid GC.
-    if(nullAnimationCount > 10) {
-      this._animations = this._animations.filter(i => i !== null);
-    }
-    if(scheduleNext) {
-      this.requestId = null;
-      this.scheduleAnimation();
-    }
+    this.scheduleAnimation();
   }
 }
 
