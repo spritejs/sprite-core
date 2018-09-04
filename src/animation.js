@@ -4,7 +4,7 @@ import {Matrix} from 'sprite-math';
 import {parseColor, parseStringTransform} from 'sprite-utils';
 // to use Timeline.nowtime, fast-animation-frame also implement nowtime, should be extract to use the same code.
 import Timeline from 'sprite-timeline';
-
+import animationScheduler from './animation-scheduler';
 const defaultEffect = Effects.default;
 
 function arrayEffect(arr1, arr2, p, start, end) {
