@@ -2509,7 +2509,7 @@ var Timeline = function () {
 
         if (!isEntropy) {
           var endTime = startTime + delay;
-          if (delay === 0 || heading !== false && (to - from) * delay < 0 || from < endTime && endTime < to || from > endTime && endTime > to) {
+          if (delay === 0 || heading !== false && (to - from) * delay <= 0 || from <= endTime && endTime <= to || from >= endTime && endTime >= to) {
             handler();
             _this4.clearTimeout(id);
           }
@@ -7061,7 +7061,7 @@ function relative() {
               rv: val
             };
           } else {
-            val = parseFloat(val);
+            val = val ? parseFloat(val) : val;
           }
         }
         setter.call(this, val);
@@ -10178,6 +10178,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _promise = __webpack_require__(124);
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -10388,15 +10392,16 @@ var _default = function (_Animator) {
   }
 
   (0, _createClass3.default)(_default, [{
-    key: 'finish',
-    value: function finish() {
-      (0, _get3.default)(_default.prototype.__proto__ || (0, _getPrototypeOf2.default)(_default.prototype), 'finish', this).call(this);
-      (0, _fastAnimationFrame.cancelAnimationFrame)(this.requestId);
-      var sprite = this.target;
-      sprite.attr(this.frame);
-    }
-  }, {
     key: 'play',
+
+
+    // finish() {
+    //   super.finish();
+    //   cancelAnimationFrame(this.requestId);
+    //   const sprite = this.target;
+    //   sprite.attr(this.frame);
+    // }
+
     value: function play() {
       if (!this.target.parent || this.playState === 'running') {
         return;
@@ -10467,8 +10472,18 @@ var _default = function (_Animator) {
       // the animator is still running
       var sprite = this.target;
       return (0, _get3.default)(_default.prototype.__proto__ || (0, _getPrototypeOf2.default)(_default.prototype), 'finished', this).then(function () {
-        sprite.attr(_this2.frame);
-        (0, _fastAnimationFrame.cancelAnimationFrame)(_this2.requestId);
+        var that = _this2;
+        return new _promise2.default(function (resolve) {
+          (0, _fastAnimationFrame.requestAnimationFrame)(function update() {
+            sprite.attr(that.frame);
+            if (that.playState === 'finished') {
+              (0, _fastAnimationFrame.cancelAnimationFrame)(that.requestId);
+              resolve();
+            } else {
+              (0, _fastAnimationFrame.requestAnimationFrame)(update);
+            }
+          });
+        });
       });
     }
   }]);
@@ -10561,7 +10576,7 @@ var cancelAnimationFrame = function cancelAnimationFrame(id) {
 
 var timeline = new _spriteAnimator.Timeline({
   nowtime: function nowtime() {
-    return currentTime;
+    return steps.size ? currentTime : Date.now();
   }
 });
 

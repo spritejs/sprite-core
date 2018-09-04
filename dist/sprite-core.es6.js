@@ -335,7 +335,7 @@ let Timeline = class Timeline {
 
       if (!isEntropy) {
         const endTime = startTime + delay;
-        if (delay === 0 || heading !== false && (to - from) * delay < 0 || from < endTime && endTime < to || from > endTime && endTime > to) {
+        if (delay === 0 || heading !== false && (to - from) * delay <= 0 || from <= endTime && endTime <= to || from >= endTime && endTime >= to) {
           handler();
           this.clearTimeout(id);
         }
@@ -3182,7 +3182,7 @@ function relative(type = 'width') {
               rv: val
             };
           } else {
-            val = parseFloat(val);
+            val = val ? parseFloat(val) : val;
           }
         }
         setter.call(this, val);
@@ -5453,17 +5453,27 @@ let _default = class _default extends sprite_animator__WEBPACK_IMPORTED_MODULE_0
     // the animator is still running
     const sprite = this.target;
     return super.finished.then(() => {
-      sprite.attr(this.frame);
-      Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["cancelAnimationFrame"])(this.requestId);
+      const that = this;
+      return new Promise(resolve => {
+        Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["requestAnimationFrame"])(function update() {
+          sprite.attr(that.frame);
+          if (that.playState === 'finished') {
+            Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["cancelAnimationFrame"])(that.requestId);
+            resolve();
+          } else {
+            Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["requestAnimationFrame"])(update);
+          }
+        });
+      });
     });
   }
 
-  finish() {
-    super.finish();
-    Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["cancelAnimationFrame"])(this.requestId);
-    const sprite = this.target;
-    sprite.attr(this.frame);
-  }
+  // finish() {
+  //   super.finish();
+  //   cancelAnimationFrame(this.requestId);
+  //   const sprite = this.target;
+  //   sprite.attr(this.frame);
+  // }
 
   play() {
     if (!this.target.parent || this.playState === 'running') {
@@ -5576,7 +5586,7 @@ const cancelAnimationFrame = id => {
 
 const timeline = new sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"]({
   nowtime() {
-    return currentTime;
+    return steps.size ? currentTime : Date.now();
   }
 });
 
