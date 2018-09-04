@@ -13967,7 +13967,8 @@ var Batch = function () {
           configurable: true,
           get: function get() {
             return Infinity;
-          }
+          },
+          set: function set(value) {}
         });
         node[_batch] = _this;
         _this[_batch].add(node);

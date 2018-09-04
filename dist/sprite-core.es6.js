@@ -8339,7 +8339,8 @@ let Batch = class Batch {
         configurable: true,
         get() {
           return Infinity;
-        }
+        },
+        set(value) {}
       });
       node[_batch] = this;
       this[_batch].add(node);

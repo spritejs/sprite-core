@@ -61,6 +61,9 @@ export default class Batch {
         get() {
           return Infinity;
         },
+        set(value) {
+
+        },
       });
       node[_batch] = this;
       this[_batch].add(node);
