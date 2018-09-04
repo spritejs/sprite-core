@@ -8588,6 +8588,9 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
+        const _parentX = evt.parentX,
+              _parentY = evt.parentY;
+
         evt.parentX = parentX;
         evt.parentY = parentY;
 
@@ -8613,6 +8616,8 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level
         evt.terminated = false;
+        evt.parentX = _parentX;
+        evt.parentY = _parentY;
         collisionState = isCollision;
       }
     }
