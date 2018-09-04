@@ -346,6 +346,10 @@ export default class BaseSprite extends BaseNode {
     return animation;
   }
 
+  get animations() {
+    return this[_animations];
+  }
+
   changeState(fromState, toState, action) {
     let animation;
     if(this[_changeStateAction]) {

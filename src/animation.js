@@ -1,7 +1,7 @@
 import {Animator, Effects} from 'sprite-animator';
-import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame';
 import {Matrix} from 'sprite-math';
 import {parseColor, parseStringTransform} from './utils';
+import {requestAnimationFrame, cancelAnimationFrame} from './helpers/fast-animation-frame';
 
 const _defaultEffect = Effects.default;
 
@@ -153,17 +153,27 @@ export default class extends Animator {
     // the animator is still running
     const sprite = this.target;
     return super.finished.then(() => {
-      sprite.attr(this.frame);
-      cancelAnimationFrame(this.requestId);
+      const that = this;
+      return new Promise((resolve) => {
+        requestAnimationFrame(function update() {
+          sprite.attr(that.frame);
+          if(that.playState === 'finished') {
+            cancelAnimationFrame(that.requestId);
+            resolve();
+          } else {
+            requestAnimationFrame(update);
+          }
+        });
+      });
     });
   }
 
-  finish() {
-    super.finish();
-    cancelAnimationFrame(this.requestId);
-    const sprite = this.target;
-    sprite.attr(this.frame);
-  }
+  // finish() {
+  //   super.finish();
+  //   cancelAnimationFrame(this.requestId);
+  //   const sprite = this.target;
+  //   sprite.attr(this.frame);
+  // }
 
   play() {
     if(!this.target.parent || this.playState === 'running') {

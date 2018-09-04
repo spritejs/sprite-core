@@ -1,5 +1,5 @@
 import {Timeline} from 'sprite-animator';
-import {requestAnimationFrame, cancelAnimationFrame} from 'fast-animation-frame';
+import {requestAnimationFrame, cancelAnimationFrame, timeline} from './helpers/fast-animation-frame';
 import {setDeprecation} from './utils';
 import BaseNode from './basenode';
 import DateNode from './datanode';
@@ -54,7 +54,7 @@ export default class Layer extends BaseNode {
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
     this[_tRecord] = []; // calculate FPS
-    this[_timeline] = new Timeline();
+    this[_timeline] = new Timeline(timeline);
     this[_renderDeferer] = null;
 
     this[_node] = new DateNode();

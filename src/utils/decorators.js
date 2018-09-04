@@ -203,7 +203,7 @@ export function relative(type = 'width') {
               rv: val,
             };
           } else {
-            val = parseFloat(val);
+            val = val ? parseFloat(val) : val;
           }
         }
         setter.call(this, val);
