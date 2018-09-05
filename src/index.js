@@ -13,12 +13,6 @@ import Path from './path';
 import Batch from './batch';
 import {registerNodeType, createNode, createElement, isValidNodeType} from './nodetype';
 
-import {findColor, cacheContextPool} from './helpers/render';
-
-
-utils.findColor = findColor;
-utils.cacheContextPool = cacheContextPool;
-
 const Color = utils.Color;
 
 const installed = new WeakMap();

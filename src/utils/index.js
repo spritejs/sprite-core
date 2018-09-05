@@ -30,7 +30,11 @@ import {
   relative,
 } from './decorators';
 
+import {findColor, cacheContextPool} from '../helpers/render';
+
 export {
+  findColor,
+  cacheContextPool,
   appendUnit,
   attr,
   boxEqual,

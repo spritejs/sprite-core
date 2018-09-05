@@ -124,6 +124,7 @@ export default class BaseNode {
 
     if(this[_collisionState] && type === 'mouseleave') {
       // dispatched from group
+      evt.target = this;
       this[_collisionState] = false;
       isCollision = true;
     }
@@ -162,6 +163,7 @@ export default class BaseNode {
       if(!this[_collisionState] && isCollision && type === 'mousemove') {
         const _evt = Object.assign({}, evt);
         _evt.type = 'mouseenter';
+        delete _evt.target;
         _evt.terminated = false;
         this.dispatchEvent('mouseenter', _evt, true, true);
         this[_collisionState] = true;

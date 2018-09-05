@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.15.8",
+  "version": "2.15.9",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -55,7 +55,7 @@
     "eslint-plugin-html": "^4.0.3",
     "hamming-distance": "^1.0.0",
     "imghash": "0.0.3",
-    "nyc": "^11.1.0",
+    "nyc": "^13.0.1",
     "pixelmatch": "^4.0.2",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0",
@@ -86,8 +86,8 @@
     "babel-runtime": "^6.26.0",
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
-    "sprite-animator": "^1.11.1",
-    "sprite-math": "^1.0.4",
-    "svg-path-to-canvas": "^1.9.5"
+    "sprite-animator": "^1.11.2",
+    "sprite-math": "^1.0.5",
+    "svg-path-to-canvas": "^1.9.6"
   }
 }

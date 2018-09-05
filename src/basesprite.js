@@ -795,6 +795,7 @@ export default class BaseSprite extends BaseNode {
     if(!cachableContext) {
       drawingContext.translate(bound[0], bound[1]);
     } else {
+      cachableContext.save();
       // solve 1px problem
       cachableContext.translate(bound[0] - Math.floor(bound[0]) + 1, bound[1] - Math.floor(bound[1]) + 1);
     }
@@ -831,6 +832,9 @@ export default class BaseSprite extends BaseNode {
 
     this.dispatchEvent('afterdraw', evtArgs, true, true);
 
+    if(cachableContext) {
+      cachableContext.restore();
+    }
     drawingContext.restore();
 
     return drawingContext;
