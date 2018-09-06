@@ -140,16 +140,6 @@ class SpriteAttr {
     return ret;
   }
 
-  set attrs(attrs) {
-    if(Array.isArray(attrs)) {
-      attrs = Object.assign({}, ...attrs);
-    }
-    Object.entries(attrs).forEach(([prop, value]) => {
-      this[prop] = value;
-    });
-    return attrs;
-  }
-
   @deprecate('You can remove this call.')
   clearCache() {
     return this;

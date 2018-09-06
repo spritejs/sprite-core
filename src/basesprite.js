@@ -211,6 +211,15 @@ export default class BaseSprite extends BaseNode {
       return this;
     } if(typeof props === 'string') {
       if(val !== undefined) {
+        if(props === 'attrs') {
+          if(Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.attr(prop, value);
+          });
+          return this;
+        }
         if(typeof val === 'function') {
           val = val(this[_attr][props]);
         }

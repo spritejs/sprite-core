@@ -5657,6 +5657,15 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       return this;
     }if (typeof props === 'string') {
       if (val !== undefined) {
+        if (props === 'attrs') {
+          if (Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.attr(prop, value);
+          });
+          return this;
+        }
         if (typeof val === 'function') {
           val = val(this[_attr][props]);
         }
@@ -6629,16 +6638,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       ret[key] = this[key];
     });
     return ret;
-  }
-
-  set attrs(attrs) {
-    if (Array.isArray(attrs)) {
-      attrs = Object.assign({}, ...attrs);
-    }
-    Object.entries(attrs).forEach(([prop, value]) => {
-      this[prop] = value;
-    });
-    return attrs;
   }
 
   clearCache() {
