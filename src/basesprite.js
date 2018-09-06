@@ -617,12 +617,11 @@ export default class BaseSprite extends BaseNode {
   }
 
   get cache() {
-    const filter = this.attr('filter'),
-      shadow = this.attr('shadow'),
-      [w, h] = this.contentSize;
-
-    if(filter || shadow || this[_cachePriority]++ >= 6 && w * h >= 2500) {
+    if(this[_cachePriority]++ >= 6) {
       return this.cacheContext;
+    }
+    if(this.cacheContext) {
+      this.cache = null;
     }
     return false;
   }
@@ -766,7 +765,7 @@ export default class BaseSprite extends BaseNode {
     const filter = this.attr('filter'),
       shadow = this.attr('shadow');
 
-    if(cachableContext !== false && !cachableContext) {
+    if((shadow || filter || cachableContext !== false) && !cachableContext) {
       cachableContext = cacheContextPool.get(drawingContext);
       if(cachableContext) {
         // +2 to solve 1px problem

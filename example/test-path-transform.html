@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    canvas {
+      width: 800px;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div id="paper">
+      <canvas width="1600" height="1200"></canvas>
+  </div>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+  const {Layer, Path} = spritejs;
+  const context = document.querySelector('#paper canvas').getContext('2d');
+  const layer = new Layer({
+    context,
+  });
+  const d = 'M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2 c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z';
+
+  const heart1 = new Path();
+  heart1.attr({
+    anchor: [0.5, 0.5],
+    path: {
+      d,
+      transform: {
+        rotate: 45,
+      },
+      trim: true,
+    },
+    fillColor: '#f33',
+    pos: [300, 300],
+    shadow: {
+      blur: 10,
+      offset: [10, 10],
+    },
+  });
+  layer.appendChild(heart1);
+
+  heart1.animate([
+    {scale: 1},
+    {scale: 10},
+  ], {
+    duration: 5000,
+    iterations: Infinity,
+    direction: 'alternate',
+  });
+
+  // const heart2 = new Path();
+  // heart2.attr({
+  //   anchor: [0.5, 0.5],
+  //   path: {
+  //     d,
+  //     transform: {
+  //       rotate: 45,
+  //     },
+  //     trim: true,
+  //   },
+  //   fillColor: '#f33',
+  //   pos: [900, 300],
+  //   shadow: {
+  //     blur: 10,
+  //     offset: [10, 10],
+  //   },
+  // });
+  // heart2.animate([
+  //   {path: {d, trim: true, transform: {rotate: 45, scale: 1}}},
+  //   {path: {d, trim: true, transform: {rotate: 45, scale: 10}}},
+  // ], {
+  //   duration: 5000,
+  //   iterations: Infinity,
+  //   direction: 'alternate',
+  // });
+  // layer.appendChild(heart2);
+  </script>
+</body>
+</html>

@@ -5393,26 +5393,20 @@ function findColor(context, sprite, prop) {
 }
 
 const contextPool = [],
-      maxPollSize = 20,
-      maxCreated = 50;
+      maxPollSize = 20;
 
 const cacheContextPool = {
-  created: 0,
   get(context) {
     if (contextPool.length > 0) {
       return contextPool.pop();
     }
 
-    const created = this.created;
-    if (created < maxCreated) {
-      const canvas = context.canvas;
-      if (!canvas || !canvas.cloneNode) {
-        return;
-      }
-      const copied = canvas.cloneNode();
-      this.created++;
-      return copied.getContext('2d');
+    const canvas = context.canvas;
+    if (!canvas || !canvas.cloneNode) {
+      return;
     }
+    const copied = canvas.cloneNode();
+    return copied.getContext('2d');
   },
   put(...contexts) {
     contexts.every(context => {
@@ -6046,12 +6040,11 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   get cache() {
-    const filter = this.attr('filter'),
-          shadow = this.attr('shadow'),
-          [w, h] = this.contentSize;
-
-    if (filter || shadow || this[_cachePriority]++ >= 6 && w * h >= 2500) {
+    if (this[_cachePriority]++ >= 6) {
       return this.cacheContext;
+    }
+    if (this.cacheContext) {
+      this.cache = null;
     }
     return false;
   }
@@ -6176,7 +6169,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const filter = this.attr('filter'),
           shadow = this.attr('shadow');
 
-    if (cachableContext !== false && !cachableContext) {
+    if ((shadow || filter || cachableContext !== false) && !cachableContext) {
       cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].get(drawingContext);
       if (cachableContext) {
         // +2 to solve 1px problem
