@@ -4264,6 +4264,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "sortOrderedSprites", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"]; });
 
 /* harmony import */ var _decorators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(116);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cachable", function() { return _decorators__WEBPACK_IMPORTED_MODULE_1__["cachable"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "attr", function() { return _decorators__WEBPACK_IMPORTED_MODULE_1__["attr"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "deprecate", function() { return _decorators__WEBPACK_IMPORTED_MODULE_1__["deprecate"]; });
@@ -4951,6 +4953,7 @@ module.exports = function isArrayish(obj) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attr", function() { return attr; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cachable", function() { return cachable; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inherit", function() { return inherit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relative", function() { return relative; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flow", function() { return flow; });
@@ -4972,7 +4975,7 @@ function attr(target, prop, descriptor) {
       return this.get(prop);
     };
   }
-  if (!target.__relative && !target.__inherit) {
+  if (!descriptor.__relative && !descriptor.__inherit) {
     descriptor.get = function () {
       let ret = _getter.call(this);
       if (ret == null) {
@@ -4980,8 +4983,7 @@ function attr(target, prop, descriptor) {
       }
       return ret;
     };
-  } else if (target.__relative) {
-    delete target.__relative;
+  } else if (descriptor.__relative) {
     // enable set default to user defined getter
     descriptor.get = function () {
       let ret = _getter.call(this);
@@ -5005,7 +5007,7 @@ function attr(target, prop, descriptor) {
             this[prop] = ret.rv;
             return this[prop];
           }
-          subject.clearCache();
+          subject.cache = null;
           if (subject[_attrAbsolute]) {
             return pv * ret.v;
           }
@@ -5025,7 +5027,7 @@ function attr(target, prop, descriptor) {
             this[prop] = ret.rv;
             return this[prop];
           }
-          subject.clearCache();
+          subject.cache = null;
           if (subject[_attrAbsolute]) {
             return pv * ret.v;
           }
@@ -5035,7 +5037,6 @@ function attr(target, prop, descriptor) {
       return ret;
     };
   } else {
-    delete target.__inherit;
     // enable set default to user defined getter
     descriptor.get = function () {
       let ret = _getter.call(this);
@@ -5050,7 +5051,7 @@ function attr(target, prop, descriptor) {
           this[prop] = 'inherit';
           return this[prop];
         }
-        subject.clearCache();
+        subject.cache = null;
         return ret.pv;
       }
       return ret;
@@ -5058,9 +5059,10 @@ function attr(target, prop, descriptor) {
   }
 
   const _setter = descriptor.set;
+  const _clearCache = !descriptor.__cachable;
+
   descriptor.set = function (val) {
     const subject = this.subject;
-    this.__clearCacheTag = false;
     this.__updateTag = false;
     this.__reflowTag = false;
     _setter.call(this, val);
@@ -5074,23 +5076,29 @@ function attr(target, prop, descriptor) {
       subject.__lastLayout = offsetSize;
     }
     if (this.subject && this.__updateTag) {
-      subject.forceUpdate(this.__clearCacheTag);
+      subject.forceUpdate(_clearCache);
       if (this.__reflowTag) {
         subject.reflow();
       }
     }
     // delete this.__reflowTag;
     // delete this.__updateTag;
-    // delete this.__clearCacheTag;
   };
   return descriptor;
 }
 
+// after attr
+function cachable(target, prop, descriptor) {
+  descriptor.__cachable = true;
+  return descriptor;
+}
+
+// after attr
 function inherit(defaultValue = '') {
   return function (target, prop, descriptor) {
     if (descriptor.set) {
       const setter = descriptor.set;
-      target.__inherit = true;
+      descriptor.__inherit = true;
 
       descriptor.set = function (val) {
         if (typeof val === 'string') {
@@ -5113,12 +5121,13 @@ function inherit(defaultValue = '') {
   };
 }
 
+// after attr
 // relative -> width | height
 function relative(type = 'width') {
   return function (target, prop, descriptor) {
     if (descriptor.set) {
       const setter = descriptor.set;
-      target.__relative = true;
+      descriptor.__relative = true;
 
       descriptor.set = function (val) {
         if (typeof val === 'string') {
@@ -5246,6 +5255,7 @@ function deprecate(...args) {
   return decorator(...args);
 }
 
+// before attr
 function parseValue(...parsers) {
   return function (target, prop, descriptor) {
     const setter = descriptor.set;
@@ -5383,20 +5393,26 @@ function findColor(context, sprite, prop) {
 }
 
 const contextPool = [],
-      maxPollSize = 20;
+      maxPollSize = 20,
+      maxCreated = 50;
 
 const cacheContextPool = {
+  created: 0,
   get(context) {
     if (contextPool.length > 0) {
       return contextPool.pop();
     }
 
-    const canvas = context.canvas;
-    if (!canvas || !canvas.cloneNode) {
-      return;
+    const created = this.created;
+    if (created < maxCreated) {
+      const canvas = context.canvas;
+      if (!canvas || !canvas.cloneNode) {
+        return;
+      }
+      const copied = canvas.cloneNode();
+      this.created++;
+      return copied.getContext('2d');
     }
-    const copied = canvas.cloneNode();
-    return copied.getContext('2d');
   },
   put(...contexts) {
     contexts.every(context => {
@@ -5428,7 +5444,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(125);
 /* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(117);
 /* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(126);
-var _desc, _value, _class, _class2, _temp;
+var _dec, _desc, _value, _class, _class2, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
 
@@ -5450,7 +5466,7 @@ const _attr = Symbol('attr'),
       _flow = Symbol('flow'),
       _changeStateAction = Symbol('changeStateAction');
 
-let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
+let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use sprite.cache = null'), (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
   /**
     new Sprite({
@@ -5466,20 +5482,10 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
     this[_animations] = new Set();
     this[_cachePriority] = 0;
     this[_flow] = {};
-    this.__cachePolicyThreshold = 6;
 
     if (attr) {
       this.attr(attr);
     }
-  }
-
-  get cachePriority() {
-    if (this.isVirtual) return -1;
-    return this[_cachePriority];
-  }
-
-  set cachePriority(priority) {
-    this[_cachePriority] = priority;
   }
 
   static setAttributeEffects(effects = {}) {
@@ -5502,7 +5508,6 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
         this.Attr.prototype.__attributeNames.add(prop);
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
-            this.__clearCacheTag = false;
             this.__updateTag = false;
             this.__reflowTag = false;
             handler(this, val);
@@ -5516,14 +5521,13 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
               this.subject.__lastLayout = offsetSize;
             }
             if (this.subject && this.__updateTag) {
-              this.subject.forceUpdate(this.__clearCacheTag);
+              this.subject.forceUpdate(true);
               if (this.__reflowTag) {
                 this.subject.reflow();
               }
             }
             // delete this.__reflowTag;
             // delete this.__updateTag;
-            // delete this.__clearCacheTag;
           },
           get: getter
         });
@@ -6029,6 +6033,12 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
   }
 
   set cache(context) {
+    if (context == null) {
+      this[_cachePriority] = 0;
+      if (this.parent && this.parent.cache) {
+        this.parent.cache = null;
+      }
+    }
     if (this.cacheContext && context !== this.cacheContext) {
       _helpers_render__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].put(this.cacheContext);
     }
@@ -6036,16 +6046,18 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
   }
 
   get cache() {
-    return this.cacheContext;
+    const filter = this.attr('filter'),
+          shadow = this.attr('shadow'),
+          [w, h] = this.contentSize;
+
+    if (filter || shadow || this[_cachePriority]++ >= 6 && w * h >= 2500) {
+      return this.cacheContext;
+    }
+    return false;
   }
 
   clearCache() {
-    this[_cachePriority] = 0;
     this.cache = null;
-    if (this.parent && this.parent.cache) {
-      this.parent[_cachePriority] = 0;
-      this.parent.cache = null;
-    }
   }
 
   remove() {
@@ -6060,7 +6072,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
 
   forceUpdate(clearCache = false) {
     if (clearCache) {
-      this.clearCache();
+      this.cache = null;
     }
     const parent = this.parent;
     if (parent) {
@@ -6159,24 +6171,20 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
 
   draw(t, drawingContext = this.context) {
     const bound = this.originalRect;
-    let cachableContext = this.cache;
+    let cachableContext = !this.isVirtual && this.cache;
 
     const filter = this.attr('filter'),
           shadow = this.attr('shadow');
 
-    // filter & shadow require cachableContext
-    if (!cachableContext && (filter || shadow || this.cachePriority > this.__cachePolicyThreshold)) {
+    if (cachableContext !== false && !cachableContext) {
       cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].get(drawingContext);
       if (cachableContext) {
         // +2 to solve 1px problem
         cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
         cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
-      } else {
-        this.__cachePolicyThreshold = Infinity;
       }
     }
 
-    this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10);
     const evtArgs = { context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache };
 
     drawingContext.save();
@@ -6312,7 +6320,7 @@ let BaseSprite = (_class = (_temp = _class2 = class BaseSprite extends _basenode
 
     return true;
   }
-}, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype)), _class);
+}, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype)), _class));
 
 
 
@@ -6488,7 +6496,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _desc, _value, _class;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _desc, _value, _class;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
 
@@ -6502,7 +6510,7 @@ const _attr = Symbol('attr'),
       _default = Symbol('default'),
       _props = Symbol('props');
 
-let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"]), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringTransform"]), _dec17 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec18 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec19 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use attr.gradients.'), _dec20 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec21 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = class SpriteAttr {
+let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('You can remove this call.'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"]), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"]), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec17 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringTransform"]), _dec18 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec19 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec20 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use attr.gradients.'), _dec21 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec22 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = class SpriteAttr {
   constructor(subject) {
     this[_subject] = subject;
     this[_default] = {};
@@ -6554,17 +6562,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
       filter: '', // filter: {blur, ...}
       shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
       bgimage: ''
-    }, {
-      pos() {
-        return [this.x, this.y];
-      },
-      size() {
-        return [this.width, this.height];
-      },
-      linearGradients() {
-        /* istanbul ignore next  */
-        return this.gradients;
-      }
     });
     this[_temp] = new Map(); // save non-serialized values
     this.__extendAttributes = new Set();
@@ -6647,7 +6644,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   }
 
   clearCache() {
-    this.__clearCacheTag = true;
     return this;
   }
 
@@ -6707,7 +6703,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   }
 
   set display(val) {
-    this.clearCache();
     this.set('display', val);
   }
 
@@ -6736,8 +6731,11 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
     this.y = y;
   }
 
+  get pos() {
+    return [this.x, this.y];
+  }
+
   set bgcolor(val) {
-    this.clearCache();
     this.set('bgcolor', val);
   }
 
@@ -6746,22 +6744,18 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   }
 
   set width(val) {
-    this.clearCache();
     this.set('width', val);
   }
 
   set height(val) {
-    this.clearCache();
     this.set('height', val);
   }
 
   set layoutWidth(val) {
-    this.clearCache();
     this.set('layoutWidth', val);
   }
 
   set layoutHeight(val) {
-    this.clearCache();
     this.set('layoutHeight', val);
   }
 
@@ -6774,8 +6768,11 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
     this.height = height;
   }
 
+  get size() {
+    return [this.width, this.height];
+  }
+
   set border(val) {
-    this.clearCache();
     if (val == null) {
       this.set('border', null);
       return;
@@ -6802,22 +6799,18 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   }
 
   set padding(val) {
-    this.clearCache();
     this.set('padding', val);
   }
 
   set borderRadius(val) {
-    this.clearCache();
     this.set('borderRadius', val);
   }
 
   set boxSizing(val) {
-    this.clearCache();
     this.set('boxSizing', val);
   }
 
   set dashOffset(val) {
-    this.clearCache();
     this.set('dashOffset', val);
   }
 
@@ -6943,6 +6936,10 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
     this.gradients = val;
   }
 
+  get linearGradients() {
+    return this.gradients;
+  }
+
   /**
     gradients : {
       bgcolor: {
@@ -6958,7 +6955,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
    */
 
   set gradients(val) {
-    this.clearCache();
     this.set('gradients', val);
   }
 
@@ -7083,7 +7079,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   */
 
   set bgimage(val) {
-    this.clearCache();
     if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"])(val.clip9);
     if (val && !val.image && this.subject.loadBgImage) {
       val = this.subject.loadBgImage(val);
@@ -7092,7 +7087,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
   }
 
   set states(val) {
-    this.set('states', val);
+    this.quietSet('states', val);
   }
 
   set actions(val) {
@@ -7115,16 +7110,16 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
           value[key] = Object.assign({}, v.action);
         }
       });
-      this.set('actions', value);
+      this.quietSet('actions', value);
     } else {
-      this.set('actions', val);
+      this.quietSet('actions', val);
     }
   }
 
   set state(val) {
     const oldState = this.state;
     if (oldState !== val) {
-      this.set('state', val);
+      this.quietSet('state', val);
       const states = this.states;
       let action = null;
       if (states) {
@@ -7175,7 +7170,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"
       }
     }
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_dec3, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_dec4, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_dec5, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec6, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_dec9, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_dec10, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_dec11, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec12, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec13, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype)), _class));
+}, (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec6, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec22, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype)), _class));
 
 
 /* harmony default export */ __webpack_exports__["default"] = (SpriteAttr);
@@ -8058,11 +8053,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
 /* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(126);
 /* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(125);
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(117);
 var _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
-
 
 
 
@@ -8246,35 +8239,43 @@ let Sprite = (_class2 = (_temp = _class3 = class Sprite extends _basesprite__WEB
     return false;
   }
 
-  set cache(context) {
-    if (context == null) {
-      _helpers_render__WEBPACK_IMPORTED_MODULE_4__["cacheContextPool"].put(...this[_texturesCache].values());
-      this[_texturesCache].clear();
-      return;
-    }
-    const key = JSON.stringify(this.textures),
-          cacheMap = this[_texturesCache];
+  // set cache(context) {
+  //   if(context == null) {
+  //     cacheContextPool.put(...this[_texturesCache].values());
+  //     this[_texturesCache].clear();
+  //     return;
+  //   }
+  //   const key = JSON.stringify(this.textures),
+  //     cacheMap = this[_texturesCache];
 
-    if (!cacheMap.has(key)) {
-      cacheMap.set(key, context);
-    }
-  }
+  //   if(!cacheMap.has(key)) {
+  //     cacheMap.set(key, context);
+  //   }
+  // }
+
+  // get cache() {
+  //   const key = JSON.stringify(this.textures),
+  //     cacheMap = this[_texturesCache];
+  //   if(cacheMap.has(key)) {
+  //     return cacheMap.get(key);
+  //   }
+  //   return null;
+  // }
 
   get cache() {
-    const key = JSON.stringify(this.textures),
-          cacheMap = this[_texturesCache];
-    if (cacheMap.has(key)) {
-      return cacheMap.get(key);
+    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
+    if (!bg && this.textures.length <= 1) {
+      return false;
     }
-    return null;
+    return super.cache;
+  }
+
+  set cache(context) {
+    super.cache = context;
   }
 
   render(t, drawingContext) {
     super.render(t, drawingContext);
-    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
-    if (!bg && this.textures.length <= 1) {
-      this.cachePriority = 0;
-    }
     const textures = this.textures;
     let cliped = false;
     if (this.images && this.images.length) {
@@ -8336,7 +8337,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(118);
 /* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(125);
 /* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(117);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
 
@@ -8438,7 +8439,7 @@ function calculTextboxSize(node) {
   node[_boxSize] = [width, height];
 }
 
-let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('normal normal normal 16px Arial'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), (_class = class LabelSpriteAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
+let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('normal normal normal 16px Arial'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('height'), (_class = class LabelSpriteAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
   constructor(subject) {
     super(subject);
     this.setDefault({
@@ -8453,22 +8454,16 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
       wordBreak: 'normal',
       letterSpacing: 0,
       textIndent: 0
-    }, {
-      color() {
-        return this.fillColor;
-      }
     });
   }
 
   set text(val) {
-    this.clearCache();
     val = String(val);
     this.set('text', val);
     calculTextboxSize(this.subject);
   }
 
   set font(val) {
-    this.clearCache();
     this.set('font', val);
     calculTextboxSize(this.subject);
   }
@@ -8546,13 +8541,11 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
   }
 
   set lineHeight(val) {
-    this.clearCache();
     this.set('lineHeight', val);
     calculTextboxSize(this.subject);
   }
 
   set textAlign(val) {
-    this.clearCache();
     this.set('textAlign', val);
     calculTextboxSize(this.subject);
   }
@@ -8561,59 +8554,56 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
     this.fillColor = val;
   }
 
+  get color() {
+    return this.fillColor;
+  }
+
   set strokeColor(val) {
-    this.clearCache();
     this.set('strokeColor', val);
   }
 
   set fillColor(val) {
-    this.clearCache();
     this.set('fillColor', val);
   }
 
   set flexible(val) {
-    this.clearCache();
     this.set('flexible', val);
   }
 
   set lineBreak(val) {
     // normal, strict, none
-    this.clearCache();
     this.set('lineBreak', val);
     calculTextboxSize(this.subject);
   }
 
   set wordBreak(val) {
     // normal | break-all | break-word | keep-all
-    this.clearCache();
     this.set('wordBreak', val);
     calculTextboxSize(this.subject);
   }
 
   set letterSpacing(value) {
     if (typeof value === 'string') value = parseFloat(value);
-    this.clearCache();
     this.set('letterSpacing', value);
     calculTextboxSize(this.subject);
   }
 
   set textIndent(value) {
     if (typeof value === 'string') value = parseFloat(value);
-    this.clearCache();
     this.set('textIndent', value);
     calculTextboxSize(this.subject);
   }
 
   set width(val) {
     if (this.lineBreak !== '') calculTextboxSize(this.subject);
-    super.width = val;
+    this.set('width', val);
   }
 
   set layoutWidth(val) {
     if (this.lineBreak !== '') calculTextboxSize(this.subject);
-    super.layoutWidth = val;
+    this.set('layoutWidth', val);
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'text', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_dec, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontSize', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontFamily', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontFamily'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontStyle', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontStyle'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontVariant', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontVariant'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontWeight', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontWeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec3, _dec4, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec5, _dec6, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'letterSpacing', [_dec9, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'letterSpacing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textIndent', [_dec10, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'textIndent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
+}, (_applyDecoratedDescriptor(_class.prototype, 'text', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontSize', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontFamily', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontFamily'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontStyle', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontStyle'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontVariant', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontVariant'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontWeight', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fontWeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec3, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec5, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'letterSpacing', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'letterSpacing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textIndent', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'textIndent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
 let Label = (_class2 = (_temp = _class3 = class Label extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
   constructor(attr) {
@@ -10331,13 +10321,6 @@ let Batch = class Batch {
           }
         }
       });
-      Object.defineProperty(node, 'cachePriority', {
-        configurable: true,
-        get() {
-          return Infinity;
-        },
-        set(value) {}
-      });
       node[_batch] = this;
       this[_batch].add(node);
     });
@@ -10368,7 +10351,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(139);
 /* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(141);
 /* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(143);
-var _dec, _dec2, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
 
@@ -10384,7 +10367,7 @@ const _children = Symbol('children'),
       _zOrder = Symbol('zOrder'),
       _layoutTag = Symbol('layoutTag');
 
-let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), (_class = (_temp = _class2 = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
+let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), (_class = (_temp = _class2 = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
 
   constructor(subject) {
     super(subject);
@@ -10400,7 +10383,6 @@ let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"]
   }
 
   set clip(val) {
-    this.clearCache();
     this.clearFlow();
     if (val) {
       val = typeof val === 'string' ? { d: val } : val;
@@ -10414,39 +10396,37 @@ let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"]
 
   set width(value) {
     this.subject.clearLayout();
-    super.width = value;
+    this.set('width', value);
   }
 
   set height(value) {
     this.subject.clearLayout();
-    super.height = value;
+    this.set('height', value);
   }
 
   set layoutWidth(value) {
     this.subject.clearLayout();
-    super.layoutWidth = value;
+    this.set('layoutWidth', value);
   }
 
   set layoutHeight(value) {
     this.subject.clearLayout();
-    super.layoutHeight = value;
+    this.set('layoutHeight', value);
   }
 
   set display(value) {
     this.subject.clearLayout();
-    super.display = value;
+    this.set('display', value);
   }
 
   set scrollLeft(value) {
-    this.clearCache();
     this.set('scrollLeft', value);
   }
 
   set scrollTop(value) {
-    this.clearCache();
     this.set('scrollTop', value);
   }
-}, _class2.inits = [], _temp), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollTop'), _class.prototype)), _class));
+}, _class2.inits = [], _temp), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec5, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec6, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scrollTop'), _class.prototype)), _class));
 
 
 const _layout = Symbol('layout');
@@ -11109,27 +11089,22 @@ const attrs = {
     });
   },
   flexDirection(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('flexDirection', value);
   },
   flexWrap(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('flexWrap', value);
   },
   justifyContent(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('justifyContent', value);
   },
   alignItems(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('alignItems', value);
   },
   alignContent(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('alignContent', value);
   }
@@ -11655,15 +11630,11 @@ let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit
     }, {
       color() {
         return this.strokeColor;
-      },
-      d() {
-        return this.path ? this.path.d : null;
       }
     });
   }
 
   set path(val) {
-    this.clearCache();
     this.clearFlow();
     if (val) {
       val = typeof val === 'string' ? { d: val } : val;
@@ -11688,21 +11659,22 @@ let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit
     }
   }
 
+  get d() {
+    return this.path ? this.path.d : null;
+  }
+
   set lineWidth(val) {
     if (typeof val === 'string') val = parseFloat(val);
-    this.clearCache();
     this.clearFlow();
     this.set('lineWidth', Math.round(val));
   }
 
   set lineDash(val) {
     if (typeof val === 'number') val = [val];
-    this.clearCache();
     this.set('lineDash', val);
   }
 
   set lineDashOffset(val) {
-    this.clearCache();
     this.set('lineDashOffset', val);
   }
 
@@ -11711,7 +11683,6 @@ let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit
    */
 
   set lineCap(val) {
-    this.clearCache();
     this.set('lineCap', val);
   }
 
@@ -11720,22 +11691,18 @@ let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit
    */
 
   set lineJoin(val) {
-    this.clearCache();
     this.set('lineJoin', val);
   }
 
   set strokeColor(val) {
-    this.clearCache();
     this.set('strokeColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
   }
 
   set fillColor(val) {
-    this.clearCache();
     this.set('fillColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
   }
 
   set flexible(val) {
-    this.clearCache();
     this.clearFlow();
     this.set('flexible', val);
   }
@@ -11748,7 +11715,7 @@ let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit
   set color(val) {
     this.strokeColor = val;
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'path', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_dec, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec3, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_dec4, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_dec5, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec6, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bounding', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bounding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec9, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype)), _class));
+}, (_applyDecoratedDescriptor(_class.prototype, 'path', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'path'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'd', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineWidth', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, 'lineWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDash', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDash'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineDashOffset', [_dec3, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'lineDashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineCap', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'lineCap'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineJoin', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'lineJoin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bounding', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'bounding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_dec9, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'color'), _class.prototype)), _class));
 let Path = (_class2 = (_temp = _class3 = class Path extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
   constructor(attr) {

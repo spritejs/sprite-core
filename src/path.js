@@ -20,15 +20,11 @@ class PathSpriteAttr extends BaseSprite.Attr {
       color() {
         return this.strokeColor;
       },
-      d() {
-        return this.path ? this.path.d : null;
-      },
     });
   }
 
   @attr
   set path(val) {
-    this.clearCache();
     this.clearFlow();
     if(val) {
       val = typeof val === 'string' ? {d: val} : val;
@@ -54,11 +50,14 @@ class PathSpriteAttr extends BaseSprite.Attr {
     }
   }
 
-  @inherit(1)
+  get d() {
+    return this.path ? this.path.d : null;
+  }
+
   @attr
+  @inherit(1)
   set lineWidth(val) {
     if(typeof val === 'string') val = parseFloat(val);
-    this.clearCache();
     this.clearFlow();
     this.set('lineWidth', Math.round(val));
   }
@@ -67,60 +66,53 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set lineDash(val) {
     if(typeof val === 'number') val = [val];
-    this.clearCache();
     this.set('lineDash', val);
   }
 
   @parseValue(parseFloat)
   @attr
   set lineDashOffset(val) {
-    this.clearCache();
     this.set('lineDashOffset', val);
   }
 
   /**
     lineCap: butt|round|square
    */
-  @inherit('butt')
   @attr
+  @inherit('butt')
   set lineCap(val) {
-    this.clearCache();
     this.set('lineCap', val);
   }
 
   /**
     lineJoin: miter|round|bevel
    */
-  @inherit('miter')
   @attr
+  @inherit('miter')
   set lineJoin(val) {
-    this.clearCache();
     this.set('lineJoin', val);
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set strokeColor(val) {
-    this.clearCache();
     this.set('strokeColor', parseColorString(val));
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set fillColor(val) {
-    this.clearCache();
     this.set('fillColor', parseColorString(val));
   }
 
   @attr
   set flexible(val) {
-    this.clearCache();
     this.clearFlow();
     this.set('flexible', val);
   }
 
-  @inherit('box')
   @attr
+  @inherit('box')
   set bounding(val) { // box | path
     this.quietSet('bounding', val);
   }

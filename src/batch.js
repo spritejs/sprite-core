@@ -56,15 +56,6 @@ export default class Batch {
           }
         },
       });
-      Object.defineProperty(node, 'cachePriority', {
-        configurable: true,
-        get() {
-          return Infinity;
-        },
-        set(value) {
-
-        },
-      });
       node[_batch] = this;
       this[_batch].add(node);
     });

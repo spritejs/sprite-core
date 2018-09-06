@@ -1,6 +1,6 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, boxToRect} from './utils';
+import {flow, absolute, rectVertices, boxToRect, deprecate} from './utils';
 import SpriteAttr from './attr';
 import BaseNode from './basenode';
 import Animation from './animation';
@@ -33,20 +33,10 @@ export default class BaseSprite extends BaseNode {
     this[_animations] = new Set();
     this[_cachePriority] = 0;
     this[_flow] = {};
-    this.__cachePolicyThreshold = 6;
 
     if(attr) {
       this.attr(attr);
     }
-  }
-
-  get cachePriority() {
-    if(this.isVirtual) return -1;
-    return this[_cachePriority];
-  }
-
-  set cachePriority(priority) {
-    this[_cachePriority] = priority;
   }
 
   static setAttributeEffects(effects = {}) {
@@ -69,7 +59,6 @@ export default class BaseSprite extends BaseNode {
         this.Attr.prototype.__attributeNames.add(prop);
         Object.defineProperty(this.Attr.prototype, prop, {
           set(val) {
-            this.__clearCacheTag = false;
             this.__updateTag = false;
             this.__reflowTag = false;
             handler(this, val);
@@ -83,14 +72,13 @@ export default class BaseSprite extends BaseNode {
               this.subject.__lastLayout = offsetSize;
             }
             if(this.subject && this.__updateTag) {
-              this.subject.forceUpdate(this.__clearCacheTag);
+              this.subject.forceUpdate(true);
               if(this.__reflowTag) {
                 this.subject.reflow();
               }
             }
             // delete this.__reflowTag;
             // delete this.__updateTag;
-            // delete this.__clearCacheTag;
           },
           get: getter,
         });
@@ -616,6 +604,12 @@ export default class BaseSprite extends BaseNode {
   }
 
   set cache(context) {
+    if(context == null) {
+      this[_cachePriority] = 0;
+      if(this.parent && this.parent.cache) {
+        this.parent.cache = null;
+      }
+    }
     if(this.cacheContext && context !== this.cacheContext) {
       cacheContextPool.put(this.cacheContext);
     }
@@ -623,16 +617,19 @@ export default class BaseSprite extends BaseNode {
   }
 
   get cache() {
-    return this.cacheContext;
+    const filter = this.attr('filter'),
+      shadow = this.attr('shadow'),
+      [w, h] = this.contentSize;
+
+    if(filter || shadow || this[_cachePriority]++ >= 6 && w * h >= 2500) {
+      return this.cacheContext;
+    }
+    return false;
   }
 
+  @deprecate('Instead use sprite.cache = null')
   clearCache() {
-    this[_cachePriority] = 0;
     this.cache = null;
-    if(this.parent && this.parent.cache) {
-      this.parent[_cachePriority] = 0;
-      this.parent.cache = null;
-    }
   }
 
   remove() {
@@ -647,7 +644,7 @@ export default class BaseSprite extends BaseNode {
 
   forceUpdate(clearCache = false) {
     if(clearCache) {
-      this.clearCache();
+      this.cache = null;
     }
     const parent = this.parent;
     if(parent) {
@@ -764,24 +761,20 @@ export default class BaseSprite extends BaseNode {
 
   draw(t, drawingContext = this.context) {
     const bound = this.originalRect;
-    let cachableContext = this.cache;
+    let cachableContext = !this.isVirtual && this.cache;
 
     const filter = this.attr('filter'),
       shadow = this.attr('shadow');
 
-    // filter & shadow require cachableContext
-    if(!cachableContext && (filter || shadow || this.cachePriority > this.__cachePolicyThreshold)) {
+    if(cachableContext !== false && !cachableContext) {
       cachableContext = cacheContextPool.get(drawingContext);
       if(cachableContext) {
         // +2 to solve 1px problem
         cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
         cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
-      } else {
-        this.__cachePolicyThreshold = Infinity;
       }
     }
 
-    this[_cachePriority] = Math.min(this[_cachePriority] + 1, 10);
     const evtArgs = {context: drawingContext, cacheContext: cachableContext, target: this, renderTime: t, fromCache: !!this.cache};
 
     drawingContext.save();

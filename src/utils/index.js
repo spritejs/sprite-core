@@ -28,11 +28,13 @@ import {
   deprecate,
   parseValue,
   relative,
+  cachable,
 } from './decorators';
 
 import {findColor, cacheContextPool} from '../helpers/render';
 
 export {
+  cachable,
   findColor,
   cacheContextPool,
   appendUnit,

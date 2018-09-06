@@ -11,7 +11,7 @@ export function attr(target, prop, descriptor) {
       return this.get(prop);
     };
   }
-  if(!target.__relative && !target.__inherit) {
+  if(!descriptor.__relative && !descriptor.__inherit) {
     descriptor.get = function () {
       let ret = _getter.call(this);
       if(ret == null) {
@@ -19,8 +19,7 @@ export function attr(target, prop, descriptor) {
       }
       return ret;
     };
-  } else if(target.__relative) {
-    delete target.__relative;
+  } else if(descriptor.__relative) {
     // enable set default to user defined getter
     descriptor.get = function () {
       let ret = _getter.call(this);
@@ -44,7 +43,7 @@ export function attr(target, prop, descriptor) {
             this[prop] = ret.rv;
             return this[prop];
           }
-          subject.clearCache();
+          subject.cache = null;
           if(subject[_attrAbsolute]) {
             return pv * ret.v;
           }
@@ -64,7 +63,7 @@ export function attr(target, prop, descriptor) {
             this[prop] = ret.rv;
             return this[prop];
           }
-          subject.clearCache();
+          subject.cache = null;
           if(subject[_attrAbsolute]) {
             return pv * ret.v;
           }
@@ -74,7 +73,6 @@ export function attr(target, prop, descriptor) {
       return ret;
     };
   } else {
-    delete target.__inherit;
     // enable set default to user defined getter
     descriptor.get = function () {
       let ret = _getter.call(this);
@@ -89,7 +87,7 @@ export function attr(target, prop, descriptor) {
           this[prop] = 'inherit';
           return this[prop];
         }
-        subject.clearCache();
+        subject.cache = null;
         return ret.pv;
       }
       return ret;
@@ -97,9 +95,10 @@ export function attr(target, prop, descriptor) {
   }
 
   const _setter = descriptor.set;
+  const _clearCache = !descriptor.__cachable;
+
   descriptor.set = function (val) {
     const subject = this.subject;
-    this.__clearCacheTag = false;
     this.__updateTag = false;
     this.__reflowTag = false;
     _setter.call(this, val);
@@ -113,23 +112,29 @@ export function attr(target, prop, descriptor) {
       subject.__lastLayout = offsetSize;
     }
     if(this.subject && this.__updateTag) {
-      subject.forceUpdate(this.__clearCacheTag);
+      subject.forceUpdate(_clearCache);
       if(this.__reflowTag) {
         subject.reflow();
       }
     }
     // delete this.__reflowTag;
     // delete this.__updateTag;
-    // delete this.__clearCacheTag;
   };
   return descriptor;
 }
 
+// after attr
+export function cachable(target, prop, descriptor) {
+  descriptor.__cachable = true;
+  return descriptor;
+}
+
+// after attr
 export function inherit(defaultValue = '') {
   return function (target, prop, descriptor) {
     if(descriptor.set) {
       const setter = descriptor.set;
-      target.__inherit = true;
+      descriptor.__inherit = true;
 
       descriptor.set = function (val) {
         if(typeof val === 'string') {
@@ -152,12 +157,13 @@ export function inherit(defaultValue = '') {
   };
 }
 
+// after attr
 // relative -> width | height
 export function relative(type = 'width') {
   return function (target, prop, descriptor) {
     if(descriptor.set) {
       const setter = descriptor.set;
-      target.__relative = true;
+      descriptor.__relative = true;
 
       descriptor.set = function (val) {
         if(typeof val === 'string') {
@@ -285,6 +291,7 @@ export function deprecate(...args) {
   return decorator(...args);
 }
 
+// before attr
 export function parseValue(...parsers) {
   return function (target, prop, descriptor) {
     const setter = descriptor.set;

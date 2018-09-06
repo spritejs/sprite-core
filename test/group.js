@@ -307,7 +307,7 @@ test('draw group 3-2 cached', async (t) => {
   t.truthy(g.cache != null);
 
   s3.clearCache();
-  t.truthy(g.cache == null);
+  t.falsy(g.cache);
 
   s3.attr({
     y: y => y + 20,

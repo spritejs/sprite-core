@@ -1,5 +1,5 @@
 import {LineBreaker} from 'css-line-break';
-import {parseValue, parseColorString, attr, flow, inherit} from './utils';
+import {parseValue, parseColorString, attr, flow, inherit, relative} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 
@@ -111,25 +111,19 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       wordBreak: 'normal',
       letterSpacing: 0,
       textIndent: 0,
-    }, {
-      color() {
-        return this.fillColor;
-      },
     });
   }
 
   @attr
   set text(val) {
-    this.clearCache();
     val = String(val);
     this.set('text', val);
     calculTextboxSize(this.subject);
   }
 
-  @inherit('normal normal normal 16px Arial')
   @attr
+  @inherit('normal normal normal 16px Arial')
   set font(val) {
-    this.clearCache();
     this.set('font', val);
     calculTextboxSize(this.subject);
   }
@@ -214,14 +208,12 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @parseValue(parseFloat)
   @attr
   set lineHeight(val) {
-    this.clearCache();
     this.set('lineHeight', val);
     calculTextboxSize(this.subject);
   }
 
   @attr
   set textAlign(val) {
-    this.clearCache();
     this.set('textAlign', val);
     calculTextboxSize(this.subject);
   }
@@ -231,72 +223,71 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.fillColor = val;
   }
 
-  @inherit('')
+  get color() {
+    return this.fillColor;
+  }
+
   @parseValue(parseColorString)
   @attr
+  @inherit('')
   set strokeColor(val) {
-    this.clearCache();
     this.set('strokeColor', val);
   }
 
-  @inherit('')
   @parseValue(parseColorString)
   @attr
+  @inherit('')
   set fillColor(val) {
-    this.clearCache();
     this.set('fillColor', val);
   }
 
   @attr
   set flexible(val) {
-    this.clearCache();
     this.set('flexible', val);
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set lineBreak(val) { // normal, strict, none
-    this.clearCache();
     this.set('lineBreak', val);
     calculTextboxSize(this.subject);
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set wordBreak(val) { // normal | break-all | break-word | keep-all
-    this.clearCache();
     this.set('wordBreak', val);
     calculTextboxSize(this.subject);
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set letterSpacing(value) {
     if(typeof value === 'string') value = parseFloat(value);
-    this.clearCache();
     this.set('letterSpacing', value);
     calculTextboxSize(this.subject);
   }
 
-  @inherit('')
   @attr
+  @inherit('')
   set textIndent(value) {
     if(typeof value === 'string') value = parseFloat(value);
-    this.clearCache();
     this.set('textIndent', value);
     calculTextboxSize(this.subject);
   }
 
   @attr
+  @relative('width')
   set width(val) {
     if(this.lineBreak !== '') calculTextboxSize(this.subject);
-    super.width = val;
+    this.set('width', val);
   }
 
   @attr
+  @relative('height')
   set layoutWidth(val) {
     if(this.lineBreak !== '') calculTextboxSize(this.subject);
-    super.layoutWidth = val;
+    this.set('layoutWidth', val);
   }
 }
 

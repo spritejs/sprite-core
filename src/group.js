@@ -1,4 +1,4 @@
-import {parseValue, attr, flow} from './utils';
+import {parseValue, attr, flow, relative} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 import {createSvgPath} from './helpers/path';
@@ -28,7 +28,6 @@ class GroupAttr extends BaseSprite.Attr {
 
   @attr
   set clip(val) {
-    this.clearCache();
     this.clearFlow();
     if(val) {
       val = typeof val === 'string' ? {d: val} : val;
@@ -41,46 +40,48 @@ class GroupAttr extends BaseSprite.Attr {
   }
 
   @attr
+  @relative('width')
   set width(value) {
     this.subject.clearLayout();
-    super.width = value;
+    this.set('width', value);
   }
 
   @attr
+  @relative('height')
   set height(value) {
     this.subject.clearLayout();
-    super.height = value;
+    this.set('height', value);
   }
 
   @attr
+  @relative('width')
   set layoutWidth(value) {
     this.subject.clearLayout();
-    super.layoutWidth = value;
+    this.set('layoutWidth', value);
   }
 
   @attr
+  @relative('height')
   set layoutHeight(value) {
     this.subject.clearLayout();
-    super.layoutHeight = value;
+    this.set('layoutHeight', value);
   }
 
   @attr
   set display(value) {
     this.subject.clearLayout();
-    super.display = value;
+    this.set('display', value);
   }
 
   @parseValue(parseFloat)
   @attr
   set scrollLeft(value) {
-    this.clearCache();
     this.set('scrollLeft', value);
   }
 
   @parseValue(parseFloat)
   @attr
   set scrollTop(value) {
-    this.clearCache();
     this.set('scrollTop', value);
   }
 }

@@ -113,20 +113,26 @@ export function findColor(context, sprite, prop) {
 }
 
 const contextPool = [],
-  maxPollSize = 20;
+  maxPollSize = 20,
+  maxCreated = 50;
 
 export const cacheContextPool = {
+  created: 0,
   get(context) {
     if(contextPool.length > 0) {
       return contextPool.pop();
     }
 
-    const canvas = context.canvas;
-    if(!canvas || !canvas.cloneNode) {
-      return;
+    const created = this.created;
+    if(created < maxCreated) {
+      const canvas = context.canvas;
+      if(!canvas || !canvas.cloneNode) {
+        return;
+      }
+      const copied = canvas.cloneNode();
+      this.created++;
+      return copied.getContext('2d');
     }
-    const copied = canvas.cloneNode();
-    return copied.getContext('2d');
   },
   put(...contexts) {
     contexts.every((context) => {

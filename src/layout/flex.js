@@ -9,27 +9,22 @@ export const attrs = {
     });
   },
   flexDirection(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('flexDirection', value);
   },
   flexWrap(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('flexWrap', value);
   },
   justifyContent(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('justifyContent', value);
   },
   alignItems(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('alignItems', value);
   },
   alignContent(attr, value) {
-    attr.clearCache();
     attr.subject.clearLayout();
     attr.set('alignContent', value);
   },

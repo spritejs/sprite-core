@@ -325,7 +325,7 @@ test('draw sprite cached', async (t) => {
 
   t.truthy(s.cache != null);
   s.remove();
-  t.truthy(s.cache == null);
+  t.falsy(s.cache);
   t.is(cacheContextPool.size, 1);
 });
 

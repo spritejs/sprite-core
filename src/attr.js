@@ -1,7 +1,7 @@
 import {Matrix} from 'sprite-math';
 import SvgPath from 'svg-path-to-canvas';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
-  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate, relative} from './utils';
+  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate, relative, cachable} from './utils';
 
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
@@ -61,17 +61,6 @@ class SpriteAttr {
       filter: '', // filter: {blur, ...}
       shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
       bgimage: '',
-    }, {
-      pos() {
-        return [this.x, this.y];
-      },
-      size() {
-        return [this.width, this.height];
-      },
-      linearGradients() {
-        /* istanbul ignore next  */
-        return this.gradients;
-      },
     });
     this[_temp] = new Map(); // save non-serialized values
     this.__extendAttributes = new Set();
@@ -161,8 +150,8 @@ class SpriteAttr {
     return attrs;
   }
 
+  @deprecate('You can remove this call.')
   clearCache() {
-    this.__clearCacheTag = true;
     return this;
   }
 
@@ -223,6 +212,7 @@ class SpriteAttr {
 
   @parseValue(parseStringFloat, oneOrTwoValues)
   @attr
+  @cachable
   set anchor(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('anchor', val);
@@ -230,30 +220,33 @@ class SpriteAttr {
 
   @attr
   set display(val) {
-    this.clearCache();
     this.set('display', val);
   }
 
-  @relative('width')
   @attr
+  @relative('width')
+  @cachable
   set layoutX(val) {
     this.set('layoutX', val);
   }
 
-  @relative('height')
   @attr
+  @relative('height')
+  @cachable
   set layoutY(val) {
     this.set('layoutY', val);
   }
 
-  @relative('width')
   @attr
+  @relative('width')
+  @cachable
   set x(val) {
     this.set('x', val);
   }
 
-  @relative('height')
   @attr
+  @relative('height')
+  @cachable
   set y(val) {
     this.set('y', val);
   }
@@ -269,43 +262,43 @@ class SpriteAttr {
     this.y = y;
   }
 
+  get pos() {
+    return [this.x, this.y];
+  }
+
   @parseValue(parseColorString)
   @attr
   set bgcolor(val) {
-    this.clearCache();
     this.set('bgcolor', val);
   }
 
   @attr
+  @cachable
   set opacity(val) {
     this.set('opacity', val);
   }
 
-  @relative('width')
   @attr
+  @relative('width')
   set width(val) {
-    this.clearCache();
     this.set('width', val);
   }
 
-  @relative('height')
   @attr
+  @relative('height')
   set height(val) {
-    this.clearCache();
     this.set('height', val);
   }
 
-  @relative('width')
   @attr
+  @relative('width')
   set layoutWidth(val) {
-    this.clearCache();
     this.set('layoutWidth', val);
   }
 
-  @relative('height')
   @attr
+  @relative('height')
   set layoutHeight(val) {
-    this.clearCache();
     this.set('layoutHeight', val);
   }
 
@@ -320,9 +313,12 @@ class SpriteAttr {
     this.height = height;
   }
 
+  get size() {
+    return [this.width, this.height];
+  }
+
   @attr
   set border(val) {
-    this.clearCache();
     if(val == null) {
       this.set('border', null);
       return;
@@ -351,33 +347,30 @@ class SpriteAttr {
   @parseValue(parseStringInt, fourValuesShortCut)
   @attr
   set padding(val) {
-    this.clearCache();
     this.set('padding', val);
   }
 
   @parseValue(parseFloat)
   @attr
   set borderRadius(val) {
-    this.clearCache();
     this.set('borderRadius', val);
   }
 
   @attr
   set boxSizing(val) {
-    this.clearCache();
     this.set('boxSizing', val);
   }
 
   @parseValue(parseFloat)
   @attr
   set dashOffset(val) {
-    this.clearCache();
     this.set('dashOffset', val);
   }
 
   // transform attributes
   @parseValue(parseStringTransform)
   @attr
+  @cachable
   set transform(val) {
     /*
       rotate: 0,
@@ -414,12 +407,14 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set transformOrigin(val) {
     this.set('transformOrigin', val);
   }
 
   @parseValue(parseFloat)
   @attr
+  @cachable
   set rotate(val) {
     const delta = this.get('rotate') - val;
     this.set('rotate', val);
@@ -429,6 +424,7 @@ class SpriteAttr {
 
   @parseValue(parseStringFloat, oneOrTwoValues)
   @attr
+  @cachable
   set scale(val) {
     val = oneOrTwoValues(val).map((v) => {
       if(Math.abs(v) > 0.001) {
@@ -455,6 +451,7 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set translate(val) {
     const oldVal = this.get('translate') || [0, 0];
     const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
@@ -465,6 +462,7 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set skew(val) {
     const oldVal = this.get('skew') || [0, 0];
     const invm = new Matrix().skew(...oldVal).inverse();
@@ -475,6 +473,7 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set zIndex(val) {
     this.set('zIndex', val);
     const subject = this.subject;
@@ -507,6 +506,10 @@ class SpriteAttr {
     this.gradients = val;
   }
 
+  get linearGradients() {
+    return this.gradients;
+  }
+
   /**
     gradients : {
       bgcolor: {
@@ -522,7 +525,6 @@ class SpriteAttr {
    */
   @attr
   set gradients(val) {
-    this.clearCache();
     this.set('gradients', val);
   }
 
@@ -583,6 +585,7 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set offsetPath(val) {
     const offsetPath = new SvgPath(val);
 
@@ -593,12 +596,14 @@ class SpriteAttr {
 
   @parseValue(parseFloat)
   @attr
+  @cachable
   set offsetDistance(val) {
     this.set('offsetDistance', val);
     this.resetOffset();
   }
 
   @attr
+  @cachable
   set offsetRotate(val) {
     if(typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
       val = parseFloat(val);
@@ -608,41 +613,48 @@ class SpriteAttr {
   }
 
   @attr
+  @cachable
   set filter(val) {
     this.set('filter', val);
   }
 
   @attr
+  @cachable
   set shadow(val) {
     this.set('shadow', val);
   }
 
   @parseValue(parseFloat)
   @attr
+  @cachable
   set flex(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('flex', val);
   }
 
   @attr
+  @cachable
   set order(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('order', val);
   }
 
   @attr
+  @cachable
   set position(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('position', val);
   }
 
   @attr
+  @cachable
   set alignSelf(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('alignSelf', val);
   }
 
   @attr
+  @cachable
   set margin(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('margin', val);
@@ -658,7 +670,6 @@ class SpriteAttr {
   */
   @attr
   set bgimage(val) {
-    this.clearCache();
     if(val && val.clip9) val.clip9 = fourValuesShortCut(val.clip9);
     if(val && !val.image && this.subject.loadBgImage) {
       val = this.subject.loadBgImage(val);
@@ -668,7 +679,7 @@ class SpriteAttr {
 
   @attr
   set states(val) {
-    this.set('states', val);
+    this.quietSet('states', val);
   }
 
   @attr
@@ -692,9 +703,9 @@ class SpriteAttr {
           value[key] = Object.assign({}, v.action);
         }
       });
-      this.set('actions', value);
+      this.quietSet('actions', value);
     } else {
-      this.set('actions', val);
+      this.quietSet('actions', val);
     }
   }
 
@@ -702,7 +713,7 @@ class SpriteAttr {
   set state(val) {
     const oldState = this.state;
     if(oldState !== val) {
-      this.set('state', val);
+      this.quietSet('state', val);
       const states = this.states;
       let action = null;
       if(states) {

@@ -160,7 +160,6 @@ declare namespace spritejs {
     set(key: string, value: any);
     get(key: string): any;
     readonly attrs: Object;
-    clearCache(): Attr;
     clearFlow(): Attr;
     merge(attrs: Object): Attr;
     serialize(): string;
@@ -246,7 +245,6 @@ declare namespace spritejs {
     readonly renderRect: IRect;
     readonly verticles: Array<IPoint>;
     cache: CanvasRenderingContext2D;
-    clearCache();
     remove();
     appendTo(parent: Group|Layer);
     forceUpdate(clearCache: boolean);

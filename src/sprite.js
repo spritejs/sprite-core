@@ -3,7 +3,6 @@ import BaseSprite from './basesprite';
 import filters from './filters';
 
 import {registerNodeType} from './nodetype';
-import {cacheContextPool} from './helpers/render';
 
 const _texturesCache = Symbol('_texturesCache');
 const _images = Symbol('_images');
@@ -186,35 +185,43 @@ export default class Sprite extends BaseSprite {
     return false;
   }
 
-  set cache(context) {
-    if(context == null) {
-      cacheContextPool.put(...this[_texturesCache].values());
-      this[_texturesCache].clear();
-      return;
-    }
-    const key = JSON.stringify(this.textures),
-      cacheMap = this[_texturesCache];
+  // set cache(context) {
+  //   if(context == null) {
+  //     cacheContextPool.put(...this[_texturesCache].values());
+  //     this[_texturesCache].clear();
+  //     return;
+  //   }
+  //   const key = JSON.stringify(this.textures),
+  //     cacheMap = this[_texturesCache];
 
-    if(!cacheMap.has(key)) {
-      cacheMap.set(key, context);
-    }
-  }
+  //   if(!cacheMap.has(key)) {
+  //     cacheMap.set(key, context);
+  //   }
+  // }
+
+  // get cache() {
+  //   const key = JSON.stringify(this.textures),
+  //     cacheMap = this[_texturesCache];
+  //   if(cacheMap.has(key)) {
+  //     return cacheMap.get(key);
+  //   }
+  //   return null;
+  // }
 
   get cache() {
-    const key = JSON.stringify(this.textures),
-      cacheMap = this[_texturesCache];
-    if(cacheMap.has(key)) {
-      return cacheMap.get(key);
+    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
+    if(!bg && this.textures.length <= 1) {
+      return false;
     }
-    return null;
+    return super.cache;
+  }
+
+  set cache(context) {
+    super.cache = context;
   }
 
   render(t, drawingContext) {
     super.render(t, drawingContext);
-    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
-    if(!bg && this.textures.length <= 1) {
-      this.cachePriority = 0;
-    }
     const textures = this.textures;
     let cliped = false;
     if(this.images && this.images.length) {
