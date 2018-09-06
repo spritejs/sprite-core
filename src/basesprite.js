@@ -617,7 +617,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get cache() {
-    if(this[_cachePriority]++ >= 6) {
+    if(this[_cachePriority] >= 6) {
       return this.cacheContext;
     }
     if(this.cacheContext) {
@@ -828,6 +828,8 @@ export default class BaseSprite extends BaseNode {
       cachableContext.restore();
     }
     drawingContext.restore();
+
+    this[_cachePriority]++;
 
     return drawingContext;
   }
