@@ -3,7 +3,9 @@ import {notice} from './utils';
 const _attrAbsolute = Symbol('attrAbsolute');
 
 export function attr(target, prop, descriptor) {
-  target.__attributeNames = target.__attributeNames || new Set();
+  if(!target.hasOwnProperty('__attributeNames')) { // eslint-disable-line no-prototype-builtins
+    target.__attributeNames = new Set(target.__attributeNames);
+  }
   target.__attributeNames.add(prop);
   let _getter = descriptor.get;
   if(!_getter) {

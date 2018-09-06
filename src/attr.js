@@ -500,7 +500,6 @@ class SpriteAttr {
       }
     }
    */
-  @deprecate('Instead use attr.gradients.')
   @attr
   set linearGradients(val) /* istanbul ignore next  */ {
     this.gradients = val;

@@ -1,4 +1,4 @@
-import {parseColorString, parseValue, parseStringFloat, attr, flow, deprecate, inherit} from './utils';
+import {parseColorString, parseValue, parseStringFloat, attr, flow, inherit} from './utils';
 import BaseSprite from './basesprite';
 import {findColor} from './helpers/render';
 import {pathEffect, createSvgPath} from './helpers/path';
@@ -117,7 +117,6 @@ class PathSpriteAttr extends BaseSprite.Attr {
     this.quietSet('bounding', val);
   }
 
-  @deprecate('Instead use strokeColor.')
   @attr
   set color(val) {
     this.strokeColor = val;
