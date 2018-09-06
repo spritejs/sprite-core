@@ -6040,7 +6040,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   get cache() {
-    if (this[_cachePriority]++ >= 6) {
+    if (this[_cachePriority] >= 6) {
       return this.cacheContext;
     }
     if (this.cacheContext) {
@@ -6232,6 +6232,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       cachableContext.restore();
     }
     drawingContext.restore();
+
+    this[_cachePriority]++;
 
     return drawingContext;
   }

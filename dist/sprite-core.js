@@ -8103,6 +8103,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       }
       drawingContext.restore();
 
+      this[_cachePriority]++;
+
       return drawingContext;
     }
   }, {
@@ -8516,7 +8518,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       this.cacheContext = context;
     },
     get: function get() {
-      if (this[_cachePriority]++ >= 6) {
+      if (this[_cachePriority] >= 6) {
         return this.cacheContext;
       }
       if (this.cacheContext) {
