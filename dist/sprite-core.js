@@ -7412,6 +7412,10 @@ var _defineProperty2 = __webpack_require__(116);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+var _promise = __webpack_require__(124);
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _defineProperty4 = __webpack_require__(177);
 
 var _defineProperty5 = _interopRequireDefault(_defineProperty4);
@@ -7875,13 +7879,6 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       this.cache = null;
     }
   }, {
-    key: 'remove',
-    value: function remove() {
-      if (!this.parent) return false;
-      this.parent.removeChild(this);
-      return true;
-    }
-  }, {
     key: 'appendTo',
     value: function appendTo(parent) {
       parent.appendChild(this);
@@ -8203,6 +8200,126 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
       return true;
     }
+
+    // state: original -> show -> hide -> show -> original
+
+  }, {
+    key: 'show',
+    value: function show() {
+      var _this6 = this;
+
+      var state = this.attr('state');
+      if (state !== 'hide') return this;
+
+      var originalDisplay = this.attr('_originalDisplay') || '';
+      var originalState = this.attr('_originalState') || 'default';
+
+      var actions = this.attr('actions');
+
+      if (actions['hide:'] || actions[':' + originalState] || actions['hide:' + originalState]) {
+        var promise = new _promise2.default(function (resolve) {
+          _this6.on('state-to-' + originalState, function () {
+            resolve(_this6);
+          });
+        });
+        this.attr('state', originalState);
+        this.attr('display', originalDisplay);
+        return promise;
+      }
+
+      this.attr('state', originalState);
+      this.attr('display', originalDisplay);
+      return this;
+    }
+  }, {
+    key: 'hide',
+    value: function hide() {
+      var _this7 = this;
+
+      var state = this.attr('state');
+      if (state === 'hide') return this;
+
+      var _originalDisplay = this.attr('display');
+      var _originalState = this.attr('state');
+      this.attr({
+        _originalDisplay: _originalDisplay,
+        _originalState: _originalState
+      });
+
+      var actions = this.attr('actions');
+
+      if (actions[':hide'] || actions[_originalState + ':'] || actions[_originalState + ':hide']) {
+        var states = this.attr('states');
+        if (states.hide) {
+          states[state] = states[state] || {};
+          (0, _entries2.default)(states.hide).forEach(function (_ref10) {
+            var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
+                key = _ref11[0],
+                value = _ref11[1];
+
+            if (!states[state][key]) {
+              states[state][key] = _this7.attr(key);
+            }
+          });
+        }
+        var promise = new _promise2.default(function (resolve) {
+          _this7.on('state-to-hide', function () {
+            _this7.attr('display', 'none');
+            resolve(_this7);
+          });
+        });
+        this.attr('state', 'hide');
+        return promise;
+      }
+
+      this.attr('state', 'hide');
+      this.attr('display', 'none');
+      return this;
+    }
+  }, {
+    key: 'enter',
+    value: function enter() {
+      var _this8 = this;
+
+      var states = this.attr('states');
+      if (states && (states.enter || states.entered)) {
+        var state = this.attr('state');
+        var promise = new _promise2.default(function (resolve) {
+          _this8.on('state-to-enter', function () {
+            _this8.on('state-to-entered', function () {
+              _this8.attr('state', state);
+              resolve(_this8);
+            });
+            _this8.attr('state', 'entered');
+          });
+        });
+        this.attr('state', 'enter');
+        return promise;
+      }
+      return (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'enter', this).call(this);
+    }
+  }, {
+    key: 'exit',
+    value: function exit() {
+      var _this9 = this;
+
+      var states = this.attr('states');
+      if (states && (states.exit || states.exited)) {
+        var state = this.attr('state');
+        var promise = new _promise2.default(function (resolve) {
+          _this9.on('state-to-exit', function () {
+            _this9.on('state-to-exited', function () {
+              _this9.attr('state', state);
+              resolve(_this9);
+            });
+            _this9.attr('state', 'exited');
+          });
+        });
+        this.attr('state', 'exit');
+        return promise;
+      }
+      return (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'exit', this).call(this);
+    }
   }, {
     key: 'layer',
     get: function get() {
@@ -8303,9 +8420,9 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
       if (this.hasLayout) {
         var layoutWidth = this.attr('layoutWidth'),
-            layoutHeight = this.attr('layoutHeight');var _ref10 = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
-        width = _ref10[0];
-        height = _ref10[1];
+            layoutHeight = this.attr('layoutHeight');var _ref12 = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
+        width = _ref12[0];
+        height = _ref12[1];
       }
       if (isBorderBox) {
         var borderWidth = this.attr('border').width,
@@ -8574,14 +8691,14 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
   }, {
     key: 'addAttributes',
     value: function addAttributes() {
-      var _this6 = this;
+      var _this10 = this;
 
       var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      (0, _entries2.default)(attrs).forEach(function (_ref11) {
-        var _ref12 = (0, _slicedToArray3.default)(_ref11, 2),
-            prop = _ref12[0],
-            handler = _ref12[1];
+      (0, _entries2.default)(attrs).forEach(function (_ref13) {
+        var _ref14 = (0, _slicedToArray3.default)(_ref13, 2),
+            prop = _ref14[0],
+            handler = _ref14[1];
 
         var getter = function getter() {
           return this.get(prop);
@@ -8591,8 +8708,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           handler = handler.set;
         }
         if (prop !== 'init') {
-          _this6.Attr.prototype.__attributeNames.add(prop);
-          (0, _defineProperty3.default)(_this6.Attr.prototype, prop, {
+          _this10.Attr.prototype.__attributeNames.add(prop);
+          (0, _defineProperty3.default)(_this10.Attr.prototype, prop, {
             set: function set(val) {
               this.__updateTag = false;
               this.__reflowTag = false;
@@ -8630,10 +8747,10 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         function _class3(subject) {
           (0, _classCallCheck3.default)(this, _class3);
 
-          var _this7 = (0, _possibleConstructorReturn3.default)(this, (_class3.__proto__ || (0, _getPrototypeOf2.default)(_class3)).call(this, subject));
+          var _this11 = (0, _possibleConstructorReturn3.default)(this, (_class3.__proto__ || (0, _getPrototypeOf2.default)(_class3)).call(this, subject));
 
-          if (attrs.init) attrs.init(_this7, subject);
-          return _this7;
+          if (attrs.init) attrs.init(_this11, subject);
+          return _this11;
         }
 
         return _class3;
@@ -8652,12 +8769,12 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
   var w = image.width,
       h = image.height;
 
-  var _ref13 = clip9 || [16, 16, 16, 16],
-      _ref14 = (0, _slicedToArray3.default)(_ref13, 4),
-      top = _ref14[0],
-      right = _ref14[1],
-      bottom = _ref14[2],
-      left = _ref14[3];
+  var _ref15 = clip9 || [16, 16, 16, 16],
+      _ref16 = (0, _slicedToArray3.default)(_ref15, 4),
+      top = _ref16[0],
+      right = _ref16[1],
+      bottom = _ref16[2],
+      left = _ref16[3];
 
   var leftTop = [0, 0, left, top],
       rightTop = [w - right, 0, right, top],
@@ -9217,7 +9334,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
     this[_props] = {};
 
     this.setDefault({
-      state: '',
+      state: 'default',
       states: null,
       actions: null,
       anchor: [0, 0],
@@ -9885,19 +10002,29 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
         var value = {};
         val.forEach(function (v) {
           var key = void 0;
+          var action = v.action;
+          if (!action) {
+            action = (0, _assign2.default)({}, v);
+            delete action.from;
+            delete action.to;
+            delete action.both;
+          }
           if (v.both) {
+            if (!Array.isArray(v.both)) {
+              v.both = [v.both];
+            }
             if (v.both.length > 1) {
               key = v.both.join(':');
-              value[key] = (0, _assign2.default)({}, v.action);
+              value[key] = (0, _assign2.default)({}, action);
               key = v.both.reverse().join(':');
-              value[key] = (0, _assign2.default)({}, v.action);
+              value[key] = (0, _assign2.default)({}, action);
             } else {
-              value[v.both[0] + ':'] = (0, _assign2.default)({}, v.action);
-              value[':' + v.both[0]] = (0, _assign2.default)({}, v.action);
+              value[v.both[0] + ':'] = (0, _assign2.default)({}, action);
+              value[':' + v.both[0]] = (0, _assign2.default)({}, action);
             }
           } else {
             key = (v.from || '') + ':' + (v.to || '');
-            value[key] = (0, _assign2.default)({}, v.action);
+            value[key] = (0, _assign2.default)({}, action);
           }
         });
         this.quietSet('actions', value);
@@ -9908,55 +10035,45 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'state',
     set: function set(val) {
+      if (val == null) val = 'default';
       var oldState = this.state;
       if (oldState !== val) {
         this.quietSet('state', val);
         var states = this.states;
-        var action = null;
         if (states) {
+          var action = null;
           var toState = states[val];
+          var subject = this.subject;
           if (toState) {
             var fromState = states[oldState],
                 actions = this.actions;
-            var subject = this.subject;
             if (actions) {
               action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
               if (action) {
-                var evt = { from: [oldState, fromState], to: [val, toState], action: action };
-                subject.dispatchEvent('action-beforestart', evt, true, true);
-                if (evt.returnValue) {
-                  var animation = subject.changeState(fromState, toState, action);
-                  var tag = (0, _symbol2.default)('tag');
-                  animation.tag = tag;
-                  if (animation.__reversed) {
-                    subject.dispatchEvent('action-finished', {
-                      from: [val, toState],
-                      to: [oldState, fromState],
-                      action: animation.__reversed,
-                      animation: animation }, true, true);
-                  }
-                  subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                  animation.ready.then(function () {
-                    subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                  });
-                  animation.finished.then(function () {
-                    if (animation.tag === tag) {
-                      subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState], action: action, animation: animation }, true, true);
-                    }
-                  });
+                var animation = subject.changeState(fromState, toState, action);
+                var tag = (0, _symbol2.default)('tag');
+                animation.tag = tag;
+                if (animation.__reversed) {
+                  subject.dispatchEvent('state-to-' + oldState, {
+                    from: val,
+                    to: oldState,
+                    action: animation.__reversed,
+                    cancelled: true,
+                    animation: animation }, true, true);
                 }
+                subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val, action: action, animation: animation }, true, true);
+                animation.finished.then(function () {
+                  if (animation.tag === tag) {
+                    subject.dispatchEvent('state-to-' + val, { from: oldState, to: val, action: action, animation: animation }, true, true);
+                  }
+                });
               }
             }
-            if (!action) {
-              var _evt = { from: [oldState, fromState], to: [val, toState] };
-              subject.dispatchEvent('action-beforestart', _evt, true, true);
-              if (_evt.returnValue) {
-                subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState] }, true, true);
-                subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
-                subject.attr(toState);
-                subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              }
-            }
+          }
+          if (!action) {
+            subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val }, true, true);
+            if (toState) subject.attr(toState);
+            subject.dispatchEvent('state-to-' + val, { from: oldState, to: val }, true, true);
           }
         }
       }
@@ -10170,6 +10287,14 @@ var BaseNode = function () {
       return this.off(type, handler);
     }
   }, {
+    key: 'remove',
+    value: function remove() {
+      var exit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      if (!this.parent) return null;
+      return this.parent.removeChild(this, exit);
+    }
+  }, {
     key: 'pointCollision',
     value: function pointCollision(evt) {
       throw Error('you mast override this method');
@@ -10306,7 +10431,7 @@ var BaseNode = function () {
 
       if (this.parent) {
         // throw new Error('This node belongs to another parent node! Remove it first...')
-        this.disconnect(this.parent);
+        this.remove();
       }
 
       Object.defineProperty(this, 'zOrder', {
@@ -10322,13 +10447,10 @@ var BaseNode = function () {
         configurable: true
       });
 
-      var handlers = this[_eventHandlers].append;
-      if (handlers && handlers.length) {
-        this.dispatchEvent('append', {
-          parent: parent,
-          zOrder: zOrder
-        }, true, true);
-      }
+      this.dispatchEvent('append', {
+        parent: parent,
+        zOrder: zOrder
+      }, true, true);
 
       return this;
     }
@@ -10345,17 +10467,26 @@ var BaseNode = function () {
       var zOrder = this.zOrder;
       delete this.zOrder;
 
-      var handlers = this[_eventHandlers].remove;
-      if (handlers && handlers.length) {
-        this.dispatchEvent('remove', {
-          parent: parent,
-          zOrder: zOrder
-        }, true, true);
-      }
+      this.dispatchEvent('remove', {
+        parent: parent,
+        zOrder: zOrder
+      }, true, true);
 
       delete this.parent;
       delete this.isDirty;
 
+      return this;
+    }
+  }, {
+    key: 'enter',
+    value: function enter() {
+      // override to do atction after connection, can return a promise
+      return this;
+    }
+  }, {
+    key: 'exit',
+    value: function exit() {
+      // override to do atction before disconnection, can return a promise
       return this;
     }
   }, {
@@ -13381,8 +13512,6 @@ var _spriteAnimator = __webpack_require__(87);
 
 var _fastAnimationFrame = __webpack_require__(203);
 
-var _utils = __webpack_require__(156);
-
 var _basenode = __webpack_require__(201);
 
 var _basenode2 = _interopRequireDefault(_basenode);
@@ -13490,35 +13619,18 @@ var Layer = function (_BaseNode) {
       }
     }
   }, {
-    key: 'remove',
-    value: function remove() {
-      var _this2 = this;
-
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      if (args.length === 0) {
-        (0, _utils.setDeprecation)('layer.remove()', 'Instead use layer.clear().');
-        return this.clear();
-      }
-      return args.map(function (child) {
-        return _this2.removeChild(child);
-      });
-    }
-  }, {
     key: 'prepareRender',
     value: function prepareRender() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (!this[_renderDeferer]) {
         this[_renderDeferer] = {};
         this[_renderDeferer].promise = new _promise2.default(function (resolve, reject) {
-          (0, _assign2.default)(_this3[_renderDeferer], { resolve: resolve, reject: reject });
-          if (_this3.autoRender) {
-            _this3[_drawTask] = (0, _fastAnimationFrame.requestAnimationFrame)(function () {
-              delete _this3[_drawTask];
-              _this3.draw();
+          (0, _assign2.default)(_this2[_renderDeferer], { resolve: resolve, reject: reject });
+          if (_this2.autoRender) {
+            _this2[_drawTask] = (0, _fastAnimationFrame.requestAnimationFrame)(function () {
+              delete _this2[_drawTask];
+              _this2.draw();
             });
           }
         });
@@ -13666,7 +13778,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
-      var _this4 = this;
+      var _this3 = this;
 
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
@@ -13690,7 +13802,7 @@ var Layer = function (_BaseNode) {
               var targets = this.layer.touchedTargets[touch.identifier];
               if (targets) {
                 targets.forEach(function (target) {
-                  if (target !== _this4 && target.layer === _this4) {
+                  if (target !== _this3 && target.layer === _this3) {
                     target.dispatchEvent(type, evt, true, true);
                   }
                 });
@@ -13734,12 +13846,12 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'connect',
     value: function connect(parent, zOrder, zIndex) /* istanbul ignore next  */{
-      (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'connect', this).call(this, parent, zOrder);
+      var ret = (0, _get3.default)(Layer.prototype.__proto__ || (0, _getPrototypeOf2.default)(Layer.prototype), 'connect', this).call(this, parent, zOrder);
       this.zIndex = zIndex;
       if (parent && parent.container) {
         parent.container.appendChild(this.outputContext.canvas);
       }
-      return this;
+      return ret;
     }
   }, {
     key: 'disconnect',
@@ -13760,15 +13872,15 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'batch',
     value: function batch() {
-      var _this5 = this;
+      var _this4 = this;
 
-      for (var _len2 = arguments.length, sprites = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        sprites[_key2] = arguments[_key2];
+      for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
+        sprites[_key] = arguments[_key];
       }
 
       sprites.forEach(function (sprite) {
-        if (sprite.layer !== _this5) {
-          _this5.appendChild(sprite);
+        if (sprite.layer !== _this4) {
+          _this4.appendChild(sprite);
         }
       });
       var batch = new _batch2.default(this);
@@ -13778,7 +13890,7 @@ var Layer = function (_BaseNode) {
   }, {
     key: 'adjust',
     value: function adjust(handler) /* istanbul ignore next  */{
-      var _this6 = this;
+      var _this5 = this;
 
       var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
@@ -13796,8 +13908,8 @@ var Layer = function (_BaseNode) {
         clearTimeout(this[_adjustTimer]);
       }
       this[_adjustTimer] = setTimeout(function () {
-        _this6.autoRender = true;
-        delete _this6[_adjustTimer];
+        _this5.autoRender = true;
+        delete _this5[_adjustTimer];
       }, 100);
 
       if (shadowContext.canvas.width > 0 && shadowContext.canvas.height > 0) {
@@ -15366,6 +15478,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _promise = __webpack_require__(124);
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
@@ -15373,12 +15489,13 @@ var _symbol2 = _interopRequireDefault(_symbol);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _zOrder = (0, _symbol2.default)('zOrder');
+var _removeTask = (0, _symbol2.default)('removeTask');
 
 exports.default = {
   appendChild: function appendChild(sprite) {
     var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-    sprite.remove();
+    sprite.remove(false);
 
     var children = this.children;
     children.push(sprite);
@@ -15399,30 +15516,63 @@ exports.default = {
     if (update) {
       sprite.forceUpdate();
     }
+
+    var task = sprite.enter();
+    if (task instanceof _promise2.default) {
+      return task.then(function () {
+        return sprite;
+      });
+    }
     return sprite;
   },
   append: function append() {
     var _this = this;
 
+    var isPromise = false;
+
     for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
       sprites[_key] = arguments[_key];
     }
 
-    sprites.forEach(function (sprite) {
-      return _this.appendChild(sprite);
+    var tasks = sprites.map(function (sprite) {
+      var task = _this.appendChild(sprite);
+      if (task instanceof _promise2.default) isPromise = true;
+      return task;
     });
+    if (isPromise) return _promise2.default.all(tasks);
+    return tasks;
   },
-  removeChild: function removeChild(sprite) {
-    var idx = this.children.indexOf(sprite);
+  removeChild: function removeChild(child) {
+    var exit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    if (child[_removeTask]) return child[_removeTask];
+
+    var idx = this.children.indexOf(child);
     if (idx === -1) {
       return null;
     }
-    this.children.splice(idx, 1);
-    if (sprite.isVisible() || sprite.lastRenderBox) {
-      sprite.forceUpdate();
+
+    var that = this;
+    function remove(sprite) {
+      delete child[_removeTask];
+      that.children.splice(idx, 1);
+      if (sprite.isVisible() || sprite.lastRenderBox) {
+        sprite.forceUpdate();
+      }
+      sprite.disconnect(that);
+      return sprite;
     }
-    sprite.disconnect(this);
-    return sprite;
+
+    if (exit) {
+      var action = child.exit();
+      if (action instanceof _promise2.default) {
+        child[_removeTask] = action;
+        return action.then(function () {
+          return remove(child);
+        });
+      }
+    }
+    return remove(child);
   },
   clear: function clear() {
     var _this2 = this;
@@ -15432,39 +15582,60 @@ exports.default = {
       return _this2.removeChild(child);
     });
   },
+  remove: function remove() {
+    var _this3 = this;
+
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    if (args.length === 0 || args.length === 1 && typeof args[0] === 'boolean') {
+      if (!this.parent) return null;
+      return this.parent.removeChild(!args[0]);
+    }
+    var isPromise = false;
+    var tasks = args.map(function (sprite) {
+      var task = _this3.removeChild(sprite);
+      if (task instanceof _promise2.default) isPromise = true;
+      return task;
+    });
+    if (isPromise) return _promise2.default.all(tasks);
+    return tasks;
+  },
   insertBefore: function insertBefore(newchild, refchild) {
     if (refchild == null) {
       return this.appendChild(newchild);
     }
     var idx = this.children.indexOf(refchild);
     if (idx >= 0) {
-      this.removeChild(newchild);
-      this.children.splice(idx, 0, newchild);
+      this.removeChild(newchild, false);
       var refZOrder = refchild.zOrder;
+      for (var i = idx; i < this.children.length; i++) {
+        var child = this.children[i],
+            zOrder = child.zOrder;
+        delete child.zOrder;
+        Object.defineProperty(child, 'zOrder', {
+          value: zOrder + 1,
+          writable: false,
+          configurable: true
+        });
+      }
+      this.children.splice(idx, 0, newchild);
       newchild.connect(this, refZOrder);
       newchild.forceUpdate();
 
-      for (var i = 0; i < this.children.length; i++) {
-        if (i !== idx) {
-          var child = this.children[i],
-              zOrder = child.zOrder;
-
-          if (zOrder >= refZOrder) {
-            delete child.zOrder;
-            Object.defineProperty(child, 'zOrder', {
-              value: zOrder + 1,
-              writable: false,
-              configurable: true
-            });
-          }
-        }
-      }
-
       this[_zOrder] = this[_zOrder] || 0;
       this[_zOrder]++;
-    }
 
-    return newchild;
+      var task = newchild.enter();
+      if (task instanceof _promise2.default) {
+        return task.then(function () {
+          return newchild;
+        });
+      }
+      return newchild;
+    }
+    return null;
   }
 };
 

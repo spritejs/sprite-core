@@ -6065,12 +6065,6 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this.cache = null;
   }
 
-  remove() {
-    if (!this.parent) return false;
-    this.parent.removeChild(this);
-    return true;
-  }
-
   appendTo(parent) {
     parent.appendChild(this);
   }
@@ -6327,6 +6321,108 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
     return true;
   }
+
+  // state: original -> show -> hide -> show -> original
+  show() {
+    const state = this.attr('state');
+    if (state !== 'hide') return this;
+
+    const originalDisplay = this.attr('_originalDisplay') || '';
+    const originalState = this.attr('_originalState') || 'default';
+
+    const actions = this.attr('actions');
+
+    if (actions['hide:'] || actions[`:${originalState}`] || actions[`hide:${originalState}`]) {
+      const promise = new Promise(resolve => {
+        this.on(`state-to-${originalState}`, () => {
+          resolve(this);
+        });
+      });
+      this.attr('state', originalState);
+      this.attr('display', originalDisplay);
+      return promise;
+    }
+
+    this.attr('state', originalState);
+    this.attr('display', originalDisplay);
+    return this;
+  }
+
+  hide() {
+    const state = this.attr('state');
+    if (state === 'hide') return this;
+
+    const _originalDisplay = this.attr('display');
+    const _originalState = this.attr('state');
+    this.attr({
+      _originalDisplay,
+      _originalState
+    });
+
+    const actions = this.attr('actions');
+
+    if (actions[':hide'] || actions[`${_originalState}:`] || actions[`${_originalState}:hide`]) {
+      const states = this.attr('states');
+      if (states.hide) {
+        states[state] = states[state] || {};
+        Object.entries(states.hide).forEach(([key, value]) => {
+          if (!states[state][key]) {
+            states[state][key] = this.attr(key);
+          }
+        });
+      }
+      const promise = new Promise(resolve => {
+        this.on('state-to-hide', () => {
+          this.attr('display', 'none');
+          resolve(this);
+        });
+      });
+      this.attr('state', 'hide');
+      return promise;
+    }
+
+    this.attr('state', 'hide');
+    this.attr('display', 'none');
+    return this;
+  }
+
+  enter() {
+    const states = this.attr('states');
+    if (states && (states.enter || states.entered)) {
+      const state = this.attr('state');
+      const promise = new Promise(resolve => {
+        this.on('state-to-enter', () => {
+          this.on('state-to-entered', () => {
+            this.attr('state', state);
+            resolve(this);
+          });
+          this.attr('state', 'entered');
+        });
+      });
+      this.attr('state', 'enter');
+      return promise;
+    }
+    return super.enter();
+  }
+
+  exit() {
+    const states = this.attr('states');
+    if (states && (states.exit || states.exited)) {
+      const state = this.attr('state');
+      const promise = new Promise(resolve => {
+        this.on('state-to-exit', () => {
+          this.on('state-to-exited', () => {
+            this.attr('state', state);
+            resolve(this);
+          });
+          this.attr('state', 'exited');
+        });
+      });
+      this.attr('state', 'exit');
+      return promise;
+    }
+    return super.exit();
+  }
 }, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype)), _class));
 
 
@@ -6525,7 +6621,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this[_props] = {};
 
     this.setDefault({
-      state: '',
+      state: 'default',
       states: null,
       actions: null,
       anchor: [0, 0],
@@ -7092,19 +7188,29 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       const value = {};
       val.forEach(v => {
         let key;
+        let action = v.action;
+        if (!action) {
+          action = Object.assign({}, v);
+          delete action.from;
+          delete action.to;
+          delete action.both;
+        }
         if (v.both) {
+          if (!Array.isArray(v.both)) {
+            v.both = [v.both];
+          }
           if (v.both.length > 1) {
             key = v.both.join(':');
-            value[key] = Object.assign({}, v.action);
+            value[key] = Object.assign({}, action);
             key = v.both.reverse().join(':');
-            value[key] = Object.assign({}, v.action);
+            value[key] = Object.assign({}, action);
           } else {
-            value[`${v.both[0]}:`] = Object.assign({}, v.action);
-            value[`:${v.both[0]}`] = Object.assign({}, v.action);
+            value[`${v.both[0]}:`] = Object.assign({}, action);
+            value[`:${v.both[0]}`] = Object.assign({}, action);
           }
         } else {
           key = `${v.from || ''}:${v.to || ''}`;
-          value[key] = Object.assign({}, v.action);
+          value[key] = Object.assign({}, action);
         }
       });
       this.quietSet('actions', value);
@@ -7114,55 +7220,45 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   set state(val) {
+    if (val == null) val = 'default';
     const oldState = this.state;
     if (oldState !== val) {
       this.quietSet('state', val);
       const states = this.states;
-      let action = null;
       if (states) {
+        let action = null;
         const toState = states[val];
+        const subject = this.subject;
         if (toState) {
           const fromState = states[oldState],
                 actions = this.actions;
-          const subject = this.subject;
           if (actions) {
             action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
             if (action) {
-              const evt = { from: [oldState, fromState], to: [val, toState], action };
-              subject.dispatchEvent('action-beforestart', evt, true, true);
-              if (evt.returnValue) {
-                const animation = subject.changeState(fromState, toState, action);
-                const tag = Symbol('tag');
-                animation.tag = tag;
-                if (animation.__reversed) {
-                  subject.dispatchEvent('action-finished', {
-                    from: [val, toState],
-                    to: [oldState, fromState],
-                    action: animation.__reversed,
-                    animation }, true, true);
-                }
-                subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-                animation.ready.then(() => {
-                  subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-                });
-                animation.finished.then(() => {
-                  if (animation.tag === tag) {
-                    subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState], action, animation }, true, true);
-                  }
-                });
+              const animation = subject.changeState(fromState, toState, action);
+              const tag = Symbol('tag');
+              animation.tag = tag;
+              if (animation.__reversed) {
+                subject.dispatchEvent(`state-to-${oldState}`, {
+                  from: val,
+                  to: oldState,
+                  action: animation.__reversed,
+                  cancelled: true,
+                  animation }, true, true);
               }
+              subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val, action, animation }, true, true);
+              animation.finished.then(() => {
+                if (animation.tag === tag) {
+                  subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val, action, animation }, true, true);
+                }
+              });
             }
           }
-          if (!action) {
-            const evt = { from: [oldState, fromState], to: [val, toState] };
-            subject.dispatchEvent('action-beforestart', evt, true, true);
-            if (evt.returnValue) {
-              subject.dispatchEvent('action-start', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              subject.dispatchEvent('action-ready', { from: [oldState, fromState], to: [val, toState] }, true, true);
-              subject.attr(toState);
-              subject.dispatchEvent('action-finished', { from: [oldState, fromState], to: [val, toState] }, true, true);
-            }
-          }
+        }
+        if (!action) {
+          subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val }, true, true);
+          if (toState) subject.attr(toState);
+          subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val }, true, true);
         }
       }
     }
@@ -7254,6 +7350,11 @@ let BaseNode = class BaseNode {
 
   removeEventListener(type, handler) {
     return this.off(type, handler);
+  }
+
+  remove(exit = true) {
+    if (!this.parent) return null;
+    return this.parent.removeChild(this, exit);
   }
 
   pointCollision(evt) {
@@ -7379,7 +7480,7 @@ let BaseNode = class BaseNode {
   connect(parent, zOrder = 0) {
     if (this.parent) {
       // throw new Error('This node belongs to another parent node! Remove it first...')
-      this.disconnect(this.parent);
+      this.remove();
     }
 
     Object.defineProperty(this, 'zOrder', {
@@ -7393,13 +7494,10 @@ let BaseNode = class BaseNode {
       configurable: true
     });
 
-    const handlers = this[_eventHandlers].append;
-    if (handlers && handlers.length) {
-      this.dispatchEvent('append', {
-        parent,
-        zOrder
-      }, true, true);
-    }
+    this.dispatchEvent('append', {
+      parent,
+      zOrder
+    }, true, true);
 
     return this;
   }
@@ -7413,17 +7511,24 @@ let BaseNode = class BaseNode {
     const zOrder = this.zOrder;
     delete this.zOrder;
 
-    const handlers = this[_eventHandlers].remove;
-    if (handlers && handlers.length) {
-      this.dispatchEvent('remove', {
-        parent,
-        zOrder
-      }, true, true);
-    }
+    this.dispatchEvent('remove', {
+      parent,
+      zOrder
+    }, true, true);
 
     delete this.parent;
     delete this.isDirty;
 
+    return this;
+  }
+
+  enter() {
+    // override to do atction after connection, can return a promise
+    return this;
+  }
+
+  exit() {
+    // override to do atction before disconnection, can return a promise
     return this;
   }
 };
@@ -9836,15 +9941,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Layer; });
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(123);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(121);
-/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(127);
-/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(137);
-/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(138);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(125);
-/* harmony import */ var _helpers_dirty_check__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(144);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(143);
-
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(121);
+/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(127);
+/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(137);
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(138);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(125);
+/* harmony import */ var _helpers_dirty_check__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(144);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(143);
 
 
 
@@ -9868,7 +9971,7 @@ const _children = Symbol('children'),
       _adjustTimer = Symbol('adjustTimer'),
       _node = Symbol('node');
 
-let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"] {
+let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor({
     context,
     handleEvent = true,
@@ -9903,7 +10006,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
     this[_timeline] = new sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"](_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__["timeline"]);
     this[_renderDeferer] = null;
 
-    this[_node] = new _datanode__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    this[_node] = new _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]();
 
     this.touchedTargets = {};
   }
@@ -9961,14 +10064,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
       const { width, height } = context.canvas;
       context.clearRect(0, 0, width, height);
     }
-  }
-
-  remove(...args) {
-    if (args.length === 0) {
-      Object(_utils__WEBPACK_IMPORTED_MODULE_2__["setDeprecation"])('layer.remove()', 'Instead use layer.clear().');
-      return this.clear();
-    }
-    return args.map(child => this.removeChild(child));
   }
 
   prepareRender() {
@@ -10101,7 +10196,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
     outputContext.save();
     outputContext.beginPath();
 
-    Object(_helpers_dirty_check__WEBPACK_IMPORTED_MODULE_8__["clearDirtyRects"])(outputContext, updateEls, true);
+    Object(_helpers_dirty_check__WEBPACK_IMPORTED_MODULE_7__["clearDirtyRects"])(outputContext, updateEls, true);
 
     if (clearContext) this.clearContext(outputContext);
 
@@ -10187,12 +10282,12 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
   }
 
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */{
-    super.connect(parent, zOrder);
+    const ret = super.connect(parent, zOrder);
     this.zIndex = zIndex;
     if (parent && parent.container) {
       parent.container.appendChild(this.outputContext.canvas);
     }
-    return this;
+    return ret;
   }
 
   disconnect(parent) /* istanbul ignore next  */{
@@ -10203,7 +10298,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
   }
 
   group(...sprites) {
-    const group = new _group__WEBPACK_IMPORTED_MODULE_6__["default"]();
+    const group = new _group__WEBPACK_IMPORTED_MODULE_5__["default"]();
     group.append(...sprites);
     this.appendChild(group);
     return group;
@@ -10215,7 +10310,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
         this.appendChild(sprite);
       }
     });
-    const batch = new _batch__WEBPACK_IMPORTED_MODULE_5__["default"](this);
+    const batch = new _batch__WEBPACK_IMPORTED_MODULE_4__["default"](this);
     batch.add(...sprites);
     return batch;
   }
@@ -10256,9 +10351,9 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_3__["default"
 
 
 
-Object.assign(Layer.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_9__["default"]);
+Object.assign(Layer.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_8__["default"]);
 
-Object(_nodetype__WEBPACK_IMPORTED_MODULE_7__["registerNodeType"])('layer', Layer, true);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_6__["registerNodeType"])('layer', Layer, true);
 
 /***/ }),
 /* 137 */
@@ -11459,10 +11554,11 @@ function relayout(container, items) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const _zOrder = Symbol('zOrder');
+const _removeTask = Symbol('removeTask');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   appendChild(sprite, update = true) {
-    sprite.remove();
+    sprite.remove(false);
 
     const children = this.children;
     children.push(sprite);
@@ -11483,26 +11579,72 @@ const _zOrder = Symbol('zOrder');
     if (update) {
       sprite.forceUpdate();
     }
+
+    const task = sprite.enter();
+    if (task instanceof Promise) {
+      return task.then(() => {
+        return sprite;
+      });
+    }
     return sprite;
   },
   append(...sprites) {
-    sprites.forEach(sprite => this.appendChild(sprite));
+    let isPromise = false;
+    const tasks = sprites.map(sprite => {
+      const task = this.appendChild(sprite);
+      if (task instanceof Promise) isPromise = true;
+      return task;
+    });
+    if (isPromise) return Promise.all(tasks);
+    return tasks;
   },
-  removeChild(sprite) {
-    const idx = this.children.indexOf(sprite);
+  removeChild(child, exit = true) {
+    if (child[_removeTask]) return child[_removeTask];
+
+    const idx = this.children.indexOf(child);
     if (idx === -1) {
       return null;
     }
-    this.children.splice(idx, 1);
-    if (sprite.isVisible() || sprite.lastRenderBox) {
-      sprite.forceUpdate();
+
+    const that = this;
+    function remove(sprite) {
+      delete child[_removeTask];
+      that.children.splice(idx, 1);
+      if (sprite.isVisible() || sprite.lastRenderBox) {
+        sprite.forceUpdate();
+      }
+      sprite.disconnect(that);
+      return sprite;
     }
-    sprite.disconnect(this);
-    return sprite;
+
+    if (exit) {
+      const action = child.exit();
+      if (action instanceof Promise) {
+        child[_removeTask] = action;
+        return action.then(() => {
+          return remove(child);
+        });
+      }
+    }
+    return remove(child);
   },
   clear() {
     const children = this.children.slice(0);
     return children.map(child => this.removeChild(child));
+  },
+  remove(...args) {
+    if (args.length === 0 || args.length === 1 && typeof args[0] === 'boolean') {
+      if (!this.parent) return null;
+      return this.parent.removeChild(!args[0]);
+    }
+    let isPromise = false;
+    const tasks = args.map(sprite => {
+      const task = this.removeChild(sprite);
+      if (task instanceof Promise) isPromise = true;
+      return task;
+    });
+    if (isPromise) return Promise.all(tasks);
+    return tasks;
   },
   insertBefore(newchild, refchild) {
     if (refchild == null) {
@@ -11510,33 +11652,34 @@ const _zOrder = Symbol('zOrder');
     }
     const idx = this.children.indexOf(refchild);
     if (idx >= 0) {
-      this.removeChild(newchild);
-      this.children.splice(idx, 0, newchild);
+      this.removeChild(newchild, false);
       const refZOrder = refchild.zOrder;
+      for (let i = idx; i < this.children.length; i++) {
+        const child = this.children[i],
+              zOrder = child.zOrder;
+        delete child.zOrder;
+        Object.defineProperty(child, 'zOrder', {
+          value: zOrder + 1,
+          writable: false,
+          configurable: true
+        });
+      }
+      this.children.splice(idx, 0, newchild);
       newchild.connect(this, refZOrder);
       newchild.forceUpdate();
 
-      for (let i = 0; i < this.children.length; i++) {
-        if (i !== idx) {
-          const child = this.children[i],
-                zOrder = child.zOrder;
-
-          if (zOrder >= refZOrder) {
-            delete child.zOrder;
-            Object.defineProperty(child, 'zOrder', {
-              value: zOrder + 1,
-              writable: false,
-              configurable: true
-            });
-          }
-        }
-      }
-
       this[_zOrder] = this[_zOrder] || 0;
       this[_zOrder]++;
-    }
 
-    return newchild;
+      const task = newchild.enter();
+      if (task instanceof Promise) {
+        return task.then(() => {
+          return newchild;
+        });
+      }
+      return newchild;
+    }
+    return null;
   }
 });
 
