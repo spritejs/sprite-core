@@ -966,9 +966,11 @@ export default class BaseSprite extends BaseNode {
       const states = this.attr('states');
       if(states.hide) {
         states[state] = states[state] || {};
+        states[state].__defaultKeys = states[state].__defaultKeys || {};
         Object.entries(states.hide).forEach(([key, value]) => {
-          if(!states[state][key]) {
+          if(!(key in states[state]) || states[state].__defaultKeys[key]) {
             states[state][key] = this.attr(key);
+            states[state].__defaultKeys[key] = true;
           }
         });
       }
