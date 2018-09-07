@@ -157,7 +157,8 @@ export default class extends Animator {
       return new Promise((resolve) => {
         requestAnimationFrame(function update() {
           sprite.attr(that.frame);
-          if(that.playState === 'finished') {
+          const playState = that.playState;
+          if(playState === 'finished' || playState === 'idle') {
             cancelAnimationFrame(that.requestId);
             resolve();
           } else {
