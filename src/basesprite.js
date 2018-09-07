@@ -361,8 +361,10 @@ export default class BaseSprite extends BaseNode {
       }
     }
     if(!animation) {
-      animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)],
-        Object.assign({fill: 'forwards'}, action));
+      [fromState, toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
+      delete fromState.__defaultKeys;
+      delete toState.__defaultKeys;
+      animation = this.animate([fromState, toState], Object.assign({fill: 'forwards'}, action));
       animation.finished.then(() => {
         if(this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
       });
