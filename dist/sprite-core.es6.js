@@ -7368,6 +7368,13 @@ let BaseNode = class BaseNode {
     return this.parent;
   }
 
+  contains(node) {
+    while (node && this !== node) {
+      node = node.parent;
+    }
+    return !!node;
+  }
+
   // called when layer appendChild
   connect(parent, zOrder = 0) {
     if (this.parent) {

@@ -10289,10 +10289,18 @@ var BaseNode = function () {
       return isCollision;
     }
   }, {
-    key: 'connect',
-
+    key: 'contains',
+    value: function contains(node) {
+      while (node && this !== node) {
+        node = node.parent;
+      }
+      return !!node;
+    }
 
     // called when layer appendChild
+
+  }, {
+    key: 'connect',
     value: function connect(parent) {
       var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
