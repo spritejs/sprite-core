@@ -1,6 +1,5 @@
 import {Timeline} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame, timeline} from './helpers/fast-animation-frame';
-import {setDeprecation} from './utils';
 import BaseNode from './basenode';
 import DateNode from './datanode';
 import Batch from './batch';
@@ -115,14 +114,6 @@ export default class Layer extends BaseNode {
       const {width, height} = context.canvas;
       context.clearRect(0, 0, width, height);
     }
-  }
-
-  remove(...args) {
-    if(args.length === 0) {
-      setDeprecation('layer.remove()', 'Instead use layer.clear().');
-      return this.clear();
-    }
-    return args.map(child => this.removeChild(child));
   }
 
   prepareRender() {
@@ -343,12 +334,12 @@ export default class Layer extends BaseNode {
   }
 
   connect(parent, zOrder, zIndex) /* istanbul ignore next  */ {
-    super.connect(parent, zOrder);
+    const ret = super.connect(parent, zOrder);
     this.zIndex = zIndex;
     if(parent && parent.container) {
       parent.container.appendChild(this.outputContext.canvas);
     }
-    return this;
+    return ret;
   }
 
   disconnect(parent) /* istanbul ignore next  */ {

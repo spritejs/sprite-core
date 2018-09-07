@@ -34,6 +34,29 @@
           clip9: 64,
           // offset: [0, 50],
         },
+        states: {
+          enter: {
+            opacity: 0,
+            translate: [0, 600],
+          },
+          entered: {
+            opacity: 1,
+            translate: [0, 0],
+          },
+          hide: {
+            x: '200%',
+          },
+        },
+        actions: [
+          {
+            to: 'entered',
+            duration: 200,
+          },
+          {
+            both: 'hide',
+            duration: 500,
+          },
+        ],
       });
       layer.append(s);
 

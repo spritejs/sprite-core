@@ -32,7 +32,7 @@ test('sprite zIndex', (t) => {
   t.is(s4.zOrder, 1);
   t.is(s2.zOrder, 2);
 
-  layer.remove();
+  layer.remove(s, s2, s3, s4);
   t.is(layer.children.length, 0);
 });
 

@@ -1,8 +1,9 @@
 const _zOrder = Symbol('zOrder');
+const _removeTask = Symbol('removeTask');
 
 export default {
   appendChild(sprite, update = true) {
-    sprite.remove();
+    sprite.remove(false);
 
     const children = this.children;
     children.push(sprite);
@@ -23,26 +24,72 @@ export default {
     if(update) {
       sprite.forceUpdate();
     }
+
+    const task = sprite.enter();
+    if(task instanceof Promise) {
+      return task.then(() => {
+        return sprite;
+      });
+    }
     return sprite;
   },
   append(...sprites) {
-    sprites.forEach(sprite => this.appendChild(sprite));
+    let isPromise = false;
+    const tasks = sprites.map((sprite) => {
+      const task = this.appendChild(sprite);
+      if(task instanceof Promise) isPromise = true;
+      return task;
+    });
+    if(isPromise) return Promise.all(tasks);
+    return tasks;
   },
-  removeChild(sprite) {
-    const idx = this.children.indexOf(sprite);
+  removeChild(child, exit = true) {
+    if(child[_removeTask]) return child[_removeTask];
+
+    const idx = this.children.indexOf(child);
     if(idx === -1) {
       return null;
     }
-    this.children.splice(idx, 1);
-    if(sprite.isVisible() || sprite.lastRenderBox) {
-      sprite.forceUpdate();
+
+    const that = this;
+    function remove(sprite) {
+      delete child[_removeTask];
+      that.children.splice(idx, 1);
+      if(sprite.isVisible() || sprite.lastRenderBox) {
+        sprite.forceUpdate();
+      }
+      sprite.disconnect(that);
+      return sprite;
     }
-    sprite.disconnect(this);
-    return sprite;
+
+    if(exit) {
+      const action = child.exit();
+      if(action instanceof Promise) {
+        child[_removeTask] = action;
+        return action.then(() => {
+          return remove(child);
+        });
+      }
+    }
+    return remove(child);
   },
   clear() {
     const children = this.children.slice(0);
     return children.map(child => this.removeChild(child));
+  },
+  remove(...args) {
+    if(args.length === 0 || args.length === 1 && typeof args[0] === 'boolean') {
+      if(!this.parent) return null;
+      return this.parent.removeChild(!args[0]);
+    }
+    let isPromise = false;
+    const tasks = args.map((sprite) => {
+      const task = this.removeChild(sprite);
+      if(task instanceof Promise) isPromise = true;
+      return task;
+    });
+    if(isPromise) return Promise.all(tasks);
+    return tasks;
   },
   insertBefore(newchild, refchild) {
     if(refchild == null) {
@@ -50,32 +97,33 @@ export default {
     }
     const idx = this.children.indexOf(refchild);
     if(idx >= 0) {
-      this.removeChild(newchild);
-      this.children.splice(idx, 0, newchild);
+      this.removeChild(newchild, false);
       const refZOrder = refchild.zOrder;
+      for(let i = idx; i < this.children.length; i++) {
+        const child = this.children[i],
+          zOrder = child.zOrder;
+        delete child.zOrder;
+        Object.defineProperty(child, 'zOrder', {
+          value: zOrder + 1,
+          writable: false,
+          configurable: true,
+        });
+      }
+      this.children.splice(idx, 0, newchild);
       newchild.connect(this, refZOrder);
       newchild.forceUpdate();
 
-      for(let i = 0; i < this.children.length; i++) {
-        if(i !== idx) {
-          const child = this.children[i],
-            zOrder = child.zOrder;
-
-          if(zOrder >= refZOrder) {
-            delete child.zOrder;
-            Object.defineProperty(child, 'zOrder', {
-              value: zOrder + 1,
-              writable: false,
-              configurable: true,
-            });
-          }
-        }
-      }
-
       this[_zOrder] = this[_zOrder] || 0;
       this[_zOrder]++;
-    }
 
-    return newchild;
+      const task = newchild.enter();
+      if(task instanceof Promise) {
+        return task.then(() => {
+          return newchild;
+        });
+      }
+      return newchild;
+    }
+    return null;
   },
 };

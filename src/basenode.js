@@ -75,6 +75,11 @@ export default class BaseNode {
     return this.off(type, handler);
   }
 
+  remove(exit = true) {
+    if(!this.parent) return null;
+    return this.parent.removeChild(this, exit);
+  }
+
   pointCollision(evt) {
     throw Error('you mast override this method');
   }
@@ -197,7 +202,7 @@ export default class BaseNode {
   connect(parent, zOrder = 0) {
     if(this.parent) {
       // throw new Error('This node belongs to another parent node! Remove it first...')
-      this.disconnect(this.parent);
+      this.remove();
     }
 
     Object.defineProperty(this, 'zOrder', {
@@ -211,13 +216,10 @@ export default class BaseNode {
       configurable: true,
     });
 
-    const handlers = this[_eventHandlers].append;
-    if(handlers && handlers.length) {
-      this.dispatchEvent('append', {
-        parent,
-        zOrder,
-      }, true, true);
-    }
+    this.dispatchEvent('append', {
+      parent,
+      zOrder,
+    }, true, true);
 
     return this;
   }
@@ -231,17 +233,24 @@ export default class BaseNode {
     const zOrder = this.zOrder;
     delete this.zOrder;
 
-    const handlers = this[_eventHandlers].remove;
-    if(handlers && handlers.length) {
-      this.dispatchEvent('remove', {
-        parent,
-        zOrder,
-      }, true, true);
-    }
+    this.dispatchEvent('remove', {
+      parent,
+      zOrder,
+    }, true, true);
 
     delete this.parent;
     delete this.isDirty;
 
+    return this;
+  }
+
+  enter() {
+    // override to do atction after connection, can return a promise
+    return this;
+  }
+
+  exit() {
+    // override to do atction before disconnection, can return a promise
     return this;
   }
 }

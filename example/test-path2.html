@@ -105,18 +105,43 @@
       iterations: Infinity,
     });
 
-    path.on('action-beforestart', (evt) => {
+    path.on('state-to-a', (evt) => {
       console.log(evt.type);
     });
-    path.on('action-start', (evt) => {
+    path.on('state-from-a', (evt) => {
       console.log(evt.type);
     });
-    path.on('action-ready', (evt) => {
+    path.on('state-from-b', (evt) => {
       console.log(evt.type);
     });
-    path.on('action-finished', (evt) => {
-      console.log(evt.type, evt.from[0], evt.to[0]);
+    path.on('state-to-b', (evt) => {
+      console.log(evt.type);
     });
+
+    setTimeout(() => {
+      path.attr('state', 'a');
+    }, 1000);
+
+    setTimeout(() => {
+      path.attr('state', 'b');
+    }, 3500);
+
+    setTimeout(() => {
+      path.attr('state', 'a');
+    }, 7000);
+
+    setTimeout(() => {
+      path.attr('state', 'b');
+    }, 9000);
+
+    setTimeout(() => {
+      path.attr('state', 'a');
+    }, 9500);
+
+    setTimeout(() => {
+      path.attr('state', 'b');
+    }, 10000);
+
     // path.animate([
     //   {d: paths[0]},
     //   {d: paths[0]},

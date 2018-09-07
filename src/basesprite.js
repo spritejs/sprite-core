@@ -640,12 +640,6 @@ export default class BaseSprite extends BaseNode {
     this.cache = null;
   }
 
-  remove() {
-    if(!this.parent) return false;
-    this.parent.removeChild(this);
-    return true;
-  }
-
   appendTo(parent) {
     parent.appendChild(this);
   }
@@ -927,6 +921,108 @@ export default class BaseSprite extends BaseNode {
     drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0]);
 
     return true;
+  }
+
+  // state: original -> show -> hide -> show -> original
+  show() {
+    const state = this.attr('state');
+    if(state !== 'hide') return this;
+
+    const originalDisplay = this.attr('_originalDisplay') || '';
+    const originalState = this.attr('_originalState') || 'default';
+
+    const actions = this.attr('actions');
+
+    if(actions['hide:'] || actions[`:${originalState}`] || actions[`hide:${originalState}`]) {
+      const promise = new Promise((resolve) => {
+        this.on(`state-to-${originalState}`, () => {
+          resolve(this);
+        });
+      });
+      this.attr('state', originalState);
+      this.attr('display', originalDisplay);
+      return promise;
+    }
+
+    this.attr('state', originalState);
+    this.attr('display', originalDisplay);
+    return this;
+  }
+
+  hide() {
+    const state = this.attr('state');
+    if(state === 'hide') return this;
+
+    const _originalDisplay = this.attr('display');
+    const _originalState = this.attr('state');
+    this.attr({
+      _originalDisplay,
+      _originalState,
+    });
+
+    const actions = this.attr('actions');
+
+    if(actions[':hide'] || actions[`${_originalState}:`] || actions[`${_originalState}:hide`]) {
+      const states = this.attr('states');
+      if(states.hide) {
+        states[state] = states[state] || {};
+        Object.entries(states.hide).forEach(([key, value]) => {
+          if(!states[state][key]) {
+            states[state][key] = this.attr(key);
+          }
+        });
+      }
+      const promise = new Promise((resolve) => {
+        this.on('state-to-hide', () => {
+          this.attr('display', 'none');
+          resolve(this);
+        });
+      });
+      this.attr('state', 'hide');
+      return promise;
+    }
+
+    this.attr('state', 'hide');
+    this.attr('display', 'none');
+    return this;
+  }
+
+  enter() {
+    const states = this.attr('states');
+    if(states && (states.enter || states.entered)) {
+      const state = this.attr('state');
+      const promise = new Promise((resolve) => {
+        this.on('state-to-enter', () => {
+          this.on('state-to-entered', () => {
+            this.attr('state', state);
+            resolve(this);
+          });
+          this.attr('state', 'entered');
+        });
+      });
+      this.attr('state', 'enter');
+      return promise;
+    }
+    return super.enter();
+  }
+
+  exit() {
+    const states = this.attr('states');
+    if(states && (states.exit || states.exited)) {
+      const state = this.attr('state');
+      const promise = new Promise((resolve) => {
+        this.on('state-to-exit', () => {
+          this.on('state-to-exited', () => {
+            this.attr('state', state);
+            resolve(this);
+          });
+          this.attr('state', 'exited');
+        });
+      });
+      this.attr('state', 'exit');
+      return promise;
+    }
+    return super.exit();
   }
 }
 

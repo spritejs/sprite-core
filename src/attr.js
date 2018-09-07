@@ -17,7 +17,7 @@ class SpriteAttr {
     this[_props] = {};
 
     this.setDefault({
-      state: '',
+      state: 'default',
       states: null,
       actions: null,
       anchor: [0, 0],
@@ -677,19 +677,29 @@ class SpriteAttr {
       const value = {};
       val.forEach((v) => {
         let key;
+        let action = v.action;
+        if(!action) {
+          action = Object.assign({}, v);
+          delete action.from;
+          delete action.to;
+          delete action.both;
+        }
         if(v.both) {
+          if(!Array.isArray(v.both)) {
+            v.both = [v.both];
+          }
           if(v.both.length > 1) {
             key = v.both.join(':');
-            value[key] = Object.assign({}, v.action);
+            value[key] = Object.assign({}, action);
             key = v.both.reverse().join(':');
-            value[key] = Object.assign({}, v.action);
+            value[key] = Object.assign({}, action);
           } else {
-            value[`${v.both[0]}:`] = Object.assign({}, v.action);
-            value[`:${v.both[0]}`] = Object.assign({}, v.action);
+            value[`${v.both[0]}:`] = Object.assign({}, action);
+            value[`:${v.both[0]}`] = Object.assign({}, action);
           }
         } else {
           key = `${v.from || ''}:${v.to || ''}`;
-          value[key] = Object.assign({}, v.action);
+          value[key] = Object.assign({}, action);
         }
       });
       this.quietSet('actions', value);
@@ -700,55 +710,45 @@ class SpriteAttr {
 
   @attr
   set state(val) {
+    if(val == null) val = 'default';
     const oldState = this.state;
     if(oldState !== val) {
       this.quietSet('state', val);
       const states = this.states;
-      let action = null;
       if(states) {
+        let action = null;
         const toState = states[val];
+        const subject = this.subject;
         if(toState) {
           const fromState = states[oldState],
             actions = this.actions;
-          const subject = this.subject;
           if(actions) {
             action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
             if(action) {
-              const evt = {from: [oldState, fromState], to: [val, toState], action};
-              subject.dispatchEvent('action-beforestart', evt, true, true);
-              if(evt.returnValue) {
-                const animation = subject.changeState(fromState, toState, action);
-                const tag = Symbol('tag');
-                animation.tag = tag;
-                if(animation.__reversed) {
-                  subject.dispatchEvent('action-finished', {
-                    from: [val, toState],
-                    to: [oldState, fromState],
-                    action: animation.__reversed,
-                    animation}, true, true);
-                }
-                subject.dispatchEvent('action-start', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
-                animation.ready.then(() => {
-                  subject.dispatchEvent('action-ready', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
-                });
-                animation.finished.then(() => {
-                  if(animation.tag === tag) {
-                    subject.dispatchEvent('action-finished', {from: [oldState, fromState], to: [val, toState], action, animation}, true, true);
-                  }
-                });
+              const animation = subject.changeState(fromState, toState, action);
+              const tag = Symbol('tag');
+              animation.tag = tag;
+              if(animation.__reversed) {
+                subject.dispatchEvent(`state-to-${oldState}`, {
+                  from: val,
+                  to: oldState,
+                  action: animation.__reversed,
+                  cancelled: true,
+                  animation}, true, true);
               }
+              subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val, action, animation}, true, true);
+              animation.finished.then(() => {
+                if(animation.tag === tag) {
+                  subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val, action, animation}, true, true);
+                }
+              });
             }
           }
-          if(!action) {
-            const evt = {from: [oldState, fromState], to: [val, toState]};
-            subject.dispatchEvent('action-beforestart', evt, true, true);
-            if(evt.returnValue) {
-              subject.dispatchEvent('action-start', {from: [oldState, fromState], to: [val, toState]}, true, true);
-              subject.dispatchEvent('action-ready', {from: [oldState, fromState], to: [val, toState]}, true, true);
-              subject.attr(toState);
-              subject.dispatchEvent('action-finished', {from: [oldState, fromState], to: [val, toState]}, true, true);
-            }
-          }
+        }
+        if(!action) {
+          subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val}, true, true);
+          if(toState) subject.attr(toState);
+          subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);
         }
       }
     }
