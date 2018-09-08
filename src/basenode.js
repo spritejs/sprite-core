@@ -51,6 +51,13 @@ export default class BaseNode {
     return this;
   }
 
+  once(type, handler) {
+    return this.on(type, function f(...args) {
+      this.off(type, f);
+      return handler.apply(this, args);
+    });
+  }
+
   off(type, handler) {
     if(Array.isArray(type)) {
       type.forEach(t => this.off(t, handler));

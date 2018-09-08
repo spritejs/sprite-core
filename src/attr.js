@@ -19,7 +19,24 @@ class SpriteAttr {
     this.setDefault({
       state: 'default',
       states: null,
-      actions: null,
+      actions: {
+        'beforeEnter:': {
+          duration: 300,
+          easing: 'ease-in',
+        },
+        ':afterExit': {
+          duration: 300,
+          easing: 'ease-out',
+        },
+        'hide:': {
+          duration: 300,
+          easing: 'ease-in',
+        },
+        ':hide': {
+          duration: 300,
+          easing: 'ease-out',
+        },
+      },
       anchor: [0, 0],
       x: 0,
       y: 0,
@@ -702,10 +719,11 @@ class SpriteAttr {
           value[key] = Object.assign({}, action);
         }
       });
-      this.quietSet('actions', value);
-    } else {
-      this.quietSet('actions', val);
+      val = value;
     }
+    const defaultVal = this[_default].actions;
+    val = Object.assign({}, defaultVal, val);
+    this.quietSet('actions', val);
   }
 
   @attr
@@ -719,7 +737,7 @@ class SpriteAttr {
         let action = null;
         const toState = states[val];
         const subject = this.subject;
-        if(toState) {
+        if(subject.parent && toState) {
           const fromState = states[oldState],
             actions = this.actions;
           if(actions) {

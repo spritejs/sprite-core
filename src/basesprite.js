@@ -14,7 +14,8 @@ const _attr = Symbol('attr'),
   _cachePriority = Symbol('cachePriority'),
   _effects = Symbol('effects'),
   _flow = Symbol('flow'),
-  _changeStateAction = Symbol('changeStateAction');
+  _changeStateAction = Symbol('changeStateAction'),
+  _showhide = Symbol('showhide');
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -362,8 +363,8 @@ export default class BaseSprite extends BaseNode {
     }
     if(!animation) {
       [fromState, toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
-      delete fromState.__defaultKeys;
-      delete toState.__defaultKeys;
+      delete fromState.__default;
+      delete toState.__default;
       animation = this.animate([fromState, toState], Object.assign({fill: 'forwards'}, action));
       animation.finished.then(() => {
         if(this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
@@ -927,22 +928,33 @@ export default class BaseSprite extends BaseNode {
 
   // state: original -> show -> hide -> show -> original
   show() {
-    const state = this.attr('state');
-    if(state !== 'hide') return this;
+    if(this[_showhide]) {
+      return this[_showhide].then(() => {
+        return this.show();
+      });
+    }
+
+    const display = this.attr('display');
+    if(display !== 'none') return;
 
     const originalDisplay = this.attr('_originalDisplay') || '';
     const originalState = this.attr('_originalState') || 'default';
 
-    const actions = this.attr('actions');
+    const states = this.attr('states');
 
-    if(actions['hide:'] || actions[`:${originalState}`] || actions[`hide:${originalState}`]) {
+    if(states.show) {
       const promise = new Promise((resolve) => {
-        this.on(`state-to-${originalState}`, () => {
-          resolve(this);
+        this.once('state-to-show', () => {
+          this.once(`state-to-${originalState}`, () => {
+            delete this[_showhide];
+            resolve(this);
+          });
+          this.attr('state', originalState);
         });
       });
-      this.attr('state', originalState);
+      this.attr('state', 'show');
       this.attr('display', originalDisplay);
+      this[_showhide] = promise;
       return promise;
     }
 
@@ -952,8 +964,14 @@ export default class BaseSprite extends BaseNode {
   }
 
   hide() {
-    const state = this.attr('state');
-    if(state === 'hide') return this;
+    if(this[_showhide]) {
+      return this[_showhide].then(() => {
+        return this.hide();
+      });
+    }
+
+    const display = this.attr('display');
+    if(display === 'none') return;
 
     const _originalDisplay = this.attr('display');
     const _originalState = this.attr('state');
@@ -962,27 +980,41 @@ export default class BaseSprite extends BaseNode {
       _originalState,
     });
 
-    const actions = this.attr('actions');
+    const states = this.attr('states');
 
-    if(actions[':hide'] || actions[`${_originalState}:`] || actions[`${_originalState}:hide`]) {
-      const states = this.attr('states');
-      if(states.hide) {
-        states[state] = states[state] || {};
-        states[state].__defaultKeys = states[state].__defaultKeys || {};
-        Object.entries(states.hide).forEach(([key, value]) => {
-          if(!(key in states[state]) || states[state].__defaultKeys[key]) {
-            states[state][key] = this.attr(key);
-            states[state].__defaultKeys[key] = true;
-          }
+    if(states.hide) {
+      if(!states.show || states.show.__default) {
+        const beforeHide = {__default: true};
+        Object.keys(states.hide).forEach((key) => {
+          beforeHide[key] = this.attr(key);
         });
+        states.show = beforeHide;
       }
-      const promise = new Promise((resolve) => {
-        this.on('state-to-hide', () => {
-          this.attr('display', 'none');
-          resolve(this);
+      const state = this.attr('state');
+      let promise;
+      if(state !== 'show') {
+        promise = new Promise((resolve) => {
+          this.once('state-to-show', () => {
+            this.once('state-to-hide', () => {
+              this.attr('display', 'none');
+              delete this[_showhide];
+              resolve(this);
+            });
+            this.attr('state', 'hide');
+          });
         });
-      });
-      this.attr('state', 'hide');
+        this.attr('state', 'show');
+      } else {
+        promise = new Promise((resolve) => {
+          this.once('state-to-hide', () => {
+            this.attr('display', 'none');
+            delete this[_showhide];
+            resolve(this);
+          });
+        });
+        this.attr('state', 'hide');
+      }
+      this[_showhide] = promise;
       return promise;
     }
 
@@ -993,18 +1025,28 @@ export default class BaseSprite extends BaseNode {
 
   enter() {
     const states = this.attr('states');
-    if(states && (states.enter || states.entered)) {
+    if(states && (states.beforeEnter || states.afterEnter)) {
       const state = this.attr('state');
       const promise = new Promise((resolve) => {
-        this.on('state-to-enter', () => {
-          this.on('state-to-entered', () => {
-            this.attr('state', state);
-            resolve(this);
+        let defaultAfterEnterTag = false;
+        if(!states.afterEnter) {
+          const afterEnter = {};
+          Object.keys(states.beforeEnter).forEach((key) => {
+            afterEnter[key] = this.attr(key);
           });
-          this.attr('state', 'entered');
+          defaultAfterEnterTag = true;
+          states.afterEnter = afterEnter;
+        }
+        this.once('state-to-beforeEnter', () => {
+          this.once('state-to-afterEnter', () => {
+            resolve(this);
+            this.attr('state', state);
+          });
+          this.attr('state', 'afterEnter');
+          if(defaultAfterEnterTag) delete states.afterEnter;
         });
       });
-      this.attr('state', 'enter');
+      this.attr('state', 'beforeEnter');
       return promise;
     }
     return super.enter();
@@ -1012,18 +1054,29 @@ export default class BaseSprite extends BaseNode {
 
   exit() {
     const states = this.attr('states');
-    if(states && (states.exit || states.exited)) {
+    if(states && (states.beforeExit || states.afterExit)) {
       const state = this.attr('state');
+      const beforeExit = {};
+      Object.keys(states.afterExit).forEach((key) => {
+        beforeExit[key] = this.attr(key);
+      });
+      let defaultBeforeExitTag = false;
+      if(!states.beforeExit) {
+        defaultBeforeExitTag = true;
+        states.beforeExit = beforeExit;
+      }
       const promise = new Promise((resolve) => {
-        this.on('state-to-exit', () => {
-          this.on('state-to-exited', () => {
-            this.attr('state', state);
+        this.once('state-to-beforeExit', () => {
+          this.once('state-to-afterExit', () => {
             resolve(this);
+            this.attr(beforeExit);
+            this.attr('state', state);
           });
-          this.attr('state', 'exited');
+          this.attr('state', 'afterExit');
         });
       });
-      this.attr('state', 'exit');
+      this.attr('state', 'beforeExit');
+      if(defaultBeforeExitTag) delete states.beforeExit;
       return promise;
     }
     return super.exit();
