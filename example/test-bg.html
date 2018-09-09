@@ -12,6 +12,7 @@
   <script>
     const Label = spritejs.Label;
     const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
     const context = document.getElementById('mycanvas').getContext('2d');
     const layer = new Layer({context, renderMode: 'repaintDirty'});
 
@@ -25,7 +26,7 @@
         lineHeight: 300,
         anchor: 0.5,
         border: [6, 'black'],
-        pos: ['50%', 300],
+        pos: [300, 300],
         size: [300, 300],
         // bgcolor: 'blue',
         bgimage: {
@@ -77,12 +78,17 @@
           },
         ],
       });
-      layer.append(s);
+
+      const group = new Group();
+
+      group.append(s);
+      layer.append(group);
 
       layer.attr({
         font: '34px "宋体"',
       });
       window.s = s;
+      window.g = group;
     };
     img.src = 'https://p2.ssl.qhimg.com/t01c18f4e677c09a87e.jpg';
   </script>

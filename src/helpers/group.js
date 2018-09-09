@@ -24,7 +24,10 @@ export default {
         sprite.forceUpdate();
       }
 
-      return sprite.enter();
+      if(sprite.layer) {
+        return sprite.enter();
+      }
+      return sprite;
     };
 
     const _remove = sprite.remove();
@@ -113,11 +116,14 @@ export default {
         this[_zOrder] = this[_zOrder] || 0;
         this[_zOrder]++;
 
-        return newchild.enter();
+        if(this.layer) {
+          return newchild.enter();
+        }
       };
 
       const _remove = this.removeChild(newchild);
       if(_remove && _remove.promise) {
+        if(_remove.resolve) _remove.resolve();
         _remove.promise.then(() => _insert());
         return _remove;
       }

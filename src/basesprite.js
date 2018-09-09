@@ -15,7 +15,8 @@ const _attr = Symbol('attr'),
   _effects = Symbol('effects'),
   _flow = Symbol('flow'),
   _changeStateAction = Symbol('changeStateAction'),
-  _showhide = Symbol('showhide');
+  _showhide = Symbol('showhide'),
+  _enter = Symbol('enter');
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -954,7 +955,12 @@ export default class BaseSprite extends BaseNode {
     states.forEach((state) => {
       promise = promise.then(() => resolveState(state));
     });
+
     const ret = {
+      get animation() {
+        return currentAnimation;
+      },
+      states,
       resolve() {
         resolved = true;
         if(currentAnimation) currentAnimation.finish();
@@ -1033,6 +1039,7 @@ export default class BaseSprite extends BaseNode {
 
   enter() {
     const states = this.attr('states');
+    let ret;
     if(states && (states.beforeEnter || states.afterEnter)) {
       if(!states.afterEnter || states.afterEnter.__default) {
         const afterEnter = {__default: true};
@@ -1042,30 +1049,79 @@ export default class BaseSprite extends BaseNode {
         states.afterEnter = afterEnter;
       }
       const state = this.attr('state');
-      return this.resolveStates('beforeEnter', 'afterEnter', state);
+      const deferred = this.resolveStates('beforeEnter', 'afterEnter', state);
+      ret = deferred;
+    } else {
+      ret = super.enter();
     }
-    return super.enter();
+
+    if(this.children) {
+      const entries = this.children.map(c => c.enter()).filter(d => d.promise);
+      if(ret.promise) {
+        entries.unshift(ret);
+      }
+      if(entries.length) {
+        const deferred = {
+          promise: Promise.all(entries.map(d => d.promise)),
+          resolve: () => {
+            entries.forEach(d => d.resolve());
+            return this.promise;
+          },
+        };
+        return deferred;
+      }
+    }
+
+    if(ret.promise) this[_enter] = ret;
+
+    return ret;
   }
 
   exit() {
+    if(this[_enter] && this[_enter].animation) {
+      this[_enter].animation.cancel();
+      const states = this[_enter].states;
+      this[_attr].quietSet('state', states[states.length - 1]);
+    }
     const states = this.attr('states');
+    let ret;
+    const afterEnter = states.afterEnter || {};
     if(states && (states.beforeExit || states.afterExit)) {
       const state = this.attr('state');
-      const afterEnter = states.afterEnter;
       if(!states.beforeExit || states.beforeExit.__default) {
         states.beforeExit = Object.assign({}, afterEnter);
         states.beforeExit.__default = true;
       }
-
       const deferred = this.resolveStates('beforeExit', 'afterExit');
       deferred.promise.then(() => {
         this.attr(afterEnter);
-        this.attr('state', state);
+        this[_attr].quietSet('state', state);
         return this;
       });
-      return deferred;
+      ret = deferred;
+    } else {
+      ret = super.exit();
+      this.attr(afterEnter);
     }
-    return super.exit();
+
+    if(this.children) {
+      const exites = this.children.map(c => c.exit()).filter(d => d.promise);
+      if(ret.promise) {
+        exites.unshift(ret);
+      }
+      if(exites.length) {
+        const deferred = {
+          promise: Promise.all(exites.map(d => d.promise)),
+          resolve: () => {
+            exites.forEach(d => d.resolve());
+            return this.promise;
+          },
+        };
+        return deferred;
+      }
+    }
+
+    return ret;
   }
 }
 

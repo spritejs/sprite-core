@@ -18,7 +18,7 @@ class SpriteAttr {
 
     this.setDefault({
       state: 'default',
-      states: null,
+      states: {},
       actions: {
         'beforeEnter:': {
           duration: 300,
@@ -733,41 +733,40 @@ class SpriteAttr {
     if(oldState !== val) {
       this.quietSet('state', val);
       const states = this.states;
-      if(states) {
-        let action = null;
-        const toState = states[val];
-        const subject = this.subject;
-        if(subject.parent && toState) {
-          const fromState = states[oldState],
-            actions = this.actions;
-          if(actions) {
-            action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
-            if(action) {
-              const animation = subject.changeState(fromState, toState, action);
-              const tag = Symbol('tag');
-              animation.tag = tag;
-              if(animation.__reversed) {
-                subject.dispatchEvent(`state-to-${oldState}`, {
-                  from: val,
-                  to: oldState,
-                  action: animation.__reversed,
-                  cancelled: true,
-                  animation}, true, true);
-              }
-              subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val, action, animation}, true, true);
-              animation.finished.then(() => {
-                if(animation.tag === tag) {
-                  subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val, action, animation}, true, true);
-                }
-              });
+
+      let action = null;
+      const toState = states[val];
+      const subject = this.subject;
+      if(subject.parent && toState) {
+        const fromState = states[oldState],
+          actions = this.actions;
+        if(actions) {
+          action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
+          if(action) {
+            const animation = subject.changeState(fromState, toState, action);
+            const tag = Symbol('tag');
+            animation.tag = tag;
+            if(animation.__reversed) {
+              subject.dispatchEvent(`state-to-${oldState}`, {
+                from: val,
+                to: oldState,
+                action: animation.__reversed,
+                cancelled: true,
+                animation}, true, true);
             }
+            subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val, action, animation}, true, true);
+            animation.finished.then(() => {
+              if(animation.tag === tag) {
+                subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val, action, animation}, true, true);
+              }
+            });
           }
         }
-        if(!action) {
-          subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val}, true, true);
-          if(toState) subject.attr(toState);
-          subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);
-        }
+      }
+      if(!action) {
+        subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val}, true, true);
+        if(toState) subject.attr(toState);
+        subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);
       }
     }
   }
