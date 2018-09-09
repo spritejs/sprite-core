@@ -47,12 +47,30 @@
             // x: '200%',
             opacity: 0,
           },
+          a: {
+            scale: [0.5, 0.5],
+          },
+          b: {
+            scale: [1.5, 1.5],
+          },
         },
         actions: [
-          // {
-          //   from: 'beforeEnter',
-          //   duration: 2000,
-          // },
+          {
+            to: 'a',
+            duration: 2000,
+          },
+          {
+            to: 'b',
+            duration: 2000,
+          },
+          {
+            from: 'beforeEnter',
+            duration: 2000,
+          },
+          {
+            from: 'beforeExit',
+            duration: 2000,
+          },
           {
             both: 'hide',
             duration: 2000,

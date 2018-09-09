@@ -52,10 +52,15 @@ export default class BaseNode {
   }
 
   once(type, handler) {
-    return this.on(type, function f(...args) {
-      this.off(type, f);
-      return handler.apply(this, args);
-    });
+    if(Array.isArray(type)) {
+      type.forEach(t => this.once(t, handler));
+    } else {
+      this.on(type, function f(...args) {
+        this.off(type, f);
+        return handler.apply(this, args);
+      });
+    }
+    return this;
   }
 
   off(type, handler) {
@@ -170,7 +175,7 @@ export default class BaseNode {
         }
       }
 
-      handlers.forEach(handler => handler.call(this, evt));
+      [...handlers].forEach(handler => handler.call(this, evt));
 
       if(!this[_collisionState] && isCollision && type === 'mousemove') {
         const _evt = Object.assign({}, evt);

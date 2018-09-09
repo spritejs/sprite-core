@@ -24,7 +24,7 @@ class SpriteAttr {
           duration: 300,
           easing: 'ease-in',
         },
-        ':afterExit': {
+        'beforeExit:': {
           duration: 300,
           easing: 'ease-out',
         },
