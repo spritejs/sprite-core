@@ -8220,73 +8220,76 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         states[_key] = arguments[_key];
       }
 
-      var rs = this[_resolveState];
-      if (rs) {
-        if (rs.animation) {
-          rs.animation.cancel();
-          this[_animations].delete(rs.animation);
-        }
-        var _states = this.attr('states');
-        var stateList = rs.states.map(function (st) {
-          return [st, _states[st]];
-        }).filter(function (st) {
-          return st[1];
-        });
-        var lastState = stateList[stateList.length - 1];
-        if (lastState) this.attr(lastState[1]);
-        this[_attr].quietSet('state', lastState[0]);
-      }
       var currentAnimation = null,
           resolved = false;
+      var _resolveStates = function _resolveStates() {
+        _this6.__ignoreAction = false;
+        var fromState = _this6.attr('state');
+        if (fromState === states[0]) {
+          states.shift();
+        }
 
-      var fromState = this.attr('state');
-      if (fromState === states[0]) {
-        states.shift();
-      }
+        var len = states.length;
+        var resolveState = function resolveState(state, i) {
+          var promise = new _promise2.default(function (resolve) {
+            _this6.once('state-to-' + state, function () {
+              fromState = state;
+              if (i === len - 1) {
+                // lastState
+                delete _this6[_resolveState];
+              }
+              resolve(_this6);
+            });
+            _this6.once('state-from-' + fromState, function (_ref11) {
+              var animation = _ref11.animation;
 
-      var len = states.length;
-      var resolveState = function resolveState(state, i) {
-        var promise = new _promise2.default(function (resolve) {
-          _this6.once('state-to-' + state, function () {
-            fromState = state;
-            if (i === len - 1) {
-              // lastState
-              delete _this6[_resolveState];
-            }
-            resolve(_this6);
+              if (animation && resolved) animation.finish();else currentAnimation = animation;
+            });
+            _this6.attr('state', state);
           });
-          _this6.once('state-from-' + fromState, function (_ref11) {
-            var animation = _ref11.animation;
-
-            if (animation && resolved) animation.finish();else currentAnimation = animation;
-          });
-          _this6.attr('state', state);
-        });
-        return promise;
-      };
-
-      var promise = _promise2.default.resolve();
-      states.forEach(function (state, i) {
-        promise = promise.then(function () {
-          return resolveState(state, i);
-        });
-      });
-
-      var ret = {
-        get animation() {
-          return currentAnimation;
-        },
-        states: states,
-        resolve: function resolve() {
-          resolved = true;
-          if (currentAnimation) currentAnimation.finish();
           return promise;
-        },
+        };
 
-        promise: promise
+        var promise = _promise2.default.resolve();
+        states.forEach(function (state, i) {
+          promise = promise.then(function () {
+            return resolveState(state, i);
+          });
+        });
+
+        var ret = {
+          get animation() {
+            return currentAnimation;
+          },
+          states: states,
+          resolve: function resolve() {
+            resolved = true;
+            if (currentAnimation) currentAnimation.finish();
+            return promise;
+          },
+
+          promise: promise
+        };
+        _this6[_resolveState] = ret;
+        return ret;
       };
-      this[_resolveState] = ret;
-      return ret;
+      var rs = this[_resolveState];
+      if (rs) {
+        rs.resolve();
+        this.__ignoreAction = true;
+        var promise = rs.promise.then(function () {
+          return _resolveStates();
+        });
+        return {
+          promise: promise,
+          resolve: function resolve() {
+            resolved = true;
+            if (currentAnimation) currentAnimation.finish();
+            return promise;
+          }
+        };
+      }
+      return _resolveStates();
     }
 
     // state: original -> show -> hide -> show -> original
@@ -10291,7 +10294,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
           var fromState = states[oldState],
               actions = this.actions;
           if (actions) {
-            action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
+            action = !subject.__ignoreAction && (actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':']);
             if (action) {
               var animation = subject.changeState(fromState, toState, action);
               var tag = (0, _symbol2.default)('tag');
@@ -10313,7 +10316,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
             }
           }
         }
-        if (!action) {
+        if (!action || subject.__ignoreAction) {
           subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val }, true, true);
           if (toState) subject.attr(toState);
           subject.dispatchEvent('state-to-' + val, { from: oldState, to: val }, true, true);

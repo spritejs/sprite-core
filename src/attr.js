@@ -743,7 +743,7 @@ class SpriteAttr {
         const fromState = states[oldState],
           actions = this.actions;
         if(actions) {
-          action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
+          action = !subject.__ignoreAction && (actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`]);
           if(action) {
             const animation = subject.changeState(fromState, toState, action);
             const tag = Symbol('tag');
@@ -765,7 +765,7 @@ class SpriteAttr {
           }
         }
       }
-      if(!action) {
+      if(!action || subject.__ignoreAction) {
         subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val}, true, true);
         if(toState) subject.attr(toState);
         subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);

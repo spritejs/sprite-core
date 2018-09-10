@@ -927,66 +927,71 @@ export default class BaseSprite extends BaseNode {
   }
 
   resolveStates(...states) {
-    const rs = this[_resolveState];
-    if(rs) {
-      if(rs.animation) {
-        rs.animation.cancel();
-        this[_animations].delete(rs.animation);
-      }
-      const states = this.attr('states');
-      const stateList = rs.states.map(st => [st, states[st]]).filter(st => st[1]);
-      const lastState = stateList[stateList.length - 1];
-      if(lastState) this.attr(lastState[1]);
-      this[_attr].quietSet('state', lastState[0]);
-    }
     let currentAnimation = null,
       resolved = false;
+    const _resolveStates = () => {
+      this.__ignoreAction = false;
+      let fromState = this.attr('state');
+      if(fromState === states[0]) {
+        states.shift();
+      }
 
-    let fromState = this.attr('state');
-    if(fromState === states[0]) {
-      states.shift();
-    }
-
-    const len = states.length;
-    const resolveState = (state, i) => {
-      const promise = new Promise((resolve) => {
-        this.once(`state-to-${state}`, () => {
-          fromState = state;
-          if(i === len - 1) { // lastState
-            delete this[_resolveState];
-          }
-          resolve(this);
+      const len = states.length;
+      const resolveState = (state, i) => {
+        const promise = new Promise((resolve) => {
+          this.once(`state-to-${state}`, () => {
+            fromState = state;
+            if(i === len - 1) { // lastState
+              delete this[_resolveState];
+            }
+            resolve(this);
+          });
+          this.once(`state-from-${fromState}`, ({animation}) => {
+            if(animation && resolved) animation.finish();
+            else currentAnimation = animation;
+          });
+          this.attr('state', state);
         });
-        this.once(`state-from-${fromState}`, ({animation}) => {
-          if(animation && resolved) animation.finish();
-          else currentAnimation = animation;
-        });
-        this.attr('state', state);
-      });
-      return promise;
-    };
-
-    let promise = Promise.resolve();
-    states.forEach((state, i) => {
-      promise = promise.then(() => {
-        return resolveState(state, i);
-      });
-    });
-
-    const ret = {
-      get animation() {
-        return currentAnimation;
-      },
-      states,
-      resolve() {
-        resolved = true;
-        if(currentAnimation) currentAnimation.finish();
         return promise;
-      },
-      promise,
+      };
+
+      let promise = Promise.resolve();
+      states.forEach((state, i) => {
+        promise = promise.then(() => {
+          return resolveState(state, i);
+        });
+      });
+
+      const ret = {
+        get animation() {
+          return currentAnimation;
+        },
+        states,
+        resolve() {
+          resolved = true;
+          if(currentAnimation) currentAnimation.finish();
+          return promise;
+        },
+        promise,
+      };
+      this[_resolveState] = ret;
+      return ret;
     };
-    this[_resolveState] = ret;
-    return ret;
+    const rs = this[_resolveState];
+    if(rs) {
+      rs.resolve();
+      this.__ignoreAction = true;
+      const promise = rs.promise.then(() => _resolveStates());
+      return {
+        promise,
+        resolve() {
+          resolved = true;
+          if(currentAnimation) currentAnimation.finish();
+          return promise;
+        },
+      };
+    }
+    return _resolveStates();
   }
 
   // state: original -> show -> hide -> show -> original
