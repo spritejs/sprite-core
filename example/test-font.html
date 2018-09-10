@@ -83,14 +83,17 @@
     s.append(s2);
     layer.append(s3);
 
-    s2.animate([
-      {width: 100},
-      {width: 300},
-    ], {
-      duration: 5000,
-      iterations: Infinity,
-      direction: 'alternate',
-    });
+    const s4 = s2.cloneNode();
+    layer.append(s4);
+
+    // s2.animate([
+    //   {width: 100},
+    //   {width: 300},
+    // ], {
+    //   duration: 5000,
+    //   iterations: Infinity,
+    //   direction: 'alternate',
+    // });
   </script>
 </body>
 </html>

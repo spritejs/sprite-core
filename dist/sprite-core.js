@@ -12326,10 +12326,10 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       var font = this.font;
 
       var _parseFont3 = parseFont(font),
-          size = _parseFont3.size,
+          size0 = _parseFont3.size0,
           unit = _parseFont3.unit;
 
-      return '' + size + unit;
+      return '' + size0 + unit;
     }
   }, {
     key: 'fontFamily',
@@ -12341,10 +12341,10 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
           style = _parseFont4.style,
           variant = _parseFont4.variant,
           weight = _parseFont4.weight,
-          size = _parseFont4.size,
+          size0 = _parseFont4.size0,
           unit = _parseFont4.unit;
 
-      var fontValue = style + ' ' + variant + ' ' + weight + ' ' + size + unit + ' ' + val;
+      var fontValue = style + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + val;
       this.font = fontValue;
     },
     get: function get() {
@@ -12359,11 +12359,11 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       var _parseFont5 = parseFont(font),
           variant = _parseFont5.variant,
           weight = _parseFont5.weight,
-          size = _parseFont5.size,
+          size0 = _parseFont5.size0,
           unit = _parseFont5.unit,
           family = _parseFont5.family;
 
-      var fontValue = val + ' ' + variant + ' ' + weight + ' ' + size + unit + ' ' + family;
+      var fontValue = val + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + family;
       this.font = fontValue;
     },
     get: function get() {
@@ -12378,11 +12378,11 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       var _parseFont6 = parseFont(font),
           style = _parseFont6.style,
           weight = _parseFont6.weight,
-          size = _parseFont6.size,
+          size0 = _parseFont6.size0,
           unit = _parseFont6.unit,
           family = _parseFont6.family;
 
-      var fontValue = style + ' ' + val + ' ' + weight + ' ' + size + unit + ' ' + family;
+      var fontValue = style + ' ' + val + ' ' + weight + ' ' + size0 + unit + ' ' + family;
       this.font = fontValue;
     },
     get: function get() {
@@ -12397,11 +12397,11 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       var _parseFont7 = parseFont(font),
           style = _parseFont7.style,
           variant = _parseFont7.variant,
-          size = _parseFont7.size,
+          size0 = _parseFont7.size0,
           unit = _parseFont7.unit,
           family = _parseFont7.family;
 
-      var fontValue = style + ' ' + variant + ' ' + val + ' ' + size + unit + ' ' + family;
+      var fontValue = style + ' ' + variant + ' ' + val + ' ' + size0 + unit + ' ' + family;
       this.font = fontValue;
     },
     get: function get() {
@@ -13688,6 +13688,8 @@ module.exports = function f(str, defaultHeight) {
   if (style = styleRe.exec(substr)) font.style = style[1];
   if (variant = variantRe.exec(substr)) font.variant = variant[1];
   if (stretch = stretchRe.exec(substr)) font.stretch = stretch[1];
+
+  font.size0 = font.size;
 
   // Convert to device units. (`font.unit` is the original unit)
   // TODO: ch, ex

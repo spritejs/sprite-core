@@ -8834,15 +8834,15 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 
   get fontSize() {
     const font = this.font;
-    const { size, unit } = parseFont(font);
-    return `${size}${unit}`;
+    const { size0, unit } = parseFont(font);
+    return `${size0}${unit}`;
   }
 
   set fontFamily(val) {
     if (val == null) val = 'Arial';
     const font = this.font;
-    const { style, variant, weight, size, unit } = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${size}${unit} ${val}`;
+    const { style, variant, weight, size0, unit } = parseFont(font);
+    const fontValue = `${style} ${variant} ${weight} ${size0}${unit} ${val}`;
     this.font = fontValue;
   }
 
@@ -8853,8 +8853,8 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
   set fontStyle(val) {
     if (val == null) val = 'normal';
     const font = this.font;
-    const { variant, weight, size, unit, family } = parseFont(font);
-    const fontValue = `${val} ${variant} ${weight} ${size}${unit} ${family}`;
+    const { variant, weight, size0, unit, family } = parseFont(font);
+    const fontValue = `${val} ${variant} ${weight} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
@@ -8865,8 +8865,8 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
   set fontVariant(val) {
     if (val == null) val = 'normal';
     const font = this.font;
-    const { style, weight, size, unit, family } = parseFont(font);
-    const fontValue = `${style} ${val} ${weight} ${size}${unit} ${family}`;
+    const { style, weight, size0, unit, family } = parseFont(font);
+    const fontValue = `${style} ${val} ${weight} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
@@ -8877,8 +8877,8 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
   set fontWeight(val) {
     if (val == null) val = 'normal';
     const font = this.font;
-    const { style, variant, size, unit, family } = parseFont(font);
-    const fontValue = `${style} ${variant} ${val} ${size}${unit} ${family}`;
+    const { style, variant, size0, unit, family } = parseFont(font);
+    const fontValue = `${style} ${variant} ${val} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
@@ -10119,6 +10119,8 @@ module.exports = function f(str, defaultHeight) {
   if (style = styleRe.exec(substr)) font.style = style[1];
   if (variant = variantRe.exec(substr)) font.variant = variant[1];
   if (stretch = stretchRe.exec(substr)) font.stretch = stretch[1];
+
+  font.size0 = font.size;
 
   // Convert to device units. (`font.unit` is the original unit)
   // TODO: ch, ex

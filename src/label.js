@@ -149,16 +149,16 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 
   get fontSize() {
     const font = this.font;
-    const {size, unit} = parseFont(font);
-    return `${size}${unit}`;
+    const {size0, unit} = parseFont(font);
+    return `${size0}${unit}`;
   }
 
   @attr
   set fontFamily(val) {
     if(val == null) val = 'Arial';
     const font = this.font;
-    const {style, variant, weight, size, unit} = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${size}${unit} ${val}`;
+    const {style, variant, weight, size0, unit} = parseFont(font);
+    const fontValue = `${style} ${variant} ${weight} ${size0}${unit} ${val}`;
     this.font = fontValue;
   }
 
@@ -170,8 +170,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set fontStyle(val) {
     if(val == null) val = 'normal';
     const font = this.font;
-    const {variant, weight, size, unit, family} = parseFont(font);
-    const fontValue = `${val} ${variant} ${weight} ${size}${unit} ${family}`;
+    const {variant, weight, size0, unit, family} = parseFont(font);
+    const fontValue = `${val} ${variant} ${weight} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
@@ -183,8 +183,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set fontVariant(val) {
     if(val == null) val = 'normal';
     const font = this.font;
-    const {style, weight, size, unit, family} = parseFont(font);
-    const fontValue = `${style} ${val} ${weight} ${size}${unit} ${family}`;
+    const {style, weight, size0, unit, family} = parseFont(font);
+    const fontValue = `${style} ${val} ${weight} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
@@ -196,8 +196,8 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set fontWeight(val) {
     if(val == null) val = 'normal';
     const font = this.font;
-    const {style, variant, size, unit, family} = parseFont(font);
-    const fontValue = `${style} ${variant} ${val} ${size}${unit} ${family}`;
+    const {style, variant, size0, unit, family} = parseFont(font);
+    const fontValue = `${style} ${variant} ${val} ${size0}${unit} ${family}`;
     this.font = fontValue;
   }
 
