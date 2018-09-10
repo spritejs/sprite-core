@@ -5461,7 +5461,8 @@ const _attr = Symbol('attr'),
       _cachePriority = Symbol('cachePriority'),
       _effects = Symbol('effects'),
       _flow = Symbol('flow'),
-      _changeStateAction = Symbol('changeStateAction');
+      _changeStateAction = Symbol('changeStateAction'),
+      _resolveState = Symbol('resolveState');
 
 let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use sprite.cache = null'), (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
@@ -5806,7 +5807,10 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       }
     }
     if (!animation) {
-      animation = this.animate([Object.assign({}, fromState), Object.assign({}, toState)], Object.assign({ fill: 'forwards' }, action));
+      const [_fromState, _toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
+      delete _fromState.__default;
+      delete _toState.__default;
+      animation = this.animate([_fromState, _toState], Object.assign({ fill: 'forwards' }, action));
       animation.finished.then(() => {
         if (this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
       });
@@ -6322,25 +6326,79 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     return true;
   }
 
+  resolveStates(...states) {
+    const rs = this[_resolveState];
+    if (rs) {
+      if (rs.animation) {
+        rs.animation.cancel();
+        this[_animations].delete(rs.animation);
+      }
+      const states = this.attr('states');
+      const stateList = rs.states.map(st => [st, states[st]]).filter(st => st[1]);
+      const lastState = stateList[stateList.length - 1];
+      if (lastState) this.attr(lastState[1]);
+      this[_attr].quietSet('state', lastState[0]);
+    }
+    let currentAnimation = null,
+        resolved = false;
+
+    let fromState = this.attr('state');
+    if (fromState === states[0]) {
+      states.shift();
+    }
+
+    const len = states.length;
+    const resolveState = (state, i) => {
+      const promise = new Promise(resolve => {
+        this.once(`state-to-${state}`, () => {
+          fromState = state;
+          if (i === len - 1) {
+            // lastState
+            delete this[_resolveState];
+          }
+          resolve(this);
+        });
+        this.once(`state-from-${fromState}`, ({ animation }) => {
+          if (animation && resolved) animation.finish();else currentAnimation = animation;
+        });
+        this.attr('state', state);
+      });
+      return promise;
+    };
+
+    let promise = Promise.resolve();
+    states.forEach((state, i) => {
+      promise = promise.then(() => {
+        return resolveState(state, i);
+      });
+    });
+
+    const ret = {
+      get animation() {
+        return currentAnimation;
+      },
+      states,
+      resolve() {
+        resolved = true;
+        if (currentAnimation) currentAnimation.finish();
+        return promise;
+      },
+      promise
+    };
+    this[_resolveState] = ret;
+    return ret;
+  }
+
   // state: original -> show -> hide -> show -> original
   show() {
-    const state = this.attr('state');
-    if (state !== 'hide') return this;
-
     const originalDisplay = this.attr('_originalDisplay') || '';
     const originalState = this.attr('_originalState') || 'default';
 
-    const actions = this.attr('actions');
+    const states = this.attr('states');
 
-    if (actions['hide:'] || actions[`:${originalState}`] || actions[`hide:${originalState}`]) {
-      const promise = new Promise(resolve => {
-        this.on(`state-to-${originalState}`, () => {
-          resolve(this);
-        });
-      });
-      this.attr('state', originalState);
+    if (states.show) {
       this.attr('display', originalDisplay);
-      return promise;
+      return this.resolveStates('show', originalState);
     }
 
     this.attr('state', originalState);
@@ -6349,9 +6407,6 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   hide() {
-    const state = this.attr('state');
-    if (state === 'hide') return this;
-
     const _originalDisplay = this.attr('display');
     const _originalState = this.attr('state');
     this.attr({
@@ -6359,26 +6414,20 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       _originalState
     });
 
-    const actions = this.attr('actions');
+    const states = this.attr('states');
 
-    if (actions[':hide'] || actions[`${_originalState}:`] || actions[`${_originalState}:hide`]) {
-      const states = this.attr('states');
-      if (states.hide) {
-        states[state] = states[state] || {};
-        Object.entries(states.hide).forEach(([key, value]) => {
-          if (!states[state][key]) {
-            states[state][key] = this.attr(key);
-          }
+    if (states.hide) {
+      if (!states.show || states.show.__default) {
+        const beforeHide = { __default: true };
+        Object.keys(states.hide).forEach(key => {
+          beforeHide[key] = this.attr(key);
         });
+        states.show = beforeHide;
       }
-      const promise = new Promise(resolve => {
-        this.on('state-to-hide', () => {
-          this.attr('display', 'none');
-          resolve(this);
-        });
+      return this.resolveStates('show', 'hide').promise.then(() => {
+        this.attr('display', 'none');
+        return this;
       });
-      this.attr('state', 'hide');
-      return promise;
     }
 
     this.attr('state', 'hide');
@@ -6386,42 +6435,183 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     return this;
   }
 
-  enter() {
+  enter(toState) {
     const states = this.attr('states');
-    if (states && (states.enter || states.entered)) {
+    let ret;
+    if (states && (states.beforeEnter || states.afterEnter)) {
       const state = this.attr('state');
-      const promise = new Promise(resolve => {
-        this.on('state-to-enter', () => {
-          this.on('state-to-entered', () => {
-            this.attr('state', state);
-            resolve(this);
-          });
-          this.attr('state', 'entered');
+      if (state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
+        const afterEnter = { __default: true };
+        Object.keys(states.beforeEnter).forEach(key => {
+          afterEnter[key] = this.attr(key);
         });
-      });
-      this.attr('state', 'enter');
-      return promise;
+        states.afterEnter = afterEnter;
+      }
+      const deferred = this.resolveStates('beforeEnter', 'afterEnter', toState || state);
+      ret = deferred;
+    } else {
+      ret = super.enter();
     }
-    return super.enter();
+
+    if (this.children) {
+      const enterMode = this.attr('enterMode');
+      if (enterMode === 'onebyone' || enterMode === 'onebyone-reverse') {
+        let promise = null;
+        let resolved = false;
+        if (ret.promise) {
+          promise = ret.promise;
+        } else {
+          promise = Promise.resolve(this);
+        }
+
+        let children = this.children;
+        if (enterMode === 'onebyone-reverse') {
+          children = [...children].reverse();
+        }
+
+        children.forEach(c => {
+          const states = c.attr('states');
+          if (states && (states.beforeEnter || states.afterEnter)) {
+            if (!states.afterEnter || states.afterEnter.__default) {
+              const afterEnter = { __default: true };
+              Object.keys(states.beforeEnter).forEach(key => {
+                afterEnter[key] = c.attr(key);
+              });
+              states.afterEnter = afterEnter;
+            }
+          }
+          const toState = c.attr('state');
+          c.attr('state', 'beforeEnter');
+          promise = promise.then(() => {
+            const d = c.enter(toState);
+            if (d.promise) {
+              if (resolved && d.resolve) d.resolve();
+              return d.promise;
+            }
+            return d;
+          });
+        });
+
+        return {
+          promise,
+          resolve() {
+            resolved = true;
+          }
+        };
+      }
+
+      const entries = this.children.map(c => c.enter()).filter(d => d.promise);
+      if (ret.promise) {
+        entries.unshift(ret);
+      }
+      if (entries.length) {
+        const deferred = {
+          promise: Promise.all(entries.map(d => d.promise)),
+          resolve: () => {
+            entries.forEach(d => d.resolve());
+            return this.promise;
+          }
+        };
+        return deferred;
+      }
+    }
+
+    return ret;
   }
 
-  exit() {
+  exit(toState, onbyone = false) {
     const states = this.attr('states');
-    if (states && (states.exit || states.exited)) {
+    let ret;
+    const afterEnter = states.afterEnter || {};
+    if (states && (states.beforeExit || states.afterExit)) {
       const state = this.attr('state');
-      const promise = new Promise(resolve => {
-        this.on('state-to-exit', () => {
-          this.on('state-to-exited', () => {
-            this.attr('state', state);
-            resolve(this);
-          });
-          this.attr('state', 'exited');
-        });
+      if (state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+        states.beforeExit = Object.assign({}, afterEnter);
+        states.beforeExit.__default = true;
+      }
+      const deferred = this.resolveStates('beforeExit', 'afterExit');
+      deferred.promise.then(() => {
+        if (!onbyone) {
+          this.attr(afterEnter);
+          this[_attr].quietSet('state', toState || state);
+        }
+        return this;
       });
-      this.attr('state', 'exit');
-      return promise;
+      ret = deferred;
+    } else {
+      ret = super.exit();
+      this.attr(afterEnter);
     }
-    return super.exit();
+
+    if (this.children) {
+      const exitMode = this.attr('exitMode');
+      if (exitMode === 'onebyone' || exitMode === 'onebyone-reverse') {
+        let promise = Promise.resolve(this);
+        let resolved = false;
+
+        let children = this.children;
+        if (exitMode === 'onebyone-reverse') {
+          children = [...children].reverse();
+        }
+
+        children.forEach(c => {
+          const states = c.attr('states');
+          if (states && (states.beforeExit || states.afterExit)) {
+            if (!states.beforeExit || states.beforeExit.__default) {
+              states.beforeExit = Object.assign({}, afterEnter);
+              states.beforeExit.__default = true;
+            }
+          }
+          const toState = c.attr('state');
+          c.attr('state', 'beforeExit');
+          promise = promise.then(() => {
+            const d = c.exit(toState, true);
+            if (d.promise) {
+              if (resolved && d.resolve) d.resolve();
+              return d.promise;
+            }
+            return d;
+          });
+          c.__toState = toState;
+        });
+
+        promise = promise.then(() => {
+          const p = ret.promise || Promise.resolve(this);
+          return p.then(() => {
+            this.children.forEach(c => {
+              const states = c.attr('states');
+              c.attr(states.afterEnter);
+              c[_attr].quietSet('state', c.__toState);
+              delete c.__toState;
+            });
+          });
+        });
+
+        return {
+          promise,
+          resolve() {
+            resolved = true;
+          }
+        };
+      }
+
+      const exites = this.children.map(c => c.exit()).filter(d => d.promise);
+      if (ret.promise) {
+        exites.unshift(ret);
+      }
+      if (exites.length) {
+        const deferred = {
+          promise: Promise.all(exites.map(d => d.promise)),
+          resolve: () => {
+            exites.forEach(d => d.resolve());
+            return this.promise;
+          }
+        };
+        return deferred;
+      }
+    }
+
+    return ret;
   }
 }, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype)), _class));
 
@@ -6622,8 +6812,27 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
     this.setDefault({
       state: 'default',
-      states: null,
-      actions: null,
+      states: {},
+      actions: {
+        'beforeEnter:': {
+          duration: 300,
+          easing: 'ease-in'
+        },
+        'beforeExit:': {
+          duration: 300,
+          easing: 'ease-out'
+        },
+        'hide:': {
+          duration: 300,
+          easing: 'ease-in'
+        },
+        ':hide': {
+          duration: 300,
+          easing: 'ease-out'
+        }
+      },
+      enterMode: 'normal',
+      exitMode: 'normal',
       anchor: [0, 0],
       x: 0,
       y: 0,
@@ -7213,10 +7422,11 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           value[key] = Object.assign({}, action);
         }
       });
-      this.quietSet('actions', value);
-    } else {
-      this.quietSet('actions', val);
+      val = value;
     }
+    const defaultVal = this[_default].actions;
+    val = Object.assign({}, defaultVal, val);
+    this.quietSet('actions', val);
   }
 
   set state(val) {
@@ -7225,45 +7435,52 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     if (oldState !== val) {
       this.quietSet('state', val);
       const states = this.states;
-      if (states) {
-        let action = null;
-        const toState = states[val];
-        const subject = this.subject;
-        if (toState) {
-          const fromState = states[oldState],
-                actions = this.actions;
-          if (actions) {
-            action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
-            if (action) {
-              const animation = subject.changeState(fromState, toState, action);
-              const tag = Symbol('tag');
-              animation.tag = tag;
-              if (animation.__reversed) {
-                subject.dispatchEvent(`state-to-${oldState}`, {
-                  from: val,
-                  to: oldState,
-                  action: animation.__reversed,
-                  cancelled: true,
-                  animation }, true, true);
-              }
-              subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val, action, animation }, true, true);
-              animation.finished.then(() => {
-                if (animation.tag === tag) {
-                  subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val, action, animation }, true, true);
-                }
-              });
+
+      let action = null;
+      const toState = states[val];
+      const subject = this.subject;
+      if (subject.parent && toState) {
+        const fromState = states[oldState],
+              actions = this.actions;
+        if (actions) {
+          action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
+          if (action) {
+            const animation = subject.changeState(fromState, toState, action);
+            const tag = Symbol('tag');
+            animation.tag = tag;
+            if (animation.__reversed) {
+              subject.dispatchEvent(`state-to-${oldState}`, {
+                from: val,
+                to: oldState,
+                action: animation.__reversed,
+                cancelled: true,
+                animation }, true, true);
             }
+            subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val, action, animation }, true, true);
+            animation.finished.then(() => {
+              if (animation.tag === tag) {
+                subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val, action, animation }, true, true);
+              }
+            });
           }
         }
-        if (!action) {
-          subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val }, true, true);
-          if (toState) subject.attr(toState);
-          subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val }, true, true);
-        }
+      }
+      if (!action) {
+        subject.dispatchEvent(`state-from-${oldState}`, { from: oldState, to: val }, true, true);
+        if (toState) subject.attr(toState);
+        subject.dispatchEvent(`state-to-${val}`, { from: oldState, to: val }, true, true);
       }
     }
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec6, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype)), _class));
+
+  set enterMode(val) {
+    this.set('enterMode', val);
+  }
+
+  set exitMode(val) {
+    this.set('exitMode', val);
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec6, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'enterMode', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'enterMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exitMode', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'exitMode'), _class.prototype)), _class));
 
 
 /* harmony default export */ __webpack_exports__["default"] = (SpriteAttr);
@@ -7324,6 +7541,18 @@ let BaseNode = class BaseNode {
     } else {
       this[_eventHandlers][type] = this[_eventHandlers][type] || [];
       this[_eventHandlers][type].push(handler);
+    }
+    return this;
+  }
+
+  once(type, handler) {
+    if (Array.isArray(type)) {
+      type.forEach(t => this.once(t, handler));
+    } else {
+      this.on(type, function f(...args) {
+        this.off(type, f);
+        return handler.apply(this, args);
+      });
     }
     return this;
   }
@@ -7441,7 +7670,7 @@ let BaseNode = class BaseNode {
         }
       }
 
-      handlers.forEach(handler => handler.call(this, evt));
+      [...handlers].forEach(handler => handler.call(this, evt));
 
       if (!this[_collisionState] && isCollision && type === 'mousemove') {
         const _evt = Object.assign({}, evt);
@@ -10552,7 +10781,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
   get isVirtual() {
     const display = this.attr('display');
-    if (display !== '') return false;
+    if (display !== '' && display !== 'none') return false;
     const { width: borderWidth } = this.attr('border'),
           borderRadius = this.attr('borderRadius'),
           bgcolor = this.attr('bgcolor'),
@@ -11558,47 +11787,51 @@ const _removeTask = Symbol('removeTask');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   appendChild(sprite, update = true) {
-    sprite.remove(false);
+    const _append = () => {
+      const children = this.children;
+      children.push(sprite);
 
-    const children = this.children;
-    children.push(sprite);
+      this[_zOrder] = this[_zOrder] || 0;
+      sprite.connect(this, this[_zOrder]++);
 
-    this[_zOrder] = this[_zOrder] || 0;
-    sprite.connect(this, this[_zOrder]++);
+      for (let i = children.length - 1; i > 0; i--) {
+        const a = children[i],
+              b = children[i - 1];
 
-    for (let i = children.length - 1; i > 0; i--) {
-      const a = children[i],
-            b = children[i - 1];
-
-      if (a.zIndex < b.zIndex) {
-        children[i] = b;
-        children[i - 1] = a;
+        if (a.zIndex < b.zIndex) {
+          children[i] = b;
+          children[i - 1] = a;
+        }
       }
-    }
 
-    if (update) {
-      sprite.forceUpdate();
-    }
+      if (update) {
+        sprite.forceUpdate();
+      }
 
-    const task = sprite.enter();
-    if (task instanceof Promise) {
-      return task.then(() => {
-        return sprite;
+      if (sprite.layer) {
+        return sprite.enter();
+      }
+      return sprite;
+    };
+
+    const _remove = sprite.remove();
+    if (_remove && _remove.promise) {
+      // deferred
+      if (_remove.resolve) _remove.resolve();
+      _remove.promise.then(() => {
+        return _append();
       });
+      return _remove;
     }
-    return sprite;
+    return _append();
   },
   append(...sprites) {
-    let isPromise = false;
-    const tasks = sprites.map(sprite => {
-      const task = this.appendChild(sprite);
-      if (task instanceof Promise) isPromise = true;
-      return task;
+    sprites.forEach(sprite => {
+      this.appendChild(sprite);
     });
-    if (isPromise) return Promise.all(tasks);
-    return tasks;
+    return this;
   },
-  removeChild(child, exit = true) {
+  removeChild(child) {
     if (child[_removeTask]) return child[_removeTask];
 
     const idx = this.children.indexOf(child);
@@ -11617,34 +11850,31 @@ const _removeTask = Symbol('removeTask');
       return sprite;
     }
 
-    if (exit) {
-      const action = child.exit();
-      if (action instanceof Promise) {
-        child[_removeTask] = action;
-        return action.then(() => {
-          return remove(child);
-        });
-      }
+    const action = child.exit();
+    if (action.promise) {
+      child[_removeTask] = action;
+      action.promise.then(() => {
+        return remove(child);
+      });
+      return action;
     }
+
     return remove(child);
   },
   clear() {
     const children = this.children.slice(0);
-    return children.map(child => this.removeChild(child));
+    children.forEach(child => this.removeChild(child));
+    return this;
   },
   remove(...args) {
-    if (args.length === 0 || args.length === 1 && typeof args[0] === 'boolean') {
+    if (args.length === 0) {
       if (!this.parent) return null;
-      return this.parent.removeChild(!args[0]);
+      return this.parent.removeChild(this);
     }
-    let isPromise = false;
-    const tasks = args.map(sprite => {
-      const task = this.removeChild(sprite);
-      if (task instanceof Promise) isPromise = true;
-      return task;
+    args.forEach(sprite => {
+      this.removeChild(sprite);
     });
-    if (isPromise) return Promise.all(tasks);
-    return tasks;
+    return this;
   },
   insertBefore(newchild, refchild) {
     if (refchild == null) {
@@ -11652,32 +11882,37 @@ const _removeTask = Symbol('removeTask');
     }
     const idx = this.children.indexOf(refchild);
     if (idx >= 0) {
-      this.removeChild(newchild, false);
-      const refZOrder = refchild.zOrder;
-      for (let i = idx; i < this.children.length; i++) {
-        const child = this.children[i],
-              zOrder = child.zOrder;
-        delete child.zOrder;
-        Object.defineProperty(child, 'zOrder', {
-          value: zOrder + 1,
-          writable: false,
-          configurable: true
-        });
-      }
-      this.children.splice(idx, 0, newchild);
-      newchild.connect(this, refZOrder);
-      newchild.forceUpdate();
+      const _insert = () => {
+        const refZOrder = refchild.zOrder;
+        for (let i = idx; i < this.children.length; i++) {
+          const child = this.children[i],
+                zOrder = child.zOrder;
+          delete child.zOrder;
+          Object.defineProperty(child, 'zOrder', {
+            value: zOrder + 1,
+            writable: false,
+            configurable: true
+          });
+        }
+        this.children.splice(idx, 0, newchild);
+        newchild.connect(this, refZOrder);
+        newchild.forceUpdate();
 
-      this[_zOrder] = this[_zOrder] || 0;
-      this[_zOrder]++;
+        this[_zOrder] = this[_zOrder] || 0;
+        this[_zOrder]++;
 
-      const task = newchild.enter();
-      if (task instanceof Promise) {
-        return task.then(() => {
-          return newchild;
-        });
+        if (this.layer) {
+          return newchild.enter();
+        }
+      };
+
+      const _remove = this.removeChild(newchild);
+      if (_remove && _remove.promise) {
+        if (_remove.resolve) _remove.resolve();
+        _remove.promise.then(() => _insert());
+        return _remove;
       }
-      return newchild;
+      return _insert();
     }
     return null;
   }

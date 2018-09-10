@@ -7412,6 +7412,10 @@ var _defineProperty2 = __webpack_require__(116);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+var _keys = __webpack_require__(136);
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _promise = __webpack_require__(124);
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -7513,7 +7517,8 @@ var _attr = (0, _symbol2.default)('attr'),
     _cachePriority = (0, _symbol2.default)('cachePriority'),
     _effects = (0, _symbol2.default)('effects'),
     _flow = (0, _symbol2.default)('flow'),
-    _changeStateAction = (0, _symbol2.default)('changeStateAction');
+    _changeStateAction = (0, _symbol2.default)('changeStateAction'),
+    _resolveState = (0, _symbol2.default)('resolveState');
 
 var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'), (_class = (_temp = _class2 = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
@@ -7775,7 +7780,13 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         }
       }
       if (!animation) {
-        animation = this.animate([(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)], (0, _assign2.default)({ fill: 'forwards' }, action));
+        var _ref8 = [(0, _assign2.default)({}, fromState), (0, _assign2.default)({}, toState)],
+            _fromState = _ref8[0],
+            _toState = _ref8[1];
+
+        delete _fromState.__default;
+        delete _toState.__default;
+        animation = this.animate([_fromState, _toState], (0, _assign2.default)({ fill: 'forwards' }, action));
         animation.finished.then(function () {
           if (_this4[_changeStateAction] && _this4[_changeStateAction].animation === animation) delete _this4[_changeStateAction];
         });
@@ -7971,12 +7982,12 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
                 width = _outerSize[0],
                 height = _outerSize[1];
 
-            var _ref8 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
-                x = _ref8[0],
-                y = _ref8[1],
-                w = _ref8[2],
-                h = _ref8[3],
-                r = _ref8[4];
+            var _ref9 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
+                x = _ref9[0],
+                y = _ref9[1],
+                w = _ref9[2],
+                h = _ref9[3],
+                r = _ref9[4];
 
             (0, _render.drawRadiusBox)(this.context, { x: x, y: y, w: w, h: h, r: r });
             if (this.layer && this.layer.offset) {
@@ -8171,12 +8182,12 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       var bgimage = this.attr('bgimage');
 
       if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
-        var _ref9 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x7 = _ref9[0],
-            _y = _ref9[1],
-            _w = _ref9[2],
-            _h = _ref9[3],
-            _r = _ref9[4];
+        var _ref10 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
+            _x7 = _ref10[0],
+            _y = _ref10[1],
+            _w = _ref10[2],
+            _h = _ref10[3],
+            _r = _ref10[4];
 
 
         (0, _render.drawRadiusBox)(drawingContext, { x: _x7, y: _y, w: _w, h: _h, r: _r });
@@ -8200,31 +8211,97 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
       return true;
     }
+  }, {
+    key: 'resolveStates',
+    value: function resolveStates() {
+      var _this6 = this;
+
+      for (var _len = arguments.length, states = Array(_len), _key = 0; _key < _len; _key++) {
+        states[_key] = arguments[_key];
+      }
+
+      var rs = this[_resolveState];
+      if (rs) {
+        if (rs.animation) {
+          rs.animation.cancel();
+          this[_animations].delete(rs.animation);
+        }
+        var _states = this.attr('states');
+        var stateList = rs.states.map(function (st) {
+          return [st, _states[st]];
+        }).filter(function (st) {
+          return st[1];
+        });
+        var lastState = stateList[stateList.length - 1];
+        if (lastState) this.attr(lastState[1]);
+        this[_attr].quietSet('state', lastState[0]);
+      }
+      var currentAnimation = null,
+          resolved = false;
+
+      var fromState = this.attr('state');
+      if (fromState === states[0]) {
+        states.shift();
+      }
+
+      var len = states.length;
+      var resolveState = function resolveState(state, i) {
+        var promise = new _promise2.default(function (resolve) {
+          _this6.once('state-to-' + state, function () {
+            fromState = state;
+            if (i === len - 1) {
+              // lastState
+              delete _this6[_resolveState];
+            }
+            resolve(_this6);
+          });
+          _this6.once('state-from-' + fromState, function (_ref11) {
+            var animation = _ref11.animation;
+
+            if (animation && resolved) animation.finish();else currentAnimation = animation;
+          });
+          _this6.attr('state', state);
+        });
+        return promise;
+      };
+
+      var promise = _promise2.default.resolve();
+      states.forEach(function (state, i) {
+        promise = promise.then(function () {
+          return resolveState(state, i);
+        });
+      });
+
+      var ret = {
+        get animation() {
+          return currentAnimation;
+        },
+        states: states,
+        resolve: function resolve() {
+          resolved = true;
+          if (currentAnimation) currentAnimation.finish();
+          return promise;
+        },
+
+        promise: promise
+      };
+      this[_resolveState] = ret;
+      return ret;
+    }
 
     // state: original -> show -> hide -> show -> original
 
   }, {
     key: 'show',
     value: function show() {
-      var _this6 = this;
-
-      var state = this.attr('state');
-      if (state !== 'hide') return this;
-
       var originalDisplay = this.attr('_originalDisplay') || '';
       var originalState = this.attr('_originalState') || 'default';
 
-      var actions = this.attr('actions');
+      var states = this.attr('states');
 
-      if (actions['hide:'] || actions[':' + originalState] || actions['hide:' + originalState]) {
-        var promise = new _promise2.default(function (resolve) {
-          _this6.on('state-to-' + originalState, function () {
-            resolve(_this6);
-          });
-        });
-        this.attr('state', originalState);
+      if (states.show) {
         this.attr('display', originalDisplay);
-        return promise;
+        return this.resolveStates('show', originalState);
       }
 
       this.attr('state', originalState);
@@ -8236,9 +8313,6 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
     value: function hide() {
       var _this7 = this;
 
-      var state = this.attr('state');
-      if (state === 'hide') return this;
-
       var _originalDisplay = this.attr('display');
       var _originalState = this.attr('state');
       this.attr({
@@ -8246,30 +8320,20 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         _originalState: _originalState
       });
 
-      var actions = this.attr('actions');
+      var states = this.attr('states');
 
-      if (actions[':hide'] || actions[_originalState + ':'] || actions[_originalState + ':hide']) {
-        var states = this.attr('states');
-        if (states.hide) {
-          states[state] = states[state] || {};
-          (0, _entries2.default)(states.hide).forEach(function (_ref10) {
-            var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
-                key = _ref11[0],
-                value = _ref11[1];
-
-            if (!states[state][key]) {
-              states[state][key] = _this7.attr(key);
-            }
+      if (states.hide) {
+        if (!states.show || states.show.__default) {
+          var beforeHide = { __default: true };
+          (0, _keys2.default)(states.hide).forEach(function (key) {
+            beforeHide[key] = _this7.attr(key);
           });
+          states.show = beforeHide;
         }
-        var promise = new _promise2.default(function (resolve) {
-          _this7.on('state-to-hide', function () {
-            _this7.attr('display', 'none');
-            resolve(_this7);
-          });
+        return this.resolveStates('show', 'hide').promise.then(function () {
+          _this7.attr('display', 'none');
+          return _this7;
         });
-        this.attr('state', 'hide');
-        return promise;
       }
 
       this.attr('state', 'hide');
@@ -8278,47 +8342,206 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
     }
   }, {
     key: 'enter',
-    value: function enter() {
+    value: function enter(toState) {
       var _this8 = this;
 
       var states = this.attr('states');
-      if (states && (states.enter || states.entered)) {
+      var ret = void 0;
+      if (states && (states.beforeEnter || states.afterEnter)) {
         var state = this.attr('state');
-        var promise = new _promise2.default(function (resolve) {
-          _this8.on('state-to-enter', function () {
-            _this8.on('state-to-entered', function () {
-              _this8.attr('state', state);
-              resolve(_this8);
-            });
-            _this8.attr('state', 'entered');
+        if (state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
+          var afterEnter = { __default: true };
+          (0, _keys2.default)(states.beforeEnter).forEach(function (key) {
+            afterEnter[key] = _this8.attr(key);
           });
-        });
-        this.attr('state', 'enter');
-        return promise;
+          states.afterEnter = afterEnter;
+        }
+        var deferred = this.resolveStates('beforeEnter', 'afterEnter', toState || state);
+        ret = deferred;
+      } else {
+        ret = (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'enter', this).call(this);
       }
-      return (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'enter', this).call(this);
+
+      if (this.children) {
+        var enterMode = this.attr('enterMode');
+        if (enterMode === 'onebyone' || enterMode === 'onebyone-reverse') {
+          var promise = null;
+          var resolved = false;
+          if (ret.promise) {
+            promise = ret.promise;
+          } else {
+            promise = _promise2.default.resolve(this);
+          }
+
+          var children = this.children;
+          if (enterMode === 'onebyone-reverse') {
+            children = [].concat((0, _toConsumableArray3.default)(children)).reverse();
+          }
+
+          children.forEach(function (c) {
+            var states = c.attr('states');
+            if (states && (states.beforeEnter || states.afterEnter)) {
+              if (!states.afterEnter || states.afterEnter.__default) {
+                var _afterEnter = { __default: true };
+                (0, _keys2.default)(states.beforeEnter).forEach(function (key) {
+                  _afterEnter[key] = c.attr(key);
+                });
+                states.afterEnter = _afterEnter;
+              }
+            }
+            var toState = c.attr('state');
+            c.attr('state', 'beforeEnter');
+            promise = promise.then(function () {
+              var d = c.enter(toState);
+              if (d.promise) {
+                if (resolved && d.resolve) d.resolve();
+                return d.promise;
+              }
+              return d;
+            });
+          });
+
+          return {
+            promise: promise,
+            resolve: function resolve() {
+              resolved = true;
+            }
+          };
+        }
+
+        var entries = this.children.map(function (c) {
+          return c.enter();
+        }).filter(function (d) {
+          return d.promise;
+        });
+        if (ret.promise) {
+          entries.unshift(ret);
+        }
+        if (entries.length) {
+          var _deferred = {
+            promise: _promise2.default.all(entries.map(function (d) {
+              return d.promise;
+            })),
+            resolve: function resolve() {
+              entries.forEach(function (d) {
+                return d.resolve();
+              });
+              return _this8.promise;
+            }
+          };
+          return _deferred;
+        }
+      }
+
+      return ret;
     }
   }, {
     key: 'exit',
-    value: function exit() {
+    value: function exit(toState) {
       var _this9 = this;
 
+      var onbyone = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       var states = this.attr('states');
-      if (states && (states.exit || states.exited)) {
+      var ret = void 0;
+      var afterEnter = states.afterEnter || {};
+      if (states && (states.beforeExit || states.afterExit)) {
         var state = this.attr('state');
-        var promise = new _promise2.default(function (resolve) {
-          _this9.on('state-to-exit', function () {
-            _this9.on('state-to-exited', function () {
-              _this9.attr('state', state);
-              resolve(_this9);
-            });
-            _this9.attr('state', 'exited');
-          });
+        if (state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+          states.beforeExit = (0, _assign2.default)({}, afterEnter);
+          states.beforeExit.__default = true;
+        }
+        var deferred = this.resolveStates('beforeExit', 'afterExit');
+        deferred.promise.then(function () {
+          if (!onbyone) {
+            _this9.attr(afterEnter);
+            _this9[_attr].quietSet('state', toState || state);
+          }
+          return _this9;
         });
-        this.attr('state', 'exit');
-        return promise;
+        ret = deferred;
+      } else {
+        ret = (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'exit', this).call(this);
+        this.attr(afterEnter);
       }
-      return (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'exit', this).call(this);
+
+      if (this.children) {
+        var exitMode = this.attr('exitMode');
+        if (exitMode === 'onebyone' || exitMode === 'onebyone-reverse') {
+          var promise = _promise2.default.resolve(this);
+          var resolved = false;
+
+          var children = this.children;
+          if (exitMode === 'onebyone-reverse') {
+            children = [].concat((0, _toConsumableArray3.default)(children)).reverse();
+          }
+
+          children.forEach(function (c) {
+            var states = c.attr('states');
+            if (states && (states.beforeExit || states.afterExit)) {
+              if (!states.beforeExit || states.beforeExit.__default) {
+                states.beforeExit = (0, _assign2.default)({}, afterEnter);
+                states.beforeExit.__default = true;
+              }
+            }
+            var toState = c.attr('state');
+            c.attr('state', 'beforeExit');
+            promise = promise.then(function () {
+              var d = c.exit(toState, true);
+              if (d.promise) {
+                if (resolved && d.resolve) d.resolve();
+                return d.promise;
+              }
+              return d;
+            });
+            c.__toState = toState;
+          });
+
+          promise = promise.then(function () {
+            var p = ret.promise || _promise2.default.resolve(_this9);
+            return p.then(function () {
+              _this9.children.forEach(function (c) {
+                var states = c.attr('states');
+                c.attr(states.afterEnter);
+                c[_attr].quietSet('state', c.__toState);
+                delete c.__toState;
+              });
+            });
+          });
+
+          return {
+            promise: promise,
+            resolve: function resolve() {
+              resolved = true;
+            }
+          };
+        }
+
+        var exites = this.children.map(function (c) {
+          return c.exit();
+        }).filter(function (d) {
+          return d.promise;
+        });
+        if (ret.promise) {
+          exites.unshift(ret);
+        }
+        if (exites.length) {
+          var _deferred2 = {
+            promise: _promise2.default.all(exites.map(function (d) {
+              return d.promise;
+            })),
+            resolve: function resolve() {
+              exites.forEach(function (d) {
+                return d.resolve();
+              });
+              return _this9.promise;
+            }
+          };
+          return _deferred2;
+        }
+      }
+
+      return ret;
     }
   }, {
     key: 'layer',
@@ -9335,8 +9558,27 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
 
     this.setDefault({
       state: 'default',
-      states: null,
-      actions: null,
+      states: {},
+      actions: {
+        'beforeEnter:': {
+          duration: 300,
+          easing: 'ease-in'
+        },
+        'beforeExit:': {
+          duration: 300,
+          easing: 'ease-out'
+        },
+        'hide:': {
+          duration: 300,
+          easing: 'ease-in'
+        },
+        ':hide': {
+          duration: 300,
+          easing: 'ease-out'
+        }
+      },
+      enterMode: 'normal',
+      exitMode: 'normal',
       anchor: [0, 0],
       x: 0,
       y: 0,
@@ -10027,10 +10269,11 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
             value[key] = (0, _assign2.default)({}, action);
           }
         });
-        this.quietSet('actions', value);
-      } else {
-        this.quietSet('actions', val);
+        val = value;
       }
+      var defaultVal = this[_default].actions;
+      val = (0, _assign2.default)({}, defaultVal, val);
+      this.quietSet('actions', val);
     }
   }, {
     key: 'state',
@@ -10040,47 +10283,56 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
       if (oldState !== val) {
         this.quietSet('state', val);
         var states = this.states;
-        if (states) {
-          var action = null;
-          var toState = states[val];
-          var subject = this.subject;
-          if (toState) {
-            var fromState = states[oldState],
-                actions = this.actions;
-            if (actions) {
-              action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
-              if (action) {
-                var animation = subject.changeState(fromState, toState, action);
-                var tag = (0, _symbol2.default)('tag');
-                animation.tag = tag;
-                if (animation.__reversed) {
-                  subject.dispatchEvent('state-to-' + oldState, {
-                    from: val,
-                    to: oldState,
-                    action: animation.__reversed,
-                    cancelled: true,
-                    animation: animation }, true, true);
-                }
-                subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val, action: action, animation: animation }, true, true);
-                animation.finished.then(function () {
-                  if (animation.tag === tag) {
-                    subject.dispatchEvent('state-to-' + val, { from: oldState, to: val, action: action, animation: animation }, true, true);
-                  }
-                });
+
+        var action = null;
+        var toState = states[val];
+        var subject = this.subject;
+        if (subject.parent && toState) {
+          var fromState = states[oldState],
+              actions = this.actions;
+          if (actions) {
+            action = actions[oldState + ':' + val] || actions[':' + val] || actions[oldState + ':'];
+            if (action) {
+              var animation = subject.changeState(fromState, toState, action);
+              var tag = (0, _symbol2.default)('tag');
+              animation.tag = tag;
+              if (animation.__reversed) {
+                subject.dispatchEvent('state-to-' + oldState, {
+                  from: val,
+                  to: oldState,
+                  action: animation.__reversed,
+                  cancelled: true,
+                  animation: animation }, true, true);
               }
+              subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val, action: action, animation: animation }, true, true);
+              animation.finished.then(function () {
+                if (animation.tag === tag) {
+                  subject.dispatchEvent('state-to-' + val, { from: oldState, to: val, action: action, animation: animation }, true, true);
+                }
+              });
             }
           }
-          if (!action) {
-            subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val }, true, true);
-            if (toState) subject.attr(toState);
-            subject.dispatchEvent('state-to-' + val, { from: oldState, to: val }, true, true);
-          }
+        }
+        if (!action) {
+          subject.dispatchEvent('state-from-' + oldState, { from: oldState, to: val }, true, true);
+          if (toState) subject.attr(toState);
+          subject.dispatchEvent('state-to-' + val, { from: oldState, to: val }, true, true);
         }
       }
     }
+  }, {
+    key: 'enterMode',
+    set: function set(val) {
+      this.set('enterMode', val);
+    }
+  }, {
+    key: 'exitMode',
+    set: function set(val) {
+      this.set('exitMode', val);
+    }
   }]);
   return SpriteAttr;
-}(), (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils.attr, _dec3, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils.attr, _dec4, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils.attr, _dec5, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils.attr, _dec6, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils.attr, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils.attr, _dec10], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec11], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils.attr, _dec12], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec15, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec16, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec17, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec18, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec19, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec20, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec21, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'state'), _class.prototype)), _class));
+}(), (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils.attr, _dec3, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils.attr, _dec4, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils.attr, _dec5, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils.attr, _dec6, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils.attr, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils.attr, _dec10], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec11], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils.attr, _dec12], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec15, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec16, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec17, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec18, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec19, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec20, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_dec21, _utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_utils.attr, _utils.cachable], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'state'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'enterMode', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'enterMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exitMode', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'exitMode'), _class.prototype)), _class));
 exports.default = SpriteAttr;
 
 /***/ }),
@@ -10158,6 +10410,10 @@ exports.default = undefined;
 var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
+
+var _toConsumableArray2 = __webpack_require__(98);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _from = __webpack_require__(99);
 
@@ -10254,13 +10510,35 @@ var BaseNode = function () {
       return this;
     }
   }, {
-    key: 'off',
-    value: function off(type, handler) {
+    key: 'once',
+    value: function once(type, handler) {
       var _this3 = this;
 
       if (Array.isArray(type)) {
         type.forEach(function (t) {
-          return _this3.off(t, handler);
+          return _this3.once(t, handler);
+        });
+      } else {
+        this.on(type, function f() {
+          this.off(type, f);
+
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          return handler.apply(this, args);
+        });
+      }
+      return this;
+    }
+  }, {
+    key: 'off',
+    value: function off(type, handler) {
+      var _this4 = this;
+
+      if (Array.isArray(type)) {
+        type.forEach(function (t) {
+          return _this4.off(t, handler);
         });
       } else if (handler && this[_eventHandlers][type]) {
         var idx = this[_eventHandlers][type].indexOf(handler);
@@ -10317,7 +10595,7 @@ var BaseNode = function () {
   }, {
     key: 'dispatchEvent',
     value: function dispatchEvent(type, evt) {
-      var _this4 = this;
+      var _this5 = this;
 
       var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
@@ -10379,7 +10657,7 @@ var BaseNode = function () {
 
             touches.forEach(function (touch) {
               var identifier = touch.identifier;
-              if (_layer.touchedTargets[identifier] && _layer.touchedTargets[identifier].indexOf(_this4) >= 0) {
+              if (_layer.touchedTargets[identifier] && _layer.touchedTargets[identifier].indexOf(_this5) >= 0) {
                 evt.targetTouches.push(touch);
               }
             });
@@ -10388,8 +10666,8 @@ var BaseNode = function () {
           }
         }
 
-        handlers.forEach(function (handler) {
-          return handler.call(_this4, evt);
+        [].concat((0, _toConsumableArray3.default)(handlers)).forEach(function (handler) {
+          return handler.call(_this5, evt);
         });
 
         if (!this[_collisionState] && isCollision && type === 'mousemove') {
@@ -14541,7 +14819,7 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
     key: 'isVirtual',
     get: function get() {
       var display = this.attr('display');
-      if (display !== '') return false;
+      if (display !== '' && display !== 'none') return false;
 
       var _attr = this.attr('border'),
           borderWidth = _attr.width,
@@ -15478,10 +15756,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = __webpack_require__(124);
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
@@ -15493,58 +15767,61 @@ var _removeTask = (0, _symbol2.default)('removeTask');
 
 exports.default = {
   appendChild: function appendChild(sprite) {
-    var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    sprite.remove(false);
-
-    var children = this.children;
-    children.push(sprite);
-
-    this[_zOrder] = this[_zOrder] || 0;
-    sprite.connect(this, this[_zOrder]++);
-
-    for (var i = children.length - 1; i > 0; i--) {
-      var a = children[i],
-          b = children[i - 1];
-
-      if (a.zIndex < b.zIndex) {
-        children[i] = b;
-        children[i - 1] = a;
-      }
-    }
-
-    if (update) {
-      sprite.forceUpdate();
-    }
-
-    var task = sprite.enter();
-    if (task instanceof _promise2.default) {
-      return task.then(function () {
-        return sprite;
-      });
-    }
-    return sprite;
-  },
-  append: function append() {
     var _this = this;
 
-    var isPromise = false;
+    var update = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    var _append = function _append() {
+      var children = _this.children;
+      children.push(sprite);
+
+      _this[_zOrder] = _this[_zOrder] || 0;
+      sprite.connect(_this, _this[_zOrder]++);
+
+      for (var i = children.length - 1; i > 0; i--) {
+        var a = children[i],
+            b = children[i - 1];
+
+        if (a.zIndex < b.zIndex) {
+          children[i] = b;
+          children[i - 1] = a;
+        }
+      }
+
+      if (update) {
+        sprite.forceUpdate();
+      }
+
+      if (sprite.layer) {
+        return sprite.enter();
+      }
+      return sprite;
+    };
+
+    var _remove = sprite.remove();
+    if (_remove && _remove.promise) {
+      // deferred
+      if (_remove.resolve) _remove.resolve();
+      _remove.promise.then(function () {
+        return _append();
+      });
+      return _remove;
+    }
+    return _append();
+  },
+  append: function append() {
+    var _this2 = this;
 
     for (var _len = arguments.length, sprites = Array(_len), _key = 0; _key < _len; _key++) {
       sprites[_key] = arguments[_key];
     }
 
-    var tasks = sprites.map(function (sprite) {
-      var task = _this.appendChild(sprite);
-      if (task instanceof _promise2.default) isPromise = true;
-      return task;
+    sprites.forEach(function (sprite) {
+      _this2.appendChild(sprite);
     });
-    if (isPromise) return _promise2.default.all(tasks);
-    return tasks;
+    return this;
   },
   removeChild: function removeChild(child) {
-    var exit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
     if (child[_removeTask]) return child[_removeTask];
 
     var idx = this.children.indexOf(child);
@@ -15563,77 +15840,83 @@ exports.default = {
       return sprite;
     }
 
-    if (exit) {
-      var action = child.exit();
-      if (action instanceof _promise2.default) {
-        child[_removeTask] = action;
-        return action.then(function () {
-          return remove(child);
-        });
-      }
+    var action = child.exit();
+    if (action.promise) {
+      child[_removeTask] = action;
+      action.promise.then(function () {
+        return remove(child);
+      });
+      return action;
     }
+
     return remove(child);
   },
   clear: function clear() {
-    var _this2 = this;
+    var _this3 = this;
 
     var children = this.children.slice(0);
-    return children.map(function (child) {
-      return _this2.removeChild(child);
+    children.forEach(function (child) {
+      return _this3.removeChild(child);
     });
+    return this;
   },
   remove: function remove() {
-    var _this3 = this;
+    var _this4 = this;
 
     for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
 
-    if (args.length === 0 || args.length === 1 && typeof args[0] === 'boolean') {
+    if (args.length === 0) {
       if (!this.parent) return null;
-      return this.parent.removeChild(!args[0]);
+      return this.parent.removeChild(this);
     }
-    var isPromise = false;
-    var tasks = args.map(function (sprite) {
-      var task = _this3.removeChild(sprite);
-      if (task instanceof _promise2.default) isPromise = true;
-      return task;
+    args.forEach(function (sprite) {
+      _this4.removeChild(sprite);
     });
-    if (isPromise) return _promise2.default.all(tasks);
-    return tasks;
+    return this;
   },
   insertBefore: function insertBefore(newchild, refchild) {
+    var _this5 = this;
+
     if (refchild == null) {
       return this.appendChild(newchild);
     }
     var idx = this.children.indexOf(refchild);
     if (idx >= 0) {
-      this.removeChild(newchild, false);
-      var refZOrder = refchild.zOrder;
-      for (var i = idx; i < this.children.length; i++) {
-        var child = this.children[i],
-            zOrder = child.zOrder;
-        delete child.zOrder;
-        Object.defineProperty(child, 'zOrder', {
-          value: zOrder + 1,
-          writable: false,
-          configurable: true
-        });
-      }
-      this.children.splice(idx, 0, newchild);
-      newchild.connect(this, refZOrder);
-      newchild.forceUpdate();
+      var _insert = function _insert() {
+        var refZOrder = refchild.zOrder;
+        for (var i = idx; i < _this5.children.length; i++) {
+          var child = _this5.children[i],
+              zOrder = child.zOrder;
+          delete child.zOrder;
+          Object.defineProperty(child, 'zOrder', {
+            value: zOrder + 1,
+            writable: false,
+            configurable: true
+          });
+        }
+        _this5.children.splice(idx, 0, newchild);
+        newchild.connect(_this5, refZOrder);
+        newchild.forceUpdate();
 
-      this[_zOrder] = this[_zOrder] || 0;
-      this[_zOrder]++;
+        _this5[_zOrder] = _this5[_zOrder] || 0;
+        _this5[_zOrder]++;
 
-      var task = newchild.enter();
-      if (task instanceof _promise2.default) {
-        return task.then(function () {
-          return newchild;
+        if (_this5.layer) {
+          return newchild.enter();
+        }
+      };
+
+      var _remove = this.removeChild(newchild);
+      if (_remove && _remove.promise) {
+        if (_remove.resolve) _remove.resolve();
+        _remove.promise.then(function () {
+          return _insert();
         });
+        return _remove;
       }
-      return newchild;
+      return _insert();
     }
     return null;
   }
