@@ -14,7 +14,7 @@
     const Layer = spritejs.Layer;
     const Group = spritejs.Group;
     const context = document.getElementById('mycanvas').getContext('2d');
-    const layer = new Layer({context, renderMode: 'repaintDirty'});
+    const layer = new Layer({context, renderMode: 'repaintAll'});
 
     const img = new Image();
     img.onload = function () {

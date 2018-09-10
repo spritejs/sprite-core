@@ -37,6 +37,8 @@ class SpriteAttr {
           easing: 'ease-out',
         },
       },
+      enterMode: 'normal',
+      exitMode: 'normal',
       anchor: [0, 0],
       x: 0,
       y: 0,
@@ -769,6 +771,16 @@ class SpriteAttr {
         subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);
       }
     }
+  }
+
+  @attr
+  set enterMode(val) {
+    this.set('enterMode', val);
+  }
+
+  @attr
+  set exitMode(val) {
+    this.set('exitMode', val);
   }
 }
 
