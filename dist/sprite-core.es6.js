@@ -6402,7 +6402,9 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const states = this.attr('states');
 
     if (states.show) {
-      this.attr('display', originalDisplay);
+      this.once('state-from-hide', () => {
+        this.attr('display', originalDisplay);
+      });
       return this.resolveStates('show', originalState);
     }
 

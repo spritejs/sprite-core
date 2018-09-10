@@ -1002,7 +1002,9 @@ export default class BaseSprite extends BaseNode {
     const states = this.attr('states');
 
     if(states.show) {
-      this.attr('display', originalDisplay);
+      this.once('state-from-hide', () => {
+        this.attr('display', originalDisplay);
+      });
       return this.resolveStates('show', originalState);
     }
 
