@@ -661,6 +661,7 @@ class SpriteAttr {
     this.set('alignSelf', val);
   }
 
+  @parseValue(parseStringInt, fourValuesShortCut)
   @attr
   @cachable
   set margin(val) {
