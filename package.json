@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.17.8",
+  "version": "2.17.9",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -86,7 +86,7 @@
     "babel-runtime": "^6.26.0",
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
-    "sprite-animator": "^1.11.2",
+    "sprite-animator": "^1.11.3",
     "sprite-math": "^1.0.5",
     "svg-path-to-canvas": "^1.9.6"
   }
