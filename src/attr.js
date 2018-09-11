@@ -688,7 +688,7 @@ class SpriteAttr {
 
   @attr
   set states(val) {
-    this.quietSet('states', val);
+    this.quietSet('states', Object.assign({}, val));
   }
 
   @attr

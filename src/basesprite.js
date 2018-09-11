@@ -928,9 +928,21 @@ export default class BaseSprite extends BaseNode {
     return true;
   }
 
-  resolveStates(...states) {
+  resolveStates(states, before, after) {
     let currentAnimation = null,
       resolved = false;
+
+    const _states = [];
+    let prev = null;
+    for(let i = 0; i < states.length; i++) {
+      const s = states[i];
+      if(prev !== s) {
+        prev = s;
+        _states.push(s);
+      }
+    }
+    states = _states;
+
     const _resolveStates = () => {
       this.__ignoreAction = false;
       let fromState = this.attr('state');
@@ -946,6 +958,7 @@ export default class BaseSprite extends BaseNode {
             if(i === len - 1) { // lastState
               delete this[_resolveState];
             }
+            if(after) after.call(this, states);
             resolve(this);
           });
           this.once(`state-from-${fromState}`, ({animation}) => {
@@ -983,7 +996,10 @@ export default class BaseSprite extends BaseNode {
     if(rs) {
       rs.resolve();
       this.__ignoreAction = true;
-      const promise = rs.promise.then(() => _resolveStates().promise);
+      const promise = rs.promise.then(() => {
+        if(before) before.call(this, states);
+        return _resolveStates().promise;
+      });
       return {
         promise,
         resolve() {
@@ -993,6 +1009,7 @@ export default class BaseSprite extends BaseNode {
         },
       };
     }
+    if(before) before.call(this, states);
     return _resolveStates();
   }
 
@@ -1012,13 +1029,14 @@ export default class BaseSprite extends BaseNode {
           this.attr('display', originalDisplay);
         });
       }
-      const deferred = this.resolveStates('show', originalState);
+      const deferred = this.resolveStates(['show', originalState]);
       deferred.promise = deferred.promise.then(() => {
         if(!this[_hide]) {
           delete this[_attr]._originalDisplay;
           delete this[_attr]._originalState;
           if(states.show.__default) {
             delete states.show;
+            this.attr('states', states);
           }
         }
         delete this[_show];
@@ -1033,12 +1051,15 @@ export default class BaseSprite extends BaseNode {
   }
 
   hide() {
-    if(this[_hide]) return this[_hide];
+    const state = this.attr('state');
+    if(this[_hide] || state === 'hide') return this[_hide];
     const _originalDisplay = this.attr('_originalDisplay');
     if(_originalDisplay == null) {
+      const display = this.attr('display');
+
       this.attr({
-        _originalDisplay: this.attr('display'),
-        _originalState: this.attr('state'),
+        _originalDisplay: display !== 'none' ? display : '',
+        _originalState: state !== 'hide' ? state : 'default',
       });
     }
 
@@ -1051,8 +1072,9 @@ export default class BaseSprite extends BaseNode {
           beforeHide[key] = this.attr(key);
         });
         states.show = beforeHide;
+        this.attr('states', states);
       }
-      const deferred = this.resolveStates('show', 'hide');
+      const deferred = this.resolveStates(['show', 'hide']);
       deferred.promise = deferred.promise.then(() => {
         this.attr('display', 'none');
         delete this[_hide];
@@ -1071,15 +1093,18 @@ export default class BaseSprite extends BaseNode {
     const states = this.attr('states');
     let ret;
     if(states && (states.beforeEnter || states.afterEnter)) {
-      const state = this.attr('state');
-      if(state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
-        const afterEnter = {__default: true};
-        Object.keys(states.beforeEnter).forEach((key) => {
-          afterEnter[key] = this.attr(key);
-        });
-        states.afterEnter = afterEnter;
-      }
-      const deferred = this.resolveStates('beforeEnter', 'afterEnter', toState || state);
+      const deferred = this.resolveStates(['beforeEnter', 'afterEnter'], (_states) => {
+        const state = this.attr('state');
+        _states.push(toState || state);
+        if(state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
+          const afterEnter = {__default: true};
+          Object.keys(states.beforeEnter).forEach((key) => {
+            afterEnter[key] = this.attr(key);
+          });
+          states.afterEnter = afterEnter;
+          this.attr('states', states);
+        }
+      });
       ret = deferred;
     } else {
       ret = super.enter();
@@ -1110,6 +1135,7 @@ export default class BaseSprite extends BaseNode {
                 afterEnter[key] = c.attr(key);
               });
               states.afterEnter = afterEnter;
+              c.attr('states', states);
             }
           }
           const toState = c.attr('state');
@@ -1156,12 +1182,15 @@ export default class BaseSprite extends BaseNode {
     let ret;
     const afterEnter = states.afterEnter || {};
     if(states && (states.beforeExit || states.afterExit)) {
-      const state = this.attr('state');
-      if(state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
-        states.beforeExit = Object.assign({}, afterEnter);
-        states.beforeExit.__default = true;
-      }
-      const deferred = this.resolveStates('beforeExit', 'afterExit');
+      let state;
+      const deferred = this.resolveStates(['beforeExit', 'afterExit'], () => {
+        state = this.attr('state');
+        if(state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+          states.beforeExit = Object.assign({}, afterEnter);
+          states.beforeExit.__default = true;
+          this.attr('states', states);
+        }
+      });
       deferred.promise.then(() => {
         if(!onbyone) {
           this.attr(afterEnter);
@@ -1192,6 +1221,7 @@ export default class BaseSprite extends BaseNode {
             if(!states.beforeExit || states.beforeExit.__default) {
               states.beforeExit = Object.assign({}, afterEnter);
               states.beforeExit.__default = true;
+              c.attr('states', states);
             }
           }
           const toState = c.attr('state');

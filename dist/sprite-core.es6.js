@@ -6328,9 +6328,21 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     return true;
   }
 
-  resolveStates(...states) {
+  resolveStates(states, before, after) {
     let currentAnimation = null,
         resolved = false;
+
+    const _states = [];
+    let prev = null;
+    for (let i = 0; i < states.length; i++) {
+      const s = states[i];
+      if (prev !== s) {
+        prev = s;
+        _states.push(s);
+      }
+    }
+    states = _states;
+
     const _resolveStates = () => {
       this.__ignoreAction = false;
       let fromState = this.attr('state');
@@ -6347,6 +6359,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
               // lastState
               delete this[_resolveState];
             }
+            if (after) after.call(this, states);
             resolve(this);
           });
           this.once(`state-from-${fromState}`, ({ animation }) => {
@@ -6383,7 +6396,10 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     if (rs) {
       rs.resolve();
       this.__ignoreAction = true;
-      const promise = rs.promise.then(() => _resolveStates().promise);
+      const promise = rs.promise.then(() => {
+        if (before) before.call(this, states);
+        return _resolveStates().promise;
+      });
       return {
         promise,
         resolve() {
@@ -6393,6 +6409,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         }
       };
     }
+    if (before) before.call(this, states);
     return _resolveStates();
   }
 
@@ -6412,13 +6429,14 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           this.attr('display', originalDisplay);
         });
       }
-      const deferred = this.resolveStates('show', originalState);
+      const deferred = this.resolveStates(['show', originalState]);
       deferred.promise = deferred.promise.then(() => {
         if (!this[_hide]) {
           delete this[_attr]._originalDisplay;
           delete this[_attr]._originalState;
           if (states.show.__default) {
             delete states.show;
+            this.attr('states', states);
           }
         }
         delete this[_show];
@@ -6433,12 +6451,15 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   hide() {
-    if (this[_hide]) return this[_hide];
+    const state = this.attr('state');
+    if (this[_hide] || state === 'hide') return this[_hide];
     const _originalDisplay = this.attr('_originalDisplay');
     if (_originalDisplay == null) {
+      const display = this.attr('display');
+
       this.attr({
-        _originalDisplay: this.attr('display'),
-        _originalState: this.attr('state')
+        _originalDisplay: display !== 'none' ? display : '',
+        _originalState: state !== 'hide' ? state : 'default'
       });
     }
 
@@ -6451,8 +6472,9 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           beforeHide[key] = this.attr(key);
         });
         states.show = beforeHide;
+        this.attr('states', states);
       }
-      const deferred = this.resolveStates('show', 'hide');
+      const deferred = this.resolveStates(['show', 'hide']);
       deferred.promise = deferred.promise.then(() => {
         this.attr('display', 'none');
         delete this[_hide];
@@ -6471,15 +6493,18 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const states = this.attr('states');
     let ret;
     if (states && (states.beforeEnter || states.afterEnter)) {
-      const state = this.attr('state');
-      if (state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
-        const afterEnter = { __default: true };
-        Object.keys(states.beforeEnter).forEach(key => {
-          afterEnter[key] = this.attr(key);
-        });
-        states.afterEnter = afterEnter;
-      }
-      const deferred = this.resolveStates('beforeEnter', 'afterEnter', toState || state);
+      const deferred = this.resolveStates(['beforeEnter', 'afterEnter'], _states => {
+        const state = this.attr('state');
+        _states.push(toState || state);
+        if (state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
+          const afterEnter = { __default: true };
+          Object.keys(states.beforeEnter).forEach(key => {
+            afterEnter[key] = this.attr(key);
+          });
+          states.afterEnter = afterEnter;
+          this.attr('states', states);
+        }
+      });
       ret = deferred;
     } else {
       ret = super.enter();
@@ -6510,6 +6535,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
                 afterEnter[key] = c.attr(key);
               });
               states.afterEnter = afterEnter;
+              c.attr('states', states);
             }
           }
           const toState = c.attr('state');
@@ -6556,12 +6582,15 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     let ret;
     const afterEnter = states.afterEnter || {};
     if (states && (states.beforeExit || states.afterExit)) {
-      const state = this.attr('state');
-      if (state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
-        states.beforeExit = Object.assign({}, afterEnter);
-        states.beforeExit.__default = true;
-      }
-      const deferred = this.resolveStates('beforeExit', 'afterExit');
+      let state;
+      const deferred = this.resolveStates(['beforeExit', 'afterExit'], () => {
+        state = this.attr('state');
+        if (state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+          states.beforeExit = Object.assign({}, afterEnter);
+          states.beforeExit.__default = true;
+          this.attr('states', states);
+        }
+      });
       deferred.promise.then(() => {
         if (!onbyone) {
           this.attr(afterEnter);
@@ -6592,6 +6621,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
             if (!states.beforeExit || states.beforeExit.__default) {
               states.beforeExit = Object.assign({}, afterEnter);
               states.beforeExit.__default = true;
+              c.attr('states', states);
             }
           }
           const toState = c.attr('state');
@@ -7421,7 +7451,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   set states(val) {
-    this.quietSet('states', val);
+    this.quietSet('states', Object.assign({}, val));
   }
 
   set actions(val) {
