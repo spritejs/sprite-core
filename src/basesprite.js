@@ -17,7 +17,8 @@ const _attr = Symbol('attr'),
   _changeStateAction = Symbol('changeStateAction'),
   _resolveState = Symbol('resolveState'),
   _show = Symbol('show'),
-  _hide = Symbol('hide');
+  _hide = Symbol('hide'),
+  _enter = Symbol('enter');
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -1110,6 +1111,7 @@ export default class BaseSprite extends BaseNode {
       ret = super.enter();
     }
 
+    this[_enter] = ret;
     if(this.children) {
       const enterMode = this.attr('enterMode');
       if(enterMode === 'onebyone' || enterMode === 'onebyone-reverse') {
@@ -1126,6 +1128,7 @@ export default class BaseSprite extends BaseNode {
           children = [...children].reverse();
         }
 
+        let currentTask = ret;
         children.forEach((c) => {
           const states = c.attr('states');
           if(states && (states.beforeEnter || states.afterEnter)) {
@@ -1143,137 +1146,166 @@ export default class BaseSprite extends BaseNode {
           promise = promise.then(() => {
             const d = c.enter(toState);
             if(d.promise) {
-              if(resolved && d.resolve) d.resolve();
+              currentTask = d;
+              if(resolved && d.resolve) {
+                d.resolve();
+              }
               return d.promise;
             }
             return d;
           });
         });
 
-        return {
+        this[_enter] = {
           promise,
           resolve() {
+            if(currentTask && currentTask.resolve) currentTask.resolve();
             resolved = true;
           },
         };
-      }
-
-      const entries = this.children.map(c => c.enter()).filter(d => d.promise);
-      if(ret.promise) {
-        entries.unshift(ret);
-      }
-      if(entries.length) {
-        const deferred = {
-          promise: Promise.all(entries.map(d => d.promise)),
-          resolve: () => {
-            entries.forEach(d => d.resolve());
-            return this.promise;
-          },
-        };
-        return deferred;
+      } else {
+        const entries = this.children.map(c => c.enter()).filter(d => d.promise);
+        if(ret.promise) {
+          entries.unshift(ret);
+        }
+        if(entries.length) {
+          const deferred = {
+            promise: Promise.all(entries.map(d => d.promise)),
+            resolve: () => {
+              entries.forEach(d => d.resolve());
+              return this.promise;
+            },
+          };
+          this[_enter] = deferred;
+        }
       }
     }
 
-    return ret;
+    return this[_enter];
   }
 
   exit(toState, onbyone = false) {
-    const states = this.attr('states');
-    let ret;
-    const afterEnter = states.afterEnter || {};
-    if(states && (states.beforeExit || states.afterExit)) {
-      let state;
-      const deferred = this.resolveStates(['beforeExit', 'afterExit'], () => {
-        state = this.attr('state');
-        if(state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
-          states.beforeExit = Object.assign({}, afterEnter);
-          states.beforeExit.__default = true;
-          this.attr('states', states);
-        }
-      });
-      deferred.promise.then(() => {
-        if(!onbyone) {
-          this.attr(afterEnter);
-          this[_attr].quietSet('state', toState || state);
-        }
-        return this;
-      });
-      ret = deferred;
-    } else {
-      ret = super.exit();
-      this.attr(afterEnter);
-    }
-
-    if(this.children) {
-      const exitMode = this.attr('exitMode');
-      if(exitMode === 'onebyone' || exitMode === 'onebyone-reverse') {
-        let promise = Promise.resolve(this);
-        let resolved = false;
-
-        let children = this.children;
-        if(exitMode === 'onebyone-reverse') {
-          children = [...children].reverse();
-        }
-
-        children.forEach((c) => {
-          const states = c.attr('states');
-          if(states && (states.beforeExit || states.afterExit)) {
-            if(!states.beforeExit || states.beforeExit.__default) {
-              states.beforeExit = Object.assign({}, afterEnter);
-              states.beforeExit.__default = true;
-              c.attr('states', states);
-            }
+    const _exit = () => {
+      const states = this.attr('states');
+      let ret;
+      const afterEnter = states.afterEnter || {};
+      if(states && (states.beforeExit || states.afterExit)) {
+        let state;
+        const deferred = this.resolveStates(['beforeExit', 'afterExit'], () => {
+          state = this.attr('state');
+          if(state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+            states.beforeExit = Object.assign({}, afterEnter);
+            states.beforeExit.__default = true;
+            this.attr('states', states);
           }
-          const toState = c.attr('state');
-          c.attr('state', 'beforeExit');
-          promise = promise.then(() => {
-            const d = c.exit(toState, true);
-            if(d.promise) {
-              if(resolved && d.resolve) d.resolve();
-              return d.promise;
-            }
-            return d;
-          });
-          c.__toState = toState;
         });
+        deferred.promise.then(() => {
+          if(!onbyone) {
+            this.attr(afterEnter);
+            this[_attr].quietSet('state', toState || state);
+          }
+          return this;
+        });
+        ret = deferred;
+      } else {
+        ret = super.exit();
+        this.attr(afterEnter);
+      }
 
-        promise = promise.then(() => {
-          const p = ret.promise || Promise.resolve(this);
-          return p.then(() => {
-            this.children.forEach((c) => {
-              const states = c.attr('states');
-              c.attr(states.afterEnter);
-              c[_attr].quietSet('state', c.__toState);
-              delete c.__toState;
+      if(this.children) {
+        const exitMode = this.attr('exitMode');
+        if(exitMode === 'onebyone' || exitMode === 'onebyone-reverse') {
+          let promise = Promise.resolve(this);
+          let resolved = false;
+
+          let children = this.children;
+          if(exitMode === 'onebyone-reverse') {
+            children = [...children].reverse();
+          }
+
+          let currentTask = null;
+          children.forEach((c) => {
+            const states = c.attr('states');
+            if(states && (states.beforeExit || states.afterExit)) {
+              if(!states.beforeExit || states.beforeExit.__default) {
+                states.beforeExit = Object.assign({}, afterEnter);
+                states.beforeExit.__default = true;
+                c.attr('states', states);
+              }
+            }
+            const toState = c.attr('state');
+            c.attr('state', 'beforeExit');
+            promise = promise.then(() => {
+              const d = c.exit(toState, true);
+              if(d.promise) {
+                currentTask = d;
+                if(resolved && d.resolve) d.resolve();
+                return d.promise;
+              }
+              return d;
+            });
+            c.__toState = toState;
+          });
+
+          promise = promise.then(() => {
+            const p = ret.promise || Promise.resolve(this);
+            currentTask = ret;
+            return p.then(() => {
+              this.children.forEach((c) => {
+                const states = c.attr('states');
+                c.attr(states.afterEnter);
+                c[_attr].quietSet('state', c.__toState);
+                delete c.__toState;
+              });
             });
           });
-        });
 
-        return {
-          promise,
-          resolve() {
-            resolved = true;
-          },
-        };
+          return {
+            promise,
+            resolve() {
+              if(currentTask && currentTask.resolve) currentTask.resolve();
+              resolved = true;
+            },
+          };
+        }
+
+        const exites = this.children.map(c => c.exit()).filter(d => d.promise);
+        if(ret.promise) {
+          exites.unshift(ret);
+        }
+        if(exites.length) {
+          const deferred = {
+            promise: Promise.all(exites.map(d => d.promise)),
+            resolve: () => {
+              exites.forEach(d => d.resolve());
+              return this.promise;
+            },
+          };
+          return deferred;
+        }
       }
 
-      const exites = this.children.map(c => c.exit()).filter(d => d.promise);
-      if(ret.promise) {
-        exites.unshift(ret);
-      }
-      if(exites.length) {
-        const deferred = {
-          promise: Promise.all(exites.map(d => d.promise)),
-          resolve: () => {
-            exites.forEach(d => d.resolve());
-            return this.promise;
-          },
-        };
-        return deferred;
-      }
+      return ret;
+    };
+
+    if(this[_enter] && this[_enter].promise) {
+      let resolved = false;
+      this[_enter].resolve();
+      const promise = this[_enter].promise.then(() => {
+        const deferred = _exit();
+        if(resolved && deferred.resolve) {
+          deferred.resolve();
+        }
+        return deferred.promise;
+      });
+      return {
+        promise,
+        resolve() {
+          resolved = true;
+        },
+      };
     }
-
-    return ret;
+    return _exit();
   }
 }
 
