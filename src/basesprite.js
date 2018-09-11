@@ -15,7 +15,9 @@ const _attr = Symbol('attr'),
   _effects = Symbol('effects'),
   _flow = Symbol('flow'),
   _changeStateAction = Symbol('changeStateAction'),
-  _resolveState = Symbol('resolveState');
+  _resolveState = Symbol('resolveState'),
+  _show = Symbol('show'),
+  _hide = Symbol('hide');
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
@@ -981,7 +983,7 @@ export default class BaseSprite extends BaseNode {
     if(rs) {
       rs.resolve();
       this.__ignoreAction = true;
-      const promise = rs.promise.then(() => _resolveStates());
+      const promise = rs.promise.then(() => _resolveStates().promise);
       return {
         promise,
         resolve() {
@@ -996,16 +998,33 @@ export default class BaseSprite extends BaseNode {
 
   // state: original -> show -> hide -> show -> original
   show() {
+    if(this[_show]) return this[_show];
+
     const originalDisplay = this.attr('_originalDisplay') || '';
     const originalState = this.attr('_originalState') || 'default';
 
     const states = this.attr('states');
 
     if(states.show) {
-      this.once('state-from-hide', () => {
-        this.attr('display', originalDisplay);
+      const state = this.attr('state');
+      if(state === 'hide') {
+        this.once('state-from-hide', () => {
+          this.attr('display', originalDisplay);
+        });
+      }
+      const deferred = this.resolveStates('show', originalState);
+      deferred.promise = deferred.promise.then(() => {
+        if(!this[_hide]) {
+          delete this[_attr]._originalDisplay;
+          delete this[_attr]._originalState;
+          if(states.show.__default) {
+            delete states.show;
+          }
+        }
+        delete this[_show];
       });
-      return this.resolveStates('show', originalState);
+      this[_show] = deferred;
+      return deferred;
     }
 
     this.attr('state', originalState);
@@ -1014,27 +1033,33 @@ export default class BaseSprite extends BaseNode {
   }
 
   hide() {
-    const _originalDisplay = this.attr('display');
-    const _originalState = this.attr('state');
-    this.attr({
-      _originalDisplay,
-      _originalState,
-    });
+    if(this[_hide]) return this[_hide];
+    const _originalDisplay = this.attr('_originalDisplay');
+    if(_originalDisplay == null) {
+      this.attr({
+        _originalDisplay: this.attr('display'),
+        _originalState: this.attr('state'),
+      });
+    }
 
     const states = this.attr('states');
 
     if(states.hide) {
-      if(!states.show || states.show.__default) {
+      if(!states.show) {
         const beforeHide = {__default: true};
         Object.keys(states.hide).forEach((key) => {
           beforeHide[key] = this.attr(key);
         });
         states.show = beforeHide;
       }
-      return this.resolveStates('show', 'hide').promise.then(() => {
+      const deferred = this.resolveStates('show', 'hide');
+      deferred.promise = deferred.promise.then(() => {
         this.attr('display', 'none');
+        delete this[_hide];
         return this;
       });
+      this[_hide] = deferred;
+      return deferred;
     }
 
     this.attr('state', 'hide');
