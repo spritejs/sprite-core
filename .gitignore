@@ -45,3 +45,7 @@ sftp-config.json
 .vscode
 jsconfig.json
 esconfig.json
+
+lib/
+es/
+dist/
