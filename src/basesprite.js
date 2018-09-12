@@ -1030,7 +1030,11 @@ export default class BaseSprite extends BaseNode {
           this.attr('display', originalDisplay);
         });
       }
-      const deferred = this.resolveStates(['show', originalState]);
+      const _st = ['show', originalState];
+      if(states.beforeShow) {
+        _st.unshift('beforeShow');
+      }
+      const deferred = this.resolveStates(_st);
       deferred.promise = deferred.promise.then(() => {
         if(!this[_hide]) {
           delete this[_attr]._originalDisplay;
@@ -1069,6 +1073,11 @@ export default class BaseSprite extends BaseNode {
     if(states.hide) {
       if(!states.show) {
         const beforeHide = {__default: true};
+        if(states.beforeShow) {
+          Object.keys(states.beforeShow).forEach((key) => {
+            beforeHide[key] = this.attr(key);
+          });
+        }
         Object.keys(states.hide).forEach((key) => {
           beforeHide[key] = this.attr(key);
         });

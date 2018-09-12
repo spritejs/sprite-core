@@ -36,6 +36,11 @@ class SpriteAttr {
           duration: 300,
           easing: 'ease-out',
         },
+        'hide:beforeShow': 'none',
+        'beforeShow:': {
+          duration: 300,
+          easing: 'ease-in',
+        },
       },
       enterMode: 'normal',
       exitMode: 'normal',
@@ -745,7 +750,7 @@ class SpriteAttr {
           actions = this.actions;
         if(actions) {
           action = !subject.__ignoreAction && (actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`]);
-          if(action) {
+          if(action && action !== 'none') {
             const animation = subject.changeState(fromState, toState, action);
             const tag = Symbol('tag');
             animation.tag = tag;
@@ -766,7 +771,7 @@ class SpriteAttr {
           }
         }
       }
-      if(!action || subject.__ignoreAction) {
+      if(!action || action === 'none' || subject.__ignoreAction) {
         subject.dispatchEvent(`state-from-${oldState}`, {from: oldState, to: val}, true, true);
         if(toState) subject.attr(toState);
         subject.dispatchEvent(`state-to-${val}`, {from: oldState, to: val}, true, true);
