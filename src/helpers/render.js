@@ -1,4 +1,7 @@
 export function drawRadiusBox(context, {x, y, w, h, r}) {
+  // avoid radius larger than width or height
+  r = Math.min(r, Math.floor(Math.min(w, h) / 2));
+
   context.beginPath();
   context.moveTo(x + r, y);
   context.arcTo(x + w, y, x + w, y + h, r);
