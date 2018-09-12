@@ -1,6 +1,8 @@
 export function drawRadiusBox(context, {x, y, w, h, r}) {
   // avoid radius larger than width or height
   r = Math.min(r, Math.floor(Math.min(w, h) / 2));
+  // avoid radius is negative
+  r = Math.max(r, 0);
 
   context.beginPath();
   context.moveTo(x + r, y);
