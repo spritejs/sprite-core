@@ -7498,7 +7498,15 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   set states(val) {
-    this.quietSet('states', Object.assign({}, val));
+    val = Object.assign({}, val);
+    const states = this.get('states');
+    // recover __default
+    Object.entries(states).forEach(([key, value]) => {
+      if (value.__default && !(key in val)) {
+        val[key] = value;
+      }
+    });
+    this.quietSet('states', val);
   }
 
   set actions(val) {

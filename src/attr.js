@@ -693,7 +693,15 @@ class SpriteAttr {
 
   @attr
   set states(val) {
-    this.quietSet('states', Object.assign({}, val));
+    val = Object.assign({}, val);
+    const states = this.get('states');
+    // recover __default
+    Object.entries(states).forEach(([key, value]) => {
+      if(value.__default && !(key in val)) {
+        val[key] = value;
+      }
+    });
+    this.quietSet('states', val);
   }
 
   @attr
