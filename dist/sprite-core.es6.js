@@ -10638,22 +10638,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 
-  connect(parent, zOrder, zIndex) /* istanbul ignore next  */{
-    const ret = super.connect(parent, zOrder);
-    this.zIndex = zIndex;
-    if (parent && parent.container) {
-      parent.container.appendChild(this.outputContext.canvas);
-    }
-    return ret;
-  }
-
-  disconnect(parent) /* istanbul ignore next  */{
-    if (this.canvas && this.canvas.remove) {
-      this.canvas.remove();
-    }
-    return super.disconnect(parent);
-  }
-
   group(...sprites) {
     const group = new _group__WEBPACK_IMPORTED_MODULE_5__["default"]();
     group.append(...sprites);
