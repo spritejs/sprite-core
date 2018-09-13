@@ -5283,6 +5283,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findColor", function() { return findColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheContextPool", function() { return cacheContextPool; });
 function drawRadiusBox(context, { x, y, w, h, r }) {
+  // avoid radius larger than width or height
+  r = Math.min(r, Math.floor(Math.min(w, h) / 2));
+  // avoid radius is negative
+  r = Math.max(r, 0);
+
   context.beginPath();
   context.moveTo(x + r, y);
   context.arcTo(x + w, y, x + w, y + h, r);
@@ -10338,15 +10343,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
     this.outputContext = context;
 
-    // auto release
-    /* istanbul ignore if  */
-    if (context.canvas && context.canvas.addEventListener) {
-      context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
-        this.timeline.clear();
-        this.clear();
-      });
-    }
-
     this[_children] = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
@@ -10357,6 +10353,19 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     this[_node] = new _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]();
 
     this.touchedTargets = {};
+
+    // auto release
+    /* istanbul ignore if  */
+    if (context.canvas && context.canvas.addEventListener) {
+      context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
+        this._savePlaybackRate = this.timeline.playbackRate;
+        this.timeline.playbackRate = 0;
+      });
+      context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
+        this.timeline.playbackRate = this._savePlaybackRate || 1.0;
+        this.append(...this.children);
+      });
+    }
   }
 
   attr(...args) {

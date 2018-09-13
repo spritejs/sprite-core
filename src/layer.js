@@ -40,15 +40,6 @@ export default class Layer extends BaseNode {
 
     this.outputContext = context;
 
-    // auto release
-    /* istanbul ignore if  */
-    if(context.canvas && context.canvas.addEventListener) {
-      context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
-        this.timeline.clear();
-        this.clear();
-      });
-    }
-
     this[_children] = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
@@ -59,6 +50,19 @@ export default class Layer extends BaseNode {
     this[_node] = new DateNode();
 
     this.touchedTargets = {};
+
+    // auto release
+    /* istanbul ignore if  */
+    if(context.canvas && context.canvas.addEventListener) {
+      context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
+        this._savePlaybackRate = this.timeline.playbackRate;
+        this.timeline.playbackRate = 0;
+      });
+      context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
+        this.timeline.playbackRate = this._savePlaybackRate || 1.0;
+        this.append(...this.children);
+      });
+    }
   }
 
   attr(...args) {
