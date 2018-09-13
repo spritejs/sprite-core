@@ -244,14 +244,13 @@ export default class BaseNode {
 
     const zOrder = this.zOrder;
     delete this.zOrder;
+    delete this.parent;
+    delete this.isDirty;
 
     this.dispatchEvent('remove', {
       parent,
       zOrder,
     }, true, true);
-
-    delete this.parent;
-    delete this.isDirty;
 
     return this;
   }

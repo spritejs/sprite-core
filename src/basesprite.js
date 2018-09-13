@@ -1024,17 +1024,18 @@ export default class BaseSprite extends BaseNode {
     const states = this.attr('states');
 
     if(states.show) {
-      const state = this.attr('state');
-      if(state === 'hide') {
-        this.once('state-from-hide', () => {
-          this.attr('display', originalDisplay);
-        });
-      }
       const _st = ['show', originalState];
       if(states.beforeShow) {
         _st.unshift('beforeShow');
       }
-      const deferred = this.resolveStates(_st);
+      const deferred = this.resolveStates(_st, () => {
+        const state = this.attr('state');
+        if(state === 'hide') {
+          this.once('state-from-hide', () => {
+            this.attr('display', originalDisplay);
+          });
+        }
+      });
       deferred.promise = deferred.promise.then(() => {
         if(!this[_hide]) {
           delete this[_attr]._originalDisplay;
@@ -1050,6 +1051,16 @@ export default class BaseSprite extends BaseNode {
       return deferred;
     }
 
+    const rs = this[_resolveState];
+    if(rs) {
+      rs.resolve();
+      rs.promise.then(() => {
+        this.attr('state', originalState);
+        this.attr('display', originalDisplay);
+      });
+      return rs;
+    }
+
     this.attr('state', originalState);
     this.attr('display', originalDisplay);
     return this;
@@ -1057,7 +1068,7 @@ export default class BaseSprite extends BaseNode {
 
   hide() {
     const state = this.attr('state');
-    if(this[_hide] || state === 'hide') return this[_hide];
+    if(this[_hide] || state === 'hide' || state === 'afterExit' || state === 'beforeExit') return this[_hide];
     const _originalDisplay = this.attr('_originalDisplay');
     if(_originalDisplay == null) {
       const display = this.attr('display');
@@ -1071,20 +1082,21 @@ export default class BaseSprite extends BaseNode {
     const states = this.attr('states');
 
     if(states.hide) {
-      if(!states.show) {
-        const beforeHide = {__default: true};
-        if(states.beforeShow) {
-          Object.keys(states.beforeShow).forEach((key) => {
+      const deferred = this.resolveStates(['show', 'hide'], () => {
+        if(!states.show) {
+          const beforeHide = {__default: true};
+          if(states.beforeShow) {
+            Object.keys(states.beforeShow).forEach((key) => {
+              beforeHide[key] = this.attr(key);
+            });
+          }
+          Object.keys(states.hide).forEach((key) => {
             beforeHide[key] = this.attr(key);
           });
+          states.show = beforeHide;
+          this.attr('states', states);
         }
-        Object.keys(states.hide).forEach((key) => {
-          beforeHide[key] = this.attr(key);
-        });
-        states.show = beforeHide;
-        this.attr('states', states);
-      }
-      const deferred = this.resolveStates(['show', 'hide']);
+      });
       deferred.promise = deferred.promise.then(() => {
         this.attr('display', 'none');
         delete this[_hide];
@@ -1092,6 +1104,16 @@ export default class BaseSprite extends BaseNode {
       });
       this[_hide] = deferred;
       return deferred;
+    }
+
+    const rs = this[_resolveState];
+    if(rs) {
+      rs.resolve();
+      rs.promise.then(() => {
+        this.attr('state', 'hide');
+        this.attr('display', 'none');
+      });
+      return rs;
     }
 
     this.attr('state', 'hide');
@@ -1217,8 +1239,18 @@ export default class BaseSprite extends BaseNode {
         });
         ret = deferred;
       } else {
-        ret = super.exit();
-        this.attr(afterEnter);
+        const rs = this[_resolveState];
+        if(rs) {
+          rs.resolve();
+          rs.promise.then(() => {
+            this.attr(afterEnter);
+            return super.exit();
+          });
+          ret = rs;
+        } else {
+          ret = super.exit();
+          this.attr(afterEnter);
+        }
       }
 
       if(this.children) {

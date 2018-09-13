@@ -57,6 +57,9 @@
           b: {
             scale: [1.5, 1.5],
           },
+          c: {
+            scale: [1, 1],
+          },
         },
         actions: [
           {
@@ -80,6 +83,26 @@
             duration: 2000,
           },
         ],
+      });
+
+      s.on('state-to-a', () => {
+        console.log('state-to-a');
+      });
+
+      s.on('state-to-b', () => {
+        console.log('state-to-b');
+      });
+
+      s.on('state-to-c', () => {
+        console.log('state-to-c');
+      });
+
+      s.on('state-to-afterExit', () => {
+        console.log('exit', s.parent);
+      });
+
+      s.on('remove', () => {
+        console.log('remove', s.parent);
       });
 
       const group = new Group();
