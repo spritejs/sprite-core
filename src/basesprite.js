@@ -772,9 +772,10 @@ export default class BaseSprite extends BaseNode {
     let cachableContext = !this.isVirtual && this.cache;
 
     const filter = this.attr('filter'),
-      shadow = this.attr('shadow');
+      shadow = this.attr('shadow'),
+      enableCache = this.attr('enableCache');
 
-    if((shadow || filter || cachableContext !== false) && !cachableContext) {
+    if(enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {
       cachableContext = cacheContextPool.get(drawingContext);
       if(cachableContext) {
         // +2 to solve 1px problem

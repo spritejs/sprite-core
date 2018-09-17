@@ -45,6 +45,7 @@ class SpriteAttr {
       enterMode: 'normal',
       exitMode: 'normal',
       anchor: [0, 0],
+      enableCache: true,
       x: 0,
       y: 0,
       opacity: 1,
@@ -222,6 +223,11 @@ class SpriteAttr {
   @attr
   set name(val) {
     return this.quietSet('name', String(val));
+  }
+
+  @attr
+  set enableCache(val) {
+    return this.set('enableCache', val);
   }
 
   @parseValue(parseStringFloat, oneOrTwoValues)
