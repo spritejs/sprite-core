@@ -759,10 +759,10 @@ class SpriteAttr {
       let action = null;
       const toState = states[val] || {};
       const subject = this.subject;
-      if(subject.layer) {
+      if(!subject.__ignoreAction && subject.layer) {
         const fromState = states[oldState],
           actions = this.actions;
-        action = !subject.__ignoreAction && (actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`]);
+        action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
         if(!action || action === 'none') action = {duration: 0};
 
         const animation = subject.changeState(fromState, toState, action);
