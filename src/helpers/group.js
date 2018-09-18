@@ -52,7 +52,7 @@ export default {
     const that = this;
     function remove(sprite) {
       delete child[_removeTask];
-      const idx = this.children.indexOf(child);
+      const idx = that.children.indexOf(child);
       if(idx === -1) {
         return null;
       }
