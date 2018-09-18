@@ -16009,14 +16009,13 @@ exports.default = {
   removeChild: function removeChild(child) {
     if (child[_removeTask]) return child[_removeTask];
 
-    var idx = this.children.indexOf(child);
-    if (idx === -1) {
-      return null;
-    }
-
     var that = this;
     function remove(sprite) {
       delete child[_removeTask];
+      var idx = this.children.indexOf(child);
+      if (idx === -1) {
+        return null;
+      }
       that.children.splice(idx, 1);
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();

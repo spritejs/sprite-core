@@ -12016,14 +12016,13 @@ const _removeTask = Symbol('removeTask');
   removeChild(child) {
     if (child[_removeTask]) return child[_removeTask];
 
-    const idx = this.children.indexOf(child);
-    if (idx === -1) {
-      return null;
-    }
-
     const that = this;
     function remove(sprite) {
       delete child[_removeTask];
+      const idx = this.children.indexOf(child);
+      if (idx === -1) {
+        return null;
+      }
       that.children.splice(idx, 1);
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
