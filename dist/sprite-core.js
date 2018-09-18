@@ -7794,20 +7794,20 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         // delete _toState.__default;
         var _fromState = {},
             _toState = {};
-        (0, _entries2.default)(fromState).forEach(function (_ref8) {
+        (0, _entries2.default)(fromState || {}).forEach(function (_ref8) {
           var _ref9 = (0, _slicedToArray3.default)(_ref8, 2),
               key = _ref9[0],
               value = _ref9[1];
 
           if (key !== '__default') {
             if (typeof value === 'function') {
-              _fromState[key] = value(_this4.attr(key));
+              _fromState[key] = _this4.attr(key);
             } else {
               _fromState[key] = value;
             }
           }
         });
-        (0, _entries2.default)(toState).forEach(function (_ref10) {
+        (0, _entries2.default)(toState || {}).forEach(function (_ref10) {
           var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
               key = _ref11[0],
               value = _ref11[1];
