@@ -5816,9 +5816,29 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       }
     }
     if (!animation) {
-      const [_fromState, _toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
-      delete _fromState.__default;
-      delete _toState.__default;
+      // const [_fromState, _toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
+      // delete _fromState.__default;
+      // delete _toState.__default;
+      const _fromState = {},
+            _toState = {};
+      Object.entries(fromState).forEach(([key, value]) => {
+        if (key !== '__default') {
+          if (typeof value === 'function') {
+            _fromState[key] = value(this.attr(key));
+          } else {
+            _fromState[key] = value;
+          }
+        }
+      });
+      Object.entries(toState).forEach(([key, value]) => {
+        if (key !== '__default') {
+          if (typeof value === 'function') {
+            _toState[key] = value(this.attr(key));
+          } else {
+            _toState[key] = value;
+          }
+        }
+      });
       animation = this.animate([_fromState, _toState], Object.assign({ fill: 'forwards' }, action));
       animation.finished.then(() => {
         if (this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
