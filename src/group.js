@@ -168,6 +168,7 @@ export default class Group extends BaseSprite {
     if(super.pointCollision(evt) || this.isVirtual) {
       if(this.svg) {
         const {offsetX, offsetY} = evt;
+        if(offsetX == null && offsetY == null) return true;
         const rect = this.originalRect;
         evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
       }
@@ -221,8 +222,11 @@ export default class Group extends BaseSprite {
           borderWidth = this.attr('border').width,
           padding = this.attr('padding');
 
-        const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-        const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
+        let parentX,
+          parentY;
+
+        if(evt.offsetX) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+        if(evt.offsetY) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
         const _parentX = evt.parentX,

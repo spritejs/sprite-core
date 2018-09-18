@@ -236,6 +236,8 @@ export default class Path extends BaseSprite {
   pointCollision(evt) {
     if(super.pointCollision(evt)) {
       let {offsetX, offsetY} = evt;
+      if(offsetX == null && offsetY == null) return true;
+
       const svg = this.svg;
       if(svg) {
         const bounds = svg.bounds;

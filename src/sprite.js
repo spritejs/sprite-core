@@ -163,6 +163,8 @@ export default class Sprite extends BaseSprite {
 
       if(textures) {
         let {offsetX, offsetY} = evt;
+        if(offsetX == null && offsetY == null) return true;
+
         evt.targetTextures = [];
 
         const [anchorX, anchorY] = this.attr('anchor'),

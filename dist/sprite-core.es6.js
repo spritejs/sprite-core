@@ -6124,6 +6124,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       parentY = evt.layerY;
     }
 
+    if (parentX == null && parentY == null) return true;
+
     let [nx, ny] = this.pointToOffset(parentX, parentY);
     evt.offsetX = nx;
     evt.offsetY = ny;
@@ -8716,6 +8718,8 @@ let Sprite = (_class2 = (_temp = _class3 = class Sprite extends _basesprite__WEB
 
       if (textures) {
         let { offsetX, offsetY } = evt;
+        if (offsetX == null && offsetY == null) return true;
+
         evt.targetTextures = [];
 
         const [anchorX, anchorY] = this.attr('anchor'),
@@ -10992,6 +10996,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
     if (super.pointCollision(evt) || this.isVirtual) {
       if (this.svg) {
         const { offsetX, offsetY } = evt;
+        if (offsetX == null && offsetY == null) return true;
         const rect = this.originalRect;
         evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
       }
@@ -11043,8 +11048,10 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
               borderWidth = this.attr('border').width,
               padding = this.attr('padding');
 
-        const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-        const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
+        let parentX, parentY;
+
+        if (evt.offsetX) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+        if (evt.offsetY) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
         // console.log(evt.parentX, evt.parentY)
 
         const _parentX = evt.parentX,
@@ -12363,6 +12370,8 @@ let Path = (_class2 = (_temp = _class3 = class Path extends _basesprite__WEBPACK
   pointCollision(evt) {
     if (super.pointCollision(evt)) {
       let { offsetX, offsetY } = evt;
+      if (offsetX == null && offsetY == null) return true;
+
       const svg = this.svg;
       if (svg) {
         const bounds = svg.bounds;

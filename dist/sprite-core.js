@@ -7968,6 +7968,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         parentY = evt.layerY;
       }
 
+      if (parentX == null && parentY == null) return true;
+
       var _pointToOffset = this.pointToOffset(parentX, parentY),
           _pointToOffset2 = (0, _slicedToArray3.default)(_pointToOffset, 2),
           nx = _pointToOffset2[0],
@@ -12020,6 +12022,8 @@ var Sprite = (_class2 = (_temp = _class3 = function (_BaseSprite) {
           var offsetX = evt.offsetX,
               offsetY = evt.offsetY;
 
+          if (offsetX == null && offsetY == null) return true;
+
           evt.targetTextures = [];
 
           var _attr = this.attr('anchor'),
@@ -14806,6 +14810,7 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
           var offsetX = evt.offsetX,
               offsetY = evt.offsetY;
 
+          if (offsetX == null && offsetY == null) return true;
           var rect = this.originalRect;
           evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
         }
@@ -14830,8 +14835,11 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
               borderWidth = this.attr('border').width,
               padding = this.attr('padding');
 
-          var parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-          var parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
+          var parentX = void 0,
+              parentY = void 0;
+
+          if (evt.offsetX) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+          if (evt.offsetY) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
           // console.log(evt.parentX, evt.parentY)
 
           var _parentX = evt.parentX,
@@ -16378,6 +16386,8 @@ var Path = (_class2 = (_temp = _class3 = function (_BaseSprite) {
       if ((0, _get3.default)(Path.prototype.__proto__ || (0, _getPrototypeOf2.default)(Path.prototype), 'pointCollision', this).call(this, evt)) {
         var offsetX = evt.offsetX,
             offsetY = evt.offsetY;
+
+        if (offsetX == null && offsetY == null) return true;
 
         var svg = this.svg;
         if (svg) {
