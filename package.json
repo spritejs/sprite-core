@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "test-waapi": "ava ./test/waapi/**.js",
     "lint": "eslint 'src/**/*.js' --fix",
     "lint-test": "eslint 'test/**/*.js' --fix",
     "lint-example": "eslint 'example/*.html' --fix",
