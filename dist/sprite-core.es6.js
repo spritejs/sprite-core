@@ -8113,7 +8113,7 @@ let _default = class _default extends sprite_animator__WEBPACK_IMPORTED_MODULE_0
     return super.finished.then(() => {
       const that = this;
       return new Promise(resolve => {
-        Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["requestAnimationFrame"])(function update() {
+        function update() {
           sprite.attr(that.frame);
           const playState = that.playState;
           if (playState === 'finished' || playState === 'idle') {
@@ -8122,7 +8122,8 @@ let _default = class _default extends sprite_animator__WEBPACK_IMPORTED_MODULE_0
           } else {
             Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["requestAnimationFrame"])(update);
           }
-        });
+        }
+        update();
       });
     });
   }

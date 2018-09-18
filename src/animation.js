@@ -155,7 +155,7 @@ export default class extends Animator {
     return super.finished.then(() => {
       const that = this;
       return new Promise((resolve) => {
-        requestAnimationFrame(function update() {
+        function update() {
           sprite.attr(that.frame);
           const playState = that.playState;
           if(playState === 'finished' || playState === 'idle') {
@@ -164,7 +164,8 @@ export default class extends Animator {
           } else {
             requestAnimationFrame(update);
           }
-        });
+        }
+        update();
       });
     });
   }
