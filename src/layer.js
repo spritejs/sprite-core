@@ -1,7 +1,7 @@
 import {Timeline} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame, timeline} from './helpers/fast-animation-frame';
 import BaseNode from './basenode';
-import DateNode from './datanode';
+import DataNode from './datanode';
 import Batch from './batch';
 import Group from './group';
 import {registerNodeType} from './nodetype';
@@ -47,7 +47,7 @@ export default class Layer extends BaseNode {
     this[_timeline] = new Timeline(timeline);
     this[_renderDeferer] = null;
 
-    this[_node] = new DateNode();
+    this[_node] = new DataNode();
 
     this.touchedTargets = {};
 
@@ -56,8 +56,8 @@ export default class Layer extends BaseNode {
     if(context.canvas && context.canvas.addEventListener) {
       context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
         this._savePlaybackRate = this.timeline.playbackRate;
-        this._saveChildren = [...this.children];
-        this.remove(...this.children);
+        this._saveChildren = [...this[_children]];
+        this.remove(...this[_children]);
         this.timeline.playbackRate = 0;
       });
       context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
@@ -95,7 +95,7 @@ export default class Layer extends BaseNode {
   }
 
   get children() {
-    return this[_children];
+    return this[_children].filter(child => child instanceof BaseNode && !(child instanceof DataNode));
   }
 
   get childNodes() {

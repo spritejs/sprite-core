@@ -2,6 +2,10 @@ import {parseValue, attr, flow, relative} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 import {createSvgPath} from './helpers/path';
+
+import BaseNode from './basenode';
+import DataNode from './datanode';
+
 import * as layout from './layout';
 
 import groupApi from './helpers/group';
@@ -138,7 +142,7 @@ export default class Group extends BaseSprite {
   cloneNode(deepCopy) {
     const node = super.cloneNode();
     if(deepCopy) {
-      const children = this.children;
+      const children = this[_children];
       children.forEach((child) => {
         const subNode = child.cloneNode(deepCopy);
         node.append(subNode);
@@ -148,7 +152,7 @@ export default class Group extends BaseSprite {
   }
 
   get children() {
-    return this[_children];
+    return this[_children].filter(child => child instanceof BaseNode && !(child instanceof DataNode));
   }
 
   get childNodes() {
@@ -275,7 +279,7 @@ export default class Group extends BaseSprite {
   }
 
   relayout() {
-    const items = this.children.filter((child) => {
+    const items = this[_children].filter((child) => {
       if(child.hasLayout) {
         child.attr('layoutWidth', null);
         child.attr('layoutHeight', null);

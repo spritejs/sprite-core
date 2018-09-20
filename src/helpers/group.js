@@ -5,12 +5,12 @@ const _removeTask = Symbol('removeTask');
 export default {
   appendChild(sprite, update = true) {
     const _append = () => {
-      const children = this.children;
+      const children = this.childNodes;
       children.push(sprite);
 
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
-      sortOrderedSprites(this.children);
+      sortOrderedSprites(this.childNodes);
 
       for(let i = children.length - 1; i > 0; i--) {
         const a = children[i],
@@ -51,7 +51,7 @@ export default {
   removeChild(child) {
     if(child[_removeTask]) return child[_removeTask];
 
-    const idx = this.children.indexOf(child);
+    const idx = this.childNodes.indexOf(child);
     if(idx === -1) {
       return null;
     }
@@ -60,11 +60,11 @@ export default {
     function remove(sprite) {
       delete child[_removeTask];
       // re-calculate index because it's async...
-      const idx = that.children.indexOf(child);
+      const idx = that.childNodes.indexOf(child);
       if(idx === -1) {
         return null;
       }
-      that.children.splice(idx, 1);
+      that.childNodes.splice(idx, 1);
       if(sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
@@ -84,7 +84,7 @@ export default {
     return remove(child);
   },
   clear() {
-    const children = this.children.slice(0);
+    const children = this.childNodes.slice(0);
     children.forEach(child => this.removeChild(child));
     return this;
   },
@@ -102,12 +102,12 @@ export default {
     if(refchild == null) {
       return this.appendChild(newchild);
     }
-    const idx = this.children.indexOf(refchild);
+    const idx = this.childNodes.indexOf(refchild);
     const refZOrder = refchild.zOrder;
     if(idx >= 0) {
       const _insert = () => {
-        for(let i = 0; i < this.children.length; i++) {
-          const child = this.children[i],
+        for(let i = 0; i < this.childNodes.length; i++) {
+          const child = this.childNodes[i],
             zOrder = child.zOrder;
           if(zOrder >= refZOrder) {
             delete child.zOrder;
@@ -119,9 +119,9 @@ export default {
           }
         }
 
-        this.children.push(newchild);
+        this.childNodes.push(newchild);
         newchild.connect(this, refZOrder);
-        sortOrderedSprites(this.children);
+        sortOrderedSprites(this.childNodes);
         newchild.forceUpdate();
 
         this[_zOrder] = this[_zOrder] || 0;

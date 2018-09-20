@@ -7390,7 +7390,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this.set('zIndex', val);
     const subject = this.subject;
     if (subject.parent) {
-      subject.parent.children.sort((a, b) => {
+      subject.parent.childNodes.sort((a, b) => {
         if (a.zIndex === b.zIndex) {
           return a.zOrder - b.zOrder;
         }
@@ -10426,8 +10426,8 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     if (context.canvas && context.canvas.addEventListener) {
       context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
         this._savePlaybackRate = this.timeline.playbackRate;
-        this._saveChildren = [...this.children];
-        this.remove(...this.children);
+        this._saveChildren = [...this[_children]];
+        this.remove(...this[_children]);
         this.timeline.playbackRate = 0;
       });
       context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
@@ -10465,7 +10465,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   }
 
   get children() {
-    return this[_children];
+    return this[_children].filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]));
   }
 
   get childNodes() {
@@ -10868,11 +10868,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
 /* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(125);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(139);
-/* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(141);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(143);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(121);
+/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(127);
+/* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(141);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(143);
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
+
+
+
+
 
 
 
@@ -10998,7 +11004,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   cloneNode(deepCopy) {
     const node = super.cloneNode();
     if (deepCopy) {
-      const children = this.children;
+      const children = this[_children];
       children.forEach(child => {
         const subNode = child.cloneNode(deepCopy);
         node.append(subNode);
@@ -11008,7 +11014,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   }
 
   get children() {
-    return this[_children];
+    return this[_children].filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_5__["default"]));
   }
 
   get childNodes() {
@@ -11132,7 +11138,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   }
 
   relayout() {
-    const items = this.children.filter(child => {
+    const items = this[_children].filter(child => {
       if (child.hasLayout) {
         child.attr('layoutWidth', null);
         child.attr('layoutHeight', null);
@@ -11214,8 +11220,8 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 }, _class4.Attr = GroupAttr, _temp2), (_applyDecoratedDescriptor(_class3.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class3.prototype, 'contentSize'), _class3.prototype)), _class3);
 
 
-Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_5__["default"]);
-Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_4__["flexLayout"]);
+Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_7__["default"]);
+Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_6__["flexLayout"]);
 
 Object(_nodetype__WEBPACK_IMPORTED_MODULE_2__["registerNodeType"])('group', Group, true);
 
@@ -11983,12 +11989,12 @@ const _removeTask = Symbol('removeTask');
 /* harmony default export */ __webpack_exports__["default"] = ({
   appendChild(sprite, update = true) {
     const _append = () => {
-      const children = this.children;
+      const children = this.childNodes;
       children.push(sprite);
 
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
-      Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.children);
+      Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
 
       for (let i = children.length - 1; i > 0; i--) {
         const a = children[i],
@@ -12030,7 +12036,7 @@ const _removeTask = Symbol('removeTask');
   removeChild(child) {
     if (child[_removeTask]) return child[_removeTask];
 
-    const idx = this.children.indexOf(child);
+    const idx = this.childNodes.indexOf(child);
     if (idx === -1) {
       return null;
     }
@@ -12039,11 +12045,11 @@ const _removeTask = Symbol('removeTask');
     function remove(sprite) {
       delete child[_removeTask];
       // re-calculate index because it's async...
-      const idx = that.children.indexOf(child);
+      const idx = that.childNodes.indexOf(child);
       if (idx === -1) {
         return null;
       }
-      that.children.splice(idx, 1);
+      that.childNodes.splice(idx, 1);
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
@@ -12063,7 +12069,7 @@ const _removeTask = Symbol('removeTask');
     return remove(child);
   },
   clear() {
-    const children = this.children.slice(0);
+    const children = this.childNodes.slice(0);
     children.forEach(child => this.removeChild(child));
     return this;
   },
@@ -12081,12 +12087,12 @@ const _removeTask = Symbol('removeTask');
     if (refchild == null) {
       return this.appendChild(newchild);
     }
-    const idx = this.children.indexOf(refchild);
+    const idx = this.childNodes.indexOf(refchild);
     const refZOrder = refchild.zOrder;
     if (idx >= 0) {
       const _insert = () => {
-        for (let i = 0; i < this.children.length; i++) {
-          const child = this.children[i],
+        for (let i = 0; i < this.childNodes.length; i++) {
+          const child = this.childNodes[i],
                 zOrder = child.zOrder;
           if (zOrder >= refZOrder) {
             delete child.zOrder;
@@ -12098,9 +12104,9 @@ const _removeTask = Symbol('removeTask');
           }
         }
 
-        this.children.push(newchild);
+        this.childNodes.push(newchild);
         newchild.connect(this, refZOrder);
-        Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.children);
+        Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
         newchild.forceUpdate();
 
         this[_zOrder] = this[_zOrder] || 0;

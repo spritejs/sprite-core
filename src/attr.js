@@ -498,7 +498,7 @@ class SpriteAttr {
     this.set('zIndex', val);
     const subject = this.subject;
     if(subject.parent) {
-      subject.parent.children.sort((a, b) => {
+      subject.parent.childNodes.sort((a, b) => {
         if(a.zIndex === b.zIndex) {
           return a.zOrder - b.zOrder;
         }
