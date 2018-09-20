@@ -8097,12 +8097,14 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           shadow = this.attr('shadow'),
           enableCache = this.attr('enableCache');
 
+      var ratio = this.layer ? this.layer.displayRatio || 1.0 : 1.0;
+
       if (enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {
         cachableContext = _render.cacheContextPool.get(drawingContext);
         if (cachableContext) {
           // +2 to solve 1px problem
-          cachableContext.canvas.width = Math.ceil(bound[2]) + 2;
-          cachableContext.canvas.height = Math.ceil(bound[3]) + 2;
+          cachableContext.canvas.width = Math.ceil(bound[2] * ratio) + 2;
+          cachableContext.canvas.height = Math.ceil(bound[3] * ratio) + 2;
         }
       }
 
@@ -8122,6 +8124,9 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         cachableContext.save();
         // solve 1px problem
         cachableContext.translate(bound[0] - Math.floor(bound[0]) + 1, bound[1] - Math.floor(bound[1]) + 1);
+        if (ratio !== 1.0) {
+          cachableContext.scale(ratio, ratio);
+        }
       }
 
       this.dispatchEvent('beforedraw', evtArgs, true, true);
@@ -8154,7 +8159,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             drawingContext.shadowOffsetY = offset[1];
           }
         }
-        drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1);
+        drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1, bound[2] + 2, bound[3] + 2);
       }
 
       this.dispatchEvent('afterdraw', evtArgs, true, true);
@@ -9170,23 +9175,17 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
   var boxRight = offsetWidth - right - borderWidth,
       boxBottom = offsetHeight - borderWidth - bottom;
 
-  // draw four corners
-  drawingContext.drawImage.apply(drawingContext, [image].concat(leftTop, [borderWidth, borderWidth, left, top]));
-  drawingContext.drawImage.apply(drawingContext, [image].concat(rightTop, [boxRight, borderWidth, right, top]));
-  drawingContext.drawImage.apply(drawingContext, [image].concat(rightBottom, [boxRight, boxBottom, left, bottom]));
-  drawingContext.drawImage.apply(drawingContext, [image].concat(leftBottom, [borderWidth, boxBottom, left, bottom]));
-
   // draw .9 cross
   var midWidth = w - left - right,
       midHeight = h - top - bottom;
 
   if (midWidth > 0) {
-    var midBoxWidth = clientWidth - left - right;
-    var leftOffset = borderWidth + left;
+    var midBoxWidth = clientWidth - left - right + 2;
+    var leftOffset = borderWidth + left - 1;
     while (midBoxWidth > 0) {
-      var ww = Math.min(midBoxWidth, midWidth);
-      var topPiece = [left, 0, ww, top],
-          bottomPiece = [left, h - bottom, ww, bottom];
+      var ww = Math.min(midBoxWidth, midWidth) + 1;
+      var topPiece = [left - 1, 0, ww, top],
+          bottomPiece = [left - 1, h - bottom, ww, bottom];
 
       drawingContext.drawImage.apply(drawingContext, [image].concat(topPiece, [leftOffset, borderWidth, ww, top]));
       drawingContext.drawImage.apply(drawingContext, [image].concat(bottomPiece, [leftOffset, boxBottom, ww, bottom]));
@@ -9198,12 +9197,12 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
   }
 
   if (midHeight > 0) {
-    var midBoxHeight = clientHeight - top - bottom;
-    var topOffset = borderWidth + top;
+    var midBoxHeight = clientHeight - top - bottom + 2;
+    var topOffset = borderWidth + top - 1;
     while (midBoxHeight > 0) {
-      var hh = Math.min(midBoxHeight, midHeight);
-      var leftPiece = [0, top, left, hh],
-          rightPiece = [w - right, top, right, hh];
+      var hh = Math.min(midBoxHeight, midHeight) + 1;
+      var leftPiece = [0, top - 1, left, hh],
+          rightPiece = [w - right, top - 1, right, hh];
 
       drawingContext.drawImage.apply(drawingContext, [image].concat(leftPiece, [borderWidth, topOffset, left, hh]));
       drawingContext.drawImage.apply(drawingContext, [image].concat(rightPiece, [boxRight, topOffset, right, hh]));
@@ -9215,16 +9214,16 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
   }
 
   if (midHeight && midWidth > 0) {
-    var _midBoxWidth = clientWidth - left - right;
-    var _leftOffset = borderWidth + left;
+    var _midBoxWidth = clientWidth - left - right + 2;
+    var _leftOffset = borderWidth + left - 1;
 
     while (_midBoxWidth > 0) {
-      var _midBoxHeight = clientHeight - top - bottom;
-      var _topOffset = borderWidth + top;
+      var _midBoxHeight = clientHeight - top - bottom + 2;
+      var _topOffset = borderWidth + top - 1;
       while (_midBoxHeight > 0) {
-        var _ww = Math.min(_midBoxWidth, midWidth),
-            _hh = Math.min(_midBoxHeight, midHeight);
-        var midPiece = [left, top, _ww, _hh];
+        var _ww = Math.min(_midBoxWidth, midWidth) + 1,
+            _hh = Math.min(_midBoxHeight, midHeight) + 1;
+        var midPiece = [left - 1, top - 1, _ww, _hh];
         drawingContext.drawImage.apply(drawingContext, [image].concat(midPiece, [_leftOffset, _topOffset, _ww, _hh]));
         _midBoxHeight -= midWidth;
         if (_midBoxHeight > 0) {
@@ -9237,6 +9236,12 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
       }
     }
   }
+
+  // draw four corners
+  drawingContext.drawImage.apply(drawingContext, [image].concat(leftTop, [borderWidth, borderWidth, left, top]));
+  drawingContext.drawImage.apply(drawingContext, [image].concat(rightTop, [boxRight, borderWidth, right, top]));
+  drawingContext.drawImage.apply(drawingContext, [image].concat(rightBottom, [boxRight, boxBottom, left, bottom]));
+  drawingContext.drawImage.apply(drawingContext, [image].concat(leftBottom, [borderWidth, boxBottom, left, bottom]));
 }
 
 function drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight) {
@@ -14086,7 +14091,9 @@ var Layer = function (_BaseNode) {
     }
   }, {
     key: 'clearContext',
-    value: function clearContext(context) {
+    value: function clearContext() {
+      var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.outputContext;
+
       if (context.canvas) {
         var _context$canvas = context.canvas,
             width = _context$canvas.width,
@@ -14172,6 +14179,10 @@ var Layer = function (_BaseNode) {
     key: 'drawSprites',
     value: function drawSprites(renderEls, t) {
       this[_updateSet].clear();
+      if (this.beforeDrawTransform) {
+        this.outputContext.save();
+        this.beforeDrawTransform();
+      }
       for (var i = 0; i < renderEls.length; i++) {
         var child = renderEls[i],
             isDirty = child.isDirty;
@@ -14194,6 +14205,9 @@ var Layer = function (_BaseNode) {
             child.dispatchEvent('update', { target: child, renderTime: t, isVisible: isVisible }, true, true);
           }
         }
+      }
+      if (this.beforeDrawTransform) {
+        this.outputContext.restore();
       }
     }
   }, {
@@ -14223,15 +14237,14 @@ var Layer = function (_BaseNode) {
       var renderEls = this[_children];
 
       outputContext.save();
+      if (this.beforeDrawTransform) {
+        this.beforeDrawTransform();
+      }
       outputContext.beginPath();
-
       (0, _dirtyCheck.clearDirtyRects)(outputContext, updateEls, true);
-
-      if (clearContext) this.clearContext(outputContext);
-
-      this.drawSprites(renderEls, t);
-
       outputContext.restore();
+      if (clearContext) this.clearContext(outputContext);
+      this.drawSprites(renderEls, t);
     }
   }, {
     key: 'pointCollision',
@@ -15945,6 +15958,8 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
+var _utils = __webpack_require__(156);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _zOrder = (0, _symbol2.default)('zOrder');
@@ -15962,6 +15977,7 @@ exports.default = {
 
       _this[_zOrder] = _this[_zOrder] || 0;
       sprite.connect(_this, _this[_zOrder]++);
+      (0, _utils.sortOrderedSprites)(_this.children);
 
       for (var i = children.length - 1; i > 0; i--) {
         var a = children[i],
@@ -16076,14 +16092,10 @@ exports.default = {
     var refZOrder = refchild.zOrder;
     if (idx >= 0) {
       var _insert = function _insert() {
-        var _idx = 0; // re-calculate because async...
-        // TODO: use binary search?
         for (var i = 0; i < _this5.children.length; i++) {
           var child = _this5.children[i],
               zOrder = child.zOrder;
-          if (zOrder < refZOrder) {
-            _idx++;
-          } else {
+          if (zOrder >= refZOrder) {
             delete child.zOrder;
             Object.defineProperty(child, 'zOrder', {
               value: zOrder + 1,
@@ -16093,8 +16105,9 @@ exports.default = {
           }
         }
 
-        _this5.children.splice(_idx, 0, newchild);
+        _this5.children.push(newchild);
         newchild.connect(_this5, refZOrder);
+        (0, _utils.sortOrderedSprites)(_this5.children);
         newchild.forceUpdate();
 
         _this5[_zOrder] = _this5[_zOrder] || 0;

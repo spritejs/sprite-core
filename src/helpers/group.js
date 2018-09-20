@@ -1,3 +1,4 @@
+import {sortOrderedSprites} from '../utils';
 const _zOrder = Symbol('zOrder');
 const _removeTask = Symbol('removeTask');
 
@@ -9,6 +10,7 @@ export default {
 
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
+      sortOrderedSprites(this.children);
 
       for(let i = children.length - 1; i > 0; i--) {
         const a = children[i],
@@ -104,14 +106,10 @@ export default {
     const refZOrder = refchild.zOrder;
     if(idx >= 0) {
       const _insert = () => {
-        let _idx = 0; // re-calculate because async...
-        // TODO: use binary search?
         for(let i = 0; i < this.children.length; i++) {
           const child = this.children[i],
             zOrder = child.zOrder;
-          if(zOrder < refZOrder) {
-            _idx++;
-          } else {
+          if(zOrder >= refZOrder) {
             delete child.zOrder;
             Object.defineProperty(child, 'zOrder', {
               value: zOrder + 1,
@@ -121,8 +119,9 @@ export default {
           }
         }
 
-        this.children.splice(_idx, 0, newchild);
+        this.children.push(newchild);
         newchild.connect(this, refZOrder);
+        sortOrderedSprites(this.children);
         newchild.forceUpdate();
 
         this[_zOrder] = this[_zOrder] || 0;

@@ -118,7 +118,7 @@ export default class Layer extends BaseNode {
     return [0, 0];
   }
 
-  clearContext(context) {
+  clearContext(context = this.outputContext) {
     if(context.canvas) {
       const {width, height} = context.canvas;
       context.clearRect(0, 0, width, height);
@@ -211,6 +211,10 @@ export default class Layer extends BaseNode {
 
   drawSprites(renderEls, t) {
     this[_updateSet].clear();
+    if(this.beforeDrawTransform) {
+      this.outputContext.save();
+      this.beforeDrawTransform();
+    }
     for(let i = 0; i < renderEls.length; i++) {
       const child = renderEls[i],
         isDirty = child.isDirty;
@@ -234,6 +238,9 @@ export default class Layer extends BaseNode {
         }
       }
     }
+    if(this.beforeDrawTransform) {
+      this.outputContext.restore();
+    }
   }
 
   renderRepaintAll(t, clearContext = true) {
@@ -254,15 +261,14 @@ export default class Layer extends BaseNode {
     const renderEls = this[_children];
 
     outputContext.save();
+    if(this.beforeDrawTransform) {
+      this.beforeDrawTransform();
+    }
     outputContext.beginPath();
-
     clearDirtyRects(outputContext, updateEls, true);
-
-    if(clearContext) this.clearContext(outputContext);
-
-    this.drawSprites(renderEls, t);
-
     outputContext.restore();
+    if(clearContext) this.clearContext(outputContext);
+    this.drawSprites(renderEls, t);
   }
 
   pointCollision(evt) {
