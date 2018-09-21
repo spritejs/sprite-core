@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
+
+    const g = new Group();
+    g.attr({
+      // pos: [150, 150],
+      // size: [100, 100],
+      // bgcolor: 'grey',
+      // anchor: [0.5, 0.5],
+      // pos: [600, 300],
+      // size: [1200, 600],
+      // bgcolor: 'grey',
+      transformOrigin: [300, 300],
+      rotate: 30,
+    });
+    layer.append(g);
+
+    const s1 = new Sprite();
+    s1.attr({
+      size: [100, 50],
+      // borderRadius: 25,
+      bgcolor: 'red',
+      pos: [300, 300],
+      // rotate: 20,
+      // transformOrigin: [50, 25],
+    });
+
+    const b1 = new Sprite({
+      size: [10, 10],
+      bgcolor: 'blue',
+      pos: [350, 325],
+      anchor: 0.5,
+    });
+    // const s2 = s1.cloneNode();
+    // s2.attr({
+    //   bgcolor: 'blue',
+    //   x: x => x + 60,
+    // });
+    // const s3 = s1.cloneNode();
+    // s3.attr({
+    //   bgcolor: 'green',
+    //   y: y => y + 60,
+    // });
+    g.append(s1, b1);
+  </script>
+</body>
+</html>

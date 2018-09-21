@@ -4998,13 +4998,23 @@ function attr(target, prop, descriptor) {
       } else if (ret.relative) {
         const relative = ret.relative.trim();
         if (relative === 'pw' || relative === 'ph') {
-          const parent = subject.parent;
+          let parent = subject.parent;
           let pv = null;
+
           if (parent) {
+            let attrSize = parent.attrSize;
+            if (attrSize) {
+              const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
+              while (attrSize && attrV === '') {
+                // flexible value
+                parent = parent.parent;
+                attrSize = parent.attrSize;
+              }
+            }
             if (relative === 'pw') {
-              pv = parent.contentSize != null ? parent.contentSize[0] : parent.resolution[0];
+              pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
             } else if (relative === 'ph') {
-              pv = parent.contentSize != null ? parent.contentSize[1] : parent.resolution[1];
+              pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
             }
           }
           if (pv !== ret.pv) {
@@ -5137,13 +5147,22 @@ function relative(type = 'width') {
         if (typeof val === 'string') {
           val = val.trim();
           if (val.endsWith('%')) {
-            const parent = this.subject.parent;
+            let parent = this.subject.parent;
             let pv = null;
             if (parent) {
+              let attrSize = parent.attrSize;
+              if (attrSize) {
+                const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
+                while (attrSize && attrV === '') {
+                  // flexible value
+                  parent = parent.parent;
+                  attrSize = parent.attrSize;
+                }
+              }
               if (type === 'width') {
-                pv = parent.contentSize != null ? parent.contentSize[0] : parent.resolution[0];
+                pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
               } else if (type === 'height') {
-                pv = parent.contentSize != null ? parent.contentSize[1] : parent.resolution[1];
+                pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
               }
             }
             val = {
@@ -5202,6 +5221,7 @@ function flow(target, prop, descriptor) {
   return descriptor;
 }
 
+// set tag force to get absolute value from relative attributes
 function absolute(target, prop, descriptor) {
   if (descriptor.get) {
     const _getter = descriptor.get;
