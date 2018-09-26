@@ -42,8 +42,8 @@ export function relayout(containerSprite, itemsSprite) {
     return a.zOrder - b.zOrder;
   });
   const container = Node.create({
-    width: containerSprite.layoutSize[0],
-    height: containerSprite.layoutSize[1],
+    width: containerSprite.attrSize[0],
+    height: containerSprite.attrSize[1],
     flexDirection: containerSprite.attributes.flexDirection,
     alignItems: containerSprite.attributes.alignItems,
     justifyContent: containerSprite.attributes.justifyContent,
@@ -54,7 +54,7 @@ export function relayout(containerSprite, itemsSprite) {
     const [marginTop, marginRight, marginBottom, marginLeft] = item.attr('margin');
     const [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding');
     const borderWidth = item.attr('border').width;
-    const [width, height] = item.offsetSize;
+    const [width, height] = item.attrSize;
     const config = {
       width,
       height,
@@ -76,6 +76,7 @@ export function relayout(containerSprite, itemsSprite) {
       borderBottom: borderWidth,
       borderLeft: borderWidth,
       alignSelf: item.attributes.alignSelf,
+      flex: item.attributes.flex,
       flexBasis: item.attributes.flexBasis,
       flexGrow: item.attributes.flexGrow,
       flexShrink: item.attributes.flexShrink,
@@ -85,6 +86,10 @@ export function relayout(containerSprite, itemsSprite) {
   });
   container.calculateLayout();
   const layout = container.getAllComputedLayout();
+  containerSprite.attr({
+    layoutWidth: layout.width,
+    layoutHeight: layout.height,
+  });
   layout.children.forEach((item, index) => {
     const sprite = itemsSprite[index];
     sprite.attr({

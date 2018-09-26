@@ -29,6 +29,7 @@ export async function compare(canvas, caseId) {
 
   const diffFile = `./test/img-diff/${caseId}.diff.png`;
   const srcFile = `./test/img-diff/${caseId}.src.png`;
+  const oldFile = `./test/img-diff/${caseId}.old.png`;
 
   const width = canvas.width,
     height = canvas.height;
@@ -70,12 +71,16 @@ export async function compare(canvas, caseId) {
   if(!isEqual) {
     fs.writeFileSync(diffFile, diffCanvas.toBuffer());
     fs.writeFileSync(srcFile, canvas.toBuffer());
+    fs.writeFileSync(oldFile, desData);
   } else {
     if(fs.existsSync(diffFile)) {
       fs.unlinkSync(diffFile);
     }
     if(fs.existsSync(srcFile)) {
       fs.unlinkSync(srcFile);
+    }
+    if(fs.existsSync(oldFile)) {
+      fs.unlinkSync(oldFile);
     }
   }
 

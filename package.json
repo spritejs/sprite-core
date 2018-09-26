@@ -17,7 +17,7 @@
     "graphics"
   ],
   "scripts": {
-    "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "test": "nyc ava test/group.js --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
     "test-waapi": "ava ./test/waapi/**.js",
     "lint": "eslint 'src/**/*.js' --fix",
     "lint-test": "eslint 'test/**/*.js' --fix",
@@ -85,10 +85,11 @@
   "dependencies": {
     "babel-decorators-runtime": "^0.2.0",
     "babel-runtime": "^6.26.0",
+    "canvas": "^2.0.0-alpha.16",
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
     "sprite-animator": "^1.11.3",
-    "sprite-flex-layout": "^1.0.2",
+    "sprite-flex-layout": "^1.0.4",
     "sprite-math": "^1.0.5",
     "svg-path-to-canvas": "^1.9.6"
   }
