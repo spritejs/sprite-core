@@ -88,6 +88,7 @@
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
     "sprite-animator": "^1.11.3",
+    "sprite-flex-layout": "^1.0.2",
     "sprite-math": "^1.0.5",
     "svg-path-to-canvas": "^1.9.6"
   }
