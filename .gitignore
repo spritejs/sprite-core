@@ -45,3 +45,4 @@ sftp-config.json
 .vscode
 jsconfig.json
 esconfig.json
+package-lock.json
