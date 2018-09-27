@@ -160,7 +160,7 @@ var _basenode = __webpack_require__(201);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _path = __webpack_require__(226);
+var _path = __webpack_require__(232);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -12485,7 +12485,8 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       lineBreak: '',
       wordBreak: 'normal',
       letterSpacing: 0,
-      textIndent: 0
+      textIndent: 0,
+      enableCache: false
     });
     return _this;
   }
@@ -14023,9 +14024,9 @@ var _group2 = _interopRequireDefault(_group);
 
 var _nodetype = __webpack_require__(205);
 
-var _dirtyCheck = __webpack_require__(225);
+var _dirtyCheck = __webpack_require__(231);
 
-var _group3 = __webpack_require__(224);
+var _group3 = __webpack_require__(230);
 
 var _group4 = _interopRequireDefault(_group3);
 
@@ -14711,7 +14712,7 @@ var _layout2 = __webpack_require__(222);
 
 var layout = _interopRequireWildcard(_layout2);
 
-var _group = __webpack_require__(224);
+var _group = __webpack_require__(230);
 
 var _group2 = _interopRequireDefault(_group);
 
@@ -15571,6 +15572,8 @@ var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 exports.relayout = relayout;
 
+var _spriteFlexLayout = __webpack_require__(224);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var attrs = exports.attrs = {
@@ -15605,9 +15608,8 @@ var attrs = exports.attrs = {
   }
 };
 
-function relayout(container, items) {
-  // eslint-disable-line complexity
-  items.sort(function (a, b) {
+function relayout(containerSprite, itemsSprite) {
+  itemsSprite.sort(function (a, b) {
     var orderA = a.attributes.order | 0,
         orderB = b.attributes.order | 0;
     if (orderA !== orderB) {
@@ -15615,105 +15617,16 @@ function relayout(container, items) {
     }
     return a.zOrder - b.zOrder;
   });
-
-  function getSize(node, key) {
-    return key === 'width' ? node.attrSize[0] : node.attrSize[1];
-  }
-  var style = container.attributes;
-
-  var mainSize = 'width',
-      mainStart = 'layoutX',
-      mainEnd = 'layoutRight',
-      mainSign = +1,
-      mainBase = 0,
-      crossSize = 'height',
-      crossStart = 'layoutY',
-      crossEnd = 'layoutBottom',
-      crossSign = void 0,
-      crossBase = void 0;
-
-  var flexDirection = style.flexDirection;
-
-  if (flexDirection === 'row-reverse') {
-    mainSize = 'width';
-    mainStart = 'layoutRight';
-    mainEnd = 'layoutX';
-    mainSign = -1;
-    mainBase = getSize(container, 'width');
-
-    crossSize = 'height';
-    crossStart = 'layoutY';
-    crossEnd = 'layoutBottom';
-  } else if (flexDirection === 'column') {
-    mainSize = 'height';
-    mainStart = 'layoutY';
-    mainEnd = 'layoutBottom';
-    mainSign = +1;
-    mainBase = 0;
-
-    crossSize = 'width';
-    crossStart = 'layoutX';
-    crossEnd = 'layoutRight';
-  } else if (flexDirection === 'column-reverse') {
-    mainSize = 'height';
-    mainStart = 'layoutBottom';
-    mainEnd = 'layoutY';
-    mainSign = -1;
-    mainBase = getSize(container, 'height');
-
-    crossSize = 'width';
-    crossStart = 'layoutX';
-    crossEnd = 'layoutRight';
-  }
-
-  if (style.flexWrap === 'wrap-reverse') {
-    var _ref = [crossEnd, crossStart];
-    crossStart = _ref[0];
-    crossEnd = _ref[1];
-
-    crossSign = -1;
-  } else {
-    crossBase = 0;
-    crossSign = 1;
-  }
-
-  function isAutoSize(size) {
-    return size == null || size === '';
-  }
-
-  var isAutoMainSize = isAutoSize(getSize(container, mainSize));
-
-  var groupMainSize = void 0;
-
-  if (isAutoMainSize) {
-    // auto sizing
-    var maxSize = 0;
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i],
-          _item$layoutSize = (0, _slicedToArray3.default)(item.layoutSize, 2),
-          width = _item$layoutSize[0],
-          height = _item$layoutSize[1];
-
-      var _size = mainSize === 'width' ? width : height;
-      maxSize += _size;
-    }
-    if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
-      mainBase = maxSize;
-    }
-    groupMainSize = maxSize;
-  } else {
-    groupMainSize = mainSize === 'width' ? container.layoutSize[0] : container.layoutSize[1];
-  }
-
-  var flexLine = [];
-  var flexLines = [flexLine];
-
-  var mainSpace = groupMainSize,
-      crossSpace = 0;
-
-  function setBoxLayoutSize(item, axis, size) {
-    var isBorderBox = item.attr('boxSizing') === 'border-box';
-
+  var container = _spriteFlexLayout.Node.create({
+    width: containerSprite.attrSize[0],
+    height: containerSprite.attrSize[1],
+    flexDirection: containerSprite.attributes.flexDirection,
+    alignItems: containerSprite.attributes.alignItems,
+    justifyContent: containerSprite.attributes.justifyContent,
+    flexWrap: containerSprite.attributes.flexWrap,
+    alignContent: containerSprite.attributes.alignContent
+  });
+  itemsSprite.forEach(function (item) {
     var _item$attr = item.attr('margin'),
         _item$attr2 = (0, _slicedToArray3.default)(_item$attr, 4),
         marginTop = _item$attr2[0],
@@ -15721,262 +15634,1310 @@ function relayout(container, items) {
         marginBottom = _item$attr2[2],
         marginLeft = _item$attr2[3];
 
-    if (isBorderBox) {
-      if (axis === 'width') {
-        size = Math.max(0, size - marginRight - marginLeft);
-        item.attr({ layoutWidth: size });
-      } else if (axis === 'height') {
-        size = Math.max(0, size - marginTop - marginBottom);
-        item.attr({ layoutHeight: size });
-      }
-    } else {
-      var borderWidth = item.attr('border').width,
-          _item$attr3 = item.attr('padding'),
-          _item$attr4 = (0, _slicedToArray3.default)(_item$attr3, 4),
-          paddingTop = _item$attr4[0],
-          paddingRight = _item$attr4[1],
-          paddingBottom = _item$attr4[2],
-          paddingLeft = _item$attr4[3];
+    var _item$attr3 = item.attr('padding'),
+        _item$attr4 = (0, _slicedToArray3.default)(_item$attr3, 4),
+        paddingTop = _item$attr4[0],
+        paddingRight = _item$attr4[1],
+        paddingBottom = _item$attr4[2],
+        paddingLeft = _item$attr4[3];
 
+    var borderWidth = item.attr('border').width;
 
-      if (axis === 'width') {
-        size = Math.max(0, size - 2 * borderWidth - paddingRight - paddingLeft - marginRight - marginLeft);
-        item.attr({ layoutWidth: size });
-      } else if (axis === 'height') {
-        size = Math.max(0, size - 2 * borderWidth - paddingTop - paddingBottom - marginTop - marginBottom);
-        item.attr({ layoutHeight: size });
-      }
-    }
-  }
-  // collect items into lines
+    var _item$attrSize = (0, _slicedToArray3.default)(item.attrSize, 2),
+        width = _item$attrSize[0],
+        height = _item$attrSize[1];
 
-  for (var _i = 0; _i < items.length; _i++) {
-    var _item = items[_i];
-    var itemStyle = _item.attributes;
-
-    var _item$layoutSize2 = (0, _slicedToArray3.default)(_item.layoutSize, 2),
-        itemMainSize = _item$layoutSize2[0],
-        itemCrossSize = _item$layoutSize2[1];
-
-    if (mainSize === 'height') {
-      ;
-
-      var _ref2 = [itemCrossSize, itemMainSize];
-      itemMainSize = _ref2[0];
-      itemCrossSize = _ref2[1];
-    }if (itemStyle.flex !== '') {
-      flexLine.push(_item);
-    } else if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-      mainSpace -= itemMainSize;
-      crossSpace = Math.max(crossSpace, itemCrossSize);
-      flexLine.push(_item);
-    } else {
-      if (itemMainSize > groupMainSize) {
-        setBoxLayoutSize(_item, mainSize, groupMainSize);
-        itemMainSize = groupMainSize;
-        itemCrossSize = mainSize === 'width' ? _item.layoutSize[1] : _item.layoutSize[0];
-      }
-      if (mainSpace < itemMainSize) {
-        flexLine.mainSpace = mainSpace;
-        flexLine.crossSpace = crossSpace;
-        flexLine = [_item];
-        flexLines.push(flexLine);
-        mainSpace = groupMainSize;
-        crossSpace = 0;
-      } else {
-        flexLine.push(_item);
-      }
-      crossSpace = Math.max(crossSpace, itemCrossSize);
-      mainSpace -= itemMainSize;
-    }
-  }
-  flexLine.mainSpace = mainSpace;
-
-  if (style.flexWrap === 'nowrap' || isAutoMainSize) {
-    var _size2 = getSize(container, crossSize);
-    flexLine.crossSpace = !isAutoSize(_size2) ? _size2 : crossSpace;
-  } else {
-    flexLine.crossSpace = crossSpace;
-  }
-
-  function fixAnchor(item) {
-    var _item$originalRect = (0, _slicedToArray3.default)(item.originalRect, 2),
-        left = _item$originalRect[0],
-        top = _item$originalRect[1],
-        margin = item.attr('margin');
-    // console.log(margin[3])
-
-
-    item.attr({ layoutX: function layoutX(x) {
-        return x - left + margin[3];
-      } });
-    item.attr({ layoutY: function layoutY(y) {
-        return y - top + margin[0];
-      } });
-  }
-
-  if (mainSpace < 0) {
-    // overflow (happens only if container is single line), scale every item
-    var scale = groupMainSize / (groupMainSize - mainSpace);
-    var currentMain = mainBase;
-    for (var _i2 = 0; _i2 < items.length; _i2++) {
-      var _item2 = items[_i2];
-      var _itemStyle = _item2.attributes;
-      var boxSize = mainSize === 'width' ? _item2.layoutSize[0] : _item2.layoutSize[1];
-
-      if (_itemStyle.flex !== '') {
-        boxSize = 0;
-      }
-
-      boxSize *= scale;
-
-      _item2.attr(mainStart, currentMain);
-      _item2.attr(mainEnd, currentMain + mainSign * boxSize);
-      setBoxLayoutSize(_item2, mainSize, boxSize);
-      currentMain = _item2.attr(mainEnd);
-    }
-  } else {
-    // process each flex line
-    flexLines.forEach(function (items) {
-      var mainSpace = items.mainSpace;
-      var flexTotal = 0;
-      for (var _i3 = 0; _i3 < items.length; _i3++) {
-        var _item3 = items[_i3];
-        var _itemStyle2 = _item3.attributes;
-
-        flexTotal += _itemStyle2.flex === '' ? 0 : parseInt(_itemStyle2.flex, 10);
-      }
-
-      if (flexTotal > 0) {
-        // There is flexible flex items
-        var _currentMain = mainBase;
-        for (var _i4 = 0; _i4 < items.length; _i4++) {
-          var _item4 = items[_i4];
-          var _itemStyle3 = _item4.attributes;
-          var _boxSize = mainSize === 'width' ? _item4.layoutSize[0] : _item4.layoutSize[1];
-
-          if (_itemStyle3.flex !== '') {
-            _boxSize = mainSpace / flexTotal * parseInt(_itemStyle3.flex, 10);
-          }
-
-          _item4.attr(mainStart, _currentMain);
-          _item4.attr(mainEnd, _currentMain + mainSign * _boxSize);
-          setBoxLayoutSize(_item4, mainSize, _boxSize);
-          _currentMain = _item4.attr(mainEnd);
-        }
-      } else {
-        var _currentMain2 = mainBase,
-            _step = 0;
-        // There is *NO* flexible flex items, which means, justifyContent shoud work
-        var justifyContent = style.justifyContent;
-
-        if (justifyContent === 'flex-end') {
-          _currentMain2 = mainSpace * mainSign + mainBase;
-          _step = 0;
-        } else if (justifyContent === 'center') {
-          _currentMain2 = mainSpace / 2 * mainSign + mainBase;
-          _step = 0;
-        } else if (justifyContent === 'space-between') {
-          _step = mainSpace / (items.length - 1) * mainSign;
-          _currentMain2 = mainBase;
-        } else if (justifyContent === 'space-around') {
-          _step = mainSpace / items.length * mainSign;
-          _currentMain2 = _step / 2 + mainBase;
-        }
-
-        for (var _i5 = 0; _i5 < items.length; _i5++) {
-          var _item5 = items[_i5];
-          var _boxSize2 = mainSize === 'width' ? _item5.layoutSize[0] : _item5.layoutSize[1];
-
-          _item5.attr(mainStart, _currentMain2);
-          _item5.attr(mainEnd, _item5.attr(mainStart) + mainSign * _boxSize2);
-          setBoxLayoutSize(_item5, mainSize, _boxSize2);
-          _currentMain2 = _item5.attr(mainEnd) + _step;
-        }
-      }
+    var config = {
+      width: width,
+      height: height,
+      minWidth: item.attributes.minWidth,
+      maxWidth: item.attributes.maxWidth,
+      minHeight: item.attributes.minHeight,
+      maxHeight: item.attributes.maxHeight,
+      boxSizing: item.attr('boxSizing'),
+      marginTop: marginTop,
+      marginRight: marginRight,
+      marginBottom: marginBottom,
+      marginLeft: marginLeft,
+      paddingTop: paddingTop,
+      paddingRight: paddingRight,
+      paddingBottom: paddingBottom,
+      paddingLeft: paddingLeft,
+      borderTop: borderWidth,
+      borderRight: borderWidth,
+      borderBottom: borderWidth,
+      borderLeft: borderWidth,
+      alignSelf: item.attributes.alignSelf,
+      flex: item.attributes.flex,
+      flexBasis: item.attributes.flexBasis,
+      flexGrow: item.attributes.flexGrow,
+      flexShrink: item.attributes.flexShrink
+    };
+    var node = _spriteFlexLayout.Node.create(config);
+    container.appendChild(node);
+  });
+  container.calculateLayout();
+  var layout = container.getAllComputedLayout();
+  containerSprite.attr({
+    layoutWidth: layout.width,
+    layoutHeight: layout.height
+  });
+  layout.children.forEach(function (item, index) {
+    var sprite = itemsSprite[index];
+    sprite.attr({
+      layoutX: item.left,
+      layoutY: item.top,
+      layoutWidth: item.width,
+      layoutHeight: item.height,
+      layoutRight: item.left + item.width,
+      layoutBottom: item.top + item.height
     });
-  }
-
-  // compute the cross axis sizes
-  // align-items, align-self
-  var crossSizeValue = void 0;
-  var size = getSize(container, crossSize);
-  if (isAutoSize(size)) {
-    // auto sizing
-    crossSpace = 0;
-    crossSizeValue = 0;
-    for (var _i6 = 0; _i6 < flexLines.length; _i6++) {
-      crossSizeValue += flexLines[_i6].crossSpace;
-    }
-    // setBoxSize(container, crossSize, crossSizeValue)
-  } else {
-    crossSpace = size;
-    for (var _i7 = 0; _i7 < flexLines.length; _i7++) {
-      crossSpace -= flexLines[_i7].crossSpace;
-    }
-  }
-
-  if (style.flexWrap === 'wrap-reverse') {
-    crossBase = isAutoSize(size) ? crossSizeValue : size;
-  } else {
-    crossBase = 0;
-  }
-
-  var step = 0;
-  var alignContent = style.alignContent;
-
-  if (alignContent === 'flex-end') {
-    crossBase += crossSign * crossSpace;
-  } else if (alignContent === 'center') {
-    crossBase += crossSign * crossSpace / 2;
-  } else if (alignContent === 'space-between') {
-    step = crossSpace / (flexLines.length - 1);
-  } else if (alignContent === 'space-around') {
-    step = crossSpace / flexLines.length;
-    crossBase += crossSign * step / 2;
-  }
-
-  flexLines.forEach(function (items) {
-    var lineCrossSize = style.alignContent === 'stretch' ? items.crossSpace + crossSpace / flexLines.length : items.crossSpace;
-
-    for (var _i8 = 0; _i8 < items.length; _i8++) {
-      var _item6 = items[_i8];
-
-      var align = _item6.attributes.alignSelf || style.alignItems;
-
-      var _size3 = crossSize === 'width' ? _item6.offsetSize[0] : _item6.offsetSize[1];
-
-      if (align === 'flex-start') {
-        _item6.attr(crossStart, crossBase);
-        _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _size3);
-      }
-
-      if (align === 'flex-end') {
-        _item6.attr(crossEnd, crossBase + crossSign * lineCrossSize);
-        _item6.attr(crossStart, _item6.attr(crossEnd) - crossSign * _size3);
-      }
-
-      if (align === 'center') {
-        _item6.attr(crossStart, crossBase + crossSign * (lineCrossSize - _size3) / 2);
-        _item6.attr(crossEnd, _item6.attr(crossStart) + crossSign * _size3);
-      }
-
-      if (align === 'stretch') {
-        _item6.attr(crossStart, crossBase);
-        _item6.attr(crossEnd, crossBase + crossSign * (!isAutoSize(getSize(_item6, crossSize)) ? _size3 : lineCrossSize));
-        // setBoxLayoutSize(item, crossSize, crossSign * (item.attr(crossEnd) - item.attr(crossStart)))
-        var crossAttr = crossSize === 'width' ? 'layoutWidth' : 'layoutHeight';
-        _item6.attr(crossAttr, crossSign * (_item6.attr(crossEnd) - _item6.attr(crossStart)));
-      }
-
-      fixAnchor(_item6);
-    }
-    crossBase += crossSign * (lineCrossSize + step);
   });
 }
 
 /***/ }),
 /* 224 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _node = __webpack_require__(225);
+
+Object.defineProperty(exports, 'Node', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_node).default;
+  }
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _defineProperty = __webpack_require__(116);
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+var _classCallCheck2 = __webpack_require__(114);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(115);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _config = __webpack_require__(226);
+
+var _config2 = _interopRequireDefault(_config);
+
+var _compose = __webpack_require__(228);
+
+var _compose2 = _interopRequireDefault(_compose);
+
+var _util = __webpack_require__(227);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var id = 1;
+
+var Node = function () {
+  function Node(config) {
+    (0, _classCallCheck3.default)(this, Node);
+
+    this.config = new _config2.default(config, this);
+    this.parent = null;
+    this.children = [];
+    this.id = id++;
+  }
+
+  (0, _createClass3.default)(Node, [{
+    key: 'appendChild',
+    value: function appendChild(node) {
+      if (!(node instanceof Node)) {
+        throw new Error('appended Child must be instance of Node');
+      }
+      node.parent = this;
+      this.children.push(node);
+      return this;
+    }
+  }, {
+    key: 'calculateLayout',
+    value: function calculateLayout(width, height, direction) {
+      if (width) this.width = width;
+      if (height) this.height = height;
+      if (direction) this.flexDirection = direction;
+      var instance = new _compose2.default(this);
+      instance.compose();
+    }
+  }, {
+    key: 'getComputedLayout',
+    value: function getComputedLayout() {
+      var _this = this;
+
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      var width = this.computedWidth;
+      if (width === undefined) {
+        width = this.width;
+      }
+      var height = this.computedHeight;
+      if (height === undefined) {
+        height = this.height;
+      }
+      var layout = { left: this.left || 0, top: this.top || 0, width: width, height: height };
+      props.forEach(function (item) {
+        layout[item] = _this[item];
+      });
+      return layout;
+    }
+  }, {
+    key: 'getAllComputedLayout',
+    value: function getAllComputedLayout(props) {
+      var layout = this.getComputedLayout();
+      layout.children = this.children.sort(function (a, b) {
+        return a.id > b.id ? 1 : -1;
+      }).map(function (item) {
+        return item.getComputedLayout(props);
+      });
+      return layout;
+    }
+  }], [{
+    key: 'create',
+    value: function create(config) {
+      return new Node(config);
+    }
+  }]);
+  return Node;
+}();
+
+_util.flexProperties.forEach(function (property) {
+  (0, _defineProperty2.default)(Node.prototype, property, {
+    get: function get() {
+      return this.config[property];
+    },
+    set: function set(value) {
+      this.config[property] = value;
+    }
+  });
+});
+
+exports.default = Node;
+
+/***/ }),
+/* 226 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray2 = __webpack_require__(89);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _keys = __webpack_require__(136);
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _classCallCheck2 = __webpack_require__(114);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(115);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _util = __webpack_require__(227);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Config = function () {
+  function Config() {
+    var _this = this;
+
+    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var node = arguments[1];
+    (0, _classCallCheck3.default)(this, Config);
+
+    this.config = {};
+    this.node = node;
+    (0, _keys2.default)(config).forEach(function (item) {
+      if (!_util.flexProperties.includes(item)) {
+        throw new Error('config ' + item + ' is not valid');
+      }
+      _this[item] = config[item];
+    });
+  }
+
+  (0, _createClass3.default)(Config, [{
+    key: 'parse',
+    value: function parse() {
+      this.parseBorder();
+      this.parsePadding();
+      this.parseMargin();
+      this.parseFlex();
+      this.parseFlexFlow();
+      this.parseFlexProps();
+      this.parseSize();
+      this.parseComputedWidth();
+      this.parseComputedHeight();
+      this.parseLayoutWidth();
+      this.parseLayoutHeight();
+    }
+  }, {
+    key: 'parseNumberValue',
+    value: function parseNumberValue(value, parentValue) {
+      if (value === 'auto' || typeof value === 'number') return value;
+      if (!value) return 0;
+      var percentValue = (0, _util.parsePercentValue)(value);
+      if (typeof percentValue === 'number') {
+        if (typeof parentValue === 'string') {
+          parentValue = this.node.parent[parentValue];
+        }
+        value = percentValue * parentValue;
+      } else if (/^[\d.-]+$/.test(value)) {
+        value = parseFloat(value, 10);
+      } else {
+        throw new Error(value + ' is not a number');
+      }
+      return value;
+    }
+  }, {
+    key: 'parseBorder',
+    value: function parseBorder() {
+      var _this2 = this;
+
+      var border = this.border || [0, 0, 0, 0];
+      if (border) {
+        border = (0, _util.parseCombineValue)(border).map(function (item) {
+          return _this2.parseNumberValue(item);
+        });
+      }
+      var borderList = ['borderTop', 'borderRight', 'borderBottom', 'borderLeft'];
+      this.border = borderList.map(function (item, index) {
+        _this2[item] = _this2.parseNumberValue(_this2[item]) || border[index];
+        if (_this2[item] < 0 || _this2[item] === 'auto') {
+          throw new Error(item + ':' + _this2[item] + ' is not valid');
+        }
+        return _this2[item];
+      });
+    }
+  }, {
+    key: 'parsePadding',
+    value: function parsePadding() {
+      var _this3 = this;
+
+      var padding = this.padding || [0, 0, 0, 0];
+      if (padding) {
+        padding = (0, _util.parseCombineValue)(padding).map(function (item) {
+          return _this3.parseNumberValue(item, 'width');
+        });
+      }
+      var paddingList = ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'];
+      this.padding = paddingList.map(function (item, index) {
+        _this3[item] = _this3.parseNumberValue(_this3[item], 'width') || padding[index];
+        if (_this3[item] < 0 || _this3[item] === 'auto') {
+          throw new Error(item + ':' + _this3[item] + ' is not valid');
+        }
+        return _this3[item];
+      });
+    }
+  }, {
+    key: 'parseMargin',
+    value: function parseMargin() {
+      var _this4 = this;
+
+      var margin = this.margin || [0, 0, 0, 0];
+      if (margin) {
+        margin = (0, _util.parseCombineValue)(margin).map(function (item) {
+          return _this4.parseNumberValue(item, 'width');
+        });
+      }
+      var marginList = ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'];
+      this.margin = marginList.map(function (item, index) {
+        _this4[item] = _this4.parseNumberValue(_this4[item], 'width') || margin[index];
+        return _this4[item];
+      });
+    }
+  }, {
+    key: 'parseFlex',
+    value: function parseFlex() {
+      var flex = this.flex;
+      if (flex) {
+        if (typeof flex === 'number') {
+          this.flexGrow = this.flexGrow || flex;
+        } else {
+          var _flex$split = flex.split(/\s+/),
+              _flex$split2 = (0, _slicedToArray3.default)(_flex$split, 3),
+              flexFlow = _flex$split2[0],
+              flexShrink = _flex$split2[1],
+              _flexBasis = _flex$split2[2];
+
+          if (!this.flexFlow) {
+            this.flexFlow = flexFlow;
+          }
+          if (!this.flexShrink) {
+            this.flexShrink = flexShrink;
+          }
+          if (!this.flexBasis) {
+            this.flexBasis = _flexBasis;
+          }
+        }
+      }
+      this.flexShrink = parseFloat(this.flexShrink) || 1;
+      this.flexGrow = parseFloat(this.flexGrow) || 0;
+      var flexBasis = this.flexBasis;
+      if (flexBasis) {
+        var flexDirection = this.node.parent.flexDirection;
+        var isRow = flexDirection === 'row' || flexDirection === 'row-reverse';
+        flexBasis = this.parseNumberValue(flexBasis, isRow ? 'width' : 'height');
+        this.flexBasis = flexBasis;
+      } else if (this.flexBasis === '') {
+        this.flexBasis = undefined;
+      }
+    }
+  }, {
+    key: 'parseSize',
+    value: function parseSize() {
+      var _this5 = this;
+
+      var widths = ['width', 'minWidth', 'maxWidth'];
+      widths.forEach(function (item) {
+        _this5[item] = _this5.parseNumberValue(_this5[item], 'width') || 0;
+      });
+      if (this.width && !this.offsetWidth) {
+        this.offsetWidth = this.width;
+      }
+      var heights = ['height', 'minHeight', 'maxHeight'];
+      heights.forEach(function (item) {
+        _this5[item] = _this5.parseNumberValue(_this5[item], 'height') || 0;
+      });
+      if (this.height && !this.offsetHeight) {
+        this.offsetHeight = this.height;
+      }
+    }
+  }, {
+    key: 'parseFlexFlow',
+    value: function parseFlexFlow() {
+      var _this6 = this;
+
+      var flexFlow = this.flexFlow;
+      if (flexFlow) {
+        flexFlow.split(/\s+/).forEach(function (item) {
+          if (_util.flexDirectionValues.includes(item)) {
+            _this6.flexDirection = item;
+          } else if (_util.flexWrapValues.includes(item)) {
+            _this6.flexWrap = item;
+          } else {
+            throw new Error('FlexFlow: ' + flexFlow + ' is not valid');
+          }
+        });
+      }
+    }
+  }, {
+    key: 'parseFlexProps',
+    value: function parseFlexProps() {
+      var _this7 = this;
+
+      var props = {
+        flexDirection: _util.flexDirectionValues,
+        flexWrap: _util.flexWrapValues,
+        justifyContent: _util.justifyContentValues,
+        alignItems: _util.alignItemsValues,
+        alignSelf: _util.alignSelfValues,
+        alignContent: _util.alignContentValues
+      };
+      (0, _keys2.default)(props).forEach(function (item) {
+        if (_this7[item]) {
+          var allowValues = props[item];
+          if (allowValues.indexOf(_this7[item]) === -1) {
+            throw new Error(item + ' value:' + _this7[item] + ' is not valid');
+          }
+        } else {
+          _this7[item] = props[item][0];
+        }
+      });
+    }
+  }, {
+    key: 'getFlexBasis',
+    value: function getFlexBasis() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'width';
+
+      var flexDirection = this.node.parent.flexDirection;
+      var flexBasis = this.flexBasis;
+      if (flexBasis !== undefined && flexBasis !== 'auto') {
+        var isRow = flexDirection === 'row' || flexDirection === 'row-reverse';
+        if (type === 'width' && isRow || type === 'height' && !isRow) {
+          return this.parseNumberValue(flexBasis, isRow ? 'width' : 'height');
+        }
+      }
+    }
+  }, {
+    key: 'parseComputedWidth',
+    value: function parseComputedWidth() {
+      var width = this.getFlexBasis('width');
+      if (width === undefined) {
+        width = this.offsetWidth || 0;
+      }
+      var minWidth = this.minWidth;
+      var maxWidth = this.maxWidth;
+      if (maxWidth && minWidth && maxWidth < minWidth) {
+        maxWidth = minWidth;
+      }
+      if (minWidth && width < minWidth) {
+        width = minWidth;
+      }
+      if (maxWidth && width > maxWidth) {
+        width = maxWidth;
+      }
+      this.config.computedWidth = width;
+    }
+  }, {
+    key: 'parseLayoutWidth',
+    value: function parseLayoutWidth() {
+      var _this8 = this;
+
+      var width = this.computedWidth;
+
+      var marginLeft = (0, _util.parseMarginAuto)(this.marginLeft);
+      var marginRight = (0, _util.parseMarginAuto)(this.marginRight);
+      width += marginLeft + marginRight;
+      if (this.boxSizing !== 'border-box') {
+        var props = ['borderLeft', 'borderRight', 'paddingLeft', 'paddingRight'];
+        props.forEach(function (item) {
+          width += _this8[item] || 0;
+        });
+      }
+      this.layoutWidth = width;
+    }
+  }, {
+    key: 'parseComputedHeight',
+    value: function parseComputedHeight() {
+      var height = this.getFlexBasis('height');
+      if (height === undefined) {
+        height = this.offsetHeight || 0;
+      }
+      var minHeight = this.minHeight;
+      var maxHeight = this.maxHeight;
+      if (maxHeight && minHeight && maxHeight < minHeight) {
+        maxHeight = minHeight;
+      }
+      if (minHeight && height < minHeight) {
+        height = minHeight;
+      }
+      if (maxHeight && height > maxHeight) {
+        height = maxHeight;
+      }
+      this.config.computedHeight = height;
+    }
+  }, {
+    key: 'parseLayoutHeight',
+    value: function parseLayoutHeight() {
+      var _this9 = this;
+
+      var height = this.computedHeight;
+
+      var marginTop = (0, _util.parseMarginAuto)(this.marginTop);
+      var marginBottom = (0, _util.parseMarginAuto)(this.marginBottom);
+      height += marginTop + marginBottom;
+      if (this.boxSizing !== 'border-box') {
+        var props = ['borderTop', 'borderBottom', 'paddingTop', 'paddingBottom'];
+        props.forEach(function (item) {
+          height += _this9[item] || 0;
+        });
+      }
+      this.layoutHeight = height;
+    }
+  }, {
+    key: 'computedWidth',
+    get: function get() {
+      return this.config.computedWidth;
+    },
+    set: function set(value) {
+      this.config.computedWidth = value;
+      this.parseLayoutWidth();
+    }
+  }, {
+    key: 'computedHeight',
+    get: function get() {
+      return this.config.computedHeight;
+    },
+    set: function set(value) {
+      this.config.computedHeight = value;
+      this.parseLayoutHeight();
+    }
+  }]);
+  return Config;
+}();
+
+exports.default = Config;
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.parseCombineValue = parseCombineValue;
+exports.parsePercentValue = parsePercentValue;
+exports.parseSpaceBetween = parseSpaceBetween;
+exports.getProp = getProp;
+exports.exchangeFlexProp = exchangeFlexProp;
+exports.parseMarginAuto = parseMarginAuto;
+var flexProperties = exports.flexProperties = ['flex', 'flexDirection', 'flexWrap', 'flexFlow', 'justifyContent', 'alignContent', 'alignItems', 'alignSelf', 'flexShrink', 'flexBasis', 'flexGrow', 'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'border', 'borderTop', 'borderRight', 'borderBottom', 'borderLeft', 'height', 'width', 'margin', 'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'padding', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'boxSizing', 'layoutWidth', 'layoutHeight', 'offsetWidth', 'offsetHeight', 'computedWidth', 'computedHeight', 'order'];
+
+var flexDirectionValues = exports.flexDirectionValues = ['row', 'row-reverse', 'column', 'column-reverse'];
+
+var flexWrapValues = exports.flexWrapValues = ['nowrap', 'wrap', 'wrap-reverse'];
+
+var justifyContentValues = exports.justifyContentValues = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'];
+
+var alignItemsValues = exports.alignItemsValues = ['stretch', 'flex-start', 'flex-end', 'center', 'baseline'];
+
+var alignSelfValues = exports.alignSelfValues = ['auto', 'stretch', 'flex-start', 'flex-end', 'center', 'baseline'];
+
+var alignContentValues = exports.alignContentValues = ['stretch', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'];
+
+function parseCombineValue(value) {
+  if (!Array.isArray(value)) {
+    value = [value, value, value, value];
+  } else if (value.length === 1) {
+    value = [value[0], value[0], value[0], value[0]];
+  } else if (value.length === 2) {
+    value = [value[0], value[1], value[0], value[1]];
+  } else if (value.length === 3) {
+    value[3] = value[1];
+  }
+  return value;
+}
+
+/**
+ * parse percent value
+ * @param {String} value percent value, like `10%`
+ */
+function parsePercentValue(value) {
+  if (!/%$/.test(value)) return false;
+  return 0.01 * parseFloat(value, 10);
+}
+
+/**
+ * parse space between items
+ * @param {Number} space space size
+ * @param {String} type flex-start/flex-end/...
+ * @param {Number} num array size
+ */
+function parseSpaceBetween(space, type, num) {
+  var marginSize = [];
+  var fillFull = function fillFull() {
+    var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+    for (var i = marginSize.length; i < num + 1; i++) {
+      marginSize[i] = size;
+    }
+  };
+  if (space < 0) {
+    if (type === 'space-between' || type === 'stretch') {
+      type = 'flex-start';
+    } else if (type === 'space-around' || type === 'space-evenly') {
+      type = 'center';
+    }
+  }
+  if (type === 'flex-end') {
+    marginSize[0] = space;
+    fillFull();
+  } else if (type === 'center') {
+    var itemSize = space / 2;
+    marginSize[0] = itemSize;
+    fillFull();
+    marginSize[num] = itemSize;
+  } else if (type === 'space-between') {
+    marginSize[0] = 0;
+    if (num === 1) {
+      fillFull(space);
+    } else {
+      fillFull(space / (num - 1));
+      marginSize[num] = 0;
+    }
+  } else if (type === 'space-between-reverse') {
+    if (num === 1) {
+      marginSize[0] = space;
+      fillFull(0);
+    } else {
+      marginSize[0] = 0;
+      fillFull(space / (num - 1));
+      marginSize[num] = 0;
+    }
+  } else if (type === 'space-around') {
+    var _itemSize = space / num;
+    marginSize[0] = _itemSize / 2;
+    fillFull(_itemSize);
+    marginSize[num] = _itemSize / 2;
+  } else if (type === 'space-evenly') {
+    var _itemSize2 = space / (num + 1);
+    fillFull(_itemSize2);
+  } else if (type === 'stretch') {
+    var _itemSize3 = space / num;
+    marginSize[0] = 0;
+    fillFull(_itemSize3);
+  } else {
+    // flex-start
+    fillFull();
+  }
+  return marginSize;
+}
+
+function getProp(flexDirection) {
+  if (flexDirection === 'column' || flexDirection === 'column-reverse') {
+    return {
+      mainLayoutSize: 'layoutHeight',
+      crossLayoutSize: 'layoutWidth',
+      mainSize: 'height',
+      mainComputedSize: 'computedHeight',
+      crossSize: 'width',
+      crossComputedSize: 'computedWidth',
+      mainPos: 'top',
+      mainMaxSize: 'maxHeight',
+      mainMinSize: 'minHeight',
+      crossPos: 'left',
+      crossMaxSize: 'maxWidth',
+      mainMarginStart: 'marginTop',
+      mainMarginEnd: 'marginBottom',
+      crossMarginStart: 'marginLeft',
+      crossMarginEnd: 'marginRight'
+    };
+  }
+  return {
+    mainLayoutSize: 'layoutWidth',
+    crossLayoutSize: 'layoutHeight',
+    mainSize: 'width',
+    mainComputedSize: 'computedWidth',
+    crossSize: 'height',
+    crossComputedSize: 'computedHeight',
+    mainPos: 'left',
+    mainMaxSize: 'maxWidth',
+    mainMinSize: 'minWidth',
+    crossMaxSize: 'maxHeight',
+    crossPos: 'top',
+    mainMarginStart: 'marginLeft',
+    mainMarginEnd: 'marginRight',
+    crossMarginStart: 'marginTop',
+    crossMarginEnd: 'marginBottom'
+  };
+}
+
+function exchangeFlexProp(prop) {
+  if (prop === 'flex-start') return 'flex-end';
+  if (prop === 'flex-end') return 'flex-start';
+  if (prop === 'space-between') return 'space-between-reverse';
+  return prop;
+}
+
+function parseMarginAuto(value) {
+  var autoValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+  if (value === 'auto') return autoValue;
+  return value || 0;
+}
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _keys = __webpack_require__(136);
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _classCallCheck2 = __webpack_require__(114);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(115);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _flexLine = __webpack_require__(229);
+
+var _flexLine2 = _interopRequireDefault(_flexLine);
+
+var _util = __webpack_require__(227);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Compose = function () {
+  function Compose(container) {
+    var _this = this;
+
+    (0, _classCallCheck3.default)(this, Compose);
+
+    this.container = container;
+    var props = (0, _util.getProp)(container.flexDirection);
+    (0, _keys2.default)(props).forEach(function (prop) {
+      _this[prop] = props[prop];
+    });
+    container.children.forEach(function (item) {
+      item.config.parse();
+    });
+    container.children = this.parseOrder(container.children);
+    this.flexLines = this.parseFlexLines(container.children);
+  }
+
+  (0, _createClass3.default)(Compose, [{
+    key: 'parseOrder',
+    value: function parseOrder(items) {
+      return items.sort(function (a, b) {
+        var ar = a.order | 0;
+        var br = b.order | 0;
+        if (a.order && b.order) return ar > br ? 1 : -1;
+        if (a.order) return ar > 0 ? 1 : -1;
+        if (b.order) return br > 0 ? -1 : 1;
+        return a.id > b.id ? 1 : -1;
+      });
+    }
+
+    /**
+     * parse flex lines by flexWrap
+     * @param {Array} items flex items
+     */
+
+  }, {
+    key: 'parseFlexLines',
+    value: function parseFlexLines(items) {
+      var _this2 = this;
+
+      var wrap = this.container.flexWrap;
+      var flexDirection = this.container.flexDirection;
+      var containerPropValue = this.container[this.mainSize];
+      var lines = [];
+      if (wrap === 'nowrap' || !containerPropValue) {
+        lines = [items];
+      } else {
+        var line = [];
+        var propValue = 0;
+        items.forEach(function (item) {
+          var value = item[_this2.mainLayoutSize];
+          if (propValue + value > containerPropValue && line.length) {
+            lines.push(line);
+            propValue = 0;
+            line = [];
+          }
+          propValue += value;
+          line.push(item);
+        });
+        if (line.length) {
+          lines.push(line);
+          line = [];
+        }
+        if (wrap === 'wrap-reverse') {
+          lines = lines.reverse();
+        }
+      }
+
+      if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+        lines = lines.map(function (line) {
+          return line.reverse();
+        });
+      }
+      lines = lines.map(function (line) {
+        return new _flexLine2.default(line, _this2.container);
+      });
+      return lines;
+    }
+
+    /**
+     * parse align-content on multiline flex lines
+     */
+
+  }, {
+    key: 'parseAlignContent',
+    value: function parseAlignContent() {
+      var alignContent = this.container.alignContent;
+      var crossAxisSize = this.container[this.crossSize];
+      var space = 0;
+      var lineLength = this.flexLines.length;
+      if (crossAxisSize) {
+        var linesCrossAxisSize = 0;
+        this.flexLines.forEach(function (line) {
+          linesCrossAxisSize += line.crossAxisSize;
+        });
+        // margin between lines
+        space = crossAxisSize - linesCrossAxisSize;
+      }
+      var linesMarginSize = [];
+      if (lineLength === 1) {
+        this.container.alignContent = 'stretch';
+        linesMarginSize = [0, space];
+      } else {
+        if (this.container.flexWrap === 'wrap-reverse') {
+          alignContent = (0, _util.exchangeFlexProp)(alignContent);
+        }
+        linesMarginSize = (0, _util.parseSpaceBetween)(space, alignContent, lineLength);
+      }
+      var crossPosition = 0;
+      this.flexLines.forEach(function (line, index) {
+        crossPosition += linesMarginSize[index] || 0;
+        line.crossPosition = crossPosition;
+        line.crossSpace = linesMarginSize[index + 1] || 0;
+        crossPosition += line.crossAxisSize;
+      });
+    }
+  }, {
+    key: 'parseAlignSelf',
+    value: function parseAlignSelf() {
+      this.flexLines.forEach(function (line) {
+        line.parseAlignSelf(line.crossAxisSize);
+      });
+    }
+  }, {
+    key: 'computeContainerSize',
+    value: function computeContainerSize() {
+      var line = this.flexLines[0];
+      if (!this.container[this.crossSize]) {
+        this.container[this.crossSize] = line.crossAxisSize;
+      }
+      if (!this.container[this.mainSize]) {
+        this.container[this.mainSize] = line.mainAxisSize;
+      }
+    }
+  }, {
+    key: 'parseMainAxis',
+    value: function parseMainAxis() {
+      this.flexLines.forEach(function (line) {
+        line.parseMainAxis();
+      });
+    }
+  }, {
+    key: 'compose',
+    value: function compose() {
+      this.parseAlignContent();
+      this.parseAlignSelf();
+      this.parseMainAxis();
+      this.computeContainerSize();
+    }
+  }]);
+  return Compose;
+}();
+
+exports.default = Compose;
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _toConsumableArray2 = __webpack_require__(98);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _keys = __webpack_require__(136);
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _classCallCheck2 = __webpack_require__(114);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(115);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _symbol = __webpack_require__(38);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _util = __webpack_require__(227);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CROSS_AXIS_SIZE = (0, _symbol2.default)('crossAxisSize');
+
+var FlexLine = function () {
+  function FlexLine(items, container) {
+    var _this = this;
+
+    (0, _classCallCheck3.default)(this, FlexLine);
+
+    this.items = items;
+    this.container = container;
+    this.flexDirection = container.flexDirection;
+    this.crossPosition = 0;
+    this.crossSpace = 0;
+    var props = (0, _util.getProp)(this.flexDirection);
+    (0, _keys2.default)(props).forEach(function (prop) {
+      _this[prop] = props[prop];
+    });
+  }
+
+  /**
+   * get main axis size base on flex direction
+   */
+
+
+  (0, _createClass3.default)(FlexLine, [{
+    key: 'parseAutoCrossMargin',
+    value: function parseAutoCrossMargin(item, crossSize) {
+      var startAuto = item[this.crossMarginStart] === 'auto';
+      var endAuto = item[this.crossMarginEnd] === 'auto';
+      if (startAuto || endAuto) {
+        if (this.container.alignContent === 'stretch') {
+          crossSize += this.crossSpace;
+        }
+        var layoutSize = item[this.crossLayoutSize];
+        var size = 0;
+        if (startAuto && endAuto) {
+          size = (crossSize - layoutSize) / 2;
+        } else if (startAuto) {
+          size = crossSize - layoutSize;
+        } else {
+          size = item[this.crossMarginStart];
+        }
+        item[this.crossPos] = this.crossPosition + size;
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'parseItemAlignSelf',
+    value: function parseItemAlignSelf(item, crossSize) {
+      // has auto value in margin on cross axis
+      if (this.parseAutoCrossMargin(item, crossSize)) return;
+
+      var alignSelf = item.alignSelf;
+      if (alignSelf === 'auto') {
+        alignSelf = item.parent.alignItems;
+      }
+      var flexWrap = this.container.flexWrap;
+      if (flexWrap === 'wrap-reverse') {
+        alignSelf = (0, _util.exchangeFlexProp)(alignSelf);
+      }
+      var layoutSize = item[this.crossLayoutSize];
+      var itemCrossSize = item[this.crossSize];
+      var crossSpace = this.crossSpace;
+      if (this.container.alignContent !== 'stretch') {
+        crossSpace = 0;
+      }
+      var crossPosition = 0;
+      switch (alignSelf) {
+        case 'flex-end':
+          crossPosition = crossSpace + crossSize - layoutSize;
+          break;
+        case 'center':
+          crossPosition = (crossSpace + crossSize - layoutSize) / 2;
+          break;
+        case 'stretch':
+          // stretch item cross size
+          if (!itemCrossSize) {
+            var maxSize = item[this.crossMaxSize] || 0;
+            var caculateSize = this.crossAxisSize - item[this.crossLayoutSize] + item[this.crossComputedSize];
+            if (this.container.alignContent === 'stretch') {
+              caculateSize += this.crossSpace;
+            }
+            if (maxSize) {
+              item[this.crossComputedSize] = Math.min(caculateSize, maxSize);
+            } else {
+              item[this.crossComputedSize] = caculateSize;
+            }
+          } else if (flexWrap === 'wrap-reverse') {
+            crossPosition = crossSpace + crossSize - layoutSize;
+          }
+          break;
+        case 'baseline':
+          throw new Error('align-self:baseline is not support');
+        default:
+          // default is flex-start
+          break;
+      }
+      var pos = this.crossPosition + crossPosition;
+      item[this.crossPos] = pos + (0, _util.parseMarginAuto)(item[this.crossMarginStart]);
+    }
+  }, {
+    key: 'parseAlignSelf',
+    value: function parseAlignSelf() {
+      var _this2 = this;
+
+      var crossSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      this.items.forEach(function (item) {
+        _this2.parseItemAlignSelf(item, crossSize);
+      });
+    }
+  }, {
+    key: 'hasMarginAutoInMainAxis',
+    value: function hasMarginAutoInMainAxis() {
+      var _this3 = this;
+
+      return this.items.some(function (item) {
+        return item[_this3.mainMarginStart] === 'auto' || item[_this3.mainMarginEnd] === 'auto';
+      });
+    }
+  }, {
+    key: 'hasFlexGrow',
+    value: function hasFlexGrow() {
+      return this.items.some(function (item) {
+        return item.flexGrow;
+      });
+    }
+  }, {
+    key: 'parseByFlexGrow',
+    value: function parseByFlexGrow(space) {
+      var _this4 = this;
+
+      var grow = 0;
+      var max = 0;
+      var items = [];
+      this.items.forEach(function (item) {
+        grow += item.flexGrow || 0;
+        items.push({ max: item[_this4.mainMaxSize], grow: item.flexGrow });
+        if (item[_this4.mainMaxSize]) max++;
+      });
+
+      var _loop = function _loop() {
+        var itemSpace = space / Math.max(grow, 1);
+        if (!max) {
+          items.forEach(function (item, index) {
+            if (item.grow) {
+              var increSpace = item.grow * itemSpace;
+              _this4.items[index][_this4.mainComputedSize] += increSpace;
+              space -= increSpace;
+            }
+          });
+          return 'break';
+        }
+        var flag = false;
+        items.forEach(function (item, index) {
+          if (item.max && item.grow) {
+            var leaveSpace = item.max - _this4.items[index][_this4.mainComputedSize];
+            if (itemSpace * item.grow > leaveSpace) {
+              _this4.items[index][_this4.mainComputedSize] = item.max;
+              space -= leaveSpace;
+              grow -= item.grow;
+              delete item.max;
+              delete item.grow;
+              flag = true;
+            }
+          }
+        });
+        if (!grow) return 'break';
+        if (!flag) {
+          max = 0;
+        }
+      };
+
+      while (true) {
+        var _ret = _loop();
+
+        if (_ret === 'break') break;
+      }
+      return space;
+    }
+  }, {
+    key: 'parseByMarginAuto',
+    value: function parseByMarginAuto(space) {
+      var _this5 = this;
+
+      var marginAutoNum = 0;
+      this.items.forEach(function (item) {
+        if (item[_this5.mainMarginStart] === 'auto') {
+          marginAutoNum++;
+        }
+        if (item[_this5.mainMarginEnd] === 'auto') {
+          marginAutoNum++;
+        }
+      });
+      var itemSpace = space / marginAutoNum;
+      var pos = 0;
+      this.items.forEach(function (item) {
+        pos += (0, _util.parseMarginAuto)(item[_this5.mainMarginStart], itemSpace);
+        item[_this5.mainPos] = pos;
+        pos += item[_this5.mainLayoutSize] - (0, _util.parseMarginAuto)(item[_this5.mainMarginStart]);
+        pos += (0, _util.parseMarginAuto)(item[_this5.mainMarginEnd], itemSpace) - (0, _util.parseMarginAuto)(item[_this5.mainMarginEnd]);
+      });
+    }
+  }, {
+    key: 'parseJustifyContent',
+    value: function parseJustifyContent() {
+      var justifyContent = this.container.justifyContent;
+      var flexDirection = this.container.flexDirection;
+      if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+        justifyContent = (0, _util.exchangeFlexProp)(justifyContent);
+      }
+      return justifyContent;
+    }
+  }, {
+    key: 'parseByJustifyContentPositive',
+    value: function parseByJustifyContentPositive(space) {
+      return this.parseByJustifyContentSpace(space);
+    }
+  }, {
+    key: 'parseByJustifyContentSpace',
+    value: function parseByJustifyContentSpace(space) {
+      var _this6 = this;
+
+      var justifyContent = this.parseJustifyContent();
+      var marginSizes = (0, _util.parseSpaceBetween)(space, justifyContent, this.items.length);
+      var pos = 0;
+      this.items.forEach(function (item, index) {
+        pos += marginSizes[index] || 0;
+        item[_this6.mainPos] = pos + (0, _util.parseMarginAuto)(item[_this6.mainMarginStart]);
+        pos += item[_this6.mainLayoutSize];
+      });
+    }
+  }, {
+    key: 'parseByJustifyContentNegative',
+    value: function parseByJustifyContentNegative(space) {
+      var _this7 = this;
+
+      var shrink = 0;
+      var min = 0;
+      var items = [];
+      this.items.forEach(function (item) {
+        var shrinkItem = item.flexShrink * item[_this7.mainComputedSize];
+        shrink += shrinkItem;
+        items.push({ min: item[_this7.mainMinSize], shrink: shrinkItem });
+        if (item[_this7.mainMinSize]) min++;
+      });
+
+      var _loop2 = function _loop2() {
+        var itemSpace = (0 - space) / shrink;
+        if (!min) {
+          items.forEach(function (item, index) {
+            if (item.shrink) {
+              var decreSpace = item.shrink * itemSpace;
+              var size = _this7.items[index][_this7.mainComputedSize] - decreSpace;
+              if (size > 0) {
+                _this7.items[index][_this7.mainComputedSize] -= decreSpace;
+                space += decreSpace;
+              } else {
+                _this7.items[index][_this7.mainComputedSize] = 1;
+                space += decreSpace + size;
+              }
+            }
+          });
+          return 'break';
+        }
+        var flag = false;
+        items.forEach(function (item, index) {
+          if (item.min) {
+            var leaveSpace = _this7.items[index][_this7.mainComputedSize] - item.min;
+            if (itemSpace * item.shrink > leaveSpace) {
+              _this7.items[index][_this7.mainComputedSize] = item.min;
+              space += leaveSpace;
+              shrink -= item.shrink;
+              delete item.min;
+              delete item.shrink;
+              flag = true;
+            }
+          }
+        });
+        if (!flag) {
+          min = 0;
+        }
+      };
+
+      while (true) {
+        var _ret2 = _loop2();
+
+        if (_ret2 === 'break') break;
+      }
+      this.parseByJustifyContentSpace(space);
+    }
+  }, {
+    key: 'parseMainAxis',
+    value: function parseMainAxis() {
+      var _this8 = this;
+
+      var mainSize = this.container[this.mainSize];
+      // container size is not set
+      if (!mainSize) {
+        var pos = 0;
+        this.items.forEach(function (item) {
+          item[_this8.mainPos] = pos;
+          pos += item[_this8.mainLayoutSize];
+        });
+        return;
+      }
+      var space = mainSize - this.mainAxisSize;
+      if (space > 0) {
+        if (this.hasFlexGrow()) {
+          space = this.parseByFlexGrow(space);
+        }
+        if (this.hasMarginAutoInMainAxis()) {
+          return this.parseByMarginAuto(space);
+        }
+        return this.parseByJustifyContentPositive(space);
+      }
+      return this.parseByJustifyContentNegative(space);
+    }
+  }, {
+    key: 'mainAxisSize',
+    get: function get() {
+      var _this9 = this;
+
+      var value = 0;
+      this.items.forEach(function (item) {
+        value += item[_this9.mainLayoutSize] || 0;
+      });
+      return value;
+    }
+
+    /**
+     * get cross axis size based on flex direction
+     */
+
+  }, {
+    key: 'crossAxisSize',
+    get: function get() {
+      var _this10 = this;
+
+      if (this[CROSS_AXIS_SIZE]) return this[CROSS_AXIS_SIZE];
+      var values = this.items.map(function (item) {
+        return item[_this10.crossLayoutSize] || 0;
+      });
+      var result = Math.max.apply(Math, (0, _toConsumableArray3.default)(values));
+      this[CROSS_AXIS_SIZE] = result;
+      return result;
+    }
+  }]);
+  return FlexLine;
+}();
+
+exports.default = FlexLine;
+
+/***/ }),
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16165,7 +17126,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 225 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16237,7 +17198,7 @@ function clearDirtyRects(outputContext, dirtyEls) {
 }
 
 /***/ }),
-/* 226 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
