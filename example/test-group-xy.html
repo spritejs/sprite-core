@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width=600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const fglayer = new Layer({context});
+    
+    const g = new Group();
+    g.attr({
+      anchor: [0.5, 0.5],
+      pos: [300, 300],
+      size: [500, 500],
+      bgcolor: 'grey',
+      // rotate: 30,
+      // translate: [30, -30],
+    });
+    fglayer.append(g);
+
+    const s = new Sprite({
+      anchor: 0.5,
+      pos: [300, 200],
+      size: [100, 100],
+      bgcolor: 'red',
+    });
+    g.append(s);
+
+    const m = new Sprite({
+      anchor: 0.5,
+      pos: [300, 300],
+      size: [10, 10],
+      bgcolor: 'blue',
+    });
+    fglayer.append(m);
+
+    const m2 = m.cloneNode();
+    m2.attr({
+      pos: [155, 280],
+    });
+    fglayer.append(m2);
+
+    const m3 = m.cloneNode();
+    m3.attr({
+      pos: [340, 198],
+    });
+    fglayer.append(m3);
+
+    const p = new spritejs.Path('M300,300L155,280L340,198z');
+    p.attr({
+      fillColor: 'orange',
+      anchor: 0.5,
+    });
+    fglayer.append(p);
+  </script>
+</body>
+</html>
