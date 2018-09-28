@@ -58,6 +58,8 @@ export function relayout(containerSprite, itemsSprite) {
     const config = {
       width,
       height,
+      offsetWidth: item.contentSize[0],
+      offsetHeight: item.contentSize[1],
       minWidth: item.attributes.minWidth,
       maxWidth: item.attributes.maxWidth,
       minHeight: item.attributes.minHeight,

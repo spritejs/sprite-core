@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Label = spritejs.Label;
+    const Layer = spritejs.Layer;
+    const Path = spritejs.Path;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
+
+    const g = new Group();
+    g.attr({
+      // anchor: 0.5,
+      pos: [150, 150],
+      width: 200,
+      height: 100,
+      bgcolor: 'grey',
+      // flexWrap: 'wrap',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      display: 'flex',
+    });
+    layer.append(g);
+
+    const s1 = new Sprite();
+    s1.attr({
+      size: [50, 50],
+      // anchor: 0.5,
+      // borderRadius: 25,
+      bgcolor: 'red',
+      // flex: 1,
+    });
+
+    const s2 = s1.cloneNode();
+    s2.attr({
+      width: 200,
+      bgcolor: 'blue',
+      // flex: 1,
+    });
+
+    const s3 = new Label('Hello World');
+    s3.attr({
+      bgcolor: 'green',
+      // flex: 1,
+      // scale: [2.0, 1],
+    });
+
+    g.append(s1, s2, s3);
+
+    const s4 = s1.cloneNode();
+  </script>
+</body>
+</html>
