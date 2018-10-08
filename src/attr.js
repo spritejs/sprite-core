@@ -56,7 +56,9 @@ class SpriteAttr {
       layoutWidth: '',
       layoutHeight: '',
       bgcolor: '',
-      flex: '',
+      flexGrow: 0,
+      flexShrink: 1,
+      flexBasis: 'auto',
       order: 0,
       position: '',
       alignSelf: '',
@@ -141,6 +143,7 @@ class SpriteAttr {
       || key === 'padding'
       || key === 'boxSizing'
       || key === 'margin'
+      || key === 'flexBasis'
       || key === 'flex') {
       this.__reflowTag = true;
     }
@@ -645,10 +648,57 @@ class SpriteAttr {
 
   @parseValue(parseFloat)
   @attr
-  @cachable
-  set flex(val) {
+  set flexGrow(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
-    this.set('flex', val);
+    this.set('flexGrow', val);
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set flexShrink(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.set('flexShrink', val);
+  }
+
+  @attr
+  set flexBasis(val) {
+    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    if(val && val !== 'auto') {
+      val = parseFloat(val);
+    }
+    this.set('flexBasis', val);
+  }
+
+  @attr
+  set flex(val) {
+    if(val != null && val !== 'initial') {
+      if(val === 'auto') {
+        this.flexGrow = 1;
+        this.flexShrink = 1;
+        this.flexBasis = 'auto';
+      } else if(val === 'none') {
+        this.flexGrow = 0;
+        this.flexShrink = 0;
+        this.flexBasis = 'auto';
+      } else if(typeof val === 'string') {
+        const values = val.trim().split(/\s+/);
+        this.flexGrow = values[0] || null;
+        this.flexShrink = values[1] || null;
+        this.flexBasis = values[2] || 0;
+      } else {
+        this.flexGrow = val;
+        this.flexShrink = 1;
+        this.flexBasis = 0;
+      }
+    } else {
+      this.flexGrow = 0;
+      this.flexShrink = 1;
+      this.flexBasis = 'auto';
+    }
+  }
+
+  get flex() {
+    return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
   }
 
   @attr

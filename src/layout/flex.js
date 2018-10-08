@@ -55,6 +55,7 @@ export function relayout(containerSprite, itemsSprite) {
     const [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding');
     const borderWidth = item.attr('border').width;
     const [width, height] = item.attrSize;
+
     const config = {
       width,
       height,
@@ -78,7 +79,7 @@ export function relayout(containerSprite, itemsSprite) {
       borderBottom: borderWidth,
       borderLeft: borderWidth,
       alignSelf: item.attributes.alignSelf,
-      flex: item.attributes.flex,
+      // flex: item.attributes.flex,
       flexBasis: item.attributes.flexBasis,
       flexGrow: item.attributes.flexGrow,
       flexShrink: item.attributes.flexShrink,
