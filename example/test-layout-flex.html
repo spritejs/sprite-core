@@ -19,46 +19,64 @@
     const layer = new Layer({context});
 
     const g = new Group();
-    g.attr({
-      // anchor: 0.5,
-      pos: [150, 150],
-      width: 100,
-      height: 100,
-      bgcolor: 'grey',
-      // flexWrap: 'wrap',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      display: 'flex',
-    });
+    g.attr({height: 200, bgcolor: 'rgb(128, 128, 128)', display: 'flex'});
     layer.append(g);
 
+    const s0 = new Sprite();
+    s0.attr({height: 50, width: 80, bgcolor: 'rgb(255, 0, 0)'});
+    g.append(s0);
+
+
     const s1 = new Sprite();
-    s1.attr({
-      size: [50, 50],
-      // anchor: 0.5,
-      // borderRadius: 25,
-      bgcolor: 'red',
-      flex: '2 1 auto',
-    });
+    s1.attr({height: 30, width: 30, flex: 1, bgcolor: 'rgb(0, 0, 0)'});
+    g.append(s1);
 
-    const s2 = s1.cloneNode();
-    s2.attr({
-      width: 100,
-      bgcolor: 'blue',
-      flex: '1 2 auto',
-    });
 
-    const s3 = s1.cloneNode();
-    s3.attr({
-      bgcolor: 'green',
-      flex: '1 1 auto',
-      // scale: [2.0, 1],
-    });
+    const s2 = new Sprite();
+    s2.attr({height: 60, width: 80, bgcolor: 'rgb(0, 0, 255)'});
+    g.append(s2);
 
-    g.append(s1, s2, s3);
+    layer.append(g);
 
-    const s4 = s1.cloneNode();
+    // const g = new Group();
+    // g.attr({
+    //   // anchor: 0.5,
+    //   pos: [150, 150],
+    //   width: 100,
+    //   height: 100,
+    //   bgcolor: 'grey',
+    //   // flexWrap: 'wrap',
+    //   flexDirection: 'column',
+    //   alignItems: 'center',
+    //   justifyContent: 'flex-start',
+    //   display: 'flex',
+    // });
+    // layer.append(g);
+
+    // const s1 = new Sprite();
+    // s1.attr({
+    //   size: [50, 50],
+    //   // anchor: 0.5,
+    //   // borderRadius: 25,
+    //   bgcolor: 'red',
+    //   // flex: 1,
+    // });
+
+    // const s2 = s1.cloneNode();
+    // s2.attr({
+    //   width: 100,
+    //   bgcolor: 'blue',
+    //   // flex: 1,
+    // });
+
+    // const s3 = s1.cloneNode();
+    // s3.attr({
+    //   bgcolor: 'green',
+    //   // flex: 1,
+    //   // scale: [2.0, 1],
+    // });
+
+    // g.append(s1, s2, s3);
   </script>
 </body>
 </html>

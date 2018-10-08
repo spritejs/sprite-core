@@ -682,13 +682,13 @@ class SpriteAttr {
         this.flexBasis = 'auto';
       } else if(typeof val === 'string') {
         const values = val.trim().split(/\s+/);
-        this.flexGrow = values[0] || null;
-        this.flexShrink = values[1] || null;
-        this.flexBasis = values[2] || 0;
+        this.flexGrow = values[0];
+        this.flexShrink = values[1];
+        this.flexBasis = values[2];
       } else {
         this.flexGrow = val;
         this.flexShrink = 1;
-        this.flexBasis = 0;
+        this.flexBasis = 'auto';
       }
     } else {
       this.flexGrow = 0;
