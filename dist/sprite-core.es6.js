@@ -11724,9 +11724,10 @@ function relayout(containerSprite, itemsSprite) {
   });
   layout.children.forEach((item, index) => {
     const sprite = itemsSprite[index];
+    const [ox, oy] = sprite.originalRect; // fix anchor
     sprite.attr({
-      layoutX: item.left,
-      layoutY: item.top,
+      layoutX: item.left - ox,
+      layoutY: item.top - oy,
       layoutWidth: item.width,
       layoutHeight: item.height,
       layoutRight: item.left + item.width,
