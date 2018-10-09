@@ -5935,7 +5935,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
       if (width !== '') {
         width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
-      }if (width !== '') {
+      }
+      if (height !== '') {
         height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
       }
     }
