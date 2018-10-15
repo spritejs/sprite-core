@@ -15378,7 +15378,9 @@ function lerp(pathA, pathB, t) {
       shapesA = _match2[0],
       shapesB = _match2[1];
 
-  return shapesA.map(function (shapeA, i) {
+  var closed = /z$/img.test(pathB.d) ? 'z' : '';
+
+  return '' + shapesA.map(function (shapeA, i) {
     var shapeB = shapesB[i];
     return shapeA.map(function (curveA, i) {
       var curveB = shapeB[i];
@@ -15388,7 +15390,7 @@ function lerp(pathA, pathB, t) {
       }
       return curve[2] + ' ' + curve[3] + ', ' + curve[4] + ' ' + curve[5] + ', ' + curve[6] + ' ' + curve[7];
     });
-  }).join(' ') + 'z';
+  }).join(' ') + closed;
 }
 
 function pathEffect(pathA, pathB, p, s, e) {

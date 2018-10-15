@@ -11457,6 +11457,8 @@ function lerpCurve(curveA, curveB, t) {
 function lerp(pathA, pathB, t) {
   const [shapesA, shapesB] = match(pathA, pathB);
 
+  const closed = /z$/img.test(pathB.d) ? 'z' : '';
+
   return `${shapesA.map((shapeA, i) => {
     const shapeB = shapesB[i];
     return shapeA.map((curveA, i) => {
@@ -11467,7 +11469,7 @@ function lerp(pathA, pathB, t) {
       }
       return `${curve[2]} ${curve[3]}, ${curve[4]} ${curve[5]}, ${curve[6]} ${curve[7]}`;
     });
-  }).join(' ')}z`;
+  }).join(' ')}${closed}`;
 }
 
 function pathEffect(pathA, pathB, p, s, e) {
