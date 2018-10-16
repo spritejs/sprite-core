@@ -325,7 +325,7 @@ export default class Layer extends BaseNode {
               // detect mouseenter/mouseleave
               targetSprites.push(sprite);
             }
-            if(evt.terminated && !type.startsWith('mouse')) {
+            if(evt.terminated && type !== 'mousemove') {
               break;
             }
           }

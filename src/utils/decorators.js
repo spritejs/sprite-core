@@ -179,7 +179,7 @@ export function relative(type = 'width') {
       descriptor.set = function (val) {
         if(typeof val === 'string') {
           val = val.trim();
-          if(val.endsWith('%')) {
+          if(val.slice(-1) === '%') {
             let parent = this.subject.parent;
             let pv = null;
             if(parent) {
@@ -203,7 +203,7 @@ export function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val,
             };
-          } else if(val.endsWith('rw')) {
+          } else if(val.slice(-2) === 'rw') {
             const layer = this.subject.layer;
             let pv = null;
             if(layer) {
@@ -215,7 +215,7 @@ export function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val,
             };
-          } else if(val.endsWith('rh')) {
+          } else if(val.slice(-2) === 'rh') {
             const layer = this.subject.layer;
             let pv = null;
             if(layer) {

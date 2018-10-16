@@ -68,9 +68,9 @@ const elementProto = {
       // querySelector('nodeType')
       // querySelector('#id')
       // querySelector(':name')
-      if(selector.startsWith('#')) {
+      if(selector.charAt(0) === '#') {
         ret = this.getElementById(selector.slice(1));
-      } else if(selector.startsWith(':')) {
+      } else if(selector.charAt(0) === ':') {
         const name = selector.slice(1);
         const nodeList = querySelectorLimits(this, c => c.name === name, 1);
         if(nodeList.length) ret = nodeList[0];
@@ -103,11 +103,11 @@ const elementProto = {
     if(!selector || selector === '*') {
       ret = getAllSubNodes(this);
     } else if(typeof selector === 'string') {
-      if(selector.startsWith('#')) {
+      if(selector.charAt(0) === '#') {
         const sprite = this.getElementById(selector.slice(1));
         ret = sprite ? [sprite] : [];
       }
-      if(selector.startsWith(':')) {
+      if(selector.charAt(0) === ':') {
         ret = this.getElementsByName(selector.slice(1));
       }
       const nodeType = getNodeType(selector);

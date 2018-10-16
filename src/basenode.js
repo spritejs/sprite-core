@@ -159,7 +159,7 @@ export default class BaseNode {
             layer.touchedTargets[touch.identifier].push(this);
           }
         }
-        if(type.startsWith('touch')) {
+        if(/^touch/.test(type)) {
           const touches = Array.from(evt.originalEvent.touches),
             layer = this.layer;
           evt.targetTouches = [];

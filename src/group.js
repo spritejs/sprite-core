@@ -229,9 +229,8 @@ export default class Group extends BaseSprite {
         let parentX,
           parentY;
 
-        if(evt.offsetX) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-        if(evt.offsetY) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
-        // console.log(evt.parentX, evt.parentY)
+        if('offsetX' in evt) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+        if('offsetY' in evt) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
 
         const _parentX = evt.parentX,
           _parentY = evt.parentY;
@@ -253,7 +252,7 @@ export default class Group extends BaseSprite {
             }
             targetSprites.push(sprite);
           }
-          if(evt.terminated && !type.startsWith('mouse')) {
+          if(evt.terminated && type !== 'mousemove') {
             break;
           }
         }
@@ -325,12 +324,9 @@ export default class Group extends BaseSprite {
 
     if(!this.isVirtual) {
       super.render(t, drawingContext);
-      const [w, h] = this.attrSize;
-      if(w !== '' || h !== '') {
-        drawingContext.beginPath();
-        drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
-        drawingContext.clip();
-      }
+      drawingContext.beginPath();
+      drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
+      drawingContext.clip();
     }
 
     drawingContext.save();

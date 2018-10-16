@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const fglayer = new Layer({context});
+    
+    const g = new Group();
+    g.attr({
+      pos: [600, 300],
+      // size: [400, 400],
+      // bgcolor: 'grey',
+    });
+    fglayer.append(g);
+
+    const s = new Sprite();
+    s.attr({
+      anchor: 0.5,
+      pos: [40, 50],
+      bgcolor: 'red',
+      borderRadius: 25,
+      size: [50, 50],
+    });
+    g.append(s);
+
+    s.on('mouseenter', (evt) => {
+      s.attr('scale', 1.5);
+    });
+    s.on('mouseleave', (evt) => {
+      s.attr('scale', 1.0);
+    });
+
+    mycanvas.addEventListener('mousemove', (evt) => {
+      const {offsetX, offsetY} = evt;
+      fglayer.dispatchEvent('mousemove', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
+  </script>
+</body>
+</html>
