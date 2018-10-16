@@ -64,7 +64,10 @@ function parseStringTransform(str) {
 function parseValuesString(str, parser) {
   if(typeof str === 'string') {
     const values = str.split(/[\s,]+/g);
-    return values.map((v) => { return parser ? parser(v) : v });
+    return values.map((v) => {
+      const ret = parser ? parser(v) : v;
+      return Number.isNaN(ret) ? v : ret;
+    });
   }
   return str;
 }
