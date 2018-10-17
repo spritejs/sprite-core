@@ -4388,7 +4388,8 @@ function parseValuesString(str, parser) {
   if (typeof str === 'string') {
     const values = str.split(/[\s,]+/g);
     return values.map(v => {
-      return parser ? parser(v) : v;
+      const ret = parser ? parser(v) : v;
+      return Number.isNaN(ret) ? v : ret;
     });
   }
   return str;
@@ -5146,7 +5147,7 @@ function relative(type = 'width') {
       descriptor.set = function (val) {
         if (typeof val === 'string') {
           val = val.trim();
-          if (val.endsWith('%')) {
+          if (val.slice(-1) === '%') {
             let parent = this.subject.parent;
             let pv = null;
             if (parent) {
@@ -5171,7 +5172,7 @@ function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val
             };
-          } else if (val.endsWith('rw')) {
+          } else if (val.slice(-2) === 'rw') {
             const layer = this.subject.layer;
             let pv = null;
             if (layer) {
@@ -5183,7 +5184,7 @@ function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val
             };
-          } else if (val.endsWith('rh')) {
+          } else if (val.slice(-2) === 'rh') {
             const layer = this.subject.layer;
             let pv = null;
             if (layer) {
@@ -7908,7 +7909,7 @@ let BaseNode = class BaseNode {
             layer.touchedTargets[touch.identifier].push(this);
           }
         }
-        if (type.startsWith('touch')) {
+        if (/^touch/.test(type)) {
           const touches = Array.from(evt.originalEvent.touches),
                 layer = this.layer;
           evt.targetTouches = [];
@@ -8200,12 +8201,13 @@ let _default = class _default extends sprite_animator__WEBPACK_IMPORTED_MODULE_0
     });
   }
 
-  // finish() {
-  //   super.finish();
-  //   cancelAnimationFrame(this.requestId);
-  //   const sprite = this.target;
-  //   sprite.attr(this.frame);
-  // }
+  finish() {
+    // finish should change attrs synchronously
+    super.finish();
+    Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__["cancelAnimationFrame"])(this.requestId);
+    const sprite = this.target;
+    sprite.attr(this.frame);
+  }
 
   play() {
     if (!this.target.parent || this.playState === 'running') {
@@ -8435,9 +8437,9 @@ const elementProto = {
       // querySelector('nodeType')
       // querySelector('#id')
       // querySelector(':name')
-      if (selector.startsWith('#')) {
+      if (selector.charAt(0) === '#') {
         ret = this.getElementById(selector.slice(1));
-      } else if (selector.startsWith(':')) {
+      } else if (selector.charAt(0) === ':') {
         const name = selector.slice(1);
         const nodeList = querySelectorLimits(this, c => c.name === name, 1);
         if (nodeList.length) ret = nodeList[0];
@@ -8470,11 +8472,11 @@ const elementProto = {
     if (!selector || selector === '*') {
       ret = getAllSubNodes(this);
     } else if (typeof selector === 'string') {
-      if (selector.startsWith('#')) {
+      if (selector.charAt(0) === '#') {
         const sprite = this.getElementById(selector.slice(1));
         ret = sprite ? [sprite] : [];
       }
-      if (selector.startsWith(':')) {
+      if (selector.charAt(0) === ':') {
         ret = this.getElementsByName(selector.slice(1));
       }
       const nodeType = getNodeType(selector);
@@ -10761,7 +10763,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
               // detect mouseenter/mouseleave
               targetSprites.push(sprite);
             }
-            if (evt.terminated && !type.startsWith('mouse')) {
+            if (evt.terminated && type !== 'mousemove') {
               break;
             }
           }
@@ -11156,9 +11158,8 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
         let parentX, parentY;
 
-        if (evt.offsetX) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-        if (evt.offsetY) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
-        // console.log(evt.parentX, evt.parentY)
+        if ('offsetX' in evt) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+        if ('offsetY' in evt) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
 
         const _parentX = evt.parentX,
               _parentY = evt.parentY;
@@ -11180,7 +11181,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
             }
             targetSprites.push(sprite);
           }
-          if (evt.terminated && !type.startsWith('mouse')) {
+          if (evt.terminated && type !== 'mousemove') {
             break;
           }
         }
@@ -11252,12 +11253,9 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
     if (!this.isVirtual) {
       super.render(t, drawingContext);
-      const [w, h] = this.attrSize;
-      if (w !== '' || h !== '') {
-        drawingContext.beginPath();
-        drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
-        drawingContext.clip();
-      }
+      drawingContext.beginPath();
+      drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
+      drawingContext.clip();
     }
 
     drawingContext.save();

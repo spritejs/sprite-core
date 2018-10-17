@@ -170,12 +170,12 @@ export default class extends Animator {
     });
   }
 
-  // finish() {
-  //   super.finish();
-  //   cancelAnimationFrame(this.requestId);
-  //   const sprite = this.target;
-  //   sprite.attr(this.frame);
-  // }
+  finish() { // finish should change attrs synchronously
+    super.finish();
+    cancelAnimationFrame(this.requestId);
+    const sprite = this.target;
+    sprite.attr(this.frame);
+  }
 
   play() {
     if(!this.target.parent || this.playState === 'running') {
