@@ -696,7 +696,7 @@ export default class BaseSprite extends BaseNode {
     return [x + x0, y + y0];
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+  getOffsetXY(evt) {
     let parentX,
       parentY;
 
@@ -708,13 +708,19 @@ export default class BaseSprite extends BaseNode {
       parentX = evt.layerX;
       parentY = evt.layerY;
     }
+    if(parentX !== null && parentY !== null) {
+      return this.pointToOffset(parentX, parentY);
+    }
+  }
 
-    if(parentX == null && parentY == null) {
-      collisionState = true;
-    } else {
-      const [nx, ny] = this.pointToOffset(parentX, parentY);
-      evt.offsetX = nx;
-      evt.offsetY = ny;
+  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+
+    if(collisionState) {
+      const offsetXY = this.getOffsetXY(evt);
+      if(offsetXY) {
+        evt.offsetX = offsetXY[0];
+        evt.offsetY = offsetXY[1];
+      }
     }
 
     return super.dispatchEvent(type, evt, collisionState, swallow);
@@ -725,9 +731,12 @@ export default class BaseSprite extends BaseNode {
     if(!this.isVisible()) {
       return false;
     }
+    const offsetXY = this.getOffsetXY(evt);
+    if(!offsetXY) return true;
 
-    let nx = evt.offsetX,
-      ny = evt.offsetY;
+    let [nx, ny] = offsetXY;
+    evt.offsetX = nx;
+    evt.offsetY = ny;
 
     const [ox, oy, ow, oh] = this.originalRect;
 
