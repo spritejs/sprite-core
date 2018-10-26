@@ -10,8 +10,7 @@ import {clearDirtyRects} from './helpers/dirty-check';
 
 import groupApi from './helpers/group';
 
-const _children = Symbol('children'),
-  _updateSet = Symbol('updateSet'),
+const _updateSet = Symbol('updateSet'),
   _zOrder = Symbol('zOrder'),
   _tRecord = Symbol('tRecord'),
   _timeline = Symbol('timeline'),
@@ -40,7 +39,7 @@ export default class Layer extends BaseNode {
 
     this.outputContext = context;
 
-    this[_children] = [];
+    this.childNodes = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
     this[_tRecord] = []; // calculate FPS
@@ -56,8 +55,8 @@ export default class Layer extends BaseNode {
     if(context.canvas && context.canvas.addEventListener) {
       context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
         this._savePlaybackRate = this.timeline.playbackRate;
-        this._saveChildren = [...this[_children]];
-        this.remove(...this[_children]);
+        this._saveChildren = [...this.childNodes];
+        this.remove(...this.childNodes);
         this.timeline.playbackRate = 0;
       });
       context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
@@ -95,11 +94,7 @@ export default class Layer extends BaseNode {
   }
 
   get children() {
-    return this[_children].filter(child => child instanceof BaseNode && !(child instanceof DataNode));
-  }
-
-  get childNodes() {
-    return this[_children];
+    return this.childNodes.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
   }
 
   get timeline() {
@@ -244,7 +239,7 @@ export default class Layer extends BaseNode {
   }
 
   renderRepaintAll(t, clearContext = true) {
-    const renderEls = this[_children];
+    const renderEls = this.sortedChildNodes;
     const outputContext = this.outputContext;
     if(clearContext) this.clearContext(outputContext);
     this.drawSprites(renderEls, t);
@@ -258,7 +253,7 @@ export default class Layer extends BaseNode {
 
     const outputContext = this.outputContext;
 
-    const renderEls = this[_children];
+    const renderEls = this.sortedChildNodes;
 
     outputContext.save();
     if(this.beforeDrawTransform) {
@@ -297,7 +292,7 @@ export default class Layer extends BaseNode {
         isCollision = true;
       }
       if(isCollision || type === 'mouseleave') {
-        const sprites = this[_children].slice(0).reverse(),
+        const sprites = this.sortedChildNodes.slice(0).reverse(),
           targetSprites = [];
 
         if(changedTouches && type === 'touchend') {

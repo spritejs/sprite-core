@@ -1,7 +1,8 @@
 import {Matrix} from 'sprite-math';
 import SvgPath from 'svg-path-to-canvas';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
-  parseStringInt, parseStringFloat, parseStringTransform, parseValue, attr, deprecate, relative, cachable} from './utils';
+  parseStringInt, parseStringFloat, parseStringTransform,
+  parseValue, attr, deprecate, relative, cachable, sortOrderedSprites} from './utils';
 
 const _attr = Symbol('attr'),
   _temp = Symbol('store'),
@@ -501,12 +502,7 @@ class SpriteAttr {
     this.set('zIndex', val);
     const subject = this.subject;
     if(subject.parent) {
-      subject.parent.childNodes.sort((a, b) => {
-        if(a.zIndex === b.zIndex) {
-          return a.zOrder - b.zOrder;
-        }
-        return a.zIndex - b.zIndex;
-      });
+      subject.parent.sortedChildNodes = sortOrderedSprites(subject.parent.childNodes);
     }
   }
 

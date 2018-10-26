@@ -31,18 +31,18 @@
     s2.attr({
       bgcolor: 'red',
       size: [100, 100],
-      pos: [200, 200],
+      pos: [150, 150],
     });
-    g.append(s2);
 
     const s3 = new Sprite();
     s3.attr({
       bgcolor: 'blue',
       size: [100, 100],
-      pos: [150, 150],
+      pos: [200, 200],
     });
+    layer.append(s3);
     // layer.append(s3)
-    g.insertBefore(s3, s2);
+    layer.insertBefore(s2, s3);
     console.log(s2.zOrder, s3.zOrder);
   </script>
 </body>

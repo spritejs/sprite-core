@@ -4479,7 +4479,7 @@ function appendUnit(value, defaultUnit = 'px') {
 }
 
 function sortOrderedSprites(sprites, reversed = false) {
-  return sprites.sort((a, b) => {
+  return [...sprites].sort((a, b) => {
     if (reversed) [a, b] = [b, a];
     if (a.zIndex === b.zIndex) {
       return a.zOrder - b.zOrder;
@@ -7432,12 +7432,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this.set('zIndex', val);
     const subject = this.subject;
     if (subject.parent) {
-      subject.parent.childNodes.sort((a, b) => {
-        if (a.zIndex === b.zIndex) {
-          return a.zOrder - b.zOrder;
-        }
-        return a.zIndex - b.zIndex;
-      });
+      subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["sortOrderedSprites"])(subject.parent.childNodes);
     }
   }
 
@@ -10468,8 +10463,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _children = Symbol('children'),
-      _updateSet = Symbol('updateSet'),
+const _updateSet = Symbol('updateSet'),
       _zOrder = Symbol('zOrder'),
       _tRecord = Symbol('tRecord'),
       _timeline = Symbol('timeline'),
@@ -10498,7 +10492,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
     this.outputContext = context;
 
-    this[_children] = [];
+    this.childNodes = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
     this[_tRecord] = []; // calculate FPS
@@ -10514,8 +10508,8 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     if (context.canvas && context.canvas.addEventListener) {
       context.canvas.addEventListener('DOMNodeRemovedFromDocument', () => {
         this._savePlaybackRate = this.timeline.playbackRate;
-        this._saveChildren = [...this[_children]];
-        this.remove(...this[_children]);
+        this._saveChildren = [...this.childNodes];
+        this.remove(...this.childNodes);
         this.timeline.playbackRate = 0;
       });
       context.canvas.addEventListener('DOMNodeInsertedIntoDocument', () => {
@@ -10553,11 +10547,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   }
 
   get children() {
-    return this[_children].filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]));
-  }
-
-  get childNodes() {
-    return this[_children];
+    return this.childNodes.filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]));
   }
 
   get timeline() {
@@ -10701,7 +10691,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   }
 
   renderRepaintAll(t, clearContext = true) {
-    const renderEls = this[_children];
+    const renderEls = this.sortedChildNodes;
     const outputContext = this.outputContext;
     if (clearContext) this.clearContext(outputContext);
     this.drawSprites(renderEls, t);
@@ -10715,7 +10705,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
     const outputContext = this.outputContext;
 
-    const renderEls = this[_children];
+    const renderEls = this.sortedChildNodes;
 
     outputContext.save();
     if (this.beforeDrawTransform) {
@@ -10753,7 +10743,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
         isCollision = true;
       }
       if (isCollision || type === 'mouseleave') {
-        const sprites = this[_children].slice(0).reverse(),
+        const sprites = this.sortedChildNodes.slice(0).reverse(),
               targetSprites = [];
 
         if (changedTouches && type === 'touchend') {
@@ -10976,8 +10966,7 @@ const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
 
-const _children = Symbol('children'),
-      _zOrder = Symbol('zOrder'),
+const _zOrder = Symbol('zOrder'),
       _layoutTag = Symbol('layoutTag');
 
 let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), (_class = (_temp = _class2 = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
@@ -11058,7 +11047,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
   constructor(attr = {}) {
     super(attr);
-    this[_children] = [];
+    this.childNodes = [];
     this[_zOrder] = 0;
     this[_layoutTag] = false;
   }
@@ -11092,7 +11081,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   cloneNode(deepCopy) {
     const node = super.cloneNode();
     if (deepCopy) {
-      const children = this[_children];
+      const children = this.childNodes;
       children.forEach(child => {
         const subNode = child.cloneNode(deepCopy);
         node.append(subNode);
@@ -11102,11 +11091,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   }
 
   get children() {
-    return this[_children].filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_5__["default"]));
-  }
-
-  get childNodes() {
-    return this[_children];
+    return this.childNodes.filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_5__["default"]));
   }
 
   update(child) {
@@ -11146,7 +11131,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
         right = 0;
         bottom = 0;
-        this[_children].forEach(sprite => {
+        this.childNodes.forEach(sprite => {
           if (sprite.attr('display') !== 'none') {
             const renderBox = sprite.renderBox;
             if (renderBox) {
@@ -11185,7 +11170,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
         evt.parentX = parentX;
         evt.parentY = parentY;
 
-        const sprites = this[_children].slice(0).reverse();
+        const sprites = this.sortedChildNodes.slice(0).reverse();
 
         const targetSprites = [];
 
@@ -11225,7 +11210,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   }
 
   relayout() {
-    const items = this[_children].filter(child => {
+    const items = this.childNodes.filter(child => {
       if (child.hasLayout) {
         child.attr('layoutWidth', null);
         child.attr('layoutHeight', null);
@@ -11281,7 +11266,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
           scrollTop = this.attr('scrollTop');
 
     drawingContext.translate(-scrollLeft, -scrollTop);
-    const sprites = this[_children];
+    const sprites = this.sortedChildNodes;
 
     for (let i = 0; i < sprites.length; i++) {
       const child = sprites[i],
@@ -12824,17 +12809,17 @@ const _removeTask = Symbol('removeTask');
 
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
-      Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
+      this.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
 
-      for (let i = children.length - 1; i > 0; i--) {
-        const a = children[i],
-              b = children[i - 1];
+      // for(let i = children.length - 1; i > 0; i--) {
+      //   const a = children[i],
+      //     b = children[i - 1];
 
-        if (a.zIndex < b.zIndex) {
-          children[i] = b;
-          children[i - 1] = a;
-        }
-      }
+      //   if(a.zIndex < b.zIndex) {
+      //     children[i] = b;
+      //     children[i - 1] = a;
+      //   }
+      // }
 
       if (update) {
         sprite.forceUpdate();
@@ -12880,6 +12865,7 @@ const _removeTask = Symbol('removeTask');
         return null;
       }
       that.childNodes.splice(idx, 1);
+      that.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(that.childNodes);
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
@@ -12933,10 +12919,9 @@ const _removeTask = Symbol('removeTask');
             });
           }
         }
-
-        this.childNodes.push(newchild);
+        this.childNodes.splice(idx, 0, newchild);
         newchild.connect(this, refZOrder);
-        Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
+        this.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["sortOrderedSprites"])(this.childNodes);
         newchild.forceUpdate();
 
         this[_zOrder] = this[_zOrder] || 0;

@@ -169,7 +169,7 @@ function appendUnit(value, defaultUnit = 'px') {
 }
 
 function sortOrderedSprites(sprites, reversed = false) {
-  return sprites.sort((a, b) => {
+  return [...sprites].sort((a, b) => {
     if(reversed) [a, b] = [b, a];
     if(a.zIndex === b.zIndex) {
       return a.zOrder - b.zOrder;

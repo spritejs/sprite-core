@@ -22,13 +22,16 @@ test('sprite zIndex', (t) => {
   t.is(layer.children[0], s);
 
   s.zIndex = 100;
-  t.is(layer.children[0], s2);
+  t.is(layer.sortedChildNodes[0], s2);
+  t.is(layer.children[1], s2);
 
   t.is(s.attributes.zIndex, s.zIndex);
 
   const s4 = new BaseSprite();
   layer.insertBefore(s4, s2);
-  t.is(layer.children[0], s4);
+  t.is(layer.children[0], s);
+  t.is(layer.children[1], s4);
+  t.is(layer.sortedChildNodes[0], s4);
   t.is(s4.zOrder, 1);
   t.is(s2.zOrder, 2);
 

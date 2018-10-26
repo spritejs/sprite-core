@@ -165,9 +165,9 @@ test('sort sprites', (t) => {
     d = {value: 40, zIndex: 1, zOrder: 2};
 
   const list = [a, b, c, d];
-  sortOrderedSprites(list);
-  t.deepEqual(list.map(i => i.value), [30, 40, 20, 10]);
+  const list2 = sortOrderedSprites(list);
+  t.deepEqual(list2.map(i => i.value), [30, 40, 20, 10]);
 
-  sortOrderedSprites(list, true);
-  t.deepEqual(list.map(i => i.value), [10, 20, 40, 30]);
+  const list3 = sortOrderedSprites(list, true);
+  t.deepEqual(list3.map(i => i.value), [10, 20, 40, 30]);
 });

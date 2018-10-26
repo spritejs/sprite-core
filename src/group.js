@@ -10,8 +10,7 @@ import * as layout from './layout';
 
 import groupApi from './helpers/group';
 
-const _children = Symbol('children'),
-  _zOrder = Symbol('zOrder'),
+const _zOrder = Symbol('zOrder'),
   _layoutTag = Symbol('layoutTag');
 
 class GroupAttr extends BaseSprite.Attr {
@@ -107,7 +106,7 @@ export default class Group extends BaseSprite {
 
   constructor(attr = {}) {
     super(attr);
-    this[_children] = [];
+    this.childNodes = [];
     this[_zOrder] = 0;
     this[_layoutTag] = false;
   }
@@ -142,7 +141,7 @@ export default class Group extends BaseSprite {
   cloneNode(deepCopy) {
     const node = super.cloneNode();
     if(deepCopy) {
-      const children = this[_children];
+      const children = this.childNodes;
       children.forEach((child) => {
         const subNode = child.cloneNode(deepCopy);
         node.append(subNode);
@@ -152,11 +151,7 @@ export default class Group extends BaseSprite {
   }
 
   get children() {
-    return this[_children].filter(child => child instanceof BaseNode && !(child instanceof DataNode));
-  }
-
-  get childNodes() {
-    return this[_children];
+    return this.childNodes.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
   }
 
   update(child) {
@@ -198,7 +193,7 @@ export default class Group extends BaseSprite {
 
         right = 0;
         bottom = 0;
-        this[_children].forEach((sprite) => {
+        this.childNodes.forEach((sprite) => {
           if(sprite.attr('display') !== 'none') {
             const renderBox = sprite.renderBox;
             if(renderBox) {
@@ -238,7 +233,7 @@ export default class Group extends BaseSprite {
         evt.parentX = parentX;
         evt.parentY = parentY;
 
-        const sprites = this[_children].slice(0).reverse();
+        const sprites = this.sortedChildNodes.slice(0).reverse();
 
         const targetSprites = [];
 
@@ -278,7 +273,7 @@ export default class Group extends BaseSprite {
   }
 
   relayout() {
-    const items = this[_children].filter((child) => {
+    const items = this.childNodes.filter((child) => {
       if(child.hasLayout) {
         child.attr('layoutWidth', null);
         child.attr('layoutHeight', null);
@@ -334,7 +329,7 @@ export default class Group extends BaseSprite {
       scrollTop = this.attr('scrollTop');
 
     drawingContext.translate(-scrollLeft, -scrollTop);
-    const sprites = this[_children];
+    const sprites = this.sortedChildNodes;
 
     for(let i = 0; i < sprites.length; i++) {
       const child = sprites[i],

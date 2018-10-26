@@ -10,17 +10,17 @@ export default {
 
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
-      sortOrderedSprites(this.childNodes);
+      this.sortedChildNodes = sortOrderedSprites(this.childNodes);
 
-      for(let i = children.length - 1; i > 0; i--) {
-        const a = children[i],
-          b = children[i - 1];
+      // for(let i = children.length - 1; i > 0; i--) {
+      //   const a = children[i],
+      //     b = children[i - 1];
 
-        if(a.zIndex < b.zIndex) {
-          children[i] = b;
-          children[i - 1] = a;
-        }
-      }
+      //   if(a.zIndex < b.zIndex) {
+      //     children[i] = b;
+      //     children[i - 1] = a;
+      //   }
+      // }
 
       if(update) {
         sprite.forceUpdate();
@@ -65,6 +65,7 @@ export default {
         return null;
       }
       that.childNodes.splice(idx, 1);
+      that.sortedChildNodes = sortOrderedSprites(that.childNodes);
       if(sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
@@ -118,10 +119,9 @@ export default {
             });
           }
         }
-
-        this.childNodes.push(newchild);
+        this.childNodes.splice(idx, 0, newchild);
         newchild.connect(this, refZOrder);
-        sortOrderedSprites(this.childNodes);
+        this.sortedChildNodes = sortOrderedSprites(this.childNodes);
         newchild.forceUpdate();
 
         this[_zOrder] = this[_zOrder] || 0;
