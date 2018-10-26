@@ -7,6 +7,6 @@ module.exports = {
   },
   rules: {
     'import/prefer-default-export': 'off',
-    "complexity": ["warn", 25]
+    "complexity": ["warn", 30]
   },
 }

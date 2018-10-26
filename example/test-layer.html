@@ -72,9 +72,11 @@
     });
 
     // s.on('mouseleave', (evt) => {
-    //   console.log(evt)
-    // })
-
+    //   console.log(evt);
+    // });
+    layer.on('click', (evt) => {
+      console.log(evt.offsetX);
+    });
 
     mycanvas.addEventListener('click', (evt) => {
       const {offsetX, offsetY} = evt;

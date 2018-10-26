@@ -341,6 +341,11 @@ export default class Layer extends BaseNode {
       // bubbling
       collisionState = true;
     }
+    const {layerX, layerY} = evt;
+    if(layerX != null && layerY != null) {
+      evt.offsetX = layerX + this.offset[0];
+      evt.offsetY = layerY + this.offset[1];
+    }
     return super.dispatchEvent(type, evt, collisionState, swallow);
   }
 

@@ -714,7 +714,6 @@ export default class BaseSprite extends BaseNode {
   }
 
   dispatchEvent(type, evt, collisionState = false, swallow = false) {
-
     if(collisionState) {
       const offsetXY = this.getOffsetXY(evt);
       if(offsetXY) {
