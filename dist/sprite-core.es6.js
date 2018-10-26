@@ -10493,6 +10493,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     this.outputContext = context;
 
     this.childNodes = [];
+    this.sortedChildNodes = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
     this[_tRecord] = []; // calculate FPS
@@ -11048,6 +11049,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
   constructor(attr = {}) {
     super(attr);
     this.childNodes = [];
+    this.sortedChildNodes = [];
     this[_zOrder] = 0;
     this[_layoutTag] = false;
   }

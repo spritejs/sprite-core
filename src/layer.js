@@ -40,6 +40,7 @@ export default class Layer extends BaseNode {
     this.outputContext = context;
 
     this.childNodes = [];
+    this.sortedChildNodes = [];
     this[_updateSet] = new Set();
     this[_zOrder] = 0;
     this[_tRecord] = []; // calculate FPS

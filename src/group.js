@@ -107,6 +107,7 @@ export default class Group extends BaseSprite {
   constructor(attr = {}) {
     super(attr);
     this.childNodes = [];
+    this.sortedChildNodes = [];
     this[_zOrder] = 0;
     this[_layoutTag] = false;
   }

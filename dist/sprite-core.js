@@ -14138,6 +14138,7 @@ var Layer = function (_BaseNode) {
     _this.outputContext = context;
 
     _this.childNodes = [];
+    _this.sortedChildNodes = [];
     _this[_updateSet] = new _set2.default();
     _this[_zOrder] = 0;
     _this[_tRecord] = []; // calculate FPS
@@ -14890,6 +14891,7 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
     var _this2 = (0, _possibleConstructorReturn3.default)(this, (Group.__proto__ || (0, _getPrototypeOf2.default)(Group)).call(this, attr));
 
     _this2.childNodes = [];
+    _this2.sortedChildNodes = [];
     _this2[_zOrder] = 0;
     _this2[_layoutTag] = false;
     return _this2;
