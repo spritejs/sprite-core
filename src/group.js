@@ -1,7 +1,7 @@
 import {parseValue, attr, flow, relative} from './utils';
 import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
-import {createSvgPath} from './helpers/path';
+import {createSvgPath, pathEffect} from './helpers/path';
 
 import BaseNode from './basenode';
 import DataNode from './datanode';
@@ -353,5 +353,13 @@ export default class Group extends BaseSprite {
 }
 Object.assign(Group.prototype, groupApi);
 Group.applyLayout('flex', layout.flexLayout);
+
+Group.setAttributeEffects({
+  clip(clip1, clip2, p, start, end) {
+    clip1 = createSvgPath(clip1);
+    clip2 = createSvgPath(clip2);
+    return pathEffect(clip1.d, clip2.d, p, start, end);
+  },
+});
 
 registerNodeType('group', Group, true);
