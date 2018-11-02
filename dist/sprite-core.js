@@ -7550,6 +7550,8 @@ var _attr = (0, _symbol2.default)('attr'),
     _hide = (0, _symbol2.default)('hide'),
     _enter = (0, _symbol2.default)('enter');
 
+var CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+
 var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'), (_class = (_temp = _class2 = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
 
@@ -9085,7 +9087,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       this.cacheContext = context;
     },
     get: function get() {
-      if (this[_cachePriority] >= 6) {
+      if (this[_cachePriority] >= CACHE_PRIORITY_THRESHOLDS) {
         return this.cacheContext;
       }
       if (this.cacheContext) {
@@ -9796,7 +9798,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
       enterMode: 'normal',
       exitMode: 'normal',
       anchor: [0, 0],
-      enableCache: true,
+      enableCache: false,
       x: 0,
       y: 0,
       opacity: 1,
@@ -12005,7 +12007,8 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TextureAttr.__proto__ || (0, _getPrototypeOf2.default)(TextureAttr)).call(this, subject));
 
     _this.setDefault({
-      textures: []
+      textures: [],
+      enableCache: true
     });
     return _this;
   }
@@ -12172,30 +12175,6 @@ var Sprite = (_class2 = (_temp = _class3 = function (_BaseSprite) {
       }
       return false;
     }
-
-    // set cache(context) {
-    //   if(context == null) {
-    //     cacheContextPool.put(...this[_texturesCache].values());
-    //     this[_texturesCache].clear();
-    //     return;
-    //   }
-    //   const key = JSON.stringify(this.textures),
-    //     cacheMap = this[_texturesCache];
-
-    //   if(!cacheMap.has(key)) {
-    //     cacheMap.set(key, context);
-    //   }
-    // }
-
-    // get cache() {
-    //   const key = JSON.stringify(this.textures),
-    //     cacheMap = this[_texturesCache];
-    //   if(cacheMap.has(key)) {
-    //     return cacheMap.get(key);
-    //   }
-    //   return null;
-    // }
-
   }, {
     key: 'render',
     value: function render(t, drawingContext) {
@@ -12551,8 +12530,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       lineBreak: '',
       wordBreak: 'normal',
       letterSpacing: 0,
-      textIndent: 0,
-      enableCache: false
+      textIndent: 0
     });
     return _this;
   }

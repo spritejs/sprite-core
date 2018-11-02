@@ -12,6 +12,7 @@ class TextureAttr extends BaseSprite.Attr {
     super(subject);
     this.setDefault({
       textures: [],
+      enableCache: true,
     });
   }
 
@@ -186,29 +187,6 @@ export default class Sprite extends BaseSprite {
     }
     return false;
   }
-
-  // set cache(context) {
-  //   if(context == null) {
-  //     cacheContextPool.put(...this[_texturesCache].values());
-  //     this[_texturesCache].clear();
-  //     return;
-  //   }
-  //   const key = JSON.stringify(this.textures),
-  //     cacheMap = this[_texturesCache];
-
-  //   if(!cacheMap.has(key)) {
-  //     cacheMap.set(key, context);
-  //   }
-  // }
-
-  // get cache() {
-  //   const key = JSON.stringify(this.textures),
-  //     cacheMap = this[_texturesCache];
-  //   if(cacheMap.has(key)) {
-  //     return cacheMap.get(key);
-  //   }
-  //   return null;
-  // }
 
   get cache() {
     const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;

@@ -46,7 +46,7 @@ class SpriteAttr {
       enterMode: 'normal',
       exitMode: 'normal',
       anchor: [0, 0],
-      enableCache: true,
+      enableCache: false,
       x: 0,
       y: 0,
       opacity: 1,

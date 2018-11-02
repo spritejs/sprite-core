@@ -20,6 +20,8 @@ const _attr = Symbol('attr'),
   _hide = Symbol('hide'),
   _enter = Symbol('enter');
 
+const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
 
@@ -653,7 +655,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get cache() {
-    if(this[_cachePriority] >= 6) {
+    if(this[_cachePriority] >= CACHE_PRIORITY_THRESHOLDS) {
       return this.cacheContext;
     }
     if(this.cacheContext) {

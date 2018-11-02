@@ -202,6 +202,7 @@ test('draw group 3 cached', async (t) => {
     anchor: 0.5,
     bgcolor: 'grey',
     rotate: 45,
+    enableCache: true,
   });
   layer.append(g);
 
@@ -268,6 +269,7 @@ test('draw group 3-2 cached', async (t) => {
     anchor: 0.5,
     bgcolor: 'grey',
     rotate: 45,
+    enableCache: true,
   });
   layer.append(g);
 

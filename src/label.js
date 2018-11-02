@@ -111,7 +111,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       wordBreak: 'normal',
       letterSpacing: 0,
       textIndent: 0,
-      enableCache: false,
     });
   }
 
