@@ -11277,6 +11277,14 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_7__["default"]);
 Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_6__["flexLayout"]);
 
+Group.setAttributeEffects({
+  clip(clip1, clip2, p, start, end) {
+    clip1 = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["createSvgPath"])(clip1);
+    clip2 = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["createSvgPath"])(clip2);
+    return Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["pathEffect"])(clip1.d, clip2.d, p, start, end);
+  }
+});
+
 Object(_nodetype__WEBPACK_IMPORTED_MODULE_2__["registerNodeType"])('group', Group, true);
 
 /***/ }),

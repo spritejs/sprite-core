@@ -15156,6 +15156,14 @@ exports.default = Group;
 (0, _assign2.default)(Group.prototype, _group2.default);
 Group.applyLayout('flex', layout.flexLayout);
 
+Group.setAttributeEffects({
+  clip: function clip(clip1, clip2, p, start, end) {
+    clip1 = (0, _path.createSvgPath)(clip1);
+    clip2 = (0, _path.createSvgPath)(clip2);
+    return (0, _path.pathEffect)(clip1.d, clip2.d, p, start, end);
+  }
+});
+
 (0, _nodetype.registerNodeType)('group', Group, true);
 
 /***/ }),
