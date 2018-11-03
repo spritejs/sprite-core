@@ -815,7 +815,7 @@ export default class BaseSprite extends BaseNode {
 
     const filter = this.attr('filter'),
       shadow = this.attr('shadow'),
-      enableCache = this.attr('enableCache');
+      enableCache = this.attr('enableCache') || shadow || filter;
 
     const ratio = this.layer ? (this.layer.displayRatio || 1.0) : 1.0;
 
@@ -859,6 +859,10 @@ export default class BaseSprite extends BaseNode {
       }
     } else {
       this.render(t, drawingContext);
+    }
+
+    if((shadow || filter) && !cachableContext) {
+      console.warn('No cachable context. Shadows and filters have been ignored.');
     }
 
     if(cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
