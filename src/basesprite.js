@@ -532,6 +532,33 @@ export default class BaseSprite extends BaseNode {
     return this.offsetSize;
   }
 
+  getParentXY(lx = 0, ly = 0) {
+    const layer = this.layer;
+    if(!layer) return [0, 0];
+    const parents = [];
+    let target = this.parent;
+    while(target && target !== layer) {
+      parents.push(target);
+      target = target.parent;
+    }
+    parents.reverse();
+
+    let parentX = lx,
+      parentY = ly;
+
+    parents.forEach((node) => {
+      const scrollLeft = node.attr('scrollLeft'),
+        scrollTop = node.attr('scrollTop'),
+        borderWidth = node.attr('border').width,
+        padding = node.attr('padding');
+
+      [parentX, parentY] = node.pointToOffset(parentX, parentY);
+      parentX = parentX - node.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+      parentY = parentY - node.originalRect[1] - borderWidth - padding[0] + scrollTop;
+    });
+    return [parentX, parentY];
+  }
+
   getLayerXY(dx = 0, dy = 0) {
     const layer = this.layer;
     if(!layer) return [0, 0];

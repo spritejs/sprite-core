@@ -289,24 +289,31 @@ export default class Layer extends BaseNode {
     if(!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
       const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
-      if(changedTouches && type === 'touchend') {
+      if(changedTouches && (type === 'touchend' || type === 'touchmove')) {
         isCollision = true;
       }
       if(isCollision || type === 'mouseleave') {
         const sprites = this.sortedChildNodes.slice(0).reverse(),
           targetSprites = [];
 
-        if(changedTouches && type === 'touchend') {
+        if(changedTouches && (type === 'touchend' || type === 'touchmove')) {
           const touch = changedTouches[0];
           if(touch && touch.identifier != null) {
             const targets = this.layer.touchedTargets[touch.identifier];
             if(targets) {
               targets.forEach((target) => {
                 if(target !== this && target.layer === this) {
+                  const [parentX, parentY] = target.getParentXY(evt.layerX, evt.layerY);
+                  const _parentX = evt.parentX;
+                  const _parentY = evt.parentY;
+                  evt.parentX = parentX;
+                  evt.parentY = parentY;
                   target.dispatchEvent(type, evt, true, true);
+                  evt.parentX = _parentX;
+                  evt.parentY = _parentY;
                 }
               });
-              delete this.layer.touchedTargets[touch.identifier];
+              if(type === 'touchend') delete this.layer.touchedTargets[touch.identifier];
             }
           }
         } else {
