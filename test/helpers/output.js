@@ -485,6 +485,7 @@ drawCase('group-3', [300, 300], async (layer) => {
     anchor: 0.5,
     bgcolor: 'grey',
     rotate: 45,
+    enableCache: true,
   });
   layer.append(g);
 
