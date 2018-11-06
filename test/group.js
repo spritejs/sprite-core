@@ -186,7 +186,7 @@ test('draw group 3 not cached', async (t) => {
   t.truthy(isEqual);
 });
 
-test('draw group 3 cached', async (t) => {
+test.skip('draw group 3 cached', async (t) => {
   const canvas = createCanvas(300, 300),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -253,7 +253,7 @@ test('draw group 3 cached', async (t) => {
   t.truthy(isEqual);
 });
 
-test('draw group 3-2 cached', async (t) => {
+test.skip('draw group 3-2 cached', async (t) => {
   const canvas = createCanvas(300, 300),
     layer = new Layer({context: canvas.getContext('2d')});
 
