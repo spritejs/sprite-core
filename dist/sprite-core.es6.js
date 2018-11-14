@@ -6189,7 +6189,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       parentX = evt.layerX;
       parentY = evt.layerY;
     }
-    if (parentX !== null && parentY !== null) {
+    if (parentX != null && parentY != null) {
       return this.pointToOffset(parentX, parentY);
     }
   }

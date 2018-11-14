@@ -737,7 +737,7 @@ export default class BaseSprite extends BaseNode {
       parentX = evt.layerX;
       parentY = evt.layerY;
     }
-    if(parentX !== null && parentY !== null) {
+    if(parentX != null && parentY != null) {
       return this.pointToOffset(parentX, parentY);
     }
   }
