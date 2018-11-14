@@ -8204,6 +8204,8 @@ Object.assign(sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Effects"], {
   scale: arrayEffect,
   translate: arrayEffect,
   skew: arrayEffect,
+  padding: arrayEffect,
+  margin: arrayEffect,
   color: colorEffect,
   strokeColor: colorEffect,
   fillColor: colorEffect

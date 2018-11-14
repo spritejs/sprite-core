@@ -128,6 +128,8 @@ Object.assign(Effects, {
   scale: arrayEffect,
   translate: arrayEffect,
   skew: arrayEffect,
+  padding: arrayEffect,
+  margin: arrayEffect,
   color: colorEffect,
   strokeColor: colorEffect,
   fillColor: colorEffect,
