@@ -230,6 +230,11 @@ class SpriteAttr {
   }
 
   @attr
+  set class(val) {
+    return this.quietSet('class', String(val));
+  }
+
+  @attr
   set enableCache(val) {
     return this.set('enableCache', val);
   }

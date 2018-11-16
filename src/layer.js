@@ -38,6 +38,7 @@ export default class Layer extends BaseNode {
     this.renderMode = renderMode;
 
     this.outputContext = context;
+    context.canvas.layer_ = this;
 
     this.childNodes = [];
     this.sortedChildNodes = [];
@@ -73,6 +74,34 @@ export default class Layer extends BaseNode {
   attr(...args) {
     this.prepareRender();
     return this[_node].attr(...args);
+  }
+
+  get attributes() {
+    return this[_node].attributes;
+  }
+
+  set id(val) {
+    this.attr('id', val);
+  }
+
+  get id() {
+    return this.attr('id');
+  }
+
+  set name(val) {
+    this.attr('name', val);
+  }
+
+  get name() {
+    return this.attr('name');
+  }
+
+  set className(val) {
+    this.attr('class', val);
+  }
+
+  get className() {
+    return this.attr('class');
   }
 
   get resolution() {

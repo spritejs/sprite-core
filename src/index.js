@@ -13,6 +13,7 @@ import Path from './path';
 import Batch from './batch';
 import {registerNodeType, createNode, createElement, isValidNodeType} from './nodetype';
 import {querySelector, querySelectorAll} from './selector';
+import stylesheet from './stylesheet';
 
 const Color = utils.Color;
 
@@ -49,6 +50,7 @@ function use(plugin, options, merge = true) {
 }
 
 export {
+  stylesheet,
   querySelector,
   querySelectorAll,
   use,

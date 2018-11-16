@@ -170,6 +170,14 @@ export default class BaseSprite extends BaseNode {
     return this.attr('name');
   }
 
+  set className(val) {
+    this.attr('class', val);
+  }
+
+  get className() {
+    return this.attr('class');
+  }
+
   get hasLayout() {
     if(this.attr('position') === 'absolute') return false;
     if(this.parent && this.parent.relayout) {

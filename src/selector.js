@@ -4,15 +4,24 @@ import {parseColorString} from './utils';
 const CSSselect = require('css-select');
 
 function isTag(elem) {
-  return elem instanceof BaseNode;
+  return elem.nodeType === 1 || elem instanceof BaseNode;
 }
 
 function getChildren(elem) {
-  return elem.children;
+  if(elem.scene_) {
+    return [elem.scene_];
+  }
+  if(elem.layer_) {
+    return [elem.layer_];
+  }
+  return Array.from(elem.children || []);
 }
 
 function getParent(elem) {
-  return elem.parent;
+  if(elem.nodeType === 1) return elem.parentElement;
+  if(elem instanceof BaseNode) {
+    return elem.parent || elem.canvas || elem.container;
+  }
 }
 
 function removeSubsets(nodes) {
@@ -64,6 +73,9 @@ const adapter = {
   getChildren,
   getParent,
   getAttributeValue(elem, name) {
+    if(elem.nodeType === 1 && name === 'class' || name === 'id') {
+      return elem[name];
+    }
     if(elem.attributes && elem.attributes[name]) {
       let val = elem.attributes[name];
       if(Array.isArray(val)) {
@@ -110,7 +122,9 @@ const adapter = {
 
     if(isTag(elem)) return getText(getChildren(elem));
 
-    if(elem.nodeType === 'label') return elem.text;
+    if(elem.nodeType === 3) return elem.nodeValue;
+
+    if(elem instanceof BaseNode) return elem.text;
 
     return '';
   },
@@ -148,4 +162,8 @@ export function querySelectorAll(query, elems) {
 
 export function querySelector(query, elems) {
   return CSSselect.selectOne(resolveQuery(query), elems, {adapter});
+}
+
+export function isMatched(elem, query) {
+  return CSSselect.is(elem, query, {adapter});
 }

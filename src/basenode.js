@@ -14,6 +14,10 @@ export default class BaseNode {
   }
 
   data(props, val) {
+    const setVal = (key, value) => {
+      this[_data][key] = value;
+      this.attributes[`data-${key}`] = value;
+    };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
         this.data(prop, value);
@@ -26,10 +30,10 @@ export default class BaseNode {
         }
         if(val && typeof val.then === 'function') {
           return val.then((res) => {
-            this[_data][props] = res;
+            setVal(props, res);
           });
         }
-        this[_data][props] = val;
+        setVal(props, val);
         return this;
       }
       return this[_data][props];
