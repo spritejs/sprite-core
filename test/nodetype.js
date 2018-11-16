@@ -115,10 +115,10 @@ test('getElementsByName', async (t) => {
   const blocks = layer.getElementsByName('block');
   t.is(blocks.length, 9);
 
-  const copied = layer.querySelector(':block');
+  const copied = layer.querySelector('[name="block"]');
   t.is(copied, layer.children[0]);
 
-  t.is(layer.querySelectorAll(':block').length, 9);
+  t.is(layer.querySelectorAll('[name="block"]').length, 9);
   t.is(layer.querySelectorAll('sprite').length, 9);
 
   const original = layer.querySelectorAll('#abc');
@@ -129,15 +129,9 @@ test('getElementsByName', async (t) => {
   t.is(layer.querySelector('#abcd'), null);
   t.is(layer.querySelector('sprite'), s);
 
-  const copied2 = layer.querySelectorAll({
-    sprite: s => s.id !== 'abc',
-    label: l => l.id !== 'abc',
-  });
+  const copied2 = layer.querySelectorAll('sprite[id!="abc"],label[id!="abc"]');
   t.is(copied2.length, 8);
 
-  const copied3 = layer.querySelector({
-    sprite: s => s.id !== 'abc',
-    label: l => l.id !== 'abc',
-  });
+  const copied3 = layer.querySelector('sprite[id!="abc"],label[id!="abc"]');
   t.is(copied3, layer.children[1]);
 });

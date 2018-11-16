@@ -94,7 +94,7 @@ export function attr(target, prop, descriptor) {
       } else if(ret === 'inherit') {
         let value = null;
         let parent = subject.parent;
-        while(parent) {
+        while(parent && parent.attr) {
           value = parent.attr(prop);
           if(value != null) break;
           parent = parent.parent;

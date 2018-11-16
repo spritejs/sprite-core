@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    body {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sizzle.js"></script>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, renderMode: 'repaintDirty'});
+
+    const s = new Group({
+      id: 'abc',
+      anchor: 0.5,
+      bgcolor: 'red',
+      size: [500, 500],
+      pos: [300, 300],
+      zIndex: 0,
+      border: [10, 'blue'],
+      gradients: {
+        bgcolor: {
+          // direction: 90,
+          // rect: [0, 0, 100, 100],
+          vector: [50, 50, 10, 70, 80, 100],
+          colors: [{
+            offset: 0,
+            color: 'rgba(255,0,0,0.5)',
+          }, {
+            offset: 1,
+            color: 'rgba(255,0,0,1)',
+          }],
+        },
+      },
+    });
+    layer.append(s);
+    // layer.draw()
+    
+    const s2 = new Sprite({
+      anchor: 0.5,
+      bgcolor: 'green',
+      size: [50, 50],
+      pos: [26, 100],
+    });
+    // const animation = s2.animate([
+    //   {pos: [100, 100]},
+    //   {pos: [100, 300]},
+    //   {pos: [300, 300]},
+    //   {pos: [300, 100]},
+    //   {pos: [100, 100]},
+    // ], {
+    //   duration: 2000,
+    //   iterations: Infinity,
+    // })
+    s.append(s2);
+    // window.anim = animation
+    // layer.draw()
+
+    // s2.on('click', (evt) => {
+    //   console.log(evt);
+    //   evt.stopPropagation();
+    // });
+
+    s.on('click', (evt) => {
+      console.log(evt, evt.targetSprites);
+    });
+
+    // s.on('mouseleave', (evt) => {
+    //   console.log(evt);
+    // });
+    layer.on('click', (evt) => {
+      console.log(evt.offsetX);
+    });
+
+    mycanvas.addEventListener('click', (evt) => {
+      const {offsetX, offsetY} = evt;
+      layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
+  </script>
+</body>
+</html>

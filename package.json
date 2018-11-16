@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.21.5",
+  "version": "2.22.0",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -87,6 +87,7 @@
     "babel-runtime": "^6.26.0",
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
+    "css-select": "^2.0.2",
     "sprite-animator": "^1.11.3",
     "sprite-flex-layout": "^1.0.7",
     "sprite-math": "^1.0.5",
