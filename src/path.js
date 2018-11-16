@@ -8,14 +8,14 @@ class PathSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
     super(subject);
     this.setDefault({
-      lineWidth: 1,
+      lineWidth: 'inherit',
       lineDash: null,
       lineDashOffset: 0,
-      lineCap: 'butt',
-      lineJoin: 'miter',
-      strokeColor: '',
-      fillColor: '',
-      bounding: 'box',
+      lineCap: 'inherit',
+      lineJoin: 'inherit',
+      strokeColor: 'inherit',
+      fillColor: 'inherit',
+      bounding: 'inherit',
     }, {
       color() {
         return this.strokeColor;

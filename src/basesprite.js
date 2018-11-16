@@ -207,7 +207,11 @@ export default class BaseSprite extends BaseNode {
       this[_attr][key] = value;
       if(!this[_attr].__attributeNames.has(key)) {
         this[_attr].__extendAttributes.add(key);
-        this.forceUpdate(true);
+        this.forceUpdate();
+        if(key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
+          // fixed color inherit
+          this[_attr].fillColor = value;
+        }
       }
     };
     if(typeof props === 'object') {

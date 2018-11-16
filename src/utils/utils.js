@@ -34,7 +34,7 @@ const parseColor = (color) => {
 };
 
 function parseColorString(color) {
-  if(color && typeof color === 'string') {
+  if(color && typeof color === 'string' && color !== 'inherit') {
     return parseColor(color).toString();
   }
   return color;

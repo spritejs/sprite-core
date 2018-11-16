@@ -91,15 +91,15 @@ export function attr(target, prop, descriptor) {
 
       if(ret == null) {
         ret = this.get(prop);
-      } else if(ret.inherit) {
-        const parent = subject.parent;
-        const pv = parent ? parent.attr(prop) : ret.pv;
-        if(pv !== ret.pv) {
-          this[prop] = 'inherit';
-          return this[prop];
+      } else if(ret === 'inherit') {
+        let value = null;
+        let parent = subject.parent;
+        while(parent) {
+          value = parent.attr(prop);
+          if(value != null) break;
+          parent = parent.parent;
         }
-        subject.cache = null;
-        return ret.pv;
+        return value != null ? value : this.__inheritDefaults[prop];
       }
       return ret;
     };
@@ -143,28 +143,10 @@ export function cachable(target, prop, descriptor) {
 // after attr
 export function inherit(defaultValue = '') {
   return function (target, prop, descriptor) {
-    if(descriptor.set) {
-      const setter = descriptor.set;
-      descriptor.__inherit = true;
-
-      descriptor.set = function (val) {
-        if(typeof val === 'string') {
-          val = val.trim();
-          if(val === 'inherit') {
-            const parent = this.subject.parent;
-            let pv = parent ? parent.attr(prop) : defaultValue;
-            if(pv === 'inherit') pv = defaultValue;
-            val = {
-              inherit: true,
-              pv,
-            };
-          }
-        }
-        setter.call(this, val);
-      };
-
-      return descriptor;
-    }
+    target.__inheritDefaults = target.__inheritDefaults || {};
+    target.__inheritDefaults[prop] = defaultValue;
+    descriptor.__inherit = true;
+    return descriptor;
   };
 }
 

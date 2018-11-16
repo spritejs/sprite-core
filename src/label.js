@@ -100,17 +100,17 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
     super(subject);
     this.setDefault({
-      font: 'normal normal normal 16px Arial',
-      textAlign: 'left',
-      strokeColor: '',
-      fillColor: '',
-      lineHeight: '',
+      font: 'inherit',
+      textAlign: 'inherit',
+      strokeColor: 'inherit',
+      fillColor: 'inherit',
+      lineHeight: 'inherit',
       text: '',
       flexible: false,
-      lineBreak: '',
-      wordBreak: 'normal',
-      letterSpacing: 0,
-      textIndent: 0,
+      lineBreak: 'inherit',
+      wordBreak: 'inherit',
+      letterSpacing: 'inherit',
+      textIndent: 'inherit',
     });
   }
 
@@ -207,12 +207,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 
   @parseValue(parseFloat)
   @attr
+  @inherit('')
   set lineHeight(val) {
     this.set('lineHeight', val);
     calculTextboxSize(this.subject);
   }
 
   @attr
+  @inherit('left')
   set textAlign(val) {
     this.set('textAlign', val);
     calculTextboxSize(this.subject);
@@ -261,7 +263,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   }
 
   @attr
-  @inherit('')
+  @inherit(0)
   set letterSpacing(value) {
     if(typeof value === 'string') value = parseFloat(value);
     this.set('letterSpacing', value);
@@ -269,7 +271,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   }
 
   @attr
-  @inherit('')
+  @inherit(0)
   set textIndent(value) {
     if(typeof value === 'string') value = parseFloat(value);
     this.set('textIndent', value);
