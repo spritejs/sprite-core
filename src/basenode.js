@@ -11,10 +11,14 @@ function createGetterSetter(_symbol, attrPrefix) {
     const setVal = (key, value) => {
       this[_symbol][key] = value;
       if(this.attributes) {
+        const attrKey = `${attrPrefix}-${key}`;
         if(attrPrefix !== 'css') {
-          this.attributes[`${attrPrefix}-${key}`] = value;
+          this.attributes[attrKey] = value;
         } else {
           this.updateStyles();
+        }
+        if(value == null) {
+          delete this.attributes[attrKey];
         }
       }
       if(value == null) {

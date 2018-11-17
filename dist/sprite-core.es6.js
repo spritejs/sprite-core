@@ -5679,11 +5679,16 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const setVal = (key, value) => {
       this[_attr][key] = value;
       if (!this[_attr].__attributeNames.has(key)) {
-        this[_attr].__extendAttributes.add(key);
+        if (value != null) {
+          this[_attr].__extendAttributes.add(key);
+        } else {
+          this[_attr].__extendAttributes.delete(key);
+          delete this[_attr][key];
+        }
         this.forceUpdate();
         if (key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
           // fixed color inherit
-          this[_attr].fillColor = value;
+          this.attr('fillColor', value);
         }
       }
     };
@@ -7841,10 +7846,14 @@ function createGetterSetter(_symbol, attrPrefix) {
     const setVal = (key, value) => {
       this[_symbol][key] = value;
       if (this.attributes) {
+        const attrKey = `${attrPrefix}-${key}`;
         if (attrPrefix !== 'css') {
-          this.attributes[`${attrPrefix}-${key}`] = value;
+          this.attributes[attrKey] = value;
         } else {
           this.updateStyles();
+        }
+        if (value == null) {
+          delete this.attributes[attrKey];
         }
       }
       if (value == null) {

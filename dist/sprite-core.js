@@ -7646,11 +7646,16 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       var setVal = function setVal(key, value) {
         _this2[_attr][key] = value;
         if (!_this2[_attr].__attributeNames.has(key)) {
-          _this2[_attr].__extendAttributes.add(key);
+          if (value != null) {
+            _this2[_attr].__extendAttributes.add(key);
+          } else {
+            _this2[_attr].__extendAttributes.delete(key);
+            delete _this2[_attr][key];
+          }
           _this2.forceUpdate();
           if (key === 'color' && !_this2[_attr].__attributeNames.has('fillColor')) {
             // fixed color inherit
-            _this2[_attr].fillColor = value;
+            _this2.attr('fillColor', value);
           }
         }
       };
@@ -10819,10 +10824,14 @@ function createGetterSetter(_symbol, attrPrefix) {
     var setVal = function setVal(key, value) {
       _this[_symbol][key] = value;
       if (_this.attributes) {
+        var attrKey = attrPrefix + '-' + key;
         if (attrPrefix !== 'css') {
-          _this.attributes[attrPrefix + '-' + key] = value;
+          _this.attributes[attrKey] = value;
         } else {
           _this.updateStyles();
+        }
+        if (value == null) {
+          delete _this.attributes[attrKey];
         }
       }
       if (value == null) {
