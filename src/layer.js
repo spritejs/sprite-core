@@ -10,6 +10,8 @@ import {clearDirtyRects} from './helpers/dirty-check';
 
 import groupApi from './helpers/group';
 
+import stylesheet from './stylesheet';
+
 const _updateSet = Symbol('updateSet'),
   _zOrder = Symbol('zOrder'),
   _tRecord = Symbol('tRecord'),
@@ -27,6 +29,7 @@ export default class Layer extends BaseNode {
     evaluateFPS = false,
     renderMode = 'repaintAll',
     autoRender = true,
+    useDocumentCSS = false,
   } = {}) {
     super();
 
@@ -68,6 +71,9 @@ export default class Layer extends BaseNode {
           delete this._saveChildren;
         }
       });
+    }
+    if(useDocumentCSS) {
+      stylesheet.fromDocumentCSS();
     }
   }
 

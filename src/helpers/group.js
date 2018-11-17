@@ -27,6 +27,7 @@ export default {
       }
 
       if(sprite.layer) {
+        sprite.updateStyles();
         return sprite.enter();
       }
       return sprite;

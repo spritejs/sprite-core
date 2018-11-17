@@ -152,7 +152,8 @@ export default class Group extends BaseSprite {
   }
 
   get children() {
-    return this.childNodes.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
+    const children = this.childNodes || [];
+    return children.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
   }
 
   update(child) {

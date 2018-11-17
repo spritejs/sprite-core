@@ -5,6 +5,7 @@ import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseValue, attr, deprecate, relative, cachable, sortOrderedSprites} from './utils';
 
 const _attr = Symbol('attr'),
+  _style = Symbol('style'),
   _temp = Symbol('store'),
   _subject = Symbol('subject'),
   _default = Symbol('default'),
@@ -15,6 +16,7 @@ class SpriteAttr {
     this[_subject] = subject;
     this[_default] = {};
     this[_attr] = {};
+    this[_style] = {};
     this[_props] = {};
 
     this.setDefault({
@@ -123,17 +125,36 @@ class SpriteAttr {
     this[_attr][key] = val;
   }
 
+  clearStyle() {
+    this[_style] = {};
+  }
+
+  get style() {
+    return this[_style];
+  }
+
   set(key, val) {
-    if(val == null) {
+    if(!this.__styleTag && val == null) {
       val = this[_default][key];
     }
+    const oldVal = this[_attr][key];
+    if(this.__styleTag) {
+      if(val != null) {
+        this[_style][key] = val;
+      } else {
+        delete this[_style][key];
+      }
+    }
     if(typeof val === 'object') {
-      const oldVal = this[_attr][key];
       if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
         return;
       }
+    } else if(oldVal === val) {
+      return;
     }
-    this[_attr][key] = val;
+    if(!this.__styleTag) {
+      this[_attr][key] = val;
+    }
     this.__updateTag = true;
     // auto reflow
     if(key === 'width' || key === 'height'
@@ -151,7 +172,7 @@ class SpriteAttr {
   }
 
   get(key) {
-    return this[_attr][key];
+    return this[_style][key] || this[_attr][key];
   }
 
   get attrs() {
@@ -221,17 +242,23 @@ class SpriteAttr {
   /* ------------------- define attributes ----------------------- */
   @attr
   set id(val) {
-    return this.quietSet('id', String(val));
+    const id = this.quietSet('id', String(val));
+    this.subject.updateStyles();
+    return id;
   }
 
   @attr
   set name(val) {
-    return this.quietSet('name', String(val));
+    const name = this.quietSet('name', String(val));
+    this.subject.updateStyles();
+    return name;
   }
 
   @attr
   set class(val) {
-    return this.quietSet('class', String(val));
+    const className = this.quietSet('class', String(val));
+    this.subject.updateStyles();
+    return className;
   }
 
   @attr
@@ -301,6 +328,7 @@ class SpriteAttr {
     this.set('bgcolor', val);
   }
 
+  @parseValue(parseFloat)
   @attr
   @cachable
   set opacity(val) {
@@ -435,6 +463,7 @@ class SpriteAttr {
     }
   }
 
+  @parseValue(parseStringFloat)
   @attr
   @cachable
   set transformOrigin(val) {
@@ -501,6 +530,7 @@ class SpriteAttr {
     this.set('transformMatrix', transform.m);
   }
 
+  @parseValue(parseInt)
   @attr
   @cachable
   set zIndex(val) {
@@ -702,6 +732,7 @@ class SpriteAttr {
     return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
   }
 
+  @parseValue(parseInt)
   @attr
   @cachable
   set order(val) {

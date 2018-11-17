@@ -1,10 +1,9 @@
-import BaseNode from './basenode';
 import {parseColorString} from './utils';
 
 const CSSselect = require('css-select');
 
 function isTag(elem) {
-  return elem.nodeType === 1 || elem instanceof BaseNode;
+  return elem.nodeType === 1 || typeof elem.nodeType === 'string';
 }
 
 function getChildren(elem) {
@@ -19,7 +18,7 @@ function getChildren(elem) {
 
 function getParent(elem) {
   if(elem.nodeType === 1) return elem.parentElement;
-  if(elem instanceof BaseNode) {
+  if(typeof elem.nodeType === 'string') {
     return elem.parent || elem.canvas || elem.container;
   }
 }
@@ -124,7 +123,7 @@ const adapter = {
 
     if(elem.nodeType === 3) return elem.nodeValue;
 
-    if(elem instanceof BaseNode) return elem.text;
+    if(typeof elem.nodeType === 'string') return elem.text;
 
     return '';
   },

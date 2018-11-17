@@ -9,11 +9,21 @@
     html, document {
       font-size: 32px;
       font-family: 'Arial Black', Gadget, sans-serif;
+      background: url(http://baidu.com)  #000;
+      flex: 1;
+      border: solid 1px;
     }
-    #mycanvas sprite#abc {
+    #mycanvas group#abc {
       --sprite-anchor: 0.5;
-      --sprite-x: 100;
+      --sprite-x: 100px;
       --sprite-y: 100;
+      font: 12px 'Arial';
+      background-color: #07c;
+      transform: rotate(30deg) translate(10px, 10px);
+      opacity: 0.5;
+    }
+    .abc {
+      --sprite-bgcolor: #f00;
     }
   </style>
 </head>
@@ -27,7 +37,7 @@
     const Layer = spritejs.Layer;
     const Group = spritejs.Group;
     const context = document.getElementById('mycanvas').getContext('2d');
-    const layer = new Layer({context, renderMode: 'repaintAll'});
+    const layer = new Layer({context, renderMode: 'repaintAll', useDocumentCSS: true});
 
     const s = new Group({
       id: 'abc',

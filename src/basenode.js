@@ -1,22 +1,25 @@
+import stylesheet from './stylesheet';
+
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
   _data = Symbol('data'),
+  _style = Symbol('style'),
   _mouseCapture = Symbol('mouseCapture');
 
-export default class BaseNode {
-  constructor() {
-    this[_eventHandlers] = {};
-    this[_data] = {};
-  }
-
-  get dataset() {
-    return this[_data];
-  }
-
-  data(props, val) {
+function createGetterSetter(_symbol, attrPrefix) {
+  return function (props, val) {
     const setVal = (key, value) => {
-      this[_data][key] = value;
-      this.attributes[`data-${key}`] = value;
+      this[_symbol][key] = value;
+      if(this.attributes) {
+        if(attrPrefix !== 'css') {
+          this.attributes[`${attrPrefix}-${key}`] = value;
+        } else {
+          this.updateStyles();
+        }
+      }
+      if(value == null) {
+        delete this[_symbol][key];
+      }
     };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
@@ -26,7 +29,7 @@ export default class BaseNode {
     } if(typeof props === 'string') {
       if(val !== undefined) {
         if(typeof val === 'function') {
-          val = val(this[_data][props]);
+          val = val(this[_symbol][props]);
         }
         if(val && typeof val.then === 'function') {
           return val.then((res) => {
@@ -36,9 +39,40 @@ export default class BaseNode {
         setVal(props, val);
         return this;
       }
-      return this[_data][props];
+      return this[_symbol][props];
     }
+    return this[_symbol];
+  };
+}
+
+export default class BaseNode {
+  constructor() {
+    this[_eventHandlers] = {};
+    this[_data] = {};
+    this[_style] = {};
+    this.data = createGetterSetter(_data, 'data');
+    this.css = createGetterSetter(_style, 'css');
+  }
+
+  updateStyles() {
+    // append to parent & reset name or class or id auto updateStyles
+    let elems = [];
+    if(this.parent && this.parent.querySelectorAll) {
+      elems = [this.parent, ...this.parent.querySelectorAll('*')];
+    } else if(this.querySelectorAll) {
+      elems = [this, ...this.querySelectorAll('*')];
+    }
+    elems.forEach((el) => {
+      stylesheet.computeStyle(el);
+    });
+  }
+
+  get dataset() {
     return this[_data];
+  }
+
+  get style() {
+    return this[_style];
   }
 
   getEventHandlers(type) {

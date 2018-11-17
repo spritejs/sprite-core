@@ -3,6 +3,57 @@ import {isMatched} from './selector';
 const cssWhat = require('css-what');
 const cssRules = [];
 
+const CSSGetter = {
+  opacity: true,
+  width: true,
+  height: true,
+  backgroundColor: true,
+  flexGrow: true,
+  flexShrink: true,
+  flexBasis: true,
+  order: true,
+  position: true,
+  alignSelf: true,
+  transform: true,
+  transformOrigin: true,
+  borderTopWidth: true,
+  borderRightWidth: true,
+  borderBottomWidth: true,
+  borderLeftWidth: true,
+  borderTopColor: true,
+  borderRightColor: true,
+  borderBottomColor: true,
+  borderLeftColor: true,
+  borderTopStyle: true,
+  borderRightStyle: true,
+  borderBottomStyle: true,
+  borderLeftStyle: true,
+  borderRadius: true,
+  boxSizing: true,
+  display: true,
+  padding: true,
+  margin: true,
+  zIndex: true,
+  fontSize: true,
+  fontFamily: true,
+  fontStyle: true,
+  fontVariantCaps: true,
+  fontWeight: true,
+  color: true,
+  textAlign: true,
+  lineHeight: true,
+  lineBreak: true,
+  wordBreak: true,
+  letterSpacing: true,
+  textIndent: true,
+};
+
+function toCamel(str) {
+  return str.replace(/([^-])(?:-+([^-]))/g, ($0, $1, $2) => {
+    return $1 + $2.toUpperCase();
+  });
+}
+
 function resolveToken(token) {
   let ret = '',
     priority = 0;
@@ -116,13 +167,81 @@ export default {
       return d !== 0 ? d : a.order - b.order;
     });
   },
+  fromDocumentCSS() {
+    if(typeof document === 'undefined') return;
+    const stylesheets = document.styleSheets;
+    if(stylesheets) {
+      const styleRules = {};
+      for(let i = 0; i < stylesheets.length; i++) {
+        const rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        for(let j = 0; j < rules.length; j++) {
+          const rule = rules[j];
+          const selectorText = rule.selectorText;
+          const styleAttrs = [...rule.styleMap];
+          const attrs = {},
+            reserved = {};
+          let border = null;
+          styleAttrs.forEach(([key, value]) => {
+            if(key.indexOf('--sprite-') === 0) {
+              key = key.replace('--sprite-', '');
+              key = toCamel(key);
+              if(key === 'borderStyle') {
+                border = border || {width: 1, color: 'rgba(0,0,0,0)'};
+                border.style = value;
+              }
+              if(key === 'borderWidth') {
+                border = border || {width: 1, color: 'rgba(0,0,0,0)'};
+                border.width = parseFloat(value);
+              }
+              if(key === 'borderColor') {
+                border = border || {width: 1, color: 'rgba(0,0,0,0)'};
+                border.color = value;
+              }
+              value = value[0][0].trim().replace(/px$/, '');
+              reserved[key] = value;
+            } else {
+              key = toCamel(key);
+              if(key in CSSGetter) {
+                if(typeof CSSGetter[key] === 'function') {
+                  value = CSSGetter[key](value);
+                } else {
+                  value = value[0].toString().replace(/px$/, '');
+                }
+                if(key === 'backgroundColor') key = 'bgcolor';
+                if(key === 'fontVariantCaps') key = 'fontVariant';
+                if(key !== 'borderRadius' && /^border/.test(key)) {
+                  key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
+                  if(key === 'color' && value === 'initial') value = 'rgba(0,0,0,0)';
+                  if(key === 'width') value = parseFloat(value);
+                  border = border || {};
+                  border[key] = value;
+                } else {
+                  attrs[key] = value;
+                }
+              }
+            }
+          });
+          styleRules[selectorText] = styleRules[selectorText] || {};
+          Object.assign(styleRules[selectorText], attrs, {border}, reserved);
+        }
+      }
+      // console.log(styleRules);
+      this.add(styleRules);
+    }
+  },
   computeStyle(el) {
-    if(!el.layer) return {};
+    if(!el.layer || !el.attributes) return {};
+    const attrs = {};
     cssRules.forEach((rule) => {
       const {selector, attributes} = rule;
       if(isMatched(el, selector)) {
-        el.attr(attributes);
+        Object.assign(attrs, attributes);
       }
     });
+    Object.assign(attrs, el.style);
+    el.attributes.clearStyle();
+    el.attributes.__styleTag = true;
+    el.attr(attrs);
+    el.attributes.__styleTag = false;
   },
 };
