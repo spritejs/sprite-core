@@ -8351,18 +8351,21 @@ let order = 0;
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.color = value;
               }
-              value = value[0][0].trim().replace(/px$/, '');
+              if (key !== 'fontSize') {
+                value = value[0][0].trim().replace(/px$/, '');
+              }
               reserved[key] = value;
             } else {
               key = toCamel(key);
               if (key in CSSGetter) {
                 if (typeof CSSGetter[key] === 'function') {
                   value = CSSGetter[key](value);
-                } else {
+                } else if (key !== 'fontSize') {
                   value = value[0].toString().replace(/px$/, '');
                 }
                 if (key === 'backgroundColor') key = 'bgcolor';
                 if (key === 'fontVariantCaps') key = 'fontVariant';
+                if (key === 'lineHeight' && value === 'normal') value = '';
                 if (key !== 'borderRadius' && /^border/.test(key)) {
                   key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
                   if (key === 'color' && value === 'initial') value = 'rgba(0,0,0,0)';
@@ -13302,7 +13305,7 @@ const weights = 'bold|bolder|lighter|[1-9]00',
       variants = 'small-caps',
       stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
       units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh',
-      string = '\'([^\']+)\'|"([^"]+)"|[\\w-]+';
+      string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4e00-\u9fa5])+';
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
 //    <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]

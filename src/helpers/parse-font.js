@@ -11,7 +11,7 @@ const weights = 'bold|bolder|lighter|[1-9]00'
   , variants = 'small-caps'
   , stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded'
   , units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh'
-  , string = '\'([^\']+)\'|"([^"]+)"|[\\w-]+'
+  , string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4e00-\u9fa5])+'
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
 //    <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]
