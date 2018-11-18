@@ -3,7 +3,6 @@ import stylesheet from './stylesheet';
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
   _data = Symbol('data'),
-  _style = Symbol('style'),
   _mouseCapture = Symbol('mouseCapture');
 
 function createGetterSetter(_symbol, attrPrefix) {
@@ -12,13 +11,10 @@ function createGetterSetter(_symbol, attrPrefix) {
       this[_symbol][key] = value;
       if(this.attributes) {
         const attrKey = `${attrPrefix}-${key}`;
-        if(attrPrefix !== 'css') {
-          this.attributes[attrKey] = value;
-        } else {
-          this.updateStyles();
-        }
         if(value == null) {
           delete this.attributes[attrKey];
+        } else {
+          this.attributes[attrKey] = value;
         }
       }
       if(value == null) {
@@ -53,9 +49,7 @@ export default class BaseNode {
   constructor() {
     this[_eventHandlers] = {};
     this[_data] = {};
-    this[_style] = {};
     this.data = createGetterSetter(_data, 'data');
-    this.css = createGetterSetter(_style, 'css');
   }
 
   updateStyles() {
@@ -73,10 +67,6 @@ export default class BaseNode {
 
   get dataset() {
     return this[_data];
-  }
-
-  get style() {
-    return this[_style];
   }
 
   getEventHandlers(type) {

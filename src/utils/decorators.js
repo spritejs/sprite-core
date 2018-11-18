@@ -99,7 +99,8 @@ export function attr(target, prop, descriptor) {
           if(value != null) break;
           parent = parent.parent;
         }
-        return value != null ? value : this.__inheritDefaults[prop];
+        // return value != null ? value : this.__inheritDefaults[prop];
+        return this.__inheritDefaults[prop];
       }
       return ret;
     };

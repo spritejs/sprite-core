@@ -3,6 +3,8 @@ import {isMatched} from './selector';
 const cssWhat = require('css-what');
 const cssRules = [];
 
+const _matchedSelectors = Symbol('matchedSelectors');
+
 const CSSGetter = {
   opacity: true,
   width: true,
@@ -235,16 +237,22 @@ export default {
   computeStyle(el) {
     if(!el.layer || !el.attributes) return {};
     const attrs = {};
+    const selectors = [];
     cssRules.forEach((rule) => {
       const {selector, attributes} = rule;
       if(isMatched(el, selector)) {
         Object.assign(attrs, attributes);
+        selectors.push(selector);
       }
     });
-    Object.assign(attrs, el.style);
-    el.attributes.clearStyle();
-    el.attributes.__styleTag = true;
-    el.attr(attrs);
-    el.attributes.__styleTag = false;
+    const matchedSelectors = selectors.join();
+    if(el[_matchedSelectors] !== matchedSelectors) {
+      el.dispatchEvent('stylechange', {oldSelectors: el[_matchedSelectors], newSelectors: matchedSelectors});
+      el[_matchedSelectors] = matchedSelectors;
+      el.attributes.clearStyle();
+      el.attributes.__styleTag = true;
+      el.attr(attrs);
+      el.attributes.__styleTag = false;
+    }
   },
 };

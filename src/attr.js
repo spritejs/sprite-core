@@ -94,6 +94,7 @@ class SpriteAttr {
     });
     this[_temp] = new Map(); // save non-serialized values
     this.__extendAttributes = new Set();
+    this.__attributesSet = new Set();
   }
 
   setDefault(attrs, props = {}) {
@@ -134,8 +135,14 @@ class SpriteAttr {
   }
 
   set(key, val) {
+    if(!this.__styleTag && val != null) {
+      this.__attributesSet.add(key);
+    }
     if(!this.__styleTag && val == null) {
       val = this[_default][key];
+      if(this.__attributesSet.has(key)) {
+        this.__attributesSet.delete(key);
+      }
     }
     const oldVal = this[_attr][key];
     if(this.__styleTag) {
@@ -172,7 +179,10 @@ class SpriteAttr {
   }
 
   get(key) {
-    return this[_style][key] || this[_attr][key];
+    if(this[_style][key] && !this.__attributesSet.has(key)) {
+      return this[_style][key];
+    }
+    return this[_attr][key];
   }
 
   get attrs() {

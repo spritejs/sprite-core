@@ -52,6 +52,9 @@ export default class Layer extends BaseNode {
     this[_renderDeferer] = null;
 
     this[_node] = new DataNode();
+    this[_node].forceUpdate = () => {
+      this.prepareRender();
+    };
 
     this.touchedTargets = {};
 
@@ -78,7 +81,6 @@ export default class Layer extends BaseNode {
   }
 
   attr(...args) {
-    this.prepareRender();
     return this[_node].attr(...args);
   }
 

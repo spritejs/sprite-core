@@ -281,15 +281,15 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   @relative('width')
   set width(val) {
-    if(this.lineBreak !== '') calculTextboxSize(this.subject);
     this.set('width', val);
+    if(this.lineBreak !== '') calculTextboxSize(this.subject);
   }
 
   @attr
   @relative('height')
   set layoutWidth(val) {
-    if(this.lineBreak !== '') calculTextboxSize(this.subject);
     this.set('layoutWidth', val);
+    if(this.lineBreak !== '') calculTextboxSize(this.subject);
   }
 }
 
