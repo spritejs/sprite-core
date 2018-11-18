@@ -122,8 +122,12 @@ class SpriteAttr {
   quietSet(key, val) {
     if(val == null) {
       val = this[_default][key];
+      if(this.__attributesSet.has(key)) {
+        this.__attributesSet.delete(key);
+      }
     }
     this[_attr][key] = val;
+    this.__attributesSet.add(key);
   }
 
   clearStyle() {
@@ -236,13 +240,15 @@ class SpriteAttr {
   }
 
   serialize() {
-    const attrs = this.attrs;
-    delete attrs.id;
+    const ret = {};
+    [...this.__attributesSet, ...this.__extendAttributes].forEach((key) => {
+      if(key !== 'id') ret[key] = this[key];
+    });
     const offsetAngle = this.get('offsetAngle');
-    if(offsetAngle != null) attrs.offsetAngle = offsetAngle;
+    if(offsetAngle != null) ret.offsetAngle = offsetAngle;
     const offsetPoint = this.get('offsetPoint');
-    if(offsetPoint != null) attrs.offsetPoint = offsetPoint;
-    return JSON.stringify(attrs);
+    if(offsetPoint != null) ret.offsetPoint = offsetPoint;
+    return JSON.stringify(ret);
   }
 
   get subject() {

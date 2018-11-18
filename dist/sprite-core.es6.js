@@ -4395,7 +4395,7 @@ function parseStringTransform(str) {
 }
 
 function parseValuesString(str, parser) {
-  if (typeof str === 'string') {
+  if (typeof str === 'string' && str !== '') {
     const values = str.split(/[\s,]+/g);
     return values.map(v => {
       const ret = parser ? parser(v) : v;
@@ -7166,8 +7166,12 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   quietSet(key, val) {
     if (val == null) {
       val = this[_default][key];
+      if (this.__attributesSet.has(key)) {
+        this.__attributesSet.delete(key);
+      }
     }
     this[_attr][key] = val;
+    this.__attributesSet.add(key);
   }
 
   clearStyle() {
@@ -7266,13 +7270,15 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   serialize() {
-    const attrs = this.attrs;
-    delete attrs.id;
+    const ret = {};
+    [...this.__attributesSet, ...this.__extendAttributes].forEach(key => {
+      if (key !== 'id') ret[key] = this[key];
+    });
     const offsetAngle = this.get('offsetAngle');
-    if (offsetAngle != null) attrs.offsetAngle = offsetAngle;
+    if (offsetAngle != null) ret.offsetAngle = offsetAngle;
     const offsetPoint = this.get('offsetPoint');
-    if (offsetPoint != null) attrs.offsetPoint = offsetPoint;
-    return JSON.stringify(attrs);
+    if (offsetPoint != null) ret.offsetPoint = offsetPoint;
+    return JSON.stringify(ret);
   }
 
   get subject() {

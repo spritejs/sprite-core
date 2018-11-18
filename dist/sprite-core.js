@@ -6152,7 +6152,7 @@ function parseStringTransform(str) {
 }
 
 function parseValuesString(str, parser) {
-  if (typeof str === 'string') {
+  if (typeof str === 'string' && str !== '') {
     var values = str.split(/[\s,]+/g);
     return values.map(function (v) {
       var ret = parser ? parser(v) : v;
@@ -9937,8 +9937,12 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
     value: function quietSet(key, val) {
       if (val == null) {
         val = this[_default][key];
+        if (this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
       }
       this[_attr][key] = val;
+      this.__attributesSet.add(key);
     }
   }, {
     key: 'clearStyle',
@@ -10031,13 +10035,17 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'serialize',
     value: function serialize() {
-      var attrs = this.attrs;
-      delete attrs.id;
+      var _this3 = this;
+
+      var ret = {};
+      [].concat((0, _toConsumableArray3.default)(this.__attributesSet), (0, _toConsumableArray3.default)(this.__extendAttributes)).forEach(function (key) {
+        if (key !== 'id') ret[key] = _this3[key];
+      });
       var offsetAngle = this.get('offsetAngle');
-      if (offsetAngle != null) attrs.offsetAngle = offsetAngle;
+      if (offsetAngle != null) ret.offsetAngle = offsetAngle;
       var offsetPoint = this.get('offsetPoint');
-      if (offsetPoint != null) attrs.offsetPoint = offsetPoint;
-      return (0, _stringify2.default)(attrs);
+      if (offsetPoint != null) ret.offsetPoint = offsetPoint;
+      return (0, _stringify2.default)(ret);
     }
   }, {
     key: 'resetOffset',
@@ -10113,18 +10121,18 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'attrs',
     get: function get() {
-      var _this3 = this;
+      var _this4 = this;
 
       var ret = {};
       [].concat((0, _toConsumableArray3.default)(this.__attributeNames)).forEach(function (key) {
-        if (key in _this3[_props]) {
-          (0, _defineProperty2.default)(ret, key, _this3[_props][key]);
+        if (key in _this4[_props]) {
+          (0, _defineProperty2.default)(ret, key, _this4[_props][key]);
         } else {
-          ret[key] = _this3[key];
+          ret[key] = _this4[key];
         }
       });
       [].concat((0, _toConsumableArray3.default)(this.__extendAttributes)).forEach(function (key) {
-        ret[key] = _this3[key];
+        ret[key] = _this4[key];
       });
       return ret;
     }
@@ -10312,7 +10320,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'transform',
     set: function set(val) {
-      var _this4 = this;
+      var _this5 = this;
 
       /*
         rotate: 0,
@@ -10341,9 +10349,9 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
               value = _ref6[1];
 
           if (key === 'matrix' && Array.isArray(value)) {
-            _this4.set('transformMatrix', new _spriteMath.Matrix(value).m);
+            _this5.set('transformMatrix', new _spriteMath.Matrix(value).m);
           } else {
-            _this4[key] = value;
+            _this5[key] = value;
           }
           transformStr.push(key + '(' + value + ')');
         });
