@@ -7888,10 +7888,13 @@ const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');
 
 function parseTransitionValue(values) {
+  if (typeof values === 'string') values = values.trim().split(/\s*,\s*/g);
   const ret = [];
   for (let i = 0; i < values.length; i++) {
     let value = values[i].toString();
-    if (/ms$/.test(value)) {
+    if (value === 'initial') {
+      value = 0;
+    } else if (/ms$/.test(value)) {
       value = parseFloat(value) / 1000;
     } else {
       value = parseFloat(value);
@@ -7949,7 +7952,16 @@ const CSSGetter = {
   letterSpacing: true,
   textIndent: true,
   transitionDuration: parseTransitionValue,
-  transitionTimingFunction: true,
+  transitionTimingFunction(values) {
+    if (typeof values === 'string') values = values.trim().split(/\s*,\s*/g);
+    const ret = [];
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i].toString();
+      if (value === 'initial') value = 'ease';
+      ret.push(value);
+    }
+    return ret;
+  },
   transitionDelay: parseTransitionValue,
   transitionProperty: true
 };
@@ -8112,23 +8124,51 @@ let order = 0;
         for (let j = 0; j < rules.length; j++) {
           const rule = rules[j];
           const selectorText = rule.selectorText;
-          if (!rule.styleMap) continue; // eslint-disable-line no-continue
+          const isStyleMap = !!rule.styleMap;
+          let styleAttrs;
+
+          if (!isStyleMap) {
+            // eslint-disable-line no-continue
+            if (!rule.style) continue; // eslint-disable-line no-continue
+
+            const props = [...rule.style].map(key => {
+              return [key, rule.style[key]];
+            }).filter(([key, value]) => value != null);
+
+            const matched = rule.cssText.match(/--sprite-[\w-]+\s*:\s*.+?(;|$)/img);
+            if (matched) {
+              matched.forEach(rule => {
+                const [key, value] = rule.split(':');
+                props.push([key, value.trim().replace(/;$/, '')]);
+              });
+            }
+            const isIgnore = props['--sprite-ignore'];
+            if (isIgnore && isIgnore !== 'false' && isIgnore !== '0') {
+              continue; // eslint-disable-line no-continue
+            }
+
+            styleAttrs = props;
+          }
           if (rule.styleMap && rule.styleMap.has('--sprite-ignore')) {
             const isIgnore = rule.styleMap.get('--sprite-ignore')[0].trim();
             if (isIgnore !== 'false' && isIgnore !== '0' && isIgnore !== '') {
               continue; // eslint-disable-line no-continue
             }
           }
-          const styleAttrs = [...rule.styleMap];
+          if (rule.styleMap) {
+            styleAttrs = [...rule.styleMap];
+          }
           const attrs = {},
                 reserved = {};
           let border = null;
           let transition = null;
+
           styleAttrs.forEach(([key, value]) => {
             // eslint-disable-line complexity
             if (key.indexOf('--sprite-') === 0) {
               key = key.replace('--sprite-', '');
               key = toCamel(key);
+              if (isStyleMap) value = value[0][0].trim();
               if (key === 'borderStyle') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.style = value;
@@ -8140,7 +8180,7 @@ let order = 0;
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.color = value;
               } else if (key === 'border') {
-                const values = value[0][0].trim().split(/\s+/);
+                const values = value.split(/\s+/);
                 const [style, width, color] = values;
                 border = border || {};
                 border.style = style;
@@ -8148,9 +8188,7 @@ let order = 0;
                 border.color = color;
               } else {
                 if (key !== 'fontSize') {
-                  value = value[0][0].trim().replace(/px$/, '');
-                } else {
-                  value = value[0][0].trim();
+                  value = value.replace(/px$/, '');
                 }
                 reserved[key] = value;
               }
@@ -8159,17 +8197,20 @@ let order = 0;
               if (key in CSSGetter) {
                 if (typeof CSSGetter[key] === 'function') {
                   value = CSSGetter[key](value);
-                } else if (key !== 'fontSize') {
-                  value = value[0].toString().replace(/px$/, '');
-                } else {
-                  value = value[0].toString();
+                } else if (isStyleMap) {
+                  if (key !== 'fontSize') {
+                    value = value[0].toString().replace(/px$/, '');
+                  } else {
+                    value = value[0].toString();
+                  }
                 }
+
+                if (value === 'initial') return;
                 if (key === 'backgroundColor') key = 'bgcolor';
                 if (key === 'fontVariantCaps') key = 'fontVariant';
                 if (key === 'lineHeight' && value === 'normal') value = '';
                 if (/^border/.test(key)) {
                   key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
-                  if (key === 'color' && value === 'initial') value = 'rgba(0,0,0,0)';
                   if (key === 'width') value = parseFloat(value);
                   if (/radius$/.test(key)) {
                     attrs.borderRadius = parseInt(value, 10);
@@ -8201,6 +8242,10 @@ let order = 0;
           Object.assign(attrs, reserved);
           styleRules[selectorText] = styleRules[selectorText] || {};
           if (transition) {
+            transition.properties = transition.properties || 'all';
+            transition.delay = transition.delay || [0];
+            transition.duration = transition.duration || [0];
+            transition.easing = transition.easing || ['ease'];
             attrs.transitions = [];
             const properties = transition.properties.split(',').map(p => p.trim());
             properties.forEach((key, i) => {
@@ -8222,7 +8267,7 @@ let order = 0;
               }
               if (_attrs) {
                 attrs.transitions.push({
-                  easing: transition.easing,
+                  easing: transition.easing[i],
                   attrs: _attrs,
                   delay: transition.delay[i],
                   duration: transition.duration[i] });
@@ -8230,7 +8275,6 @@ let order = 0;
             });
           }
           Object.assign(styleRules[selectorText], attrs);
-          // console.log(styleRules[selectorText]);
         }
       }
       // console.log(styleRules);
@@ -8261,6 +8305,7 @@ let order = 0;
     });
     const matchedSelectors = selectors.join();
     if (el[_matchedSelectors] !== matchedSelectors) {
+      // console.log(transitions);
       if (el[_transitions]) {
         el[_transitions].forEach(t => {
           t.cancel(true);
