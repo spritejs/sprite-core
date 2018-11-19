@@ -323,6 +323,12 @@ export default class BaseSprite extends BaseNode {
 
     return {
       [_animation]: null,
+      cancel(preserveState = false) {
+        const animation = this[_animation];
+        if(animation) {
+          animation.cancel(preserveState);
+        }
+      },
       end() {
         const animation = this[_animation];
         if(animation && (animation.playState === 'running' || animation.playState === 'pending')) {

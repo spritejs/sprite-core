@@ -5792,6 +5792,12 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
     return {
       [_animation]: null,
+      cancel(preserveState = false) {
+        const animation = this[_animation];
+        if (animation) {
+          animation.cancel(preserveState);
+        }
+      },
       end() {
         const animation = this[_animation];
         if (animation && (animation.playState === 'running' || animation.playState === 'pending')) {
