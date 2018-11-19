@@ -166,3 +166,7 @@ export function querySelector(query, elems) {
 export function isMatched(elem, query) {
   return CSSselect.is(elem, query, {adapter});
 }
+
+export function compile(query) {
+  return CSSselect.compile(query, {adapter});
+}

@@ -1,6 +1,7 @@
-import {isMatched} from './selector';
+import {isMatched, compile} from './selector';
 
 const cssWhat = require('css-what');
+
 let cssRules = [];
 const relatedAttributes = new Set();
 
@@ -194,14 +195,23 @@ export default {
           return a;
         }, {tokens: [], priority: 0});
 
-        const rule = {
-          selector: r.tokens.join(''),
-          priority: r.priority,
-          attributes,
-          order: order++,
-          fromDoc,
-        };
-        cssRules.push(rule);
+        const selectorStr = r.tokens.join('');
+
+        try {
+          const compiled = compile(selectorStr);
+
+          const rule = {
+            selector: selectorStr,
+            compiled,
+            priority: r.priority,
+            attributes,
+            order: order++,
+            fromDoc,
+          };
+          cssRules.push(rule);
+        } catch (ex) {
+          console.warn(ex.message);
+        }
       }
     });
     cssRules.sort((a, b) => {
@@ -357,8 +367,8 @@ export default {
     const selectors = [];
     const transitions = [];
     cssRules.forEach((rule) => {
-      const {selector, attributes} = rule;
-      if(isMatched(el, selector)) {
+      const {compiled, selector, attributes} = rule;
+      if(isMatched(el, compiled)) {
         Object.assign(attrs, attributes);
         // console.log(JSON.stringify(attrs.transitions));
         if(attrs.transitions) {
