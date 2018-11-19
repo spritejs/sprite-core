@@ -7874,10 +7874,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const cssWhat = __webpack_require__(144);
-const cssRules = [];
+let cssRules = [];
 const relatedAttributes = new Set();
 
 const _matchedSelectors = Symbol('matchedSelectors');
+const _transitions = Symbol('transitions');
 
 function parseTransitionValue(values) {
   const ret = [];
@@ -7918,12 +7919,16 @@ const CSSGetter = {
   borderRightStyle: true,
   borderBottomStyle: true,
   borderLeftStyle: true,
-  borderRadius: true,
+  borderTopLeftRadius: true,
+  borderTopRightRadius: true,
+  borderBottomRightRadius: true,
+  borderBottomLeftRadius: true,
   boxSizing: true,
   display: true,
   padding: true,
   margin: true,
   zIndex: true,
+  font: true,
   fontSize: true,
   fontFamily: true,
   fontStyle: true,
@@ -7950,7 +7955,8 @@ function toCamel(str) {
 
 function resolveToken(token) {
   let ret = '',
-      priority = 0;
+      priority = 0,
+      valid = true;
 
   if (token.type === 'tag') {
     ret = token.name;
@@ -7968,16 +7974,19 @@ function resolveToken(token) {
           rules.forEach(token => {
             const r = resolveToken(token);
             ret += r.token;
+            valid = r.valid;
           });
         });
       }
     } else {
       ret = `:${token.name}`;
     }
+    valid = token.name !== 'hover'; // not support yet
     priority = token.name !== 'not' ? 1000 : 0;
   } else if (token.type === 'pseudo-element') {
     ret = `::${token.name}`;
     priority = 1;
+    valid = false; // pseudo-element not support
   } else if (token.type === 'attribute') {
     const { name, action, value } = token;
 
@@ -8031,30 +8040,33 @@ function resolveToken(token) {
   } else {
     throw new Error('unknown token!', token);
   }
-  return { token: ret, priority };
+  return { token: ret, priority, valid };
 }
 
 let order = 0;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  add(rules) {
+  add(rules, fromDoc = false) {
     Object.entries(rules).forEach(([rule, attributes]) => {
       const selectors = cssWhat(rule);
       for (let i = 0; i < selectors.length; i++) {
         const selector = selectors[i];
         const tokens = selector.map(token => {
           return resolveToken(token);
-        });
+        }).filter(token => token.valid);
+
         const r = tokens.reduce((a, b) => {
           a.priority += b.priority;
           a.tokens.push(b.token);
           return a;
         }, { tokens: [], priority: 0 });
+
         const rule = {
           selector: r.tokens.join(''),
           priority: r.priority,
           attributes,
-          order: order++
+          order: order++,
+          fromDoc
         };
         cssRules.push(rule);
       }
@@ -8065,15 +8077,30 @@ let order = 0;
     });
   },
   fromDocumentCSS() {
+    cssRules = cssRules.filter(r => !r.fromDoc);
     if (typeof document === 'undefined') return;
     const stylesheets = document.styleSheets;
     if (stylesheets) {
       const styleRules = {};
       for (let i = 0; i < stylesheets.length; i++) {
-        const rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        let rules = null;
+        try {
+          rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        } catch (ex) {
+          rules = null;
+        }
+
+        if (!rules) continue; // eslint-disable-line no-continue
         for (let j = 0; j < rules.length; j++) {
           const rule = rules[j];
           const selectorText = rule.selectorText;
+          if (!rule.styleMap) continue; // eslint-disable-line no-continue
+          if (rule.styleMap && rule.styleMap.has('--sprite-ignore')) {
+            const isIgnore = rule.styleMap.get('--sprite-ignore')[0].trim();
+            if (isIgnore !== 'false' && isIgnore !== '0' && isIgnore !== '') {
+              continue; // eslint-disable-line no-continue
+            }
+          }
           const styleAttrs = [...rule.styleMap];
           const attrs = {},
                 reserved = {};
@@ -8087,21 +8114,28 @@ let order = 0;
               if (key === 'borderStyle') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.style = value;
-              }
-              if (key === 'borderWidth') {
+              } else if (key === 'borderWidth') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.width = parseFloat(value);
               }
               if (key === 'borderColor') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.color = value;
-              }
-              if (key !== 'fontSize') {
-                value = value[0][0].trim().replace(/px$/, '');
+              } else if (key === 'border') {
+                const values = value[0][0].trim().split(/\s+/);
+                const [style, width, color] = values;
+                border = border || {};
+                border.style = style;
+                border.width = parseInt(width, 10);
+                border.color = color;
               } else {
-                value = value[0][0].trim();
+                if (key !== 'fontSize') {
+                  value = value[0][0].trim().replace(/px$/, '');
+                } else {
+                  value = value[0][0].trim();
+                }
+                reserved[key] = value;
               }
-              reserved[key] = value;
             } else {
               key = toCamel(key);
               if (key in CSSGetter) {
@@ -8115,12 +8149,16 @@ let order = 0;
                 if (key === 'backgroundColor') key = 'bgcolor';
                 if (key === 'fontVariantCaps') key = 'fontVariant';
                 if (key === 'lineHeight' && value === 'normal') value = '';
-                if (key !== 'borderRadius' && /^border/.test(key)) {
+                if (/^border/.test(key)) {
                   key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
                   if (key === 'color' && value === 'initial') value = 'rgba(0,0,0,0)';
                   if (key === 'width') value = parseFloat(value);
-                  border = border || {};
-                  border[key] = value;
+                  if (/radius$/.test(key)) {
+                    attrs.borderRadius = parseInt(value, 10);
+                  } else {
+                    border = border || {};
+                    border[key] = value;
+                  }
                 } else if (key === 'transitionDelay') {
                   transition = transition || {};
                   transition.delay = value;
@@ -8178,7 +8216,7 @@ let order = 0;
         }
       }
       // console.log(styleRules);
-      this.add(styleRules);
+      this.add(styleRules, true);
     }
   },
   computeStyle(el) {
@@ -8205,10 +8243,24 @@ let order = 0;
     });
     const matchedSelectors = selectors.join();
     if (el[_matchedSelectors] !== matchedSelectors) {
+      if (el[_transitions]) {
+        el[_transitions].forEach(t => {
+          t.cancel(true);
+          el.attributes.__styleTag = true;
+          el.attr(t.__attrs);
+          el.attributes.__styleTag = false;
+        });
+        delete el[_transitions];
+      }
+
       if (transitions.length > 0) {
+        el[_transitions] = [];
         Promise.all(transitions.map(t => {
           const { attrs, delay, duration, easing } = t;
-          return el.transition({ duration, delay }, easing, true).attr(attrs);
+          const transition = el.transition({ duration, delay }, easing, true);
+          transition.__attrs = attrs;
+          el[_transitions].push(transition);
+          return transition.attr(attrs);
         })).then(() => {
           el.dispatchEvent('transitionend', {}, true, true);
         });

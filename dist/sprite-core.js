@@ -10793,6 +10793,7 @@ var cssRules = [];
 var relatedAttributes = new _set2.default();
 
 var _matchedSelectors = (0, _symbol2.default)('matchedSelectors');
+var _transitions = (0, _symbol2.default)('transitions');
 
 function parseTransitionValue(values) {
   var ret = [];
@@ -10833,12 +10834,16 @@ var CSSGetter = {
   borderRightStyle: true,
   borderBottomStyle: true,
   borderLeftStyle: true,
-  borderRadius: true,
+  borderTopLeftRadius: true,
+  borderTopRightRadius: true,
+  borderBottomRightRadius: true,
+  borderBottomLeftRadius: true,
   boxSizing: true,
   display: true,
   padding: true,
   margin: true,
   zIndex: true,
+  font: true,
   fontSize: true,
   fontFamily: true,
   fontStyle: true,
@@ -10865,7 +10870,8 @@ function toCamel(str) {
 
 function resolveToken(token) {
   var ret = '',
-      priority = 0;
+      priority = 0,
+      valid = true;
 
   if (token.type === 'tag') {
     ret = token.name;
@@ -10883,16 +10889,19 @@ function resolveToken(token) {
           rules.forEach(function (token) {
             var r = resolveToken(token);
             ret += r.token;
+            valid = r.valid;
           });
         });
       }
     } else {
       ret = ':' + token.name;
     }
+    valid = token.name !== 'hover'; // not support yet
     priority = token.name !== 'not' ? 1000 : 0;
   } else if (token.type === 'pseudo-element') {
     ret = '::' + token.name;
     priority = 1;
+    valid = false; // pseudo-element not support
   } else if (token.type === 'attribute') {
     var name = token.name,
         action = token.action,
@@ -10949,13 +10958,15 @@ function resolveToken(token) {
   } else {
     throw new Error('unknown token!', token);
   }
-  return { token: ret, priority: priority };
+  return { token: ret, priority: priority, valid: valid };
 }
 
 var order = 0;
 
 exports.default = {
   add: function add(rules) {
+    var fromDoc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     (0, _entries2.default)(rules).forEach(function (_ref) {
       var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
           rule = _ref2[0],
@@ -10966,17 +10977,22 @@ exports.default = {
         var selector = selectors[i];
         var tokens = selector.map(function (token) {
           return resolveToken(token);
+        }).filter(function (token) {
+          return token.valid;
         });
+
         var r = tokens.reduce(function (a, b) {
           a.priority += b.priority;
           a.tokens.push(b.token);
           return a;
         }, { tokens: [], priority: 0 });
+
         var _rule = {
           selector: r.tokens.join(''),
           priority: r.priority,
           attributes: attributes,
-          order: order++
+          order: order++,
+          fromDoc: fromDoc
         };
         cssRules.push(_rule);
       }
@@ -10987,16 +11003,33 @@ exports.default = {
     });
   },
   fromDocumentCSS: function fromDocumentCSS() {
+    cssRules = cssRules.filter(function (r) {
+      return !r.fromDoc;
+    });
     if (typeof document === 'undefined') return;
     var stylesheets = document.styleSheets;
     if (stylesheets) {
       var styleRules = {};
       for (var i = 0; i < stylesheets.length; i++) {
-        var rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        var rules = null;
+        try {
+          rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        } catch (ex) {
+          rules = null;
+        }
+
+        if (!rules) continue; // eslint-disable-line no-continue
 
         var _loop = function _loop(j) {
           var rule = rules[j];
           var selectorText = rule.selectorText;
+          if (!rule.styleMap) return 'continue'; // eslint-disable-line no-continue
+          if (rule.styleMap && rule.styleMap.has('--sprite-ignore')) {
+            var isIgnore = rule.styleMap.get('--sprite-ignore')[0].trim();
+            if (isIgnore !== 'false' && isIgnore !== '0' && isIgnore !== '') {
+              return 'continue'; // eslint-disable-line no-continue
+            }
+          }
           var styleAttrs = [].concat((0, _toConsumableArray3.default)(rule.styleMap));
           var attrs = {},
               reserved = {};
@@ -11014,21 +11047,33 @@ exports.default = {
               if (key === 'borderStyle') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.style = value;
-              }
-              if (key === 'borderWidth') {
+              } else if (key === 'borderWidth') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.width = parseFloat(value);
               }
               if (key === 'borderColor') {
                 border = border || { width: 1, color: 'rgba(0,0,0,0)' };
                 border.color = value;
-              }
-              if (key !== 'fontSize') {
-                value = value[0][0].trim().replace(/px$/, '');
+              } else if (key === 'border') {
+                var values = value[0][0].trim().split(/\s+/);
+
+                var _values = (0, _slicedToArray3.default)(values, 3),
+                    style = _values[0],
+                    width = _values[1],
+                    color = _values[2];
+
+                border = border || {};
+                border.style = style;
+                border.width = parseInt(width, 10);
+                border.color = color;
               } else {
-                value = value[0][0].trim();
+                if (key !== 'fontSize') {
+                  value = value[0][0].trim().replace(/px$/, '');
+                } else {
+                  value = value[0][0].trim();
+                }
+                reserved[key] = value;
               }
-              reserved[key] = value;
             } else {
               key = toCamel(key);
               if (key in CSSGetter) {
@@ -11042,12 +11087,16 @@ exports.default = {
                 if (key === 'backgroundColor') key = 'bgcolor';
                 if (key === 'fontVariantCaps') key = 'fontVariant';
                 if (key === 'lineHeight' && value === 'normal') value = '';
-                if (key !== 'borderRadius' && /^border/.test(key)) {
+                if (/^border/.test(key)) {
                   key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
                   if (key === 'color' && value === 'initial') value = 'rgba(0,0,0,0)';
                   if (key === 'width') value = parseFloat(value);
-                  border = border || {};
-                  border[key] = value;
+                  if (/radius$/.test(key)) {
+                    attrs.borderRadius = parseInt(value, 10);
+                  } else {
+                    border = border || {};
+                    border[key] = value;
+                  }
                 } else if (key === 'transitionDelay') {
                   transition = transition || {};
                   transition.delay = value;
@@ -11107,11 +11156,13 @@ exports.default = {
         };
 
         for (var j = 0; j < rules.length; j++) {
-          _loop(j);
+          var _ret = _loop(j);
+
+          if (_ret === 'continue') continue;
         }
       }
       // console.log(styleRules);
-      this.add(styleRules);
+      this.add(styleRules, true);
     }
   },
   computeStyle: function computeStyle(el) {
@@ -11140,14 +11191,28 @@ exports.default = {
     });
     var matchedSelectors = selectors.join();
     if (el[_matchedSelectors] !== matchedSelectors) {
+      if (el[_transitions]) {
+        el[_transitions].forEach(function (t) {
+          t.cancel(true);
+          el.attributes.__styleTag = true;
+          el.attr(t.__attrs);
+          el.attributes.__styleTag = false;
+        });
+        delete el[_transitions];
+      }
+
       if (transitions.length > 0) {
+        el[_transitions] = [];
         _promise2.default.all(transitions.map(function (t) {
           var attrs = t.attrs,
               delay = t.delay,
               duration = t.duration,
               easing = t.easing;
 
-          return el.transition({ duration: duration, delay: delay }, easing, true).attr(attrs);
+          var transition = el.transition({ duration: duration, delay: delay }, easing, true);
+          transition.__attrs = attrs;
+          el[_transitions].push(transition);
+          return transition.attr(attrs);
         })).then(function () {
           el.dispatchEvent('transitionend', {}, true, true);
         });
