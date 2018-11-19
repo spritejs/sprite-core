@@ -70,7 +70,11 @@ export default {
       if(sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
+      const parent = sprite.parent;
       sprite.disconnect(that);
+      if(parent && parent.children[0]) {
+        parent.children[0].updateStyles();
+      }
       return sprite;
     }
 
@@ -129,6 +133,7 @@ export default {
         this[_zOrder]++;
 
         if(this.layer) {
+          newchild.updateStyles();
           return newchild.enter();
         }
       };

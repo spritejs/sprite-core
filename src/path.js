@@ -16,10 +16,6 @@ class PathSpriteAttr extends BaseSprite.Attr {
       strokeColor: 'inherit',
       fillColor: 'inherit',
       bounding: 'inherit',
-    }, {
-      color() {
-        return this.strokeColor;
-      },
     });
   }
 
@@ -120,6 +116,10 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set color(val) {
     this.strokeColor = val;
+  }
+
+  get color() {
+    return this.strokeColor;
   }
 }
 

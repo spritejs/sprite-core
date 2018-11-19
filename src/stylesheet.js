@@ -2,8 +2,23 @@ import {isMatched} from './selector';
 
 const cssWhat = require('css-what');
 const cssRules = [];
+const relatedAttributes = new Set();
 
 const _matchedSelectors = Symbol('matchedSelectors');
+
+function parseTransitionValue(values) {
+  const ret = [];
+  for(let i = 0; i < values.length; i++) {
+    let value = values[i].toString();
+    if(/ms$/.test(value)) {
+      value = parseFloat(value) / 1000;
+    } else {
+      value = parseFloat(value);
+    }
+    ret.push(value);
+  }
+  return ret;
+}
 
 const CSSGetter = {
   opacity: true,
@@ -48,6 +63,10 @@ const CSSGetter = {
   wordBreak: true,
   letterSpacing: true,
   textIndent: true,
+  transitionDuration: parseTransitionValue,
+  transitionTimingFunction: true,
+  transitionDelay: parseTransitionValue,
+  transitionProperty: true,
 };
 
 function toCamel(str) {
@@ -74,7 +93,8 @@ function resolveToken(token) {
       } else {
         data.forEach((rules) => {
           rules.forEach((token) => {
-            ret += resolveToken(token).token;
+            const r = resolveToken(token);
+            ret += r.token;
           });
         });
       }
@@ -87,6 +107,8 @@ function resolveToken(token) {
     priority = 1;
   } else if(token.type === 'attribute') {
     const {name, action, value} = token;
+
+    relatedAttributes.add(name);
 
     if(action === 'exists') {
       ret = `[${name}]`;
@@ -183,7 +205,8 @@ export default {
           const attrs = {},
             reserved = {};
           let border = null;
-          styleAttrs.forEach(([key, value]) => {
+          let transition = null;
+          styleAttrs.forEach(([key, value]) => { // eslint-disable-line complexity
             if(key.indexOf('--sprite-') === 0) {
               key = key.replace('--sprite-', '');
               key = toCamel(key);
@@ -201,6 +224,8 @@ export default {
               }
               if(key !== 'fontSize') {
                 value = value[0][0].trim().replace(/px$/, '');
+              } else {
+                value = value[0][0].trim();
               }
               reserved[key] = value;
             } else {
@@ -210,6 +235,8 @@ export default {
                   value = CSSGetter[key](value);
                 } else if(key !== 'fontSize') {
                   value = value[0].toString().replace(/px$/, '');
+                } else {
+                  value = value[0].toString();
                 }
                 if(key === 'backgroundColor') key = 'bgcolor';
                 if(key === 'fontVariantCaps') key = 'fontVariant';
@@ -220,14 +247,60 @@ export default {
                   if(key === 'width') value = parseFloat(value);
                   border = border || {};
                   border[key] = value;
+                } else if(key === 'transitionDelay') {
+                  transition = transition || {};
+                  transition.delay = value;
+                } else if(key === 'transitionDuration') {
+                  transition = transition || {};
+                  transition.duration = value;
+                } else if(key === 'transitionTimingFunction') {
+                  transition = transition || {};
+                  transition.easing = value;
+                } else if(key === 'transitionProperty') {
+                  transition = transition || {};
+                  transition.properties = value;
                 } else {
                   attrs[key] = value;
                 }
               }
             }
           });
+          if(border) {
+            Object.assign(attrs, {border});
+          }
+          Object.assign(attrs, reserved);
           styleRules[selectorText] = styleRules[selectorText] || {};
-          Object.assign(styleRules[selectorText], attrs, {border}, reserved);
+          if(transition) {
+            attrs.transitions = [];
+            const properties = transition.properties.split(',').map(p => p.trim());
+            properties.forEach((key, i) => {
+              let _attrs = null;
+              if(key.indexOf('--sprite-') === 0) {
+                key = key.replace('--sprite-', '');
+              }
+              key = toCamel(key);
+              if(key !== 'borderRadius' && /^border/.test(key)) {
+                key = 'border';
+              }
+              if(key === 'backgroundColor') key = 'bgcolor';
+              if(key === 'fontVariantCaps') key = 'fontVariant';
+              if(key === 'all') {
+                _attrs = Object.assign({}, attrs);
+                delete _attrs.transitions;
+              } else if(key in attrs) {
+                _attrs = {[key]: attrs[key]};
+              }
+              if(_attrs) {
+                attrs.transitions.push({
+                  easing: transition.easing,
+                  attrs: _attrs,
+                  delay: transition.delay[i],
+                  duration: transition.duration[i]});
+              }
+            });
+          }
+          Object.assign(styleRules[selectorText], attrs);
+          // console.log(styleRules[selectorText]);
         }
       }
       // console.log(styleRules);
@@ -238,21 +311,44 @@ export default {
     if(!el.layer || !el.attributes) return {};
     const attrs = {};
     const selectors = [];
+    const transitions = [];
     cssRules.forEach((rule) => {
       const {selector, attributes} = rule;
       if(isMatched(el, selector)) {
         Object.assign(attrs, attributes);
+        // console.log(JSON.stringify(attrs.transitions));
+        if(attrs.transitions) {
+          transitions.push(...attrs.transitions);
+          attrs.transitions.forEach((t) => {
+            Object.keys(t.attrs).forEach((k) => {
+              if(k in attrs) delete attrs[k];
+            });
+          });
+          delete attrs.transitions;
+        }
         selectors.push(selector);
       }
     });
     const matchedSelectors = selectors.join();
     if(el[_matchedSelectors] !== matchedSelectors) {
+      if(transitions.length > 0) {
+        Promise.all(transitions.map((t) => {
+          const {attrs, delay, duration, easing} = t;
+          return el.transition({duration, delay}, easing, true).attr(attrs);
+        })).then(() => {
+          el.dispatchEvent('transitionend', {}, true, true);
+        });
+      }
       el.dispatchEvent('stylechange', {oldSelectors: el[_matchedSelectors], newSelectors: matchedSelectors});
       el[_matchedSelectors] = matchedSelectors;
       el.attributes.clearStyle();
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
+      if(el.forceUpdate) el.forceUpdate();
     }
+  },
+  get relatedAttributes() {
+    return relatedAttributes;
   },
 };

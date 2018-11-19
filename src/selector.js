@@ -84,7 +84,7 @@ const adapter = {
     }
   },
   hasAttrib(elem, name) {
-    return name in elem.attributes || elem.attributes.__extendAttributes.has(name);
+    return name in elem.attributes && elem.attributes[name] != null;
   },
   removeSubsets,
   getName(elem) {

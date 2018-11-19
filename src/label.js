@@ -133,12 +133,12 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     if(val == null) val = '16px';
     let unit = 'px';
     if(typeof val === 'string') {
-      const unitReg = /^(\d+)(\w+)/;
+      const unitReg = /^(\d+(?:.\d+)?)(\w+)/;
       const matches = val.match(unitReg);
       if(!matches) {
         return null;
       }
-      val = parseInt(matches[1], 10);
+      val = parseFloat(matches[1]);
       unit = matches[2];
     }
     const font = this.font;

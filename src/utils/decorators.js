@@ -300,7 +300,9 @@ export function parseValue(...parsers) {
     const setter = descriptor.set;
 
     descriptor.set = function (val) {
-      val = parsers.reduce((v, parser) => parser(v), val);
+      if(val != null && val !== '') {
+        val = parsers.reduce((v, parser) => parser(v), val);
+      }
       setter.call(this, val);
     };
 

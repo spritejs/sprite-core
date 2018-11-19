@@ -1,6 +1,6 @@
 import {Animator, Effects} from 'sprite-animator';
 import {Matrix} from 'sprite-math';
-import {parseColor, parseStringTransform} from './utils';
+import {parseColor, parseStringFloat, parseStringTransform} from './utils';
 import {requestAnimationFrame, cancelAnimationFrame} from './helpers/fast-animation-frame';
 
 const _defaultEffect = Effects.default;
@@ -38,6 +38,12 @@ const defaultEffect = (from, to, p, start, end) => {
 Effects.default = defaultEffect;
 
 function arrayEffect(arr1, arr2, p, start, end) {
+  if(typeof arr1 === 'string') {
+    arr1 = parseStringFloat(arr1);
+  }
+  if(typeof arr2 === 'string') {
+    arr2 = parseStringFloat(arr2);
+  }
   if(Array.isArray(arr1)) {
     return arr1.map((o, i) => defaultEffect(o, arr2[i], p, start, end));
   }
@@ -136,9 +142,10 @@ Object.assign(Effects, {
 });
 
 export default class extends Animator {
-  constructor(sprite, frames, timing) {
+  constructor(sprite, frames, timing, setter) {
     super(sprite.attr(), frames, timing);
     this.target = sprite;
+    this.setter = setter || function (frame, target) { target.attr(frame) };
   }
 
   get playState() {
@@ -153,12 +160,11 @@ export default class extends Animator {
     // because while the web page is not focused
     // requestAnimationFrame will not trigger while deferTime of
     // the animator is still running
-    const sprite = this.target;
     return super.finished.then(() => {
       const that = this;
       return new Promise((resolve) => {
         function update() {
-          sprite.attr(that.frame);
+          that.setter(that.frame, that.target);
           const playState = that.playState;
           if(playState === 'finished' || playState === 'idle') {
             cancelAnimationFrame(that.requestId);
@@ -175,8 +181,7 @@ export default class extends Animator {
   finish() { // finish should change attrs synchronously
     super.finish();
     cancelAnimationFrame(this.requestId);
-    const sprite = this.target;
-    sprite.attr(this.frame);
+    this.setter(this.frame, this.target);
   }
 
   play() {
@@ -186,13 +191,11 @@ export default class extends Animator {
 
     super.play();
 
-    const sprite = this.target;
-
-    sprite.attr(this.frame);
+    this.setter(this.frame, this.target);
 
     const that = this;
     this.ready.then(() => {
-      sprite.attr(that.frame);
+      that.setter(that.frame, that.target);
       that.requestId = requestAnimationFrame(function update() {
         const target = that.target;
         if(typeof document !== 'undefined'
@@ -207,14 +210,14 @@ export default class extends Animator {
           return;
         }
         const playState = that.playState;
-        sprite.attr(that.frame);
+        that.setter(that.frame, that.target);
         if(playState === 'idle') return;
         if(playState === 'running') {
           that.requestId = requestAnimationFrame(update);
         } else if(playState === 'paused' || playState === 'pending' && that.timeline.currentTime < 0) {
           // playbackRate < 0 will cause playState reset to pending...
           that.ready.then(() => {
-            sprite.attr(that.frame);
+            that.setter(that.frame, that.target);
             that.requestId = requestAnimationFrame(update);
           });
         }
@@ -225,11 +228,11 @@ export default class extends Animator {
   cancel(preserveState = false) {
     cancelAnimationFrame(this.requestId);
     if(preserveState) {
-      this.target.attr(this.frame);
+      this.setter(this.frame, this.target);
       super.cancel();
     } else {
       super.cancel();
-      this.target.attr(this.frame);
+      this.setter(this.frame, this.target);
     }
   }
 }

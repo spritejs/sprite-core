@@ -5,6 +5,7 @@ import SpriteAttr from './attr';
 import BaseNode from './basenode';
 import Animation from './animation';
 import {registerNodeType} from './nodetype';
+import stylesheet from './stylesheet';
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render';
 import filters from './filters';
@@ -214,13 +215,14 @@ export default class BaseSprite extends BaseNode {
     const setVal = (key, value) => {
       this[_attr][key] = value;
       if(!this[_attr].__attributeNames.has(key)) {
-        if(value != null) {
-          this[_attr].__extendAttributes.add(key);
-        } else {
-          this[_attr].__extendAttributes.delete(key);
+        if(value == null) {
           delete this[_attr][key];
         }
         this.forceUpdate();
+        // console.log(this, stylesheet.relatedAttributes, key);
+        if(stylesheet.relatedAttributes.has(key)) {
+          this.updateStyles();
+        }
         if(key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
           // fixed color inherit
           this.attr('fillColor', value);
@@ -307,9 +309,17 @@ export default class BaseSprite extends BaseNode {
     return transform;
   }
 
-  transition(sec, easing = 'linear') {
+  transition(sec, easing = 'linear', isStyleAnim = false) {
     const that = this,
       _animation = Symbol('animation');
+
+    easing = easing || 'linear';
+
+    let delay = 0;
+    if(typeof sec === 'object') {
+      delay = sec.delay || 0;
+      sec = sec.duration;
+    }
 
     return {
       [_animation]: null,
@@ -344,16 +354,25 @@ export default class BaseSprite extends BaseNode {
         });
         this[_animation] = that.animate([prop], {
           duration: sec * 1000,
+          delay: delay * 1000,
           fill: 'forwards',
           easing,
-        });
+        }, isStyleAnim);
         return this[_animation].finished;
       },
     };
   }
 
-  animate(frames, timing) {
-    const animation = new Animation(this, frames, timing);
+  animate(frames, timing, isStyleAnim = false) {
+    let setter = null;
+    if(isStyleAnim) {
+      setter = (frame, target) => {
+        target.attributes.__styleTag = true;
+        target.attr(frame);
+        target.attributes.__styleTag = false;
+      };
+    }
+    const animation = new Animation(this, frames, timing, setter);
     if(this[_effects]) animation.applyEffects(this[_effects]);
     if(this.layer) {
       animation.baseTimeline = this.layer.timeline;

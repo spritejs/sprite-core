@@ -153,7 +153,7 @@ declare namespace spritejs {
 
   class Attr {
     constructor(subject: BaseSprite);
-    setDefault(attrs: Object, props: Object);
+    setDefault(attrs: Object);
     saveObj(key: string, value: any);
     loadObj(key: string): any;
     quietSet(key: string, value: any);

@@ -3,7 +3,7 @@ const colorString = require('color-string');
 class Color {
   constructor(color) {
     if(typeof color === 'string') {
-      const {model, value} = colorString.get(color || 'rgba(0,0,0,0)');
+      const {model, value} = colorString.get(color || 'rgba(0,0,0,1)');
       this.model = model;
       this.value = value;
     } else {

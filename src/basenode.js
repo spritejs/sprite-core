@@ -16,6 +16,9 @@ function createGetterSetter(_symbol, attrPrefix) {
         } else {
           this.attributes[attrKey] = value;
         }
+        if(stylesheet.relatedAttributes.has(attrKey)) {
+          this.updateStyles();
+        }
       }
       if(value == null) {
         delete this[_symbol][key];

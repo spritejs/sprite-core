@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
+    (async function () {
+      const s = new Sprite();
+      s.attr({
+        anchor: 0.5,
+        pos: [30, 100],
+        bgcolor: 'red',
+        size: [20, 40],
+        rotate: 30,
+      });
+
+      const s2 = s.cloneNode();
+      const s3 = s.cloneNode();
+      layer.append(s, s2, s3);
+
+      console.log(s.attributes.x, s.serialize());
+      window.s = s;
+
+      await s2.transition(0.2).attr({
+        x: x => x + 100,
+      });
+
+      await s3.transition(0.2).attr('x', x => x + 200);
+
+      await layer.prepareRender();
+    }());
+  </script>
+</body>
+</html>

@@ -3,13 +3,13 @@ import SvgPath from 'svg-path-to-canvas';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
   parseValue, attr, deprecate, relative, cachable, sortOrderedSprites} from './utils';
+import stylesheet from './stylesheet';
 
 const _attr = Symbol('attr'),
   _style = Symbol('style'),
   _temp = Symbol('store'),
   _subject = Symbol('subject'),
-  _default = Symbol('default'),
-  _props = Symbol('props');
+  _default = Symbol('default');
 
 class SpriteAttr {
   constructor(subject) {
@@ -17,7 +17,9 @@ class SpriteAttr {
     this[_default] = {};
     this[_attr] = {};
     this[_style] = {};
-    this[_props] = {};
+
+    this[_temp] = new Map(); // save non-serialized values
+    this.__attributesSet = new Set();
 
     this.setDefault({
       state: 'default',
@@ -92,22 +94,11 @@ class SpriteAttr {
       shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
       bgimage: '',
     });
-    this[_temp] = new Map(); // save non-serialized values
-    this.__extendAttributes = new Set();
-    this.__attributesSet = new Set();
   }
 
-  setDefault(attrs, props = {}) {
+  setDefault(attrs) {
     Object.assign(this[_default], attrs);
     Object.assign(this[_attr], attrs);
-    const _p = {};
-    Object.entries(props).forEach(([prop, getter]) => {
-      _p[prop] = {
-        get: getter.bind(this),
-      };
-    });
-    Object.defineProperties(this[_attr], _p);
-    Object.assign(this[_props], _p);
   }
 
   saveObj(key, val) {
@@ -120,14 +111,20 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
-    if(val == null) {
+    if(!this.__styleTag && val != null) {
+      this.__attributesSet.add(key);
+    }
+    if(!this.__styleTag && val == null) {
       val = this[_default][key];
       if(this.__attributesSet.has(key)) {
         this.__attributesSet.delete(key);
       }
     }
+    const oldVal = this[_attr][key];
     this[_attr][key] = val;
-    this.__attributesSet.add(key);
+    if(oldVal !== val && stylesheet.relatedAttributes.has(key)) {
+      this.subject.updateStyles();
+    }
   }
 
   clearStyle() {
@@ -148,7 +145,6 @@ class SpriteAttr {
         this.__attributesSet.delete(key);
       }
     }
-    const oldVal = this[_attr][key];
     if(this.__styleTag) {
       if(val != null) {
         this[_style][key] = val;
@@ -156,6 +152,7 @@ class SpriteAttr {
         delete this[_style][key];
       }
     }
+    const oldVal = this[_attr][key];
     if(typeof val === 'object') {
       if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
         return;
@@ -165,6 +162,9 @@ class SpriteAttr {
     }
     if(!this.__styleTag) {
       this[_attr][key] = val;
+      if(stylesheet.relatedAttributes.has(key)) {
+        this.subject.updateStyles();
+      }
     }
     this.__updateTag = true;
     // auto reflow
@@ -192,14 +192,12 @@ class SpriteAttr {
   get attrs() {
     const ret = {};
     [...this.__attributeNames].forEach((key) => {
-      if(key in this[_props]) {
-        Object.defineProperty(ret, key, this[_props][key]);
-      } else {
-        ret[key] = this[key];
-      }
-    });
-    [...this.__extendAttributes].forEach((key) => {
       ret[key] = this[key];
+    });
+    Object.entries(this).forEach(([key, value]) => {
+      if(key.indexOf('__') !== 0) {
+        ret[key] = value;
+      }
     });
     return ret;
   }
@@ -241,8 +239,15 @@ class SpriteAttr {
 
   serialize() {
     const ret = {};
-    [...this.__attributesSet, ...this.__extendAttributes].forEach((key) => {
-      if(key !== 'id') ret[key] = this[key];
+    [...this.__attributeNames].forEach((key) => {
+      if(key !== 'id' && this.__attributesSet.has(key)) {
+        ret[key] = this[key];
+      }
+    });
+    Object.entries(this).forEach(([key, value]) => {
+      if(key.indexOf('__') !== 0) {
+        ret[key] = value;
+      }
     });
     const offsetAngle = this.get('offsetAngle');
     if(offsetAngle != null) ret.offsetAngle = offsetAngle;
@@ -258,23 +263,17 @@ class SpriteAttr {
   /* ------------------- define attributes ----------------------- */
   @attr
   set id(val) {
-    const id = this.quietSet('id', String(val));
-    this.subject.updateStyles();
-    return id;
+    return this.quietSet('id', String(val));
   }
 
   @attr
   set name(val) {
-    const name = this.quietSet('name', String(val));
-    this.subject.updateStyles();
-    return name;
+    return this.quietSet('name', String(val));
   }
 
   @attr
   set class(val) {
-    const className = this.quietSet('class', String(val));
-    this.subject.updateStyles();
-    return className;
+    return this.quietSet('class', String(val));
   }
 
   @attr
