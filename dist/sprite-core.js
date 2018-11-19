@@ -10876,6 +10876,7 @@ function toCamel(str) {
 }
 
 function resolveToken(token) {
+  // eslint-disable-line complexity
   var ret = '',
       priority = 0,
       valid = true;
@@ -10903,7 +10904,8 @@ function resolveToken(token) {
     } else {
       ret = ':' + token.name;
     }
-    valid = token.name !== 'hover'; // not support yet
+    // not support yet
+    valid = token.name !== 'hover' && token.name !== 'active' && token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
     priority = token.name !== 'not' ? 1000 : 0;
   } else if (token.type === 'pseudo-element') {
     ret = '::' + token.name;
