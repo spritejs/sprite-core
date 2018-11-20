@@ -135,10 +135,13 @@ export const cacheContextPool = {
   },
   put(...contexts) {
     contexts.every((context) => {
-      context.canvas.width = 0;
-      context.canvas.height = 0;
-      contextPool.push(context);
-      return contextPool.length < maxPollSize;
+      const ret = contextPool.length < maxPollSize;
+      if(ret) {
+        context.canvas.width = 0;
+        context.canvas.height = 0;
+        contextPool.push(context);
+      }
+      return ret;
     });
   },
   get size() {
