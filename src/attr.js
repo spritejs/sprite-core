@@ -183,7 +183,7 @@ class SpriteAttr {
   }
 
   get(key) {
-    if(this.__styleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
+    if(this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
       return this[_style][key];
     }
     return this[_attr][key];

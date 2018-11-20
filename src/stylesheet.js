@@ -419,9 +419,9 @@ export default {
           attrs.transitions.forEach((t) => {
             Object.keys(t.attrs).forEach((k) => {
               // if(k in attrs) delete attrs[k];
-              el.attributes.__styleTag = true;
+              el.attributes.__getStyleTag = true;
               attrs[k] = el.attributes[k];
-              el.attributes.__styleTag = false;
+              el.attributes.__getStyleTag = false;
               // console.log(el.attributes.style[k]);
             });
           });

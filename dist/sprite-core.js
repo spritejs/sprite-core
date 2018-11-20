@@ -10016,7 +10016,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'get',
     value: function get(key) {
-      if (this.__styleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
+      if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
         return this[_style][key];
       }
       return this[_attr][key];
@@ -11264,9 +11264,9 @@ exports.default = {
           attrs.transitions.forEach(function (t) {
             (0, _keys2.default)(t.attrs).forEach(function (k) {
               // if(k in attrs) delete attrs[k];
-              el.attributes.__styleTag = true;
+              el.attributes.__getStyleTag = true;
               attrs[k] = el.attributes[k];
-              el.attributes.__styleTag = false;
+              el.attributes.__getStyleTag = false;
               // console.log(el.attributes.style[k]);
             });
           });
