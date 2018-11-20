@@ -468,4 +468,7 @@ export default {
   get relatedAttributes() {
     return relatedAttributes;
   },
+  get cssRules() {
+    return cssRules;
+  },
 };

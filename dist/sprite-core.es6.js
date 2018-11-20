@@ -8353,6 +8353,9 @@ let order = 0;
   },
   get relatedAttributes() {
     return relatedAttributes;
+  },
+  get cssRules() {
+    return cssRules;
   }
 });
 
@@ -13884,11 +13887,13 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
   draw(clearContext = true) {
     if (this.__updateStyleTag) {
-      const nodes = this.querySelectorAll('*');
-      _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].computeStyle(this);
-      nodes.forEach(node => {
-        _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].computeStyle(node);
-      });
+      if (_stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].cssRules.length > 0) {
+        const nodes = this.querySelectorAll('*');
+        _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].computeStyle(this);
+        nodes.forEach(node => {
+          _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].computeStyle(node);
+        });
+      }
       this.__updateStyleTag = false;
     }
     const renderDeferrer = this[_renderDeferer];
