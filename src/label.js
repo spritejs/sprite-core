@@ -297,8 +297,8 @@ export default class Label extends BaseSprite {
   static Attr = LabelSpriteAttr
 
   constructor(attr) {
-    if(typeof attr === 'string') {
-      attr = {text: attr};
+    if(typeof attr !== 'object') {
+      attr = {text: String(attr)};
     }
     super(attr);
   }

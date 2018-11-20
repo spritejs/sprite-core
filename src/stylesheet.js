@@ -380,7 +380,7 @@ export default {
               if(key !== 'borderRadius' && /^border/.test(key)) {
                 key = 'border';
               }
-              if(key === 'backgroundColor') key = 'bgcolor';
+              if(key === 'backgroundColor' || key === 'background') key = 'bgcolor';
               if(key === 'fontVariantCaps') key = 'fontVariant';
               if(key === 'all') {
                 _attrs = Object.assign({}, attrs);

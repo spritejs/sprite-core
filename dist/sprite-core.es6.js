@@ -8257,7 +8257,7 @@ let order = 0;
               if (key !== 'borderRadius' && /^border/.test(key)) {
                 key = 'border';
               }
-              if (key === 'backgroundColor') key = 'bgcolor';
+              if (key === 'backgroundColor' || key === 'background') key = 'bgcolor';
               if (key === 'fontVariantCaps') key = 'fontVariant';
               if (key === 'all') {
                 _attrs = Object.assign({}, attrs);
@@ -12462,8 +12462,8 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 let Label = (_class2 = (_temp = _class3 = class Label extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
   constructor(attr) {
-    if (typeof attr === 'string') {
-      attr = { text: attr };
+    if (typeof attr !== 'object') {
+      attr = { text: String(attr) };
     }
     super(attr);
   }

@@ -11209,7 +11209,7 @@ exports.default = {
               if (key !== 'borderRadius' && /^border/.test(key)) {
                 key = 'border';
               }
-              if (key === 'backgroundColor') key = 'bgcolor';
+              if (key === 'backgroundColor' || key === 'background') key = 'bgcolor';
               if (key === 'fontVariantCaps') key = 'fontVariant';
               if (key === 'all') {
                 _attrs = (0, _assign2.default)({}, attrs);
@@ -15693,6 +15693,10 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
+var _typeof2 = __webpack_require__(178);
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 var _get2 = __webpack_require__(187);
 
 var _get3 = _interopRequireDefault(_get2);
@@ -16084,8 +16088,8 @@ var Label = (_class2 = (_temp = _class3 = function (_BaseSprite) {
   function Label(attr) {
     (0, _classCallCheck3.default)(this, Label);
 
-    if (typeof attr === 'string') {
-      attr = { text: attr };
+    if ((typeof attr === 'undefined' ? 'undefined' : (0, _typeof3.default)(attr)) !== 'object') {
+      attr = { text: String(attr) };
     }
     return (0, _possibleConstructorReturn3.default)(this, (Label.__proto__ || (0, _getPrototypeOf2.default)(Label)).call(this, attr));
   }
