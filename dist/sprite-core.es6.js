@@ -8334,7 +8334,7 @@ let order = 0;
           const transition = el.transition({ duration, delay }, easing, true);
           transition.__attrs = attrs;
           el[_transitions].push(transition);
-          return transition.attr(attrs);
+          return transition.attr(Object.assign({}, attrs));
         })).then(() => {
           el.dispatchEvent('transitionend', {}, true, true);
         });
