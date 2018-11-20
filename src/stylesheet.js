@@ -455,7 +455,8 @@ export default {
           el.dispatchEvent('transitionend', {}, true, true);
         });
       }
-      el.dispatchEvent('stylechange', {oldSelectors: el[_matchedSelectors], newSelectors: matchedSelectors});
+      el.dispatchEvent('stylechange', {oldSelectors: el[_matchedSelectors], newSelectors: matchedSelectors},
+        true, true);
       el[_matchedSelectors] = matchedSelectors;
       el.attributes.clearStyle();
       el.attributes.__styleTag = true;
