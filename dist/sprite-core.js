@@ -7651,20 +7651,27 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       var _this2 = this;
 
       var setVal = function setVal(key, value) {
-        _this2[_attr][key] = value;
         if (!_this2[_attr].__attributeNames.has(key)) {
-          if (value == null) {
-            delete _this2[_attr][key];
+          if (_this2[_attr].__styleTag) {
+            console.warn('Ignoring unknown style key: ' + key);
+          } else {
+            if (value != null) {
+              _this2[_attr][key] = value;
+            } else {
+              delete _this2[_attr][key];
+            }
+            _this2.forceUpdate();
+            // console.log(this, stylesheet.relatedAttributes, key);
+            if (_stylesheet2.default.relatedAttributes.has(key)) {
+              _this2.updateStyles();
+            }
+            if (key === 'color' && !_this2[_attr].__attributeNames.has('fillColor')) {
+              // fixed color inherit
+              _this2.attr('fillColor', value);
+            }
           }
-          _this2.forceUpdate();
-          // console.log(this, stylesheet.relatedAttributes, key);
-          if (_stylesheet2.default.relatedAttributes.has(key)) {
-            _this2.updateStyles();
-          }
-          if (key === 'color' && !_this2[_attr].__attributeNames.has('fillColor')) {
-            // fixed color inherit
-            _this2.attr('fillColor', value);
-          }
+        } else {
+          _this2[_attr][key] = value;
         }
       };
       if ((typeof props === 'undefined' ? 'undefined' : (0, _typeof3.default)(props)) === 'object') {
@@ -10009,7 +10016,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'get',
     value: function get(key) {
-      if (this[_style][key] && !this.__attributesSet.has(key)) {
+      if (this.__styleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
         return this[_style][key];
       }
       return this[_attr][key];
@@ -11256,7 +11263,11 @@ exports.default = {
           transitions.push.apply(transitions, (0, _toConsumableArray3.default)(attrs.transitions));
           attrs.transitions.forEach(function (t) {
             (0, _keys2.default)(t.attrs).forEach(function (k) {
-              if (k in attrs) delete attrs[k];
+              // if(k in attrs) delete attrs[k];
+              el.attributes.__styleTag = true;
+              attrs[k] = el.attributes[k];
+              el.attributes.__styleTag = false;
+              // console.log(el.attributes.style[k]);
             });
           });
           delete attrs.transitions;
@@ -11299,7 +11310,7 @@ exports.default = {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
-      if (el.forceUpdate) el.forceUpdate();
+      // if(el.forceUpdate) el.forceUpdate();
     }
   },
 
@@ -14104,13 +14115,13 @@ var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _from = __webpack_require__(99);
-
-var _from2 = _interopRequireDefault(_from);
-
 var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _from = __webpack_require__(99);
+
+var _from2 = _interopRequireDefault(_from);
 
 var _classCallCheck2 = __webpack_require__(114);
 
@@ -14209,15 +14220,10 @@ var BaseNode = function () {
     key: 'updateStyles',
     value: function updateStyles() {
       // append to parent & reset name or class or id auto updateStyles
-      var elems = [];
-      if (this.parent && this.parent.querySelectorAll) {
-        elems = [this.parent].concat((0, _toConsumableArray3.default)(this.parent.querySelectorAll('*')));
-      } else if (this.querySelectorAll) {
-        elems = [this].concat((0, _toConsumableArray3.default)(this.querySelectorAll('*')));
+      if (this.layer) {
+        this.layer.__updateStyleTag = true;
+        this.forceUpdate();
       }
-      elems.forEach(function (el) {
-        _stylesheet2.default.computeStyle(el);
-      });
     }
   }, {
     key: 'getEventHandlers',
@@ -17554,6 +17560,14 @@ var Layer = function (_BaseNode) {
     value: function draw() {
       var clearContext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
+      if (this.__updateStyleTag) {
+        var nodes = this.querySelectorAll('*');
+        _stylesheet2.default.computeStyle(this);
+        nodes.forEach(function (node) {
+          _stylesheet2.default.computeStyle(node);
+        });
+        this.__updateStyleTag = false;
+      }
       var renderDeferrer = this[_renderDeferer];
       this[_renderDeferer] = null;
       if (this[_drawTask]) {

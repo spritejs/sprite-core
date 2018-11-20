@@ -176,6 +176,14 @@ export default class Layer extends BaseNode {
   }
 
   draw(clearContext = true) {
+    if(this.__updateStyleTag) {
+      const nodes = this.querySelectorAll('*');
+      stylesheet.computeStyle(this);
+      nodes.forEach((node) => {
+        stylesheet.computeStyle(node);
+      });
+      this.__updateStyleTag = false;
+    }
     const renderDeferrer = this[_renderDeferer];
     this[_renderDeferer] = null;
     if(this[_drawTask]) {

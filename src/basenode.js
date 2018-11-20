@@ -57,15 +57,10 @@ export default class BaseNode {
 
   updateStyles() {
     // append to parent & reset name or class or id auto updateStyles
-    let elems = [];
-    if(this.parent && this.parent.querySelectorAll) {
-      elems = [this.parent, ...this.parent.querySelectorAll('*')];
-    } else if(this.querySelectorAll) {
-      elems = [this, ...this.querySelectorAll('*')];
+    if(this.layer) {
+      this.layer.__updateStyleTag = true;
+      this.forceUpdate();
     }
-    elems.forEach((el) => {
-      stylesheet.computeStyle(el);
-    });
   }
 
   get dataset() {

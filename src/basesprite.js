@@ -213,20 +213,27 @@ export default class BaseSprite extends BaseNode {
 
   attr(props, val) {
     const setVal = (key, value) => {
-      this[_attr][key] = value;
       if(!this[_attr].__attributeNames.has(key)) {
-        if(value == null) {
-          delete this[_attr][key];
+        if(this[_attr].__styleTag) {
+          console.warn(`Ignoring unknown style key: ${key}`);
+        } else {
+          if(value != null) {
+            this[_attr][key] = value;
+          } else {
+            delete this[_attr][key];
+          }
+          this.forceUpdate();
+          // console.log(this, stylesheet.relatedAttributes, key);
+          if(stylesheet.relatedAttributes.has(key)) {
+            this.updateStyles();
+          }
+          if(key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
+            // fixed color inherit
+            this.attr('fillColor', value);
+          }
         }
-        this.forceUpdate();
-        // console.log(this, stylesheet.relatedAttributes, key);
-        if(stylesheet.relatedAttributes.has(key)) {
-          this.updateStyles();
-        }
-        if(key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
-          // fixed color inherit
-          this.attr('fillColor', value);
-        }
+      } else {
+        this[_attr][key] = value;
       }
     };
     if(typeof props === 'object') {

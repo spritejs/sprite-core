@@ -418,7 +418,11 @@ export default {
           transitions.push(...attrs.transitions);
           attrs.transitions.forEach((t) => {
             Object.keys(t.attrs).forEach((k) => {
-              if(k in attrs) delete attrs[k];
+              // if(k in attrs) delete attrs[k];
+              el.attributes.__styleTag = true;
+              attrs[k] = el.attributes[k];
+              el.attributes.__styleTag = false;
+              // console.log(el.attributes.style[k]);
             });
           });
           delete attrs.transitions;
@@ -457,7 +461,7 @@ export default {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
-      if(el.forceUpdate) el.forceUpdate();
+      // if(el.forceUpdate) el.forceUpdate();
     }
   },
   get relatedAttributes() {
