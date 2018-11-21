@@ -286,20 +286,36 @@ export default {
             reserved = {};
           let border = null;
           let transition = null;
+          const gradient = {};
 
           styleAttrs.forEach(([key, value]) => { // eslint-disable-line complexity
             if(key.indexOf('--sprite-') === 0) {
               key = key.replace('--sprite-', '');
               key = toCamel(key);
               if(isStyleMap) value = value[0][0].trim();
-              if(key === 'borderStyle') {
+              if(key === 'gradient') {
+                // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0 #fff,0.5 rgba(33, 33, 77, 0.7),1 rgba(128, 45, 88, 0.5)
+                const matched = value.match(/(.+?)vector\((.+?)\)(.+)/);
+                if(matched) {
+                  const properties = matched[1].trim().split(/\s*,\s*/g),
+                    vector = matched[2].split(',').map(s => Number(s.trim())),
+                    colors = matched[3].trim().split(/\s+/).map(
+                      (s) => {
+                        const [offset, color] = s.split(',');
+                        return {offset: Number(offset.trim()), color: color.trim()};
+                      }
+                    );
+                  properties.forEach((prop) => {
+                    gradient[prop] = {vector, colors};
+                  });
+                }
+              } else if(key === 'borderStyle') {
                 border = border || {width: 1, color: 'rgba(0,0,0,0)'};
                 border.style = value;
               } else if(key === 'borderWidth') {
                 border = border || {width: 1, color: 'rgba(0,0,0,0)'};
                 border.width = parseFloat(value);
-              }
-              if(key === 'borderColor') {
+              } else if(key === 'borderColor') {
                 border = border || {width: 1, color: 'rgba(0,0,0,0)'};
                 border.color = value;
               } else if(key === 'border') {
@@ -362,7 +378,7 @@ export default {
           if(border) {
             Object.assign(attrs, {border});
           }
-          Object.assign(attrs, reserved);
+          Object.assign(attrs, reserved, gradient);
           styleRules[selectorText] = styleRules[selectorText] || {};
           if(transition) {
             transition.properties = transition.properties || 'all';
