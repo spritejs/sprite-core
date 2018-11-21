@@ -133,7 +133,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     if(val == null) val = '16px';
     let unit = 'px';
     if(typeof val === 'string') {
-      const unitReg = /^(\d+(?:.\d+)?)(\w+)/;
+      const unitReg = /^([\d.]+)(\w+)/;
       const matches = val.match(unitReg);
       if(!matches) {
         return null;

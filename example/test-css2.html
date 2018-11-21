@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    html, document {
+      font-size: 32px;
+    }
+    group.list {
+      --sprite-pos: 50, 50;
+    }
+    group.list > label {
+      --sprite-anchor: 0.5 0.5;
+      font: bold 1rem serif;
+    }
+    group.list > label:nth-child(2n+1) {
+      color: #f37;
+      --sprite-scale: 1.5,1.5;
+      transition: all 1s;
+    }
+    group.list > label:nth-child(2n) {
+      border: solid 1px;
+      --sprite-gradient: color vector(0, 0, 70, 70) 0,red 0.5,yellow 1,green;
+      --sprite-padding: 0.5rem, 0.5rem;
+      /* transition: all 1s; */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="1200" height="1200"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+const {Layer, Group, Label} = spritejs;
+const context = document.getElementById('mycanvas').getContext('2d');
+const layer = new Layer({context, useDocumentCSS: true});
+
+const group = new Group();
+group.attr({
+  class: 'list',
+});
+
+layer.append(group);
+
+for(let i = 0; i < 10; i++) {
+  const s = new Label(`line ${i}`);
+  s.attr({
+    y: i * 50,
+  });
+  group.append(s);
+}
+  </script>
+</body>
+</html>
