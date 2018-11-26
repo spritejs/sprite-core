@@ -19,7 +19,8 @@ const _attr = Symbol('attr'),
   _resolveState = Symbol('resolveState'),
   _show = Symbol('show'),
   _hide = Symbol('hide'),
-  _enter = Symbol('enter');
+  _enter = Symbol('enter'),
+  _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
@@ -40,6 +41,7 @@ export default class BaseSprite extends BaseNode {
     this[_animations] = new Set();
     this[_cachePriority] = 0;
     this[_flow] = {};
+    this[_releaseKeys] = new Set();
 
     if(attr) {
       this.attr(attr);
@@ -103,6 +105,10 @@ export default class BaseSprite extends BaseNode {
     if(attrs) this.addAttributes(attrs);
     if(effects) this.setAttributeEffects(effects);
     return this.Attr;
+  }
+
+  setReleaseKey(key) {
+    this[_releaseKeys].add(key);
   }
 
   get layer() {
@@ -487,6 +493,7 @@ export default class BaseSprite extends BaseNode {
     this.reflow();
     const ret = super.disconnect(parent);
     delete this.context;
+    [...this[_releaseKeys]].forEach(key => delete this[key]);
     return ret;
   }
 

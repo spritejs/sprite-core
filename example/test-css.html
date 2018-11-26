@@ -6,24 +6,40 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Base Sprite</title>
   <style>
+    @keyframes myfirst
+    {
+      0%   {background: red;}
+      25%  {background: yellow;}
+      50%  {background: blue;}
+      100% {background: green;}
+    }
+    @keyframes test
+    {
+      from {color: red;}
+      to {color: yellow;}
+    }
     html, document {
       font-size: 32px;
     }
     group.list {
-      --sprite-pos: 50, 50;
+      --sprite-pos: 100, 50;
     }
     group.list > label {
       --sprite-anchor: 0.5 0.5;
-      font: bold 1rem serif;
+      font: bold 32px serif;
     }
     group.list > label:nth-child(2n+1) {
-      color: #f37;
+      /* color: #f37; */
       --sprite-scale: 1.5,1.5;
       transition: all 1s;
+      animation: myfirst 2s forwards;
     }
     group.list > label:nth-child(2n) {
       --sprite-gradient: color vector(0, 0, 70, 70) 0,red 0.5,yellow 1,green
       /* transition: all 1s; */
+    }
+    group.list > label.test {
+      animation: test 2s;
     }
   </style>
 </head>

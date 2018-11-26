@@ -11,7 +11,7 @@ const defaultEffect = (from, to, p, start, end) => {
   let matchFrom = null,
     matchTo = null;
 
-  const exp = /^(\d+|\d*\.\d+)(%|rh|rw)$/i;
+  const exp = /^([\d.]+)(%|rh|rw)$/i;
   if(typeof from === 'string') {
     matchFrom = exp.exec(from);
     if(matchFrom) {

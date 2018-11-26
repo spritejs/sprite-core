@@ -424,6 +424,60 @@ class SpriteAttr {
 
   @parseValue(parseFloat)
   @attr
+  set paddingTop(val) {
+    if(val == null) val = 0;
+    const margin = this.get('padding');
+    margin[0] = val;
+    this.set('padding', margin);
+  }
+
+  get paddingTop() {
+    return this.get('margin')[0];
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set paddingRight(val) {
+    if(val == null) val = 0;
+    const margin = this.get('padding');
+    margin[1] = val;
+    this.set('padding', margin);
+  }
+
+  get paddingRight() {
+    return this.get('margin')[1];
+  }
+
+
+  @parseValue(parseFloat)
+  @attr
+  set paddingBottom(val) {
+    if(val == null) val = 0;
+    const margin = this.get('padding');
+    margin[2] = val;
+    this.set('padding', margin);
+  }
+
+  get paddingBottom() {
+    return this.get('margin')[2];
+  }
+
+
+  @parseValue(parseFloat)
+  @attr
+  set paddingLeft(val) {
+    if(val == null) val = 0;
+    const margin = this.get('padding');
+    margin[3] = val;
+    this.set('padding', margin);
+  }
+
+  get paddingLeft() {
+    return this.get('margin')[3];
+  }
+
+  @parseValue(parseFloat)
+  @attr
   set borderRadius(val) {
     this.set('borderRadius', val);
   }
@@ -775,6 +829,58 @@ class SpriteAttr {
   set margin(val) {
     if(this.subject.hasLayout) this.subject.parent.clearLayout();
     this.set('margin', val);
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set marginTop(val) {
+    if(val == null) val = 0;
+    const margin = this.get('margin');
+    margin[0] = val;
+    this.set('margin', margin);
+  }
+
+  get marginTop() {
+    return this.get('margin')[0];
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set marginRight(val) {
+    if(val == null) val = 0;
+    const margin = this.get('margin');
+    margin[1] = val;
+    this.set('margin', margin);
+  }
+
+  get marginRight() {
+    return this.get('margin')[1];
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set marginBottom(val) {
+    if(val == null) val = 0;
+    const margin = this.get('margin');
+    margin[2] = val;
+    this.set('margin', margin);
+  }
+
+  get marginBottom() {
+    return this.get('margin')[2];
+  }
+
+  @parseValue(parseFloat)
+  @attr
+  set marginLeft(val) {
+    if(val == null) val = 0;
+    const margin = this.get('margin');
+    margin[3] = val;
+    this.set('margin', margin);
+  }
+
+  get marginLeft() {
+    return this.get('margin')[3];
   }
 
   /*
