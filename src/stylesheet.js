@@ -28,7 +28,7 @@ function parseTransitionValue(values) {
   return ret;
 }
 
-function toPxValue(value, defaultWidth) {
+function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
   if(typeof value === 'string') {
     const matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
     if(matched) {
@@ -78,8 +78,8 @@ function toPxValue(value, defaultWidth) {
         }
       }
     } else {
-      if(value === 'top') value = 0;
-      if(value === 'bottom') value = 1.0;
+      if(value === 'top' || value === 'left') value = 0;
+      if(value === 'bottom' || value === 'right') value = 1.0;
       if(value === 'center') value = 0.5;
       const v = Number(value);
       if(!Number.isNaN(v)) {
