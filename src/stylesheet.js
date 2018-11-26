@@ -78,6 +78,9 @@ function toPxValue(value, defaultWidth) {
         }
       }
     } else {
+      if(value === 'top') value = 0;
+      if(value === 'bottom') value = 1.0;
+      if(value === 'center') value = 0.5;
       const v = Number(value);
       if(!Number.isNaN(v)) {
         value = v;
@@ -281,7 +284,7 @@ function parseRuleAttrs(rule) {
         border.width = toPxValue(width);
         border.color = color;
       } else {
-        if(key !== 'fontSize') {
+        if(key !== 'fontSize' && typeof value === 'string') {
           if(/,/.test(value)) {
             const values = value.split(',');
             value = values.map(v => toPxValue(v.trim()));
