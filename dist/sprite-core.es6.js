@@ -5704,6 +5704,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           // enumerable: true,
           set(value) {
             const subject = this.subject;
+            const owner = subject.__owner || subject;
             this.quietSet(key, value);
             // fixed color inherit
             if (key === 'color' && !this.__attributeNames.has('fillColor')) {
@@ -5723,16 +5724,13 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
               subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
             }
             if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
-              const children = subject.querySelectorAll('*');
+              const children = owner.querySelectorAll('*');
               children.forEach(node => {
                 if (node.retypesetting) node.retypesetting();
               });
             }
             if (_utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"].has(key)) {
               subject.forceUpdate();
-              if (subject.layer) {
-                subject.layer.__updateAll = true;
-              }
             }
           },
           get() {
@@ -5758,6 +5756,15 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           }
           Object.entries(val).forEach(([prop, value]) => {
             this.attr(prop, value);
+          });
+          return this;
+        }
+        if (props === 'style') {
+          if (Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.style[prop] = value;
           });
           return this;
         }
@@ -8314,15 +8321,18 @@ function parseRuleAttrs(rule) {
       key = toCamel(key);
       if (isStyleMap) value = value[0][0].trim();
       if (key === 'gradient') {
-        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0 #fff,0.5 rgba(33, 33, 77, 0.7),1 rgba(128, 45, 88, 0.5)
+        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0,#fff 0.5,rgba(33, 33, 77, 0.7) 1,rgba(128, 45, 88, 0.5)
         const matched = value.match(/(.+?)vector\((.+?)\)(.+)/);
         if (matched) {
           const properties = matched[1].trim().split(/\s*,\s*/g),
                 vector = matched[2].split(',').map(s => Number(s.trim())),
                 colors = matched[3].trim().split(/\s+/).map(s => {
-            const [offset, color] = s.split(',');
-            return { offset: Number(offset.trim()), color: color.trim() };
-          });
+            const m = s.match(/^([\d.]+),(.*)/);
+            if (m) {
+              return { offset: Number(m[1].trim()), color: m[2].trim() };
+            }
+            return null;
+          }).filter(c => c != null);
           properties.forEach(prop => {
             gradient[prop] = { vector, colors };
           });
@@ -14155,7 +14165,12 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     this[_renderDeferer] = null;
 
     this[_node] = new _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this[_node].__owner = this;
     this[_node].forceUpdate = () => {
+      this.prepareRender();
+    };
+    this[_node].updateStyles = () => {
+      this.__updateStyleTag = true;
       this.prepareRender();
     };
 
@@ -14189,6 +14204,21 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
   get attributes() {
     return this[_node].attributes;
+  }
+
+  getAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop);
+  }
+
+  setAttribute(prop, val) {
+    /* istanbul ignore next */
+    return this.attr(prop, val);
+  }
+
+  removeAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop, null);
   }
 
   set id(val) {
@@ -14398,12 +14428,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   renderRepaintDirty(t, clearContext = true) {
     const updateEls = [...this[_updateSet]];
 
-    if (this.__updateAll) {
-      this.__updateAll = false;
-      return this.renderRepaintAll(t, clearContext);
-    }
-
-    if (updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
+    if (this.__updateStyleTag || updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
       return this.renderRepaintAll(t, clearContext);
     }
 

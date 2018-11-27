@@ -52,7 +52,12 @@ export default class Layer extends BaseNode {
     this[_renderDeferer] = null;
 
     this[_node] = new DataNode();
+    this[_node].__owner = this;
     this[_node].forceUpdate = () => {
+      this.prepareRender();
+    };
+    this[_node].updateStyles = () => {
+      this.__updateStyleTag = true;
       this.prepareRender();
     };
 
@@ -86,6 +91,21 @@ export default class Layer extends BaseNode {
 
   get attributes() {
     return this[_node].attributes;
+  }
+
+  getAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop);
+  }
+
+  setAttribute(prop, val) {
+    /* istanbul ignore next */
+    return this.attr(prop, val);
+  }
+
+  removeAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop, null);
   }
 
   set id(val) {
@@ -296,12 +316,7 @@ export default class Layer extends BaseNode {
   renderRepaintDirty(t, clearContext = true) {
     const updateEls = [...this[_updateSet]];
 
-    if(this.__updateAll) {
-      this.__updateAll = false;
-      return this.renderRepaintAll(t, clearContext);
-    }
-
-    if(updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
+    if(this.__updateStyleTag || updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
       return this.renderRepaintAll(t, clearContext);
     }
 

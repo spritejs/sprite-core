@@ -21,22 +21,25 @@
     html, document {
       font-size: 32px;
     }
-    group.list {
-      --sprite-pos: 100, 50;
+    layer.abc {
       font: bold 32px serif;
     }
+    /* group.list {
+      --sprite-pos: 100, 50;
+    } */
     group.list > label {
       --sprite-anchor: center;
+      --sprite-x: 100;
     }
     group.list > label:nth-child(2n+1) {
       color: #f37;
       --sprite-scale: 1.5,1.5;
-      transition: all 1s;
-      animation: myfirst 2s forwards;
+      /* transition: all 1s; */
+      animation: myfirst 2s;
     }
     group.list > label:nth-child(2n) {
-      --sprite-gradient: color vector(0, 0, 70, 70) 0,red 0.5,yellow 1,green
-      /* transition: all 1s; */
+      --sprite-gradient: color vector(0, 0, 70, 70) 0,red 0.5,yellow 1,green;
+      transition: all 1s;
     }
     group.list > label.test {
       animation: test 2s;
@@ -50,11 +53,13 @@
 const {Layer, Group, Label} = spritejs;
 const context = document.getElementById('mycanvas').getContext('2d');
 const layer = new Layer({context, useDocumentCSS: true});
+layer.className = 'abc';
 
 const group = new Group();
 group.attr({
   class: 'list',
   // fontSize: 16,
+  // bgcolor: 'black',
 });
 
 layer.append(group);
@@ -62,7 +67,7 @@ layer.append(group);
 for(let i = 0; i < 10; i++) {
   const s = new Label(`line ${i}`);
   s.attr({
-    y: i * 50,
+    y: 50 + i * 50,
   });
   group.append(s);
 }

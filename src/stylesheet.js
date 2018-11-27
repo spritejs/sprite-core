@@ -252,17 +252,20 @@ function parseRuleAttrs(rule) {
       key = toCamel(key);
       if(isStyleMap) value = value[0][0].trim();
       if(key === 'gradient') {
-        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0 #fff,0.5 rgba(33, 33, 77, 0.7),1 rgba(128, 45, 88, 0.5)
+        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0,#fff 0.5,rgba(33, 33, 77, 0.7) 1,rgba(128, 45, 88, 0.5)
         const matched = value.match(/(.+?)vector\((.+?)\)(.+)/);
         if(matched) {
           const properties = matched[1].trim().split(/\s*,\s*/g),
             vector = matched[2].split(',').map(s => Number(s.trim())),
             colors = matched[3].trim().split(/\s+/).map(
               (s) => {
-                const [offset, color] = s.split(',');
-                return {offset: Number(offset.trim()), color: color.trim()};
+                const m = s.match(/^([\d.]+),(.*)/);
+                if(m) {
+                  return {offset: Number(m[1].trim()), color: m[2].trim()};
+                }
+                return null;
               }
-            );
+            ).filter(c => c != null);
           properties.forEach((prop) => {
             gradient[prop] = {vector, colors};
           });

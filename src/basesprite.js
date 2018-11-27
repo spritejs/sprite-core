@@ -228,6 +228,7 @@ export default class BaseSprite extends BaseNode {
           // enumerable: true,
           set(value) {
             const subject = this.subject;
+            const owner = subject.__owner || subject;
             this.quietSet(key, value);
             // fixed color inherit
             if(key === 'color' && !this.__attributeNames.has('fillColor')) {
@@ -256,16 +257,13 @@ export default class BaseSprite extends BaseNode {
               || key === 'wordBreak'
               || key === 'letterSpacing'
               || key === 'textIndent') {
-              const children = subject.querySelectorAll('*');
+              const children = owner.querySelectorAll('*');
               children.forEach((node) => {
                 if(node.retypesetting) node.retypesetting();
               });
             }
             if(inheritAttributes.has(key)) {
               subject.forceUpdate();
-              if(subject.layer) {
-                subject.layer.__updateAll = true;
-              }
             }
           },
           get() {
@@ -291,6 +289,15 @@ export default class BaseSprite extends BaseNode {
           }
           Object.entries(val).forEach(([prop, value]) => {
             this.attr(prop, value);
+          });
+          return this;
+        }
+        if(props === 'style') {
+          if(Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.style[prop] = value;
           });
           return this;
         }

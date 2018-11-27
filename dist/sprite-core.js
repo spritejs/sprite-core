@@ -7673,6 +7673,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             // enumerable: true,
             set: function set(value) {
               var subject = this.subject;
+              var owner = subject.__owner || subject;
               this.quietSet(key, value);
               // fixed color inherit
               if (key === 'color' && !this.__attributeNames.has('fillColor')) {
@@ -7699,16 +7700,13 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
                 subject.attr('font', style + ' ' + variant + ' ' + weight + ' ' + fontSize + ' ' + family);
               }
               if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
-                var children = subject.querySelectorAll('*');
+                var children = owner.querySelectorAll('*');
                 children.forEach(function (node) {
                   if (node.retypesetting) node.retypesetting();
                 });
               }
               if (_utils.inheritAttributes.has(key)) {
                 subject.forceUpdate();
-                if (subject.layer) {
-                  subject.layer.__updateAll = true;
-                }
               }
             },
             get: function get() {
@@ -7742,6 +7740,19 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
                   value = _ref4[1];
 
               _this2.attr(prop, value);
+            });
+            return this;
+          }
+          if (props === 'style') {
+            if (Array.isArray(val)) {
+              val = _assign2.default.apply(Object, [{}].concat((0, _toConsumableArray3.default)(val)));
+            }
+            (0, _entries2.default)(val).forEach(function (_ref5) {
+              var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
+                  prop = _ref6[0],
+                  value = _ref6[1];
+
+              _this2.style[prop] = value;
             });
             return this;
           }
@@ -7794,7 +7805,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
   }, {
     key: 'transition',
     value: function transition(sec) {
-      var _ref7;
+      var _ref9;
 
       var easing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'linear';
       var isStyleAnim = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
@@ -7810,19 +7821,19 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         sec = sec.duration;
       }
 
-      return _ref7 = {}, (0, _defineProperty3.default)(_ref7, _animation, null), (0, _defineProperty3.default)(_ref7, 'cancel', function cancel() {
+      return _ref9 = {}, (0, _defineProperty3.default)(_ref9, _animation, null), (0, _defineProperty3.default)(_ref9, 'cancel', function cancel() {
         var preserveState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
         var animation = this[_animation];
         if (animation) {
           animation.cancel(preserveState);
         }
-      }), (0, _defineProperty3.default)(_ref7, 'end', function end() {
+      }), (0, _defineProperty3.default)(_ref9, 'end', function end() {
         var animation = this[_animation];
         if (animation && (animation.playState === 'running' || animation.playState === 'pending')) {
           animation.finish();
         }
-      }), (0, _defineProperty3.default)(_ref7, 'reverse', function reverse() {
+      }), (0, _defineProperty3.default)(_ref9, 'reverse', function reverse() {
         var animation = this[_animation];
         if (animation) {
           if (animation.playState === 'running' || animation.playState === 'pending') {
@@ -7834,15 +7845,15 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           }
         }
         return animation.finished;
-      }), (0, _defineProperty3.default)(_ref7, 'attr', function attr(prop, val) {
+      }), (0, _defineProperty3.default)(_ref9, 'attr', function attr(prop, val) {
         this.end();
         if (typeof prop === 'string') {
           prop = (0, _defineProperty3.default)({}, prop, val);
         }
-        (0, _entries2.default)(prop).forEach(function (_ref5) {
-          var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
-              key = _ref6[0],
-              value = _ref6[1];
+        (0, _entries2.default)(prop).forEach(function (_ref7) {
+          var _ref8 = (0, _slicedToArray3.default)(_ref7, 2),
+              key = _ref8[0],
+              value = _ref8[1];
 
           if (typeof value === 'function') {
             prop[key] = value(that.attr(key));
@@ -7855,7 +7866,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           easing: easing
         }, isStyleAnim);
         return this[_animation].finished;
-      }), _ref7;
+      }), _ref9;
     }
   }, {
     key: 'animate',
@@ -7906,10 +7917,10 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         // delete _toState.__default;
         var _fromState = {},
             _toState = {};
-        (0, _entries2.default)(fromState || {}).forEach(function (_ref8) {
-          var _ref9 = (0, _slicedToArray3.default)(_ref8, 2),
-              key = _ref9[0],
-              value = _ref9[1];
+        (0, _entries2.default)(fromState || {}).forEach(function (_ref10) {
+          var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
+              key = _ref11[0],
+              value = _ref11[1];
 
           if (key !== '__default') {
             if (typeof value === 'function') {
@@ -7919,10 +7930,10 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             }
           }
         });
-        (0, _entries2.default)(toState || {}).forEach(function (_ref10) {
-          var _ref11 = (0, _slicedToArray3.default)(_ref10, 2),
-              key = _ref11[0],
-              value = _ref11[1];
+        (0, _entries2.default)(toState || {}).forEach(function (_ref12) {
+          var _ref13 = (0, _slicedToArray3.default)(_ref12, 2),
+              key = _ref13[0],
+              value = _ref13[1];
 
           if (key !== '__default') {
             if (typeof value === 'function') {
@@ -8193,12 +8204,12 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
                 width = _outerSize[0],
                 height = _outerSize[1];
 
-            var _ref12 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
-                x = _ref12[0],
-                y = _ref12[1],
-                w = _ref12[2],
-                h = _ref12[3],
-                r = _ref12[4];
+            var _ref14 = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)],
+                x = _ref14[0],
+                y = _ref14[1],
+                w = _ref14[2],
+                h = _ref14[3],
+                r = _ref14[4];
 
             (0, _render.drawRadiusBox)(this.context, { x: x, y: y, w: w, h: h, r: r });
             if (this.layer && this.layer.offset) {
@@ -8403,12 +8414,12 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       var bgimage = this.attr('bgimage');
 
       if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
-        var _ref13 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
-            _x14 = _ref13[0],
-            _y = _ref13[1],
-            _w = _ref13[2],
-            _h = _ref13[3],
-            _r = _ref13[4];
+        var _ref15 = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)],
+            _x14 = _ref15[0],
+            _y = _ref15[1],
+            _w = _ref15[2],
+            _h = _ref15[3],
+            _r = _ref15[4];
 
 
         (0, _render.drawRadiusBox)(drawingContext, { x: _x14, y: _y, w: _w, h: _h, r: _r });
@@ -8470,8 +8481,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
               if (after) after.call(_this7, states);
               resolve(_this7);
             });
-            _this7.once('state-from-' + fromState, function (_ref14) {
-              var animation = _ref14.animation;
+            _this7.once('state-from-' + fromState, function (_ref16) {
+              var animation = _ref16.animation;
 
               if (animation && resolved) animation.finish();else currentAnimation = animation;
             });
@@ -9040,9 +9051,9 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
       if (this.hasLayout) {
         var layoutWidth = this.attr('layoutWidth'),
-            layoutHeight = this.attr('layoutHeight');var _ref15 = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
-        width = _ref15[0];
-        height = _ref15[1];
+            layoutHeight = this.attr('layoutHeight');var _ref17 = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
+        width = _ref17[0];
+        height = _ref17[1];
       }
       if (isBorderBox) {
         var borderWidth = this.attr('border').width,
@@ -9316,10 +9327,10 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
       var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      (0, _entries2.default)(attrs).forEach(function (_ref16) {
-        var _ref17 = (0, _slicedToArray3.default)(_ref16, 2),
-            prop = _ref17[0],
-            handler = _ref17[1];
+      (0, _entries2.default)(attrs).forEach(function (_ref18) {
+        var _ref19 = (0, _slicedToArray3.default)(_ref18, 2),
+            prop = _ref19[0],
+            handler = _ref19[1];
 
         var getter = function getter() {
           return this.get(prop);
@@ -9390,12 +9401,12 @@ function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, o
   var w = image.width,
       h = image.height;
 
-  var _ref18 = clip9 || [16, 16, 16, 16],
-      _ref19 = (0, _slicedToArray3.default)(_ref18, 4),
-      top = _ref19[0],
-      right = _ref19[1],
-      bottom = _ref19[2],
-      left = _ref19[3];
+  var _ref20 = clip9 || [16, 16, 16, 16],
+      _ref21 = (0, _slicedToArray3.default)(_ref20, 4),
+      top = _ref21[0],
+      right = _ref21[1],
+      bottom = _ref21[2],
+      left = _ref21[3];
 
   var leftTop = [0, 0, left, top],
       rightTop = [w - right, 0, right, top],
@@ -11262,7 +11273,7 @@ function parseRuleAttrs(rule) {
       key = toCamel(key);
       if (isStyleMap) value = value[0][0].trim();
       if (key === 'gradient') {
-        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0 #fff,0.5 rgba(33, 33, 77, 0.7),1 rgba(128, 45, 88, 0.5)
+        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0,#fff 0.5,rgba(33, 33, 77, 0.7) 1,rgba(128, 45, 88, 0.5)
         var _matched = value.match(/(.+?)vector\((.+?)\)(.+)/);
         if (_matched) {
           var properties = _matched[1].trim().split(/\s*,\s*/g),
@@ -11270,12 +11281,13 @@ function parseRuleAttrs(rule) {
             return Number(s.trim());
           }),
               colors = _matched[3].trim().split(/\s+/).map(function (s) {
-            var _s$split = s.split(','),
-                _s$split2 = (0, _slicedToArray3.default)(_s$split, 2),
-                offset = _s$split2[0],
-                color = _s$split2[1];
-
-            return { offset: Number(offset.trim()), color: color.trim() };
+            var m = s.match(/^([\d.]+),(.*)/);
+            if (m) {
+              return { offset: Number(m[1].trim()), color: m[2].trim() };
+            }
+            return null;
+          }).filter(function (c) {
+            return c != null;
           });
           properties.forEach(function (prop) {
             gradient[prop] = { vector: vector, colors: colors };
@@ -17912,7 +17924,12 @@ var Layer = function (_BaseNode) {
     _this[_renderDeferer] = null;
 
     _this[_node] = new _datanode2.default();
+    _this[_node].__owner = _this;
     _this[_node].forceUpdate = function () {
+      _this.prepareRender();
+    };
+    _this[_node].updateStyles = function () {
+      _this.__updateStyleTag = true;
       _this.prepareRender();
     };
 
@@ -17947,6 +17964,24 @@ var Layer = function (_BaseNode) {
       var _node2;
 
       return (_node2 = this[_node]).attr.apply(_node2, arguments);
+    }
+  }, {
+    key: 'getAttribute',
+    value: function getAttribute(prop) {
+      /* istanbul ignore next */
+      return this.attr(prop);
+    }
+  }, {
+    key: 'setAttribute',
+    value: function setAttribute(prop, val) {
+      /* istanbul ignore next */
+      return this.attr(prop, val);
+    }
+  }, {
+    key: 'removeAttribute',
+    value: function removeAttribute(prop) {
+      /* istanbul ignore next */
+      return this.attr(prop, null);
     }
   }, {
     key: 'clearContext',
@@ -18096,12 +18131,7 @@ var Layer = function (_BaseNode) {
 
       var updateEls = [].concat((0, _toConsumableArray3.default)(this[_updateSet]));
 
-      if (this.__updateAll) {
-        this.__updateAll = false;
-        return this.renderRepaintAll(t, clearContext);
-      }
-
-      if (updateEls.some(function (el) {
+      if (this.__updateStyleTag || updateEls.some(function (el) {
         return !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc';
       })) {
         return this.renderRepaintAll(t, clearContext);
