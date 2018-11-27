@@ -226,6 +226,7 @@ export default class BaseSprite extends BaseNode {
       if(!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
         Object.defineProperty(this[_attr], key, {
           // enumerable: true,
+          configurable: true,
           set(value) {
             const subject = this.subject;
             const owner = subject.__owner || subject;
@@ -330,6 +331,11 @@ export default class BaseSprite extends BaseNode {
             else target.subject.attr(prop, value);
             return true;
           },
+          deleteProperty(target, prop) {
+            if(typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];
+            else target.subject.attr(prop, null);
+            return true;
+          },
         });
       } catch (ex) {
         return this[_attr];
@@ -357,6 +363,16 @@ export default class BaseSprite extends BaseNode {
               target.subject.attr(prop, value);
             } else {
               target.subject[_style][prop] = value;
+            }
+            return true;
+          },
+          deleteProperty(target, prop) {
+            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
+              && target.__attributeNames.has(prop)
+              || inheritAttributes.has(prop)) {
+              target.subject.attr(prop, null);
+            } else {
+              delete target.subject[_style][prop];
             }
             return true;
           },
@@ -1243,8 +1259,8 @@ export default class BaseSprite extends BaseNode {
   show() {
     if(this[_show]) return this[_show];
 
-    const originalDisplay = this.attr('_originalDisplay') || '';
-    const originalState = this.attr('_originalState') || 'default';
+    const originalDisplay = this.attr('__originalDisplay') || '';
+    const originalState = this.attr('__originalState') || 'default';
 
     const states = this.attr('states');
 
@@ -1263,8 +1279,8 @@ export default class BaseSprite extends BaseNode {
       });
       deferred.promise = deferred.promise.then(() => {
         if(!this[_hide]) {
-          delete this[_attr]._originalDisplay;
-          delete this[_attr]._originalState;
+          delete this[_attr].__originalDisplay;
+          delete this[_attr].__originalState;
           if(states.show.__default) {
             delete states.show;
             this.attr('states', states);
@@ -1294,13 +1310,13 @@ export default class BaseSprite extends BaseNode {
   hide() {
     const state = this.attr('state');
     if(this[_hide] || state === 'hide' || state === 'afterExit' || state === 'beforeExit') return this[_hide];
-    const _originalDisplay = this.attr('_originalDisplay');
-    if(_originalDisplay == null) {
+    const __originalDisplay = this.attr('__originalDisplay');
+    if(__originalDisplay == null) {
       const display = this.attr('display');
 
       this.attr({
-        _originalDisplay: display !== 'none' ? display : '',
-        _originalState: state !== 'hide' ? state : 'default',
+        __originalDisplay: display !== 'none' ? display : '',
+        __originalState: state !== 'hide' ? state : 'default',
       });
     }
 
