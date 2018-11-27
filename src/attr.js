@@ -20,6 +20,7 @@ class SpriteAttr {
 
     this[_temp] = new Map(); // save non-serialized values
     this.__attributesSet = new Set();
+    this.__styleTag = false;
 
     this.setDefault({
       state: 'default',
@@ -194,6 +195,9 @@ class SpriteAttr {
     [...this.__attributeNames].forEach((key) => {
       ret[key] = this[key];
     });
+    [...this.__attributesSet].forEach((key) => {
+      ret[key] = this[key];
+    });
     Object.entries(this).forEach(([key, value]) => {
       if(key.indexOf('__') !== 0) {
         ret[key] = value;
@@ -239,8 +243,8 @@ class SpriteAttr {
 
   serialize() {
     const ret = {};
-    [...this.__attributeNames].forEach((key) => {
-      if(key !== 'id' && this.__attributesSet.has(key)) {
+    [...this.__attributesSet].forEach((key) => {
+      if(key !== 'id') {
         ret[key] = this[key];
       }
     });

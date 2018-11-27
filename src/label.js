@@ -345,6 +345,11 @@ export default class Label extends BaseSprite {
     return [width, height];
   }
 
+  retypesetting() {
+    calculTextboxSize(this);
+    this.forceUpdate(true);
+  }
+
   render(t, drawingContext) {
     super.render(t, drawingContext);
 

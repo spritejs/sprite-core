@@ -23,13 +23,13 @@
     }
     group.list {
       --sprite-pos: 100, 50;
+      font: bold 32px serif;
     }
     group.list > label {
       --sprite-anchor: center;
-      font: bold 32px serif;
     }
     group.list > label:nth-child(2n+1) {
-      /* color: #f37; */
+      color: #f37;
       --sprite-scale: 1.5,1.5;
       transition: all 1s;
       animation: myfirst 2s forwards;
@@ -54,6 +54,7 @@ const layer = new Layer({context, useDocumentCSS: true});
 const group = new Group();
 group.attr({
   class: 'list',
+  // fontSize: 16,
 });
 
 layer.append(group);

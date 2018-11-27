@@ -1,6 +1,6 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, boxToRect, deprecate} from './utils';
+import {flow, absolute, rectVertices, boxToRect, deprecate, inheritAttributes} from './utils';
 import SpriteAttr from './attr';
 import BaseNode from './basenode';
 import Animation from './animation';
@@ -20,12 +20,15 @@ const _attr = Symbol('attr'),
   _show = Symbol('show'),
   _hide = Symbol('hide'),
   _enter = Symbol('enter'),
-  _releaseKeys = Symbol('releaseKeys');
+  _releaseKeys = Symbol('releaseKeys'),
+  _style = Symbol('style');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
 export default class BaseSprite extends BaseNode {
   static Attr = SpriteAttr;
+
+  static inheritAttributes = inheritAttributes;
 
   /**
     new Sprite({
@@ -42,6 +45,7 @@ export default class BaseSprite extends BaseNode {
     this[_cachePriority] = 0;
     this[_flow] = {};
     this[_releaseKeys] = new Set();
+    this[_style] = {};
 
     if(attr) {
       this.attr(attr);
@@ -219,27 +223,59 @@ export default class BaseSprite extends BaseNode {
 
   attr(props, val) {
     const setVal = (key, value) => {
-      if(!this[_attr].__attributeNames.has(key)) {
-        if(this[_attr].__styleTag) {
-          console.warn(`Ignoring unknown style key: ${key}`);
-        } else {
-          if(value != null) {
-            this[_attr][key] = value;
-          } else {
-            delete this[_attr][key];
-          }
-          this.forceUpdate();
-          // console.log(this, stylesheet.relatedAttributes, key);
-          if(stylesheet.relatedAttributes.has(key)) {
-            this.updateStyles();
-          }
-          if(key === 'color' && !this[_attr].__attributeNames.has('fillColor')) {
+      if(!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
+        Object.defineProperty(this[_attr], key, {
+          // enumerable: true,
+          set(value) {
+            const subject = this.subject;
+            this.quietSet(key, value);
             // fixed color inherit
-            this.attr('fillColor', value);
-          }
-        }
-      } else {
-        this[_attr][key] = value;
+            if(key === 'color' && !this.__attributeNames.has('fillColor')) {
+              subject.attr('fillColor', value);
+            }
+            // fixed font inherit
+            if((key === 'fontSize'
+              || key === 'fontFamily'
+              || key === 'fontStyle'
+              || key === 'fontVariant'
+              || key === 'fontWeight') && !this.__attributeNames.has('font')) {
+              const parseFont = require('./helpers/parse-font');
+              const font = this.get('font') || 'normal normal normal 16px Arial';
+              const parsed = parseFont(font);
+              parsed.fontSize = parsed.size + parsed.unit;
+              if(key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
+                value += 'px';
+              }
+              parsed[key] = value;
+              const {style, variant, weight, family, fontSize} = parseFont(font);
+              subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
+            }
+            if(key === 'font'
+              || key === 'lineHeight'
+              || key === 'lineBreak'
+              || key === 'wordBreak'
+              || key === 'letterSpacing'
+              || key === 'textIndent') {
+              const children = subject.querySelectorAll('*');
+              children.forEach((node) => {
+                if(node.retypesetting) node.retypesetting();
+              });
+            }
+            if(inheritAttributes.has(key)) {
+              subject.forceUpdate();
+              if(subject.layer) {
+                subject.layer.__updateAll = true;
+              }
+            }
+          },
+          get() {
+            return this.get(key);
+          },
+        });
+      }
+      this[_attr][key] = value;
+      if(stylesheet.relatedAttributes.has(key)) {
+        this.updateStyles();
       }
     };
     if(typeof props === 'object') {
@@ -276,6 +312,52 @@ export default class BaseSprite extends BaseNode {
   }
 
   get attributes() {
+    if(typeof Proxy === 'function') {
+      try {
+        return new Proxy(this[_attr], {
+          get(target, prop) {
+            return target[prop];
+          },
+          set(target, prop, value) {
+            if(typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;
+            else target.subject.attr(prop, value);
+            return true;
+          },
+        });
+      } catch (ex) {
+        return this[_attr];
+      }
+    }
+    return this[_attr];
+  }
+
+  get style() {
+    if(typeof Proxy === 'function') {
+      try {
+        return new Proxy(this[_attr], {
+          get(target, prop) {
+            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
+              && target.__attributeNames.has(prop)
+              || inheritAttributes.has(prop)) {
+              return target[prop];
+            }
+            return target.subject[_style][prop];
+          },
+          set(target, prop, value) {
+            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
+              && target.__attributeNames.has(prop)
+              || inheritAttributes.has(prop)) {
+              target.subject.attr(prop, value);
+            } else {
+              target.subject[_style][prop] = value;
+            }
+            return true;
+          },
+        });
+      } catch (ex) {
+        return this[_attr];
+      }
+    }
     return this[_attr];
   }
 

@@ -75,7 +75,7 @@ const adapter = {
     if(elem.nodeType === 1 && name === 'class' || name === 'id') {
       return elem[name];
     }
-    if(elem.attributes && elem.attributes[name]) {
+    if(this.hasAttrib(elem, name)) {
       let val = elem.attributes[name];
       if(Array.isArray(val)) {
         val = `[${val.join()}]`;
@@ -84,7 +84,7 @@ const adapter = {
     }
   },
   hasAttrib(elem, name) {
-    return name in elem.attributes && elem.attributes[name] != null;
+    return elem.attributes[name] != null;
   },
   removeSubsets,
   getName(elem) {

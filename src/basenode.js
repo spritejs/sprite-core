@@ -9,13 +9,9 @@ function createGetterSetter(_symbol, attrPrefix) {
   return function (props, val) {
     const setVal = (key, value) => {
       this[_symbol][key] = value;
-      if(this.attributes) {
+      if(this.attr) {
         const attrKey = `${attrPrefix}-${key}`;
-        if(value == null) {
-          delete this.attributes[attrKey];
-        } else {
-          this.attributes[attrKey] = value;
-        }
+        this.attr(attrKey, value);
         if(stylesheet.relatedAttributes.has(attrKey)) {
           this.updateStyles();
         }

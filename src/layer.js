@@ -295,6 +295,12 @@ export default class Layer extends BaseNode {
 
   renderRepaintDirty(t, clearContext = true) {
     const updateEls = [...this[_updateSet]];
+
+    if(this.__updateAll) {
+      this.__updateAll = false;
+      return this.renderRepaintAll(t, clearContext);
+    }
+
     if(updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
       return this.renderRepaintAll(t, clearContext);
     }

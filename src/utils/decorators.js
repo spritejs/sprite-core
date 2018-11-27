@@ -99,8 +99,8 @@ export function attr(target, prop, descriptor) {
           if(value != null) break;
           parent = parent.parent;
         }
-        // return value != null ? value : this.__inheritDefaults[prop];
-        return this.__inheritDefaults[prop];
+        return value != null ? value : this.__inheritDefaults[prop];
+        // return this.__inheritDefaults[prop];
       }
       return ret;
     };
@@ -141,12 +141,15 @@ export function cachable(target, prop, descriptor) {
   return descriptor;
 }
 
+export const inheritAttributes = new Set();
+
 // after attr
 export function inherit(defaultValue = '') {
   return function (target, prop, descriptor) {
     target.__inheritDefaults = target.__inheritDefaults || {};
     target.__inheritDefaults[prop] = defaultValue;
     descriptor.__inherit = true;
+    inheritAttributes.add(prop);
     return descriptor;
   };
 }

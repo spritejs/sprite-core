@@ -383,6 +383,23 @@ function parseRuleAttrs(rule) {
       }
     });
   }
+  if('fontSize' in attrs
+    || 'fontFamily' in attrs
+    || 'fontStyle' in attrs
+    || 'fontVariant' in attrs
+    || 'fontWeight' in attrs) {
+    // for font inherit
+    const parseFont = require('./helpers/parse-font');
+    const font = attrs.font || 'normal normal normal 16px Arial';
+    const {style, variant, weight, family, size, unit} = parseFont(font);
+    attrs.font = `${attrs.fontStyle || style} ${attrs.fontVariant || variant} ${attrs.fontWeight || weight} ${attrs.fontSize || size + unit} ${attrs.fontFamily || family}`;
+
+    delete attrs.fontSize;
+    delete attrs.fontFamily;
+    delete attrs.fontVariant;
+    delete attrs.fontWeight;
+    delete attrs.fontStyle;
+  }
   return attrs;
 }
 
