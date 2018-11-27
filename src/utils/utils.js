@@ -81,7 +81,12 @@ function parseStringInt(str) {
 }
 
 function parseStringFloat(str) {
-  return parseValuesString(str, parseFloat);
+  return parseValuesString(str, (v) => {
+    if(v === 'center') return 0.5;
+    if(v === 'left' || v === 'top') return 0;
+    if(v === 'right' || v === 'bottom') return 1;
+    return parseFloat(v);
+  });
 }
 
 function oneOrTwoValues(val) {

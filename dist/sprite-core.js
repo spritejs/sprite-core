@@ -6172,7 +6172,12 @@ function parseStringInt(str) {
 }
 
 function parseStringFloat(str) {
-  return parseValuesString(str, parseFloat);
+  return parseValuesString(str, function (v) {
+    if (v === 'center') return 0.5;
+    if (v === 'left' || v === 'top') return 0;
+    if (v === 'right' || v === 'bottom') return 1;
+    return parseFloat(v);
+  });
 }
 
 function oneOrTwoValues(val) {
@@ -11095,9 +11100,6 @@ function toPxValue(value, defaultWidth) {
         }
       }
     } else {
-      if (value === 'top' || value === 'left') value = 0;
-      if (value === 'bottom' || value === 'right') value = 1.0;
-      if (value === 'center') value = 0.5;
       var _v = Number(value);
       if (!(0, _isNan2.default)(_v)) {
         value = _v;

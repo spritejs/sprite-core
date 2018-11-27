@@ -4416,7 +4416,12 @@ function parseStringInt(str) {
 }
 
 function parseStringFloat(str) {
-  return parseValuesString(str, parseFloat);
+  return parseValuesString(str, v => {
+    if (v === 'center') return 0.5;
+    if (v === 'left' || v === 'top') return 0;
+    if (v === 'right' || v === 'bottom') return 1;
+    return parseFloat(v);
+  });
 }
 
 function oneOrTwoValues(val) {
@@ -8159,9 +8164,6 @@ function toPxValue(value, defaultWidth) {
         }
       }
     } else {
-      if (value === 'top' || value === 'left') value = 0;
-      if (value === 'bottom' || value === 'right') value = 1.0;
-      if (value === 'center') value = 0.5;
       const v = Number(value);
       if (!Number.isNaN(v)) {
         value = v;

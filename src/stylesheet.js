@@ -78,9 +78,6 @@ function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
         }
       }
     } else {
-      if(value === 'top' || value === 'left') value = 0;
-      if(value === 'bottom' || value === 'right') value = 1.0;
-      if(value === 'center') value = 0.5;
       const v = Number(value);
       if(!Number.isNaN(v)) {
         value = v;
