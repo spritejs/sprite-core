@@ -14169,7 +14169,8 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     this.renderMode = renderMode;
 
     this.outputContext = context;
-    context.canvas.layer_ = this;
+
+    if (context.canvas) context.canvas.layer_ = this;
 
     this.childNodes = [];
     this.sortedChildNodes = [];

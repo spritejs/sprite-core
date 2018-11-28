@@ -41,7 +41,8 @@ export default class Layer extends BaseNode {
     this.renderMode = renderMode;
 
     this.outputContext = context;
-    context.canvas.layer_ = this;
+
+    if(context.canvas) context.canvas.layer_ = this;
 
     this.childNodes = [];
     this.sortedChildNodes = [];
