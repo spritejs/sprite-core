@@ -148,4 +148,8 @@ export default {
     }
     return null;
   },
+  async replaceChild(newChild, oldChild) {
+    await this.insertBefore(newChild, oldChild);
+    this.removeChild(oldChild);
+  },
 };

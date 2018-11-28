@@ -16714,6 +16714,10 @@ const _removeTask = Symbol('removeTask');
       return _insert();
     }
     return null;
+  },
+  async replaceChild(newChild, oldChild) {
+    await this.insertBefore(newChild, oldChild);
+    this.removeChild(oldChild);
   }
 });
 
