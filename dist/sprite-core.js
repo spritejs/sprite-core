@@ -15668,6 +15668,11 @@ function registerNodeType(type, Class) {
       return tagName;
     }
   });
+  Object.defineProperty(Class.prototype, 'nodeName', {
+    get: function get() {
+      return tagName;
+    }
+  });
   nodeTypes.set(nodeType, Class);
   if (isQuerable && !Class.prototype.ownerDocument) {
     Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);

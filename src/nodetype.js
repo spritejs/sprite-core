@@ -57,6 +57,11 @@ export function registerNodeType(type, Class, isQuerable = false) {
       return tagName;
     },
   });
+  Object.defineProperty(Class.prototype, 'nodeName', {
+    get() {
+      return tagName;
+    },
+  });
   nodeTypes.set(nodeType, Class);
   if(isQuerable && !Class.prototype.ownerDocument) {
     Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
