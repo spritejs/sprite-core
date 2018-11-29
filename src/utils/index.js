@@ -17,6 +17,7 @@ import {
   rectVertices,
   appendUnit,
   sortOrderedSprites,
+  generateID,
 } from './utils';
 
 import {
@@ -65,4 +66,5 @@ export {
   rectVertices,
   setDeprecation,
   sortOrderedSprites,
+  generateID,
 };

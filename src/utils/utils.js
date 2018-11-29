@@ -191,6 +191,16 @@ function notice(msg, level = 'warn') {
   }
 }
 
+const IDMap = new WeakMap();
+function generateID(obj) {
+  if(IDMap.has(obj)) {
+    return IDMap.get(obj);
+  }
+  const id = Math.random().toString(36).slice(2);
+  IDMap.set(obj, id);
+  return id;
+}
+
 export {
   appendUnit,
   boxEqual,
@@ -209,4 +219,5 @@ export {
   rectToBox,
   rectVertices,
   sortOrderedSprites,
+  generateID,
 };

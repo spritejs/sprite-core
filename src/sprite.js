@@ -1,4 +1,4 @@
-import {attr, flow, setDeprecation} from './utils';
+import {attr, flow, setDeprecation, generateID} from './utils';
 import BaseSprite from './basesprite';
 import filters from './filters';
 
@@ -34,6 +34,7 @@ class TextureAttr extends BaseSprite.Attr {
       if(!texture.image) {
         texture = {image: texture};
       }
+      texture.__tag = generateID(texture.image); // prevent JSON.stringify ignorance
       return texture;
     });
 

@@ -5993,7 +5993,7 @@ module.exports = function isPath(str) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOrderedSprites = exports.setDeprecation = exports.rectVertices = exports.rectToBox = exports.parseValue = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.inheritAttributes = exports.inherit = exports.relative = exports.absolute = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.flow = exports.deprecate = exports.Color = exports.boxUnion = exports.boxToRect = exports.boxIntersect = exports.boxEqual = exports.attr = exports.appendUnit = exports.cacheContextPool = exports.findColor = exports.cachable = undefined;
+exports.generateID = exports.sortOrderedSprites = exports.setDeprecation = exports.rectVertices = exports.rectToBox = exports.parseValue = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.inheritAttributes = exports.inherit = exports.relative = exports.absolute = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.flow = exports.deprecate = exports.Color = exports.boxUnion = exports.boxToRect = exports.boxIntersect = exports.boxEqual = exports.attr = exports.appendUnit = exports.cacheContextPool = exports.findColor = exports.cachable = undefined;
 
 var _utils = __webpack_require__(157);
 
@@ -6031,6 +6031,7 @@ exports.rectToBox = _utils.rectToBox;
 exports.rectVertices = _utils.rectVertices;
 exports.setDeprecation = _decorators.setDeprecation;
 exports.sortOrderedSprites = _utils.sortOrderedSprites;
+exports.generateID = _utils.generateID;
 
 /***/ }),
 /* 157 */
@@ -6042,7 +6043,11 @@ exports.sortOrderedSprites = _utils.sortOrderedSprites;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sortOrderedSprites = exports.rectVertices = exports.rectToBox = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.boxUnion = exports.boxToRect = exports.boxIntersect = exports.boxEqual = exports.appendUnit = exports.Color = undefined;
+exports.generateID = exports.sortOrderedSprites = exports.rectVertices = exports.rectToBox = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.boxUnion = exports.boxToRect = exports.boxIntersect = exports.boxEqual = exports.appendUnit = exports.Color = undefined;
+
+var _weakMap = __webpack_require__(59);
+
+var _weakMap2 = _interopRequireDefault(_weakMap);
 
 var _set = __webpack_require__(158);
 
@@ -6293,6 +6298,16 @@ function notice(msg) {
   }
 }
 
+var IDMap = new _weakMap2.default();
+function generateID(obj) {
+  if (IDMap.has(obj)) {
+    return IDMap.get(obj);
+  }
+  var id = Math.random().toString(36).slice(2);
+  IDMap.set(obj, id);
+  return id;
+}
+
 exports.appendUnit = appendUnit;
 exports.boxEqual = boxEqual;
 exports.boxIntersect = boxIntersect;
@@ -6310,6 +6325,7 @@ exports.parseStringTransform = parseStringTransform;
 exports.rectToBox = rectToBox;
 exports.rectVertices = rectVertices;
 exports.sortOrderedSprites = sortOrderedSprites;
+exports.generateID = generateID;
 
 /***/ }),
 /* 158 */
@@ -16028,6 +16044,7 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
         if (!texture.image) {
           texture = { image: texture };
         }
+        texture.__tag = (0, _utils.generateID)(texture.image); // prevent JSON.stringify ignorance
         return texture;
       });
 
