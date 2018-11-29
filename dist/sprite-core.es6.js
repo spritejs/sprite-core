@@ -7206,8 +7206,22 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this[_style] = {};
 
     this[_temp] = new Map(); // save non-serialized values
-    this.__attributesSet = new Set();
-    this.__styleTag = false;
+
+    Object.defineProperty(this, '__attributesSet', {
+      value: new Set()
+    });
+    Object.defineProperty(this, '__styleTag', {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, '__updateTag', {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, '__reflowTag', {
+      writable: true,
+      value: false
+    });
 
     this.setDefault({
       state: 'default',

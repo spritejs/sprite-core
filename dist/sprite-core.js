@@ -9980,8 +9980,22 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
     this[_style] = {};
 
     this[_temp] = new _map2.default(); // save non-serialized values
-    this.__attributesSet = new _set2.default();
-    this.__styleTag = false;
+
+    Object.defineProperty(this, '__attributesSet', {
+      value: new _set2.default()
+    });
+    Object.defineProperty(this, '__styleTag', {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, '__updateTag', {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, '__reflowTag', {
+      writable: true,
+      value: false
+    });
 
     this.setDefault({
       state: 'default',
