@@ -7786,7 +7786,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             return this;
           }
           if (typeof val === 'function') {
-            val = val(this[_attr][props]);
+            val = val(this.attr(props));
           }
           if (val && typeof val.then === 'function') {
             return val.then(function (res) {
@@ -7796,7 +7796,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           setVal(props, val);
           return this;
         }
-        return this[_attr][props];
+        return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
       }
 
       return this[_attr].attrs;
@@ -8984,7 +8984,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
         try {
           return new Proxy(this[_attr], {
             get: function get(target, prop) {
-              return target[prop];
+              return prop in target ? target[prop] : target.get(prop);
             },
             set: function set(target, prop, value) {
               if (typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;else target.subject.attr(prop, value);
@@ -10115,17 +10115,24 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'quietSet',
     value: function quietSet(key, val) {
-      if (!this.__styleTag && val != null) {
-        this.__attributesSet.add(key);
-      }
-      if (!this.__styleTag && val == null) {
-        val = this[_default][key];
-        if (this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
+      var oldVal = void 0;
+      if (key.length > 5 && key.indexOf('data-') === 0) {
+        var dataKey = key.slice(5);
+        oldVal = this.subject.data(dataKey);
+        this.subject.data(dataKey, val);
+      } else {
+        if (!this.__styleTag && val != null) {
+          this.__attributesSet.add(key);
         }
+        if (!this.__styleTag && val == null) {
+          val = this[_default][key];
+          if (this.__attributesSet.has(key)) {
+            this.__attributesSet.delete(key);
+          }
+        }
+        oldVal = this[_attr][key];
+        this[_attr][key] = val;
       }
-      var oldVal = this[_attr][key];
-      this[_attr][key] = val;
       if (oldVal !== val && _stylesheet2.default.relatedAttributes.has(key)) {
         this.subject.updateStyles();
       }
@@ -10177,6 +10184,9 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
   }, {
     key: 'get',
     value: function get(key) {
+      if (key.length > 5 && key.indexOf('data-') === 0) {
+        return this.subject.data(key.slice(5));
+      }
       if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
         return this[_style][key];
       }
@@ -14746,14 +14756,6 @@ var _from = __webpack_require__(99);
 
 var _from2 = _interopRequireDefault(_from);
 
-var _classCallCheck2 = __webpack_require__(114);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(115);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _slicedToArray2 = __webpack_require__(89);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
@@ -14766,9 +14768,17 @@ var _typeof2 = __webpack_require__(178);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _symbol2 = __webpack_require__(38);
+var _classCallCheck2 = __webpack_require__(114);
 
-var _symbol3 = _interopRequireDefault(_symbol2);
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(115);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _symbol = __webpack_require__(38);
+
+var _symbol2 = _interopRequireDefault(_symbol);
 
 var _stylesheet = __webpack_require__(197);
 
@@ -14776,55 +14786,10 @@ var _stylesheet2 = _interopRequireDefault(_stylesheet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _eventHandlers = (0, _symbol3.default)('eventHandlers'),
-    _collisionState = (0, _symbol3.default)('collisionState'),
-    _data = (0, _symbol3.default)('data'),
-    _mouseCapture = (0, _symbol3.default)('mouseCapture');
-
-function createGetterSetter(_symbol, attrPrefix) {
-  return function (props, val) {
-    var _this = this;
-
-    var setVal = function setVal(key, value) {
-      _this[_symbol][key] = value;
-      if (_this.attr) {
-        var attrKey = attrPrefix + '-' + key;
-        _this.attr(attrKey, value);
-        if (_stylesheet2.default.relatedAttributes.has(attrKey)) {
-          _this.updateStyles();
-        }
-      }
-      if (value == null) {
-        delete _this[_symbol][key];
-      }
-    };
-    if ((typeof props === 'undefined' ? 'undefined' : (0, _typeof3.default)(props)) === 'object') {
-      (0, _entries2.default)(props).forEach(function (_ref) {
-        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-            prop = _ref2[0],
-            value = _ref2[1];
-
-        _this.data(prop, value);
-      });
-      return this;
-    }if (typeof props === 'string') {
-      if (val !== undefined) {
-        if (typeof val === 'function') {
-          val = val(this[_symbol][props]);
-        }
-        if (val && typeof val.then === 'function') {
-          return val.then(function (res) {
-            setVal(props, res);
-          });
-        }
-        setVal(props, val);
-        return this;
-      }
-      return this[_symbol][props];
-    }
-    return this[_symbol];
-  };
-}
+var _eventHandlers = (0, _symbol2.default)('eventHandlers'),
+    _collisionState = (0, _symbol2.default)('collisionState'),
+    _data = (0, _symbol2.default)('data'),
+    _mouseCapture = (0, _symbol2.default)('mouseCapture');
 
 var BaseNode = function () {
   function BaseNode() {
@@ -14832,10 +14797,53 @@ var BaseNode = function () {
 
     this[_eventHandlers] = {};
     this[_data] = {};
-    this.data = createGetterSetter(_data, 'data');
   }
 
   (0, _createClass3.default)(BaseNode, [{
+    key: 'data',
+    value: function data(props, val) {
+      var _this = this;
+
+      var setVal = function setVal(key, value) {
+        _this[_data][key] = value;
+        if (_this.attr) {
+          var attrKey = 'data-' + key;
+          // this.attr(attrKey, value);
+          if (_stylesheet2.default.relatedAttributes.has(attrKey)) {
+            _this.updateStyles();
+          }
+        }
+        if (value == null) {
+          delete _this[_data][key];
+        }
+      };
+      if ((typeof props === 'undefined' ? 'undefined' : (0, _typeof3.default)(props)) === 'object') {
+        (0, _entries2.default)(props).forEach(function (_ref) {
+          var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+              prop = _ref2[0],
+              value = _ref2[1];
+
+          _this.data(prop, value);
+        });
+        return this;
+      }if (typeof props === 'string') {
+        if (val !== undefined) {
+          if (typeof val === 'function') {
+            val = val(this[_data][props]);
+          }
+          if (val && typeof val.then === 'function') {
+            return val.then(function (res) {
+              setVal(props, res);
+            });
+          }
+          setVal(props, val);
+          return this;
+        }
+        return this[_data][props];
+      }
+      return this[_data];
+    }
+  }, {
     key: 'updateStyles',
     value: function updateStyles() {
       // append to parent & reset name or class or id auto updateStyles
@@ -18018,11 +18026,18 @@ var Layer = function (_BaseNode) {
   }
 
   (0, _createClass3.default)(Layer, [{
-    key: 'attr',
-    value: function attr() {
+    key: 'data',
+    value: function data() {
       var _node2;
 
-      return (_node2 = this[_node]).attr.apply(_node2, arguments);
+      return (_node2 = this[_node]).data.apply(_node2, arguments);
+    }
+  }, {
+    key: 'attr',
+    value: function attr() {
+      var _node3;
+
+      return (_node3 = this[_node]).attr.apply(_node3, arguments);
     }
   }, {
     key: 'getAttribute',
@@ -18379,6 +18394,11 @@ var Layer = function (_BaseNode) {
     value: function clearUpdate() {
       /* istanbul ignore next  */
       this[_updateSet].clear();
+    }
+  }, {
+    key: 'dataset',
+    get: function get() {
+      return this[_node].dataset;
     }
   }, {
     key: 'attributes',

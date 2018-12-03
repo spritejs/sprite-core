@@ -303,7 +303,7 @@ export default class BaseSprite extends BaseNode {
           return this;
         }
         if(typeof val === 'function') {
-          val = val(this[_attr][props]);
+          val = val(this.attr(props));
         }
         if(val && typeof val.then === 'function') {
           return val.then((res) => {
@@ -313,7 +313,7 @@ export default class BaseSprite extends BaseNode {
         setVal(props, val);
         return this;
       }
-      return this[_attr][props];
+      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
     }
 
     return this[_attr].attrs;
@@ -324,7 +324,7 @@ export default class BaseSprite extends BaseNode {
       try {
         return new Proxy(this[_attr], {
           get(target, prop) {
-            return target[prop];
+            return prop in target ? target[prop] : target.get(prop);
           },
           set(target, prop, value) {
             if(typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;

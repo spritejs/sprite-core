@@ -86,6 +86,14 @@ export default class Layer extends BaseNode {
     }
   }
 
+  data(...args) {
+    return this[_node].data(...args);
+  }
+
+  get dataset() {
+    return this[_node].dataset;
+  }
+
   attr(...args) {
     return this[_node].attr(...args);
   }

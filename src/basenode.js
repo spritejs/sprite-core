@@ -5,19 +5,24 @@ const _eventHandlers = Symbol('eventHandlers'),
   _data = Symbol('data'),
   _mouseCapture = Symbol('mouseCapture');
 
-function createGetterSetter(_symbol, attrPrefix) {
-  return function (props, val) {
+export default class BaseNode {
+  constructor() {
+    this[_eventHandlers] = {};
+    this[_data] = {};
+  }
+
+  data(props, val) {
     const setVal = (key, value) => {
-      this[_symbol][key] = value;
+      this[_data][key] = value;
       if(this.attr) {
-        const attrKey = `${attrPrefix}-${key}`;
-        this.attr(attrKey, value);
+        const attrKey = `data-${key}`;
+        // this.attr(attrKey, value);
         if(stylesheet.relatedAttributes.has(attrKey)) {
           this.updateStyles();
         }
       }
       if(value == null) {
-        delete this[_symbol][key];
+        delete this[_data][key];
       }
     };
     if(typeof props === 'object') {
@@ -28,7 +33,7 @@ function createGetterSetter(_symbol, attrPrefix) {
     } if(typeof props === 'string') {
       if(val !== undefined) {
         if(typeof val === 'function') {
-          val = val(this[_symbol][props]);
+          val = val(this[_data][props]);
         }
         if(val && typeof val.then === 'function') {
           return val.then((res) => {
@@ -38,17 +43,9 @@ function createGetterSetter(_symbol, attrPrefix) {
         setVal(props, val);
         return this;
       }
-      return this[_symbol][props];
+      return this[_data][props];
     }
-    return this[_symbol];
-  };
-}
-
-export default class BaseNode {
-  constructor() {
-    this[_eventHandlers] = {};
-    this[_data] = {};
-    this.data = createGetterSetter(_data, 'data');
+    return this[_data];
   }
 
   updateStyles() {

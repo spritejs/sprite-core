@@ -126,17 +126,24 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
-    if(!this.__styleTag && val != null) {
-      this.__attributesSet.add(key);
-    }
-    if(!this.__styleTag && val == null) {
-      val = this[_default][key];
-      if(this.__attributesSet.has(key)) {
-        this.__attributesSet.delete(key);
+    let oldVal;
+    if(key.length > 5 && key.indexOf('data-') === 0) {
+      const dataKey = key.slice(5);
+      oldVal = this.subject.data(dataKey);
+      this.subject.data(dataKey, val);
+    } else {
+      if(!this.__styleTag && val != null) {
+        this.__attributesSet.add(key);
       }
+      if(!this.__styleTag && val == null) {
+        val = this[_default][key];
+        if(this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+      oldVal = this[_attr][key];
+      this[_attr][key] = val;
     }
-    const oldVal = this[_attr][key];
-    this[_attr][key] = val;
     if(oldVal !== val && stylesheet.relatedAttributes.has(key)) {
       this.subject.updateStyles();
     }
@@ -198,6 +205,9 @@ class SpriteAttr {
   }
 
   get(key) {
+    if(key.length > 5 && key.indexOf('data-') === 0) {
+      return this.subject.data(key.slice(5));
+    }
     if(this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
       return this[_style][key];
     }

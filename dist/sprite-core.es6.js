@@ -5791,7 +5791,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           return this;
         }
         if (typeof val === 'function') {
-          val = val(this[_attr][props]);
+          val = val(this.attr(props));
         }
         if (val && typeof val.then === 'function') {
           return val.then(res => {
@@ -5801,7 +5801,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         setVal(props, val);
         return this;
       }
-      return this[_attr][props];
+      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
     }
 
     return this[_attr].attrs;
@@ -5812,7 +5812,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       try {
         return new Proxy(this[_attr], {
           get(target, prop) {
-            return target[prop];
+            return prop in target ? target[prop] : target.get(prop);
           },
           set(target, prop, value) {
             if (typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;else target.subject.attr(prop, value);
@@ -7329,17 +7329,24 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   quietSet(key, val) {
-    if (!this.__styleTag && val != null) {
-      this.__attributesSet.add(key);
-    }
-    if (!this.__styleTag && val == null) {
-      val = this[_default][key];
-      if (this.__attributesSet.has(key)) {
-        this.__attributesSet.delete(key);
+    let oldVal;
+    if (key.length > 5 && key.indexOf('data-') === 0) {
+      const dataKey = key.slice(5);
+      oldVal = this.subject.data(dataKey);
+      this.subject.data(dataKey, val);
+    } else {
+      if (!this.__styleTag && val != null) {
+        this.__attributesSet.add(key);
       }
+      if (!this.__styleTag && val == null) {
+        val = this[_default][key];
+        if (this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+      oldVal = this[_attr][key];
+      this[_attr][key] = val;
     }
-    const oldVal = this[_attr][key];
-    this[_attr][key] = val;
     if (oldVal !== val && _stylesheet__WEBPACK_IMPORTED_MODULE_3__["default"].relatedAttributes.has(key)) {
       this.subject.updateStyles();
     }
@@ -7392,6 +7399,9 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   get(key) {
+    if (key.length > 5 && key.indexOf('data-') === 0) {
+      return this.subject.data(key.slice(5));
+    }
     if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
       return this[_style][key];
     }
@@ -11670,19 +11680,24 @@ const _eventHandlers = Symbol('eventHandlers'),
       _data = Symbol('data'),
       _mouseCapture = Symbol('mouseCapture');
 
-function createGetterSetter(_symbol, attrPrefix) {
-  return function (props, val) {
+let BaseNode = class BaseNode {
+  constructor() {
+    this[_eventHandlers] = {};
+    this[_data] = {};
+  }
+
+  data(props, val) {
     const setVal = (key, value) => {
-      this[_symbol][key] = value;
+      this[_data][key] = value;
       if (this.attr) {
-        const attrKey = `${attrPrefix}-${key}`;
-        this.attr(attrKey, value);
+        const attrKey = `data-${key}`;
+        // this.attr(attrKey, value);
         if (_stylesheet__WEBPACK_IMPORTED_MODULE_0__["default"].relatedAttributes.has(attrKey)) {
           this.updateStyles();
         }
       }
       if (value == null) {
-        delete this[_symbol][key];
+        delete this[_data][key];
       }
     };
     if (typeof props === 'object') {
@@ -11693,7 +11708,7 @@ function createGetterSetter(_symbol, attrPrefix) {
     }if (typeof props === 'string') {
       if (val !== undefined) {
         if (typeof val === 'function') {
-          val = val(this[_symbol][props]);
+          val = val(this[_data][props]);
         }
         if (val && typeof val.then === 'function') {
           return val.then(res => {
@@ -11703,17 +11718,9 @@ function createGetterSetter(_symbol, attrPrefix) {
         setVal(props, val);
         return this;
       }
-      return this[_symbol][props];
+      return this[_data][props];
     }
-    return this[_symbol];
-  };
-}
-
-let BaseNode = class BaseNode {
-  constructor() {
-    this[_eventHandlers] = {};
-    this[_data] = {};
-    this.data = createGetterSetter(_data, 'data');
+    return this[_data];
   }
 
   updateStyles() {
@@ -14248,6 +14255,14 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     if (useDocumentCSS) {
       _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].fromDocumentCSS();
     }
+  }
+
+  data(...args) {
+    return this[_node].data(...args);
+  }
+
+  get dataset() {
+    return this[_node].dataset;
   }
 
   attr(...args) {
