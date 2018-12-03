@@ -21,15 +21,18 @@ const installed = new WeakMap();
 const _merged = Symbol('merged');
 
 let target = null;
-function use(plugin, options, merge = true) {
+function use(plugin, options = null, merge = true) {
   if(!target) {
     target = Object.assign({}, this);
     target.__spritejs = this;
-    target.use = use.bind(target);
+    // target.use = use.bind(target);
+    target.use = function (plugin, options = null, merge = false) {
+      return use.call(target, plugin, options, merge);
+    };
   }
   if(typeof options === 'boolean') {
     merge = options;
-    options = undefined;
+    options = null;
   }
   if(installed.has(plugin)) {
     const ret = installed.get(plugin);
@@ -40,7 +43,7 @@ function use(plugin, options, merge = true) {
     return ret;
   }
   const install = plugin.install || plugin;
-  const ret = install(target, options) || {};
+  const ret = install.call(plugin, target, options) || {};
   installed.set(plugin, ret);
   if(merge) {
     Object.assign(target.__spritejs, ret);
