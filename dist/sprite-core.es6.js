@@ -14872,9 +14872,10 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
           { bgcolor: bgGradient } = this.attr('gradients'),
           [width, height] = this.attrSize,
           [anchorX, anchorY] = this.attr('anchor'),
-          bgimage = this.attr('bgimage');
+          bgimage = this.attr('bgimage'),
+          [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
 
-    return !anchorX && !anchorY && !width && !height && !borderRadius && !borderWidth && !bgcolor && !bgGradient && !bgimage;
+    return !anchorX && !anchorY && !width && !height && !borderRadius && !borderWidth && !bgcolor && !bgGradient && !bgimage && !paddingTop && !paddingRight && !paddingBottom && !paddingLeft;
   }
 
   scrollTo(x, y) {

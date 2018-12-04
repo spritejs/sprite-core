@@ -121,10 +121,12 @@ export default class Group extends BaseSprite {
       {bgcolor: bgGradient} = this.attr('gradients'),
       [width, height] = this.attrSize,
       [anchorX, anchorY] = this.attr('anchor'),
-      bgimage = this.attr('bgimage');
+      bgimage = this.attr('bgimage'),
+      [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
 
     return !anchorX && !anchorY && !width && !height && !borderRadius
-      && !borderWidth && !bgcolor && !bgGradient && !bgimage;
+      && !borderWidth && !bgcolor && !bgGradient && !bgimage
+      && !paddingTop && !paddingRight && !paddingBottom && !paddingLeft;
   }
 
   scrollTo(x, y) {
