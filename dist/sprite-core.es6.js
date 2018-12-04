@@ -169,6 +169,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+_utils__WEBPACK_IMPORTED_MODULE_3__["parseFont"] = __webpack_require__(153);
+
 const Color = _utils__WEBPACK_IMPORTED_MODULE_3__["Color"];
 
 const installed = new WeakMap();

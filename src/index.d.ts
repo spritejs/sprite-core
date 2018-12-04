@@ -518,6 +518,7 @@ declare namespace spritejs {
   }
 
   namespace utils {
+    function parseFont(str: string, defaultHeight: number): Object;
     function appendUnit(value: number|string, defaultUnit: string): string;
     function attr(target: any, prop: string, descriptor: PropertyDecorator): PropertyDescriptor;
     function boxEqual(box1: IBox, box2: IBox): boolean;

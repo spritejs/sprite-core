@@ -180,6 +180,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+utils.parseFont = __webpack_require__(229);
+
 var Color = utils.Color;
 
 var installed = new _weakMap2.default();
