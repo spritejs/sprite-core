@@ -8409,6 +8409,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
 
 
       if (!this.needRender) {
+        drawingContext.translate(padding[3], padding[0]);
         return false;
       }
 

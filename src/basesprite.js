@@ -1111,6 +1111,7 @@ export default class BaseSprite extends BaseNode {
       [clientWidth, clientHeight] = this.clientSize;
 
     if(!this.needRender) {
+      drawingContext.translate(padding[3], padding[0]);
       return false;
     }
 

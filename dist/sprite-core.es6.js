@@ -6550,6 +6550,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           [clientWidth, clientHeight] = this.clientSize;
 
     if (!this.needRender) {
+      drawingContext.translate(padding[3], padding[0]);
       return false;
     }
 
