@@ -4405,7 +4405,7 @@ function parseStringTransform(str) {
 }
 
 function parseValuesString(str, parser) {
-  if (typeof str === 'string' && str !== '') {
+  if (typeof str === 'string' && str !== '' && str !== 'inherit') {
     const values = str.split(/[\s,]+/g);
     return values.map(v => {
       const ret = parser ? parser(v) : v;
@@ -5308,7 +5308,7 @@ function parseValue(...parsers) {
     const setter = descriptor.set;
 
     descriptor.set = function (val) {
-      if (val != null && val !== '') {
+      if (val != null && val !== '' && val !== 'inherit') {
         val = parsers.reduce((v, parser) => parser(v), val);
       }
       setter.call(this, val);

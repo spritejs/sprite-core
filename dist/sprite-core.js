@@ -6167,7 +6167,7 @@ function parseStringTransform(str) {
 }
 
 function parseValuesString(str, parser) {
-  if (typeof str === 'string' && str !== '') {
+  if (typeof str === 'string' && str !== '' && str !== 'inherit') {
     var values = str.split(/[\s,]+/g);
     return values.map(function (v) {
       var ret = parser ? parser(v) : v;
@@ -7241,7 +7241,7 @@ function parseValue() {
     var setter = descriptor.set;
 
     descriptor.set = function (val) {
-      if (val != null && val !== '') {
+      if (val != null && val !== '' && val !== 'inherit') {
         val = parsers.reduce(function (v, parser) {
           return parser(v);
         }, val);
