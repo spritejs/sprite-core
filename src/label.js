@@ -365,8 +365,8 @@ export default class Label extends BaseSprite {
       if(!this[_outputText]) calculTextboxSize(this);
       text = this[_outputText] || this.text;
 
-      if(this.textboxSize[0] > w
-        || this.textboxSize[1] > h) {
+      if((this.textboxSize[0] > w
+        || this.textboxSize[1] > h) && this.attr('clipOverflow')) {
         drawingContext.beginPath();
         drawingContext.rect(0, 0, w, h);
         drawingContext.clip();

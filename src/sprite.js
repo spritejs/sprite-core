@@ -204,7 +204,7 @@ export default class Sprite extends BaseSprite {
   render(t, drawingContext) {
     super.render(t, drawingContext);
     const textures = this.textures;
-    let cliped = false;
+    let cliped = !this.attr('clipOverflow');
     if(this.images && this.images.length) {
       textures.forEach((texture, i) => {
         const img = this.images[i];
@@ -212,7 +212,7 @@ export default class Sprite extends BaseSprite {
         const rect = texture.rect || [0, 0, w, h];
         const srcRect = texture.srcRect;
 
-        if(!cliped && texture.rect && (rect[2] - rect[0] > w || rect[3] - rect[1] > h)) {
+        if(!cliped && texture.rect && (rect[2] > w || rect[3] > h)) {
           cliped = true;
           drawingContext.beginPath();
           drawingContext.rect(0, 0, w, h);

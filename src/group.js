@@ -323,9 +323,11 @@ export default class Group extends BaseSprite {
 
     if(!this.isVirtual) {
       super.render(t, drawingContext);
-      drawingContext.beginPath();
-      drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
-      drawingContext.clip();
+      if(this.attr('clipOverflow')) {
+        drawingContext.beginPath();
+        drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
+        drawingContext.clip();
+      }
     }
 
     drawingContext.save();

@@ -264,14 +264,14 @@ export default class Path extends BaseSprite {
 
     if(d) {
       const svg = this.svg;
-      let [ox, oy, ow] = svg.bounds;
+      let [ox, oy, ow, oh] = svg.bounds;
       let [px, py] = this.pathOffset;
-      const [w] = this.contentSize;
-      // if(w < ow || h < oh) {
-      //   drawingContext.beginPath();
-      //   drawingContext.rect(0, 0, w, h);
-      //   drawingContext.clip();
-      // }
+      const [w, h] = this.contentSize;
+      if((w < ow || h < oh) && this.attr('clipOverflow')) {
+        drawingContext.beginPath();
+        drawingContext.rect(0, 0, w, h);
+        drawingContext.clip();
+      }
 
       if(flexible) {
         svg.save();

@@ -108,6 +108,7 @@ class SpriteAttr {
       filter: '', // filter: {blur, ...}
       shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
       bgimage: '',
+      clipOverflow: true,
     });
   }
 
@@ -1032,6 +1033,11 @@ class SpriteAttr {
   @attr
   set exitMode(val) {
     this.set('exitMode', val);
+  }
+
+  @attr
+  set clipOverflow(val) {
+    this.set('clipOverflow', !!val);
   }
 }
 
