@@ -8980,7 +8980,7 @@ function resolveQuery(query) {
   if (matches) {
     matches = matches.map(matched => {
       const kv = matched.slice(1, -1).split('=');
-      const arr = JSON.parse(kv[1].replace(/['"]/g, ''));
+      const arr = kv[1].slice(2, -2).split(/,/g).map(k => k.trim());
       return [matched, `[${kv[0]}="[${arr}]"]`];
     });
     matches.forEach(([r, p]) => {
