@@ -309,12 +309,18 @@ export default class Group extends BaseSprite {
     }
   }
 
-  render(t, drawingContext) {
+  draw(t, drawingContext = this.context) {
+    // must relayout before draw
+    // prevent originalRect changing when rendering.
     const display = this.attr('display');
     if(display !== '' && display !== 'static' && !this[_layoutTag]) {
       this.relayout();
+      this[_layoutTag] = true;
     }
+    return super.draw(t, drawingContext);
+  }
 
+  render(t, drawingContext) {
     const clipPath = this.attr('clip');
     if(clipPath) {
       this.svg.beginPath().to(drawingContext);
@@ -350,10 +356,6 @@ export default class Group extends BaseSprite {
       }
     }
     drawingContext.restore();
-
-    if(display !== '' && display !== 'static') {
-      this[_layoutTag] = true;
-    }
   }
 }
 Object.assign(Group.prototype, groupApi);
