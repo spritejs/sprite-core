@@ -11940,6 +11940,11 @@ let BaseNode = class BaseNode {
       zOrder
     }, true, true);
 
+    parent.dispatchEvent('appendChild', {
+      child: this,
+      zOrder
+    }, true, true);
+
     return this;
   }
 
@@ -11956,6 +11961,11 @@ let BaseNode = class BaseNode {
 
     this.dispatchEvent('remove', {
       parent,
+      zOrder
+    }, true, true);
+
+    parent.dispatchEvent('removeChild', {
+      child: this,
       zOrder
     }, true, true);
 

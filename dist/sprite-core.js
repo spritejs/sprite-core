@@ -15104,6 +15104,11 @@ var BaseNode = function () {
         zOrder: zOrder
       }, true, true);
 
+      parent.dispatchEvent('appendChild', {
+        child: this,
+        zOrder: zOrder
+      }, true, true);
+
       return this;
     }
 
@@ -15123,6 +15128,11 @@ var BaseNode = function () {
 
       this.dispatchEvent('remove', {
         parent: parent,
+        zOrder: zOrder
+      }, true, true);
+
+      parent.dispatchEvent('removeChild', {
+        child: this,
         zOrder: zOrder
       }, true, true);
 
