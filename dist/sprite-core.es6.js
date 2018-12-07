@@ -7444,7 +7444,8 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     Object.entries(attrs).forEach(([key, value]) => {
       if (this[_default][key] !== value) {
         if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
-          this[key] = value;
+          // this[key] = value;
+          this.subject.attr(key, value);
         } else if (key === 'offsetPath') {
           const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default.a(value);
           this.set('offsetPath', offsetPath.d);
@@ -7461,7 +7462,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   serialize() {
     const ret = {};
     [...this.__attributesSet].forEach(key => {
-      if (key !== 'id') {
+      if (key !== 'id' && key.indexOf('__internal') !== 0) {
         ret[key] = this[key];
       }
     });
@@ -8583,7 +8584,7 @@ function resolveToken(token) {
       ret = `:${token.name}`;
     }
     // not support yet
-    valid = token.name !== 'hover' && token.name !== 'active' && token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
+    valid = token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
     priority = token.name !== 'not' ? 1000 : 0;
   } else if (token.type === 'pseudo-element') {
     ret = `::${token.name}`;
@@ -8838,6 +8839,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const CSSselect = __webpack_require__(123);
+
+CSSselect.pseudos.hover = next => {
+  return !!next.attr('__internal_state_hover_');
+};
+
+CSSselect.pseudos.active = next => {
+  return !!next.attr('__internal_state_active_');
+};
 
 function isTag(elem) {
   return elem.nodeType === 1 || typeof elem.nodeType === 'string';
@@ -11882,6 +11891,12 @@ let BaseNode = class BaseNode {
         }
       }
 
+      if (type === 'mousedown' || type === 'touchstart') {
+        this.attr('__internal_state_active_', 'active');
+      } else if (type === 'mouseup' || type === 'touchend') {
+        this.attr('__internal_state_active_', null);
+      }
+
       [...handlers].forEach(handler => handler.call(this, evt));
 
       if (!this[_collisionState] && isCollision && type === 'mousemove') {
@@ -11890,6 +11905,7 @@ let BaseNode = class BaseNode {
         delete _evt.target;
         _evt.terminated = false;
         this.dispatchEvent('mouseenter', _evt, true, true);
+        this.attr('__internal_state_hover_', 'hover');
         this[_collisionState] = true;
       }
     }
@@ -11900,6 +11916,7 @@ let BaseNode = class BaseNode {
       delete _evt.target;
       _evt.terminated = false;
       this.dispatchEvent('mouseleave', _evt);
+      this.attr('__internal_state_hover_', null);
       // this[_collisionState] = false;
     }
 

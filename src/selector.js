@@ -2,6 +2,14 @@ import {parseColorString} from './utils';
 
 const CSSselect = require('css-select');
 
+CSSselect.pseudos.hover = (next) => {
+  return !!next.attr('__internal_state_hover_');
+};
+
+CSSselect.pseudos.active = (next) => {
+  return !!next.attr('__internal_state_active_');
+};
+
 function isTag(elem) {
   return elem.nodeType === 1 || typeof elem.nodeType === 'string';
 }

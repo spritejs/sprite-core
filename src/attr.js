@@ -252,7 +252,8 @@ class SpriteAttr {
           && key !== 'offsetRotate'
           && key !== 'offsetAngle'
           && key !== 'offsetPoint') {
-          this[key] = value;
+          // this[key] = value;
+          this.subject.attr(key, value);
         } else if(key === 'offsetPath') {
           const offsetPath = new SvgPath(value);
           this.set('offsetPath', offsetPath.d);
@@ -269,7 +270,7 @@ class SpriteAttr {
   serialize() {
     const ret = {};
     [...this.__attributesSet].forEach((key) => {
-      if(key !== 'id') {
+      if(key !== 'id' && key.indexOf('__internal') !== 0) {
         ret[key] = this[key];
       }
     });

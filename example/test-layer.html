@@ -76,13 +76,26 @@
     // s.on('mouseleave', (evt) => {
     //   console.log(evt);
     // });
-    layer.on('click', (evt) => {
-      console.log(evt.offsetX);
+    layer.on('mouseenter', (evt) => {
+      console.log(evt.type);
     });
 
     mycanvas.addEventListener('click', (evt) => {
       const {offsetX, offsetY} = evt;
       layer.dispatchEvent('click', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
+
+    mycanvas.addEventListener('mousemove', (evt) => {
+      const {offsetX, offsetY} = evt;
+      layer.dispatchEvent('mousemove', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
+    mycanvas.addEventListener('mousedown', (evt) => {
+      const {offsetX, offsetY} = evt;
+      layer.dispatchEvent('mousedown', {layerX: offsetX, layerY: offsetY, originEvent: evt});
+    });
+    mycanvas.addEventListener('mouseup', (evt) => {
+      const {offsetX, offsetY} = evt;
+      layer.dispatchEvent('mouseup', {layerX: offsetX, layerY: offsetY, originEvent: evt});
     });
   </script>
 </body>

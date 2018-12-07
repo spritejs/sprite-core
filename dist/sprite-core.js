@@ -10222,7 +10222,8 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
 
         if (_this[_default][key] !== value) {
           if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
-            _this[key] = value;
+            // this[key] = value;
+            _this.subject.attr(key, value);
           } else if (key === 'offsetPath') {
             var offsetPath = new _svgPathToCanvas2.default(value);
             _this.set('offsetPath', offsetPath.d);
@@ -10242,7 +10243,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), _de
 
       var ret = {};
       [].concat((0, _toConsumableArray3.default)(this.__attributesSet)).forEach(function (key) {
-        if (key !== 'id') {
+        if (key !== 'id' && key.indexOf('__internal') !== 0) {
           ret[key] = _this2[key];
         }
       });
@@ -11564,7 +11565,7 @@ function resolveToken(token) {
       ret = ':' + token.name;
     }
     // not support yet
-    valid = token.name !== 'hover' && token.name !== 'active' && token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
+    valid = token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
     priority = token.name !== 'not' ? 1000 : 0;
   } else if (token.type === 'pseudo-element') {
     ret = '::' + token.name;
@@ -11855,6 +11856,14 @@ var _utils = __webpack_require__(156);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CSSselect = __webpack_require__(199);
+
+CSSselect.pseudos.hover = function (next) {
+  return !!next.attr('__internal_state_hover_');
+};
+
+CSSselect.pseudos.active = function (next) {
+  return !!next.attr('__internal_state_active_');
+};
 
 function isTag(elem) {
   return elem.nodeType === 1 || typeof elem.nodeType === 'string';
@@ -15040,6 +15049,12 @@ var BaseNode = function () {
           }
         }
 
+        if (type === 'mousedown' || type === 'touchstart') {
+          this.attr('__internal_state_active_', 'active');
+        } else if (type === 'mouseup' || type === 'touchend') {
+          this.attr('__internal_state_active_', null);
+        }
+
         [].concat((0, _toConsumableArray3.default)(handlers)).forEach(function (handler) {
           return handler.call(_this5, evt);
         });
@@ -15050,6 +15065,7 @@ var BaseNode = function () {
           delete _evt.target;
           _evt.terminated = false;
           this.dispatchEvent('mouseenter', _evt, true, true);
+          this.attr('__internal_state_hover_', 'hover');
           this[_collisionState] = true;
         }
       }
@@ -15060,6 +15076,7 @@ var BaseNode = function () {
         delete _evt2.target;
         _evt2.terminated = false;
         this.dispatchEvent('mouseleave', _evt2);
+        this.attr('__internal_state_hover_', null);
         // this[_collisionState] = false;
       }
 

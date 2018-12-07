@@ -454,9 +454,7 @@ function resolveToken(token) { // eslint-disable-line complexity
       ret = `:${token.name}`;
     }
     // not support yet
-    valid = token.name !== 'hover'
-      && token.name !== 'active'
-      && token.name !== 'focus'
+    valid = token.name !== 'focus'
       && token.name !== 'link'
       && token.name !== 'visited'
       && token.name !== 'lang';

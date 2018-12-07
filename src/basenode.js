@@ -198,6 +198,12 @@ export default class BaseNode {
         }
       }
 
+      if(type === 'mousedown' || type === 'touchstart') {
+        this.attr('__internal_state_active_', 'active');
+      } else if(type === 'mouseup' || type === 'touchend') {
+        this.attr('__internal_state_active_', null);
+      }
+
       [...handlers].forEach(handler => handler.call(this, evt));
 
       if(!this[_collisionState] && isCollision && type === 'mousemove') {
@@ -206,6 +212,7 @@ export default class BaseNode {
         delete _evt.target;
         _evt.terminated = false;
         this.dispatchEvent('mouseenter', _evt, true, true);
+        this.attr('__internal_state_hover_', 'hover');
         this[_collisionState] = true;
       }
     }
@@ -216,6 +223,7 @@ export default class BaseNode {
       delete _evt.target;
       _evt.terminated = false;
       this.dispatchEvent('mouseleave', _evt);
+      this.attr('__internal_state_hover_', null);
       // this[_collisionState] = false;
     }
 
