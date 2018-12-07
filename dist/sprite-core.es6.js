@@ -8139,7 +8139,7 @@ const cssWhat = __webpack_require__(144);
 let cssRules = [];
 const keyFrames = {};
 
-const relatedAttributes = new Set();
+const relatedAttributes = new Set(['__internal_state_hover_', '__internal_state_active_']);
 
 const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');
@@ -11860,6 +11860,7 @@ let BaseNode = class BaseNode {
       evt.target = this;
       this[_collisionState] = false;
       isCollision = true;
+      this.attr('__internal_state_hover_', null);
     }
 
     if (!evt.terminated && (isCollision || captured)) {

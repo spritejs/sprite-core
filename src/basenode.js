@@ -167,6 +167,7 @@ export default class BaseNode {
       evt.target = this;
       this[_collisionState] = false;
       isCollision = true;
+      this.attr('__internal_state_hover_', null);
     }
 
     if(!evt.terminated && (isCollision || captured)) {

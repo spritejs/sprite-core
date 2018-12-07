@@ -5,7 +5,7 @@ const cssWhat = require('css-what');
 let cssRules = [];
 const keyFrames = {};
 
-const relatedAttributes = new Set();
+const relatedAttributes = new Set(['__internal_state_hover_', '__internal_state_active_']);
 
 const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');

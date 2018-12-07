@@ -11083,7 +11083,7 @@ var cssWhat = __webpack_require__(220);
 var cssRules = [];
 var keyFrames = {};
 
-var relatedAttributes = new _set2.default();
+var relatedAttributes = new _set2.default(['__internal_state_hover_', '__internal_state_active_']);
 
 var _matchedSelectors = (0, _symbol2.default)('matchedSelectors');
 var _transitions = (0, _symbol2.default)('transitions');
@@ -15018,6 +15018,7 @@ var BaseNode = function () {
         evt.target = this;
         this[_collisionState] = false;
         isCollision = true;
+        this.attr('__internal_state_hover_', null);
       }
 
       if (!evt.terminated && (isCollision || captured)) {
