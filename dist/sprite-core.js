@@ -11994,6 +11994,7 @@ var adapter = {
 };
 
 function resolveQuery(query) {
+  if (typeof query !== 'string') return query;
   var matches = query.match(/\[(bgcolor|fillColor|strokeColor|color)\s*=\s*['"]?\w+['"]?\]/g);
   if (matches) {
     matches = matches.map(function (matched) {
@@ -12038,11 +12039,11 @@ function querySelector(query, elems) {
 }
 
 function isMatched(elem, query) {
-  return CSSselect.is(elem, query, { adapter: adapter });
+  return CSSselect.is(elem, resolveQuery(query), { adapter: adapter });
 }
 
 function compile(query) {
-  return CSSselect.compile(query, { adapter: adapter });
+  return CSSselect.compile(resolveQuery(query), { adapter: adapter });
 }
 
 /***/ }),
