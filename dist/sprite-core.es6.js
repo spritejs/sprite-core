@@ -6459,7 +6459,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
             const node = children[i];
             _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(node);
             if (node.querySelectorAll) {
-              const nodes = this.querySelectorAll('*');
+              const nodes = node.querySelectorAll('*');
               nodes.forEach(child => _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(child));
             }
           }

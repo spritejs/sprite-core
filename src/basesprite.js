@@ -1014,7 +1014,7 @@ export default class BaseSprite extends BaseNode {
             const node = children[i];
             stylesheet.computeStyle(node);
             if(node.querySelectorAll) {
-              const nodes = this.querySelectorAll('*');
+              const nodes = node.querySelectorAll('*');
               nodes.forEach(child => stylesheet.computeStyle(child));
             }
           }
