@@ -997,10 +997,15 @@ export default class BaseSprite extends BaseNode {
 
   }
 
-  draw(t, drawingContext = this.context) {
+  draw(t, drawingContext = this.context) { // eslint-disable-line complexity
     if(this.__styleNeedUpdate) {
       stylesheet.computeStyle(this);
     }
+    if(!this.isVisible()) {
+      delete this.lastRenderBox;
+      return;
+    }
+
     const bound = this.originalRect;
     let cachableContext = !this.isVirtual && this.cache;
 

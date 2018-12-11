@@ -348,9 +348,7 @@ export default class Group extends BaseSprite {
         isDirty = child.isDirty;
       child.isDirty = false;
 
-      if(child.isVisible()) {
-        child.draw(t, drawingContext);
-      }
+      child.draw(t, drawingContext);
       if(isDirty) {
         child.dispatchEvent('update', {target: child, renderTime: t}, true, true);
       }

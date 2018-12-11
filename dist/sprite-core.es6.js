@@ -6442,9 +6442,15 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   relayout() {}
 
   draw(t, drawingContext = this.context) {
+    // eslint-disable-line complexity
     if (this.__styleNeedUpdate) {
       _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(this);
     }
+    if (!this.isVisible()) {
+      delete this.lastRenderBox;
+      return;
+    }
+
     const bound = this.originalRect;
     let cachableContext = !this.isVirtual && this.cache;
 
@@ -14544,20 +14550,18 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
       child.isDirty = false;
 
       if (child.parent === this) {
-        const isVisible = child.isVisible();
-        if (isVisible) {
-          child.draw(t);
-          if (this.renderMode === 'repaintDirty') {
+        child.draw(t);
+        if (this.renderMode === 'repaintDirty') {
+          if (child.isVisible()) {
             child.lastRenderBox = child.renderBox;
           } else {
-            child.lastRenderBox = 'no-calc';
+            delete child.lastRenderBox;
           }
         } else {
-          // invisible, only need to remove lastRenderBox
-          delete child.lastRenderBox;
+          child.lastRenderBox = 'no-calc';
         }
         if (isDirty) {
-          child.dispatchEvent('update', { target: child, renderTime: t, isVisible }, true, true);
+          child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
         }
       }
     }
@@ -15173,9 +15177,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
             isDirty = child.isDirty;
       child.isDirty = false;
 
-      if (child.isVisible()) {
-        child.draw(t, drawingContext);
-      }
+      child.draw(t, drawingContext);
       if (isDirty) {
         child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
       }
