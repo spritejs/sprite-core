@@ -605,7 +605,7 @@ export default {
   },
   computeStyle(el) {
     if(!el.layer || !el.attributes) return {};
-    this.__styleNeedUpdate = false;
+    el.__styleNeedUpdate = false;
     if(cssRules.length <= 0) return;
     const attrs = {};
     const selectors = [];

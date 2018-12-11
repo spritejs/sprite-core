@@ -998,8 +998,28 @@ export default class BaseSprite extends BaseNode {
   }
 
   draw(t, drawingContext = this.context) { // eslint-disable-line complexity
-    if(this.__styleNeedUpdate) {
+    const styleNeedUpdate = this.__styleNeedUpdate;
+    if(styleNeedUpdate) {
       stylesheet.computeStyle(this);
+      if(this.querySelectorAll) {
+        const children = this.querySelectorAll('*');
+        children.forEach(child => stylesheet.computeStyle(child));
+      }
+      if(styleNeedUpdate === 'siblings') {
+        if(this.parent) {
+          const children = this.parent.children;
+          const index = children.indexOf(this);
+          const len = children.length;
+          for(let i = index + 1; i < len; i++) {
+            const node = children[i];
+            stylesheet.computeStyle(node);
+            if(node.querySelectorAll) {
+              const nodes = this.querySelectorAll('*');
+              nodes.forEach(child => stylesheet.computeStyle(child));
+            }
+          }
+        }
+      }
     }
     if(!this.isVisible()) {
       delete this.lastRenderBox;

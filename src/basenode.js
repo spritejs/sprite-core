@@ -50,16 +50,16 @@ export default class BaseNode {
 
   updateStyles(nextSibling = false) {
     // append to parent & reset name or class or id auto updateStyles
-    this.__styleNeedUpdate = true;
-    if(this.children) {
-      this.children.forEach(child => child.updateStyles());
-    }
-    if(nextSibling) {
-      const nextChild = this.nextElementSilbing;
-      if(nextChild) {
-        nextChild.updateStyles(true);
-      }
-    }
+    this.__styleNeedUpdate = nextSibling ? 'siblings' : 'children';
+    // if(this.children) {
+    //   this.children.forEach(child => child.updateStyles());
+    // }
+    // if(nextSibling) {
+    //   const nextChild = this.nextElementSibling;
+    //   if(nextChild) {
+    //     nextChild.updateStyles(true);
+    //   }
+    // }
     this.forceUpdate();
   }
 
@@ -250,19 +250,19 @@ export default class BaseNode {
     return children[idx + distance];
   }
 
-  get nextSilbing() {
+  get nextSibling() {
     return this.getNodeNearBy(1);
   }
 
-  get previousSilbing() {
+  get previousSibling() {
     return this.getNodeNearBy(-1);
   }
 
-  get nextElementSilbing() {
+  get nextElementSibling() {
     return this.getNodeNearBy(1, true);
   }
 
-  get previousElementSilbing() {
+  get previousElementSibling() {
     return this.getNodeNearBy(-1, true);
   }
 
