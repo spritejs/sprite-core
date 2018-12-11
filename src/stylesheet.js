@@ -561,8 +561,10 @@ export default {
       return d !== 0 ? d : a.order - b.order;
     });
   },
-  fromDocumentCSS(stylesheets) {
-    cssRules = cssRules.filter(r => !r.fromDoc);
+  fromDocumentCSS(stylesheets, override) {
+    if(override) {
+      cssRules = cssRules.filter(r => !r.fromDoc);
+    }
     if(typeof document === 'undefined') return;
     if(!stylesheets) stylesheets = document.styleSheets;
     if(stylesheets) {
