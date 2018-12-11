@@ -8736,6 +8736,7 @@ let order = 0;
   },
   computeStyle(el) {
     if (!el.layer || !el.attributes) return {};
+    this.__styleNeedUpdate = false;
     if (cssRules.length <= 0) return;
     const attrs = {};
     const selectors = [];
@@ -8821,7 +8822,6 @@ let order = 0;
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
-      this.__styleNeedUpdate = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
   },
@@ -12003,6 +12003,10 @@ let BaseNode = class BaseNode {
       zOrder
     }, true, true);
 
+    if (this.layer) {
+      this.updateStyles(true);
+    }
+
     return this;
   }
 
@@ -12010,6 +12014,11 @@ let BaseNode = class BaseNode {
   disconnect(parent) {
     if (!this.parent || parent !== this.parent) {
       throw new Error('Invalid node to disconnect');
+    }
+
+    if (this.layer) {
+      const nextSibling = this.nextElementSilbing;
+      if (nextSibling) nextSibling.updateStyles(true);
     }
 
     const zOrder = this.zOrder;
@@ -16721,7 +16730,6 @@ const _removeTask = Symbol('removeTask');
       }
 
       if (sprite.layer) {
-        sprite.updateStyles(true);
         return sprite.enter();
       }
       return sprite;
@@ -16765,11 +16773,7 @@ const _removeTask = Symbol('removeTask');
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
-      const parent = sprite.parent;
       sprite.disconnect(that);
-      if (parent && parent.children[0]) {
-        parent.children[0].updateStyles(true);
-      }
       return sprite;
     }
 
@@ -16828,7 +16832,6 @@ const _removeTask = Symbol('removeTask');
         this[_zOrder]++;
 
         if (this.layer) {
-          newchild.updateStyles(true);
           return newchild.enter();
         }
       };

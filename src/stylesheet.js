@@ -605,6 +605,7 @@ export default {
   },
   computeStyle(el) {
     if(!el.layer || !el.attributes) return {};
+    this.__styleNeedUpdate = false;
     if(cssRules.length <= 0) return;
     const attrs = {};
     const selectors = [];
@@ -691,7 +692,6 @@ export default {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
-      this.__styleNeedUpdate = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
   },

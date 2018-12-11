@@ -27,7 +27,6 @@ export default {
       }
 
       if(sprite.layer) {
-        sprite.updateStyles(true);
         return sprite.enter();
       }
       return sprite;
@@ -65,16 +64,12 @@ export default {
       if(idx === -1) {
         return null;
       }
-      const nextSibling = that.nextElementSibling;
       that.childNodes.splice(idx, 1);
       that.sortedChildNodes = sortOrderedSprites(that.childNodes);
       if(sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
       sprite.disconnect(that);
-      if(nextSibling) {
-        nextSibling.updateStyles(true);
-      }
       return sprite;
     }
 
@@ -133,7 +128,6 @@ export default {
         this[_zOrder]++;
 
         if(this.layer) {
-          newchild.updateStyles(true);
           return newchild.enter();
         }
       };

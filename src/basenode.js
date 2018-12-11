@@ -301,6 +301,10 @@ export default class BaseNode {
       zOrder,
     }, true, true);
 
+    if(this.layer) {
+      this.updateStyles(true);
+    }
+
     return this;
   }
 
@@ -308,6 +312,11 @@ export default class BaseNode {
   disconnect(parent) {
     if(!this.parent || parent !== this.parent) {
       throw new Error('Invalid node to disconnect');
+    }
+
+    if(this.layer) {
+      const nextSibling = this.nextElementSilbing;
+      if(nextSibling) nextSibling.updateStyles(true);
     }
 
     const zOrder = this.zOrder;

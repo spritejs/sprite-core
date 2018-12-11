@@ -11730,6 +11730,7 @@ exports.default = {
   },
   computeStyle: function computeStyle(el) {
     if (!el.layer || !el.attributes) return {};
+    this.__styleNeedUpdate = false;
     if (cssRules.length <= 0) return;
     var attrs = {};
     var selectors = [];
@@ -11822,7 +11823,6 @@ exports.default = {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
-      this.__styleNeedUpdate = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
   },
@@ -15159,6 +15159,10 @@ var BaseNode = function () {
         zOrder: zOrder
       }, true, true);
 
+      if (this.layer) {
+        this.updateStyles(true);
+      }
+
       return this;
     }
 
@@ -15169,6 +15173,11 @@ var BaseNode = function () {
     value: function disconnect(parent) {
       if (!this.parent || parent !== this.parent) {
         throw new Error('Invalid node to disconnect');
+      }
+
+      if (this.layer) {
+        var nextSibling = this.nextElementSilbing;
+        if (nextSibling) nextSibling.updateStyles(true);
       }
 
       var zOrder = this.zOrder;
@@ -21107,7 +21116,6 @@ exports.default = {
       }
 
       if (sprite.layer) {
-        sprite.updateStyles(true);
         return sprite.enter();
       }
       return sprite;
@@ -21157,11 +21165,7 @@ exports.default = {
       if (sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
-      var parent = sprite.parent;
       sprite.disconnect(that);
-      if (parent && parent.children[0]) {
-        parent.children[0].updateStyles(true);
-      }
       return sprite;
     }
 
@@ -21232,7 +21236,6 @@ exports.default = {
         _this5[_zOrder]++;
 
         if (_this5.layer) {
-          newchild.updateStyles(true);
           return newchild.enter();
         }
       };
