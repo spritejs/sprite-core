@@ -605,6 +605,7 @@ export default {
   },
   computeStyle(el) {
     if(!el.layer || !el.attributes) return {};
+    if(cssRules.length <= 0) return;
     const attrs = {};
     const selectors = [];
     const transitions = [];
@@ -631,6 +632,7 @@ export default {
         selectors.push(selector);
       }
     });
+    if(selectors.length <= 0) return;
     const matchedSelectors = selectors.join();
     if(el[_matchedSelectors] !== matchedSelectors) {
       // console.log(transitions);
@@ -689,6 +691,7 @@ export default {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
+      this.__styleNeedUpdate = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
   },

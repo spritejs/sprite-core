@@ -8307,6 +8307,9 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
     value: function draw(t) {
       var drawingContext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.context;
 
+      if (this.__styleNeedUpdate) {
+        _stylesheet2.default.computeStyle(this);
+      }
       var bound = this.originalRect;
       var cachableContext = !this.isVirtual && this.cache;
 
@@ -11727,6 +11730,7 @@ exports.default = {
   },
   computeStyle: function computeStyle(el) {
     if (!el.layer || !el.attributes) return {};
+    if (cssRules.length <= 0) return;
     var attrs = {};
     var selectors = [];
     var transitions = [];
@@ -11756,6 +11760,7 @@ exports.default = {
         selectors.push(selector);
       }
     });
+    if (selectors.length <= 0) return;
     var matchedSelectors = selectors.join();
     if (el[_matchedSelectors] !== matchedSelectors) {
       // console.log(transitions);
@@ -11817,6 +11822,7 @@ exports.default = {
       el.attributes.__styleTag = true;
       el.attr(attrs);
       el.attributes.__styleTag = false;
+      this.__styleNeedUpdate = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
   },
@@ -14869,11 +14875,22 @@ var BaseNode = function () {
   }, {
     key: 'updateStyles',
     value: function updateStyles() {
+      var nextSibling = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
       // append to parent & reset name or class or id auto updateStyles
-      if (this.layer) {
-        this.layer.__updateStyleTag = true;
-        this.forceUpdate();
+      this.__styleNeedUpdate = true;
+      if (this.children) {
+        this.children.forEach(function (child) {
+          return child.updateStyles();
+        });
       }
+      if (nextSibling) {
+        var nextChild = this.nextElementSilbing;
+        if (nextChild) {
+          nextChild.updateStyles(true);
+        }
+      }
+      this.forceUpdate();
     }
   }, {
     key: 'getEventHandlers',
@@ -15087,6 +15104,18 @@ var BaseNode = function () {
       return isCollision;
     }
   }, {
+    key: 'getNodeNearBy',
+    value: function getNodeNearBy() {
+      var distance = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      var isElement = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (!this.parent) return null;
+      if (distance === 0) return this;
+      var children = isElement ? this.parent.children : this.parent.childNodes;
+      var idx = children.indexOf(this);
+      return children[idx + distance];
+    }
+  }, {
     key: 'contains',
     value: function contains(node) {
       while (node && this !== node) {
@@ -15180,6 +15209,26 @@ var BaseNode = function () {
     key: 'parentNode',
     get: function get() {
       return this.parent;
+    }
+  }, {
+    key: 'nextSilbing',
+    get: function get() {
+      return this.getNodeNearBy(1);
+    }
+  }, {
+    key: 'previousSilbing',
+    get: function get() {
+      return this.getNodeNearBy(-1);
+    }
+  }, {
+    key: 'nextElementSilbing',
+    get: function get() {
+      return this.getNodeNearBy(1, true);
+    }
+  }, {
+    key: 'previousElementSilbing',
+    get: function get() {
+      return this.getNodeNearBy(-1, true);
     }
   }]);
   return BaseNode;
@@ -18038,8 +18087,7 @@ var Layer = function (_BaseNode) {
       _this.prepareRender();
     };
     _this[_node].updateStyles = function () {
-      _this.__updateStyleTag = true;
-      _this.prepareRender();
+      _this.updateStyles(true);
     };
 
     _this.touchedTargets = {};
@@ -18133,19 +18181,17 @@ var Layer = function (_BaseNode) {
       return this[_renderDeferer] ? this[_renderDeferer].promise : _promise2.default.resolve();
     }
   }, {
+    key: 'forceUpdate',
+    value: function forceUpdate() {
+      return this.prepareRender();
+    }
+  }, {
     key: 'draw',
     value: function draw() {
       var clearContext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
-      if (this.__updateStyleTag) {
-        if (_stylesheet2.default.cssRules.length > 0) {
-          var nodes = this.querySelectorAll('*');
-          _stylesheet2.default.computeStyle(this);
-          nodes.forEach(function (node) {
-            _stylesheet2.default.computeStyle(node);
-          });
-        }
-        this.__updateStyleTag = false;
+      if (this.__styleNeedUpdate) {
+        _stylesheet2.default.computeStyle(this);
       }
       var renderDeferrer = this[_renderDeferer];
       this[_renderDeferer] = null;
@@ -21061,7 +21107,7 @@ exports.default = {
       }
 
       if (sprite.layer) {
-        sprite.updateStyles();
+        sprite.updateStyles(true);
         return sprite.enter();
       }
       return sprite;
@@ -21114,7 +21160,7 @@ exports.default = {
       var parent = sprite.parent;
       sprite.disconnect(that);
       if (parent && parent.children[0]) {
-        parent.children[0].updateStyles();
+        parent.children[0].updateStyles(true);
       }
       return sprite;
     }
@@ -21186,7 +21232,7 @@ exports.default = {
         _this5[_zOrder]++;
 
         if (_this5.layer) {
-          newchild.updateStyles();
+          newchild.updateStyles(true);
           return newchild.enter();
         }
       };

@@ -27,7 +27,7 @@ export default {
       }
 
       if(sprite.layer) {
-        sprite.updateStyles();
+        sprite.updateStyles(true);
         return sprite.enter();
       }
       return sprite;
@@ -73,7 +73,7 @@ export default {
       const parent = sprite.parent;
       sprite.disconnect(that);
       if(parent && parent.children[0]) {
-        parent.children[0].updateStyles();
+        parent.children[0].updateStyles(true);
       }
       return sprite;
     }
@@ -133,7 +133,7 @@ export default {
         this[_zOrder]++;
 
         if(this.layer) {
-          newchild.updateStyles();
+          newchild.updateStyles(true);
           return newchild.enter();
         }
       };

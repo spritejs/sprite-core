@@ -998,6 +998,9 @@ export default class BaseSprite extends BaseNode {
   }
 
   draw(t, drawingContext = this.context) {
+    if(this.__styleNeedUpdate) {
+      stylesheet.computeStyle(this);
+    }
     const bound = this.originalRect;
     let cachableContext = !this.isVirtual && this.cache;
 

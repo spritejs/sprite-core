@@ -58,8 +58,7 @@ export default class Layer extends BaseNode {
       this.prepareRender();
     };
     this[_node].updateStyles = () => {
-      this.__updateStyleTag = true;
-      this.prepareRender();
+      this.updateStyles(true);
     };
 
     this.touchedTargets = {};
@@ -204,16 +203,13 @@ export default class Layer extends BaseNode {
     return this[_renderDeferer] ? this[_renderDeferer].promise : Promise.resolve();
   }
 
+  forceUpdate() {
+    return this.prepareRender();
+  }
+
   draw(clearContext = true) {
-    if(this.__updateStyleTag) {
-      if(stylesheet.cssRules.length > 0) {
-        const nodes = this.querySelectorAll('*');
-        stylesheet.computeStyle(this);
-        nodes.forEach((node) => {
-          stylesheet.computeStyle(node);
-        });
-      }
-      this.__updateStyleTag = false;
+    if(this.__styleNeedUpdate) {
+      stylesheet.computeStyle(this);
     }
     const renderDeferrer = this[_renderDeferer];
     this[_renderDeferer] = null;

@@ -48,12 +48,19 @@ export default class BaseNode {
     return this[_data];
   }
 
-  updateStyles() {
+  updateStyles(nextSibling = false) {
     // append to parent & reset name or class or id auto updateStyles
-    if(this.layer) {
-      this.layer.__updateStyleTag = true;
-      this.forceUpdate();
+    this.__styleNeedUpdate = true;
+    if(this.children) {
+      this.children.forEach(child => child.updateStyles());
     }
+    if(nextSibling) {
+      const nextChild = this.nextElementSilbing;
+      if(nextChild) {
+        nextChild.updateStyles(true);
+      }
+    }
+    this.forceUpdate();
   }
 
   get dataset() {
@@ -233,6 +240,30 @@ export default class BaseNode {
 
   get parentNode() {
     return this.parent;
+  }
+
+  getNodeNearBy(distance = 1, isElement = false) {
+    if(!this.parent) return null;
+    if(distance === 0) return this;
+    const children = isElement ? this.parent.children : this.parent.childNodes;
+    const idx = children.indexOf(this);
+    return children[idx + distance];
+  }
+
+  get nextSilbing() {
+    return this.getNodeNearBy(1);
+  }
+
+  get previousSilbing() {
+    return this.getNodeNearBy(-1);
+  }
+
+  get nextElementSilbing() {
+    return this.getNodeNearBy(1, true);
+  }
+
+  get previousElementSilbing() {
+    return this.getNodeNearBy(-1, true);
   }
 
   contains(node) {

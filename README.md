@@ -11,5 +11,5 @@ Platform-independent canvas render object model api.
 ## CDN
 
 ```html
-<script src="https://s3.ssl.qhres.com/!32be9bd2/sprite-core.min.js"></script>
+<script src="https://s5.ssl.qhres.com/!edf66d2c/sprite-core.min.js"></script>
 ```
