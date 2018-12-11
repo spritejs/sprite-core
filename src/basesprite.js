@@ -273,9 +273,9 @@ export default class BaseSprite extends BaseNode {
         });
       }
       this[_attr][key] = value;
-      if(stylesheet.relatedAttributes.has(key)) {
-        this.updateStyles();
-      }
+      // if(stylesheet.relatedAttributes.has(key)) {
+      //   this.updateStyles();
+      // }
     };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {

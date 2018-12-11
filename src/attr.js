@@ -127,20 +127,27 @@ class SpriteAttr {
   }
 
   quietSet(key, val) {
+    let oldVal;
     if(key.length > 5 && key.indexOf('data-') === 0) {
       const dataKey = key.slice(5);
+      oldVal = this.subject.data(dataKey);
       this.subject.data(dataKey, val);
     } else {
-      if(!this.__styleTag && val != null) {
+      if(val != null) {
         this.__attributesSet.add(key);
-      }
-      if(!this.__styleTag && val == null) {
+      } else {
         val = this[_default][key];
         if(this.__attributesSet.has(key)) {
           this.__attributesSet.delete(key);
         }
       }
+      oldVal = this[_attr][key];
       this[_attr][key] = val;
+    }
+    if(stylesheet.relatedAttributes.has(key)) {
+      if(typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
+        this.subject.updateStyles();
+      }
     }
   }
 

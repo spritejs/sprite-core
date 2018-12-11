@@ -5,7 +5,7 @@ const cssWhat = require('css-what');
 let cssRules = [];
 const keyFrames = {};
 
-const relatedAttributes = new Set(['__internal_state_hover_', '__internal_state_active_']);
+const relatedAttributes = new Set();
 
 const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');
@@ -453,6 +453,11 @@ function resolveToken(token) { // eslint-disable-line complexity
     } else {
       ret = `:${token.name}`;
     }
+    if(token.name === 'hover') {
+      relatedAttributes.add('__internal_state_hover_');
+    } else if(token.name === 'active') {
+      relatedAttributes.add('__internal_state_active_');
+    }
     // not support yet
     valid = token.name !== 'focus'
       && token.name !== 'link'
@@ -633,7 +638,7 @@ export default {
         selectors.push(selector);
       }
     });
-    if(selectors.length <= 0) return;
+    // if(selectors.length <= 0) return;
     const matchedSelectors = selectors.join();
     if(el[_matchedSelectors] !== matchedSelectors) {
       // console.log(transitions);
