@@ -65,15 +65,15 @@ export default {
       if(idx === -1) {
         return null;
       }
+      const nextSibling = that.nextElementSibling;
       that.childNodes.splice(idx, 1);
       that.sortedChildNodes = sortOrderedSprites(that.childNodes);
       if(sprite.isVisible() || sprite.lastRenderBox) {
         sprite.forceUpdate();
       }
-      const parent = sprite.parent;
       sprite.disconnect(that);
-      if(parent && parent.children[0]) {
-        parent.children[0].updateStyles(true);
+      if(nextSibling) {
+        nextSibling.updateStyles(true);
       }
       return sprite;
     }
