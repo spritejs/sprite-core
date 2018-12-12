@@ -1,7 +1,7 @@
 import stylesheet from './stylesheet';
 import {registerNodeType} from './nodetype';
 import NodeAttr from './attr';
-import {inheritAttributes} from './utils';
+import {inheritAttributes, parseFont} from './utils';
 
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
@@ -81,7 +81,6 @@ export default class BaseNode {
               || key === 'fontStyle'
               || key === 'fontVariant'
               || key === 'fontWeight') && !this.__attributeNames.has('font')) {
-              const parseFont = require('./helpers/parse-font');
               const font = this.get('font') || 'normal normal normal 16px Arial';
               const parsed = parseFont(font);
               parsed.fontSize = parsed.size + parsed.unit;

@@ -4,11 +4,13 @@
  * Font RegExp helpers.
  */
 
+import {sizeToPixel} from './utils';
+
 const weights = 'bold|bolder|lighter|[1-9]00',
   styles = 'italic|oblique',
   variants = 'small-caps',
   stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
-  units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh',
+  units = 'px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin|%',
   string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4e00-\u9fa5])+';
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
@@ -27,12 +29,6 @@ const sizeFamilyRe = new RegExp(
 /* eslint-enable prefer-template */
 
 /**
- * Cache font parsing.
- */
-
-const cache = {};
-
-/**
  * Parse font `str`.
  *
  * @param {String} str
@@ -41,19 +37,7 @@ const cache = {};
  * @api private
  */
 
-module.exports = function f(str, defaultHeight) {
-  if(defaultHeight == null) {
-    if(typeof window !== 'undefined' && window.getComputedStyle) {
-      const root = window.getComputedStyle(document.documentElement).fontSize;
-      defaultHeight = f(`${root} Arial`, 16).size;
-    } else {
-      defaultHeight = 16;
-    }
-  }
-
-  // Cached
-  if(cache[str]) return cache[str];
-
+export default function parseFont(str, defaultHeight) {
   // Try for required properties first.
   const sizeFamily = sizeFamilyRe.exec(str);
   if(!sizeFamily) return; // invalid
@@ -85,38 +69,7 @@ module.exports = function f(str, defaultHeight) {
 
   font.size0 = font.size;
 
-  // Convert to device units. (`font.unit` is the original unit)
-  // TODO: ch, ex
-  switch (font.unit) {
-    case 'pt':
-      font.size /= 0.75;
-      break;
-    case 'pc':
-      font.size *= 16;
-      break;
-    case 'in':
-      font.size *= 96;
-      break;
-    case 'cm':
-      font.size *= 96.0 / 2.54;
-      break;
-    case 'mm':
-      font.size *= 96.0 / 25.4;
-      break;
-    case '%':
-      // TODO disabled because existing unit tests assume 100
-      // font.size *= defaultHeight / 100 / 0.75
-      break;
-    case 'em':
-    case 'rem':
-      font.size *= defaultHeight;
-      break;
-    case 'q':
-      font.size *= 96 / 25.4 / 4;
-      break;
-    default:
-      break;
-  }
+  font.size = sizeToPixel({size: font.size0, unit: font.unit}, defaultHeight);
 
   if(font.unit === 'vw' || font.unit === 'vh') {
     if(typeof document !== 'undefined' && document.documentElement) {
@@ -126,8 +79,7 @@ module.exports = function f(str, defaultHeight) {
     }
   }
 
-  cache[str] = font;
   return font;
-};
+}
 
 /* eslint-enable */

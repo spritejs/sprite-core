@@ -1,3 +1,5 @@
+import parseFont from './parse-font';
+
 import {
   notice,
   Color,
@@ -13,6 +15,7 @@ import {
   appendUnit,
   sortOrderedSprites,
   generateID,
+  sizeToPixel,
 } from './utils';
 
 import {
@@ -57,4 +60,6 @@ export {
   setDeprecation,
   sortOrderedSprites,
   generateID,
+  sizeToPixel,
+  parseFont,
 };

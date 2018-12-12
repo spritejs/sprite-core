@@ -14,8 +14,6 @@ import {registerNodeType, createNode, createElement, isValidNodeType} from './no
 import {querySelector, querySelectorAll} from './selector';
 import stylesheet from './stylesheet';
 
-utils.parseFont = require('./helpers/parse-font');
-
 const Color = utils.Color;
 
 const installed = new WeakMap();

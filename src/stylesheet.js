@@ -1,4 +1,5 @@
 import {isMatched, compile} from './selector';
+import {parseFont, sizeToPixel} from './utils';
 
 const cssWhat = require('css-what');
 
@@ -45,54 +46,13 @@ function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
     const matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
     if(matched) {
       // console.log(matched);
-      const v = parseFloat(matched[1]);
+      const size = parseFloat(matched[1]);
       const unit = matched[2];
-      if(unit === 'px') {
-        value = v;
-      } else if(unit === 'pt') {
-        value = v / 0.75;
-      } else if(unit === 'pc') {
-        value = v * 16;
-      } else if(unit === 'in') {
-        value = v * 96;
-      } else if(unit === 'cm') {
-        value = v * 96.0 / 2.54;
-      } else if(unit === 'mm') {
-        value = v * 96.0 / 25.4;
-      } else if(unit === 'em' || unit === 'rem' || unit === 'ex') {
-        if(!defaultWidth && typeof getComputedStyle === 'function' && typeof document !== 'undefined') {
-          const root = getComputedStyle(document.documentElement).fontSize;
-          defaultWidth = toPxValue(root, 16);
-        }
-        value = v * defaultWidth;
-        if(unit === 'ex') value /= 2;
-      } else if(unit === 'q') {
-        value = v * 96.0 / 25.4 / 4;
-      } else if(unit === 'vw') {
-        if(typeof document !== 'undefined') {
-          const width = document.documentElement.clientWidth;
-          value = width * v / 100;
-        }
-      } else if(unit === 'vh') {
-        if(typeof document !== 'undefined') {
-          const height = document.documentElement.clientHeight;
-          value = height * v / 100;
-        }
-      } else if(unit === 'vmax' || unit === 'vmin') {
-        if(typeof document !== 'undefined') {
-          const width = document.documentElement.clientWidth;
-          const height = document.documentElement.clientHeight;
-          if(unit === 'vmax') {
-            value = Math.max(width, height) * v / 100;
-          } else {
-            value = Math.min(width, height) * v / 100;
-          }
-        }
-      }
+      value = sizeToPixel({size, unit});
     } else {
-      const v = Number(value);
-      if(!Number.isNaN(v)) {
-        value = v;
+      const size = Number(value);
+      if(!Number.isNaN(size)) {
+        value = size;
       }
     }
   }
@@ -381,7 +341,6 @@ function parseRuleAttrs(rule) {
     || 'fontVariant' in attrs
     || 'fontWeight' in attrs) {
     // for font inherit
-    const parseFont = require('./helpers/parse-font');
     const font = attrs.font || 'normal normal normal 16px Arial';
     const {style, variant, weight, family, size, unit} = parseFont(font);
     attrs.font = `${attrs.fontStyle || style} ${attrs.fontVariant || variant} ${attrs.fontWeight || weight} ${attrs.fontSize || size + unit} ${attrs.fontFamily || family}`;
