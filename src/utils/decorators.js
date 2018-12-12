@@ -178,32 +178,23 @@ export function relative(type = 'width') {
               v: parseFloat(val) / 100,
               rv: val,
             };
-          } else if(val.slice(-2) === 'rw') {
-            const layer = this.subject.layer;
-            let pv = null;
-            if(layer) {
-              pv = layer.resolution[0];
-            }
-            val = {
-              relative: 'rw',
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val,
-            };
-          } else if(val.slice(-2) === 'rh') {
-            const layer = this.subject.layer;
-            let pv = null;
-            if(layer) {
-              pv = layer.resolution[1];
-            }
-            val = {
-              relative: 'rh',
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val,
-            };
           } else {
-            val = val ? parseFloat(val) : val;
+            const relative = val.slice(-2);
+            if(relative === 'rw' || relative === 'rh') {
+              let pv = null;
+              const layer = this.subject.layer;
+              if(layer) {
+                pv = layer.resolution[relative === 'rw' ? 0 : 1];
+              }
+              val = {
+                relative,
+                pv,
+                v: parseFloat(val) / 100,
+                rv: val,
+              };
+            } else {
+              val = val ? parseFloat(val) : val;
+            }
           }
         }
         setter.call(this, val);

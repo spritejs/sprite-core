@@ -28,6 +28,18 @@ function parseTransitionValue(values) {
   return ret;
 }
 
+function parseAnimationValue(value) {
+  value = value.toString();
+  if(value === 'initial') {
+    value = 0;
+  } else if(/ms$/.test(value)) {
+    value = parseFloat(value);
+  } else {
+    value = parseFloat(value) * 1000;
+  }
+  return value;
+}
+
 function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
   if(typeof value === 'string') {
     const matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
@@ -153,31 +165,11 @@ const CSSGetter = {
   },
   transitionDelay: parseTransitionValue,
   transitionProperty: true,
-  animationDuration(value) {
-    value = value.toString();
-    if(value === 'initial') {
-      value = 0;
-    } else if(/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
-  },
+  animationDuration: parseAnimationValue,
+  animationDelay: parseAnimationValue,
   animationTimingFunction(value) {
     value = value.toString();
     return value !== 'initial' ? value : 'ease';
-  },
-  animationDelay(value) {
-    value = value.toString();
-    if(value === 'initial') {
-      value = 0;
-    } else if(/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
   },
   animationIterationCount(value) {
     value = value.toString();
