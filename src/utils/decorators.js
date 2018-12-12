@@ -2,6 +2,27 @@ import {notice} from './utils';
 
 const _attrAbsolute = Symbol('attrAbsolute');
 
+function getPV(subject, relative) {
+  let parent = subject.parent;
+  let pv = null;
+  if(parent) {
+    let attrSize = parent.attrSize;
+    if(attrSize) {
+      const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
+      while(attrSize && attrV === '') { // flexible value
+        parent = parent.parent;
+        attrSize = parent.attrSize;
+      }
+    }
+    if(relative === 'pw') {
+      pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
+    } else if(relative === 'ph') {
+      pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
+    }
+  }
+  return pv;
+}
+
 export function attr(target, prop, descriptor) {
   if(!target.hasOwnProperty('__attributeNames')) { // eslint-disable-line no-prototype-builtins
     target.__attributeNames = new Set(target.__attributeNames);
@@ -32,24 +53,7 @@ export function attr(target, prop, descriptor) {
       } else if(ret.relative) {
         const relative = ret.relative.trim();
         if(relative === 'pw' || relative === 'ph') {
-          let parent = subject.parent;
-          let pv = null;
-
-          if(parent) {
-            let attrSize = parent.attrSize;
-            if(attrSize) {
-              const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
-              while(attrSize && attrV === '') { // flexible value
-                parent = parent.parent;
-                attrSize = parent.attrSize;
-              }
-            }
-            if(relative === 'pw') {
-              pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-            } else if(relative === 'ph') {
-              pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-            }
-          }
+          const pv = getPV(subject, relative);
           if(pv !== ret.pv) {
             this[prop] = ret.rv;
             return this[prop];
@@ -166,25 +170,10 @@ export function relative(type = 'width') {
         if(typeof val === 'string') {
           val = val.trim();
           if(val.slice(-1) === '%') {
-            let parent = this.subject.parent;
-            let pv = null;
-            if(parent) {
-              let attrSize = parent.attrSize;
-              if(attrSize) {
-                const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
-                while(attrSize && attrV === '') { // flexible value
-                  parent = parent.parent;
-                  attrSize = parent.attrSize;
-                }
-              }
-              if(type === 'width') {
-                pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-              } else if(type === 'height') {
-                pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-              }
-            }
+            const relative = type === 'width' ? 'pw' : 'ph';
+            const pv = getPV(this.subject, relative);
             val = {
-              relative: type === 'width' ? 'pw' : 'ph',
+              relative,
               pv,
               v: parseFloat(val) / 100,
               rv: val,

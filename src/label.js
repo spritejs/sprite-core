@@ -96,6 +96,11 @@ function calculTextboxSize(node) {
   node[_boxSize] = [width, height];
 }
 
+function setFontPart(font, part) {
+  const {style, variant, weight, size0, unit, family} = Object.assign(parseFont(font), part);
+  return `${style} ${variant} ${weight} ${size0}${unit} ${family}`;
+}
+
 class LabelSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
     super(subject);
@@ -141,10 +146,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
       val = parseFloat(matches[1]);
       unit = matches[2];
     }
-    const font = this.font;
-    const {style, variant, weight, family} = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${val}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, {size0: val, unit});
   }
 
   get fontSize() {
@@ -156,10 +158,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set fontFamily(val) {
     if(val == null) val = 'Arial';
-    const font = this.font;
-    const {style, variant, weight, size0, unit} = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${size0}${unit} ${val}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, {family: val});
   }
 
   get fontFamily() {
@@ -169,10 +168,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set fontStyle(val) {
     if(val == null) val = 'normal';
-    const font = this.font;
-    const {variant, weight, size0, unit, family} = parseFont(font);
-    const fontValue = `${val} ${variant} ${weight} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, {style: val});
   }
 
   get fontStyle() {
@@ -182,10 +178,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set fontVariant(val) {
     if(val == null) val = 'normal';
-    const font = this.font;
-    const {style, weight, size0, unit, family} = parseFont(font);
-    const fontValue = `${style} ${val} ${weight} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, {variant: val});
   }
 
   get fontVariant() {
@@ -195,10 +188,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @attr
   set fontWeight(val) {
     if(val == null) val = 'normal';
-    const font = this.font;
-    const {style, variant, size0, unit, family} = parseFont(font);
-    const fontValue = `${style} ${variant} ${val} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, {weight: val});
   }
 
   get fontWeight() {
