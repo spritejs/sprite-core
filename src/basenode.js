@@ -41,7 +41,7 @@ export default class BaseNode {
   }
 
   clearLayout() {
-    if(this.parent) {
+    if(this.hasLayout) {
       this.parent.clearLayout();
     }
   }

@@ -91,6 +91,7 @@ function calculTextboxSize(node) {
     const attrSize = node.attrSize;
     if(attrSize[0] === '' || attrSize[1] === '') {
       node.reflow();
+      node.clearLayout();
     }
   }
   node[_boxSize] = [width, height];
@@ -252,18 +253,18 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     calculTextboxSize(this.subject);
   }
 
+  @parseValue(parseFloat)
   @attr
   @inherit(0)
   set letterSpacing(value) {
-    if(typeof value === 'string') value = parseFloat(value);
     this.set('letterSpacing', value);
     calculTextboxSize(this.subject);
   }
 
+  @parseValue(parseFloat)
   @attr
   @inherit(0)
   set textIndent(value) {
-    if(typeof value === 'string') value = parseFloat(value);
     this.set('textIndent', value);
     calculTextboxSize(this.subject);
   }

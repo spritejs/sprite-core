@@ -77,6 +77,7 @@ class TextureAttr extends BaseSprite.Attr {
       const attrSize = subject.attrSize;
       if(attrSize[0] === '' || attrSize[1] === '') {
         subject.reflow();
+        subject.clearLayout();
       }
     }
     subject.texturesSize = [width, height];

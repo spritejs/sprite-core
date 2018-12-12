@@ -1,34 +1,36 @@
-/* eslint-disable */
-
 // borrow from node-canvas (https://github.com/Automattic/node-canvas)
 
 /**
  * Font RegExp helpers.
  */
 
-const weights = 'bold|bolder|lighter|[1-9]00'
-  , styles = 'italic|oblique'
-  , variants = 'small-caps'
-  , stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded'
-  , units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh'
-  , string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4e00-\u9fa5])+'
+const weights = 'bold|bolder|lighter|[1-9]00',
+  styles = 'italic|oblique',
+  variants = 'small-caps',
+  stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
+  units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh',
+  string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4e00-\u9fa5])+';
 
 // [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
 //    <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]
 // https://drafts.csswg.org/css-fonts-3/#font-prop
-const weightRe = new RegExp(`(${weights}) +`, 'i')
-const styleRe = new RegExp(`(${styles}) +`, 'i')
-const variantRe = new RegExp(`(${variants}) +`, 'i')
-const stretchRe = new RegExp(`(${stretches}) +`, 'i')
+const weightRe = new RegExp(`(${weights}) +`, 'i');
+const styleRe = new RegExp(`(${styles}) +`, 'i');
+const variantRe = new RegExp(`(${variants}) +`, 'i');
+const stretchRe = new RegExp(`(${stretches}) +`, 'i');
+
+/* eslint-disable prefer-template */
 const sizeFamilyRe = new RegExp(
   '([\\d\\.]+)(' + units + ') *'
-  + '((?:' + string + ')( *, *(?:' + string + '))*)')
+  + '((?:' + string + ')( *, *(?:' + string + '))*)'
+);
+/* eslint-enable prefer-template */
 
 /**
  * Cache font parsing.
  */
 
-const cache = {}
+const cache = {};
 
 /**
  * Parse font `str`.
@@ -42,19 +44,19 @@ const cache = {}
 module.exports = function f(str, defaultHeight) {
   if(defaultHeight == null) {
     if(typeof window !== 'undefined' && window.getComputedStyle) {
-      const root = window.getComputedStyle(document.documentElement).fontSize
-      defaultHeight = f(`${root} Arial`, 16).size
+      const root = window.getComputedStyle(document.documentElement).fontSize;
+      defaultHeight = f(`${root} Arial`, 16).size;
     } else {
-      defaultHeight = 16
+      defaultHeight = 16;
     }
   }
 
   // Cached
-  if (cache[str]) return cache[str]
+  if(cache[str]) return cache[str];
 
   // Try for required properties first.
-  const sizeFamily = sizeFamilyRe.exec(str)
-  if (!sizeFamily) return // invalid
+  const sizeFamily = sizeFamilyRe.exec(str);
+  if(!sizeFamily) return; // invalid
 
   // Default values and required properties
   const font = {
@@ -64,17 +66,22 @@ module.exports = function f(str, defaultHeight) {
     variant: 'normal',
     size: parseFloat(sizeFamily[1]),
     unit: sizeFamily[2],
-    family: sizeFamily[3].replace(/ *, */g, ',')
-  }
+    family: sizeFamily[3].replace(/ *, */g, ','),
+  };
+
+  // Stop search at `sizeFamily.index`
+  const substr = str.substring(0, sizeFamily.index);
 
   // Optional, unordered properties.
-  let weight, style, variant, stretch
-  // Stop search at `sizeFamily.index`
-  let substr = str.substring(0, sizeFamily.index)
-  if ((weight = weightRe.exec(substr))) font.weight = weight[1]
-  if ((style = styleRe.exec(substr))) font.style = style[1]
-  if ((variant = variantRe.exec(substr))) font.variant = variant[1]
-  if ((stretch = stretchRe.exec(substr))) font.stretch = stretch[1]
+  const weight = weightRe.exec(substr),
+    style = styleRe.exec(substr),
+    variant = variantRe.exec(substr),
+    stretch = stretchRe.exec(substr);
+
+  if(weight) font.weight = weight[1];
+  if(style) font.style = style[1];
+  if(variant) font.variant = variant[1];
+  if(stretch) font.stretch = stretch[1];
 
   font.size0 = font.size;
 
@@ -82,46 +89,45 @@ module.exports = function f(str, defaultHeight) {
   // TODO: ch, ex
   switch (font.unit) {
     case 'pt':
-      font.size /= 0.75
-      break
+      font.size /= 0.75;
+      break;
     case 'pc':
-      font.size *= 16
-      break
+      font.size *= 16;
+      break;
     case 'in':
-      font.size *= 96
-      break
+      font.size *= 96;
+      break;
     case 'cm':
-      font.size *= 96.0 / 2.54
-      break
+      font.size *= 96.0 / 2.54;
+      break;
     case 'mm':
-      font.size *= 96.0 / 25.4
-      break
+      font.size *= 96.0 / 25.4;
+      break;
     case '%':
       // TODO disabled because existing unit tests assume 100
       // font.size *= defaultHeight / 100 / 0.75
-      break
+      break;
     case 'em':
     case 'rem':
-      font.size *= defaultHeight
-      break
+      font.size *= defaultHeight;
+      break;
     case 'q':
-      font.size *= 96 / 25.4 / 4
-      break
+      font.size *= 96 / 25.4 / 4;
+      break;
+    default:
+      break;
   }
 
-  if(font.unit === 'vw') {
+  if(font.unit === 'vw' || font.unit === 'vh') {
     if(typeof document !== 'undefined' && document.documentElement) {
-      const width = document.documentElement.clientWidth
-      font.size = width * font.size / 100
+      const {clientWidth, clientHeight} = document.documentElement;
+      const val = font.unit === 'vw' ? clientWidth : clientHeight;
+      font.size = val * font.size / 100;
     }
-  } else if(font.unit === 'vh') {
-    if(typeof document !== 'undefined' && document.documentElement) {
-      const height = document.documentElement.clientHeight
-      font.size = height * font.size / 100
-    }    
   }
 
-  return (cache[str] = font)
-}
+  cache[str] = font;
+  return font;
+};
 
 /* eslint-enable */

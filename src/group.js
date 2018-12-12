@@ -39,19 +39,19 @@ class GroupAttr extends BaseSprite.Attr {
     }
   }
 
-  @attr
-  @relative('width')
-  set width(value) {
-    this.clearLayout();
-    this.set('width', value);
-  }
+  // @attr
+  // @relative('width')
+  // set width(value) {
+  //   this.clearLayout();
+  //   this.set('width', value);
+  // }
 
-  @attr
-  @relative('height')
-  set height(value) {
-    this.clearLayout();
-    this.set('height', value);
-  }
+  // @attr
+  // @relative('height')
+  // set height(value) {
+  //   this.clearLayout();
+  //   this.set('height', value);
+  // }
 
   @attr
   @relative('width')
@@ -299,7 +299,7 @@ export default class Group extends BaseSprite {
 
   clearLayout() {
     this[_layoutTag] = false;
-    if(this.parent) this.parent.clearLayout();
+    if(this.hasLayout) this.parent.clearLayout();
   }
 
   draw(t, drawingContext = this.context) {
