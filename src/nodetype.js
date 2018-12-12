@@ -31,10 +31,6 @@ const elementProto = {
   getElementsByTagName(tagName) {
     return querySelectorAll(tagName, this);
   },
-  /*
-    d3-friendly
-    *, nodeType, #id, :name, {nodeType: checker}
-  */
   querySelector(selector) {
     return querySelector(selector, this);
   },

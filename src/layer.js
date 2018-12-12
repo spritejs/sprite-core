@@ -1,44 +1,69 @@
 import {Timeline} from 'sprite-animator';
 import {requestAnimationFrame, cancelAnimationFrame, timeline} from './helpers/fast-animation-frame';
 import BaseNode from './basenode';
-import DataNode from './datanode';
+import BaseSprite from './basesprite';
 import Batch from './batch';
 import Group from './group';
 import {registerNodeType} from './nodetype';
-
-import {clearDirtyRects} from './helpers/dirty-check';
 
 import groupApi from './helpers/group';
 
 import stylesheet from './stylesheet';
 
-const _updateSet = Symbol('updateSet'),
-  _zOrder = Symbol('zOrder'),
-  _tRecord = Symbol('tRecord'),
+import {setDeprecation, parseValue, parseColorString, attr} from './utils';
+
+const _zOrder = Symbol('zOrder'),
   _timeline = Symbol('timeline'),
   _renderDeferer = Symbol('renderDeferrer'),
   _drawTask = Symbol('drawTask'),
   _autoRender = Symbol('autoRender'),
-  _adjustTimer = Symbol('adjustTimer'),
-  _node = Symbol('node');
+  _adjustTimer = Symbol('adjustTimer');
+
+class LayerAttr extends BaseNode.Attr {
+  constructor(subject) {
+    super(subject);
+    this.setDefault({
+      bgcolor: '',
+    });
+  }
+
+  @parseValue(parseColorString)
+  @attr
+  set bgcolor(val) {
+    this.set('bgcolor', val);
+    const subject = this.subject;
+    if(subject.canvas && subject.canvas.style) {
+      if(val != null) {
+        this.quietSet('canvasBgColor', subject.canvas.style.backgroundColor);
+        subject.canvas.style.backgroundColor = val;
+      } else {
+        subject.canvas.style.backgroundColor = this.get('canvasBgColor');
+      }
+    }
+  }
+}
 
 export default class Layer extends BaseNode {
+  static Attr = LayerAttr;
+
   constructor({
     context,
-    handleEvent = true,
-    evaluateFPS = false,
-    renderMode = 'repaintAll',
+    /* deprecated */ evaluateFPS = false,
+    /* deprecated */ renderMode = 'repaintAll',
     autoRender = true,
     useDocumentCSS = false,
   } = {}) {
     super();
 
-    this.handleEvent = handleEvent;
-    this.evaluateFPS = evaluateFPS;
     this[_autoRender] = autoRender;
 
     // renderMode: repaintAll | repaintDirty
-    this.renderMode = renderMode;
+    if(renderMode === 'repaintDirty') {
+      setDeprecation('renderRepaintDirty');
+    }
+    if(evaluateFPS !== false) {
+      setDeprecation('evaluateFPS');
+    }
 
     this.outputContext = context;
 
@@ -46,20 +71,9 @@ export default class Layer extends BaseNode {
 
     this.childNodes = [];
     this.sortedChildNodes = [];
-    this[_updateSet] = new Set();
     this[_zOrder] = 0;
-    this[_tRecord] = []; // calculate FPS
     this[_timeline] = new Timeline(timeline);
     this[_renderDeferer] = null;
-
-    this[_node] = new DataNode();
-    this[_node].__owner = this;
-    this[_node].forceUpdate = () => {
-      this.prepareRender();
-    };
-    this[_node].updateStyles = () => {
-      this.updateStyles(true);
-    };
 
     this.touchedTargets = {};
 
@@ -85,61 +99,6 @@ export default class Layer extends BaseNode {
     }
   }
 
-  data(...args) {
-    return this[_node].data(...args);
-  }
-
-  get dataset() {
-    return this[_node].dataset;
-  }
-
-  attr(...args) {
-    return this[_node].attr(...args);
-  }
-
-  get attributes() {
-    return this[_node].attributes;
-  }
-
-  getAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop);
-  }
-
-  setAttribute(prop, val) {
-    /* istanbul ignore next */
-    return this.attr(prop, val);
-  }
-
-  removeAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop, null);
-  }
-
-  set id(val) {
-    this.attr('id', val);
-  }
-
-  get id() {
-    return this.attr('id');
-  }
-
-  set name(val) {
-    this.attr('name', val);
-  }
-
-  get name() {
-    return this.attr('name');
-  }
-
-  set className(val) {
-    this.attr('class', val);
-  }
-
-  get className() {
-    return this.attr('class');
-  }
-
   get resolution() {
     return [this.canvas.width, this.canvas.height];
   }
@@ -160,7 +119,7 @@ export default class Layer extends BaseNode {
   }
 
   get children() {
-    return this.childNodes.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
+    return this.childNodes.filter(child => child instanceof BaseSprite);
   }
 
   get timeline() {
@@ -217,23 +176,9 @@ export default class Layer extends BaseNode {
       cancelAnimationFrame(this[_drawTask]);
       delete this[_drawTask];
     }
-    /* istanbul ignore if  */
-    if(this.evaluateFPS) {
-      this[_tRecord].push(Date.now());
-      this[_tRecord] = this[_tRecord].slice(-10);
-    }
 
-    let renderer;
-    if(this.renderMode === 'repaintDirty') {
-      renderer = this.renderRepaintDirty.bind(this);
-    } else if(this.renderMode === 'repaintAll') {
-      renderer = this.renderRepaintAll.bind(this);
-    } else {
-      /* istanbul ignore next  */
-      throw new Error('unknown render mode!');
-    }
     const currentTime = this.timeline.currentTime;
-    renderer(currentTime, clearContext);
+    this.repaint(currentTime, clearContext);
 
     super.dispatchEvent.call(
       this, 'update',
@@ -248,7 +193,6 @@ export default class Layer extends BaseNode {
   update(target) {
     if(target && target.isDirty) return;
     if(target) {
-      this[_updateSet].add(target);
       target.isDirty = true;
     }
     this.prepareRender();
@@ -261,24 +205,7 @@ export default class Layer extends BaseNode {
     return true;
   }
 
-  get fps() /* istanbul ignore next  */ {
-    if(!this.evaluateFPS) {
-      return NaN;
-    }
-    let sum = 0;
-    const tr = this[_tRecord].slice(-10);
-    const len = tr.length;
-
-    if(len <= 5) {
-      return NaN;
-    }
-    tr.reduceRight((a, b, i) => { sum += (a - b); return b });
-
-    return Math.round(1000 * (len - 1) / sum);
-  }
-
   drawSprites(renderEls, t) {
-    this[_updateSet].clear();
     if(this.beforeDrawTransform) {
       this.outputContext.save();
       this.beforeDrawTransform();
@@ -290,15 +217,6 @@ export default class Layer extends BaseNode {
 
       if(child.parent === this) {
         child.draw(t);
-        if(this.renderMode === 'repaintDirty') {
-          if(child.isVisible()) {
-            child.lastRenderBox = child.renderBox;
-          } else {
-            delete child.lastRenderBox;
-          }
-        } else {
-          child.lastRenderBox = 'no-calc';
-        }
         if(isDirty) {
           child.dispatchEvent('update', {target: child, renderTime: t}, true, true);
         }
@@ -309,31 +227,9 @@ export default class Layer extends BaseNode {
     }
   }
 
-  renderRepaintAll(t, clearContext = true) {
+  repaint(t, clearContext = true) {
     const renderEls = this.sortedChildNodes;
     const outputContext = this.outputContext;
-    if(clearContext) this.clearContext(outputContext);
-    this.drawSprites(renderEls, t);
-  }
-
-  renderRepaintDirty(t, clearContext = true) {
-    const updateEls = [...this[_updateSet]];
-
-    if(this.__updateStyleTag || updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
-      return this.renderRepaintAll(t, clearContext);
-    }
-
-    const outputContext = this.outputContext;
-
-    const renderEls = this.sortedChildNodes;
-
-    outputContext.save();
-    if(this.beforeDrawTransform) {
-      this.beforeDrawTransform();
-    }
-    outputContext.beginPath();
-    clearDirtyRects(outputContext, updateEls, true);
-    outputContext.restore();
     if(clearContext) this.clearContext(outputContext);
     this.drawSprites(renderEls, t);
   }
@@ -471,11 +367,6 @@ export default class Layer extends BaseNode {
       outputContext.drawImage(shadowContext.canvas, 0, 0);
       outputContext.restore();
     }
-  }
-
-  clearUpdate() {
-    /* istanbul ignore next  */
-    this[_updateSet].clear();
   }
 }
 

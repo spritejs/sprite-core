@@ -3,7 +3,6 @@ import SvgPath from 'svg-path-to-canvas';
 import * as math from 'sprite-math';
 import * as utils from './utils';
 import BaseSprite from './basesprite';
-import DataNode from './datanode';
 import Sprite from './sprite';
 import Label from './label';
 import Layer from './layer';
@@ -63,7 +62,6 @@ export {
   math,
   BaseNode,
   BaseSprite,
-  DataNode,
   Batch,
   Sprite,
   Label,

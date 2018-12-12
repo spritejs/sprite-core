@@ -135,7 +135,7 @@ declare namespace spritejs {
   }
 
   class BaseNode {
-    constructor();
+    constructor(attr?: Object);
     readonly dataset: Object;
     data(prop: string, val?: any): any;
     getEventHandlers(type: string): Array<Function>;
@@ -262,10 +262,6 @@ declare namespace spritejs {
     readonly attrs: Object;
     serialize(): String;
     merge(attrs: string|Object): EmptyAttr;
-  }
-
-  class DataNode extends BaseSprite {
-    static Attr;
   }
 
   class Batch {
@@ -408,8 +404,7 @@ declare namespace spritejs {
     isVisible(sprite: BaseSprite): boolean;
     readonly fps: number;
     drawSprites(renderEls: Array<BaseSprite>, t: number);
-    renderRepaintAll(t: number, clearContext);
-    renderRepaintDirty(t: number, clearContext);
+    repaint(t: number, clearContext);
     pointCollision(event: IEventArguments): boolean;
     dispatchEvent(type: string, event: IEventArguments, collisionState: boolean, swallow: boolean): boolean;
     // connect(parent: Scene, zOrder:number = 0);
@@ -521,10 +516,6 @@ declare namespace spritejs {
     function parseFont(str: string, defaultHeight: number): Object;
     function appendUnit(value: number|string, defaultUnit: string): string;
     function attr(target: any, prop: string, descriptor: PropertyDecorator): PropertyDescriptor;
-    function boxEqual(box1: IBox, box2: IBox): boolean;
-    function boxIntersect(box1: IBox, box2: IBox): boolean;
-    function boxToRect(box: IBox): IRect;
-    function boxUnion(box1: IBox, box2: IBox): IBox;
     interface cacheContextPool {
       get: (context: CanvasRenderingContext2D) => CanvasRenderingContext2D;
       put: (...contexts: Array<CanvasRenderingContext2D>) => undefined;
@@ -543,7 +534,6 @@ declare namespace spritejs {
     function parseStringInt(str: string): Array<number>;
     function parseStringTransform(str: string): ITransform;
     function parseValue(...parsers: Array<Function>): IDecorator;
-    function rectToBox(rect: IRect): IBox;
     function rectVertices(rect: IRect): Array<IPoint>;
     function sortOrderedSprites(sprites: Array<BaseSprite>, reversed: boolean);
   }

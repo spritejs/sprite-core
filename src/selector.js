@@ -21,7 +21,7 @@ function getChildren(elem) {
   if(elem.layer_) {
     return [elem.layer_];
   }
-  return Array.from(elem.children || []);
+  return Array.from(elem.childNodes || []);
 }
 
 function getParent(elem) {
@@ -96,7 +96,7 @@ const adapter = {
   },
   removeSubsets,
   getName(elem) {
-    return elem.tagName.toLowerCase();
+    return elem.tagName ? elem.tagName.toLowerCase() : null;
   },
   findOne: function findOne(test, arr) {
     let elem = null;

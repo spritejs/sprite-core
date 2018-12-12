@@ -3,9 +3,6 @@ import BaseSprite from './basesprite';
 import {registerNodeType} from './nodetype';
 import {createSvgPath, pathEffect} from './helpers/path';
 
-import BaseNode from './basenode';
-import DataNode from './datanode';
-
 import * as layout from './layout';
 
 import groupApi from './helpers/group';
@@ -155,7 +152,7 @@ export default class Group extends BaseSprite {
 
   get children() {
     const children = this.childNodes || [];
-    return children.filter(child => child instanceof BaseNode && !(child instanceof DataNode));
+    return children.filter(child => child instanceof BaseSprite);
   }
 
   update(child) {

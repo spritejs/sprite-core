@@ -29,18 +29,18 @@ class Color {
 
 export {Color};
 
-const parseColor = (color) => {
+export function parseColor(color) {
   return new Color(color);
-};
+}
 
-function parseColorString(color) {
+export function parseColorString(color) {
   if(color && typeof color === 'string' && color !== 'inherit') {
     return parseColor(color).toString();
   }
   return color;
 }
 
-function parseStringTransform(str) {
+export function parseStringTransform(str) {
   if(typeof str !== 'string') return str;
 
   const rules = str.match(/(?:^|\s)+((?:scale|rotate|translate|skew|matrix)\([^()]+\))/g);
@@ -61,7 +61,7 @@ function parseStringTransform(str) {
   return ret;
 }
 
-function parseValuesString(str, parser) {
+export function parseValuesString(str, parser) {
   if(typeof str === 'string' && str !== '' && str !== 'inherit') {
     const values = str.split(/[\s,]+/g);
     return values.map((v) => {
@@ -72,15 +72,15 @@ function parseValuesString(str, parser) {
   return str;
 }
 
-function praseString(str) {
+export function praseString(str) {
   return parseValuesString(str);
 }
 
-function parseStringInt(str) {
+export function parseStringInt(str) {
   return parseValuesString(str, parseInt);
 }
 
-function parseStringFloat(str) {
+export function parseStringFloat(str) {
   return parseValuesString(str, (v) => {
     if(v === 'center') return 0.5;
     if(v === 'left' || v === 'top') return 0;
@@ -89,7 +89,7 @@ function parseStringFloat(str) {
   });
 }
 
-function oneOrTwoValues(val) {
+export function oneOrTwoValues(val) {
   if(!Array.isArray(val)) {
     return [val, val];
   } if(val.length === 1) {
@@ -98,7 +98,7 @@ function oneOrTwoValues(val) {
   return val;
 }
 
-function fourValuesShortCut(val) {
+export function fourValuesShortCut(val) {
   if(!Array.isArray(val)) {
     return [val, val, val, val];
   } if(val.length === 1) {
@@ -109,61 +109,18 @@ function fourValuesShortCut(val) {
   return [...val, 0, 0, 0, 0].slice(0, 4);
 }
 
-function boxIntersect(box1, box2) {
-  // left, top, right, buttom
-  const [l1, t1, r1, b1] = [box1[0], box1[1],
-      box1[2], box1[3]],
-    [l2, t2, r2, b2] = [box2[0], box2[1],
-      box2[2], box2[3]];
-
-  const t = Math.max(t1, t2),
-    r = Math.min(r1, r2),
-    b = Math.min(b1, b2),
-    l = Math.max(l1, l2);
-
-  if(b >= t && r >= l) {
-    return [l, t, r, b];
-  }
-  return null;
-}
-
-function boxToRect(box) {
-  return [box[0], box[1], box[2] - box[0], box[3] - box[1]];
-}
-
-function boxEqual(box1, box2) {
-  return box1[0] === box2[0]
-         && box1[1] === box2[1]
-         && box1[2] === box2[2]
-         && box1[3] === box2[3];
-}
-
-function rectToBox(rect) {
-  return [rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]];
-}
-
-function rectVertices(rect) {
-  const [x1, y1, x2, y2] = rectToBox(rect);
+export function rectVertices(rect) {
+  const [x, y, w, h] = rect;
 
   return [
-    [x1, y1],
-    [x2, y1],
-    [x2, y2],
-    [x1, y2],
+    [x, y],
+    [x + w, y],
+    [x + w, y + h],
+    [x, y + h],
   ];
 }
 
-function boxUnion(box1, box2) {
-  if(!box1) return box2;
-  if(!box2) return box1;
-
-  return [Math.min(box1[0], box2[0]),
-    Math.min(box1[1], box2[1]),
-    Math.max(box1[2], box2[2]),
-    Math.max(box1[3], box2[3])];
-}
-
-function appendUnit(value, defaultUnit = 'px') {
+export function appendUnit(value, defaultUnit = 'px') {
   if(value === '') {
     return value;
   }
@@ -173,7 +130,7 @@ function appendUnit(value, defaultUnit = 'px') {
   return value + defaultUnit;
 }
 
-function sortOrderedSprites(sprites, reversed = false) {
+export function sortOrderedSprites(sprites, reversed = false) {
   return [...sprites].sort((a, b) => {
     if(reversed) [a, b] = [b, a];
     if(a.zIndex === b.zIndex) {
@@ -184,7 +141,7 @@ function sortOrderedSprites(sprites, reversed = false) {
 }
 
 const noticed = new Set();
-function notice(msg, level = 'warn') {
+export function notice(msg, level = 'warn') {
   if(typeof console !== 'undefined' && !noticed.has(msg)) {
     console[level](msg); // eslint-disable-line no-console
     noticed.add(msg);
@@ -192,7 +149,7 @@ function notice(msg, level = 'warn') {
 }
 
 const IDMap = new WeakMap();
-function generateID(obj) {
+export function generateID(obj) {
   if(IDMap.has(obj)) {
     return IDMap.get(obj);
   }
@@ -200,24 +157,3 @@ function generateID(obj) {
   IDMap.set(obj, id);
   return id;
 }
-
-export {
-  appendUnit,
-  boxEqual,
-  boxIntersect,
-  boxToRect,
-  boxUnion,
-  fourValuesShortCut,
-  notice,
-  oneOrTwoValues,
-  parseColor,
-  parseColorString,
-  praseString,
-  parseStringFloat,
-  parseStringInt,
-  parseStringTransform,
-  rectToBox,
-  rectVertices,
-  sortOrderedSprites,
-  generateID,
-};

@@ -1,17 +1,15 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, boxToRect, deprecate, inheritAttributes} from './utils';
-import SpriteAttr from './attr';
+import {flow, absolute, rectVertices, deprecate} from './utils';
+import BaseAttr from './baseattr';
 import BaseNode from './basenode';
 import Animation from './animation';
 import {registerNodeType} from './nodetype';
-import stylesheet from './stylesheet';
 
 import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render';
 import filters from './filters';
 
-const _attr = Symbol('attr'),
-  _animations = Symbol('animations'),
+const _animations = Symbol('animations'),
   _cachePriority = Symbol('cachePriority'),
   _effects = Symbol('effects'),
   _flow = Symbol('flow'),
@@ -20,15 +18,12 @@ const _attr = Symbol('attr'),
   _show = Symbol('show'),
   _hide = Symbol('hide'),
   _enter = Symbol('enter'),
-  _releaseKeys = Symbol('releaseKeys'),
-  _style = Symbol('style');
+  _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
 export default class BaseSprite extends BaseNode {
-  static Attr = SpriteAttr;
-
-  static inheritAttributes = inheritAttributes;
+  static Attr = BaseAttr;
 
   /**
     new Sprite({
@@ -37,19 +32,12 @@ export default class BaseSprite extends BaseNode {
       }
     })
    */
-  constructor(attr) {
-    super();
-
-    this[_attr] = new this.constructor.Attr(this);
+  constructor(attrs) {
+    super(attrs);
     this[_animations] = new Set();
     this[_cachePriority] = 0;
     this[_flow] = {};
     this[_releaseKeys] = new Set();
-    this[_style] = {};
-
-    if(attr) {
-      this.attr(attr);
-    }
   }
 
   static setAttributeEffects(effects = {}) {
@@ -115,17 +103,8 @@ export default class BaseSprite extends BaseNode {
     this[_releaseKeys].add(key);
   }
 
-  get layer() {
-    return this.parent && this.parent.layer;
-  }
-
   reflow() {
     this[_flow] = {};
-    // let parent = this.parent
-    // while(parent) {
-    //   if(parent.reflow) parent.reflow()
-    //   parent = parent.parent
-    // }
   }
 
   flow(prop, value) {
@@ -133,60 +112,6 @@ export default class BaseSprite extends BaseNode {
       return this[_flow][prop];
     }
     this[_flow][prop] = value;
-  }
-
-  serialize() {
-    const nodeType = this.nodeType,
-      attrs = this[_attr].serialize(),
-      dataset = JSON.stringify(this.dataset),
-      id = this.id;
-
-    return {
-      nodeType,
-      attrs,
-      dataset,
-      id,
-    };
-  }
-
-  merge(attrs) {
-    this[_attr].merge(attrs);
-  }
-
-  cloneNode() {
-    const node = new this.constructor();
-    node.merge(this[_attr].serialize());
-    node.data(this.dataset);
-    const bgimage = this.attr('bgimage');
-    if(bgimage && bgimage.image) {
-      node.attr('bgimage', null);
-      node.attr('bgimage', Object.assign({}, bgimage));
-    }
-    return node;
-  }
-
-  set id(val) {
-    this.attr('id', val);
-  }
-
-  get id() {
-    return this.attr('id');
-  }
-
-  set name(val) {
-    this.attr('name', val);
-  }
-
-  get name() {
-    return this.attr('name');
-  }
-
-  set className(val) {
-    this.attr('class', val);
-  }
-
-  get className() {
-    return this.attr('class');
   }
 
   get hasLayout() {
@@ -204,184 +129,6 @@ export default class BaseSprite extends BaseNode {
 
   get zIndex() {
     return this.attr('zIndex');
-  }
-
-  getAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop);
-  }
-
-  setAttribute(prop, val) {
-    /* istanbul ignore next */
-    return this.attr(prop, val);
-  }
-
-  removeAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop, null);
-  }
-
-  attr(props, val) {
-    const setVal = (key, value) => {
-      if(!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
-        Object.defineProperty(this[_attr], key, {
-          // enumerable: true,
-          configurable: true,
-          set(value) {
-            const subject = this.subject;
-            const owner = subject.__owner || subject;
-            this.quietSet(key, value);
-            // fixed color inherit
-            if(key === 'color' && !this.__attributeNames.has('fillColor')) {
-              subject.attr('fillColor', value);
-            }
-            // fixed font inherit
-            if((key === 'fontSize'
-              || key === 'fontFamily'
-              || key === 'fontStyle'
-              || key === 'fontVariant'
-              || key === 'fontWeight') && !this.__attributeNames.has('font')) {
-              const parseFont = require('./helpers/parse-font');
-              const font = this.get('font') || 'normal normal normal 16px Arial';
-              const parsed = parseFont(font);
-              parsed.fontSize = parsed.size + parsed.unit;
-              if(key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
-                value += 'px';
-              }
-              parsed[key] = value;
-              const {style, variant, weight, family, fontSize} = parseFont(font);
-              subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
-            }
-            if(key === 'font'
-              || key === 'lineHeight'
-              || key === 'lineBreak'
-              || key === 'wordBreak'
-              || key === 'letterSpacing'
-              || key === 'textIndent') {
-              const children = owner.querySelectorAll('*');
-              children.forEach((node) => {
-                if(node.retypesetting) node.retypesetting();
-              });
-            }
-            if(inheritAttributes.has(key)) {
-              subject.forceUpdate();
-            }
-          },
-          get() {
-            return this.get(key);
-          },
-        });
-      }
-      this[_attr][key] = value;
-      // if(stylesheet.relatedAttributes.has(key)) {
-      //   this.updateStyles();
-      // }
-    };
-    if(typeof props === 'object') {
-      Object.entries(props).forEach(([prop, value]) => {
-        this.attr(prop, value);
-      });
-      return this;
-    } if(typeof props === 'string') {
-      if(val !== undefined) {
-        if(props === 'attrs') {
-          if(Array.isArray(val)) {
-            val = Object.assign({}, ...val);
-          }
-          Object.entries(val).forEach(([prop, value]) => {
-            this.attr(prop, value);
-          });
-          return this;
-        }
-        if(props === 'style') {
-          if(Array.isArray(val)) {
-            val = Object.assign({}, ...val);
-          }
-          Object.entries(val).forEach(([prop, value]) => {
-            this.style[prop] = value;
-          });
-          return this;
-        }
-        if(typeof val === 'function') {
-          val = val(this.attr(props));
-        }
-        if(val && typeof val.then === 'function') {
-          return val.then((res) => {
-            setVal(props, res);
-          });
-        }
-        setVal(props, val);
-        return this;
-      }
-      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
-    }
-
-    return this[_attr].attrs;
-  }
-
-  get attributes() {
-    if(typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            return prop in target ? target[prop] : target.get(prop);
-          },
-          set(target, prop, value) {
-            if(typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;
-            else target.subject.attr(prop, value);
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if(typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];
-            else target.subject.attr(prop, null);
-            return true;
-          },
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
-  }
-
-  get style() {
-    if(typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              return target[prop];
-            }
-            return target.subject[_style][prop];
-          },
-          set(target, prop, value) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              target.subject.attr(prop, value);
-            } else {
-              target.subject[_style][prop] = value;
-            }
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              target.subject.attr(prop, null);
-            } else {
-              delete target.subject[_style][prop];
-            }
-            return true;
-          },
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
   }
 
   get isVirtual() {
@@ -415,7 +162,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get transform() {
-    const transform = new Matrix(this[_attr].get('transformMatrix'));
+    const transform = new Matrix(this.__attr.get('transformMatrix'));
     const transformOrigin = this.attr('transformOrigin');
     if(transformOrigin) {
       const t = new Matrix();
@@ -491,9 +238,9 @@ export default class BaseSprite extends BaseNode {
     let setter = null;
     if(isStyleAnim) {
       setter = (frame, target) => {
-        target.attributes.__styleTag = true;
+        target.__attr.__styleTag = true;
         target.attr(frame);
-        target.attributes.__styleTag = false;
+        target.__attr.__styleTag = false;
       };
     }
     const animation = new Animation(this, frames, timing, setter);
@@ -815,7 +562,8 @@ export default class BaseSprite extends BaseNode {
   }
 
   get renderRect() {
-    return boxToRect(this.renderBox);
+    const [x0, y0, x1, y1] = this.renderBox;
+    return [x0, y0, x1 - x0, y1 - y0];
   }
 
   get vertices() {
@@ -865,10 +613,7 @@ export default class BaseSprite extends BaseNode {
     if(clearCache) {
       this.cache = null;
     }
-    const parent = this.parent;
-    if(parent) {
-      this.parent.update(this);
-    }
+    super.forceUpdate();
   }
 
   // layer position to sprite offset
@@ -998,31 +743,9 @@ export default class BaseSprite extends BaseNode {
   }
 
   draw(t, drawingContext = this.context) { // eslint-disable-line complexity
-    const styleNeedUpdate = this.__styleNeedUpdate;
-    if(styleNeedUpdate) {
-      stylesheet.computeStyle(this);
-      if(this.querySelectorAll) {
-        const children = this.querySelectorAll('*');
-        children.forEach(child => stylesheet.computeStyle(child));
-      }
-      if(styleNeedUpdate === 'siblings') {
-        if(this.parent) {
-          const children = this.parent.children;
-          const index = children.indexOf(this);
-          const len = children.length;
-          for(let i = index + 1; i < len; i++) {
-            const node = children[i];
-            stylesheet.computeStyle(node);
-            if(node.querySelectorAll) {
-              const nodes = node.querySelectorAll('*');
-              nodes.forEach(child => stylesheet.computeStyle(child));
-            }
-          }
-        }
-      }
-    }
+    super.draw(t, drawingContext);
+
     if(!this.isVisible()) {
-      delete this.lastRenderBox;
       return;
     }
 
@@ -1308,8 +1031,8 @@ export default class BaseSprite extends BaseNode {
       });
       deferred.promise = deferred.promise.then(() => {
         if(!this[_hide]) {
-          delete this[_attr].__originalDisplay;
-          delete this[_attr].__originalState;
+          delete this.__attr.__originalDisplay;
+          delete this.__attr.__originalState;
           if(states.show.__default) {
             delete states.show;
             this.attr('states', states);
@@ -1503,7 +1226,7 @@ export default class BaseSprite extends BaseNode {
         deferred.promise.then(() => {
           if(!onbyone) {
             this.attr(afterEnter);
-            this[_attr].quietSet('state', toState || state);
+            this.__attr.quietSet('state', toState || state);
           }
           return this;
         });
@@ -1565,7 +1288,7 @@ export default class BaseSprite extends BaseNode {
               this.children.forEach((c) => {
                 const states = c.attr('states');
                 c.attr(states.afterEnter);
-                c[_attr].quietSet('state', c.__toState);
+                c.__attr.quietSet('state', c.__toState);
                 delete c.__toState;
               });
             });

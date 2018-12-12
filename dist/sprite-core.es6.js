@@ -111,46 +111,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(118);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BaseSprite", function() { return _basesprite__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(160);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataNode", function() { return _datanode__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(161);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Sprite", function() { return _sprite__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(161);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Sprite", function() { return _sprite__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(162);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Label", function() { return _label__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _label__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(162);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Label", function() { return _label__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(168);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Layer", function() { return _layer__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(168);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Layer", function() { return _layer__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(170);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _group__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(170);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _group__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(155);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BaseNode", function() { return _basenode__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(154);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BaseNode", function() { return _basenode__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(182);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Path", function() { return _path__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(183);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Path", function() { return _path__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(169);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Batch", function() { return _batch__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
-/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(169);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Batch", function() { return _batch__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(156);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_12__["registerNodeType"]; });
 
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(158);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_13__["registerNodeType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_12__["isValidNodeType"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_13__["isValidNodeType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_12__["createNode"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_13__["createNode"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_12__["createElement"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_13__["createElement"]; });
+/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(123);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelector", function() { return _selector__WEBPACK_IMPORTED_MODULE_13__["querySelector"]; });
 
-/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(122);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelector", function() { return _selector__WEBPACK_IMPORTED_MODULE_14__["querySelector"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelectorAll", function() { return _selector__WEBPACK_IMPORTED_MODULE_13__["querySelectorAll"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelectorAll", function() { return _selector__WEBPACK_IMPORTED_MODULE_14__["querySelectorAll"]; });
-
-/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(121);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stylesheet", function() { return _stylesheet__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(122);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stylesheet", function() { return _stylesheet__WEBPACK_IMPORTED_MODULE_14__["default"]; });
 
 
 
@@ -168,8 +165,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-_utils__WEBPACK_IMPORTED_MODULE_3__["parseFont"] = __webpack_require__(153);
+_utils__WEBPACK_IMPORTED_MODULE_3__["parseFont"] = __webpack_require__(154);
 
 const Color = _utils__WEBPACK_IMPORTED_MODULE_3__["Color"];
 
@@ -4245,14 +4241,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(111);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "appendUnit", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["appendUnit"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "boxEqual", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["boxEqual"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "boxIntersect", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["boxIntersect"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "boxToRect", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["boxToRect"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "boxUnion", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["boxUnion"]; });
-
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Color", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["Color"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fourValuesShortCut", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["fourValuesShortCut"]; });
@@ -4272,8 +4260,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseStringInt", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["parseStringInt"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseStringTransform", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["parseStringTransform"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rectToBox", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["rectToBox"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rectVertices", function() { return _utils__WEBPACK_IMPORTED_MODULE_0__["rectVertices"]; });
 
@@ -4322,23 +4308,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Color", function() { return Color; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appendUnit", function() { return appendUnit; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxEqual", function() { return boxEqual; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxIntersect", function() { return boxIntersect; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxToRect", function() { return boxToRect; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "boxUnion", function() { return boxUnion; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fourValuesShortCut", function() { return fourValuesShortCut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "notice", function() { return notice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oneOrTwoValues", function() { return oneOrTwoValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseColor", function() { return parseColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseColorString", function() { return parseColorString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "praseString", function() { return praseString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringFloat", function() { return parseStringFloat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringInt", function() { return parseStringInt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringTransform", function() { return parseStringTransform; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rectToBox", function() { return rectToBox; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseValuesString", function() { return parseValuesString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "praseString", function() { return praseString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringInt", function() { return parseStringInt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringFloat", function() { return parseStringFloat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oneOrTwoValues", function() { return oneOrTwoValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fourValuesShortCut", function() { return fourValuesShortCut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rectVertices", function() { return rectVertices; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appendUnit", function() { return appendUnit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortOrderedSprites", function() { return sortOrderedSprites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "notice", function() { return notice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateID", function() { return generateID; });
 const colorString = __webpack_require__(112);
 
@@ -4372,9 +4354,9 @@ let Color = class Color {
 
 
 
-const parseColor = color => {
+function parseColor(color) {
   return new Color(color);
-};
+}
 
 function parseColorString(color) {
   if (color && typeof color === 'string' && color !== 'inherit') {
@@ -4452,45 +4434,10 @@ function fourValuesShortCut(val) {
   return [...val, 0, 0, 0, 0].slice(0, 4);
 }
 
-function boxIntersect(box1, box2) {
-  // left, top, right, buttom
-  const [l1, t1, r1, b1] = [box1[0], box1[1], box1[2], box1[3]],
-        [l2, t2, r2, b2] = [box2[0], box2[1], box2[2], box2[3]];
-
-  const t = Math.max(t1, t2),
-        r = Math.min(r1, r2),
-        b = Math.min(b1, b2),
-        l = Math.max(l1, l2);
-
-  if (b >= t && r >= l) {
-    return [l, t, r, b];
-  }
-  return null;
-}
-
-function boxToRect(box) {
-  return [box[0], box[1], box[2] - box[0], box[3] - box[1]];
-}
-
-function boxEqual(box1, box2) {
-  return box1[0] === box2[0] && box1[1] === box2[1] && box1[2] === box2[2] && box1[3] === box2[3];
-}
-
-function rectToBox(rect) {
-  return [rect[0], rect[1], rect[0] + rect[2], rect[1] + rect[3]];
-}
-
 function rectVertices(rect) {
-  const [x1, y1, x2, y2] = rectToBox(rect);
+  const [x, y, w, h] = rect;
 
-  return [[x1, y1], [x2, y1], [x2, y2], [x1, y2]];
-}
-
-function boxUnion(box1, box2) {
-  if (!box1) return box2;
-  if (!box2) return box1;
-
-  return [Math.min(box1[0], box2[0]), Math.min(box1[1], box2[1]), Math.max(box1[2], box2[2]), Math.max(box1[3], box2[3])];
+  return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]];
 }
 
 function appendUnit(value, defaultUnit = 'px') {
@@ -4530,8 +4477,6 @@ function generateID(obj) {
   IDMap.set(obj, id);
   return id;
 }
-
-
 
 /***/ }),
 /* 112 */
@@ -5489,13 +5434,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(154);
-/* harmony import */ var _animation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(155);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(158);
-/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(121);
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(117);
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(159);
+/* harmony import */ var _baseattr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(155);
+/* harmony import */ var _animation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(157);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(156);
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(117);
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(160);
 var _dec, _desc, _value, _class, _class2, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
@@ -5511,9 +5455,7 @@ const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
 
-
-const _attr = Symbol('attr'),
-      _animations = Symbol('animations'),
+const _animations = Symbol('animations'),
       _cachePriority = Symbol('cachePriority'),
       _effects = Symbol('effects'),
       _flow = Symbol('flow'),
@@ -5522,8 +5464,7 @@ const _attr = Symbol('attr'),
       _show = Symbol('show'),
       _hide = Symbol('hide'),
       _enter = Symbol('enter'),
-      _releaseKeys = Symbol('releaseKeys'),
-      _style = Symbol('style');
+      _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
@@ -5536,19 +5477,12 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       }
     })
    */
-  constructor(attr) {
-    super();
-
-    this[_attr] = new this.constructor.Attr(this);
+  constructor(attrs) {
+    super(attrs);
     this[_animations] = new Set();
     this[_cachePriority] = 0;
     this[_flow] = {};
     this[_releaseKeys] = new Set();
-    this[_style] = {};
-
-    if (attr) {
-      this.attr(attr);
-    }
   }
 
   static setAttributeEffects(effects = {}) {
@@ -5614,17 +5548,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this[_releaseKeys].add(key);
   }
 
-  get layer() {
-    return this.parent && this.parent.layer;
-  }
-
   reflow() {
     this[_flow] = {};
-    // let parent = this.parent
-    // while(parent) {
-    //   if(parent.reflow) parent.reflow()
-    //   parent = parent.parent
-    // }
   }
 
   flow(prop, value) {
@@ -5632,60 +5557,6 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       return this[_flow][prop];
     }
     this[_flow][prop] = value;
-  }
-
-  serialize() {
-    const nodeType = this.nodeType,
-          attrs = this[_attr].serialize(),
-          dataset = JSON.stringify(this.dataset),
-          id = this.id;
-
-    return {
-      nodeType,
-      attrs,
-      dataset,
-      id
-    };
-  }
-
-  merge(attrs) {
-    this[_attr].merge(attrs);
-  }
-
-  cloneNode() {
-    const node = new this.constructor();
-    node.merge(this[_attr].serialize());
-    node.data(this.dataset);
-    const bgimage = this.attr('bgimage');
-    if (bgimage && bgimage.image) {
-      node.attr('bgimage', null);
-      node.attr('bgimage', Object.assign({}, bgimage));
-    }
-    return node;
-  }
-
-  set id(val) {
-    this.attr('id', val);
-  }
-
-  get id() {
-    return this.attr('id');
-  }
-
-  set name(val) {
-    this.attr('name', val);
-  }
-
-  get name() {
-    return this.attr('name');
-  }
-
-  set className(val) {
-    this.attr('class', val);
-  }
-
-  get className() {
-    return this.attr('class');
   }
 
   get hasLayout() {
@@ -5703,167 +5574,6 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
   get zIndex() {
     return this.attr('zIndex');
-  }
-
-  getAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop);
-  }
-
-  setAttribute(prop, val) {
-    /* istanbul ignore next */
-    return this.attr(prop, val);
-  }
-
-  removeAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop, null);
-  }
-
-  attr(props, val) {
-    const setVal = (key, value) => {
-      if (!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
-        Object.defineProperty(this[_attr], key, {
-          // enumerable: true,
-          configurable: true,
-          set(value) {
-            const subject = this.subject;
-            const owner = subject.__owner || subject;
-            this.quietSet(key, value);
-            // fixed color inherit
-            if (key === 'color' && !this.__attributeNames.has('fillColor')) {
-              subject.attr('fillColor', value);
-            }
-            // fixed font inherit
-            if ((key === 'fontSize' || key === 'fontFamily' || key === 'fontStyle' || key === 'fontVariant' || key === 'fontWeight') && !this.__attributeNames.has('font')) {
-              const parseFont = __webpack_require__(153);
-              const font = this.get('font') || 'normal normal normal 16px Arial';
-              const parsed = parseFont(font);
-              parsed.fontSize = parsed.size + parsed.unit;
-              if (key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
-                value += 'px';
-              }
-              parsed[key] = value;
-              const { style, variant, weight, family, fontSize } = parseFont(font);
-              subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
-            }
-            if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
-              const children = owner.querySelectorAll('*');
-              children.forEach(node => {
-                if (node.retypesetting) node.retypesetting();
-              });
-            }
-            if (_utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"].has(key)) {
-              subject.forceUpdate();
-            }
-          },
-          get() {
-            return this.get(key);
-          }
-        });
-      }
-      this[_attr][key] = value;
-      // if(stylesheet.relatedAttributes.has(key)) {
-      //   this.updateStyles();
-      // }
-    };
-    if (typeof props === 'object') {
-      Object.entries(props).forEach(([prop, value]) => {
-        this.attr(prop, value);
-      });
-      return this;
-    }if (typeof props === 'string') {
-      if (val !== undefined) {
-        if (props === 'attrs') {
-          if (Array.isArray(val)) {
-            val = Object.assign({}, ...val);
-          }
-          Object.entries(val).forEach(([prop, value]) => {
-            this.attr(prop, value);
-          });
-          return this;
-        }
-        if (props === 'style') {
-          if (Array.isArray(val)) {
-            val = Object.assign({}, ...val);
-          }
-          Object.entries(val).forEach(([prop, value]) => {
-            this.style[prop] = value;
-          });
-          return this;
-        }
-        if (typeof val === 'function') {
-          val = val(this.attr(props));
-        }
-        if (val && typeof val.then === 'function') {
-          return val.then(res => {
-            setVal(props, res);
-          });
-        }
-        setVal(props, val);
-        return this;
-      }
-      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
-    }
-
-    return this[_attr].attrs;
-  }
-
-  get attributes() {
-    if (typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            return prop in target ? target[prop] : target.get(prop);
-          },
-          set(target, prop, value) {
-            if (typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;else target.subject.attr(prop, value);
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if (typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];else target.subject.attr(prop, null);
-            return true;
-          }
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
-  }
-
-  get style() {
-    if (typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"].has(prop)) {
-              return target[prop];
-            }
-            return target.subject[_style][prop];
-          },
-          set(target, prop, value) {
-            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"].has(prop)) {
-              target.subject.attr(prop, value);
-            } else {
-              target.subject[_style][prop] = value;
-            }
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"].has(prop)) {
-              target.subject.attr(prop, null);
-            } else {
-              delete target.subject[_style][prop];
-            }
-            return true;
-          }
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
   }
 
   get isVirtual() {
@@ -5897,7 +5607,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   get transform() {
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this[_attr].get('transformMatrix'));
+    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.__attr.get('transformMatrix'));
     const transformOrigin = this.attr('transformOrigin');
     if (transformOrigin) {
       const t = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"]();
@@ -5973,9 +5683,9 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     let setter = null;
     if (isStyleAnim) {
       setter = (frame, target) => {
-        target.attributes.__styleTag = true;
+        target.__attr.__styleTag = true;
         target.attr(frame);
-        target.attributes.__styleTag = false;
+        target.__attr.__styleTag = false;
       };
     }
     const animation = new _animation__WEBPACK_IMPORTED_MODULE_5__["default"](this, frames, timing, setter);
@@ -6278,7 +5988,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   get renderRect() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_2__["boxToRect"])(this.renderBox);
+    const [x0, y0, x1, y1] = this.renderBox;
+    return [x0, y0, x1 - x0, y1 - y0];
   }
 
   get vertices() {
@@ -6300,7 +6011,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       }
     }
     if (this.cacheContext && context !== this.cacheContext) {
-      _helpers_render__WEBPACK_IMPORTED_MODULE_8__["cacheContextPool"].put(this.cacheContext);
+      _helpers_render__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].put(this.cacheContext);
     }
     this.cacheContext = context;
   }
@@ -6327,10 +6038,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     if (clearCache) {
       this.cache = null;
     }
-    const parent = this.parent;
-    if (parent) {
-      this.parent.update(this);
-    }
+    super.forceUpdate();
   }
 
   // layer position to sprite offset
@@ -6397,7 +6105,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         if (borderWidth || borderRadius) {
           const [width, height] = this.outerSize;
           const [x, y, w, h, r] = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)];
-          Object(_helpers_render__WEBPACK_IMPORTED_MODULE_8__["drawRadiusBox"])(this.context, { x, y, w, h, r });
+          Object(_helpers_render__WEBPACK_IMPORTED_MODULE_7__["drawRadiusBox"])(this.context, { x, y, w, h, r });
           if (this.layer && this.layer.offset) {
             nx += this.layer.offset[0];
             ny += this.layer.offset[1];
@@ -6443,31 +6151,9 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
   draw(t, drawingContext = this.context) {
     // eslint-disable-line complexity
-    const styleNeedUpdate = this.__styleNeedUpdate;
-    if (styleNeedUpdate) {
-      _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(this);
-      if (this.querySelectorAll) {
-        const children = this.querySelectorAll('*');
-        children.forEach(child => _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(child));
-      }
-      if (styleNeedUpdate === 'siblings') {
-        if (this.parent) {
-          const children = this.parent.children;
-          const index = children.indexOf(this);
-          const len = children.length;
-          for (let i = index + 1; i < len; i++) {
-            const node = children[i];
-            _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(node);
-            if (node.querySelectorAll) {
-              const nodes = node.querySelectorAll('*');
-              nodes.forEach(child => _stylesheet__WEBPACK_IMPORTED_MODULE_7__["default"].computeStyle(child));
-            }
-          }
-        }
-      }
-    }
+    super.draw(t, drawingContext);
+
     if (!this.isVisible()) {
-      delete this.lastRenderBox;
       return;
     }
 
@@ -6481,7 +6167,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const ratio = this.layer ? this.layer.displayRatio || 1.0 : 1.0;
 
     if (enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {
-      cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_8__["cacheContextPool"].get(drawingContext);
+      cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].get(drawingContext);
       if (cachableContext) {
         // +2 to solve 1px problem
         cachableContext.canvas.width = Math.ceil(bound[2] * ratio) + 2;
@@ -6528,7 +6214,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
     if (cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
       if (filter) {
-        drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_9__["default"].compile(filter);
+        drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_8__["default"].compile(filter);
       }
       if (shadow) {
         let { blur, color, offset } = shadow;
@@ -6592,7 +6278,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
       const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2, offsetWidth - borderWidth, offsetHeight - borderWidth, borderRadius];
 
-      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_8__["drawRadiusBox"])(drawingContext, { x, y, w, h, r });
+      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_7__["drawRadiusBox"])(drawingContext, { x, y, w, h, r });
 
       if (borderStyle && borderStyle !== 'solid') {
         const dashOffset = this.attr('dashOffset');
@@ -6602,18 +6288,18 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         }
         drawingContext.setLineDash(borderStyle);
       }
-      drawingContext.strokeStyle = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_8__["findColor"])(drawingContext, this, 'border');
+      drawingContext.strokeStyle = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_7__["findColor"])(drawingContext, this, 'border');
       drawingContext.stroke();
     }
 
     // draw bgcolor
-    const bgcolor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_8__["findColor"])(drawingContext, this, 'bgcolor');
+    const bgcolor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_7__["findColor"])(drawingContext, this, 'bgcolor');
     const bgimage = this.attr('bgimage');
 
     if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
       const [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)];
 
-      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_8__["drawRadiusBox"])(drawingContext, { x, y, w, h, r });
+      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_7__["drawRadiusBox"])(drawingContext, { x, y, w, h, r });
 
       if (bgcolor) {
         drawingContext.fillStyle = bgcolor;
@@ -6744,8 +6430,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       });
       deferred.promise = deferred.promise.then(() => {
         if (!this[_hide]) {
-          delete this[_attr].__originalDisplay;
-          delete this[_attr].__originalState;
+          delete this.__attr.__originalDisplay;
+          delete this.__attr.__originalState;
           if (states.show.__default) {
             delete states.show;
             this.attr('states', states);
@@ -6939,7 +6625,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         deferred.promise.then(() => {
           if (!onbyone) {
             this.attr(afterEnter);
-            this[_attr].quietSet('state', toState || state);
+            this.__attr.quietSet('state', toState || state);
           }
           return this;
         });
@@ -7001,7 +6687,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
               this.children.forEach(c => {
                 const states = c.attr('states');
                 c.attr(states.afterEnter);
-                c[_attr].quietSet('state', c.__toState);
+                c.__attr.quietSet('state', c.__toState);
                 delete c.__toState;
               });
             });
@@ -7054,7 +6740,7 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     }
     return _exit();
   }
-}, _class2.Attr = _attr__WEBPACK_IMPORTED_MODULE_3__["default"], _class2.inheritAttributes = _utils__WEBPACK_IMPORTED_MODULE_2__["inheritAttributes"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype)), _class));
+}, _class2.Attr = _baseattr__WEBPACK_IMPORTED_MODULE_3__["default"], _temp), (_applyDecoratedDescriptor(_class.prototype, 'xy', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, 'xy'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'attrSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'attrSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxOffsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxOffsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'contentSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clientSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clientSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetSize', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'originalRect', [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, 'originalRect'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype)), _class));
 
 
 
@@ -7225,13 +6911,14 @@ module.exports = function (target, property, decorators, descriptor, context) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(101);
-/* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(121);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _dec33, _dec34, _dec35, _desc, _value, _class;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SpriteAttr; });
+/* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(101);
+/* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(121);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(110);
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _dec33, _dec34, _desc, _value, _class;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
 
@@ -7240,37 +6927,9 @@ const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
 
-const _attr = Symbol('attr'),
-      _style = Symbol('style'),
-      _temp = Symbol('store'),
-      _subject = Symbol('subject'),
-      _default = Symbol('default');
-
-let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('You can remove this call.'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"]), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('width'), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["relative"])('height'), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"]), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"]), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec17 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec18 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec19 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec20 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec21 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec22 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringTransform"]), _dec23 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"]), _dec24 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec25 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]), _dec26 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseInt), _dec27 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec28 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec29 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec30 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseInt), _dec31 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_2__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"]), _dec32 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec33 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec34 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), _dec35 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseValue"])(parseFloat), (_class = class SpriteAttr {
+let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec17 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec18 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec19 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec20 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec21 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringTransform"]), _dec22 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"]), _dec23 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec24 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), _dec25 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseInt), _dec26 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec27 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec28 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec29 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseInt), _dec30 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _dec31 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec32 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec33 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec34 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), (_class = class SpriteAttr extends _attr__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor(subject) {
-    this[_subject] = subject;
-    this[_default] = {};
-    this[_attr] = {};
-    this[_style] = {};
-
-    this[_temp] = new Map(); // save non-serialized values
-
-    Object.defineProperty(this, '__attributesSet', {
-      value: new Set()
-    });
-    Object.defineProperty(this, '__styleTag', {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, '__updateTag', {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, '__reflowTag', {
-      writable: true,
-      value: false
-    });
-
+    super(subject);
     this.setDefault({
       state: 'default',
       states: {},
@@ -7345,121 +7004,10 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       bgimage: '',
       clipOverflow: true
     });
-  }
-
-  setDefault(attrs) {
-    Object.assign(this[_default], attrs);
-    Object.assign(this[_attr], attrs);
-  }
-
-  saveObj(key, val) {
-    this[_temp].set(key, val);
-    this.__updateTag = true;
-  }
-
-  loadObj(key) {
-    return this[_temp].get(key);
-  }
-
-  quietSet(key, val) {
-    let oldVal;
-    if (key.length > 5 && key.indexOf('data-') === 0) {
-      const dataKey = key.slice(5);
-      oldVal = this.subject.data(dataKey);
-      this.subject.data(dataKey, val);
-    } else {
-      if (val != null) {
-        this.__attributesSet.add(key);
-      } else {
-        val = this[_default][key];
-        if (this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
-        }
-      }
-      oldVal = this[_attr][key];
-      this[_attr][key] = val;
-    }
-    if (_stylesheet__WEBPACK_IMPORTED_MODULE_3__["default"].relatedAttributes.has(key)) {
-      if (typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
-        this.subject.updateStyles();
-      }
-    }
-  }
-
-  clearStyle() {
-    this[_style] = {};
-  }
-
-  get style() {
-    return this[_style];
-  }
-
-  set(key, val) {
-    if (!this.__styleTag && val != null) {
-      this.__attributesSet.add(key);
-    }
-    if (!this.__styleTag && val == null) {
-      val = this[_default][key];
-      if (this.__attributesSet.has(key)) {
-        this.__attributesSet.delete(key);
-      }
-    }
-    if (this.__styleTag) {
-      if (val != null) {
-        this[_style][key] = val;
-      } else {
-        delete this[_style][key];
-      }
-    }
-    const oldVal = this[_attr][key];
-    if (typeof val === 'object') {
-      if (oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
-        return;
-      }
-    } else if (oldVal === val) {
-      return;
-    }
-    if (!this.__styleTag) {
-      this[_attr][key] = val;
-      if (_stylesheet__WEBPACK_IMPORTED_MODULE_3__["default"].relatedAttributes.has(key)) {
-        this.subject.updateStyles();
-      }
-    }
-    this.__updateTag = true;
-    // auto reflow
-    if (key === 'width' || key === 'height' || key === 'layoutWidth' || key === 'layoutHeight' || key === 'display' || key === 'anchor' || key === 'border' || key === 'padding' || key === 'boxSizing' || key === 'margin' || key === 'flexBasis' || key === 'flex') {
-      this.__reflowTag = true;
-    }
-  }
-
-  get(key) {
-    if (key.length > 5 && key.indexOf('data-') === 0) {
-      return this.subject.data(key.slice(5));
-    }
-    if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
-      return this[_style][key];
-    }
-    return this[_attr][key];
-  }
-
-  get attrs() {
-    const ret = {};
-    [...this.__attributeNames].forEach(key => {
-      ret[key] = this[key];
+    Object.defineProperty(this, '__reflowTag', {
+      writable: true,
+      value: false
     });
-    [...this.__attributesSet].forEach(key => {
-      ret[key] = this[key];
-    });
-    Object.entries(this).forEach(([key, value]) => {
-      if (key.indexOf('__') !== 0) {
-        ret[key] = value;
-      }
-    });
-    return ret;
-  }
-
-  clearCache() {
-    return this;
   }
 
   clearFlow() {
@@ -7467,17 +7015,25 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     return this;
   }
 
+  set(key, value) {
+    super.set(key, value);
+    // auto reflow
+    if (key === 'width' || key === 'height' || key === 'layoutWidth' || key === 'layoutHeight' || key === 'display' || key === 'anchor' || key === 'border' || key === 'padding' || key === 'boxSizing' || key === 'margin' || key === 'flexBasis' || key === 'flex') {
+      this.__reflowTag = true;
+    }
+  }
+
   merge(attrs) {
     if (typeof attrs === 'string') {
       attrs = JSON.parse(attrs);
     }
     Object.entries(attrs).forEach(([key, value]) => {
-      if (this[_default][key] !== value) {
+      if (this.__default[key] !== value) {
         if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
           // this[key] = value;
           this.subject.attr(key, value);
         } else if (key === 'offsetPath') {
-          const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default.a(value);
+          const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(value);
           this.set('offsetPath', offsetPath.d);
           this.saveObj('offsetPath', offsetPath);
         } else {
@@ -7485,7 +7041,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
         }
       }
     });
-
     return this;
   }
 
@@ -7506,24 +7061,6 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const offsetPoint = this.get('offsetPoint');
     if (offsetPoint != null) ret.offsetPoint = offsetPoint;
     return JSON.stringify(ret);
-  }
-
-  get subject() {
-    return this[_subject];
-  }
-
-  /* ------------------- define attributes ----------------------- */
-
-  set id(val) {
-    return this.quietSet('id', String(val));
-  }
-
-  set name(val) {
-    return this.quietSet('name', String(val));
-  }
-
-  set class(val) {
-    return this.quietSet('class', String(val));
   }
 
   set enableCache(val) {
@@ -7617,15 +7154,15 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     } else if (Array.isArray(val)) {
       val = {
         width: parseFloat(val[0]),
-        color: Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"])(val[1] || '#000')
+        color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val[1] || '#000')
       };
     } else {
       val.width = parseFloat(val.width);
-      val.color = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"])(val.color || '#000');
+      val.color = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val.color || '#000');
     }
     val = Object.assign({
       width: 1,
-      color: Object(_utils__WEBPACK_IMPORTED_MODULE_2__["parseColorString"])('#000'),
+      color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])('#000'),
       style: 'solid'
     }, val);
     this.set('border', val);
@@ -7701,7 +7238,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       skew: [0, 0],
       matrix: [1,0,0,1,0,0],
      */
-    Object.assign(this[_attr], {
+    Object.assign(this.__attr, {
       rotate: 0,
       scale: [1, 1],
       translate: [0, 0],
@@ -7717,7 +7254,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
       Object.entries(val).forEach(([key, value]) => {
         if (key === 'matrix' && Array.isArray(value)) {
-          this.set('transformMatrix', new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](value).m);
+          this.set('transformMatrix', new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](value).m);
         } else {
           this[key] = value;
         }
@@ -7735,12 +7272,12 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   set rotate(val) {
     const delta = this.get('rotate') - val;
     this.set('rotate', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.get('transformMatrix')).rotate(-delta);
+    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix')).rotate(-delta);
     this.set('transformMatrix', transform.m);
   }
 
   set scale(val) {
-    val = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"])(val).map(v => {
+    val = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"])(val).map(v => {
       if (Math.abs(v) > 0.001) {
         return v;
       }
@@ -7755,7 +7292,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       this.rotate -= offsetAngle;
     }
 
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.get('transformMatrix'));
+    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
     transform.scale(...delta);
     this.set('transformMatrix', transform.m);
 
@@ -7768,16 +7305,16 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     const oldVal = this.get('translate') || [0, 0];
     const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
     this.set('translate', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.get('transformMatrix'));
+    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
     transform.translate(...delta);
     this.set('transformMatrix', transform.m);
   }
 
   set skew(val) {
     const oldVal = this.get('skew') || [0, 0];
-    const invm = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"]().skew(...oldVal).inverse();
+    const invm = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"]().skew(...oldVal).inverse();
     this.set('skew', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.get('transformMatrix'));
+    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
     transform.multiply(invm).skew(...val);
     this.set('transformMatrix', transform.m);
   }
@@ -7786,7 +7323,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
     this.set('zIndex', val);
     const subject = this.subject;
     if (subject.parent) {
-      subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["sortOrderedSprites"])(subject.parent.childNodes);
+      subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["sortOrderedSprites"])(subject.parent.childNodes);
     }
   }
 
@@ -7839,7 +7376,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       if (pathObj) {
         offsetPath = pathObj;
       } else {
-        offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default.a(offsetPath);
+        offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(offsetPath);
         this.saveObj('offsetPath', offsetPath);
       }
     }
@@ -7888,7 +7425,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   }
 
   set offsetPath(val) {
-    const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_1___default.a(val);
+    const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(val);
 
     this.set('offsetPath', offsetPath.d);
     this.saveObj('offsetPath', offsetPath);
@@ -8039,7 +7576,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   */
 
   set bgimage(val) {
-    if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"])(val.clip9);
+    if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"])(val.clip9);
     if (val && !val.image && this.subject.loadBgImage) {
       val = this.subject.loadBgImage(val);
     }
@@ -8090,7 +7627,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
       });
       val = value;
     }
-    const defaultVal = this[_default].actions;
+    const defaultVal = this.__default.actions;
     val = Object.assign({}, defaultVal, val);
     this.quietSet('actions', val);
   }
@@ -8150,10 +7687,8 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
   set clipOverflow(val) {
     this.set('clipOverflow', !!val);
   }
-}, (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'class', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'class'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'enableCache', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'enableCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec2, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec6, _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_dec9, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingTop', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingTop'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingRight', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingRight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingBottom', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingBottom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingLeft', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec22, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_dec23, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec24, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec25, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_dec26, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec27, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexGrow', [_dec28, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexGrow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexShrink', [_dec29, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexShrink'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexBasis', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexBasis'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_dec30, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_dec31, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"], _utils__WEBPACK_IMPORTED_MODULE_2__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginTop', [_dec32, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginTop'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginRight', [_dec33, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginRight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginBottom', [_dec34, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginBottom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginLeft', [_dec35, _utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'enterMode', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'enterMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exitMode', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'exitMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clipOverflow', [_utils__WEBPACK_IMPORTED_MODULE_2__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clipOverflow'), _class.prototype)), _class));
+}, (_applyDecoratedDescriptor(_class.prototype, 'enableCache', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'enableCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'anchor', [_dec, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'anchor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutX', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec2, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutX'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutY', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutY'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'x', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'x'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'y', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'y'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pos', [_dec6, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'pos'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec7, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'opacity', [_dec8, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'opacity'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'size', [_dec13, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'size'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'border', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'border'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'padding', [_dec14, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'padding'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingTop', [_dec15, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingTop'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingRight', [_dec16, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingRight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingBottom', [_dec17, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingBottom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'paddingLeft', [_dec18, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'paddingLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'borderRadius', [_dec19, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'borderRadius'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'boxSizing', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'boxSizing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dashOffset', [_dec20, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'dashOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transform', [_dec21, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transform'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transformOrigin', [_dec22, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'transformOrigin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rotate', [_dec23, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scale', [_dec24, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'scale'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'translate', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'translate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'skew', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'skew'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'zIndex', [_dec25, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'zIndex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'linearGradients', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'linearGradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'gradients', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'gradients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetPath', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetPath'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetDistance', [_dec26, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetDistance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'offsetRotate', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'offsetRotate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'filter', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'filter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'shadow', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'shadow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexGrow', [_dec27, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexGrow'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexShrink', [_dec28, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexShrink'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexBasis', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flexBasis'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flex', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'flex'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'order', [_dec29, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'order'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'position', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'position'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'alignSelf', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'alignSelf'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'margin', [_dec30, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, 'margin'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginTop', [_dec31, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginTop'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginRight', [_dec32, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginRight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginBottom', [_dec33, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginBottom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'marginLeft', [_dec34, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'marginLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'bgimage', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgimage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'states', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'states'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'actions', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'actions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'state', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'state'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'enterMode', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'enterMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exitMode', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'exitMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clipOverflow', [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'clipOverflow'), _class.prototype)), _class));
 
-
-/* harmony default export */ __webpack_exports__["default"] = (SpriteAttr);
 
 /***/ }),
 /* 121 */
@@ -8161,10 +7696,216 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
+/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(122);
+var _dec, _desc, _value, _class;
+
+const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
-const cssWhat = __webpack_require__(144);
+
+
+const _attr = Symbol('attr'),
+      _style = Symbol('style'),
+      _temp = Symbol('store'),
+      _subject = Symbol('subject'),
+      _default = Symbol('default');
+
+let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["deprecate"])('You can remove this call.'), (_class = class SpriteAttr {
+  constructor(subject) {
+    this[_subject] = subject;
+    this[_default] = {};
+    this[_attr] = {};
+    this[_style] = {};
+
+    this[_temp] = new Map(); // save non-serialized values
+
+    Object.defineProperty(this, '__attributesSet', {
+      value: new Set()
+    });
+    Object.defineProperty(this, '__styleTag', {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, '__updateTag', {
+      writable: true,
+      value: false
+    });
+  }
+
+  get __attr() {
+    return this[_attr];
+  }
+
+  get __default() {
+    return this[_default];
+  }
+
+  setDefault(attrs) {
+    Object.assign(this[_default], attrs);
+    Object.assign(this[_attr], attrs);
+  }
+
+  saveObj(key, val) {
+    this[_temp].set(key, val);
+    this.__updateTag = true;
+  }
+
+  loadObj(key) {
+    return this[_temp].get(key);
+  }
+
+  quietSet(key, val) {
+    let oldVal;
+    if (key.length > 5 && key.indexOf('data-') === 0) {
+      const dataKey = key.slice(5);
+      oldVal = this.subject.data(dataKey);
+      this.subject.data(dataKey, val);
+    } else {
+      if (val != null) {
+        this.__attributesSet.add(key);
+      } else {
+        val = this[_default][key];
+        if (this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+      oldVal = this[_attr][key];
+      this[_attr][key] = val;
+    }
+    if (_stylesheet__WEBPACK_IMPORTED_MODULE_1__["default"].relatedAttributes.has(key)) {
+      if (typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
+        this.subject.updateStyles();
+      }
+    }
+  }
+
+  clearStyle() {
+    this[_style] = {};
+  }
+
+  get style() {
+    return this[_style];
+  }
+
+  set(key, val) {
+    if (!this.__styleTag && val != null) {
+      this.__attributesSet.add(key);
+    }
+    if (!this.__styleTag && val == null) {
+      val = this[_default][key];
+      if (this.__attributesSet.has(key)) {
+        this.__attributesSet.delete(key);
+      }
+    }
+    if (this.__styleTag) {
+      if (val != null) {
+        this[_style][key] = val;
+      } else {
+        delete this[_style][key];
+      }
+    }
+    const oldVal = this[_attr][key];
+    if (typeof val === 'object') {
+      if (oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
+        return;
+      }
+    } else if (oldVal === val) {
+      return;
+    }
+    if (!this.__styleTag) {
+      this[_attr][key] = val;
+      if (_stylesheet__WEBPACK_IMPORTED_MODULE_1__["default"].relatedAttributes.has(key)) {
+        this.subject.updateStyles();
+      }
+    }
+    this.__updateTag = true;
+  }
+
+  get(key) {
+    if (key.length > 5 && key.indexOf('data-') === 0) {
+      return this.subject.data(key.slice(5));
+    }
+    if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
+      return this[_style][key];
+    }
+    return this[_attr][key];
+  }
+
+  get attrs() {
+    const ret = {};
+    [...this.__attributeNames].forEach(key => {
+      ret[key] = this[key];
+    });
+    [...this.__attributesSet].forEach(key => {
+      ret[key] = this[key];
+    });
+    Object.entries(this).forEach(([key, value]) => {
+      if (key.indexOf('__') !== 0) {
+        ret[key] = value;
+      }
+    });
+    return ret;
+  }
+
+  clearCache() {
+    return this;
+  }
+
+  merge(attrs) {
+    if (typeof attrs === 'string') {
+      attrs = JSON.parse(attrs);
+    }
+    return this;
+  }
+
+  serialize() {
+    const ret = {};
+    [...this.__attributesSet].forEach(key => {
+      if (key !== 'id' && key.indexOf('__internal') !== 0) {
+        ret[key] = this[key];
+      }
+    });
+    Object.entries(this).forEach(([key, value]) => {
+      if (key.indexOf('__') !== 0) {
+        ret[key] = value;
+      }
+    });
+    return JSON.stringify(ret);
+  }
+
+  get subject() {
+    return this[_subject];
+  }
+
+  /* ------------------- define attributes ----------------------- */
+
+  set id(val) {
+    return this.quietSet('id', String(val));
+  }
+
+  set name(val) {
+    return this.quietSet('name', String(val));
+  }
+
+  set class(val) {
+    return this.quietSet('class', String(val));
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, 'clearCache', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearCache'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'id', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'id'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'name', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'name'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'class', [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'class'), _class.prototype)), _class));
+
+
+/* harmony default export */ __webpack_exports__["default"] = (SpriteAttr);
+
+/***/ }),
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(123);
+
+
+const cssWhat = __webpack_require__(145);
 
 let cssRules = [];
 const keyFrames = {};
@@ -8549,7 +8290,7 @@ function parseRuleAttrs(rule) {
   }
   if ('fontSize' in attrs || 'fontFamily' in attrs || 'fontStyle' in attrs || 'fontVariant' in attrs || 'fontWeight' in attrs) {
     // for font inherit
-    const parseFont = __webpack_require__(153);
+    const parseFont = __webpack_require__(154);
     const font = attrs.font || 'normal normal normal 16px Arial';
     const { style, variant, weight, family, size, unit } = parseFont(font);
     attrs.font = `${attrs.fontStyle || style} ${attrs.fontVariant || variant} ${attrs.fontWeight || weight} ${attrs.fontSize || size + unit} ${attrs.fontFamily || family}`;
@@ -8866,7 +8607,7 @@ let order = 0;
 });
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8878,7 +8619,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
 
 
-const CSSselect = __webpack_require__(123);
+const CSSselect = __webpack_require__(124);
 
 CSSselect.pseudos.hover = next => {
   return !!next.attr('__internal_state_hover_');
@@ -8899,7 +8640,7 @@ function getChildren(elem) {
   if (elem.layer_) {
     return [elem.layer_];
   }
-  return Array.from(elem.children || []);
+  return Array.from(elem.childNodes || []);
 }
 
 function getParent(elem) {
@@ -8972,7 +8713,7 @@ const adapter = {
   },
   removeSubsets,
   getName(elem) {
-    return elem.tagName.toLowerCase();
+    return elem.tagName ? elem.tagName.toLowerCase() : null;
   },
   findOne: function findOne(test, arr) {
     let elem = null;
@@ -9057,7 +8798,7 @@ function compile(query) {
 }
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9065,9 +8806,9 @@ function compile(query) {
 
 module.exports = CSSselect;
 
-var DomUtils = __webpack_require__(124);
-var falseFunc = __webpack_require__(142).falseFunc;
-var compileRaw = __webpack_require__(143);
+var DomUtils = __webpack_require__(125);
+var falseFunc = __webpack_require__(143).falseFunc;
+var compileRaw = __webpack_require__(144);
 
 function wrapCompile(func) {
     return function addAdapter(selector, options, context) {
@@ -9158,18 +8899,18 @@ CSSselect._compileToken = compileRaw.compileToken;
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DomUtils = module.exports;
 
 [
-	__webpack_require__(125),
-	__webpack_require__(137),
+	__webpack_require__(126),
 	__webpack_require__(138),
 	__webpack_require__(139),
 	__webpack_require__(140),
-	__webpack_require__(141)
+	__webpack_require__(141),
+	__webpack_require__(142)
 ].forEach(function(ext){
 	Object.keys(ext).forEach(function(key){
 		DomUtils[key] = ext[key].bind(DomUtils);
@@ -9178,11 +8919,11 @@ var DomUtils = module.exports;
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ElementType = __webpack_require__(126),
-    getOuterHTML = __webpack_require__(127),
+var ElementType = __webpack_require__(127),
+    getOuterHTML = __webpack_require__(128),
     isTag = ElementType.isTag;
 
 module.exports = {
@@ -9207,7 +8948,7 @@ function getText(elem){
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports) {
 
 //Types of elements found in the DOM
@@ -9228,14 +8969,14 @@ module.exports = {
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
   Module dependencies
 */
-var ElementType = __webpack_require__(128);
-var entities = __webpack_require__(129);
+var ElementType = __webpack_require__(129);
+var entities = __webpack_require__(130);
 
 /*
   Boolean Attributes
@@ -9412,7 +9153,7 @@ function renderComment(elem) {
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports) {
 
 //Types of elements found in the DOM
@@ -9431,11 +9172,11 @@ module.exports = {
 };
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var encode = __webpack_require__(130),
-    decode = __webpack_require__(133);
+var encode = __webpack_require__(131),
+    decode = __webpack_require__(134);
 
 exports.decode = function(data, level){
 	return (!level || level <= 0 ? decode.XML : decode.HTML)(data);
@@ -9470,15 +9211,15 @@ exports.escape = encode.escape;
 
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var inverseXML = getInverseObj(__webpack_require__(131)),
+var inverseXML = getInverseObj(__webpack_require__(132)),
     xmlReplacer = getInverseReplacer(inverseXML);
 
 exports.XML = getInverse(inverseXML, xmlReplacer);
 
-var inverseHTML = getInverseObj(__webpack_require__(132)),
+var inverseHTML = getInverseObj(__webpack_require__(133)),
     htmlReplacer = getInverseReplacer(inverseHTML);
 
 exports.HTML = getInverse(inverseHTML, htmlReplacer);
@@ -9549,25 +9290,25 @@ exports.escape = escapeXML;
 
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module) {
 
 module.exports = {"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""};
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"};
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var entityMap = __webpack_require__(132),
-    legacyMap = __webpack_require__(134),
-    xmlMap    = __webpack_require__(131),
-    decodeCodePoint = __webpack_require__(135);
+var entityMap = __webpack_require__(133),
+    legacyMap = __webpack_require__(135),
+    xmlMap    = __webpack_require__(132),
+    decodeCodePoint = __webpack_require__(136);
 
 var decodeXMLStrict  = getStrictDecoder(xmlMap),
     decodeHTMLStrict = getStrictDecoder(entityMap);
@@ -9638,16 +9379,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"};
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var decodeMap = __webpack_require__(136);
+var decodeMap = __webpack_require__(137);
 
 module.exports = decodeCodePoint;
 
@@ -9676,13 +9417,13 @@ function decodeCodePoint(codePoint){
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module) {
 
 module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376};
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports) {
 
 var getChildren = exports.getChildren = function(elem){
@@ -9712,7 +9453,7 @@ exports.getName = function(elem){
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports) {
 
 exports.removeElement = function(elem){
@@ -9795,10 +9536,10 @@ exports.prepend = function(elem, prev){
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isTag = __webpack_require__(126).isTag;
+var isTag = __webpack_require__(127).isTag;
 
 module.exports = {
 	filter: filter,
@@ -9896,10 +9637,10 @@ function findAll(test, rootElems){
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ElementType = __webpack_require__(126);
+var ElementType = __webpack_require__(127);
 var isTag = exports.isTag = ElementType.isTag;
 
 exports.testElement = function(options, element){
@@ -9989,7 +9730,7 @@ exports.getElementsByTagType = function(type, element, recurse, limit){
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports) {
 
 // removeSubsets
@@ -10136,7 +9877,7 @@ exports.uniqueSort = function(nodes) {
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -10149,7 +9890,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10158,12 +9899,12 @@ module.exports = {
 
 module.exports = compile;
 
-var parse = __webpack_require__(144);
-var BaseFuncs = __webpack_require__(142);
-var sortRules = __webpack_require__(145);
-var procedure = __webpack_require__(146);
-var Rules = __webpack_require__(147);
-var Pseudos = __webpack_require__(149);
+var parse = __webpack_require__(145);
+var BaseFuncs = __webpack_require__(143);
+var sortRules = __webpack_require__(146);
+var procedure = __webpack_require__(147);
+var Rules = __webpack_require__(148);
+var Pseudos = __webpack_require__(150);
 var trueFunc = BaseFuncs.trueFunc;
 var falseFunc = BaseFuncs.falseFunc;
 
@@ -10374,7 +10115,7 @@ compile.Pseudos = Pseudos;
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10655,7 +10396,7 @@ function addToken(subselects, tokens){
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = sortByProcedure;
@@ -10666,7 +10407,7 @@ module.exports = sortByProcedure;
 	(some types of selectors are faster than others)
 */
 
-var procedure = __webpack_require__(146);
+var procedure = __webpack_require__(147);
 
 var attributes = {
     __proto__: null,
@@ -10741,17 +10482,17 @@ function getProcedure(token) {
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module) {
 
 module.exports = {"universal":50,"tag":30,"attribute":1,"pseudo":0,"descendant":-1,"child":-1,"parent":-1,"sibling":-1,"adjacent":-1};
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attributes = __webpack_require__(148);
-var Pseudos = __webpack_require__(149);
+var attributes = __webpack_require__(149);
+var Pseudos = __webpack_require__(150);
 
 /*
 	all available rules
@@ -10870,10 +10611,10 @@ module.exports = {
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var falseFunc = __webpack_require__(142).falseFunc;
+var falseFunc = __webpack_require__(143).falseFunc;
 
 //https://github.com/slevithan/XRegExp/blob/master/src/xregexp.js#L469
 var reChars = /[-[\]{}()*+?.,\\^$|#\s]/g;
@@ -11066,7 +10807,7 @@ module.exports = {
 
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -11082,9 +10823,9 @@ module.exports = {
 	  they need to return a boolean
 */
 
-var getNCheck = __webpack_require__(150);
-var BaseFuncs = __webpack_require__(142);
-var attributes = __webpack_require__(148);
+var getNCheck = __webpack_require__(151);
+var BaseFuncs = __webpack_require__(143);
+var attributes = __webpack_require__(149);
 var trueFunc = BaseFuncs.trueFunc;
 var falseFunc = BaseFuncs.falseFunc;
 
@@ -11490,11 +11231,11 @@ module.exports = {
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parse = __webpack_require__(151),
-    compile = __webpack_require__(152);
+var parse = __webpack_require__(152),
+    compile = __webpack_require__(153);
 
 module.exports = function nthCheck(formula){
 	return compile(parse(formula));
@@ -11504,7 +11245,7 @@ module.exports.parse = parse;
 module.exports.compile = compile;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports) {
 
 module.exports = parse;
@@ -11550,12 +11291,12 @@ function parse(formula){
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = compile;
 
-var BaseFuncs = __webpack_require__(142),
+var BaseFuncs = __webpack_require__(143),
     trueFunc  = BaseFuncs.trueFunc,
     falseFunc = BaseFuncs.falseFunc;
 
@@ -11595,7 +11336,7 @@ function compile(parsed){
 }
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 /* eslint-disable */
@@ -11724,13 +11465,21 @@ module.exports = function f(str, defaultHeight) {
 /* eslint-enable */
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseNode; });
-/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(121);
+/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(156);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(121);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(110);
+var _class, _temp;
+
+
+
+
 
 
 const _eventHandlers = Symbol('eventHandlers'),
@@ -11738,10 +11487,235 @@ const _eventHandlers = Symbol('eventHandlers'),
       _data = Symbol('data'),
       _mouseCapture = Symbol('mouseCapture');
 
-let BaseNode = class BaseNode {
-  constructor() {
+const _attr = Symbol('attr'),
+      _style = Symbol('style');
+
+let BaseNode = (_temp = _class = class BaseNode {
+
+  constructor(attrs) {
     this[_eventHandlers] = {};
     this[_data] = {};
+    this[_style] = {};
+    this[_attr] = new this.constructor.Attr(this);
+    if (attrs) {
+      this.attr(attrs);
+    }
+  }
+
+  serialize() {
+    const nodeType = this.nodeType,
+          attrs = this[_attr].serialize(),
+          dataset = JSON.stringify(this.dataset),
+          id = this.id;
+
+    return {
+      nodeType,
+      attrs,
+      dataset,
+      id
+    };
+  }
+
+  merge(attrs) {
+    this[_attr].merge(attrs);
+  }
+
+  cloneNode() {
+    const node = new this.constructor();
+    node.merge(this[_attr].serialize());
+    node.data(this.dataset);
+    const bgimage = this.attr('bgimage');
+    if (bgimage && bgimage.image) {
+      node.attr('bgimage', null);
+      node.attr('bgimage', Object.assign({}, bgimage));
+    }
+    return node;
+  }
+
+  attr(props, val) {
+    const setVal = (key, value) => {
+      if (!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
+        Object.defineProperty(this[_attr], key, {
+          // enumerable: true,
+          configurable: true,
+          set(value) {
+            const subject = this.subject;
+            this.quietSet(key, value);
+            // fixed color inherit
+            if (key === 'color' && !this.__attributeNames.has('fillColor')) {
+              subject.attr('fillColor', value);
+            }
+            // fixed font inherit
+            if ((key === 'fontSize' || key === 'fontFamily' || key === 'fontStyle' || key === 'fontVariant' || key === 'fontWeight') && !this.__attributeNames.has('font')) {
+              const parseFont = __webpack_require__(154);
+              const font = this.get('font') || 'normal normal normal 16px Arial';
+              const parsed = parseFont(font);
+              parsed.fontSize = parsed.size + parsed.unit;
+              if (key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
+                value += 'px';
+              }
+              parsed[key] = value;
+              const { style, variant, weight, family, fontSize } = parseFont(font);
+              subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
+            }
+            if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
+              const children = subject.querySelectorAll('*');
+              children.forEach(node => {
+                if (node.retypesetting) node.retypesetting();
+              });
+            }
+            if (_utils__WEBPACK_IMPORTED_MODULE_3__["inheritAttributes"].has(key)) {
+              subject.forceUpdate();
+            }
+          },
+          get() {
+            return this.get(key);
+          }
+        });
+      }
+      this[_attr][key] = value;
+      // if(stylesheet.relatedAttributes.has(key)) {
+      //   this.updateStyles();
+      // }
+    };
+    if (typeof props === 'object') {
+      Object.entries(props).forEach(([prop, value]) => {
+        this.attr(prop, value);
+      });
+      return this;
+    }if (typeof props === 'string') {
+      if (val !== undefined) {
+        if (props === 'attrs') {
+          if (Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.attr(prop, value);
+          });
+          return this;
+        }
+        if (props === 'style') {
+          if (Array.isArray(val)) {
+            val = Object.assign({}, ...val);
+          }
+          Object.entries(val).forEach(([prop, value]) => {
+            this.style[prop] = value;
+          });
+          return this;
+        }
+        if (typeof val === 'function') {
+          val = val(this.attr(props));
+        }
+        if (val && typeof val.then === 'function') {
+          return val.then(res => {
+            setVal(props, res);
+          });
+        }
+        setVal(props, val);
+        return this;
+      }
+      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
+    }
+
+    return this[_attr].attrs;
+  }
+
+  get __attr() {
+    return this[_attr];
+  }
+
+  get attributes() {
+    if (typeof Proxy === 'function') {
+      try {
+        return new Proxy(this[_attr], {
+          get(target, prop) {
+            return prop in target ? target[prop] : target.get(prop);
+          },
+          set(target, prop, value) {
+            if (typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;else target.subject.attr(prop, value);
+            return true;
+          },
+          deleteProperty(target, prop) {
+            if (typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];else target.subject.attr(prop, null);
+            return true;
+          }
+        });
+      } catch (ex) {
+        return this[_attr];
+      }
+    }
+    return this[_attr];
+  }
+
+  get style() {
+    if (typeof Proxy === 'function') {
+      try {
+        return new Proxy(this[_attr], {
+          get(target, prop) {
+            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_3__["inheritAttributes"].has(prop)) {
+              return target[prop];
+            }
+            return target.subject[_style][prop];
+          },
+          set(target, prop, value) {
+            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_3__["inheritAttributes"].has(prop)) {
+              target.subject.attr(prop, value);
+            } else {
+              target.subject[_style][prop] = value;
+            }
+            return true;
+          },
+          deleteProperty(target, prop) {
+            if (prop !== 'id' && prop !== 'name' && prop !== 'class' && target.__attributeNames.has(prop) || _utils__WEBPACK_IMPORTED_MODULE_3__["inheritAttributes"].has(prop)) {
+              target.subject.attr(prop, null);
+            } else {
+              delete target.subject[_style][prop];
+            }
+            return true;
+          }
+        });
+      } catch (ex) {
+        return this[_attr];
+      }
+    }
+    return this[_attr];
+  }
+
+  forceUpdate() {
+    const parent = this.parent;
+    if (parent) {
+      this.parent.update(this);
+    }
+  }
+
+  draw() {
+    const styleNeedUpdate = this.__styleNeedUpdate;
+    if (styleNeedUpdate) {
+      _stylesheet__WEBPACK_IMPORTED_MODULE_0__["default"].computeStyle(this);
+      if (this.querySelectorAll) {
+        const children = this.querySelectorAll('*');
+        children.forEach(child => _stylesheet__WEBPACK_IMPORTED_MODULE_0__["default"].computeStyle(child));
+      }
+      if (styleNeedUpdate === 'siblings') {
+        if (this.parent) {
+          const children = this.parent.children;
+          const index = children.indexOf(this);
+          const len = children.length;
+          for (let i = index + 1; i < len; i++) {
+            const node = children[i];
+            _stylesheet__WEBPACK_IMPORTED_MODULE_0__["default"].computeStyle(node);
+            if (node.querySelectorAll) {
+              const nodes = node.querySelectorAll('*');
+              nodes.forEach(child => _stylesheet__WEBPACK_IMPORTED_MODULE_0__["default"].computeStyle(child));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  get layer() {
+    return this.parent && this.parent.layer;
   }
 
   data(props, val) {
@@ -11784,15 +11758,6 @@ let BaseNode = class BaseNode {
   updateStyles(nextSibling = false) {
     // append to parent & reset name or class or id auto updateStyles
     this.__styleNeedUpdate = nextSibling ? 'siblings' : 'children';
-    // if(this.children) {
-    //   this.children.forEach(child => child.updateStyles());
-    // }
-    // if(nextSibling) {
-    //   const nextChild = this.nextElementSibling;
-    //   if(nextChild) {
-    //     nextChild.updateStyles(true);
-    //   }
-    // }
     this.forceUpdate();
   }
 
@@ -12080,11 +12045,169 @@ let BaseNode = class BaseNode {
     // override to do atction before disconnection, can return a promise
     return this;
   }
-};
 
+  getAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop);
+  }
+
+  setAttribute(prop, val) {
+    /* istanbul ignore next */
+    return this.attr(prop, val);
+  }
+
+  removeAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop, null);
+  }
+
+  set id(val) {
+    this.attr('id', val);
+  }
+
+  get id() {
+    return this.attr('id');
+  }
+
+  set name(val) {
+    this.attr('name', val);
+  }
+
+  get name() {
+    return this.attr('name');
+  }
+
+  set className(val) {
+    this.attr('class', val);
+  }
+
+  get className() {
+    return this.attr('class');
+  }
+}, _class.Attr = _attr__WEBPACK_IMPORTED_MODULE_2__["default"], _class.inheritAttributes = _utils__WEBPACK_IMPORTED_MODULE_3__["inheritAttributes"], _temp);
+
+
+
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('node', BaseNode, true);
 
 /***/ }),
-/* 155 */
+/* 156 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return registerNodeType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return createNode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return createElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return isValidNodeType; });
+/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(123);
+
+
+const nodeTypes = new Map();
+
+/* istanbul ignore next  */
+const ownerDocumentDescriptor = {
+  get() {
+    const that = this;
+    return {
+      createElementNS(uri, name) {
+        const sprite = createNode(name);
+        if (sprite) {
+          return that.appendChild(sprite);
+        }
+        return null;
+      }
+    };
+  }
+};
+
+const elementProto = {
+  getElementById(id) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(`#${id}`, this);
+  },
+  getElementsByName(name) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`[name="${name}"]`, this);
+  },
+  getElementsByClassName(className) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`.${className}`, this);
+  },
+  getElementsByTagName(tagName) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(tagName, this);
+  },
+  querySelector(selector) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(selector, this);
+  },
+  querySelectorAll(selector) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(selector, this);
+  }
+};
+
+function registerNodeType(type, Class, isQuerable = false) {
+  const nodeType = type.toLowerCase();
+  const tagName = type.toUpperCase();
+  Object.defineProperty(Class.prototype, 'nodeType', {
+    get() {
+      return nodeType;
+    }
+  });
+  // friendly to snabbdom
+  Object.defineProperty(Class.prototype, 'tagName', {
+    get() {
+      return tagName;
+    }
+  });
+  Object.defineProperty(Class.prototype, 'nodeName', {
+    get() {
+      return tagName;
+    }
+  });
+  nodeTypes.set(nodeType, Class);
+  if (isQuerable && !Class.prototype.ownerDocument) {
+    Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
+    Class.prototype.namespaceURI = `http://spritejs.org/${type}`;
+    Object.assign(Class.prototype, elementProto);
+  }
+}
+
+function createNode(type, ...args) {
+  const Class = getNodeType(type);
+  if (Class) {
+    return new Class(...args);
+  }
+  return null;
+}
+
+function createElement(type, attrs, content) {
+  const Node = typeof type === 'string' ? getNodeType(type) : type;
+
+  if (!Node) return null;
+
+  const sprite = new Node(typeof content === 'string' ? content : undefined);
+
+  if (attrs !== null) {
+    sprite.attr(attrs);
+  }
+
+  if (typeof content === 'object' && sprite.append) {
+    if (content instanceof Array) {
+      sprite.append(...content);
+    } else {
+      sprite.append(content);
+    }
+  }
+  return sprite;
+}
+
+function getNodeType(type) {
+  return nodeTypes.get(type.toLowerCase());
+}
+
+function isValidNodeType(type) {
+  return !!getNodeType(type);
+}
+
+/***/ }),
+/* 157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12094,7 +12217,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(101);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(156);
+/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(158);
 
 
 
@@ -12335,7 +12458,7 @@ let _default = class _default extends sprite_animator__WEBPACK_IMPORTED_MODULE_0
 
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12402,10 +12525,10 @@ const timeline = new sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"]({
 });
 
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(157)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(159)))
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports) {
 
 var g;
@@ -12431,127 +12554,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 158 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return registerNodeType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return createNode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return createElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return isValidNodeType; });
-/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
-
-
-const nodeTypes = new Map();
-
-/* istanbul ignore next  */
-const ownerDocumentDescriptor = {
-  get() {
-    const that = this;
-    return {
-      createElementNS(uri, name) {
-        const sprite = createNode(name);
-        if (sprite) {
-          return that.appendChild(sprite);
-        }
-        return null;
-      }
-    };
-  }
-};
-
-const elementProto = {
-  getElementById(id) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(`#${id}`, this);
-  },
-  getElementsByName(name) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`[name="${name}"]`, this);
-  },
-  getElementsByClassName(className) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`.${className}`, this);
-  },
-  getElementsByTagName(tagName) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(tagName, this);
-  },
-  /*
-    d3-friendly
-    *, nodeType, #id, :name, {nodeType: checker}
-  */
-  querySelector(selector) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(selector, this);
-  },
-  querySelectorAll(selector) {
-    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(selector, this);
-  }
-};
-
-function registerNodeType(type, Class, isQuerable = false) {
-  const nodeType = type.toLowerCase();
-  const tagName = type.toUpperCase();
-  Object.defineProperty(Class.prototype, 'nodeType', {
-    get() {
-      return nodeType;
-    }
-  });
-  // friendly to snabbdom
-  Object.defineProperty(Class.prototype, 'tagName', {
-    get() {
-      return tagName;
-    }
-  });
-  Object.defineProperty(Class.prototype, 'nodeName', {
-    get() {
-      return tagName;
-    }
-  });
-  nodeTypes.set(nodeType, Class);
-  if (isQuerable && !Class.prototype.ownerDocument) {
-    Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
-    Class.prototype.namespaceURI = `http://spritejs.org/${type}`;
-    Object.assign(Class.prototype, elementProto);
-  }
-}
-
-function createNode(type, ...args) {
-  const Class = getNodeType(type);
-  if (Class) {
-    return new Class(...args);
-  }
-  return null;
-}
-
-function createElement(type, attrs, content) {
-  const Node = typeof type === 'string' ? getNodeType(type) : type;
-
-  if (!Node) return null;
-
-  const sprite = new Node(typeof content === 'string' ? content : undefined);
-
-  if (attrs !== null) {
-    sprite.attr(attrs);
-  }
-
-  if (typeof content === 'object' && sprite.append) {
-    if (content instanceof Array) {
-      sprite.append(...content);
-    } else {
-      sprite.append(content);
-    }
-  }
-  return sprite;
-}
-
-function getNodeType(type) {
-  return nodeTypes.get(type.toLowerCase());
-}
-
-function isValidNodeType(type) {
-  return !!getNodeType(type);
-}
-
-/***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12603,34 +12606,6 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 160 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(118);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(158);
-var _class, _temp;
-
-
-
-
-let DataAttr = class DataAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      display: 'none'
-    });
-  }
-};
-let DataNode = (_temp = _class = class DataNode extends _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"] {}, _class.Attr = DataAttr, _temp);
-
-
-Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('data', DataNode, true);
-
-/* harmony default export */ __webpack_exports__["default"] = (DataNode);
-
-/***/ }),
 /* 161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12639,8 +12614,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sprite; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(159);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(158);
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(160);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(156);
 var _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
@@ -12904,7 +12879,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(css_line_break__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(118);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(158);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(156);
 /* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(117);
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
@@ -12917,7 +12892,7 @@ const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
 
-const parseFont = __webpack_require__(153);
+const parseFont = __webpack_require__(154);
 const _boxSize = Symbol('boxSize'),
       _outputText = Symbol('outputText');
 
@@ -14277,15 +14252,18 @@ module.exports = 'KwAAAAAAAAAACA4AIDoAAPAfAAACAAAAAAAIABAAGABAAEgAUABYAF4AZgBeAG
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Layer; });
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(156);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(154);
-/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(160);
+/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(158);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(155);
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(118);
 /* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(169);
 /* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(170);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(158);
-/* harmony import */ var _helpers_dirty_check__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(182);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(181);
-/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(121);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(156);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(181);
+/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(122);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(110);
+var _dec, _desc, _value, _class, _class2, _temp;
+
+const _applyDecoratedDescriptor = __webpack_require__(119);
 
 
 
@@ -14300,33 +14278,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const _updateSet = Symbol('updateSet'),
-      _zOrder = Symbol('zOrder'),
-      _tRecord = Symbol('tRecord'),
+
+const _zOrder = Symbol('zOrder'),
       _timeline = Symbol('timeline'),
       _renderDeferer = Symbol('renderDeferrer'),
       _drawTask = Symbol('drawTask'),
       _autoRender = Symbol('autoRender'),
-      _adjustTimer = Symbol('adjustTimer'),
-      _node = Symbol('node');
+      _adjustTimer = Symbol('adjustTimer');
 
-let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
+let LayerAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_9__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_9__["parseColorString"]), (_class = class LayerAttr extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
+  constructor(subject) {
+    super(subject);
+    this.setDefault({
+      bgcolor: ''
+    });
+  }
+
+  set bgcolor(val) {
+    this.set('bgcolor', val);
+    const subject = this.subject;
+    if (subject.canvas && subject.canvas.style) {
+      if (val != null) {
+        this.quietSet('canvasBgColor', subject.canvas.style.backgroundColor);
+        subject.canvas.style.backgroundColor = val;
+      } else {
+        subject.canvas.style.backgroundColor = this.get('canvasBgColor');
+      }
+    }
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, 'bgcolor', [_dec, _utils__WEBPACK_IMPORTED_MODULE_9__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, 'bgcolor'), _class.prototype)), _class));
+let Layer = (_temp = _class2 = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
+
   constructor({
     context,
-    handleEvent = true,
-    evaluateFPS = false,
-    renderMode = 'repaintAll',
+    /* deprecated */evaluateFPS = false,
+    /* deprecated */renderMode = 'repaintAll',
     autoRender = true,
     useDocumentCSS = false
   } = {}) {
     super();
 
-    this.handleEvent = handleEvent;
-    this.evaluateFPS = evaluateFPS;
     this[_autoRender] = autoRender;
 
     // renderMode: repaintAll | repaintDirty
-    this.renderMode = renderMode;
+    if (renderMode === 'repaintDirty') {
+      Object(_utils__WEBPACK_IMPORTED_MODULE_9__["setDeprecation"])('renderRepaintDirty');
+    }
+    if (evaluateFPS !== false) {
+      Object(_utils__WEBPACK_IMPORTED_MODULE_9__["setDeprecation"])('evaluateFPS');
+    }
 
     this.outputContext = context;
 
@@ -14334,20 +14334,9 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
     this.childNodes = [];
     this.sortedChildNodes = [];
-    this[_updateSet] = new Set();
     this[_zOrder] = 0;
-    this[_tRecord] = []; // calculate FPS
     this[_timeline] = new sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"](_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__["timeline"]);
     this[_renderDeferer] = null;
-
-    this[_node] = new _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    this[_node].__owner = this;
-    this[_node].forceUpdate = () => {
-      this.prepareRender();
-    };
-    this[_node].updateStyles = () => {
-      this.updateStyles(true);
-    };
 
     this.touchedTargets = {};
 
@@ -14369,63 +14358,8 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
       });
     }
     if (useDocumentCSS) {
-      _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].fromDocumentCSS();
+      _stylesheet__WEBPACK_IMPORTED_MODULE_8__["default"].fromDocumentCSS();
     }
-  }
-
-  data(...args) {
-    return this[_node].data(...args);
-  }
-
-  get dataset() {
-    return this[_node].dataset;
-  }
-
-  attr(...args) {
-    return this[_node].attr(...args);
-  }
-
-  get attributes() {
-    return this[_node].attributes;
-  }
-
-  getAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop);
-  }
-
-  setAttribute(prop, val) {
-    /* istanbul ignore next */
-    return this.attr(prop, val);
-  }
-
-  removeAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop, null);
-  }
-
-  set id(val) {
-    this.attr('id', val);
-  }
-
-  get id() {
-    return this.attr('id');
-  }
-
-  set name(val) {
-    this.attr('name', val);
-  }
-
-  get name() {
-    return this.attr('name');
-  }
-
-  set className(val) {
-    this.attr('class', val);
-  }
-
-  get className() {
-    return this.attr('class');
   }
 
   get resolution() {
@@ -14448,7 +14382,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   }
 
   get children() {
-    return this.childNodes.filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_3__["default"]));
+    return this.childNodes.filter(child => child instanceof _basesprite__WEBPACK_IMPORTED_MODULE_3__["default"]);
   }
 
   get timeline() {
@@ -14497,7 +14431,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
   draw(clearContext = true) {
     if (this.__styleNeedUpdate) {
-      _stylesheet__WEBPACK_IMPORTED_MODULE_9__["default"].computeStyle(this);
+      _stylesheet__WEBPACK_IMPORTED_MODULE_8__["default"].computeStyle(this);
     }
     const renderDeferrer = this[_renderDeferer];
     this[_renderDeferer] = null;
@@ -14505,23 +14439,9 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
       Object(_helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__["cancelAnimationFrame"])(this[_drawTask]);
       delete this[_drawTask];
     }
-    /* istanbul ignore if  */
-    if (this.evaluateFPS) {
-      this[_tRecord].push(Date.now());
-      this[_tRecord] = this[_tRecord].slice(-10);
-    }
 
-    let renderer;
-    if (this.renderMode === 'repaintDirty') {
-      renderer = this.renderRepaintDirty.bind(this);
-    } else if (this.renderMode === 'repaintAll') {
-      renderer = this.renderRepaintAll.bind(this);
-    } else {
-      /* istanbul ignore next  */
-      throw new Error('unknown render mode!');
-    }
     const currentTime = this.timeline.currentTime;
-    renderer(currentTime, clearContext);
+    this.repaint(currentTime, clearContext);
 
     super.dispatchEvent.call(this, 'update', { target: this, timeline: this.timeline, renderTime: currentTime }, true, true);
 
@@ -14533,7 +14453,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
   update(target) {
     if (target && target.isDirty) return;
     if (target) {
-      this[_updateSet].add(target);
       target.isDirty = true;
     }
     this.prepareRender();
@@ -14546,26 +14465,7 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     return true;
   }
 
-  get fps() /* istanbul ignore next  */{
-    if (!this.evaluateFPS) {
-      return NaN;
-    }
-    let sum = 0;
-    const tr = this[_tRecord].slice(-10);
-    const len = tr.length;
-
-    if (len <= 5) {
-      return NaN;
-    }
-    tr.reduceRight((a, b, i) => {
-      sum += a - b;return b;
-    });
-
-    return Math.round(1000 * (len - 1) / sum);
-  }
-
   drawSprites(renderEls, t) {
-    this[_updateSet].clear();
     if (this.beforeDrawTransform) {
       this.outputContext.save();
       this.beforeDrawTransform();
@@ -14577,15 +14477,6 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
 
       if (child.parent === this) {
         child.draw(t);
-        if (this.renderMode === 'repaintDirty') {
-          if (child.isVisible()) {
-            child.lastRenderBox = child.renderBox;
-          } else {
-            delete child.lastRenderBox;
-          }
-        } else {
-          child.lastRenderBox = 'no-calc';
-        }
         if (isDirty) {
           child.dispatchEvent('update', { target: child, renderTime: t }, true, true);
         }
@@ -14596,31 +14487,9 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
     }
   }
 
-  renderRepaintAll(t, clearContext = true) {
+  repaint(t, clearContext = true) {
     const renderEls = this.sortedChildNodes;
     const outputContext = this.outputContext;
-    if (clearContext) this.clearContext(outputContext);
-    this.drawSprites(renderEls, t);
-  }
-
-  renderRepaintDirty(t, clearContext = true) {
-    const updateEls = [...this[_updateSet]];
-
-    if (this.__updateStyleTag || updateEls.some(el => !!el.attr('filter') || el.isVirtual || el.lastRenderBox === 'no-calc')) {
-      return this.renderRepaintAll(t, clearContext);
-    }
-
-    const outputContext = this.outputContext;
-
-    const renderEls = this.sortedChildNodes;
-
-    outputContext.save();
-    if (this.beforeDrawTransform) {
-      this.beforeDrawTransform();
-    }
-    outputContext.beginPath();
-    Object(_helpers_dirty_check__WEBPACK_IMPORTED_MODULE_7__["clearDirtyRects"])(outputContext, updateEls, true);
-    outputContext.restore();
     if (clearContext) this.clearContext(outputContext);
     this.drawSprites(renderEls, t);
   }
@@ -14758,16 +14627,11 @@ let Layer = class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"
       outputContext.restore();
     }
   }
-
-  clearUpdate() {
-    /* istanbul ignore next  */
-    this[_updateSet].clear();
-  }
-};
+}, _class2.Attr = LayerAttr, _temp);
 
 
 
-Object.assign(Layer.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_8__["default"]);
+Object.assign(Layer.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_7__["default"]);
 
 Object(_nodetype__WEBPACK_IMPORTED_MODULE_6__["registerNodeType"])('layer', Layer, true);
 
@@ -14863,18 +14727,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Group; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(158);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(156);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(171);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(154);
-/* harmony import */ var _datanode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(160);
-/* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(173);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(181);
+/* harmony import */ var _layout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(173);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(181);
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);
-
-
-
 
 
 
@@ -15013,7 +14872,7 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 
   get children() {
     const children = this.childNodes || [];
-    return children.filter(child => child instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] && !(child instanceof _datanode__WEBPACK_IMPORTED_MODULE_5__["default"]));
+    return children.filter(child => child instanceof _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
   }
 
   update(child) {
@@ -15213,8 +15072,8 @@ let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBP
 }, _class4.Attr = GroupAttr, _temp2), (_applyDecoratedDescriptor(_class3.prototype, 'contentSize', [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class3.prototype, 'contentSize'), _class3.prototype)), _class3);
 
 
-Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_7__["default"]);
-Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_6__["flexLayout"]);
+Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_5__["default"]);
+Group.applyLayout('flex', _layout__WEBPACK_IMPORTED_MODULE_4__["flexLayout"]);
 
 Group.setAttributeEffects({
   clip(clip1, clip2, p, start, end) {
@@ -16886,70 +16745,12 @@ const _removeTask = Symbol('removeTask');
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearDirtyRect", function() { return clearDirtyRect; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearDirtyRects", function() { return clearDirtyRects; });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
-
-
-
-// export function isSpriteDirty(sprite, dirtyEls, isUpdateEl = false) {
-//   for(let i = 0; i < dirtyEls.length; i++) {
-//     const dirtyEl = dirtyEls[i]
-//     const box1 = dirtyEl.renderBox,
-//       box2 = sprite.renderBox,
-//       box3 = dirtyEl.lastRenderBox
-
-//     if(boxIntersect(box1, box2) || isUpdateEl && box3 && boxIntersect(box3, box2)) {
-//       return true
-//     }
-//   }
-//   return false
-// }
-
-function clearDirtyRect(outputContext, box, width, height) {
-  box = box.map((b, i) => {
-    return i < 2 ? b - 1 : b + 1;
-  });
-  const dirtyBox = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["boxIntersect"])(box, [0, 0, width, height]);
-
-  if (dirtyBox) {
-    const dirtyRect = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["boxToRect"])(dirtyBox);
-    outputContext.rect(...dirtyRect);
-  }
-}
-
-function clearDirtyRects(outputContext, dirtyEls, isUpdateEl = false) {
-  const { width, height } = outputContext.canvas;
-
-  outputContext.beginPath();
-  for (let i = 0; i < dirtyEls.length; i++) {
-    const dirtyEl = dirtyEls[i];
-    const box = dirtyEl.renderBox;
-
-    clearDirtyRect(outputContext, box, width, height);
-
-    if (isUpdateEl) {
-      const lastRenderBox = dirtyEl.lastRenderBox;
-      if (lastRenderBox && !Object(_utils__WEBPACK_IMPORTED_MODULE_0__["boxEqual"])(lastRenderBox, box)) {
-        clearDirtyRect(outputContext, lastRenderBox, width, height);
-      }
-    }
-  }
-  outputContext.clip();
-}
-
-/***/ }),
-/* 183 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Path; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
 /* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
 /* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(117);
 /* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(171);
-/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(158);
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(156);
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 const _applyDecoratedDescriptor = __webpack_require__(119);

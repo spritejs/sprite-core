@@ -7,13 +7,8 @@ import {
   parseStringFloat,
   fourValuesShortCut,
   oneOrTwoValues,
-  boxIntersect,
-  boxToRect,
-  rectToBox,
-  boxUnion,
   appendUnit,
   rectVertices,
-  boxEqual,
   sortOrderedSprites,
 } from '../src/utils';
 
@@ -107,47 +102,10 @@ test('fourValuesShortCut', (t) => {
   t.deepEqual(r, [3, 4, 5, 0]);
 });
 
-test('boxIntersect', (t) => {
-  const box1 = [1, 1, 3, 3];
-  const box2 = [2, 2, 4, 4];
-
-  t.deepEqual(boxIntersect(box1, box2), [2, 2, 3, 3]);
-
-  const box3 = [3.5, 3.5, 5, 5];
-  t.is(boxIntersect(box1, box3), null);
-  t.deepEqual(boxIntersect(box2, box3), [3.5, 3.5, 4, 4]);
-});
-
-test('boxToRect', (t) => {
-  const box = [1, 1, 3, 3];
-  t.deepEqual(boxToRect(box), [1, 1, 2, 2]);
-});
-
-test('rectToBox', (t) => {
-  const rect = [1, 1, 3, 3];
-  t.deepEqual(rectToBox(rect), [1, 1, 4, 4]);
-});
-
 test('rectVertices', (t) => {
   const rect = [1, 1, 3, 3];
   const vertices = rectVertices(rect);
   t.deepEqual(vertices, [[1, 1], [4, 1], [4, 4], [1, 4]]);
-});
-
-test('boxUnion', (t) => {
-  const box1 = [1, 1, 3, 4];
-  const box2 = [-1, 0, 4, 5];
-  t.deepEqual(boxUnion(box1, box2), [-1, 0, 4, 5]);
-  t.is(boxUnion(box1), box1);
-  t.is(boxUnion(null, box2), box2);
-});
-
-test('boxEqual', (t) => {
-  const box1 = [10, 5, 3, 7];
-  const box2 = [10, 5, 3, 7];
-  const box3 = [3, 3, 4, 4];
-  t.truthy(boxEqual(box1, box2));
-  t.falsy(boxEqual(box1, box3));
 });
 
 test('appendUnit', (t) => {
