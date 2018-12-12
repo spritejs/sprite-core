@@ -117,13 +117,14 @@ export function attr(target, prop, descriptor) {
     const subject = this.subject;
     this.__updateTag = false;
     this.__reflowTag = false;
+    this.__clearLayout = false;
     _setter.call(this, val);
     if(subject && subject.hasLayout) {
       const offsetSize = subject.boxOffsetSize,
         layoutSize = subject.__lastLayout;
 
-      if(!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-        subject.parent.clearLayout();
+      if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+        subject.clearLayout();
       }
       subject.__lastLayout = offsetSize;
     }

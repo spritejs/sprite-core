@@ -80,13 +80,14 @@ export default class BaseSprite extends BaseNode {
           set(val) {
             this.__updateTag = false;
             this.__reflowTag = false;
+            this.__clearLayout = false;
             handler(this, val);
             if(this.subject && this.subject.hasLayout) {
               const offsetSize = this.subject.offsetSize,
                 layoutSize = this.subject.__layoutSize;
 
-              if(!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-                this.subject.parent.clearLayout();
+              if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+                this.subject.clearLayout();
               }
               this.subject.__lastLayout = offsetSize;
             }
@@ -349,7 +350,7 @@ export default class BaseSprite extends BaseNode {
         this[_animations].delete(animation);
       });
     });
-    if(this.hasLayout) parent.clearLayout();
+    if(this.hasLayout) this.clearLayout();
     this.reflow();
     return ret;
   }
@@ -359,7 +360,7 @@ export default class BaseSprite extends BaseNode {
     if(this.cache) {
       this.cache = null;
     }
-    if(this.hasLayout) parent.clearLayout();
+    if(this.hasLayout) this.clearLayout();
     this.reflow();
     const ret = super.disconnect(parent);
     delete this.context;

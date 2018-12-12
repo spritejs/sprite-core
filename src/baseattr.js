@@ -93,6 +93,11 @@ export default class SpriteAttr extends NodeAttr {
     return this;
   }
 
+  clearLayout() {
+    this.__clearLayout = true;
+    return this;
+  }
+
   set(key, value) {
     super.set(key, value);
     // auto reflow
@@ -136,12 +141,13 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   serialize() {
-    const ret = this.getAttributes();
+    const attrs = this.getAttributes();
+    delete attrs.id;
     const offsetAngle = this.get('offsetAngle');
-    if(offsetAngle != null) ret.offsetAngle = offsetAngle;
+    if(offsetAngle != null) attrs.offsetAngle = offsetAngle;
     const offsetPoint = this.get('offsetPoint');
-    if(offsetPoint != null) ret.offsetPoint = offsetPoint;
-    return JSON.stringify(ret);
+    if(offsetPoint != null) attrs.offsetPoint = offsetPoint;
+    return JSON.stringify(attrs);
   }
 
   @attr
@@ -153,7 +159,7 @@ export default class SpriteAttr extends NodeAttr {
   @attr
   @cachable
   set anchor(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('anchor', val);
   }
 
@@ -605,20 +611,20 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set flexGrow(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('flexGrow', val);
   }
 
   @parseValue(parseFloat)
   @attr
   set flexShrink(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('flexShrink', val);
   }
 
   @attr
   set flexBasis(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     if(val && val !== 'auto') {
       val = parseFloat(val);
     }
@@ -661,21 +667,21 @@ export default class SpriteAttr extends NodeAttr {
   @attr
   @cachable
   set order(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('order', val);
   }
 
   @attr
   @cachable
   set position(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('position', val);
   }
 
   @attr
   @cachable
   set alignSelf(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('alignSelf', val);
   }
 
@@ -683,7 +689,7 @@ export default class SpriteAttr extends NodeAttr {
   @attr
   @cachable
   set margin(val) {
-    if(this.subject.hasLayout) this.subject.parent.clearLayout();
+    this.clearLayout();
     this.set('margin', val);
   }
 

@@ -111,10 +111,10 @@ class SpriteAttr {
     const oldVal = this[_attr][key];
     if(typeof val === 'object') {
       if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
-        return;
+        return false;
       }
     } else if(oldVal === val) {
-      return;
+      return false;
     }
     if(!this.__styleTag) {
       this[_attr][key] = val;
@@ -123,6 +123,7 @@ class SpriteAttr {
       }
     }
     this.__updateTag = true;
+    return true;
   }
 
   get(key) {
@@ -143,7 +144,9 @@ class SpriteAttr {
       });
     }
     [...this.__attributesSet].forEach((key) => {
-      ret[key] = this[key];
+      if(key.indexOf('__internal') !== 0) {
+        ret[key] = this[key];
+      }
     });
     Object.entries(this).forEach(([key, value]) => {
       if(key.indexOf('__') !== 0) {
@@ -170,7 +173,9 @@ class SpriteAttr {
   }
 
   serialize() {
-    return JSON.stringify(this.getAttributes());
+    const attrs = this.getAttributes();
+    delete attrs.id;
+    return JSON.stringify(attrs);
   }
 
   get subject() {

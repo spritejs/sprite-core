@@ -40,6 +40,12 @@ export default class BaseNode {
     };
   }
 
+  clearLayout() {
+    if(this.parent) {
+      this.parent.clearLayout();
+    }
+  }
+
   merge(attrs) {
     this[_attr].merge(attrs);
   }
