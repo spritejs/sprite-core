@@ -303,55 +303,43 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set paddingTop(val) {
-    if(val == null) val = 0;
-    const margin = this.get('padding');
-    margin[0] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 0);
   }
 
   get paddingTop() {
-    return this.get('margin')[0];
+    return this.get('padding')[0];
   }
 
   @parseValue(parseFloat)
   @attr
   set paddingRight(val) {
-    if(val == null) val = 0;
-    const margin = this.get('padding');
-    margin[1] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 1);
   }
 
   get paddingRight() {
-    return this.get('margin')[1];
+    return this.get('padding')[1];
   }
 
 
   @parseValue(parseFloat)
   @attr
   set paddingBottom(val) {
-    if(val == null) val = 0;
-    const margin = this.get('padding');
-    margin[2] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 2);
   }
 
   get paddingBottom() {
-    return this.get('margin')[2];
+    return this.get('padding')[2];
   }
 
 
   @parseValue(parseFloat)
   @attr
   set paddingLeft(val) {
-    if(val == null) val = 0;
-    const margin = this.get('padding');
-    margin[3] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 3);
   }
 
   get paddingLeft() {
-    return this.get('margin')[3];
+    return this.get('padding')[3];
   }
 
   @parseValue(parseFloat)
@@ -712,10 +700,7 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set marginTop(val) {
-    if(val == null) val = 0;
-    const margin = this.get('margin');
-    margin[0] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 0);
   }
 
   get marginTop() {
@@ -725,10 +710,7 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set marginRight(val) {
-    if(val == null) val = 0;
-    const margin = this.get('margin');
-    margin[1] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 1);
   }
 
   get marginRight() {
@@ -738,10 +720,7 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set marginBottom(val) {
-    if(val == null) val = 0;
-    const margin = this.get('margin');
-    margin[2] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 2);
   }
 
   get marginBottom() {
@@ -751,10 +730,7 @@ export default class SpriteAttr extends NodeAttr {
   @parseValue(parseFloat)
   @attr
   set marginLeft(val) {
-    if(val == null) val = 0;
-    const margin = this.get('margin');
-    margin[3] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 3);
   }
 
   get marginLeft() {

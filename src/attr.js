@@ -42,6 +42,13 @@ class SpriteAttr {
     Object.assign(this[_attr], attrs);
   }
 
+  setAttrIndex(key, val, idx) {
+    if(val == null) val = this[_default][key][idx];
+    const arr = this.get(key);
+    arr[idx] = val;
+    this.set(key, arr);
+  }
+
   saveObj(key, val) {
     this[_temp].set(key, val);
     this.__updateTag = true;
