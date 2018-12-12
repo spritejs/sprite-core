@@ -6857,6 +6857,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _attrAbsolute = (0, _symbol2.default)('attrAbsolute');
 
+function getPV(subject, relative) {
+  var parent = subject.parent;
+  var pv = null;
+  if (parent) {
+    var attrSize = parent.attrSize;
+    if (attrSize) {
+      var attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
+      while (attrSize && attrV === '') {
+        // flexible value
+        parent = parent.parent;
+        attrSize = parent.attrSize;
+      }
+    }
+    if (relative === 'pw') {
+      pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
+    } else if (relative === 'ph') {
+      pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
+    }
+  }
+  return pv;
+}
+
 function attr(target, prop, descriptor) {
   if (!target.hasOwnProperty('__attributeNames')) {
     // eslint-disable-line no-prototype-builtins
@@ -6888,25 +6910,7 @@ function attr(target, prop, descriptor) {
       } else if (ret.relative) {
         var _relative = ret.relative.trim();
         if (_relative === 'pw' || _relative === 'ph') {
-          var parent = subject.parent;
-          var pv = null;
-
-          if (parent) {
-            var attrSize = parent.attrSize;
-            if (attrSize) {
-              var attrV = _relative === 'pw' ? attrSize[0] : attrSize[1];
-              while (attrSize && attrV === '') {
-                // flexible value
-                parent = parent.parent;
-                attrSize = parent.attrSize;
-              }
-            }
-            if (_relative === 'pw') {
-              pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-            } else if (_relative === 'ph') {
-              pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-            }
-          }
+          var pv = getPV(subject, _relative);
           if (pv !== ret.pv) {
             this[prop] = ret.rv;
             return this[prop];
@@ -7027,56 +7031,31 @@ function relative() {
         if (typeof val === 'string') {
           val = val.trim();
           if (val.slice(-1) === '%') {
-            var parent = this.subject.parent;
-            var pv = null;
-            if (parent) {
-              var attrSize = parent.attrSize;
-              if (attrSize) {
-                var attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
-                while (attrSize && attrV === '') {
-                  // flexible value
-                  parent = parent.parent;
-                  attrSize = parent.attrSize;
-                }
-              }
-              if (type === 'width') {
-                pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-              } else if (type === 'height') {
-                pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-              }
-            }
+            var _relative2 = type === 'width' ? 'pw' : 'ph';
+            var pv = getPV(this.subject, _relative2);
             val = {
-              relative: type === 'width' ? 'pw' : 'ph',
+              relative: _relative2,
               pv: pv,
               v: parseFloat(val) / 100,
               rv: val
             };
-          } else if (val.slice(-2) === 'rw') {
-            var layer = this.subject.layer;
-            var _pv2 = null;
-            if (layer) {
-              _pv2 = layer.resolution[0];
-            }
-            val = {
-              relative: 'rw',
-              pv: _pv2,
-              v: parseFloat(val) / 100,
-              rv: val
-            };
-          } else if (val.slice(-2) === 'rh') {
-            var _layer = this.subject.layer;
-            var _pv3 = null;
-            if (_layer) {
-              _pv3 = _layer.resolution[1];
-            }
-            val = {
-              relative: 'rh',
-              pv: _pv3,
-              v: parseFloat(val) / 100,
-              rv: val
-            };
           } else {
-            val = val ? parseFloat(val) : val;
+            var _relative3 = val.slice(-2);
+            if (_relative3 === 'rw' || _relative3 === 'rh') {
+              var _pv2 = null;
+              var layer = this.subject.layer;
+              if (layer) {
+                _pv2 = layer.resolution[_relative3 === 'rw' ? 0 : 1];
+              }
+              val = {
+                relative: _relative3,
+                pv: _pv2,
+                v: parseFloat(val) / 100,
+                rv: val
+              };
+            } else {
+              val = val ? parseFloat(val) : val;
+            }
           }
         }
         setter.call(this, val);
@@ -7414,10 +7393,6 @@ var _keys = __webpack_require__(136);
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _promise = __webpack_require__(124);
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -7470,6 +7445,10 @@ var _inherits2 = __webpack_require__(186);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _promise = __webpack_require__(124);
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
@@ -7518,6 +7497,32 @@ var _animations = (0, _symbol2.default)('animations'),
     _releaseKeys = (0, _symbol2.default)('releaseKeys');
 
 var CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+
+function doActions(ret, target, act) {
+  var actions = target.children.map(function (c) {
+    return c[act]();
+  }).filter(function (d) {
+    return d.promise;
+  });
+  if (ret.promise) {
+    actions.unshift(ret);
+  }
+  if (actions.length) {
+    var deferred = {
+      promise: _promise2.default.all(actions.map(function (d) {
+        return d.promise;
+      })),
+      resolve: function resolve() {
+        actions.forEach(function (d) {
+          return d.resolve();
+        });
+        return this.promise;
+      }
+    };
+    return deferred;
+  }
+  return null;
+}
 
 var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'), (_class = (_temp = _class2 = function (_BaseNode) {
   (0, _inherits3.default)(BaseSprite, _BaseNode);
@@ -8518,28 +8523,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             }
           };
         } else {
-          var entries = this.children.map(function (c) {
-            return c.enter();
-          }).filter(function (d) {
-            return d.promise;
-          });
-          if (ret.promise) {
-            entries.unshift(ret);
-          }
-          if (entries.length) {
-            var _deferred = {
-              promise: _promise2.default.all(entries.map(function (d) {
-                return d.promise;
-              })),
-              resolve: function resolve() {
-                entries.forEach(function (d) {
-                  return d.resolve();
-                });
-                return _this9.promise;
-              }
-            };
-            this[_enter] = _deferred;
-          }
+          var _deferred = doActions(ret, this, 'enter');
+          if (_deferred) this[_enter] = _deferred;
         }
       }
 
@@ -8646,28 +8631,8 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             };
           }
 
-          var exites = _this10.children.map(function (c) {
-            return c.exit();
-          }).filter(function (d) {
-            return d.promise;
-          });
-          if (ret.promise) {
-            exites.unshift(ret);
-          }
-          if (exites.length) {
-            var _deferred2 = {
-              promise: _promise2.default.all(exites.map(function (d) {
-                return d.promise;
-              })),
-              resolve: function resolve() {
-                exites.forEach(function (d) {
-                  return d.resolve();
-                });
-                return _this10.promise;
-              }
-            };
-            return _deferred2;
-          }
+          var _deferred2 = doActions(ret, _this10, 'exit');
+          if (_deferred2) return _deferred2;
         }
 
         return ret;
@@ -9772,7 +9737,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
             key = _ref2[0],
             value = _ref2[1];
 
-        if (_this2.__default[key] !== value) {
+        if (_this2.getDefaultValue(key) !== value) {
           if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
             // this[key] = value;
             _this2.subject.attr(key, value);
@@ -10016,46 +9981,34 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'paddingTop',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('padding');
-      margin[0] = val;
-      this.set('padding', margin);
+      this.setAttrIndex('padding', val, 0);
     },
     get: function get() {
-      return this.get('margin')[0];
+      return this.get('padding')[0];
     }
   }, {
     key: 'paddingRight',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('padding');
-      margin[1] = val;
-      this.set('padding', margin);
+      this.setAttrIndex('padding', val, 1);
     },
     get: function get() {
-      return this.get('margin')[1];
+      return this.get('padding')[1];
     }
   }, {
     key: 'paddingBottom',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('padding');
-      margin[2] = val;
-      this.set('padding', margin);
+      this.setAttrIndex('padding', val, 2);
     },
     get: function get() {
-      return this.get('margin')[2];
+      return this.get('padding')[2];
     }
   }, {
     key: 'paddingLeft',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('padding');
-      margin[3] = val;
-      this.set('padding', margin);
+      this.setAttrIndex('padding', val, 3);
     },
     get: function get() {
-      return this.get('margin')[3];
+      return this.get('padding')[3];
     }
   }, {
     key: 'borderRadius',
@@ -10343,10 +10296,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'marginTop',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('margin');
-      margin[0] = val;
-      this.set('margin', margin);
+      this.setAttrIndex('margin', val, 0);
     },
     get: function get() {
       return this.get('margin')[0];
@@ -10354,10 +10304,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'marginRight',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('margin');
-      margin[1] = val;
-      this.set('margin', margin);
+      this.setAttrIndex('margin', val, 1);
     },
     get: function get() {
       return this.get('margin')[1];
@@ -10365,10 +10312,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'marginBottom',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('margin');
-      margin[2] = val;
-      this.set('margin', margin);
+      this.setAttrIndex('margin', val, 2);
     },
     get: function get() {
       return this.get('margin')[2];
@@ -10376,10 +10320,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'marginLeft',
     set: function set(val) {
-      if (val == null) val = 0;
-      var margin = this.get('margin');
-      margin[3] = val;
-      this.set('margin', margin);
+      this.setAttrIndex('margin', val, 3);
     },
     get: function get() {
       return this.get('margin')[3];
@@ -10454,7 +10395,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
         });
         val = value;
       }
-      var defaultVal = this.__default.actions;
+      var defaultVal = this.getDefaultValue('actions');
       val = (0, _assign2.default)({}, defaultVal, val);
       this.quietSet('actions', val);
     }
@@ -10642,10 +10583,23 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
   }
 
   (0, _createClass3.default)(SpriteAttr, [{
+    key: 'getDefaultValue',
+    value: function getDefaultValue(key) {
+      return this[_default][key];
+    }
+  }, {
     key: 'setDefault',
     value: function setDefault(attrs) {
       (0, _assign2.default)(this[_default], attrs);
       (0, _assign2.default)(this[_attr], attrs);
+    }
+  }, {
+    key: 'setAttrIndex',
+    value: function setAttrIndex(key, val, idx) {
+      if (val == null) val = this[_default][key][idx];
+      var arr = this.get(key);
+      arr[idx] = val;
+      this.set(key, arr);
     }
   }, {
     key: 'saveObj',
@@ -10774,11 +10728,6 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
     key: '__attr',
     get: function get() {
       return this[_attr];
-    }
-  }, {
-    key: '__default',
-    get: function get() {
-      return this[_default];
     }
   }, {
     key: 'style',
@@ -10919,6 +10868,18 @@ function parseTransitionValue(values) {
   return ret;
 }
 
+function parseAnimationValue(value) {
+  value = value.toString();
+  if (value === 'initial') {
+    value = 0;
+  } else if (/ms$/.test(value)) {
+    value = parseFloat(value);
+  } else {
+    value = parseFloat(value) * 1000;
+  }
+  return value;
+}
+
 function toPxValue(value, defaultWidth) {
   // eslint-disable-line complexity
   if (typeof value === 'string') {
@@ -11046,31 +11007,11 @@ var CSSGetter = {
 
   transitionDelay: parseTransitionValue,
   transitionProperty: true,
-  animationDuration: function animationDuration(value) {
-    value = value.toString();
-    if (value === 'initial') {
-      value = 0;
-    } else if (/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
-  },
+  animationDuration: parseAnimationValue,
+  animationDelay: parseAnimationValue,
   animationTimingFunction: function animationTimingFunction(value) {
     value = value.toString();
     return value !== 'initial' ? value : 'ease';
-  },
-  animationDelay: function animationDelay(value) {
-    value = value.toString();
-    if (value === 'initial') {
-      value = 0;
-    } else if (/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
   },
   animationIterationCount: function animationIterationCount(value) {
     value = value.toString();
@@ -16514,6 +16455,10 @@ var _inherits2 = __webpack_require__(186);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _assign = __webpack_require__(1);
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _slicedToArray2 = __webpack_require__(89);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
@@ -16646,6 +16591,18 @@ function calculTextboxSize(node) {
   node[_boxSize] = [width, height];
 }
 
+function setFontPart(font, part) {
+  var _Object$assign = (0, _assign2.default)(parseFont(font), part),
+      style = _Object$assign.style,
+      variant = _Object$assign.variant,
+      weight = _Object$assign.weight,
+      size0 = _Object$assign.size0,
+      unit = _Object$assign.unit,
+      family = _Object$assign.family;
+
+  return style + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + family;
+}
+
 var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Arial'), _dec2 = (0, _utils.parseValue)(parseFloat), _dec3 = (0, _utils.inherit)(''), _dec4 = (0, _utils.inherit)('left'), _dec5 = (0, _utils.parseValue)(_utils.parseColorString), _dec6 = (0, _utils.inherit)(''), _dec7 = (0, _utils.parseValue)(_utils.parseColorString), _dec8 = (0, _utils.inherit)(''), _dec9 = (0, _utils.inherit)(''), _dec10 = (0, _utils.inherit)(''), _dec11 = (0, _utils.inherit)(0), _dec12 = (0, _utils.inherit)(0), _dec13 = (0, _utils.relative)('width'), _dec14 = (0, _utils.relative)('height'), (_class = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(LabelSpriteAttr, _BaseSprite$Attr);
 
@@ -16697,23 +16654,14 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
         val = parseFloat(matches[1]);
         unit = matches[2];
       }
-      var font = this.font;
-
-      var _parseFont2 = parseFont(font),
-          style = _parseFont2.style,
-          variant = _parseFont2.variant,
-          weight = _parseFont2.weight,
-          family = _parseFont2.family;
-
-      var fontValue = style + ' ' + variant + ' ' + weight + ' ' + val + unit + ' ' + family;
-      this.font = fontValue;
+      this.font = setFontPart(this.font, { size0: val, unit: unit });
     },
     get: function get() {
       var font = this.font;
 
-      var _parseFont3 = parseFont(font),
-          size0 = _parseFont3.size0,
-          unit = _parseFont3.unit;
+      var _parseFont2 = parseFont(font),
+          size0 = _parseFont2.size0,
+          unit = _parseFont2.unit;
 
       return '' + size0 + unit;
     }
@@ -16721,17 +16669,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     key: 'fontFamily',
     set: function set(val) {
       if (val == null) val = 'Arial';
-      var font = this.font;
-
-      var _parseFont4 = parseFont(font),
-          style = _parseFont4.style,
-          variant = _parseFont4.variant,
-          weight = _parseFont4.weight,
-          size0 = _parseFont4.size0,
-          unit = _parseFont4.unit;
-
-      var fontValue = style + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + val;
-      this.font = fontValue;
+      this.font = setFontPart(this.font, { family: val });
     },
     get: function get() {
       return parseFont(this.font).family;
@@ -16740,17 +16678,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     key: 'fontStyle',
     set: function set(val) {
       if (val == null) val = 'normal';
-      var font = this.font;
-
-      var _parseFont5 = parseFont(font),
-          variant = _parseFont5.variant,
-          weight = _parseFont5.weight,
-          size0 = _parseFont5.size0,
-          unit = _parseFont5.unit,
-          family = _parseFont5.family;
-
-      var fontValue = val + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + family;
-      this.font = fontValue;
+      this.font = setFontPart(this.font, { style: val });
     },
     get: function get() {
       return parseFont(this.font).style;
@@ -16759,17 +16687,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     key: 'fontVariant',
     set: function set(val) {
       if (val == null) val = 'normal';
-      var font = this.font;
-
-      var _parseFont6 = parseFont(font),
-          style = _parseFont6.style,
-          weight = _parseFont6.weight,
-          size0 = _parseFont6.size0,
-          unit = _parseFont6.unit,
-          family = _parseFont6.family;
-
-      var fontValue = style + ' ' + val + ' ' + weight + ' ' + size0 + unit + ' ' + family;
-      this.font = fontValue;
+      this.font = setFontPart(this.font, { variant: val });
     },
     get: function get() {
       return parseFont(this.font).variant;
@@ -16778,17 +16696,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     key: 'fontWeight',
     set: function set(val) {
       if (val == null) val = 'normal';
-      var font = this.font;
-
-      var _parseFont7 = parseFont(font),
-          style = _parseFont7.style,
-          variant = _parseFont7.variant,
-          size0 = _parseFont7.size0,
-          unit = _parseFont7.unit,
-          family = _parseFont7.family;
-
-      var fontValue = style + ' ' + variant + ' ' + val + ' ' + size0 + unit + ' ' + family;
-      this.font = fontValue;
+      this.font = setFontPart(this.font, { weight: val });
     },
     get: function get() {
       return parseFont(this.font).weight;
@@ -17010,12 +16918,12 @@ var Label = (_class2 = (_temp = _class3 = function (_BaseSprite) {
       var textboxSize = this.textboxSize,
           contentSize = this.contentSize;
 
-      var _parseFont8 = parseFont(font),
-          style = _parseFont8.style,
-          variant = _parseFont8.variant,
-          weight = _parseFont8.weight,
-          size = _parseFont8.size,
-          family = _parseFont8.family;
+      var _parseFont3 = parseFont(font),
+          style = _parseFont3.style,
+          variant = _parseFont3.variant,
+          weight = _parseFont3.weight,
+          size = _parseFont3.size,
+          family = _parseFont3.family;
 
       size *= contentSize[0] / textboxSize[0];
       return style + ' ' + variant + ' ' + weight + ' ' + Math.floor(size) + 'px "' + family + '"';

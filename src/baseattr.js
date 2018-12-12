@@ -136,17 +136,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   serialize() {
-    const ret = {};
-    [...this.__attributesSet].forEach((key) => {
-      if(key !== 'id' && key.indexOf('__internal') !== 0) {
-        ret[key] = this[key];
-      }
-    });
-    Object.entries(this).forEach(([key, value]) => {
-      if(key.indexOf('__') !== 0) {
-        ret[key] = value;
-      }
-    });
+    const ret = this.getAttributes();
     const offsetAngle = this.get('offsetAngle');
     if(offsetAngle != null) ret.offsetAngle = offsetAngle;
     const offsetPoint = this.get('offsetPoint');

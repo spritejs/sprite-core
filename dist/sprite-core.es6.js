@@ -4949,6 +4949,28 @@ __webpack_require__.r(__webpack_exports__);
 
 const _attrAbsolute = Symbol('attrAbsolute');
 
+function getPV(subject, relative) {
+  let parent = subject.parent;
+  let pv = null;
+  if (parent) {
+    let attrSize = parent.attrSize;
+    if (attrSize) {
+      const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
+      while (attrSize && attrV === '') {
+        // flexible value
+        parent = parent.parent;
+        attrSize = parent.attrSize;
+      }
+    }
+    if (relative === 'pw') {
+      pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
+    } else if (relative === 'ph') {
+      pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
+    }
+  }
+  return pv;
+}
+
 function attr(target, prop, descriptor) {
   if (!target.hasOwnProperty('__attributeNames')) {
     // eslint-disable-line no-prototype-builtins
@@ -4980,25 +5002,7 @@ function attr(target, prop, descriptor) {
       } else if (ret.relative) {
         const relative = ret.relative.trim();
         if (relative === 'pw' || relative === 'ph') {
-          let parent = subject.parent;
-          let pv = null;
-
-          if (parent) {
-            let attrSize = parent.attrSize;
-            if (attrSize) {
-              const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
-              while (attrSize && attrV === '') {
-                // flexible value
-                parent = parent.parent;
-                attrSize = parent.attrSize;
-              }
-            }
-            if (relative === 'pw') {
-              pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-            } else if (relative === 'ph') {
-              pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-            }
-          }
+          const pv = getPV(subject, relative);
           if (pv !== ret.pv) {
             this[prop] = ret.rv;
             return this[prop];
@@ -5115,56 +5119,31 @@ function relative(type = 'width') {
         if (typeof val === 'string') {
           val = val.trim();
           if (val.slice(-1) === '%') {
-            let parent = this.subject.parent;
-            let pv = null;
-            if (parent) {
-              let attrSize = parent.attrSize;
-              if (attrSize) {
-                const attrV = relative === 'pw' ? attrSize[0] : attrSize[1];
-                while (attrSize && attrV === '') {
-                  // flexible value
-                  parent = parent.parent;
-                  attrSize = parent.attrSize;
-                }
-              }
-              if (type === 'width') {
-                pv = attrSize ? parent.contentSize[0] : parent.resolution[0];
-              } else if (type === 'height') {
-                pv = attrSize ? parent.contentSize[1] : parent.resolution[1];
-              }
-            }
+            const relative = type === 'width' ? 'pw' : 'ph';
+            const pv = getPV(this.subject, relative);
             val = {
-              relative: type === 'width' ? 'pw' : 'ph',
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val
-            };
-          } else if (val.slice(-2) === 'rw') {
-            const layer = this.subject.layer;
-            let pv = null;
-            if (layer) {
-              pv = layer.resolution[0];
-            }
-            val = {
-              relative: 'rw',
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val
-            };
-          } else if (val.slice(-2) === 'rh') {
-            const layer = this.subject.layer;
-            let pv = null;
-            if (layer) {
-              pv = layer.resolution[1];
-            }
-            val = {
-              relative: 'rh',
+              relative,
               pv,
               v: parseFloat(val) / 100,
               rv: val
             };
           } else {
-            val = val ? parseFloat(val) : val;
+            const relative = val.slice(-2);
+            if (relative === 'rw' || relative === 'rh') {
+              let pv = null;
+              const layer = this.subject.layer;
+              if (layer) {
+                pv = layer.resolution[relative === 'rw' ? 0 : 1];
+              }
+              val = {
+                relative,
+                pv,
+                v: parseFloat(val) / 100,
+                rv: val
+              };
+            } else {
+              val = val ? parseFloat(val) : val;
+            }
           }
         }
         setter.call(this, val);
@@ -5467,6 +5446,24 @@ const _animations = Symbol('animations'),
       _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+
+function doActions(ret, target, act) {
+  const actions = target.children.map(c => c[act]()).filter(d => d.promise);
+  if (ret.promise) {
+    actions.unshift(ret);
+  }
+  if (actions.length) {
+    const deferred = {
+      promise: Promise.all(actions.map(d => d.promise)),
+      resolve() {
+        actions.forEach(d => d.resolve());
+        return this.promise;
+      }
+    };
+    return deferred;
+  }
+  return null;
+}
 
 let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use sprite.cache = null'), (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
 
@@ -6587,20 +6584,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           }
         };
       } else {
-        const entries = this.children.map(c => c.enter()).filter(d => d.promise);
-        if (ret.promise) {
-          entries.unshift(ret);
-        }
-        if (entries.length) {
-          const deferred = {
-            promise: Promise.all(entries.map(d => d.promise)),
-            resolve: () => {
-              entries.forEach(d => d.resolve());
-              return this.promise;
-            }
-          };
-          this[_enter] = deferred;
-        }
+        const deferred = doActions(ret, this, 'enter');
+        if (deferred) this[_enter] = deferred;
       }
     }
 
@@ -6702,20 +6687,8 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
           };
         }
 
-        const exites = this.children.map(c => c.exit()).filter(d => d.promise);
-        if (ret.promise) {
-          exites.unshift(ret);
-        }
-        if (exites.length) {
-          const deferred = {
-            promise: Promise.all(exites.map(d => d.promise)),
-            resolve: () => {
-              exites.forEach(d => d.resolve());
-              return this.promise;
-            }
-          };
-          return deferred;
-        }
+        const deferred = doActions(ret, this, 'exit');
+        if (deferred) return deferred;
       }
 
       return ret;
@@ -7028,7 +7001,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
       attrs = JSON.parse(attrs);
     }
     Object.entries(attrs).forEach(([key, value]) => {
-      if (this.__default[key] !== value) {
+      if (this.getDefaultValue(key) !== value) {
         if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
           // this[key] = value;
           this.subject.attr(key, value);
@@ -7173,47 +7146,35 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
   }
 
   set paddingTop(val) {
-    if (val == null) val = 0;
-    const margin = this.get('padding');
-    margin[0] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 0);
   }
 
   get paddingTop() {
-    return this.get('margin')[0];
+    return this.get('padding')[0];
   }
 
   set paddingRight(val) {
-    if (val == null) val = 0;
-    const margin = this.get('padding');
-    margin[1] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 1);
   }
 
   get paddingRight() {
-    return this.get('margin')[1];
+    return this.get('padding')[1];
   }
 
   set paddingBottom(val) {
-    if (val == null) val = 0;
-    const margin = this.get('padding');
-    margin[2] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 2);
   }
 
   get paddingBottom() {
-    return this.get('margin')[2];
+    return this.get('padding')[2];
   }
 
   set paddingLeft(val) {
-    if (val == null) val = 0;
-    const margin = this.get('padding');
-    margin[3] = val;
-    this.set('padding', margin);
+    this.setAttrIndex('padding', val, 3);
   }
 
   get paddingLeft() {
-    return this.get('margin')[3];
+    return this.get('padding')[3];
   }
 
   set borderRadius(val) {
@@ -7523,10 +7484,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
   }
 
   set marginTop(val) {
-    if (val == null) val = 0;
-    const margin = this.get('margin');
-    margin[0] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 0);
   }
 
   get marginTop() {
@@ -7534,10 +7492,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
   }
 
   set marginRight(val) {
-    if (val == null) val = 0;
-    const margin = this.get('margin');
-    margin[1] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 1);
   }
 
   get marginRight() {
@@ -7545,10 +7500,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
   }
 
   set marginBottom(val) {
-    if (val == null) val = 0;
-    const margin = this.get('margin');
-    margin[2] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 2);
   }
 
   get marginBottom() {
@@ -7556,10 +7508,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
   }
 
   set marginLeft(val) {
-    if (val == null) val = 0;
-    const margin = this.get('margin');
-    margin[3] = val;
-    this.set('margin', margin);
+    this.setAttrIndex('margin', val, 3);
   }
 
   get marginLeft() {
@@ -7627,7 +7576,7 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"
       });
       val = value;
     }
-    const defaultVal = this.__default.actions;
+    const defaultVal = this.getDefaultValue('actions');
     val = Object.assign({}, defaultVal, val);
     this.quietSet('actions', val);
   }
@@ -7737,13 +7686,20 @@ let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["deprecate"]
     return this[_attr];
   }
 
-  get __default() {
-    return this[_default];
+  getDefaultValue(key) {
+    return this[_default][key];
   }
 
   setDefault(attrs) {
     Object.assign(this[_default], attrs);
     Object.assign(this[_attr], attrs);
+  }
+
+  setAttrIndex(key, val, idx) {
+    if (val == null) val = this[_default][key][idx];
+    const arr = this.get(key);
+    arr[idx] = val;
+    this.set(key, arr);
   }
 
   saveObj(key, val) {
@@ -7933,6 +7889,18 @@ function parseTransitionValue(values) {
   return ret;
 }
 
+function parseAnimationValue(value) {
+  value = value.toString();
+  if (value === 'initial') {
+    value = 0;
+  } else if (/ms$/.test(value)) {
+    value = parseFloat(value);
+  } else {
+    value = parseFloat(value) * 1000;
+  }
+  return value;
+}
+
 function toPxValue(value, defaultWidth) {
   // eslint-disable-line complexity
   if (typeof value === 'string') {
@@ -8059,31 +8027,11 @@ const CSSGetter = {
   },
   transitionDelay: parseTransitionValue,
   transitionProperty: true,
-  animationDuration(value) {
-    value = value.toString();
-    if (value === 'initial') {
-      value = 0;
-    } else if (/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
-  },
+  animationDuration: parseAnimationValue,
+  animationDelay: parseAnimationValue,
   animationTimingFunction(value) {
     value = value.toString();
     return value !== 'initial' ? value : 'ease';
-  },
-  animationDelay(value) {
-    value = value.toString();
-    if (value === 'initial') {
-      value = 0;
-    } else if (/ms$/.test(value)) {
-      value = parseFloat(value);
-    } else {
-      value = parseFloat(value) * 1000;
-    }
-    return value;
   },
   animationIterationCount(value) {
     value = value.toString();
@@ -12983,6 +12931,11 @@ function calculTextboxSize(node) {
   node[_boxSize] = [width, height];
 }
 
+function setFontPart(font, part) {
+  const { style, variant, weight, size0, unit, family } = Object.assign(parseFont(font), part);
+  return `${style} ${variant} ${weight} ${size0}${unit} ${family}`;
+}
+
 let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('normal normal normal 16px Arial'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('left'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width'), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('height'), (_class = class LabelSpriteAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
   constructor(subject) {
     super(subject);
@@ -13024,10 +12977,7 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
       val = parseFloat(matches[1]);
       unit = matches[2];
     }
-    const font = this.font;
-    const { style, variant, weight, family } = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${val}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, { size0: val, unit });
   }
 
   get fontSize() {
@@ -13038,10 +12988,7 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 
   set fontFamily(val) {
     if (val == null) val = 'Arial';
-    const font = this.font;
-    const { style, variant, weight, size0, unit } = parseFont(font);
-    const fontValue = `${style} ${variant} ${weight} ${size0}${unit} ${val}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, { family: val });
   }
 
   get fontFamily() {
@@ -13050,10 +12997,7 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 
   set fontStyle(val) {
     if (val == null) val = 'normal';
-    const font = this.font;
-    const { variant, weight, size0, unit, family } = parseFont(font);
-    const fontValue = `${val} ${variant} ${weight} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, { style: val });
   }
 
   get fontStyle() {
@@ -13062,10 +13006,7 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 
   set fontVariant(val) {
     if (val == null) val = 'normal';
-    const font = this.font;
-    const { style, weight, size0, unit, family } = parseFont(font);
-    const fontValue = `${style} ${val} ${weight} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, { variant: val });
   }
 
   get fontVariant() {
@@ -13074,10 +13015,7 @@ let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inheri
 
   set fontWeight(val) {
     if (val == null) val = 'normal';
-    const font = this.font;
-    const { style, variant, size0, unit, family } = parseFont(font);
-    const fontValue = `${style} ${variant} ${val} ${size0}${unit} ${family}`;
-    this.font = fontValue;
+    this.font = setFontPart(this.font, { weight: val });
   }
 
   get fontWeight() {

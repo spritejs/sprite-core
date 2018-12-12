@@ -135,11 +135,13 @@ class SpriteAttr {
     return this[_attr][key];
   }
 
-  get attrs() {
+  getAttributes(ignoreDefault = true) {
     const ret = {};
-    [...this.__attributeNames].forEach((key) => {
-      ret[key] = this[key];
-    });
+    if(!ignoreDefault) {
+      [...this.__attributeNames].forEach((key) => {
+        ret[key] = this[key];
+      });
+    }
     [...this.__attributesSet].forEach((key) => {
       ret[key] = this[key];
     });
@@ -149,6 +151,10 @@ class SpriteAttr {
       }
     });
     return ret;
+  }
+
+  get attrs() {
+    return this.getAttributes(false);
   }
 
   @deprecate('You can remove this call.')
@@ -164,18 +170,7 @@ class SpriteAttr {
   }
 
   serialize() {
-    const ret = {};
-    [...this.__attributesSet].forEach((key) => {
-      if(key !== 'id' && key.indexOf('__internal') !== 0) {
-        ret[key] = this[key];
-      }
-    });
-    Object.entries(this).forEach(([key, value]) => {
-      if(key.indexOf('__') !== 0) {
-        ret[key] = value;
-      }
-    });
-    return JSON.stringify(ret);
+    return JSON.stringify(this.getAttributes());
   }
 
   get subject() {
