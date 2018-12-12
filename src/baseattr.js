@@ -115,7 +115,7 @@ export default class SpriteAttr extends NodeAttr {
       attrs = JSON.parse(attrs);
     }
     Object.entries(attrs).forEach(([key, value]) => {
-      if(this.__default[key] !== value) {
+      if(this.getDefaultValue(key) !== value) {
         if(key !== 'offsetPath'
           && key !== 'offsetDistance'
           && key !== 'offsetRotate'
@@ -824,7 +824,7 @@ export default class SpriteAttr extends NodeAttr {
       });
       val = value;
     }
-    const defaultVal = this.__default.actions;
+    const defaultVal = this.getDefaultValue('actions');
     val = Object.assign({}, defaultVal, val);
     this.quietSet('actions', val);
   }

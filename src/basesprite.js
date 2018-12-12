@@ -22,6 +22,24 @@ const _animations = Symbol('animations'),
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
+function doActions(ret, target, act) {
+  const actions = target.children.map(c => c[act]()).filter(d => d.promise);
+  if(ret.promise) {
+    actions.unshift(ret);
+  }
+  if(actions.length) {
+    const deferred = {
+      promise: Promise.all(actions.map(d => d.promise)),
+      resolve() {
+        actions.forEach(d => d.resolve());
+        return this.promise;
+      },
+    };
+    return deferred;
+  }
+  return null;
+}
+
 export default class BaseSprite extends BaseNode {
   static Attr = BaseAttr;
 
@@ -1188,20 +1206,8 @@ export default class BaseSprite extends BaseNode {
           },
         };
       } else {
-        const entries = this.children.map(c => c.enter()).filter(d => d.promise);
-        if(ret.promise) {
-          entries.unshift(ret);
-        }
-        if(entries.length) {
-          const deferred = {
-            promise: Promise.all(entries.map(d => d.promise)),
-            resolve: () => {
-              entries.forEach(d => d.resolve());
-              return this.promise;
-            },
-          };
-          this[_enter] = deferred;
-        }
+        const deferred = doActions(ret, this, 'enter');
+        if(deferred) this[_enter] = deferred;
       }
     }
 
@@ -1303,20 +1309,8 @@ export default class BaseSprite extends BaseNode {
           };
         }
 
-        const exites = this.children.map(c => c.exit()).filter(d => d.promise);
-        if(ret.promise) {
-          exites.unshift(ret);
-        }
-        if(exites.length) {
-          const deferred = {
-            promise: Promise.all(exites.map(d => d.promise)),
-            resolve: () => {
-              exites.forEach(d => d.resolve());
-              return this.promise;
-            },
-          };
-          return deferred;
-        }
+        const deferred = doActions(ret, this, 'exit');
+        if(deferred) return deferred;
       }
 
       return ret;

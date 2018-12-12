@@ -33,8 +33,8 @@ class SpriteAttr {
     return this[_attr];
   }
 
-  get __default() {
-    return this[_default];
+  getDefaultValue(key) {
+    return this[_default][key];
   }
 
   setDefault(attrs) {
