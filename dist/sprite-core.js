@@ -132,7 +132,7 @@ var _utils = __webpack_require__(156);
 
 var utils = _interopRequireWildcard(_utils);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -166,17 +166,15 @@ var _batch2 = _interopRequireDefault(_batch);
 
 var _nodetype = __webpack_require__(233);
 
-var _selector = __webpack_require__(199);
+var _selector = __webpack_require__(200);
 
-var _stylesheet = __webpack_require__(198);
+var _stylesheet = __webpack_require__(199);
 
 var _stylesheet2 = _interopRequireDefault(_stylesheet);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-utils.parseFont = __webpack_require__(230);
 
 var Color = utils.Color;
 
@@ -5997,13 +5995,19 @@ module.exports = function isPath(str) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.generateID = exports.sortOrderedSprites = exports.setDeprecation = exports.rectVertices = exports.parseValue = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.inheritAttributes = exports.inherit = exports.relative = exports.absolute = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.flow = exports.deprecate = exports.Color = exports.attr = exports.appendUnit = exports.cacheContextPool = exports.findColor = exports.cachable = undefined;
+exports.parseFont = exports.sizeToPixel = exports.generateID = exports.sortOrderedSprites = exports.setDeprecation = exports.rectVertices = exports.parseValue = exports.parseStringTransform = exports.parseStringInt = exports.parseStringFloat = exports.praseString = exports.parseColorString = exports.parseColor = exports.inheritAttributes = exports.inherit = exports.relative = exports.absolute = exports.oneOrTwoValues = exports.notice = exports.fourValuesShortCut = exports.flow = exports.deprecate = exports.Color = exports.attr = exports.appendUnit = exports.cacheContextPool = exports.findColor = exports.cachable = undefined;
 
-var _utils = __webpack_require__(157);
+var _parseFont = __webpack_require__(157);
 
-var _decorators = __webpack_require__(171);
+var _parseFont2 = _interopRequireDefault(_parseFont);
 
-var _render = __webpack_require__(172);
+var _utils = __webpack_require__(158);
+
+var _decorators = __webpack_require__(172);
+
+var _render = __webpack_require__(173);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.cachable = _decorators.cachable;
 exports.findColor = _render.findColor;
@@ -6031,9 +6035,109 @@ exports.rectVertices = _utils.rectVertices;
 exports.setDeprecation = _decorators.setDeprecation;
 exports.sortOrderedSprites = _utils.sortOrderedSprites;
 exports.generateID = _utils.generateID;
+exports.sizeToPixel = _utils.sizeToPixel;
+exports.parseFont = _parseFont2.default;
 
 /***/ }),
 /* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = parseFont;
+
+var _utils = __webpack_require__(158);
+
+var weights = 'bold|bolder|lighter|[1-9]00',
+    styles = 'italic|oblique',
+    variants = 'small-caps',
+    stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
+    units = 'px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin|%',
+    string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4E00-\u9FA5])+';
+
+// [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
+//    <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]
+// https://drafts.csswg.org/css-fonts-3/#font-prop
+// borrow from node-canvas (https://github.com/Automattic/node-canvas)
+
+/**
+ * Font RegExp helpers.
+ */
+
+var weightRe = new RegExp('(' + weights + ') +', 'i');
+var styleRe = new RegExp('(' + styles + ') +', 'i');
+var variantRe = new RegExp('(' + variants + ') +', 'i');
+var stretchRe = new RegExp('(' + stretches + ') +', 'i');
+
+/* eslint-disable prefer-template */
+var sizeFamilyRe = new RegExp('([\\d\\.]+)(' + units + ') *' + '((?:' + string + ')( *, *(?:' + string + '))*)');
+/* eslint-enable prefer-template */
+
+/**
+ * Parse font `str`.
+ *
+ * @param {String} str
+ * @return {Object} Parsed font. `size` is in device units. `unit` is the unit
+ *   appearing in the input string.
+ * @api private
+ */
+
+function parseFont(str, defaultHeight) {
+  // Try for required properties first.
+  var sizeFamily = sizeFamilyRe.exec(str);
+  if (!sizeFamily) return; // invalid
+
+  // Default values and required properties
+  var font = {
+    weight: 'normal',
+    style: 'normal',
+    stretch: 'normal',
+    variant: 'normal',
+    size: parseFloat(sizeFamily[1]),
+    unit: sizeFamily[2],
+    family: sizeFamily[3].replace(/ *, */g, ',')
+  };
+
+  // Stop search at `sizeFamily.index`
+  var substr = str.substring(0, sizeFamily.index);
+
+  // Optional, unordered properties.
+  var weight = weightRe.exec(substr),
+      style = styleRe.exec(substr),
+      variant = variantRe.exec(substr),
+      stretch = stretchRe.exec(substr);
+
+  if (weight) font.weight = weight[1];
+  if (style) font.style = style[1];
+  if (variant) font.variant = variant[1];
+  if (stretch) font.stretch = stretch[1];
+
+  font.size0 = font.size;
+
+  font.size = (0, _utils.sizeToPixel)({ size: font.size0, unit: font.unit }, defaultHeight);
+
+  if (font.unit === 'vw' || font.unit === 'vh') {
+    if (typeof document !== 'undefined' && document.documentElement) {
+      var _document$documentEle = document.documentElement,
+          clientWidth = _document$documentEle.clientWidth,
+          clientHeight = _document$documentEle.clientHeight;
+
+      var val = font.unit === 'vw' ? clientWidth : clientHeight;
+      font.size = val * font.size / 100;
+    }
+  }
+
+  return font;
+}
+
+/* eslint-enable */
+
+/***/ }),
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6048,7 +6152,7 @@ var _weakMap = __webpack_require__(59);
 
 var _weakMap2 = _interopRequireDefault(_weakMap);
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -6056,7 +6160,7 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _isNan = __webpack_require__(164);
+var _isNan = __webpack_require__(165);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -6086,10 +6190,11 @@ exports.appendUnit = appendUnit;
 exports.sortOrderedSprites = sortOrderedSprites;
 exports.notice = notice;
 exports.generateID = generateID;
+exports.sizeToPixel = sizeToPixel;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var colorString = __webpack_require__(167);
+var colorString = __webpack_require__(168);
 
 var Color = function () {
   function Color(color) {
@@ -6275,28 +6380,82 @@ function generateID(obj) {
   return id;
 }
 
-/***/ }),
-/* 158 */
-/***/ (function(module, exports, __webpack_require__) {
+function sizeToPixel(value, defaultWidth) {
+  // eslint-disable-line complexity
+  if (typeof value === 'string') {
+    var matched = value.trim().match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin|%)$/);
+    if (matched) {
+      value = { size: parseFloat(matched[1]), unit: matched[2] };
+    } else {
+      value = { size: parseInt(value, 10), unit: 'px' };
+    }
+  }
 
-module.exports = { "default": __webpack_require__(159), __esModule: true };
+  var _value2 = value,
+      size = _value2.size,
+      unit = _value2.unit;
+
+  if (unit === 'pt') {
+    size /= 0.75;
+  } else if (unit === 'pc') {
+    size *= 16;
+  } else if (unit === 'in') {
+    size *= 96;
+  } else if (unit === 'cm') {
+    size *= 96.0 / 2.54;
+  } else if (unit === 'mm') {
+    size *= 96.0 / 25.4;
+  } else if (unit === 'em' || unit === 'rem' || unit === 'ex') {
+    if (!defaultWidth && typeof getComputedStyle === 'function' && typeof document !== 'undefined') {
+      var root = getComputedStyle(document.documentElement).fontSize;
+      defaultWidth = sizeToPixel(root, 16);
+    }
+    size *= defaultWidth;
+    if (unit === 'ex') size /= 2;
+  } else if (unit === 'q') {
+    size *= 96.0 / 25.4 / 4;
+  } else if (unit === 'vw' || unit === 'vh') {
+    if (typeof document !== 'undefined') {
+      var val = unit === 'vw' ? document.documentElement.clientWidth : document.documentElement.clientHeight;
+      size *= val / 100;
+    }
+  } else if (unit === 'vmax' || unit === 'vmin') {
+    if (typeof document !== 'undefined') {
+      var width = document.documentElement.clientWidth;
+      var height = document.documentElement.clientHeight;
+      if (unit === 'vmax') {
+        size *= Math.max(width, height) / 100;
+      } else {
+        size *= Math.min(width, height) / 100;
+      }
+    }
+  }
+
+  return size;
+}
 
 /***/ }),
 /* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(160), __esModule: true };
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
 __webpack_require__(56);
 __webpack_require__(92);
 __webpack_require__(61);
-__webpack_require__(160);
 __webpack_require__(161);
 __webpack_require__(162);
 __webpack_require__(163);
+__webpack_require__(164);
 module.exports = __webpack_require__(6).Set;
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6317,7 +6476,7 @@ module.exports = __webpack_require__(82)(SET, function (get) {
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -6327,7 +6486,7 @@ $export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(110)('Set') 
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
@@ -6335,7 +6494,7 @@ __webpack_require__(84)('Set');
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
@@ -6343,21 +6502,21 @@ __webpack_require__(86)('Set');
 
 
 /***/ }),
-/* 164 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(165), __esModule: true };
-
-/***/ }),
 /* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(166);
+module.exports = { "default": __webpack_require__(166), __esModule: true };
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(167);
 module.exports = __webpack_require__(6).Number.isNaN;
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.4 Number.isNaN(number)
@@ -6372,12 +6531,12 @@ $export($export.S, 'Number', {
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(168);
-var swizzle = __webpack_require__(169);
+var colorNames = __webpack_require__(169);
+var swizzle = __webpack_require__(170);
 
 var reverseNames = {};
 
@@ -6612,7 +6771,7 @@ function hexDouble(num) {
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6771,13 +6930,13 @@ module.exports = {
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var isArrayish = __webpack_require__(170);
+var isArrayish = __webpack_require__(171);
 
 var concat = Array.prototype.concat;
 var slice = Array.prototype.slice;
@@ -6807,7 +6966,7 @@ swizzle.wrap = function (fn) {
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = function isArrayish(obj) {
@@ -6822,7 +6981,7 @@ module.exports = function isArrayish(obj) {
 
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6833,7 +6992,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.inheritAttributes = undefined;
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -6851,7 +7010,7 @@ exports.setDeprecation = setDeprecation;
 exports.deprecate = deprecate;
 exports.parseValue = parseValue;
 
-var _utils = __webpack_require__(157);
+var _utils = __webpack_require__(158);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6974,13 +7133,14 @@ function attr(target, prop, descriptor) {
     var subject = this.subject;
     this.__updateTag = false;
     this.__reflowTag = false;
+    this.__clearLayout = false;
     _setter.call(this, val);
     if (subject && subject.hasLayout) {
       var offsetSize = subject.boxOffsetSize,
           layoutSize = subject.__lastLayout;
 
-      if (!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-        subject.parent.clearLayout();
+      if (this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+        subject.clearLayout();
       }
       subject.__lastLayout = offsetSize;
     }
@@ -7172,7 +7332,7 @@ function parseValue() {
 }
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7370,7 +7530,7 @@ var cacheContextPool = exports.cacheContextPool = {
 };
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7381,7 +7541,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -7405,11 +7565,11 @@ var _entries = __webpack_require__(141);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _defineProperty4 = __webpack_require__(177);
+var _defineProperty4 = __webpack_require__(178);
 
 var _defineProperty5 = _interopRequireDefault(_defineProperty4);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -7417,11 +7577,11 @@ var _slicedToArray2 = __webpack_require__(89);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -7433,15 +7593,15 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -7461,7 +7621,7 @@ var _spriteAnimator = __webpack_require__(87);
 
 var _utils = __webpack_require__(156);
 
-var _baseattr = __webpack_require__(194);
+var _baseattr = __webpack_require__(195);
 
 var _baseattr2 = _interopRequireDefault(_baseattr);
 
@@ -7475,7 +7635,7 @@ var _animation3 = _interopRequireDefault(_animation2);
 
 var _nodetype = __webpack_require__(233);
 
-var _render = __webpack_require__(172);
+var _render = __webpack_require__(173);
 
 var _filters = __webpack_require__(237);
 
@@ -7776,7 +7936,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
           _this4[_animations].delete(animation);
         });
       });
-      if (this.hasLayout) parent.clearLayout();
+      if (this.hasLayout) this.clearLayout();
       this.reflow();
       return ret;
     }
@@ -7791,7 +7951,7 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
       if (this.cache) {
         this.cache = null;
       }
-      if (this.hasLayout) parent.clearLayout();
+      if (this.hasLayout) this.clearLayout();
       this.reflow();
       var ret = (0, _get3.default)(BaseSprite.prototype.__proto__ || (0, _getPrototypeOf2.default)(BaseSprite.prototype), 'disconnect', this).call(this, parent);
       delete this.context;
@@ -9031,13 +9191,14 @@ var BaseSprite = (_dec = (0, _utils.deprecate)('Instead use sprite.cache = null'
             set: function set(val) {
               this.__updateTag = false;
               this.__reflowTag = false;
+              this.__clearLayout = false;
               handler(this, val);
               if (this.subject && this.subject.hasLayout) {
                 var offsetSize = this.subject.offsetSize,
                     layoutSize = this.subject.__layoutSize;
 
-                if (!layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-                  this.subject.parent.clearLayout();
+                if (this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+                  this.subject.clearLayout();
                 }
                 this.subject.__lastLayout = offsetSize;
               }
@@ -9220,16 +9381,16 @@ function drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHe
 (0, _nodetype.registerNodeType)('basesprite', BaseSprite);
 
 /***/ }),
-/* 174 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(175), __esModule: true };
-
-/***/ }),
 /* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(176);
+module.exports = { "default": __webpack_require__(176), __esModule: true };
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(177);
 var $Object = __webpack_require__(6).Object;
 module.exports = function getOwnPropertyDescriptor(it, key) {
   return $Object.getOwnPropertyDescriptor(it, key);
@@ -9237,7 +9398,7 @@ module.exports = function getOwnPropertyDescriptor(it, key) {
 
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -9252,7 +9413,7 @@ __webpack_require__(139)('getOwnPropertyDescriptor', function () {
 
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9282,7 +9443,7 @@ exports.default = function (obj, key, value) {
 };
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9290,7 +9451,7 @@ exports.default = function (obj, key, value) {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(179);
+var _iterator = __webpack_require__(180);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
@@ -9309,13 +9470,13 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(180), __esModule: true };
+module.exports = { "default": __webpack_require__(181), __esModule: true };
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(92);
@@ -9324,21 +9485,21 @@ module.exports = __webpack_require__(45).f('iterator');
 
 
 /***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(182), __esModule: true };
-
-/***/ }),
 /* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(183);
+module.exports = { "default": __webpack_require__(183), __esModule: true };
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(184);
 module.exports = __webpack_require__(6).Object.getPrototypeOf;
 
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -9353,7 +9514,7 @@ __webpack_require__(139)('getPrototypeOf', function () {
 
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9361,7 +9522,7 @@ __webpack_require__(139)('getPrototypeOf', function () {
 
 exports.__esModule = true;
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -9376,7 +9537,7 @@ exports.default = function (self, call) {
 };
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9384,11 +9545,11 @@ exports.default = function (self, call) {
 
 exports.__esModule = true;
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -9420,7 +9581,7 @@ exports.default = function get(object, property, receiver) {
 };
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9428,15 +9589,15 @@ exports.default = function get(object, property, receiver) {
 
 exports.__esModule = true;
 
-var _setPrototypeOf = __webpack_require__(187);
+var _setPrototypeOf = __webpack_require__(188);
 
 var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-var _create = __webpack_require__(191);
+var _create = __webpack_require__(192);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -9459,30 +9620,30 @@ exports.default = function (subClass, superClass) {
 };
 
 /***/ }),
-/* 187 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(188), __esModule: true };
-
-/***/ }),
 /* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(189);
-module.exports = __webpack_require__(6).Object.setPrototypeOf;
-
+module.exports = { "default": __webpack_require__(189), __esModule: true };
 
 /***/ }),
 /* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.3.19 Object.setPrototypeOf(O, proto)
-var $export = __webpack_require__(4);
-$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(190).set });
+__webpack_require__(190);
+module.exports = __webpack_require__(6).Object.setPrototypeOf;
 
 
 /***/ }),
 /* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = __webpack_require__(4);
+$export($export.S, 'Object', { setPrototypeOf: __webpack_require__(191).set });
+
+
+/***/ }),
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -9513,16 +9674,16 @@ module.exports = {
 
 
 /***/ }),
-/* 191 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(192), __esModule: true };
-
-/***/ }),
 /* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(193);
+module.exports = { "default": __webpack_require__(193), __esModule: true };
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(194);
 var $Object = __webpack_require__(6).Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
@@ -9530,7 +9691,7 @@ module.exports = function create(P, D) {
 
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(4);
@@ -9539,7 +9700,7 @@ $export($export.S, 'Object', { create: __webpack_require__(50) });
 
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9550,7 +9711,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -9558,17 +9719,17 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
+var _toConsumableArray2 = __webpack_require__(98);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _stringify = __webpack_require__(195);
+var _stringify = __webpack_require__(196);
 
 var _stringify2 = _interopRequireDefault(_stringify);
-
-var _toConsumableArray2 = __webpack_require__(98);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _slicedToArray2 = __webpack_require__(89);
 
@@ -9578,7 +9739,7 @@ var _entries = __webpack_require__(141);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -9590,15 +9751,15 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -9610,7 +9771,7 @@ var _svgPathToCanvas2 = _interopRequireDefault(_svgPathToCanvas);
 
 var _spriteMath = __webpack_require__(147);
 
-var _attr = __webpack_require__(197);
+var _attr = __webpack_require__(198);
 
 var _attr2 = _interopRequireDefault(_attr);
 
@@ -9716,6 +9877,12 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
       return this;
     }
   }, {
+    key: 'clearLayout',
+    value: function clearLayout() {
+      this.__clearLayout = true;
+      return this;
+    }
+  }, {
     key: 'set',
     value: function set(key, value) {
       (0, _get3.default)(SpriteAttr.prototype.__proto__ || (0, _getPrototypeOf2.default)(SpriteAttr.prototype), 'set', this).call(this, key, value);
@@ -9755,28 +9922,13 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'serialize',
     value: function serialize() {
-      var _this3 = this;
-
-      var ret = {};
-      [].concat((0, _toConsumableArray3.default)(this.__attributesSet)).forEach(function (key) {
-        if (key !== 'id' && key.indexOf('__internal') !== 0) {
-          ret[key] = _this3[key];
-        }
-      });
-      (0, _entries2.default)(this).forEach(function (_ref3) {
-        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
-            key = _ref4[0],
-            value = _ref4[1];
-
-        if (key.indexOf('__') !== 0) {
-          ret[key] = value;
-        }
-      });
+      var attrs = this.getAttributes();
+      delete attrs.id;
       var offsetAngle = this.get('offsetAngle');
-      if (offsetAngle != null) ret.offsetAngle = offsetAngle;
+      if (offsetAngle != null) attrs.offsetAngle = offsetAngle;
       var offsetPoint = this.get('offsetPoint');
-      if (offsetPoint != null) ret.offsetPoint = offsetPoint;
-      return (0, _stringify2.default)(ret);
+      if (offsetPoint != null) attrs.offsetPoint = offsetPoint;
+      return (0, _stringify2.default)(attrs);
     }
   }, {
     key: 'resetOffset',
@@ -9852,7 +10004,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'anchor',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('anchor', val);
     }
   }, {
@@ -10031,7 +10183,7 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'transform',
     set: function set(val) {
-      var _this4 = this;
+      var _this3 = this;
 
       /*
         rotate: 0,
@@ -10054,15 +10206,15 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
         this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
         var transformStr = [];
 
-        (0, _entries2.default)(val).forEach(function (_ref5) {
-          var _ref6 = (0, _slicedToArray3.default)(_ref5, 2),
-              key = _ref6[0],
-              value = _ref6[1];
+        (0, _entries2.default)(val).forEach(function (_ref3) {
+          var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
+              key = _ref4[0],
+              value = _ref4[1];
 
           if (key === 'matrix' && Array.isArray(value)) {
-            _this4.set('transformMatrix', new _spriteMath.Matrix(value).m);
+            _this3.set('transformMatrix', new _spriteMath.Matrix(value).m);
           } else {
-            _this4[key] = value;
+            _this3[key] = value;
           }
           transformStr.push(key + '(' + value + ')');
         });
@@ -10122,10 +10274,10 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'skew',
     set: function set(val) {
-      var _ref7, _transform$multiply;
+      var _ref5, _transform$multiply;
 
       var oldVal = this.get('skew') || [0, 0];
-      var invm = (_ref7 = new _spriteMath.Matrix()).skew.apply(_ref7, (0, _toConsumableArray3.default)(oldVal)).inverse();
+      var invm = (_ref5 = new _spriteMath.Matrix()).skew.apply(_ref5, (0, _toConsumableArray3.default)(oldVal)).inverse();
       this.set('skew', val);
       var transform = new _spriteMath.Matrix(this.get('transformMatrix'));
       (_transform$multiply = transform.multiply(invm)).skew.apply(_transform$multiply, (0, _toConsumableArray3.default)(val));
@@ -10220,19 +10372,19 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'flexGrow',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('flexGrow', val);
     }
   }, {
     key: 'flexShrink',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('flexShrink', val);
     }
   }, {
     key: 'flexBasis',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       if (val && val !== 'auto') {
         val = parseFloat(val);
       }
@@ -10272,25 +10424,25 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
   }, {
     key: 'order',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('order', val);
     }
   }, {
     key: 'position',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('position', val);
     }
   }, {
     key: 'alignSelf',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('alignSelf', val);
     }
   }, {
     key: 'margin',
     set: function set(val) {
-      if (this.subject.hasLayout) this.subject.parent.clearLayout();
+      this.clearLayout();
       this.set('margin', val);
     }
   }, {
@@ -10350,10 +10502,10 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
       val = (0, _assign2.default)({}, val);
       var states = this.get('states');
       // recover __default
-      (0, _entries2.default)(states).forEach(function (_ref8) {
-        var _ref9 = (0, _slicedToArray3.default)(_ref8, 2),
-            key = _ref9[0],
-            value = _ref9[1];
+      (0, _entries2.default)(states).forEach(function (_ref6) {
+        var _ref7 = (0, _slicedToArray3.default)(_ref6, 2),
+            key = _ref7[0],
+            value = _ref7[1];
 
         if (value.__default && !(key in val)) {
           val[key] = value;
@@ -10465,13 +10617,13 @@ var SpriteAttr = (_dec = (0, _utils.parseValue)(_utils.parseStringFloat, _utils.
 exports.default = SpriteAttr;
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(196), __esModule: true };
+module.exports = { "default": __webpack_require__(197), __esModule: true };
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core = __webpack_require__(6);
@@ -10482,7 +10634,7 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10492,7 +10644,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -10508,11 +10660,11 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _stringify = __webpack_require__(195);
+var _stringify = __webpack_require__(196);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -10520,7 +10672,7 @@ var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -10544,7 +10696,7 @@ var _dec, _desc, _value, _class;
 
 var _utils = __webpack_require__(156);
 
-var _stylesheet = __webpack_require__(198);
+var _stylesheet = __webpack_require__(199);
 
 var _stylesheet2 = _interopRequireDefault(_stylesheet);
 
@@ -10665,10 +10817,10 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
       var oldVal = this[_attr][key];
       if ((typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) === 'object') {
         if (oldVal !== val && (0, _stringify2.default)(val) === (0, _stringify2.default)(oldVal)) {
-          return;
+          return false;
         }
       } else if (oldVal === val) {
-        return;
+        return false;
       }
       if (!this.__styleTag) {
         this[_attr][key] = val;
@@ -10677,6 +10829,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
         }
       }
       this.__updateTag = true;
+      return true;
     }
   }, {
     key: 'get',
@@ -10688,6 +10841,35 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
         return this[_style][key];
       }
       return this[_attr][key];
+    }
+  }, {
+    key: 'getAttributes',
+    value: function getAttributes() {
+      var _this = this;
+
+      var ignoreDefault = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      var ret = {};
+      if (!ignoreDefault) {
+        [].concat((0, _toConsumableArray3.default)(this.__attributeNames)).forEach(function (key) {
+          ret[key] = _this[key];
+        });
+      }
+      [].concat((0, _toConsumableArray3.default)(this.__attributesSet)).forEach(function (key) {
+        if (key.indexOf('__internal') !== 0) {
+          ret[key] = _this[key];
+        }
+      });
+      (0, _entries2.default)(this).forEach(function (_ref) {
+        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+
+        if (key.indexOf('__') !== 0) {
+          ret[key] = value;
+        }
+      });
+      return ret;
     }
   }, {
     key: 'clearCache',
@@ -10705,24 +10887,9 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
   }, {
     key: 'serialize',
     value: function serialize() {
-      var _this = this;
-
-      var ret = {};
-      [].concat((0, _toConsumableArray3.default)(this.__attributesSet)).forEach(function (key) {
-        if (key !== 'id' && key.indexOf('__internal') !== 0) {
-          ret[key] = _this[key];
-        }
-      });
-      (0, _entries2.default)(this).forEach(function (_ref) {
-        var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
-            key = _ref2[0],
-            value = _ref2[1];
-
-        if (key.indexOf('__') !== 0) {
-          ret[key] = value;
-        }
-      });
-      return (0, _stringify2.default)(ret);
+      var attrs = this.getAttributes();
+      delete attrs.id;
+      return (0, _stringify2.default)(attrs);
     }
   }, {
     key: '__attr',
@@ -10737,25 +10904,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
   }, {
     key: 'attrs',
     get: function get() {
-      var _this2 = this;
-
-      var ret = {};
-      [].concat((0, _toConsumableArray3.default)(this.__attributeNames)).forEach(function (key) {
-        ret[key] = _this2[key];
-      });
-      [].concat((0, _toConsumableArray3.default)(this.__attributesSet)).forEach(function (key) {
-        ret[key] = _this2[key];
-      });
-      (0, _entries2.default)(this).forEach(function (_ref3) {
-        var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
-            key = _ref4[0],
-            value = _ref4[1];
-
-        if (key.indexOf('__') !== 0) {
-          ret[key] = value;
-        }
-      });
-      return ret;
+      return this.getAttributes(false);
     }
   }, {
     key: 'subject',
@@ -10786,7 +10935,7 @@ var SpriteAttr = (_dec = (0, _utils.deprecate)('You can remove this call.'), (_c
 exports.default = SpriteAttr;
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10808,7 +10957,7 @@ var _entries = __webpack_require__(141);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _defineProperty2 = __webpack_require__(177);
+var _defineProperty2 = __webpack_require__(178);
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
@@ -10824,7 +10973,7 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _isNan = __webpack_require__(164);
+var _isNan = __webpack_require__(165);
 
 var _isNan2 = _interopRequireDefault(_isNan);
 
@@ -10832,15 +10981,17 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _selector = __webpack_require__(199);
+var _selector = __webpack_require__(200);
+
+var _utils = __webpack_require__(156);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var cssWhat = __webpack_require__(221);
+var cssWhat = __webpack_require__(222);
 
 var cssRules = [];
 var keyFrames = {};
@@ -10886,54 +11037,13 @@ function toPxValue(value, defaultWidth) {
     var matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
     if (matched) {
       // console.log(matched);
-      var v = parseFloat(matched[1]);
+      var size = parseFloat(matched[1]);
       var unit = matched[2];
-      if (unit === 'px') {
-        value = v;
-      } else if (unit === 'pt') {
-        value = v / 0.75;
-      } else if (unit === 'pc') {
-        value = v * 16;
-      } else if (unit === 'in') {
-        value = v * 96;
-      } else if (unit === 'cm') {
-        value = v * 96.0 / 2.54;
-      } else if (unit === 'mm') {
-        value = v * 96.0 / 25.4;
-      } else if (unit === 'em' || unit === 'rem' || unit === 'ex') {
-        if (!defaultWidth && typeof getComputedStyle === 'function' && typeof document !== 'undefined') {
-          var root = getComputedStyle(document.documentElement).fontSize;
-          defaultWidth = toPxValue(root, 16);
-        }
-        value = v * defaultWidth;
-        if (unit === 'ex') value /= 2;
-      } else if (unit === 'q') {
-        value = v * 96.0 / 25.4 / 4;
-      } else if (unit === 'vw') {
-        if (typeof document !== 'undefined') {
-          var width = document.documentElement.clientWidth;
-          value = width * v / 100;
-        }
-      } else if (unit === 'vh') {
-        if (typeof document !== 'undefined') {
-          var height = document.documentElement.clientHeight;
-          value = height * v / 100;
-        }
-      } else if (unit === 'vmax' || unit === 'vmin') {
-        if (typeof document !== 'undefined') {
-          var _width = document.documentElement.clientWidth;
-          var _height = document.documentElement.clientHeight;
-          if (unit === 'vmax') {
-            value = Math.max(_width, _height) * v / 100;
-          } else {
-            value = Math.min(_width, _height) * v / 100;
-          }
-        }
-      }
+      value = (0, _utils.sizeToPixel)({ size: size, unit: unit });
     } else {
-      var _v = Number(value);
-      if (!(0, _isNan2.default)(_v)) {
-        value = _v;
+      var _size = Number(value);
+      if (!(0, _isNan2.default)(_size)) {
+        value = _size;
       }
     }
   }
@@ -11246,10 +11356,9 @@ function parseRuleAttrs(rule) {
   }
   if ('fontSize' in attrs || 'fontFamily' in attrs || 'fontStyle' in attrs || 'fontVariant' in attrs || 'fontWeight' in attrs) {
     // for font inherit
-    var parseFont = __webpack_require__(230);
     var font = attrs.font || 'normal normal normal 16px Arial';
 
-    var _parseFont = parseFont(font),
+    var _parseFont = (0, _utils.parseFont)(font),
         style = _parseFont.style,
         variant = _parseFont.variant,
         weight = _parseFont.weight,
@@ -11592,7 +11701,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11619,7 +11728,7 @@ var _utils = __webpack_require__(156);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CSSselect = __webpack_require__(200);
+var CSSselect = __webpack_require__(201);
 
 CSSselect.pseudos.hover = function (next) {
   return !!next.attr('__internal_state_hover_');
@@ -11811,7 +11920,7 @@ function compile(query) {
 }
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11819,9 +11928,9 @@ function compile(query) {
 
 module.exports = CSSselect;
 
-var DomUtils = __webpack_require__(201);
-var falseFunc = __webpack_require__(219).falseFunc;
-var compileRaw = __webpack_require__(220);
+var DomUtils = __webpack_require__(202);
+var falseFunc = __webpack_require__(220).falseFunc;
+var compileRaw = __webpack_require__(221);
 
 function wrapCompile(func) {
     return function addAdapter(selector, options, context) {
@@ -11912,18 +12021,18 @@ CSSselect._compileToken = compileRaw.compileToken;
 
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DomUtils = module.exports;
 
 [
-	__webpack_require__(202),
-	__webpack_require__(214),
+	__webpack_require__(203),
 	__webpack_require__(215),
 	__webpack_require__(216),
 	__webpack_require__(217),
-	__webpack_require__(218)
+	__webpack_require__(218),
+	__webpack_require__(219)
 ].forEach(function(ext){
 	Object.keys(ext).forEach(function(key){
 		DomUtils[key] = ext[key].bind(DomUtils);
@@ -11932,11 +12041,11 @@ var DomUtils = module.exports;
 
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ElementType = __webpack_require__(203),
-    getOuterHTML = __webpack_require__(204),
+var ElementType = __webpack_require__(204),
+    getOuterHTML = __webpack_require__(205),
     isTag = ElementType.isTag;
 
 module.exports = {
@@ -11961,7 +12070,7 @@ function getText(elem){
 
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports) {
 
 //Types of elements found in the DOM
@@ -11982,14 +12091,14 @@ module.exports = {
 
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
   Module dependencies
 */
-var ElementType = __webpack_require__(205);
-var entities = __webpack_require__(206);
+var ElementType = __webpack_require__(206);
+var entities = __webpack_require__(207);
 
 /*
   Boolean Attributes
@@ -12166,7 +12275,7 @@ function renderComment(elem) {
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports) {
 
 //Types of elements found in the DOM
@@ -12185,11 +12294,11 @@ module.exports = {
 };
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var encode = __webpack_require__(207),
-    decode = __webpack_require__(210);
+var encode = __webpack_require__(208),
+    decode = __webpack_require__(211);
 
 exports.decode = function(data, level){
 	return (!level || level <= 0 ? decode.XML : decode.HTML)(data);
@@ -12224,15 +12333,15 @@ exports.escape = encode.escape;
 
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var inverseXML = getInverseObj(__webpack_require__(208)),
+var inverseXML = getInverseObj(__webpack_require__(209)),
     xmlReplacer = getInverseReplacer(inverseXML);
 
 exports.XML = getInverse(inverseXML, xmlReplacer);
 
-var inverseHTML = getInverseObj(__webpack_require__(209)),
+var inverseHTML = getInverseObj(__webpack_require__(210)),
     htmlReplacer = getInverseReplacer(inverseHTML);
 
 exports.HTML = getInverse(inverseHTML, htmlReplacer);
@@ -12303,25 +12412,25 @@ exports.escape = escapeXML;
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module) {
 
 module.exports = {"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""};
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"};
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var entityMap = __webpack_require__(209),
-    legacyMap = __webpack_require__(211),
-    xmlMap    = __webpack_require__(208),
-    decodeCodePoint = __webpack_require__(212);
+var entityMap = __webpack_require__(210),
+    legacyMap = __webpack_require__(212),
+    xmlMap    = __webpack_require__(209),
+    decodeCodePoint = __webpack_require__(213);
 
 var decodeXMLStrict  = getStrictDecoder(xmlMap),
     decodeHTMLStrict = getStrictDecoder(entityMap);
@@ -12392,16 +12501,16 @@ module.exports = {
 };
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module) {
 
 module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"};
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var decodeMap = __webpack_require__(213);
+var decodeMap = __webpack_require__(214);
 
 module.exports = decodeCodePoint;
 
@@ -12430,13 +12539,13 @@ function decodeCodePoint(codePoint){
 
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module) {
 
 module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376};
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports) {
 
 var getChildren = exports.getChildren = function(elem){
@@ -12466,7 +12575,7 @@ exports.getName = function(elem){
 
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports) {
 
 exports.removeElement = function(elem){
@@ -12549,10 +12658,10 @@ exports.prepend = function(elem, prev){
 
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isTag = __webpack_require__(203).isTag;
+var isTag = __webpack_require__(204).isTag;
 
 module.exports = {
 	filter: filter,
@@ -12650,10 +12759,10 @@ function findAll(test, rootElems){
 
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ElementType = __webpack_require__(203);
+var ElementType = __webpack_require__(204);
 var isTag = exports.isTag = ElementType.isTag;
 
 exports.testElement = function(options, element){
@@ -12743,7 +12852,7 @@ exports.getElementsByTagType = function(type, element, recurse, limit){
 
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports) {
 
 // removeSubsets
@@ -12890,7 +12999,7 @@ exports.uniqueSort = function(nodes) {
 
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -12903,7 +13012,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -12912,12 +13021,12 @@ module.exports = {
 
 module.exports = compile;
 
-var parse = __webpack_require__(221);
-var BaseFuncs = __webpack_require__(219);
-var sortRules = __webpack_require__(222);
-var procedure = __webpack_require__(223);
-var Rules = __webpack_require__(224);
-var Pseudos = __webpack_require__(226);
+var parse = __webpack_require__(222);
+var BaseFuncs = __webpack_require__(220);
+var sortRules = __webpack_require__(223);
+var procedure = __webpack_require__(224);
+var Rules = __webpack_require__(225);
+var Pseudos = __webpack_require__(227);
 var trueFunc = BaseFuncs.trueFunc;
 var falseFunc = BaseFuncs.falseFunc;
 
@@ -13128,7 +13237,7 @@ compile.Pseudos = Pseudos;
 
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13409,7 +13518,7 @@ function addToken(subselects, tokens){
 
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = sortByProcedure;
@@ -13420,7 +13529,7 @@ module.exports = sortByProcedure;
 	(some types of selectors are faster than others)
 */
 
-var procedure = __webpack_require__(223);
+var procedure = __webpack_require__(224);
 
 var attributes = {
     __proto__: null,
@@ -13495,17 +13604,17 @@ function getProcedure(token) {
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module) {
 
 module.exports = {"universal":50,"tag":30,"attribute":1,"pseudo":0,"descendant":-1,"child":-1,"parent":-1,"sibling":-1,"adjacent":-1};
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var attributes = __webpack_require__(225);
-var Pseudos = __webpack_require__(226);
+var attributes = __webpack_require__(226);
+var Pseudos = __webpack_require__(227);
 
 /*
 	all available rules
@@ -13624,10 +13733,10 @@ module.exports = {
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var falseFunc = __webpack_require__(219).falseFunc;
+var falseFunc = __webpack_require__(220).falseFunc;
 
 //https://github.com/slevithan/XRegExp/blob/master/src/xregexp.js#L469
 var reChars = /[-[\]{}()*+?.,\\^$|#\s]/g;
@@ -13820,7 +13929,7 @@ module.exports = {
 
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -13836,9 +13945,9 @@ module.exports = {
 	  they need to return a boolean
 */
 
-var getNCheck = __webpack_require__(227);
-var BaseFuncs = __webpack_require__(219);
-var attributes = __webpack_require__(225);
+var getNCheck = __webpack_require__(228);
+var BaseFuncs = __webpack_require__(220);
+var attributes = __webpack_require__(226);
 var trueFunc = BaseFuncs.trueFunc;
 var falseFunc = BaseFuncs.falseFunc;
 
@@ -14244,11 +14353,11 @@ module.exports = {
 
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var parse = __webpack_require__(228),
-    compile = __webpack_require__(229);
+var parse = __webpack_require__(229),
+    compile = __webpack_require__(230);
 
 module.exports = function nthCheck(formula){
 	return compile(parse(formula));
@@ -14258,7 +14367,7 @@ module.exports.parse = parse;
 module.exports.compile = compile;
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports) {
 
 module.exports = parse;
@@ -14304,12 +14413,12 @@ function parse(formula){
 
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = compile;
 
-var BaseFuncs = __webpack_require__(219),
+var BaseFuncs = __webpack_require__(220),
     trueFunc  = BaseFuncs.trueFunc,
     falseFunc = BaseFuncs.falseFunc;
 
@@ -14347,141 +14456,6 @@ function compile(parsed){
 		return pos <= b && pos % a === bMod;
 	};
 }
-
-/***/ }),
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/* eslint-disable */
-
-// borrow from node-canvas (https://github.com/Automattic/node-canvas)
-
-/**
- * Font RegExp helpers.
- */
-
-var weights = 'bold|bolder|lighter|[1-9]00',
-    styles = 'italic|oblique',
-    variants = 'small-caps',
-    stretches = 'ultra-condensed|extra-condensed|condensed|semi-condensed|semi-expanded|expanded|extra-expanded|ultra-expanded',
-    units = 'px|pt|pc|in|cm|mm|%|em|ex|ch|rem|q|vw|vh',
-    string = '\'([^\']+)\'|"([^"]+)"|([\\w-]|[\u4E00-\u9FA5])+';
-
-// [ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]?
-//    <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ]
-// https://drafts.csswg.org/css-fonts-3/#font-prop
-var weightRe = new RegExp('(' + weights + ') +', 'i');
-var styleRe = new RegExp('(' + styles + ') +', 'i');
-var variantRe = new RegExp('(' + variants + ') +', 'i');
-var stretchRe = new RegExp('(' + stretches + ') +', 'i');
-var sizeFamilyRe = new RegExp('([\\d\\.]+)(' + units + ') *' + '((?:' + string + ')( *, *(?:' + string + '))*)');
-
-/**
- * Cache font parsing.
- */
-
-var cache = {};
-
-/**
- * Parse font `str`.
- *
- * @param {String} str
- * @return {Object} Parsed font. `size` is in device units. `unit` is the unit
- *   appearing in the input string.
- * @api private
- */
-
-module.exports = function f(str, defaultHeight) {
-  if (defaultHeight == null) {
-    if (typeof window !== 'undefined' && window.getComputedStyle) {
-      var root = window.getComputedStyle(document.documentElement).fontSize;
-      defaultHeight = f(root + ' Arial', 16).size;
-    } else {
-      defaultHeight = 16;
-    }
-  }
-
-  // Cached
-  if (cache[str]) return cache[str];
-
-  // Try for required properties first.
-  var sizeFamily = sizeFamilyRe.exec(str);
-  if (!sizeFamily) return; // invalid
-
-  // Default values and required properties
-  var font = {
-    weight: 'normal',
-    style: 'normal',
-    stretch: 'normal',
-    variant: 'normal',
-    size: parseFloat(sizeFamily[1]),
-    unit: sizeFamily[2],
-    family: sizeFamily[3].replace(/ *, */g, ',')
-
-    // Optional, unordered properties.
-  };var weight = void 0,
-      style = void 0,
-      variant = void 0,
-      stretch = void 0;
-  // Stop search at `sizeFamily.index`
-  var substr = str.substring(0, sizeFamily.index);
-  if (weight = weightRe.exec(substr)) font.weight = weight[1];
-  if (style = styleRe.exec(substr)) font.style = style[1];
-  if (variant = variantRe.exec(substr)) font.variant = variant[1];
-  if (stretch = stretchRe.exec(substr)) font.stretch = stretch[1];
-
-  font.size0 = font.size;
-
-  // Convert to device units. (`font.unit` is the original unit)
-  // TODO: ch, ex
-  switch (font.unit) {
-    case 'pt':
-      font.size /= 0.75;
-      break;
-    case 'pc':
-      font.size *= 16;
-      break;
-    case 'in':
-      font.size *= 96;
-      break;
-    case 'cm':
-      font.size *= 96.0 / 2.54;
-      break;
-    case 'mm':
-      font.size *= 96.0 / 25.4;
-      break;
-    case '%':
-      // TODO disabled because existing unit tests assume 100
-      // font.size *= defaultHeight / 100 / 0.75
-      break;
-    case 'em':
-    case 'rem':
-      font.size *= defaultHeight;
-      break;
-    case 'q':
-      font.size *= 96 / 25.4 / 4;
-      break;
-  }
-
-  if (font.unit === 'vw') {
-    if (typeof document !== 'undefined' && document.documentElement) {
-      var width = document.documentElement.clientWidth;
-      font.size = width * font.size / 100;
-    }
-  } else if (font.unit === 'vh') {
-    if (typeof document !== 'undefined' && document.documentElement) {
-      var height = document.documentElement.clientHeight;
-      font.size = height * font.size / 100;
-    }
-  }
-
-  return cache[str] = font;
-};
-
-/* eslint-enable */
 
 /***/ }),
 /* 231 */
@@ -14545,7 +14519,7 @@ var _entries = __webpack_require__(141);
 
 var _entries2 = _interopRequireDefault(_entries);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -14557,7 +14531,7 @@ var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _stringify = __webpack_require__(195);
+var _stringify = __webpack_require__(196);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -14575,13 +14549,13 @@ var _symbol2 = _interopRequireDefault(_symbol);
 
 var _class, _temp;
 
-var _stylesheet = __webpack_require__(198);
+var _stylesheet = __webpack_require__(199);
 
 var _stylesheet2 = _interopRequireDefault(_stylesheet);
 
 var _nodetype = __webpack_require__(233);
 
-var _attr2 = __webpack_require__(197);
+var _attr2 = __webpack_require__(198);
 
 var _attr3 = _interopRequireDefault(_attr2);
 
@@ -14626,6 +14600,13 @@ var BaseNode = (_temp = _class = function () {
       };
     }
   }, {
+    key: 'clearLayout',
+    value: function clearLayout() {
+      if (this.hasLayout) {
+        this.parent.clearLayout();
+      }
+    }
+  }, {
     key: 'merge',
     value: function merge(attrs) {
       this[_attr].merge(attrs);
@@ -14662,16 +14643,15 @@ var BaseNode = (_temp = _class = function () {
               }
               // fixed font inherit
               if ((key === 'fontSize' || key === 'fontFamily' || key === 'fontStyle' || key === 'fontVariant' || key === 'fontWeight') && !this.__attributeNames.has('font')) {
-                var parseFont = __webpack_require__(230);
                 var font = this.get('font') || 'normal normal normal 16px Arial';
-                var parsed = parseFont(font);
+                var parsed = (0, _utils.parseFont)(font);
                 parsed.fontSize = parsed.size + parsed.unit;
                 if (key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
                   value += 'px';
                 }
                 parsed[key] = value;
 
-                var _parseFont = parseFont(font),
+                var _parseFont = (0, _utils.parseFont)(font),
                     style = _parseFont.style,
                     variant = _parseFont.variant,
                     weight = _parseFont.weight,
@@ -15326,7 +15306,7 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -15343,7 +15323,7 @@ exports.createNode = createNode;
 exports.createElement = createElement;
 exports.isValidNodeType = isValidNodeType;
 
-var _selector = __webpack_require__(199);
+var _selector = __webpack_require__(200);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15472,7 +15452,7 @@ var _promise = __webpack_require__(124);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -15484,15 +15464,15 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -16016,15 +15996,15 @@ var _set2 = __webpack_require__(239);
 
 var _set3 = _interopRequireDefault(_set2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -16036,11 +16016,11 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -16052,7 +16032,7 @@ var _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 var _utils = __webpack_require__(156);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -16134,6 +16114,7 @@ var TextureAttr = (_class = function (_BaseSprite$Attr) {
         var attrSize = subject.attrSize;
         if (attrSize[0] === '' || attrSize[1] === '') {
           subject.reflow();
+          subject.clearLayout();
         }
       }
       subject.texturesSize = [width, height];
@@ -16375,11 +16356,11 @@ exports.default = Sprite;
 
 exports.__esModule = true;
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -16423,19 +16404,19 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _typeof2 = __webpack_require__(178);
+var _typeof2 = __webpack_require__(179);
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -16447,11 +16428,11 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -16467,25 +16448,24 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _desc, _value, _class, _desc2, _value2, _class2, _class3, _temp;
 
 var _cssLineBreak = __webpack_require__(241);
 
 var _utils = __webpack_require__(156);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
 var _nodetype = __webpack_require__(233);
 
-var _render = __webpack_require__(172);
+var _render = __webpack_require__(173);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _applyDecoratedDescriptor = __webpack_require__(231);
 
-var parseFont = __webpack_require__(230);
 var _boxSize = (0, _symbol2.default)('boxSize'),
     _outputText = (0, _symbol2.default)('outputText');
 
@@ -16509,7 +16489,7 @@ var measureText = function measureText(node, text, font) {
     width += letterSpacing * (text.length - 1);
   }
 
-  var _parseFont = parseFont(font),
+  var _parseFont = (0, _utils.parseFont)(font),
       size = _parseFont.size;
 
   var height = lineHeight || size * 1.2;
@@ -16586,13 +16566,14 @@ function calculTextboxSize(node) {
     var attrSize = node.attrSize;
     if (attrSize[0] === '' || attrSize[1] === '') {
       node.reflow();
+      node.clearLayout();
     }
   }
   node[_boxSize] = [width, height];
 }
 
 function setFontPart(font, part) {
-  var _Object$assign = (0, _assign2.default)(parseFont(font), part),
+  var _Object$assign = (0, _assign2.default)((0, _utils.parseFont)(font), part),
       style = _Object$assign.style,
       variant = _Object$assign.variant,
       weight = _Object$assign.weight,
@@ -16603,7 +16584,7 @@ function setFontPart(font, part) {
   return style + ' ' + variant + ' ' + weight + ' ' + size0 + unit + ' ' + family;
 }
 
-var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Arial'), _dec2 = (0, _utils.parseValue)(parseFloat), _dec3 = (0, _utils.inherit)(''), _dec4 = (0, _utils.inherit)('left'), _dec5 = (0, _utils.parseValue)(_utils.parseColorString), _dec6 = (0, _utils.inherit)(''), _dec7 = (0, _utils.parseValue)(_utils.parseColorString), _dec8 = (0, _utils.inherit)(''), _dec9 = (0, _utils.inherit)(''), _dec10 = (0, _utils.inherit)(''), _dec11 = (0, _utils.inherit)(0), _dec12 = (0, _utils.inherit)(0), _dec13 = (0, _utils.relative)('width'), _dec14 = (0, _utils.relative)('height'), (_class = function (_BaseSprite$Attr) {
+var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Arial'), _dec2 = (0, _utils.parseValue)(parseFloat), _dec3 = (0, _utils.inherit)(''), _dec4 = (0, _utils.inherit)('left'), _dec5 = (0, _utils.parseValue)(_utils.parseColorString), _dec6 = (0, _utils.inherit)(''), _dec7 = (0, _utils.parseValue)(_utils.parseColorString), _dec8 = (0, _utils.inherit)(''), _dec9 = (0, _utils.inherit)(''), _dec10 = (0, _utils.inherit)(''), _dec11 = (0, _utils.parseValue)(parseFloat), _dec12 = (0, _utils.inherit)(0), _dec13 = (0, _utils.parseValue)(parseFloat), _dec14 = (0, _utils.inherit)(0), _dec15 = (0, _utils.relative)('width'), _dec16 = (0, _utils.relative)('height'), (_class = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(LabelSpriteAttr, _BaseSprite$Attr);
 
   function LabelSpriteAttr(subject) {
@@ -16659,7 +16640,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     get: function get() {
       var font = this.font;
 
-      var _parseFont2 = parseFont(font),
+      var _parseFont2 = (0, _utils.parseFont)(font),
           size0 = _parseFont2.size0,
           unit = _parseFont2.unit;
 
@@ -16672,7 +16653,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       this.font = setFontPart(this.font, { family: val });
     },
     get: function get() {
-      return parseFont(this.font).family;
+      return (0, _utils.parseFont)(this.font).family;
     }
   }, {
     key: 'fontStyle',
@@ -16681,7 +16662,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       this.font = setFontPart(this.font, { style: val });
     },
     get: function get() {
-      return parseFont(this.font).style;
+      return (0, _utils.parseFont)(this.font).style;
     }
   }, {
     key: 'fontVariant',
@@ -16690,7 +16671,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       this.font = setFontPart(this.font, { variant: val });
     },
     get: function get() {
-      return parseFont(this.font).variant;
+      return (0, _utils.parseFont)(this.font).variant;
     }
   }, {
     key: 'fontWeight',
@@ -16699,7 +16680,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
       this.font = setFontPart(this.font, { weight: val });
     },
     get: function get() {
-      return parseFont(this.font).weight;
+      return (0, _utils.parseFont)(this.font).weight;
     }
   }, {
     key: 'lineHeight',
@@ -16753,14 +16734,12 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
   }, {
     key: 'letterSpacing',
     set: function set(value) {
-      if (typeof value === 'string') value = parseFloat(value);
       this.set('letterSpacing', value);
       calculTextboxSize(this.subject);
     }
   }, {
     key: 'textIndent',
     set: function set(value) {
-      if (typeof value === 'string') value = parseFloat(value);
       this.set('textIndent', value);
       calculTextboxSize(this.subject);
     }
@@ -16778,7 +16757,7 @@ var LabelSpriteAttr = (_dec = (0, _utils.inherit)('normal normal normal 16px Ari
     }
   }]);
   return LabelSpriteAttr;
-}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_utils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontSize', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontFamily', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontFamily'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontStyle', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontStyle'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontVariant', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontVariant'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontWeight', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontWeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec2, _utils.attr, _dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_utils.attr, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec5, _utils.attr, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec7, _utils.attr, _dec8], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_utils.attr, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_utils.attr, _dec10], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'letterSpacing', [_utils.attr, _dec11], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'letterSpacing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textIndent', [_utils.attr, _dec12], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textIndent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils.attr, _dec13], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec14], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), (_applyDecoratedDescriptor(_class.prototype, 'text', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'text'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'font', [_utils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'font'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontSize', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontSize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontFamily', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontFamily'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontStyle', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontStyle'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontVariant', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontVariant'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fontWeight', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fontWeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineHeight', [_dec2, _utils.attr, _dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textAlign', [_utils.attr, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textAlign'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'color', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'color'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'strokeColor', [_dec5, _utils.attr, _dec6], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'strokeColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fillColor', [_dec7, _utils.attr, _dec8], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fillColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'flexible', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'flexible'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'lineBreak', [_utils.attr, _dec9], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'lineBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'wordBreak', [_utils.attr, _dec10], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'wordBreak'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'letterSpacing', [_dec11, _utils.attr, _dec12], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'letterSpacing'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'textIndent', [_dec13, _utils.attr, _dec14], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'textIndent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils.attr, _dec15], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec16], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype)), _class));
 var Label = (_class2 = (_temp = _class3 = function (_BaseSprite) {
   (0, _inherits3.default)(Label, _BaseSprite);
 
@@ -16918,7 +16897,7 @@ var Label = (_class2 = (_temp = _class3 = function (_BaseSprite) {
       var textboxSize = this.textboxSize,
           contentSize = this.contentSize;
 
-      var _parseFont3 = parseFont(font),
+      var _parseFont3 = (0, _utils.parseFont)(font),
           style = _parseFont3.style,
           variant = _parseFont3.variant,
           weight = _parseFont3.weight,
@@ -17932,15 +17911,15 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -17952,11 +17931,11 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -17974,7 +17953,7 @@ var _basenode = __webpack_require__(232);
 
 var _basenode2 = _interopRequireDefault(_basenode);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -17992,7 +17971,7 @@ var _group3 = __webpack_require__(259);
 
 var _group4 = _interopRequireDefault(_group3);
 
-var _stylesheet = __webpack_require__(198);
+var _stylesheet = __webpack_require__(199);
 
 var _stylesheet2 = _interopRequireDefault(_stylesheet);
 
@@ -18454,7 +18433,7 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _set = __webpack_require__(158);
+var _set = __webpack_require__(159);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -18470,7 +18449,7 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _render = __webpack_require__(172);
+var _render = __webpack_require__(173);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18592,15 +18571,15 @@ var _toConsumableArray2 = __webpack_require__(98);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -18612,11 +18591,11 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -18624,11 +18603,11 @@ var _symbol = __webpack_require__(38);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
+var _dec, _dec2, _dec3, _dec4, _desc, _value, _class, _class2, _temp, _desc2, _value2, _class3, _class4, _temp2;
 
 var _utils = __webpack_require__(156);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
@@ -18653,7 +18632,7 @@ var _applyDecoratedDescriptor = __webpack_require__(231);
 var _zOrder = (0, _symbol2.default)('zOrder'),
     _layoutTag = (0, _symbol2.default)('layoutTag');
 
-var GroupAttr = (_dec = (0, _utils.relative)('width'), _dec2 = (0, _utils.relative)('height'), _dec3 = (0, _utils.relative)('width'), _dec4 = (0, _utils.relative)('height'), _dec5 = (0, _utils.parseValue)(parseFloat), _dec6 = (0, _utils.parseValue)(parseFloat), (_class = (_temp = _class2 = function (_BaseSprite$Attr) {
+var GroupAttr = (_dec = (0, _utils.relative)('width'), _dec2 = (0, _utils.relative)('height'), _dec3 = (0, _utils.parseValue)(parseFloat), _dec4 = (0, _utils.parseValue)(parseFloat), (_class = (_temp = _class2 = function (_BaseSprite$Attr) {
   (0, _inherits3.default)(GroupAttr, _BaseSprite$Attr);
 
   function GroupAttr(subject) {
@@ -18686,34 +18665,37 @@ var GroupAttr = (_dec = (0, _utils.relative)('width'), _dec2 = (0, _utils.relati
         this.set('clip', null);
       }
     }
-  }, {
-    key: 'width',
-    set: function set(value) {
-      this.subject.clearLayout();
-      this.set('width', value);
-    }
-  }, {
-    key: 'height',
-    set: function set(value) {
-      this.subject.clearLayout();
-      this.set('height', value);
-    }
+
+    // @attr
+    // @relative('width')
+    // set width(value) {
+    //   this.clearLayout();
+    //   this.set('width', value);
+    // }
+
+    // @attr
+    // @relative('height')
+    // set height(value) {
+    //   this.clearLayout();
+    //   this.set('height', value);
+    // }
+
   }, {
     key: 'layoutWidth',
     set: function set(value) {
-      this.subject.clearLayout();
+      this.clearLayout();
       this.set('layoutWidth', value);
     }
   }, {
     key: 'layoutHeight',
     set: function set(value) {
-      this.subject.clearLayout();
+      this.clearLayout();
       this.set('layoutHeight', value);
     }
   }, {
     key: 'display',
     set: function set(value) {
-      this.subject.clearLayout();
+      this.clearLayout();
       this.set('display', value);
     }
   }, {
@@ -18728,7 +18710,7 @@ var GroupAttr = (_dec = (0, _utils.relative)('width'), _dec2 = (0, _utils.relati
     }
   }]);
   return GroupAttr;
-}(_basesprite2.default.Attr), _class2.inits = [], _temp), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'width', [_utils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'width'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'height', [_utils.attr, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'height'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec3], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils.attr, _dec4], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec5, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec6, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollTop'), _class.prototype)), _class));
+}(_basesprite2.default.Attr), _class2.inits = [], _temp), (_applyDecoratedDescriptor(_class.prototype, 'clip', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clip'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutWidth', [_utils.attr, _dec], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutWidth'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'layoutHeight', [_utils.attr, _dec2], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'layoutHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display', [_utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'display'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollLeft', [_dec3, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollLeft'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'scrollTop', [_dec4, _utils.attr], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'scrollTop'), _class.prototype)), _class));
 
 
 var _layout = (0, _symbol2.default)('layout');
@@ -18912,11 +18894,7 @@ var Group = (_class3 = (_temp2 = _class4 = function (_BaseSprite) {
     key: 'clearLayout',
     value: function clearLayout() {
       this[_layoutTag] = false;
-      var parent = this.parent;
-      while (parent) {
-        if (parent[_layoutTag]) parent[_layoutTag] = false;
-        parent = parent.parent;
-      }
+      if (this.hasLayout) this.parent.clearLayout();
     }
   }, {
     key: 'draw',
@@ -21945,11 +21923,11 @@ var _slicedToArray2 = __webpack_require__(89);
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-var _get2 = __webpack_require__(185);
+var _get2 = __webpack_require__(186);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _getOwnPropertyDescriptor = __webpack_require__(174);
+var _getOwnPropertyDescriptor = __webpack_require__(175);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
@@ -21957,7 +21935,7 @@ var _assign = __webpack_require__(1);
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _getPrototypeOf = __webpack_require__(181);
+var _getPrototypeOf = __webpack_require__(182);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
@@ -21969,11 +21947,11 @@ var _createClass2 = __webpack_require__(115);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__(184);
+var _possibleConstructorReturn2 = __webpack_require__(185);
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = __webpack_require__(186);
+var _inherits2 = __webpack_require__(187);
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -21981,11 +21959,11 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class
 
 var _utils = __webpack_require__(156);
 
-var _basesprite = __webpack_require__(173);
+var _basesprite = __webpack_require__(174);
 
 var _basesprite2 = _interopRequireDefault(_basesprite);
 
-var _render = __webpack_require__(172);
+var _render = __webpack_require__(173);
 
 var _path = __webpack_require__(249);
 
