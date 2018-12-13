@@ -2,7 +2,6 @@ import {parseColorString, parseValue, parseStringFloat, attr, flow, inherit} fro
 import BaseSprite from './basesprite';
 import {findColor} from './helpers/render';
 import {pathEffect, createSvgPath} from './helpers/path';
-import {registerNodeType} from './nodetype';
 
 class PathSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {
@@ -337,5 +336,3 @@ Path.setAttributeEffects({
     return pathEffect(path1.d, path2.d, p, start, end);
   },
 });
-
-registerNodeType('path', Path);

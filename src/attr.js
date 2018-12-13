@@ -1,5 +1,4 @@
 import {attr, deprecate} from './utils';
-import stylesheet from './stylesheet';
 
 const _attr = Symbol('attr'),
   _style = Symbol('style'),
@@ -7,7 +6,11 @@ const _attr = Symbol('attr'),
   _subject = Symbol('subject'),
   _default = Symbol('default');
 
-class SpriteAttr {
+export default class Attr {
+  static relatedAttributes = new Set();
+
+  static attrDefaultValues = {};
+
   constructor(subject) {
     this[_subject] = subject;
     this[_default] = {};
@@ -27,6 +30,8 @@ class SpriteAttr {
       writable: true,
       value: false,
     });
+
+    this.setDefault(Attr.attrDefaultValues);
   }
 
   get __attr() {
@@ -64,7 +69,7 @@ class SpriteAttr {
       const dataKey = key.slice(5);
       oldVal = this.subject.data(dataKey);
       this.subject.data(dataKey, val);
-    } else {
+    } else if(!this.__styleTag) {
       if(val != null) {
         this.__attributesSet.add(key);
       } else {
@@ -75,8 +80,12 @@ class SpriteAttr {
       }
       oldVal = this[_attr][key];
       this[_attr][key] = val;
+    } else if(val != null) {
+      this[_style][key] = val;
+    } else {
+      delete this[_style][key];
     }
-    if(stylesheet.relatedAttributes.has(key)) {
+    if(!this.__styleTag && Attr.relatedAttributes.has(key)) {
       if(typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
         this.subject.updateStyles();
       }
@@ -118,7 +127,7 @@ class SpriteAttr {
     }
     if(!this.__styleTag) {
       this[_attr][key] = val;
-      if(stylesheet.relatedAttributes.has(key)) {
+      if(Attr.relatedAttributes.has(key)) {
         this.subject.updateStyles();
       }
     }
@@ -139,8 +148,10 @@ class SpriteAttr {
   getAttributes(ignoreDefault = true) {
     const ret = {};
     if(!ignoreDefault) {
-      [...this.__attributeNames].forEach((key) => {
-        ret[key] = this[key];
+      Object.keys(this[_attr]).forEach((key) => {
+        if(this[key] !== undefined) {
+          ret[key] = this[key];
+        }
       });
     }
     [...this.__attributesSet].forEach((key) => {
@@ -198,5 +209,3 @@ class SpriteAttr {
     return this.quietSet('class', String(val));
   }
 }
-
-export default SpriteAttr;

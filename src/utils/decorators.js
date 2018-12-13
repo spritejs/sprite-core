@@ -24,10 +24,6 @@ function getPV(subject, relative) {
 }
 
 export function attr(target, prop, descriptor) {
-  if(!target.hasOwnProperty('__attributeNames')) { // eslint-disable-line no-prototype-builtins
-    target.__attributeNames = new Set(target.__attributeNames);
-  }
-  target.__attributeNames.add(prop);
   let _getter = descriptor.get;
   if(!_getter) {
     _getter = function () {
@@ -151,7 +147,9 @@ export const inheritAttributes = new Set();
 // after attr
 export function inherit(defaultValue = '') {
   return function (target, prop, descriptor) {
-    target.__inheritDefaults = target.__inheritDefaults || {};
+    if(!target.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
+      target.__inheritDefaults = {}; // Object.assign({}, target.__inheritDefaults);
+    }
     target.__inheritDefaults[prop] = defaultValue;
     descriptor.__inherit = true;
     inheritAttributes.add(prop);
@@ -239,10 +237,8 @@ export function setDeprecation(apiName, msg = '') {
   notice(msg);
 }
 
-export function deprecate(...args) {
-  let msg = '',
-    apiName = '';
-  function decorator(target, prop, descriptor) {
+export function deprecate(apiName, msg = '') {
+  return function decorator(target, prop, descriptor) {
     apiName = apiName || `${target.constructor.name}#${prop}`;
     if(typeof descriptor.value === 'function') {
       const func = descriptor.value;
@@ -265,17 +261,7 @@ export function deprecate(...args) {
         return getter.call(this);
       };
     }
-  }
-  if(args.length === 1) {
-    msg = args[0];
-    return decorator;
-  }
-  if(args.length === 2) {
-    apiName = args[0];
-    msg = args[1];
-    return decorator;
-  }
-  return decorator(...args);
+  };
 }
 
 // before attr

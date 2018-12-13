@@ -14,7 +14,7 @@ module.exports = function (env = {}) {
   const aliasFields = ['browser', 'esnext'];
   const output = {
     path: path.resolve(__dirname, 'dist'),
-    filename: env.esnext ? 'sprite-core.es6' : 'sprite-core',
+    filename: env.esnext ? '[name].es6' : '[name]',
     publicPath: '/js/',
     library: 'spritejs',
     libraryTarget: env.esnext ? 'commonjs2' : 'umd',
@@ -28,7 +28,9 @@ module.exports = function (env = {}) {
 
   return {
     mode: env.production ? 'production' : 'none',
-    entry: './src/index',
+    entry: {
+      'sprite-core': './src/index',
+    },
     output,
 
     module: {

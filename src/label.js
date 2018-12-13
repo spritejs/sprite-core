@@ -1,7 +1,6 @@
 import {LineBreaker} from 'css-line-break';
 import {parseValue, parseColorString, attr, flow, inherit, relative, parseFont} from './utils';
 import BaseSprite from './basesprite';
-import {registerNodeType} from './nodetype';
 
 import {findColor} from './helpers/render';
 
@@ -123,14 +122,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   set text(val) {
     val = String(val);
     this.set('text', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
   @inherit('normal normal normal 16px Arial')
   set font(val) {
     this.set('font', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
@@ -200,14 +199,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit('')
   set lineHeight(val) {
     this.set('lineHeight', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
   @inherit('left')
   set textAlign(val) {
     this.set('textAlign', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
@@ -242,14 +241,14 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit('')
   set lineBreak(val) { // normal, strict, none
     this.set('lineBreak', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
   @inherit('')
   set wordBreak(val) { // normal | break-all | break-word | keep-all
     this.set('wordBreak', val);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @parseValue(parseFloat)
@@ -257,7 +256,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit(0)
   set letterSpacing(value) {
     this.set('letterSpacing', value);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @parseValue(parseFloat)
@@ -265,21 +264,21 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit(0)
   set textIndent(value) {
     this.set('textIndent', value);
-    calculTextboxSize(this.subject);
+    this.subject.retypesetting();
   }
 
   @attr
   @relative('width')
   set width(val) {
     this.set('width', val);
-    if(this.lineBreak !== '') calculTextboxSize(this.subject);
+    if(this.lineBreak !== '') this.subject.retypesetting();
   }
 
   @attr
   @relative('height')
   set layoutWidth(val) {
     this.set('layoutWidth', val);
-    if(this.lineBreak !== '') calculTextboxSize(this.subject);
+    if(this.lineBreak !== '') this.subject.retypesetting();
   }
 }
 
@@ -336,8 +335,16 @@ export default class Label extends BaseSprite {
   }
 
   retypesetting() {
-    calculTextboxSize(this);
+    // calculTextboxSize(this);
+    this[_boxSize] = false;
+    this[_outputText] = null;
+    this.reflow();
     this.forceUpdate(true);
+  }
+
+  restyle() {
+    super.restyle();
+    this.retypesetting();
   }
 
   render(t, drawingContext) {
@@ -432,5 +439,3 @@ export default class Label extends BaseSprite {
     }
   }
 }
-
-registerNodeType('label', Label);

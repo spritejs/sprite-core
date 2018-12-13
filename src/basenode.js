@@ -1,5 +1,4 @@
-import stylesheet from './stylesheet';
-import {registerNodeType} from './nodetype';
+// import stylesheet from './stylesheet';
 import NodeAttr from './attr';
 import {inheritAttributes, parseFont} from './utils';
 
@@ -8,8 +7,7 @@ const _eventHandlers = Symbol('eventHandlers'),
   _data = Symbol('data'),
   _mouseCapture = Symbol('mouseCapture');
 
-const _attr = Symbol('attr'),
-  _style = Symbol('style');
+const _attr = Symbol('attr');
 
 export default class BaseNode {
   static Attr = NodeAttr;
@@ -19,7 +17,6 @@ export default class BaseNode {
   constructor(attrs) {
     this[_eventHandlers] = {};
     this[_data] = {};
-    this[_style] = {};
     this[_attr] = new this.constructor.Attr(this);
     if(attrs) {
       this.attr(attrs);
@@ -64,7 +61,7 @@ export default class BaseNode {
 
   attr(props, val) {
     const setVal = (key, value) => {
-      if(!this[_attr].__attributeNames.has(key) && !(key in this[_attr])) {
+      if(!(key in this[_attr])) {
         Object.defineProperty(this[_attr], key, {
           // enumerable: true,
           configurable: true,
@@ -72,15 +69,15 @@ export default class BaseNode {
             const subject = this.subject;
             this.quietSet(key, value);
             // fixed color inherit
-            if(key === 'color' && !this.__attributeNames.has('fillColor')) {
+            if(key === 'color') {
               subject.attr('fillColor', value);
             }
             // fixed font inherit
-            if((key === 'fontSize'
+            if(key === 'fontSize'
               || key === 'fontFamily'
               || key === 'fontStyle'
               || key === 'fontVariant'
-              || key === 'fontWeight') && !this.__attributeNames.has('font')) {
+              || key === 'fontWeight') {
               const font = this.get('font') || 'normal normal normal 16px Arial';
               const parsed = parseFont(font);
               parsed.fontSize = parsed.size + parsed.unit;
@@ -88,7 +85,7 @@ export default class BaseNode {
                 value += 'px';
               }
               parsed[key] = value;
-              const {style, variant, weight, family, fontSize} = parseFont(font);
+              const {style, variant, weight, family, fontSize} = parsed;
               subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
             }
             if(key === 'font'
@@ -112,9 +109,6 @@ export default class BaseNode {
         });
       }
       this[_attr][key] = value;
-      // if(stylesheet.relatedAttributes.has(key)) {
-      //   this.updateStyles();
-      // }
     };
     if(typeof props === 'object') {
       Object.entries(props).forEach(([prop, value]) => {
@@ -162,71 +156,6 @@ export default class BaseNode {
     return this[_attr];
   }
 
-  get attributes() {
-    if(typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            return prop in target ? target[prop] : target.get(prop);
-          },
-          set(target, prop, value) {
-            if(typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;
-            else target.subject.attr(prop, value);
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if(typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];
-            else target.subject.attr(prop, null);
-            return true;
-          },
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
-  }
-
-  get style() {
-    if(typeof Proxy === 'function') {
-      try {
-        return new Proxy(this[_attr], {
-          get(target, prop) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              return target[prop];
-            }
-            return target.subject[_style][prop];
-          },
-          set(target, prop, value) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              target.subject.attr(prop, value);
-            } else {
-              target.subject[_style][prop] = value;
-            }
-            return true;
-          },
-          deleteProperty(target, prop) {
-            if(prop !== 'id' && prop !== 'name' && prop !== 'class'
-              && target.__attributeNames.has(prop)
-              || inheritAttributes.has(prop)) {
-              target.subject.attr(prop, null);
-            } else {
-              delete target.subject[_style][prop];
-            }
-            return true;
-          },
-        });
-      } catch (ex) {
-        return this[_attr];
-      }
-    }
-    return this[_attr];
-  }
-
   forceUpdate() {
     const parent = this.parent;
     if(parent) {
@@ -234,13 +163,17 @@ export default class BaseNode {
     }
   }
 
+  restyle() {
+    // stylesheet.computeStyle(this);
+  }
+
   draw() {
     const styleNeedUpdate = this.__styleNeedUpdate;
     if(styleNeedUpdate) {
-      stylesheet.computeStyle(this);
+      this.restyle();
       if(this.querySelectorAll) {
         const children = this.querySelectorAll('*');
-        children.forEach(child => stylesheet.computeStyle(child));
+        children.forEach(child => child.restyle());
       }
       if(styleNeedUpdate === 'siblings') {
         if(this.parent) {
@@ -249,10 +182,10 @@ export default class BaseNode {
           const len = children.length;
           for(let i = index + 1; i < len; i++) {
             const node = children[i];
-            stylesheet.computeStyle(node);
+            node.restyle();
             if(node.querySelectorAll) {
               const nodes = node.querySelectorAll('*');
-              nodes.forEach(child => stylesheet.computeStyle(child));
+              nodes.forEach(child => child.restyle());
             }
           }
         }
@@ -270,7 +203,7 @@ export default class BaseNode {
       if(this.attr) {
         const attrKey = `data-${key}`;
         // this.attr(attrKey, value);
-        if(stylesheet.relatedAttributes.has(attrKey)) {
+        if(NodeAttr.relatedAttributes.has(attrKey)) {
           this.updateStyles();
         }
       }
@@ -350,15 +283,6 @@ export default class BaseNode {
       delete this[_eventHandlers][type];
     }
     return this;
-  }
-
-  // d3-friendly
-  addEventListener(type, handler) {
-    return this.on(type, handler);
-  }
-
-  removeEventListener(type, handler) {
-    return this.off(type, handler);
   }
 
   remove(exit = true) {
@@ -482,41 +406,6 @@ export default class BaseNode {
     return isCollision;
   }
 
-  get parentNode() {
-    return this.parent;
-  }
-
-  getNodeNearBy(distance = 1, isElement = false) {
-    if(!this.parent) return null;
-    if(distance === 0) return this;
-    const children = isElement ? this.parent.children : this.parent.childNodes;
-    const idx = children.indexOf(this);
-    return children[idx + distance];
-  }
-
-  get nextSibling() {
-    return this.getNodeNearBy(1);
-  }
-
-  get previousSibling() {
-    return this.getNodeNearBy(-1);
-  }
-
-  get nextElementSibling() {
-    return this.getNodeNearBy(1, true);
-  }
-
-  get previousElementSibling() {
-    return this.getNodeNearBy(-1, true);
-  }
-
-  contains(node) {
-    while(node && this !== node) {
-      node = node.parent;
-    }
-    return !!node;
-  }
-
   // called when layer appendChild
   connect(parent, zOrder = 0) {
     if(this.parent) {
@@ -591,21 +480,6 @@ export default class BaseNode {
     return this;
   }
 
-  getAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop);
-  }
-
-  setAttribute(prop, val) {
-    /* istanbul ignore next */
-    return this.attr(prop, val);
-  }
-
-  removeAttribute(prop) {
-    /* istanbul ignore next */
-    return this.attr(prop, null);
-  }
-
   set id(val) {
     this.attr('id', val);
   }
@@ -630,5 +504,3 @@ export default class BaseNode {
     return this.attr('class');
   }
 }
-
-registerNodeType('node', BaseNode, true);

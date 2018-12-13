@@ -1,4 +1,4 @@
-import {parseColorString} from './utils';
+import {parseColorString} from '../../utils';
 
 const CSSselect = require('css-select');
 

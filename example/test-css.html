@@ -23,6 +23,7 @@
     }
     layer.abc {
       font: bold 32px serif;
+      background-color: black;
     }
     /* group.list {
       --sprite-pos: 100, 50;
@@ -68,6 +69,7 @@ for(let i = 0; i < 10; i++) {
   const s = new Label(`line ${i}`);
   s.attr({
     y: 50 + i * 50,
+    border: [1, 'cyan'],
   });
   group.append(s);
 }

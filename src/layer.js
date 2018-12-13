@@ -4,11 +4,10 @@ import BaseNode from './basenode';
 import BaseSprite from './basesprite';
 import Batch from './batch';
 import Group from './group';
-import {registerNodeType} from './nodetype';
 
 import groupApi from './helpers/group';
 
-import stylesheet from './stylesheet';
+// import stylesheet from './stylesheet';
 
 import {setDeprecation, parseValue, parseColorString, attr} from './utils';
 
@@ -95,8 +94,12 @@ export default class Layer extends BaseNode {
       });
     }
     if(useDocumentCSS) {
-      stylesheet.fromDocumentCSS();
+      this.fromDocumentCSS();
     }
+  }
+
+  fromDocumentCSS() {
+    // stylesheet.fromDocumentCSS();
   }
 
   get resolution() {
@@ -166,10 +169,22 @@ export default class Layer extends BaseNode {
     return this.prepareRender();
   }
 
-  draw(clearContext = true) {
-    if(this.__styleNeedUpdate) {
-      stylesheet.computeStyle(this);
+  restyle() {
+    const bgcolor = this.style.bgcolor;
+    super.restyle();
+    if(bgcolor) {
+      const color = this.attr('bgcolor');
+      if(color !== bgcolor && this.canvas && this.canvas.style) {
+        this.canvas.style = color;
+      }
     }
+  }
+
+  draw(clearContext = true) {
+    // if(this.__styleNeedUpdate) {
+    //   stylesheet.computeStyle(this);
+    // }
+    super.draw();
     const renderDeferrer = this[_renderDeferer];
     this[_renderDeferer] = null;
     if(this[_drawTask]) {
@@ -371,5 +386,3 @@ export default class Layer extends BaseNode {
 }
 
 Object.assign(Layer.prototype, groupApi);
-
-registerNodeType('layer', Layer, true);

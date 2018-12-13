@@ -1,12 +1,12 @@
-import {isMatched, compile} from './selector';
-import {parseFont, sizeToPixel} from './utils';
+import {isMatched, compile} from '../dom/selector';
+import {parseFont, sizeToPixel} from '../../utils';
+import Attr from '../../attr';
 
+const relatedAttributes = Attr.relatedAttributes;
 const cssWhat = require('css-what');
 
 let cssRules = [];
 const keyFrames = {};
-
-const relatedAttributes = new Set();
 
 const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');

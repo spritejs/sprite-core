@@ -39,16 +39,16 @@
     "url": "https://github.com/spritejs/sprite-core/issues"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.24.0",
-    "babel-eslint": "^8.1.1",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-inline-package-json": "^2.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-decorators-runtime": "^0.4.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.3.2",
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/plugin-proposal-decorators": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "ava": "^1.0.0-rc.2",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
     "colors": "^1.2.1",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
@@ -77,14 +77,17 @@
       "!**/test/label.js"
     ],
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
-    "babel": "inherit"
+    "babel": {
+      "testOptions": {
+        "babelrc": true
+      }
+    }
   },
   "homepage": "https://github.com/spritejs/sprite-core#readme",
   "dependencies": {
-    "babel-decorators-runtime": "^0.2.0",
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "^7.2.0",
     "color-string": "^1.5.3",
     "css-line-break": "^1.0.1",
     "css-select": "^2.0.2",

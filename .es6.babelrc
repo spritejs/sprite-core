@@ -1,7 +1,12 @@
 {
   "presets": [],
   "plugins": [
-    "transform-decorators-runtime",
-    "transform-class-properties",
-    "inline-package-json"]
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "@babel/plugin-proposal-class-properties"
+  ]
 }

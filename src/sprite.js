@@ -2,8 +2,6 @@ import {attr, flow, setDeprecation, generateID} from './utils';
 import BaseSprite from './basesprite';
 import filters from './filters';
 
-import {registerNodeType} from './nodetype';
-
 const _texturesCache = Symbol('_texturesCache');
 const _images = Symbol('_images');
 
@@ -247,5 +245,3 @@ export default class Sprite extends BaseSprite {
     }
   }
 }
-
-registerNodeType('sprite', Sprite);

@@ -113,7 +113,7 @@ test('draw path 4', async (t) => {
   t.truthy(isEqual);
 });
 
-test('draw path 4', async (t) => {
+test('draw path 5', async (t) => {
   const canvas = createCanvas(800, 800),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -165,7 +165,7 @@ test('draw path 4', async (t) => {
   t.is(s.svg, null);
 });
 
-test('draw path 4-2', async (t) => {
+test('draw path 5-2', async (t) => {
   const canvas = createCanvas(800, 800),
     layer = new Layer({context: canvas.getContext('2d')});
 
