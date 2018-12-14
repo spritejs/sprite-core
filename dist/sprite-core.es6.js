@@ -107,33 +107,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "math", function() { return sprite_math__WEBPACK_IMPORTED_MODULE_2__; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(110);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return _utils__WEBPACK_IMPORTED_MODULE_3__; });
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(119);
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(120);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BaseSprite", function() { return _basesprite__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(127);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(128);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Sprite", function() { return _sprite__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(128);
+/* harmony import */ var _label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(129);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Label", function() { return _label__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(134);
+/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(135);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Layer", function() { return _layer__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(136);
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(137);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _group__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(122);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(123);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BaseNode", function() { return _basenode__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(140);
+/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(141);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Path", function() { return _path__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(135);
+/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(136);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Batch", function() { return _batch__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
-/* harmony import */ var _use__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(141);
+/* harmony import */ var _use__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(142);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "use", function() { return _use__WEBPACK_IMPORTED_MODULE_12__["default"]; });
 
+/* harmony import */ var _modules_layout__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(143);
+/* harmony import */ var _modules_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(152);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelector", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["querySelector"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelectorAll", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["querySelectorAll"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["registerNodeType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["isValidNodeType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["createNode"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return _modules_dom__WEBPACK_IMPORTED_MODULE_14__["createElement"]; });
+
+/* harmony import */ var _modules_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(185);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stylesheet", function() { return _modules_css__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+
+/* harmony import */ var _modules_actions__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(187);
 
 
 
@@ -147,17 +165,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // load modules
-// import './modules/layout';
-// import {
-//   registerNodeType,
-//   createNode,
-//   createElement,
-//   isValidNodeType,
-//   querySelector,
-//   querySelectorAll,
-// } from './modules/dom';
-// import stylesheet from './modules/css';
-// import './modules/actions';
+
+
+
+
 
 const Color = _utils__WEBPACK_IMPORTED_MODULE_3__["Color"];
 
@@ -4422,10 +4433,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setDeprecation", function() { return _decorators__WEBPACK_IMPORTED_MODULE_2__["setDeprecation"]; });
 
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(118);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findColor", function() { return _helpers_render__WEBPACK_IMPORTED_MODULE_3__["findColor"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "decorators", function() { return _decorators__WEBPACK_IMPORTED_MODULE_2__["decorators"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cacheContextPool", function() { return _helpers_render__WEBPACK_IMPORTED_MODULE_3__["cacheContextPool"]; });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(118);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "attributeNames", function() { return _store__WEBPACK_IMPORTED_MODULE_3__["attributeNames"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relatedAttributes", function() { return _store__WEBPACK_IMPORTED_MODULE_3__["relatedAttributes"]; });
+
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(119);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findColor", function() { return _helpers_render__WEBPACK_IMPORTED_MODULE_4__["findColor"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cacheContextPool", function() { return _helpers_render__WEBPACK_IMPORTED_MODULE_4__["cacheContextPool"]; });
+
 
 
 
@@ -5233,7 +5252,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDeprecation", function() { return setDeprecation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deprecate", function() { return deprecate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseValue", function() { return parseValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decorators", function() { return decorators; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(112);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(118);
+
 
 
 const _attrAbsolute = Symbol('attrAbsolute');
@@ -5265,236 +5287,364 @@ function getPV(subject, relative) {
   return pv;
 }
 
-function attr(target, prop, descriptor) {
-  let _getter = descriptor.get;
+function attr(options) {
+  let cache = false,
+      reflow = false,
+      relayout = false,
+      quiet = false,
+      value = null;
 
-  if (!_getter) {
-    _getter = function () {
-      return this.get(prop);
-    };
-  }
+  const decorator = function (elementDescriptor) {
+    const {
+      key,
+      kind,
+      placement
+    } = elementDescriptor;
+    _store__WEBPACK_IMPORTED_MODULE_1__["attributeNames"].add(key);
 
-  if (!descriptor.__relative && !descriptor.__inherit) {
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-
-      if (ret == null) {
-        ret = this.get(prop);
-      }
-
-      return ret;
-    };
-  } else if (descriptor.__relative) {
-    // enable set default to user defined getter
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-
-      const subject = this.subject;
-
-      if (ret == null) {
-        ret = this.get(prop);
-      } else if (ret.relative) {
-        const relative = ret.relative.trim();
-
-        if (relative === 'pw' || relative === 'ph') {
-          const pv = getPV(subject, relative);
-
-          if (pv !== ret.pv) {
-            this[prop] = ret.rv;
-            return this[prop];
-          }
-
-          subject.cache = null;
-
-          if (subject[_attrAbsolute]) {
-            return pv * ret.v;
-          }
-
-          return ret.rv;
-        }
-
-        if (relative === 'rw' || relative === 'rh') {
-          const layer = subject.layer;
-          let pv = null;
-
-          if (layer) {
-            if (relative === 'rw') {
-              pv = layer.resolution[0];
-            } else if (relative === 'rh') {
-              pv = layer.resolution[1];
-            }
-          }
-
-          if (pv !== ret.pv) {
-            this[prop] = ret.rv;
-            return this[prop];
-          }
-
-          subject.cache = null;
-
-          if (subject[_attrAbsolute]) {
-            return pv * ret.v;
-          }
-
-          return ret.rv;
-        }
-      }
-
-      return ret;
-    };
-  } else {
-    // enable set default to user defined getter
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-
-      const subject = this.subject;
-
-      if (ret == null) {
-        ret = this.get(prop);
-      } else if (ret === 'inherit') {
-        let value = null;
-        let parent = subject.parent;
-
-        while (parent && parent.attr) {
-          value = parent.attr(prop);
-          if (value != null) break;
-          parent = parent.parent;
-        }
-
-        return value != null ? value : this.__inheritDefaults[prop]; // return this.__inheritDefaults[prop];
-      }
-
-      return ret;
-    };
-  }
-
-  const _setter = descriptor.set;
-
-  const _clearCache = !descriptor.__cachable;
-
-  descriptor.set = function (val) {
-    const subject = this.subject;
-    this.__updateTag = false;
-    this.__reflowTag = false;
-    this.__clearLayout = false;
-
-    _setter.call(this, val);
-
-    if (subject && subject.hasLayout) {
-      const offsetSize = subject.boxOffsetSize,
-            layoutSize = subject.__lastLayout;
-
-      if (this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-        subject.clearLayout();
-      }
-
-      subject.__lastLayout = offsetSize;
+    if (quiet && (cache || reflow || relayout)) {
+      throw new Error(`${key}: quietSet cannot enable cache or reflow or relayout`);
     }
 
-    if (this.subject && this.__updateTag) {
-      subject.forceUpdate(_clearCache);
+    let _symbolKey = key,
+        defaultValue = value != null ? value : elementDescriptor.value;
 
-      if (this.__reflowTag) {
-        subject.reflow();
+    if (kind === 'field') {
+      defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : value;
+      _symbolKey = Symbol(key);
+      const setter = quiet ? function (val) {
+        this.quietSet(_symbolKey, val);
+      } : function (val) {
+        this.set(_symbolKey, val);
+      };
+      elementDescriptor = {
+        kind: 'method',
+        key,
+        placement,
+        descriptor: {
+          set: setter,
+
+          get() {
+            return this.get(_symbolKey);
+          }
+
+        }
+      };
+    }
+
+    const relativeType = elementDescriptor.descriptor.__relative;
+
+    if (relativeType) {
+      elementDescriptor = applyRative(elementDescriptor, relativeType);
+    }
+
+    const inheritValue = elementDescriptor.descriptor.__inherit;
+
+    if (inheritValue) {
+      elementDescriptor = applyInherit(elementDescriptor, inheritValue.defaultValue);
+    }
+
+    const descriptor = elementDescriptor.descriptor;
+    let _getter = descriptor.get;
+
+    if (!_getter) {
+      _getter = function () {
+        const ret = this.get(key);
+        return ret != null ? ret : this.getDefaultValue(key, defaultValue);
+      };
+    }
+
+    if (!descriptor.__relative && !descriptor.__inherit) {
+      descriptor.get = function () {
+        const ret = _getter.call(this);
+
+        return ret != null ? ret : this.getDefaultValue(key, defaultValue);
+      };
+    } else if (descriptor.__relative) {
+      // enable set default to user defined getter
+      descriptor.get = function () {
+        let ret = _getter.call(this);
+
+        const subject = this.subject;
+
+        if (ret == null) {
+          ret = this.getDefaultValue(key, defaultValue);
+        } else if (ret.relative) {
+          const relative = ret.relative.trim();
+
+          if (relative === 'pw' || relative === 'ph') {
+            const pv = getPV(subject, relative);
+
+            if (pv !== ret.pv) {
+              this[key] = ret.rv;
+              return this[key];
+            }
+
+            subject.cache = null;
+
+            if (subject[_attrAbsolute]) {
+              return pv * ret.v;
+            }
+
+            return ret.rv;
+          }
+
+          if (relative === 'rw' || relative === 'rh') {
+            const layer = subject.layer;
+            let pv = null;
+
+            if (layer) {
+              if (relative === 'rw') {
+                pv = layer.resolution[0];
+              } else if (relative === 'rh') {
+                pv = layer.resolution[1];
+              }
+            }
+
+            if (pv !== ret.pv) {
+              this[key] = ret.rv;
+              return this[key];
+            }
+
+            subject.cache = null;
+
+            if (subject[_attrAbsolute]) {
+              return pv * ret.v;
+            }
+
+            return ret.rv;
+          }
+        }
+
+        return ret;
+      };
+    } else {
+      // enable set default to user defined getter
+      descriptor.get = function () {
+        let ret = _getter.call(this);
+
+        const subject = this.subject;
+
+        if (ret == null) {
+          ret = this.getDefaultValue(key, defaultValue);
+        } else if (ret === 'inherit') {
+          let value = null;
+          let parent = subject.parent;
+
+          while (parent && parent.attr) {
+            value = parent.attr(key);
+            if (value != null) break;
+            parent = parent.parent;
+          }
+
+          return value != null ? value : this.__inheritDefaults[key];
+        }
+
+        return ret;
+      };
+    }
+
+    const _setter = descriptor.set;
+
+    const _clearCache = !(descriptor.__cachable || cache);
+
+    descriptor.set = function (val) {
+      const subject = this.subject;
+      this.__updateTag = false;
+      this.__reflowTag = reflow;
+      this.__clearLayout = relayout;
+
+      if (!this.__styleTag && val != null && this.__attributesSet) {
+        this.__attributesSet.add(key);
       }
-    } // delete this.__reflowTag;
-    // delete this.__updateTag;
 
+      if (!this.__styleTag && val == null && this.__attributesSet) {
+        if (this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+
+      _setter.call(this, val);
+
+      if (subject && !this.__quietTag && this.__updateTag) {
+        if (subject.hasLayout) {
+          const offsetSize = subject.boxOffsetSize,
+                layoutSize = subject.__lastLayout;
+
+          if (this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+            subject.clearLayout();
+          }
+
+          subject.__lastLayout = offsetSize;
+        }
+
+        subject.forceUpdate(_clearCache);
+
+        if (this.__reflowTag) {
+          subject.reflow();
+        }
+      }
+
+      if (this.__updateTag) {
+        if (_store__WEBPACK_IMPORTED_MODULE_1__["relatedAttributes"].has(key)) {
+          subject.updateStyles();
+        }
+      } // delete this.__reflowTag;
+      // delete this.__updateTag;
+
+    };
+
+    return elementDescriptor;
   };
 
-  return descriptor;
+  if (options.descriptor) {
+    return decorator(options);
+  }
+
+  quiet = !!options.quiet;
+  cache = !!options.cache;
+  reflow = !!options.reflow;
+  relayout = !!options.relayout;
+  value = options.value;
+  return decorator;
 } // after attr
 
-function cachable(target, prop, descriptor) {
+function cachable(elementDescriptor) {
+  const {
+    descriptor
+  } = elementDescriptor;
   descriptor.__cachable = true;
-  return descriptor;
+  return elementDescriptor;
 }
 const inheritAttributes = new Set(); // after attr
 
 function inherit(defaultValue = '') {
-  return function (target, prop, descriptor) {
-    if (!target.hasOwnProperty('__inheritDefaults')) {
-      // eslint-disable-line no-prototype-builtins
-      target.__inheritDefaults = {}; // Object.assign({}, target.__inheritDefaults);
+  return function (elementDescriptor) {
+    const {
+      descriptor
+    } = elementDescriptor;
+    descriptor.__inherit = {
+      defaultValue
+    };
+    return elementDescriptor;
+  };
+}
+
+function applyInherit(elementDescriptor, defaultValue) {
+  const {
+    key,
+    finisher
+  } = elementDescriptor;
+  inheritAttributes.add(key);
+  return { ...elementDescriptor,
+
+    finisher(klass) {
+      if (finisher) finisher(klass);
+      const {
+        prototype: proto
+      } = klass;
+
+      if (!proto.hasOwnProperty('__inheritDefaults')) {
+        // eslint-disable-line no-prototype-builtins
+        proto.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+      }
+
+      proto.__inheritDefaults[key] = defaultValue;
     }
 
-    target.__inheritDefaults[prop] = defaultValue;
-    descriptor.__inherit = true;
-    inheritAttributes.add(prop);
-    return descriptor;
   };
 } // after attr
 // relative -> width | height
 
+
 function relative(type = 'width') {
-  return function (target, prop, descriptor) {
-    if (descriptor.set) {
-      const setter = descriptor.set;
-      descriptor.__relative = true;
-
-      descriptor.set = function (val) {
-        if (typeof val === 'string') {
-          val = val.trim();
-
-          if (val.slice(-1) === '%') {
-            const relative = type === 'width' ? 'pw' : 'ph';
-            const pv = getPV(this.subject, relative);
-            val = {
-              relative,
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val
-            };
-          } else {
-            const relative = val.slice(-2);
-
-            if (relative === 'rw' || relative === 'rh') {
-              let pv = null;
-              const layer = this.subject.layer;
-
-              if (layer) {
-                pv = layer.resolution[relative === 'rw' ? 0 : 1];
-              }
-
-              val = {
-                relative,
-                pv,
-                v: parseFloat(val) / 100,
-                rv: val
-              };
-            } else {
-              val = val ? parseFloat(val) : val;
-            }
-          }
-        }
-
-        setter.call(this, val);
-      };
-
-      return descriptor;
-    }
+  return function (elementDescriptor) {
+    const {
+      descriptor
+    } = elementDescriptor;
+    descriptor.__relative = type;
+    return elementDescriptor;
   };
 }
-function flow(target, prop, descriptor) {
+
+function applyRative(elementDescriptor, type) {
+  const {
+    descriptor
+  } = elementDescriptor;
+  const setter = descriptor.set;
+  descriptor.__relative = true;
+
+  descriptor.set = function (val) {
+    if (typeof val === 'string') {
+      val = val.trim();
+
+      if (val.slice(-1) === '%') {
+        const relative = type === 'width' ? 'pw' : 'ph';
+        const pv = getPV(this.subject, relative);
+        val = {
+          relative,
+          pv,
+          v: parseFloat(val) / 100,
+          rv: val
+        };
+      } else {
+        const relative = val.slice(-2);
+
+        if (relative === 'rw' || relative === 'rh') {
+          let pv = null;
+          const layer = this.subject.layer;
+
+          if (layer) {
+            pv = layer.resolution[relative === 'rw' ? 0 : 1];
+          }
+
+          val = {
+            relative,
+            pv,
+            v: parseFloat(val) / 100,
+            rv: val
+          };
+        } else {
+          val = val ? parseFloat(val) : val;
+        }
+      }
+    }
+
+    setter.call(this, val);
+  };
+
+  return elementDescriptor;
+}
+
+function flow(elementDescriptor) {
+  const {
+    descriptor,
+    key
+  } = elementDescriptor;
+
   if (descriptor.get) {
     const _getter = descriptor.get;
 
     descriptor.get = function () {
-      let ret = this.flow(prop);
+      let ret = this.flow(key);
 
       if (ret === undefined) {
         ret = _getter.call(this);
-        this.flow(prop, ret);
+        this.flow(key, ret);
       }
 
       return ret;
     };
   }
 
-  return descriptor;
+  return elementDescriptor;
 } // set tag force to get absolute value from relative attributes
 
-function absolute(target, prop, descriptor) {
+function absolute(elementDescriptor) {
+  const {
+    descriptor
+  } = elementDescriptor;
+
   if (descriptor.get) {
     const _getter = descriptor.get;
 
@@ -5508,15 +5658,19 @@ function absolute(target, prop, descriptor) {
     };
   }
 
-  return descriptor;
+  return elementDescriptor;
 }
 function setDeprecation(apiName, msg = '') {
   msg = `[Deprecation] ${apiName} has been deprecated.${msg}`;
   Object(_utils__WEBPACK_IMPORTED_MODULE_0__["notice"])(msg);
 }
-function deprecate(apiName, msg = '') {
-  return function decorator(target, prop, descriptor) {
-    apiName = apiName || `${target.constructor.name}#${prop}`;
+function deprecate(msg, apiName = '') {
+  const decorator = function (elementDescriptor) {
+    const {
+      descriptor,
+      key
+    } = elementDescriptor;
+    apiName = apiName || `Method ${key}`;
 
     if (typeof descriptor.value === 'function') {
       const func = descriptor.value;
@@ -5544,11 +5698,22 @@ function deprecate(apiName, msg = '') {
         return getter.call(this);
       };
     }
+
+    return elementDescriptor;
   };
+
+  if (msg.descriptor) {
+    return decorator(msg);
+  }
+
+  return decorator;
 } // before attr
 
 function parseValue(...parsers) {
-  return function (target, prop, descriptor) {
+  return function (elementDescriptor) {
+    const {
+      descriptor
+    } = elementDescriptor;
     const setter = descriptor.set;
 
     descriptor.set = function (val) {
@@ -5559,12 +5724,44 @@ function parseValue(...parsers) {
       setter.call(this, val);
     };
 
-    return descriptor;
+    return elementDescriptor;
+  };
+} // return a function to apply any decorators to a descriptor
+
+function decorators(...funcs) {
+  return function (key, value, descriptor) {
+    let elementDescriptor;
+
+    if (!descriptor) {
+      elementDescriptor = key;
+    } else {
+      elementDescriptor = {
+        key,
+        descriptor,
+        value
+      };
+    }
+
+    const ret = funcs.reduceRight(function (a, b) {
+      return b.call(this, a);
+    }, elementDescriptor);
+    return ret && ret.descriptor;
   };
 }
 
 /***/ }),
 /* 118 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attributeNames", function() { return attributeNames; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relatedAttributes", function() { return relatedAttributes; });
+const attributeNames = new Set();
+const relatedAttributes = new Set();
+
+/***/ }),
+/* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5743,7 +5940,7 @@ const cacheContextPool = {
 };
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5753,16 +5950,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _baseattr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(122);
-/* harmony import */ var _animation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(123);
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(118);
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(126);
-var _dec, _class, _class2, _temp;
+/* harmony import */ var _baseattr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(121);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(123);
+/* harmony import */ var _animation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(124);
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(119);
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(127);
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
@@ -5777,710 +6030,1040 @@ const _animations = Symbol('animations'),
       _cachePriority = Symbol('cachePriority'),
       _effects = Symbol('effects'),
       _flow = Symbol('flow'),
-      _changeStateAction = Symbol('changeStateAction'),
       _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
-let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use sprite.cache = null'), (_class = (_temp = _class2 = class BaseSprite extends _basenode__WEBPACK_IMPORTED_MODULE_4__["default"] {
-  /**
-    new Sprite({
-      attr: {
-        ...
-      }
-    })
-   */
-  constructor(attrs) {
-    super(attrs);
-    this[_animations] = new Set();
-    this[_cachePriority] = 0;
-    this[_flow] = {};
-    this[_releaseKeys] = new Set();
-  }
+let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
+  class BaseSprite extends _BaseNode {
+    /**
+      new Sprite({
+        attr: {
+          ...
+        }
+      })
+     */
+    constructor(attrs) {
+      super(attrs);
 
-  static setAttributeEffects(effects = {}) {
-    if (this.prototype[_effects] == null) {
-      this.prototype[_effects] = effects;
+      _initialize(this);
+
+      this[_animations] = new Set();
+      this[_cachePriority] = 0;
+      this[_flow] = {};
+      this[_releaseKeys] = new Set();
     }
 
-    Object.assign(this.prototype[_effects], effects);
   }
 
-  static addAttributes(attrs = {}) {
-    Object.entries(attrs).forEach(([prop, handler]) => {
-      let getter = function () {
-        return this.get(prop);
-      };
+  return {
+    F: BaseSprite,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "Attr",
 
-      if (typeof handler !== 'function' && handler.set) {
-        getter = handler.get || getter;
-        handler = handler.set;
+      value() {
+        return _baseattr__WEBPACK_IMPORTED_MODULE_3__["default"];
       }
 
-      if (prop !== 'init') {
-        Object.defineProperty(this.Attr.prototype, prop, {
-          set(val) {
-            this.__updateTag = false;
-            this.__reflowTag = false;
-            this.__clearLayout = false;
-            handler(this, val);
+    }, {
+      kind: "method",
+      static: true,
+      key: "setAttributeEffects",
 
-            if (this.subject && this.subject.hasLayout) {
-              const offsetSize = this.subject.offsetSize,
-                    layoutSize = this.subject.__layoutSize;
+      value(effects = {}) {
+        if (this.prototype[_effects] == null) {
+          this.prototype[_effects] = effects;
+        }
 
-              if (this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-                this.subject.clearLayout();
-              }
+        Object.assign(this.prototype[_effects], effects);
+      }
 
-              this.subject.__lastLayout = offsetSize;
+    }, {
+      kind: "method",
+      static: true,
+      key: "addAttributes",
+
+      value(attrs = {}) {
+        return this.Attr.addAttributes(attrs);
+      }
+
+    }, {
+      kind: "method",
+      static: true,
+      key: "defineAttributes",
+
+      value(attrs, effects) {
+        this.Attr = class extends this.Attr {
+          constructor(subject) {
+            super(subject);
+
+            if (attrs.init) {
+              attrs.init.call(this, this, subject);
             }
+          }
 
-            if (this.subject && this.__updateTag) {
-              this.subject.forceUpdate(true);
+        };
+        if (attrs) this.addAttributes(attrs);
+        if (effects) this.setAttributeEffects(effects);
+        return this.Attr;
+      }
 
-              if (this.__reflowTag) {
-                this.subject.reflow();
-              }
-            } // delete this.__reflowTag;
-            // delete this.__updateTag;
+    }, {
+      kind: "method",
+      key: "setReleaseKey",
 
+      value(key) {
+        this[_releaseKeys].add(key);
+      }
+
+    }, {
+      kind: "method",
+      key: "reflow",
+
+      value() {
+        this[_flow] = {};
+      }
+
+    }, {
+      kind: "method",
+      key: "flow",
+
+      value(prop, value) {
+        if (value === undefined) {
+          return this[_flow][prop];
+        }
+
+        this[_flow][prop] = value;
+      }
+
+    }, {
+      kind: "get",
+      key: "hasLayout",
+
+      value() {
+        if (this.attr('position') === 'absolute') return false;
+
+        if (this.parent && this.parent.relayout) {
+          const display = this.parent.attr('display');
+          return display !== '' && display !== 'static';
+        }
+
+        return false;
+      }
+
+    }, {
+      kind: "set",
+      key: "zIndex",
+
+      value(val) {
+        this.attr('zIndex', val);
+      }
+
+    }, {
+      kind: "get",
+      key: "zIndex",
+
+      value() {
+        return this.attr('zIndex');
+      }
+
+    }, {
+      kind: "get",
+      key: "isVirtual",
+
+      value() {
+        return false;
+      }
+
+    }, {
+      kind: "method",
+      key: "isVisible",
+
+      value() {
+        if (!this.parent) return false;
+        const display = this.attr('display');
+
+        if (display === 'none') {
+          return false;
+        }
+
+        const opacity = this.attr('opacity');
+
+        if (opacity <= 0) {
+          return false;
+        }
+
+        if (this.isVirtual) return true;
+        const [width, height] = this.offsetSize;
+
+        if (width <= 0 || height <= 0) {
+          return false;
+        }
+
+        if (this.parent.isVisible) {
+          return this.parent.isVisible();
+        }
+
+        return true;
+      }
+
+    }, {
+      kind: "get",
+      key: "transform",
+
+      value() {
+        const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.attr('transformMatrix'));
+        const transformOrigin = this.attr('transformOrigin');
+
+        if (transformOrigin) {
+          const t = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"]();
+          t.translate(...transformOrigin);
+          t.multiply(transform);
+          t.translate(...transformOrigin.map(v => -v));
+          return t;
+        }
+
+        return transform;
+      }
+
+    }, {
+      kind: "method",
+      key: "transition",
+
+      value(sec, easing = 'linear', isStyleAnim = false) {
+        const that = this,
+              _animation = Symbol('animation');
+
+        easing = easing || 'linear';
+        let delay = 0;
+
+        if (typeof sec === 'object') {
+          delay = sec.delay || 0;
+          sec = sec.duration;
+        }
+
+        return {
+          [_animation]: null,
+
+          cancel(preserveState = false) {
+            const animation = this[_animation];
+
+            if (animation) {
+              animation.cancel(preserveState);
+            }
           },
 
-          get: getter
-        });
-      }
-    });
-  }
+          end() {
+            const animation = this[_animation];
 
-  static defineAttributes(attrs, effects) {
-    this.Attr = class extends this.Attr {
-      constructor(subject) {
-        super(subject);
-        if (attrs.init) attrs.init(this, subject);
-      }
+            if (animation && (animation.playState === 'running' || animation.playState === 'pending')) {
+              animation.finish();
+            }
+          },
 
-    };
-    if (attrs) this.addAttributes(attrs);
-    if (effects) this.setAttributeEffects(effects);
-    return this.Attr;
-  }
+          reverse() {
+            const animation = this[_animation];
 
-  setReleaseKey(key) {
-    this[_releaseKeys].add(key);
-  }
+            if (animation) {
+              if (animation.playState === 'running' || animation.playState === 'pending') {
+                animation.playbackRate = -animation.playbackRate;
+              } else {
+                const direction = animation.timing.direction;
+                animation.timing.direction = direction === 'reverse' ? 'normal' : 'reverse';
+                animation.play();
+              }
+            }
 
-  reflow() {
-    this[_flow] = {};
-  }
+            return animation.finished;
+          },
 
-  flow(prop, value) {
-    if (value === undefined) {
-      return this[_flow][prop];
-    }
+          attr(prop, val) {
+            this.end();
 
-    this[_flow][prop] = value;
-  }
+            if (typeof prop === 'string') {
+              prop = {
+                [prop]: val
+              };
+            }
 
-  get hasLayout() {
-    if (this.attr('position') === 'absolute') return false;
-
-    if (this.parent && this.parent.relayout) {
-      const display = this.parent.attr('display');
-      return display !== '' && display !== 'static';
-    }
-
-    return false;
-  }
-
-  set zIndex(val) {
-    this.attr('zIndex', val);
-  }
-
-  get zIndex() {
-    return this.attr('zIndex');
-  }
-
-  get isVirtual() {
-    return false;
-  }
-
-  isVisible() {
-    if (!this.parent) return false;
-    const display = this.attr('display');
-
-    if (display === 'none') {
-      return false;
-    }
-
-    const opacity = this.attr('opacity');
-
-    if (opacity <= 0) {
-      return false;
-    }
-
-    if (this.isVirtual) return true;
-    const [width, height] = this.offsetSize;
-
-    if (width <= 0 || height <= 0) {
-      return false;
-    }
-
-    if (this.parent.isVisible) {
-      return this.parent.isVisible();
-    }
-
-    return true;
-  }
-
-  get transform() {
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"](this.__attr.get('transformMatrix'));
-    const transformOrigin = this.attr('transformOrigin');
-
-    if (transformOrigin) {
-      const t = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Matrix"]();
-      t.translate(...transformOrigin);
-      t.multiply(transform);
-      t.translate(...transformOrigin.map(v => -v));
-      return t;
-    }
-
-    return transform;
-  }
-
-  transition(sec, easing = 'linear', isStyleAnim = false) {
-    const that = this,
-          _animation = Symbol('animation');
-
-    easing = easing || 'linear';
-    let delay = 0;
-
-    if (typeof sec === 'object') {
-      delay = sec.delay || 0;
-      sec = sec.duration;
-    }
-
-    return {
-      [_animation]: null,
-
-      cancel(preserveState = false) {
-        const animation = this[_animation];
-
-        if (animation) {
-          animation.cancel(preserveState);
-        }
-      },
-
-      end() {
-        const animation = this[_animation];
-
-        if (animation && (animation.playState === 'running' || animation.playState === 'pending')) {
-          animation.finish();
-        }
-      },
-
-      reverse() {
-        const animation = this[_animation];
-
-        if (animation) {
-          if (animation.playState === 'running' || animation.playState === 'pending') {
-            animation.playbackRate = -animation.playbackRate;
-          } else {
-            const direction = animation.timing.direction;
-            animation.timing.direction = direction === 'reverse' ? 'normal' : 'reverse';
-            animation.play();
+            Object.entries(prop).forEach(([key, value]) => {
+              if (typeof value === 'function') {
+                prop[key] = value(that.attr(key));
+              }
+            });
+            this[_animation] = that.animate([prop], {
+              duration: sec * 1000,
+              delay: delay * 1000,
+              fill: 'forwards',
+              easing
+            }, isStyleAnim);
+            return this[_animation].finished;
           }
-        }
 
-        return animation.finished;
-      },
+        };
+      }
 
-      attr(prop, val) {
-        this.end();
+    }, {
+      kind: "method",
+      key: "animate",
 
-        if (typeof prop === 'string') {
-          prop = {
-            [prop]: val
+      value(frames, timing, isStyleAnim = false) {
+        let setter = null;
+
+        if (isStyleAnim) {
+          setter = (frame, target) => {
+            target.__attr.__styleTag = true;
+            target.attr(frame);
+            target.__attr.__styleTag = false;
           };
         }
 
-        Object.entries(prop).forEach(([key, value]) => {
-          if (typeof value === 'function') {
-            prop[key] = value(that.attr(key));
-          }
+        const animation = new _animation__WEBPACK_IMPORTED_MODULE_5__["default"](this, frames, timing, setter);
+        if (this[_effects]) animation.applyEffects(this[_effects]);
+
+        if (this.layer) {
+          animation.baseTimeline = this.layer.timeline;
+          animation.play();
+          animation.finished.then(() => {
+            this[_animations].delete(animation);
+          });
+        }
+
+        this[_animations].add(animation);
+
+        return animation;
+      }
+
+    }, {
+      kind: "get",
+      key: "animations",
+
+      value() {
+        return this[_animations];
+      }
+
+    }, {
+      kind: "method",
+      key: "connect",
+
+      value(parent, zOrder = 0) {
+        if (parent && !(parent instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"])) {
+          const node = new _basenode__WEBPACK_IMPORTED_MODULE_4__["default"]();
+          node.context = parent;
+          node.timeline = new sprite_animator__WEBPACK_IMPORTED_MODULE_1__["Timeline"]();
+
+          node.update = function () {
+            const currentTime = this.timeline.currentTime;
+            node.dispatchEvent('update', {
+              target: this,
+              timeline: this.timeline,
+              renderTime: currentTime
+            }, true, true);
+          };
+
+          parent = node;
+        }
+
+        const ret = _get(_getPrototypeOf(BaseSprite.prototype), "connect", this).call(this, parent, zOrder);
+
+        Object.defineProperty(this, 'context', {
+          get: () => parent.cache || parent.context,
+          configurable: true
         });
-        this[_animation] = that.animate([prop], {
-          duration: sec * 1000,
-          delay: delay * 1000,
-          fill: 'forwards',
-          easing
-        }, isStyleAnim);
-        return this[_animation].finished;
+
+        this[_animations].forEach(animation => {
+          if (parent.layer) {
+            animation.baseTimeline = parent.layer.timeline;
+          }
+
+          animation.play();
+          animation.finished.then(() => {
+            this[_animations].delete(animation);
+          });
+        });
+
+        if (this.hasLayout) this.clearLayout();
+        this.reflow();
+        return ret;
       }
 
-    };
-  }
+    }, {
+      kind: "method",
+      key: "disconnect",
 
-  animate(frames, timing, isStyleAnim = false) {
-    let setter = null;
+      value(parent) {
+        this[_animations].forEach(animation => animation.cancel());
 
-    if (isStyleAnim) {
-      setter = (frame, target) => {
-        target.__attr.__styleTag = true;
-        target.attr(frame);
-        target.__attr.__styleTag = false;
-      };
-    }
+        if (this.cache) {
+          this.cache = null;
+        }
 
-    const animation = new _animation__WEBPACK_IMPORTED_MODULE_5__["default"](this, frames, timing, setter);
-    if (this[_effects]) animation.applyEffects(this[_effects]);
+        if (this.hasLayout) this.clearLayout();
+        this.reflow();
 
-    if (this.layer) {
-      animation.baseTimeline = this.layer.timeline;
-      animation.play();
-      animation.finished.then(() => {
-        this[_animations].delete(animation);
-      });
-    }
+        const ret = _get(_getPrototypeOf(BaseSprite.prototype), "disconnect", this).call(this, parent);
 
-    this[_animations].add(animation);
-
-    return animation;
-  }
-
-  get animations() {
-    return this[_animations];
-  }
-
-  changeState(fromState, toState, action) {
-    let animation;
-
-    if (this[_changeStateAction]) {
-      const currentAnim = this[_changeStateAction].animation;
-
-      if (this[_changeStateAction].reversable && (currentAnim.playState === 'running' || currentAnim.playState === 'pending') && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
-        currentAnim.playbackRate = -currentAnim.playbackRate;
-        animation = currentAnim;
-        animation.__reversed = this[_changeStateAction].action;
-      } else {
-        currentAnim.finish();
+        delete this.context;
+        [...this[_releaseKeys]].forEach(key => delete this[key]);
+        return ret;
       }
-    }
 
-    if (!animation) {
-      // const [_fromState, _toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
-      // delete _fromState.__default;
-      // delete _toState.__default;
-      const _fromState = {},
-            _toState = {};
-      Object.entries(fromState || {}).forEach(([key, value]) => {
-        if (key !== '__default') {
-          if (typeof value === 'function') {
-            _fromState[key] = this.attr(key);
-          } else {
-            _fromState[key] = value;
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]],
+      key: "xy",
+
+      value() {
+        let x, y;
+
+        if (this.hasLayout) {
+          x = this.attr('layoutX');
+          y = this.attr('layoutY');
+        } else {
+          [x, y] = this.attr('pos');
+        }
+
+        return [x, y];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "attrSize",
+
+      value() {
+        let [width, height] = this.attr('size');
+        const isBorderBox = this.attr('boxSizing') === 'border-box';
+
+        if (this.hasLayout) {
+          const layoutWidth = this.attr('layoutWidth'),
+                layoutHeight = this.attr('layoutHeight');
+          [width, height] = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
+        }
+
+        if (isBorderBox) {
+          const borderWidth = this.attr('border').width,
+                [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
+
+          if (width !== '') {
+            width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
+          }
+
+          if (height !== '') {
+            height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
           }
         }
-      });
-      Object.entries(toState || {}).forEach(([key, value]) => {
-        if (key !== '__default') {
-          if (typeof value === 'function') {
-            _toState[key] = value(this.attr(key));
-          } else {
-            _toState[key] = value;
+
+        return [width, height];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "boxOffsetSize",
+
+      value() {
+        // get original boxSize, without layout
+        if (this.isVirtual) return [0, 0];
+        const [width, height] = this.attr('size');
+        const [top, right, bottom, left] = this.attr('padding');
+        const {
+          width: borderWidth
+        } = this.attr('border'),
+              lw = borderWidth * 2;
+        return [left + (width | 0) + right + lw, top + (height | 0) + bottom + lw];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "contentSize",
+
+      value() {
+        if (this.isVirtual) return [0, 0];
+        const [width, height] = this.attrSize;
+        return [width | 0, height | 0];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "clientSize",
+
+      value() {
+        const [top, right, bottom, left] = this.attr('padding'),
+              [width, height] = this.contentSize;
+        return [left + width + right, top + height + bottom];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "offsetSize",
+
+      value() {
+        const {
+          width: borderWidth
+        } = this.attr('border'),
+              [width, height] = this.clientSize;
+        return [width + 2 * borderWidth, height + 2 * borderWidth];
+      }
+
+    }, {
+      kind: "get",
+      key: "layoutSize",
+
+      value() {
+        const size = this.offsetSize;
+        const [top, right, bottom, left] = this.attr('margin');
+        return [left + size[0] + right, top + size[1] + bottom];
+      }
+
+    }, {
+      kind: "get",
+      key: "innerSize",
+
+      value() {
+        return this.contentSize;
+      }
+
+    }, {
+      kind: "get",
+      key: "outerSize",
+
+      value() {
+        return this.offsetSize;
+      }
+
+    }, {
+      kind: "method",
+      key: "getParentXY",
+
+      value(lx = 0, ly = 0) {
+        const layer = this.layer;
+        if (!layer) return [0, 0];
+        const parents = [];
+        let target = this.parent;
+
+        while (target && target !== layer) {
+          parents.push(target);
+          target = target.parent;
+        }
+
+        parents.reverse();
+        let parentX = lx,
+            parentY = ly;
+        parents.forEach(node => {
+          const scrollLeft = node.attr('scrollLeft'),
+                scrollTop = node.attr('scrollTop'),
+                borderWidth = node.attr('border').width,
+                padding = node.attr('padding');
+          [parentX, parentY] = node.pointToOffset(parentX, parentY);
+          parentX = parentX - node.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+          parentY = parentY - node.originalRect[1] - borderWidth - padding[0] + scrollTop;
+        });
+        return [parentX, parentY];
+      }
+
+    }, {
+      kind: "method",
+      key: "getLayerXY",
+
+      value(dx = 0, dy = 0) {
+        const layer = this.layer;
+        if (!layer) return [0, 0];
+        let target = this;
+        let [x, y] = [dx, dy];
+
+        while (target && target !== layer) {
+          [x, y] = target.offsetToPoint(x, y);
+          const parent = target.parent;
+
+          if (parent !== layer) {
+            const borderWidth = parent.attr('border').width;
+            const padding = parent.attr('padding'),
+                  scrollLeft = parent.attr('scrollLeft') || 0,
+                  scrollTop = parent.attr('scrollTop') || 0; // const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft
+            // const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop
+
+            x = x + parent.originalRect[0] + borderWidth + padding[3] - scrollLeft;
+            y = y + parent.originalRect[1] + borderWidth + padding[0] - scrollTop;
+          }
+
+          target = parent;
+        }
+
+        return [x, y];
+      }
+
+    }, {
+      kind: "get",
+      key: "boundingRect",
+
+      value() {
+        const transform = this.transform;
+        let [ox, oy, width, height] = this.originalRect;
+
+        if (this.hasLayout) {
+          const margin = this.attr('margin');
+          width += margin[1];
+          height += margin[2];
+        }
+
+        const vertexs = [[ox, oy], [width + ox, oy], [ox, height + oy], [width + ox, height + oy]];
+        const transformed = vertexs.map(v => {
+          return transform.transformPoint(v[0], v[1]);
+        });
+        const vx = transformed.map(v => v[0]),
+              vy = transformed.map(v => v[1]);
+        const minX = Math.min(...vx),
+              minY = Math.min(...vy),
+              maxX = Math.max(...vx),
+              maxY = Math.max(...vy);
+        return [...[minX, minY], ...[maxX - minX, maxY - minY]];
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]],
+      key: "originalRect",
+
+      value() {
+        const [width, height] = this.offsetSize,
+              [anchorX, anchorY] = this.attr('anchor');
+        const rect = [-anchorX * width, -anchorY * height, width, height];
+
+        if (this.hasLayout) {
+          const margin = this.attr('margin');
+          rect[0] += margin[3];
+          rect[1] += margin[0];
+        }
+
+        return rect;
+      }
+
+    }, {
+      kind: "get",
+      key: "originalRenderRect",
+
+      value() {
+        const bound = this.originalRect,
+              pos = this.xy;
+        return [pos[0] + bound[0], pos[1] + bound[1], bound[2], bound[3]];
+      }
+
+    }, {
+      kind: "get",
+      key: "renderBox",
+
+      value() {
+        const bound = this.boundingRect,
+              pos = this.xy;
+        return [Math.floor(pos[0] + bound[0]), Math.floor(pos[1] + bound[1]), Math.ceil(pos[0] + bound[0] + bound[2]), Math.ceil(pos[1] + bound[1] + bound[3])];
+      }
+
+    }, {
+      kind: "get",
+      key: "renderRect",
+
+      value() {
+        const [x0, y0, x1, y1] = this.renderBox;
+        return [x0, y0, x1 - x0, y1 - y0];
+      }
+
+    }, {
+      kind: "get",
+      key: "vertices",
+
+      value() {
+        const vertices = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["rectVertices"])(this.originalRect),
+              transform = this.transform,
+              [x0, y0] = this.xy;
+        return vertices.map(v => {
+          const [x, y] = transform.transformPoint(v[0], v[1]);
+          return [x0 + x, y0 + y];
+        });
+      }
+
+    }, {
+      kind: "set",
+      key: "cache",
+
+      value(context) {
+        if (context == null) {
+          this[_cachePriority] = 0;
+
+          if (this.parent && this.parent.cache) {
+            this.parent.cache = null;
           }
         }
-      });
-      animation = this.animate([_fromState, _toState], Object.assign({
-        fill: 'forwards'
-      }, action));
-      animation.finished.then(() => {
-        if (this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
-      });
-    }
 
-    this[_changeStateAction] = {
-      animation,
-      fromState,
-      toState,
-      action,
-      reversable: action.reversable !== false
-    };
-    return animation;
-  }
+        if (this.cacheContext && context !== this.cacheContext) {
+          _helpers_render__WEBPACK_IMPORTED_MODULE_6__["cacheContextPool"].put(this.cacheContext);
+        }
 
-  connect(parent, zOrder = 0) {
-    if (parent && !(parent instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"])) {
-      const node = new _basenode__WEBPACK_IMPORTED_MODULE_4__["default"]();
-      node.context = parent;
-      node.timeline = new sprite_animator__WEBPACK_IMPORTED_MODULE_1__["Timeline"]();
+        this.cacheContext = context;
+      }
 
-      node.update = function () {
-        const currentTime = this.timeline.currentTime;
-        node.dispatchEvent('update', {
+    }, {
+      kind: "get",
+      key: "cache",
+
+      value() {
+        if (this[_cachePriority] >= CACHE_PRIORITY_THRESHOLDS) {
+          return this.cacheContext;
+        }
+
+        if (this.cacheContext) {
+          this.cache = null;
+        }
+
+        return false;
+      }
+
+    }, {
+      kind: "method",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"])('Instead use sprite.cache = null')],
+      key: "clearCache",
+
+      value() {
+        this.cache = null;
+      }
+
+    }, {
+      kind: "method",
+      key: "appendTo",
+
+      value(parent) {
+        parent.appendChild(this);
+      }
+
+    }, {
+      kind: "method",
+      key: "forceUpdate",
+
+      value(clearCache = false) {
+        if (clearCache) {
+          this.cache = null;
+        }
+
+        _get(_getPrototypeOf(BaseSprite.prototype), "forceUpdate", this).call(this);
+      }
+
+    }, {
+      kind: "method",
+      key: "pointToOffset",
+
+      value(x, y) {
+        const [x0, y0] = this.xy;
+        const [dx, dy] = [x - x0, y - y0];
+        const transform = this.transform;
+        return transform.inverse().transformPoint(dx, dy);
+      }
+
+    }, {
+      kind: "method",
+      key: "offsetToPoint",
+
+      value(dx, dy) {
+        const transform = this.transform;
+        const [x0, y0] = this.xy;
+        const [x, y] = transform.transformPoint(dx, dy);
+        return [x + x0, y + y0];
+      }
+
+    }, {
+      kind: "method",
+      key: "getOffsetXY",
+
+      value(evt) {
+        let parentX, parentY;
+
+        if (evt.parentX != null) {
+          // group
+          parentX = evt.parentX;
+          parentY = evt.parentY;
+        } else {
+          parentX = evt.layerX;
+          parentY = evt.layerY;
+        }
+
+        if (parentX != null && parentY != null) {
+          return this.pointToOffset(parentX, parentY);
+        }
+      }
+
+    }, {
+      kind: "method",
+      key: "dispatchEvent",
+
+      value(type, evt, collisionState = false, swallow = false) {
+        if (collisionState) {
+          const offsetXY = this.getOffsetXY(evt);
+
+          if (offsetXY) {
+            evt.offsetX = offsetXY[0];
+            evt.offsetY = offsetXY[1];
+          }
+        }
+
+        return _get(_getPrototypeOf(BaseSprite.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow);
+      }
+
+    }, {
+      kind: "method",
+      key: "pointCollision",
+
+      value(evt) {
+        /* istanbul ignore if */
+        if (!this.isVisible()) {
+          return false;
+        }
+
+        const offsetXY = this.getOffsetXY(evt);
+        if (!offsetXY) return true;
+        let [nx, ny] = offsetXY;
+        evt.offsetX = nx;
+        evt.offsetY = ny;
+        const [ox, oy, ow, oh] = this.originalRect;
+
+        if (nx >= ox && nx - ox < ow && ny >= oy && ny - oy < oh) {
+          if (this.context && this.context.isPointInPath) {
+            const borderWidth = this.attr('border').width,
+                  borderRadius = this.attr('borderRadius');
+
+            if (borderWidth || borderRadius) {
+              const [width, height] = this.outerSize;
+              const [x, y, w, h, r] = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)];
+              Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(this.context, {
+                x,
+                y,
+                w,
+                h,
+                r
+              });
+
+              if (this.layer && this.layer.offset) {
+                nx += this.layer.offset[0];
+                ny += this.layer.offset[1];
+              }
+
+              return this.context.isPointInPath(nx - ox, ny - oy);
+            }
+          }
+
+          return true;
+        }
+      }
+
+    }, {
+      kind: "method",
+      key: "OBBCollision",
+
+      value(sprite) {
+        // vertices: [p1, p2, p3, p4]
+        const [p11, p12, p13] = this.vertices,
+              [p21, p22, p23] = sprite.vertices;
+        const a1 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p12, p11).unit(),
+              a2 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p13, p12).unit(),
+              a3 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p22, p21).unit(),
+              a4 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p23, p22).unit(); // The projection of the axis of a vertex in a certain direction
+
+        function verticesProjection(vertices, axis) {
+          const [p1, p2, p3, p4] = vertices.map(v => axis.dot(new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](v)));
+          return [Math.min(p1, p2, p3, p4), Math.max(p1, p2, p3, p4)];
+        }
+
+        function projectionIntersect(p1, p2) {
+          const m1 = (p1[0] + p1[1]) / 2,
+                l1 = Math.abs(p1[1] - p1[0]),
+                m2 = (p2[0] + p2[1]) / 2,
+                l2 = Math.abs(p2[1] - p2[0]);
+          return Math.abs(m2 - m1) <= (l1 + l2) / 2;
+        }
+
+        return projectionIntersect(verticesProjection(this.vertices, a1), verticesProjection(sprite.vertices, a1)) && projectionIntersect(verticesProjection(this.vertices, a2), verticesProjection(sprite.vertices, a2)) && projectionIntersect(verticesProjection(this.vertices, a3), verticesProjection(sprite.vertices, a3)) && projectionIntersect(verticesProjection(this.vertices, a4), verticesProjection(sprite.vertices, a4));
+      }
+
+    }, {
+      kind: "method",
+      key: "relayout",
+
+      value() {}
+
+    }, {
+      kind: "method",
+      key: "draw",
+
+      value(t, drawingContext = this.context) {
+        // eslint-disable-line complexity
+        _get(_getPrototypeOf(BaseSprite.prototype), "draw", this).call(this, t, drawingContext);
+
+        if (!this.isVisible()) {
+          return;
+        }
+
+        const bound = this.originalRect;
+        let cachableContext = !this.isVirtual && this.cache;
+        const filter = this.attr('filter'),
+              shadow = this.attr('shadow'),
+              enableCache = this.attr('enableCache') || shadow || filter;
+        const ratio = this.layer ? this.layer.displayRatio || 1.0 : 1.0;
+
+        if (enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {
+          cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_6__["cacheContextPool"].get(drawingContext);
+
+          if (cachableContext) {
+            // +2 to solve 1px problem
+            cachableContext.canvas.width = Math.ceil(bound[2] * ratio) + 2;
+            cachableContext.canvas.height = Math.ceil(bound[3] * ratio) + 2;
+          }
+        }
+
+        const evtArgs = {
+          context: drawingContext,
+          cacheContext: cachableContext,
           target: this,
-          timeline: this.timeline,
-          renderTime: currentTime
-        }, true, true);
-      };
+          renderTime: t,
+          fromCache: !!this.cache
+        };
+        drawingContext.save();
+        drawingContext.translate(...this.xy);
+        drawingContext.transform(...this.transform.m); // fix for wxapp
 
-      parent = node;
-    }
+        const alpha = drawingContext.globalAlpha != null ? drawingContext.globalAlpha : 1;
+        drawingContext.globalAlpha = alpha * this.attr('opacity');
 
-    const ret = super.connect(parent, zOrder);
-    Object.defineProperty(this, 'context', {
-      get: () => parent.cache || parent.context,
-      configurable: true
-    });
+        if (!cachableContext) {
+          drawingContext.translate(bound[0], bound[1]);
+        } else {
+          cachableContext.save(); // solve 1px problem
 
-    this[_animations].forEach(animation => {
-      if (parent.layer) {
-        animation.baseTimeline = parent.layer.timeline;
+          cachableContext.translate(bound[0] - Math.floor(bound[0]) + 1, bound[1] - Math.floor(bound[1]) + 1);
+
+          if (ratio !== 1.0) {
+            cachableContext.scale(ratio, ratio);
+          }
+        }
+
+        this.dispatchEvent('beforedraw', evtArgs, true, true);
+
+        if (cachableContext) {
+          // set cache before render for group
+          if (!this.cache) {
+            this.cache = cachableContext;
+            this.render(t, cachableContext);
+          }
+        } else {
+          this.render(t, drawingContext);
+        }
+
+        if ((shadow || filter) && !cachableContext) {
+          console.warn('No cachable context. Shadows and filters have been ignored.');
+        }
+
+        if (cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
+          if (filter) {
+            drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_7__["default"].compile(filter);
+          }
+
+          if (shadow) {
+            let {
+              blur,
+              color,
+              offset
+            } = shadow;
+            blur = blur || 1;
+            color = color || 'rgba(0,0,0,1)';
+            drawingContext.shadowBlur = blur;
+            drawingContext.shadowColor = color;
+
+            if (offset) {
+              drawingContext.shadowOffsetX = offset[0];
+              drawingContext.shadowOffsetY = offset[1];
+            }
+          }
+
+          drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1, bound[2] + 2, bound[3] + 2);
+        }
+
+        this.dispatchEvent('afterdraw', evtArgs, true, true);
+
+        if (cachableContext) {
+          cachableContext.restore();
+        }
+
+        drawingContext.restore();
+        this[_cachePriority]++;
+        return drawingContext;
       }
 
-      animation.play();
-      animation.finished.then(() => {
-        this[_animations].delete(animation);
-      });
-    });
+    }, {
+      kind: "get",
+      key: "needRender",
 
-    if (this.hasLayout) this.clearLayout();
-    this.reflow();
-    return ret;
-  }
+      value() {
+        if (this.isVirtual) return false;
+        const [offsetWidth, offsetHeight] = this.offsetSize;
+        if (offsetWidth <= 0 || offsetHeight <= 0) return false;
+        const border = this.attr('border');
 
-  disconnect(parent) {
-    this[_animations].forEach(animation => animation.cancel());
+        if (border.width <= 0 && this.attr('borderRadius') <= 0 && !this.attr('bgcolor') && !this.attr('gradients').bgcolor && !this.attr('bgimage')) {
+          return false; // don't need to render
+        }
 
-    if (this.cache) {
-      this.cache = null;
-    }
-
-    if (this.hasLayout) this.clearLayout();
-    this.reflow();
-    const ret = super.disconnect(parent);
-    delete this.context;
-    [...this[_releaseKeys]].forEach(key => delete this[key]);
-    return ret;
-  }
-
-  get xy() {
-    let x, y;
-
-    if (this.hasLayout) {
-      x = this.attr('layoutX');
-      y = this.attr('layoutY');
-    } else {
-      [x, y] = this.attr('pos');
-    }
-
-    return [x, y];
-  }
-
-  get attrSize() {
-    let [width, height] = this.attr('size');
-    const isBorderBox = this.attr('boxSizing') === 'border-box';
-
-    if (this.hasLayout) {
-      const layoutWidth = this.attr('layoutWidth'),
-            layoutHeight = this.attr('layoutHeight');
-      [width, height] = [layoutWidth !== '' ? layoutWidth : width, layoutHeight !== '' ? layoutHeight : height];
-    }
-
-    if (isBorderBox) {
-      const borderWidth = this.attr('border').width,
-            [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
-
-      if (width !== '') {
-        width = Math.max(0, width - 2 * borderWidth - paddingLeft - paddingRight);
+        return true;
       }
 
-      if (height !== '') {
-        height = Math.max(0, height - 2 * borderWidth - paddingTop - paddingBottom);
-      }
-    }
+    }, {
+      kind: "method",
+      key: "show",
 
-    return [width, height];
-  }
-
-  get boxOffsetSize() {
-    // get original boxSize, without layout
-    if (this.isVirtual) return [0, 0];
-    const [width, height] = this.attr('size');
-    const [top, right, bottom, left] = this.attr('padding');
-    const {
-      width: borderWidth
-    } = this.attr('border'),
-          lw = borderWidth * 2;
-    return [left + (width | 0) + right + lw, top + (height | 0) + bottom + lw];
-  } // content width / height
-
-
-  get contentSize() {
-    if (this.isVirtual) return [0, 0];
-    const [width, height] = this.attrSize;
-    return [width | 0, height | 0];
-  } // content + padding
-
-
-  get clientSize() {
-    const [top, right, bottom, left] = this.attr('padding'),
-          [width, height] = this.contentSize;
-    return [left + width + right, top + height + bottom];
-  } // content + padding + border
-
-
-  get offsetSize() {
-    const {
-      width: borderWidth
-    } = this.attr('border'),
-          [width, height] = this.clientSize;
-    return [width + 2 * borderWidth, height + 2 * borderWidth];
-  }
-
-  get layoutSize() {
-    const size = this.offsetSize;
-    const [top, right, bottom, left] = this.attr('margin');
-    return [left + size[0] + right, top + size[1] + bottom];
-  }
-
-  get innerSize() {
-    return this.contentSize;
-  }
-
-  get outerSize() {
-    return this.offsetSize;
-  }
-
-  getParentXY(lx = 0, ly = 0) {
-    const layer = this.layer;
-    if (!layer) return [0, 0];
-    const parents = [];
-    let target = this.parent;
-
-    while (target && target !== layer) {
-      parents.push(target);
-      target = target.parent;
-    }
-
-    parents.reverse();
-    let parentX = lx,
-        parentY = ly;
-    parents.forEach(node => {
-      const scrollLeft = node.attr('scrollLeft'),
-            scrollTop = node.attr('scrollTop'),
-            borderWidth = node.attr('border').width,
-            padding = node.attr('padding');
-      [parentX, parentY] = node.pointToOffset(parentX, parentY);
-      parentX = parentX - node.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-      parentY = parentY - node.originalRect[1] - borderWidth - padding[0] + scrollTop;
-    });
-    return [parentX, parentY];
-  }
-
-  getLayerXY(dx = 0, dy = 0) {
-    const layer = this.layer;
-    if (!layer) return [0, 0];
-    let target = this;
-    let [x, y] = [dx, dy];
-
-    while (target && target !== layer) {
-      [x, y] = target.offsetToPoint(x, y);
-      const parent = target.parent;
-
-      if (parent !== layer) {
-        const borderWidth = parent.attr('border').width;
-        const padding = parent.attr('padding'),
-              scrollLeft = parent.attr('scrollLeft') || 0,
-              scrollTop = parent.attr('scrollTop') || 0; // const parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft
-        // const parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop
-
-        x = x + parent.originalRect[0] + borderWidth + padding[3] - scrollLeft;
-        y = y + parent.originalRect[1] + borderWidth + padding[0] - scrollTop;
+      value() {
+        this.attr('display', this.__originalDisplay || '');
+        return this;
       }
 
-      target = parent;
-    }
+    }, {
+      kind: "method",
+      key: "hide",
 
-    return [x, y];
-  }
+      value() {
+        const display = this.attr('display');
 
-  get boundingRect() {
-    const transform = this.transform;
-    let [ox, oy, width, height] = this.originalRect;
+        if (display !== 'none') {
+          this.__originalDisplay = display;
+          this.attr('display', 'none');
+        }
 
-    if (this.hasLayout) {
-      const margin = this.attr('margin');
-      width += margin[1];
-      height += margin[2];
-    }
-
-    const vertexs = [[ox, oy], [width + ox, oy], [ox, height + oy], [width + ox, height + oy]];
-    const transformed = vertexs.map(v => {
-      return transform.transformPoint(v[0], v[1]);
-    });
-    const vx = transformed.map(v => v[0]),
-          vy = transformed.map(v => v[1]);
-    const minX = Math.min(...vx),
-          minY = Math.min(...vy),
-          maxX = Math.max(...vx),
-          maxY = Math.max(...vy);
-    return [...[minX, minY], ...[maxX - minX, maxY - minY]];
-  } // rect before transform
-
-
-  get originalRect() {
-    const [width, height] = this.offsetSize,
-          [anchorX, anchorY] = this.attr('anchor');
-    const rect = [-anchorX * width, -anchorY * height, width, height];
-
-    if (this.hasLayout) {
-      const margin = this.attr('margin');
-      rect[0] += margin[3];
-      rect[1] += margin[0];
-    }
-
-    return rect;
-  }
-
-  get originalRenderRect() {
-    const bound = this.originalRect,
-          pos = this.xy;
-    return [pos[0] + bound[0], pos[1] + bound[1], bound[2], bound[3]];
-  }
-
-  get renderBox() {
-    const bound = this.boundingRect,
-          pos = this.xy;
-    return [Math.floor(pos[0] + bound[0]), Math.floor(pos[1] + bound[1]), Math.ceil(pos[0] + bound[0] + bound[2]), Math.ceil(pos[1] + bound[1] + bound[3])];
-  }
-
-  get renderRect() {
-    const [x0, y0, x1, y1] = this.renderBox;
-    return [x0, y0, x1 - x0, y1 - y0];
-  }
-
-  get vertices() {
-    const vertices = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["rectVertices"])(this.originalRect),
-          transform = this.transform,
-          [x0, y0] = this.xy;
-    return vertices.map(v => {
-      const [x, y] = transform.transformPoint(v[0], v[1]);
-      return [x0 + x, y0 + y];
-    });
-  }
-
-  set cache(context) {
-    if (context == null) {
-      this[_cachePriority] = 0;
-
-      if (this.parent && this.parent.cache) {
-        this.parent.cache = null;
+        return this;
       }
-    }
 
-    if (this.cacheContext && context !== this.cacheContext) {
-      _helpers_render__WEBPACK_IMPORTED_MODULE_6__["cacheContextPool"].put(this.cacheContext);
-    }
+    }, {
+      kind: "method",
+      key: "render",
 
-    this.cacheContext = context;
-  }
+      value(t, drawingContext) {
+        const border = this.attr('border'),
+              borderRadius = this.attr('borderRadius'),
+              padding = this.attr('padding'),
+              [offsetWidth, offsetHeight] = this.offsetSize,
+              [clientWidth, clientHeight] = this.clientSize;
 
-  get cache() {
-    if (this[_cachePriority] >= CACHE_PRIORITY_THRESHOLDS) {
-      return this.cacheContext;
-    }
+        if (!this.needRender) {
+          drawingContext.translate(padding[3], padding[0]);
+          return false;
+        }
 
-    if (this.cacheContext) {
-      this.cache = null;
-    }
+        const borderWidth = border.width;
+        let borderStyle = border.style; // draw border
 
-    return false;
-  }
-
-  clearCache() {
-    this.cache = null;
-  }
-
-  appendTo(parent) {
-    parent.appendChild(this);
-  }
-
-  forceUpdate(clearCache = false) {
-    if (clearCache) {
-      this.cache = null;
-    }
-
-    super.forceUpdate();
-  } // layer position to sprite offset
-
-
-  pointToOffset(x, y) {
-    const [x0, y0] = this.xy;
-    const [dx, dy] = [x - x0, y - y0];
-    const transform = this.transform;
-    return transform.inverse().transformPoint(dx, dy);
-  }
-
-  offsetToPoint(dx, dy) {
-    const transform = this.transform;
-    const [x0, y0] = this.xy;
-    const [x, y] = transform.transformPoint(dx, dy);
-    return [x + x0, y + y0];
-  }
-
-  getOffsetXY(evt) {
-    let parentX, parentY;
-
-    if (evt.parentX != null) {
-      // group
-      parentX = evt.parentX;
-      parentY = evt.parentY;
-    } else {
-      parentX = evt.layerX;
-      parentY = evt.layerY;
-    }
-
-    if (parentX != null && parentY != null) {
-      return this.pointToOffset(parentX, parentY);
-    }
-  }
-
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if (collisionState) {
-      const offsetXY = this.getOffsetXY(evt);
-
-      if (offsetXY) {
-        evt.offsetX = offsetXY[0];
-        evt.offsetY = offsetXY[1];
-      }
-    }
-
-    return super.dispatchEvent(type, evt, collisionState, swallow);
-  }
-
-  pointCollision(evt) {
-    /* istanbul ignore if */
-    if (!this.isVisible()) {
-      return false;
-    }
-
-    const offsetXY = this.getOffsetXY(evt);
-    if (!offsetXY) return true;
-    let [nx, ny] = offsetXY;
-    evt.offsetX = nx;
-    evt.offsetY = ny;
-    const [ox, oy, ow, oh] = this.originalRect;
-
-    if (nx >= ox && nx - ox < ow && ny >= oy && ny - oy < oh) {
-      if (this.context && this.context.isPointInPath) {
-        const borderWidth = this.attr('border').width,
-              borderRadius = this.attr('borderRadius');
-
-        if (borderWidth || borderRadius) {
-          const [width, height] = this.outerSize;
-          const [x, y, w, h, r] = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)];
-          Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(this.context, {
+        if (borderWidth) {
+          drawingContext.lineWidth = borderWidth;
+          const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2, offsetWidth - borderWidth, offsetHeight - borderWidth, borderRadius];
+          Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(drawingContext, {
             x,
             y,
             w,
@@ -6488,254 +7071,58 @@ let BaseSprite = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["deprecate"]
             r
           });
 
-          if (this.layer && this.layer.offset) {
-            nx += this.layer.offset[0];
-            ny += this.layer.offset[1];
+          if (borderStyle && borderStyle !== 'solid') {
+            const dashOffset = this.attr('dashOffset');
+            drawingContext.lineDashOffset = dashOffset;
+
+            if (borderStyle === 'dashed') {
+              borderStyle = [borderWidth * 3, borderWidth * 3];
+            }
+
+            drawingContext.setLineDash(borderStyle);
           }
 
-          return this.context.isPointInPath(nx - ox, ny - oy);
-        }
-      }
-
-      return true;
-    }
-  } // OBB: http://blog.csdn.net/silangquan/article/details/50812425
+          drawingContext.strokeStyle = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["findColor"])(drawingContext, this, 'border');
+          drawingContext.stroke();
+        } // draw bgcolor
 
 
-  OBBCollision(sprite) {
-    // vertices: [p1, p2, p3, p4]
-    const [p11, p12, p13] = this.vertices,
-          [p21, p22, p23] = sprite.vertices;
-    const a1 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p12, p11).unit(),
-          a2 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p13, p12).unit(),
-          a3 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p22, p21).unit(),
-          a4 = new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](p23, p22).unit(); // The projection of the axis of a vertex in a certain direction
+        const bgcolor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["findColor"])(drawingContext, this, 'bgcolor');
+        const bgimage = this.attr('bgimage');
 
-    function verticesProjection(vertices, axis) {
-      const [p1, p2, p3, p4] = vertices.map(v => axis.dot(new sprite_math__WEBPACK_IMPORTED_MODULE_0__["Vector"](v)));
-      return [Math.min(p1, p2, p3, p4), Math.max(p1, p2, p3, p4)];
-    }
+        if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+          const [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)];
+          Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(drawingContext, {
+            x,
+            y,
+            w,
+            h,
+            r
+          });
 
-    function projectionIntersect(p1, p2) {
-      const m1 = (p1[0] + p1[1]) / 2,
-            l1 = Math.abs(p1[1] - p1[0]),
-            m2 = (p2[0] + p2[1]) / 2,
-            l2 = Math.abs(p2[1] - p2[0]);
-      return Math.abs(m2 - m1) <= (l1 + l2) / 2;
-    }
+          if (bgcolor) {
+            drawingContext.fillStyle = bgcolor;
+            drawingContext.fill();
+          } // clip is expensive, we should only perform clip when it has to.
 
-    return projectionIntersect(verticesProjection(this.vertices, a1), verticesProjection(sprite.vertices, a1)) && projectionIntersect(verticesProjection(this.vertices, a2), verticesProjection(sprite.vertices, a2)) && projectionIntersect(verticesProjection(this.vertices, a3), verticesProjection(sprite.vertices, a3)) && projectionIntersect(verticesProjection(this.vertices, a4), verticesProjection(sprite.vertices, a4));
-  }
 
-  relayout() {}
+          if (bgimage && bgimage.display !== 'none' || borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
+            drawingContext.clip();
+          }
 
-  draw(t, drawingContext = this.context) {
-    // eslint-disable-line complexity
-    super.draw(t, drawingContext);
-
-    if (!this.isVisible()) {
-      return;
-    }
-
-    const bound = this.originalRect;
-    let cachableContext = !this.isVirtual && this.cache;
-    const filter = this.attr('filter'),
-          shadow = this.attr('shadow'),
-          enableCache = this.attr('enableCache') || shadow || filter;
-    const ratio = this.layer ? this.layer.displayRatio || 1.0 : 1.0;
-
-    if (enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {
-      cachableContext = _helpers_render__WEBPACK_IMPORTED_MODULE_6__["cacheContextPool"].get(drawingContext);
-
-      if (cachableContext) {
-        // +2 to solve 1px problem
-        cachableContext.canvas.width = Math.ceil(bound[2] * ratio) + 2;
-        cachableContext.canvas.height = Math.ceil(bound[3] * ratio) + 2;
-      }
-    }
-
-    const evtArgs = {
-      context: drawingContext,
-      cacheContext: cachableContext,
-      target: this,
-      renderTime: t,
-      fromCache: !!this.cache
-    };
-    drawingContext.save();
-    drawingContext.translate(...this.xy);
-    drawingContext.transform(...this.transform.m); // fix for wxapp
-
-    const alpha = drawingContext.globalAlpha != null ? drawingContext.globalAlpha : 1;
-    drawingContext.globalAlpha = alpha * this.attr('opacity');
-
-    if (!cachableContext) {
-      drawingContext.translate(bound[0], bound[1]);
-    } else {
-      cachableContext.save(); // solve 1px problem
-
-      cachableContext.translate(bound[0] - Math.floor(bound[0]) + 1, bound[1] - Math.floor(bound[1]) + 1);
-
-      if (ratio !== 1.0) {
-        cachableContext.scale(ratio, ratio);
-      }
-    }
-
-    this.dispatchEvent('beforedraw', evtArgs, true, true);
-
-    if (cachableContext) {
-      // set cache before render for group
-      if (!this.cache) {
-        this.cache = cachableContext;
-        this.render(t, cachableContext);
-      }
-    } else {
-      this.render(t, drawingContext);
-    }
-
-    if ((shadow || filter) && !cachableContext) {
-      console.warn('No cachable context. Shadows and filters have been ignored.');
-    }
-
-    if (cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
-      if (filter) {
-        drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_7__["default"].compile(filter);
-      }
-
-      if (shadow) {
-        let {
-          blur,
-          color,
-          offset
-        } = shadow;
-        blur = blur || 1;
-        color = color || 'rgba(0,0,0,1)';
-        drawingContext.shadowBlur = blur;
-        drawingContext.shadowColor = color;
-
-        if (offset) {
-          drawingContext.shadowOffsetX = offset[0];
-          drawingContext.shadowOffsetY = offset[1];
-        }
-      }
-
-      drawingContext.drawImage(cachableContext.canvas, Math.floor(bound[0]) - 1, Math.floor(bound[1]) - 1, bound[2] + 2, bound[3] + 2);
-    }
-
-    this.dispatchEvent('afterdraw', evtArgs, true, true);
-
-    if (cachableContext) {
-      cachableContext.restore();
-    }
-
-    drawingContext.restore();
-    this[_cachePriority]++;
-    return drawingContext;
-  }
-
-  get needRender() {
-    if (this.isVirtual) return false;
-    const [offsetWidth, offsetHeight] = this.offsetSize;
-    if (offsetWidth <= 0 || offsetHeight <= 0) return false;
-    const border = this.attr('border');
-
-    if (border.width <= 0 && this.attr('borderRadius') <= 0 && !this.attr('bgcolor') && !this.attr('gradients').bgcolor && !this.attr('bgimage')) {
-      return false; // don't need to render
-    }
-
-    return true;
-  }
-
-  show() {
-    this.attr('display', this.__originalDisplay || '');
-    return this;
-  }
-
-  hide() {
-    const display = this.attr('display');
-
-    if (display !== 'none') {
-      this.__originalDisplay = display;
-      this.attr('display', 'none');
-    }
-
-    return this;
-  }
-
-  render(t, drawingContext) {
-    const border = this.attr('border'),
-          borderRadius = this.attr('borderRadius'),
-          padding = this.attr('padding'),
-          [offsetWidth, offsetHeight] = this.offsetSize,
-          [clientWidth, clientHeight] = this.clientSize;
-
-    if (!this.needRender) {
-      drawingContext.translate(padding[3], padding[0]);
-      return false;
-    }
-
-    const borderWidth = border.width;
-    let borderStyle = border.style; // draw border
-
-    if (borderWidth) {
-      drawingContext.lineWidth = borderWidth;
-      const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2, offsetWidth - borderWidth, offsetHeight - borderWidth, borderRadius];
-      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(drawingContext, {
-        x,
-        y,
-        w,
-        h,
-        r
-      });
-
-      if (borderStyle && borderStyle !== 'solid') {
-        const dashOffset = this.attr('dashOffset');
-        drawingContext.lineDashOffset = dashOffset;
-
-        if (borderStyle === 'dashed') {
-          borderStyle = [borderWidth * 3, borderWidth * 3];
+          if (bgimage && bgimage.image && bgimage.display !== 'none') {
+            drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight);
+          }
         }
 
-        drawingContext.setLineDash(borderStyle);
+        drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0]);
+        return true;
       }
 
-      drawingContext.strokeStyle = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["findColor"])(drawingContext, this, 'border');
-      drawingContext.stroke();
-    } // draw bgcolor
+    }]
+  };
+}, _basenode__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
-
-    const bgcolor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["findColor"])(drawingContext, this, 'bgcolor');
-    const bgimage = this.attr('bgimage');
-
-    if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
-      const [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)];
-      Object(_helpers_render__WEBPACK_IMPORTED_MODULE_6__["drawRadiusBox"])(drawingContext, {
-        x,
-        y,
-        w,
-        h,
-        r
-      });
-
-      if (bgcolor) {
-        drawingContext.fillStyle = bgcolor;
-        drawingContext.fill();
-      } // clip is expensive, we should only perform clip when it has to.
-
-
-      if (bgimage && bgimage.display !== 'none' || borderRadius && (this.nodeType !== 'sprite' || this.textures && this.textures.length)) {
-        drawingContext.clip();
-      }
-
-      if (bgimage && bgimage.image && bgimage.display !== 'none') {
-        drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight);
-      }
-    }
-
-    drawingContext.translate(borderWidth + padding[3], borderWidth + padding[0]);
-    return true;
-  }
-
-}, _defineProperty(_class2, "Attr", _baseattr__WEBPACK_IMPORTED_MODULE_3__["default"]), _temp), (_applyDecoratedDescriptor(_class.prototype, "xy", [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"]], Object.getOwnPropertyDescriptor(_class.prototype, "xy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "attrSize", [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "attrSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "boxOffsetSize", [_utils__WEBPACK_IMPORTED_MODULE_2__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "boxOffsetSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "contentSize", [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "contentSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clientSize", [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "clientSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "offsetSize", [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "offsetSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "originalRect", [_utils__WEBPACK_IMPORTED_MODULE_2__["flow"]], Object.getOwnPropertyDescriptor(_class.prototype, "originalRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clearCache", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "clearCache"), _class.prototype)), _class));
 
 
 function drawDot9Image(drawingContext, image, clip9, borderWidth, offsetWidth, offsetHeight, clientWidth, clientHeight) {
@@ -6877,7 +7264,7 @@ function drawBgImage(drawingContext, bgimage, borderWidth, offsetWidth, offsetHe
 }
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6887,651 +7274,966 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(101);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(121);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(122);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(110);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _dec33, _dec34, _class;
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
 
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
 
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
 
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
 
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
 
-let SpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width'), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height'), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec17 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec18 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec19 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec20 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec21 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringTransform"]), _dec22 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"]), _dec23 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec24 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), _dec25 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseInt), _dec26 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec27 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec28 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec29 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseInt), _dec30 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _dec31 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec32 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec33 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _dec34 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), (_class = class SpriteAttr extends _attr__WEBPACK_IMPORTED_MODULE_2__["default"] {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      anchor: [0, 0],
-      enableCache: false,
-      x: 0,
-      y: 0,
-      opacity: 1,
-      width: '',
-      height: '',
-      layoutX: 0,
-      layoutY: 0,
-      layoutWidth: '',
-      layoutHeight: '',
-      bgcolor: '',
-      flexGrow: 0,
-      flexShrink: 1,
-      flexBasis: 'auto',
-      order: 0,
-      position: '',
-      alignSelf: '',
-      rotate: 0,
-      scale: [1, 1],
-      translate: [0, 0],
-      skew: [0, 0],
-      transform: 'matrix(1,0,0,1,0,0)',
-      transformOrigin: '',
-      transformMatrix: [1, 0, 0, 1, 0, 0],
-      border: {
-        width: 0,
-        color: 'rgba(0,0,0,0)',
-        style: 'solid'
-      },
-      // border: [0, 'rgba(0,0,0,0)'],
-      borderRadius: 0,
-      boxSizing: 'content-box',
-      dashOffset: 0,
-      display: '',
-      padding: [0, 0, 0, 0],
-      margin: [0, 0, 0, 0],
-      zIndex: 0,
-      offsetRotate: 'auto',
-      gradients: {},
-      offsetDistance: 0,
-      filter: '',
-      // filter: {blur, ...}
-      shadow: '',
-      // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
-      bgimage: '',
-      clipOverflow: true
-    });
-    Object.defineProperty(this, '__reflowTag', {
-      writable: true,
-      value: false
-    });
-  }
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
 
-  clearFlow() {
-    this.__reflowTag = true;
-    return this;
-  }
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
 
-  clearLayout() {
-    this.__clearLayout = true;
-    return this;
-  }
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
 
-  set(key, value) {
-    super.set(key, value); // auto reflow
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
 
-    if (key === 'width' || key === 'height' || key === 'layoutWidth' || key === 'layoutHeight' || key === 'display' || key === 'anchor' || key === 'border' || key === 'padding' || key === 'boxSizing' || key === 'margin' || key === 'flexBasis' || key === 'flex') {
-      this.__reflowTag = true;
-    }
-  }
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
 
-  merge(attrs) {
-    if (typeof attrs === 'string') {
-      attrs = JSON.parse(attrs);
-    }
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
 
-    Object.entries(attrs).forEach(([key, value]) => {
-      if (this.getDefaultValue(key) !== value) {
-        if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
-          // this[key] = value;
-          this.subject.attr(key, value);
-        } else if (key === 'offsetPath') {
-          const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(value);
-          this.set('offsetPath', offsetPath.d);
-          this.saveObj('offsetPath', offsetPath);
-        } else {
-          this.set(key, value);
-        }
-      }
-    });
-    return this;
-  }
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
 
-  serialize() {
-    const attrs = this.getAttributes();
-    delete attrs.id;
-    const offsetAngle = this.get('offsetAngle');
-    if (offsetAngle != null) attrs.offsetAngle = offsetAngle;
-    const offsetPoint = this.get('offsetPoint');
-    if (offsetPoint != null) attrs.offsetPoint = offsetPoint;
-    return JSON.stringify(attrs);
-  }
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
 
-  set enableCache(val) {
-    return this.set('enableCache', val);
-  }
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
 
-  set anchor(val) {
-    this.clearLayout();
-    this.set('anchor', val);
-  }
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
 
-  set display(val) {
-    this.set('display', val);
-  }
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
 
-  set layoutX(val) {
-    this.set('layoutX', val);
-  }
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
 
-  set layoutY(val) {
-    this.set('layoutY', val);
-  }
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
 
-  set x(val) {
-    this.set('x', val);
-  }
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
 
-  set y(val) {
-    this.set('y', val);
-  }
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
 
-  set pos(val) {
-    if (val == null) {
-      val = [0, 0];
-    }
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
 
-    const [x, y] = val;
-    this.x = x;
-    this.y = y;
-  }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
 
-  get pos() {
-    return [this.x, this.y];
-  }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
-  set bgcolor(val) {
-    this.set('bgcolor', val);
-  }
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
 
-  set opacity(val) {
-    this.set('opacity', val);
-  }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-  set width(val) {
-    this.set('width', val);
-  }
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  set height(val) {
-    this.set('height', val);
-  }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-  set layoutWidth(val) {
-    this.set('layoutWidth', val);
-  }
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-  set layoutHeight(val) {
-    this.set('layoutHeight', val);
-  }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-  set size(val) {
-    if (val == null) {
-      val = ['', ''];
-    }
-
-    const [width, height] = val;
-    this.width = width;
-    this.height = height;
-  }
-
-  get size() {
-    return [this.width, this.height];
-  }
-
-  set border(val) {
-    if (val == null) {
-      this.set('border', null);
-      return;
-    }
-
-    if (typeof val === 'number' || typeof val === 'string') {
-      val = {
-        width: parseFloat(val)
-      };
-    } else if (Array.isArray(val)) {
-      val = {
-        width: parseFloat(val[0]),
-        color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val[1] || '#000')
-      };
-    } else {
-      val.width = parseFloat(val.width);
-      val.color = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val.color || '#000');
-    }
-
-    val = Object.assign({
-      width: 1,
-      color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])('#000'),
-      style: 'solid'
-    }, val);
-    this.set('border', val);
-  }
-
-  set padding(val) {
-    this.set('padding', val);
-  }
-
-  set paddingTop(val) {
-    this.setAttrIndex('padding', val, 0);
-  }
-
-  get paddingTop() {
-    return this.get('padding')[0];
-  }
-
-  set paddingRight(val) {
-    this.setAttrIndex('padding', val, 1);
-  }
-
-  get paddingRight() {
-    return this.get('padding')[1];
-  }
-
-  set paddingBottom(val) {
-    this.setAttrIndex('padding', val, 2);
-  }
-
-  get paddingBottom() {
-    return this.get('padding')[2];
-  }
-
-  set paddingLeft(val) {
-    this.setAttrIndex('padding', val, 3);
-  }
-
-  get paddingLeft() {
-    return this.get('padding')[3];
-  }
-
-  set borderRadius(val) {
-    this.set('borderRadius', val);
-  }
-
-  set boxSizing(val) {
-    this.set('boxSizing', val);
-  }
-
-  set dashOffset(val) {
-    this.set('dashOffset', val);
-  } // transform attributes
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-  set transform(val) {
-    /*
-      rotate: 0,
-      scale: [1, 1],
-      translate: [0, 0],
-      skew: [0, 0],
-      matrix: [1,0,0,1,0,0],
-     */
-    Object.assign(this.__attr, {
-      rotate: 0,
-      scale: [1, 1],
-      translate: [0, 0],
-      skew: [0, 0]
-    });
 
-    if (Array.isArray(val)) {
-      this.set('transformMatrix', val);
-      this.set('transform', `matrix(${val})`);
-    } else {
-      this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
-      const transformStr = [];
-      Object.entries(val).forEach(([key, value]) => {
-        if (key === 'matrix' && Array.isArray(value)) {
-          this.set('transformMatrix', new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](value).m);
-        } else {
-          this[key] = value;
-        }
 
-        transformStr.push(`${key}(${value})`);
+
+const cache = true,
+      reflow = true,
+      relayout = true;
+const border = {
+  width: 0,
+  color: 'rgba(0,0,0,0)',
+  style: 'solid'
+};
+
+let SpriteAttr = _decorate(null, function (_initialize, _NodeAttr) {
+  class SpriteAttr extends _NodeAttr {
+    constructor(subject) {
+      super(subject);
+
+      _initialize(this);
+
+      Object.defineProperty(this, '__reflowTag', {
+        writable: true,
+        value: false
       });
-      this.set('transform', transformStr.join(' '));
     }
+
   }
 
-  set transformOrigin(val) {
-    this.set('transformOrigin', val);
-  }
+  return {
+    F: SpriteAttr,
+    d: [{
+      kind: "method",
+      key: "set",
 
-  set rotate(val) {
-    const delta = this.get('rotate') - val;
-    this.set('rotate', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix')).rotate(-delta);
-    this.set('transformMatrix', transform.m);
-  }
+      value(key, value, isQuiet = false) {
+        _get(_getPrototypeOf(SpriteAttr.prototype), "set", this).call(this, key, value, isQuiet); // auto reflow
 
-  set scale(val) {
-    val = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"])(val).map(v => {
-      if (Math.abs(v) > 0.001) {
-        return v;
+
+        if (key === 'margin') {
+          this.__reflowTag = true;
+        }
       }
 
-      return 1 / v > 0 ? 0.001 : -0.001;
-    });
-    const oldVal = this.get('scale') || [1, 1];
-    const delta = [val[0] / oldVal[0], val[1] / oldVal[1]];
-    this.set('scale', val);
-    const offsetAngle = this.get('offsetAngle');
+    }, {
+      kind: "method",
+      key: "merge",
 
-    if (offsetAngle) {
-      this.rotate -= offsetAngle;
-    }
-
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
-    transform.scale(...delta);
-    this.set('transformMatrix', transform.m);
-
-    if (offsetAngle) {
-      this.rotate += offsetAngle;
-    }
-  }
-
-  set translate(val) {
-    const oldVal = this.get('translate') || [0, 0];
-    const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
-    this.set('translate', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
-    transform.translate(...delta);
-    this.set('transformMatrix', transform.m);
-  }
-
-  set skew(val) {
-    const oldVal = this.get('skew') || [0, 0];
-    const invm = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"]().skew(...oldVal).inverse();
-    this.set('skew', val);
-    const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.get('transformMatrix'));
-    transform.multiply(invm).skew(...val);
-    this.set('transformMatrix', transform.m);
-  }
-
-  set zIndex(val) {
-    this.set('zIndex', val);
-    const subject = this.subject;
-
-    if (subject.parent) {
-      subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["sortOrderedSprites"])(subject.parent.childNodes);
-    }
-  }
-  /**
-    linearGradients : {
-      bgcolor: {
-        direction: 30,  //angle，[0,360)
-        rect: [x, y, w, h],
-        vector: [x1, y1, x2, y2], // direction/rect or from/to
-        colors: [
-          {offset: 0, color: 'red'},
-          {offset: 1, color: 'black'}
-        ]
-      }
-    }
-   */
-
-
-  set linearGradients(val)
-  /* istanbul ignore next  */
-  {
-    this.gradients = val;
-  }
-
-  get linearGradients() {
-    return this.gradients;
-  }
-  /**
-    gradients : {
-      bgcolor: {
-        direction: 30,  //angle，[0,360)
-        rect: [x, y, w, h],  // rect + direction or vector
-        vector: [x1, y1, r1, x2, y2, r2], // vector.length -> linear or radial
-        colors: [
-          {offset: 0, color: 'red'},
-          {offset: 1, color: 'black'}
-        ]
-      }
-    }
-   */
-
-
-  set gradients(val) {
-    this.set('gradients', val);
-  }
-
-  resetOffset() {
-    let offsetPath = this.get('offsetPath');
-    const dis = this.offsetDistance;
-
-    if (offsetPath) {
-      const pathObj = this.loadObj('offsetPath');
-
-      if (pathObj) {
-        offsetPath = pathObj;
-      } else {
-        offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(offsetPath);
-        this.saveObj('offsetPath', offsetPath);
-      }
-    }
-
-    if (offsetPath != null) {
-      let len = dis * offsetPath.getTotalLength();
-      const [x, y] = offsetPath.getPointAtLength(len);
-      let angle = this.offsetRotate;
-
-      if (angle === 'auto' || angle === 'reverse') {
-        if (angle === 'reverse' && len === 0) {
-          len = 1;
+      value(attrs) {
+        if (typeof attrs === 'string') {
+          attrs = JSON.parse(attrs);
         }
 
-        const [x1, y1] = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1);
+        Object.entries(attrs).forEach(([key, value]) => {
+          if (key !== 'offsetPath' && key !== 'offsetDistance' && key !== 'offsetRotate' && key !== 'offsetAngle' && key !== 'offsetPoint') {
+            // this[key] = value;
+            this.subject.attr(key, value);
+          } else if (key === 'offsetPath') {
+            const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(value);
+            this.set('offsetPath', offsetPath.d);
+            this.saveObj('offsetPath', offsetPath);
+          } else {
+            this.set(key, value);
+          }
+        });
+        return this;
+      }
 
-        if (x1 === x && y1 === y) {
-          // last point
-          angle = this.get('offsetAngle');
+    }, {
+      kind: "method",
+      key: "serialize",
+
+      value() {
+        const attrs = this.getAttributes();
+        delete attrs.id;
+        const offsetAngle = this.get('offsetAngle');
+        if (offsetAngle != null) attrs.offsetAngle = offsetAngle;
+        const offsetPoint = this.get('offsetPoint');
+        if (offsetPoint != null) attrs.offsetPoint = offsetPoint;
+        return JSON.stringify(attrs);
+      }
+
+    }, {
+      kind: "field",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "enableCache",
+
+      value() {
+        return false;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        relayout,
+        reflow
+      })],
+      key: "anchor",
+
+      value() {
+        return [0, 0];
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "display",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width')],
+      key: "layoutX",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height')],
+      key: "layoutY",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width')],
+      key: "x",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height')],
+      key: "y",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "pos",
+
+      value(val) {
+        if (val == null) {
+          val = [0, 0];
+        }
+
+        const [x, y] = val;
+        this.x = x;
+        this.y = y;
+      }
+
+    }, {
+      kind: "get",
+      key: "pos",
+
+      value() {
+        return [this.x, this.y];
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "bgcolor",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache: true
+      })],
+      key: "opacity",
+
+      value() {
+        return 1;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow: true
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width')],
+      key: "width",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow: true
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height')],
+      key: "height",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow: true
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('width')],
+      key: "layoutWidth",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow: true
+      }), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["relative"])('height')],
+      key: "layoutHeight",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"]), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "size",
+
+      value(val) {
+        if (val == null) {
+          val = ['', ''];
+        }
+
+        const [width, height] = val;
+        this.width = width;
+        this.height = height;
+      }
+
+    }, {
+      kind: "get",
+      key: "size",
+
+      value() {
+        return [this.width, this.height];
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        value: border
+      })],
+      key: "border",
+
+      value(val) {
+        if (val == null) {
+          this.set('border', null);
+          return;
+        }
+
+        if (typeof val === 'number' || typeof val === 'string') {
+          val = {
+            width: parseFloat(val)
+          };
+        } else if (Array.isArray(val)) {
+          val = {
+            width: parseFloat(val[0]),
+            color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val[1] || '#000')
+          };
         } else {
-          angle = 180 * Math.atan2(y1 - y, x1 - x) / Math.PI;
+          val.width = parseFloat(val.width);
+          val.color = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])(val.color || '#000');
         }
 
-        if (this.offsetRotate === 'reverse') {
-          angle = -angle;
+        val = Object.assign({
+          width: 1,
+          color: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseColorString"])('#000'),
+          style: 'solid'
+        }, val);
+        this.clearFlow();
+        this.set('border', val);
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "paddingTop",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "paddingRight",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "paddingBottom",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "paddingLeft",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "padding",
+
+      value(val) {
+        val = val || [0, 0, 0, 0];
+        this.paddingTop = val[0];
+        this.paddingRight = val[1];
+        this.paddingBottom = val[2];
+        this.paddingLeft = val[3];
+      }
+
+    }, {
+      kind: "get",
+      key: "padding",
+
+      value() {
+        return [this.paddingTop, this.paddingRight, this.paddingBottom, this.paddingLeft];
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "borderRadius",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
+      key: "boxSizing",
+
+      value() {
+        return 'content-box';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "dashOffset",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringTransform"]), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: 'matrix(1,0,0,1,0,0)'
+      })],
+      key: "transform",
+
+      value(val) {
+        /*
+          rotate: 0,
+          scale: [1, 1],
+          translate: [0, 0],
+          skew: [0, 0],
+          matrix: [1,0,0,1,0,0],
+         */
+        Object.assign(this.__attr, {
+          rotate: 0,
+          scale: [1, 1],
+          translate: [0, 0],
+          skew: [0, 0]
+        });
+
+        if (Array.isArray(val)) {
+          this.transformMatrix = val;
+          this.set('transform', `matrix(${val})`);
+        } else {
+          this.transformMatrix = [1, 0, 0, 1, 0, 0];
+          const transformStr = [];
+          Object.entries(val).forEach(([key, value]) => {
+            if (key === 'matrix' && Array.isArray(value)) {
+              this.transformMatrix = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](value).m;
+            } else {
+              this[key] = value;
+            }
+
+            transformStr.push(`${key}(${value})`);
+          });
+          this.set('transform', transformStr.join(' '));
         }
       }
 
-      const offsetAngle = this.get('offsetAngle');
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"]), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      })],
+      key: "transformOrigin",
 
-      if (offsetAngle) {
-        this.rotate -= offsetAngle;
+      value() {
+        return '';
       }
 
-      this.set('offsetAngle', angle);
-      this.rotate += angle;
-      const offsetPoint = this.get('offsetPoint');
+    }, {
+      kind: "field",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "transformMatrix",
 
-      if (offsetPoint) {
-        this.pos = [this.x - offsetPoint[0], this.y - offsetPoint[1]];
+      value() {
+        return [1, 0, 0, 1, 0, 0];
       }
 
-      this.set('offsetPoint', [x, y]);
-      this.pos = [this.x + x, this.y + y];
-    }
-  }
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: 0
+      })],
+      key: "rotate",
 
-  set offsetPath(val) {
-    const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(val);
-    this.set('offsetPath', offsetPath.d);
-    this.saveObj('offsetPath', offsetPath);
-    this.resetOffset();
-  }
-
-  set offsetDistance(val) {
-    this.set('offsetDistance', val);
-    this.resetOffset();
-  }
-
-  set offsetRotate(val) {
-    if (typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
-      val = parseFloat(val);
-    }
-
-    this.set('offsetRotate', val);
-    this.resetOffset();
-  }
-
-  set filter(val) {
-    this.set('filter', val);
-  }
-
-  set shadow(val) {
-    this.set('shadow', val);
-  }
-
-  set flexGrow(val) {
-    this.clearLayout();
-    this.set('flexGrow', val);
-  }
-
-  set flexShrink(val) {
-    this.clearLayout();
-    this.set('flexShrink', val);
-  }
-
-  set flexBasis(val) {
-    this.clearLayout();
-
-    if (val && val !== 'auto') {
-      val = parseFloat(val);
-    }
-
-    this.set('flexBasis', val);
-  }
-
-  set flex(val) {
-    if (val != null && val !== 'initial') {
-      if (val === 'auto') {
-        this.flexGrow = 1;
-        this.flexShrink = 1;
-        this.flexBasis = 'auto';
-      } else if (val === 'none') {
-        this.flexGrow = 0;
-        this.flexShrink = 0;
-        this.flexBasis = 'auto';
-      } else if (typeof val === 'string') {
-        const values = val.trim().split(/\s+/);
-        this.flexGrow = values[0];
-        this.flexShrink = values[1];
-        this.flexBasis = values[2];
-      } else {
-        this.flexGrow = val;
-        this.flexShrink = 1;
-        this.flexBasis = 'auto';
+      value(val) {
+        const delta = this.rotate - val;
+        this.set('rotate', val);
+        const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.transformMatrix).rotate(-delta);
+        this.transformMatrix = transform.m;
       }
-    } else {
-      this.flexGrow = 0;
-      this.flexShrink = 1;
-      this.flexBasis = 'auto';
-    }
-  }
 
-  get flex() {
-    return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
-  }
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"]), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: [1, 1]
+      })],
+      key: "scale",
 
-  set order(val) {
-    this.clearLayout();
-    this.set('order', val);
-  }
+      value(val) {
+        val = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["oneOrTwoValues"])(val).map(v => {
+          if (Math.abs(v) > 0.001) {
+            return v;
+          }
 
-  set position(val) {
-    this.clearLayout();
-    this.set('position', val);
-  }
+          return 1 / v > 0 ? 0.001 : -0.001;
+        });
+        const oldVal = this.scale || [1, 1];
+        const delta = [val[0] / oldVal[0], val[1] / oldVal[1]];
+        this.set('scale', val);
+        const offsetAngle = this.get('offsetAngle');
 
-  set alignSelf(val) {
-    this.clearLayout();
-    this.set('alignSelf', val);
-  }
+        if (offsetAngle) {
+          this.rotate -= offsetAngle;
+        }
 
-  set margin(val) {
-    this.clearLayout();
-    this.set('margin', val);
-  }
+        const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.transformMatrix);
+        transform.scale(...delta);
+        this.transformMatrix = transform.m;
 
-  set marginTop(val) {
-    this.setAttrIndex('margin', val, 0);
-  }
+        if (offsetAngle) {
+          this.rotate += offsetAngle;
+        }
+      }
 
-  get marginTop() {
-    return this.get('margin')[0];
-  }
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: [0, 0]
+      })],
+      key: "translate",
 
-  set marginRight(val) {
-    this.setAttrIndex('margin', val, 1);
-  }
+      value(val) {
+        const oldVal = this.translate || [0, 0];
+        const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
+        this.set('translate', val);
+        const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.transformMatrix);
+        transform.translate(...delta);
+        this.transformMatrix = transform.m;
+      }
 
-  get marginRight() {
-    return this.get('margin')[1];
-  }
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: [0, 0]
+      })],
+      key: "skew",
 
-  set marginBottom(val) {
-    this.setAttrIndex('margin', val, 2);
-  }
+      value(val) {
+        const oldVal = this.skew || [0, 0];
+        const invm = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"]().skew(...oldVal).inverse();
+        this.set('skew', val);
+        const transform = new sprite_math__WEBPACK_IMPORTED_MODULE_1__["Matrix"](this.transformMatrix);
+        transform.multiply(invm).skew(...val);
+        this.transformMatrix = transform.m;
+      }
 
-  get marginBottom() {
-    return this.get('margin')[2];
-  }
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseInt), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: 0
+      })],
+      key: "zIndex",
 
-  set marginLeft(val) {
-    this.setAttrIndex('margin', val, 3);
-  }
+      value(val) {
+        this.set('zIndex', val);
+        const subject = this.subject;
 
-  get marginLeft() {
-    return this.get('margin')[3];
-  }
-  /*
-    {
-      src: image | url,
-      display: 'none' | 'repeatX' | 'repeatY' | 'repeat' | 'stretch' | 'center' | '.9',
-      offset: [x, y],
-      clip9: [paddingTop, paddingRight, paddingBottom, paddingLeft],
-    }
-  */
+        if (subject.parent) {
+          subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["sortOrderedSprites"])(subject.parent.childNodes);
+        }
+      }
 
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "linearGradients",
 
-  set bgimage(val) {
-    if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"])(val.clip9);
+      value(val)
+      /* istanbul ignore next  */
+      {
+        this.gradients = val;
+      }
 
-    if (val && !val.image && this.subject.loadBgImage) {
-      val = this.subject.loadBgImage(val);
-    }
+    }, {
+      kind: "get",
+      key: "linearGradients",
 
-    this.set('bgimage', val);
-  }
+      value() {
+        return this.gradients;
+      }
 
-  set clipOverflow(val) {
-    this.set('clipOverflow', !!val);
-  }
+    }, {
+      kind: "field",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "gradients",
 
-}, (_applyDecoratedDescriptor(_class.prototype, "enableCache", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "enableCache"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "anchor", [_dec, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "anchor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "display", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "display"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutX", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec2, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "layoutX"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutY", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec3, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "layoutY"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "x", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec4, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "x"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "y", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec5, _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "y"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "pos", [_dec6, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "pos"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bgcolor", [_dec7, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "bgcolor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "opacity", [_dec8, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "opacity"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "width", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, "width"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "height", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, "height"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutWidth", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec11], Object.getOwnPropertyDescriptor(_class.prototype, "layoutWidth"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutHeight", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, "layoutHeight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "size", [_dec13, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "size"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "border", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "border"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "padding", [_dec14, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "padding"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paddingTop", [_dec15, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "paddingTop"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paddingRight", [_dec16, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "paddingRight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paddingBottom", [_dec17, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "paddingBottom"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paddingLeft", [_dec18, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "paddingLeft"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "borderRadius", [_dec19, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "borderRadius"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "boxSizing", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "boxSizing"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "dashOffset", [_dec20, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "dashOffset"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "transform", [_dec21, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "transform"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "transformOrigin", [_dec22, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "transformOrigin"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "rotate", [_dec23, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "rotate"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "scale", [_dec24, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "scale"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "translate", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "translate"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "skew", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "skew"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "zIndex", [_dec25, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "zIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "linearGradients", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "linearGradients"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "gradients", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "gradients"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "offsetPath", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "offsetPath"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "offsetDistance", [_dec26, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "offsetDistance"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "offsetRotate", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "offsetRotate"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "filter", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "filter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "shadow", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "shadow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flexGrow", [_dec27, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flexGrow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flexShrink", [_dec28, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flexShrink"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flexBasis", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flexBasis"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flex", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "order", [_dec29, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "order"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "position", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "position"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "alignSelf", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "alignSelf"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "margin", [_dec30, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"], _utils__WEBPACK_IMPORTED_MODULE_3__["cachable"]], Object.getOwnPropertyDescriptor(_class.prototype, "margin"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "marginTop", [_dec31, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "marginTop"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "marginRight", [_dec32, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "marginRight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "marginBottom", [_dec33, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "marginBottom"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "marginLeft", [_dec34, _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "marginLeft"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bgimage", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "bgimage"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clipOverflow", [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "clipOverflow"), _class.prototype)), _class));
+      value() {
+        return {};
+      }
+
+    }, {
+      kind: "method",
+      key: "resetOffset",
+
+      value() {
+        let offsetPath = this.offsetPath;
+        const dis = this.offsetDistance;
+
+        if (offsetPath) {
+          const pathObj = this.loadObj('offsetPath');
+
+          if (pathObj) {
+            offsetPath = pathObj;
+          } else {
+            offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(offsetPath);
+            this.saveObj('offsetPath', offsetPath);
+          }
+        }
+
+        if (offsetPath != null) {
+          let len = dis * offsetPath.getTotalLength();
+          const [x, y] = offsetPath.getPointAtLength(len);
+          let angle = this.offsetRotate;
+
+          if (angle === 'auto' || angle === 'reverse') {
+            if (angle === 'reverse' && len === 0) {
+              len = 1;
+            }
+
+            const [x1, y1] = offsetPath.getPointAtLength(angle === 'auto' ? len + 1 : len - 1);
+
+            if (x1 === x && y1 === y) {
+              // last point
+              angle = this.get('offsetAngle');
+            } else {
+              angle = 180 * Math.atan2(y1 - y, x1 - x) / Math.PI;
+            }
+
+            if (this.offsetRotate === 'reverse') {
+              angle = -angle;
+            }
+          }
+
+          const offsetAngle = this.get('offsetAngle');
+
+          if (offsetAngle) {
+            this.rotate -= offsetAngle;
+          }
+
+          this.set('offsetAngle', angle);
+          this.rotate += angle;
+          const offsetPoint = this.get('offsetPoint');
+
+          if (offsetPoint) {
+            this.pos = [this.x - offsetPoint[0], this.y - offsetPoint[1]];
+          }
+
+          this.set('offsetPoint', [x, y]);
+          this.pos = [this.x + x, this.y + y];
+        }
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      })],
+      key: "offsetPath",
+
+      value(val) {
+        const offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default.a(val);
+        this.set('offsetPath', offsetPath.d);
+        this.saveObj('offsetPath', offsetPath);
+        this.resetOffset();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: 0
+      })],
+      key: "offsetDistance",
+
+      value(val) {
+        this.set('offsetDistance', val);
+        this.resetOffset();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        value: 'auto'
+      })],
+      key: "offsetRotate",
+
+      value(val) {
+        if (typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
+          val = parseFloat(val);
+        }
+
+        this.set('offsetRotate', val);
+        this.resetOffset();
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      })],
+      key: "filter",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      })],
+      key: "shadow",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache,
+        relayout
+      })],
+      key: "position",
+
+      value() {
+        return '';
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow,
+        relayout,
+        cache
+      })],
+      key: "marginTop",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow,
+        relayout,
+        cache
+      })],
+      key: "marginRight",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow,
+        relayout,
+        cache
+      })],
+      key: "marginBottom",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow,
+        relayout,
+        cache
+      })],
+      key: "marginLeft",
+
+      value() {
+        return 0;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringInt"], _utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"]), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "margin",
+
+      value(val) {
+        val = val || [0, 0, 0, 0];
+        this.marginTop = val[0];
+        this.marginRight = val[1];
+        this.marginBottom = val[2];
+        this.marginLeft = val[3];
+      }
+
+    }, {
+      kind: "get",
+      key: "margin",
+
+      value() {
+        return [this.marginTop, this.marginRight, this.marginBottom, this.marginLeft];
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        value: ''
+      })],
+      key: "bgimage",
+
+      value(val) {
+        if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["fourValuesShortCut"])(val.clip9);
+
+        if (val && !val.image && this.subject.loadBgImage) {
+          val = this.subject.loadBgImage(val);
+        }
+
+        this.set('bgimage', val);
+      }
+
+    }, {
+      kind: "field",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      key: "clipOverflow",
+
+      value() {
+        return true;
+      }
+
+    }]
+  };
+}, _attr__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Attr; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
-var _dec, _class, _class2, _temp2;
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -7541,229 +8243,370 @@ const _attr = Symbol('attr'),
       _subject = Symbol('subject'),
       _default = Symbol('default');
 
-let Attr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["deprecate"])('You can remove this call.'), (_class = (_temp2 = _class2 = class Attr {
-  constructor(subject) {
-    this[_subject] = subject;
-    this[_default] = {};
-    this[_attr] = {};
-    this[_style] = {};
-    this[_temp] = new Map(); // save non-serialized values
+let Attr = _decorate(null, function (_initialize) {
+  class Attr {
+    constructor(subject) {
+      _initialize(this);
 
-    Object.defineProperty(this, '__attributesSet', {
-      value: new Set()
-    });
-    Object.defineProperty(this, '__styleTag', {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, '__updateTag', {
-      writable: true,
-      value: false
-    });
-    this.setDefault(Attr.attrDefaultValues);
-  }
+      this[_subject] = subject;
+      this[_default] = {};
+      this[_attr] = {};
+      this[_style] = {};
+      this[_temp] = new Map(); // save non-serialized values
 
-  get __attr() {
-    return this[_attr];
-  }
-
-  getDefaultValue(key) {
-    return this[_default][key];
-  }
-
-  setDefault(attrs) {
-    Object.assign(this[_default], attrs);
-    Object.assign(this[_attr], attrs);
-  }
-
-  setAttrIndex(key, val, idx) {
-    if (val == null) val = this[_default][key][idx];
-    const arr = this.get(key);
-    arr[idx] = val;
-    this.set(key, arr);
-  }
-
-  saveObj(key, val) {
-    this[_temp].set(key, val);
-
-    this.__updateTag = true;
-  }
-
-  loadObj(key) {
-    return this[_temp].get(key);
-  }
-
-  quietSet(key, val) {
-    let oldVal;
-
-    if (key.length > 5 && key.indexOf('data-') === 0) {
-      const dataKey = key.slice(5);
-      oldVal = this.subject.data(dataKey);
-      this.subject.data(dataKey, val);
-    } else if (!this.__styleTag) {
-      if (val != null) {
-        this.__attributesSet.add(key);
-      } else {
-        val = this[_default][key];
-
-        if (this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
-        }
-      }
-
-      oldVal = this[_attr][key];
-      this[_attr][key] = val;
-    } else if (val != null) {
-      this[_style][key] = val;
-    } else {
-      delete this[_style][key];
-    }
-
-    if (!this.__styleTag && Attr.relatedAttributes.has(key)) {
-      if (typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
-        this.subject.updateStyles();
-      }
-    }
-  }
-
-  clearStyle() {
-    this[_style] = {};
-  }
-
-  get style() {
-    return this[_style];
-  }
-
-  set(key, val) {
-    if (!this.__styleTag && val != null) {
-      this.__attributesSet.add(key);
-    }
-
-    if (!this.__styleTag && val == null) {
-      val = this[_default][key];
-
-      if (this.__attributesSet.has(key)) {
-        this.__attributesSet.delete(key);
-      }
-    }
-
-    if (this.__styleTag) {
-      if (val != null) {
-        this[_style][key] = val;
-      } else {
-        delete this[_style][key];
-      }
-    }
-
-    const oldVal = this[_attr][key];
-
-    if (typeof val === 'object') {
-      if (oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
-        return false;
-      }
-    } else if (oldVal === val) {
-      return false;
-    }
-
-    if (!this.__styleTag) {
-      this[_attr][key] = val;
-
-      if (Attr.relatedAttributes.has(key)) {
-        this.subject.updateStyles();
-      }
-    }
-
-    this.__updateTag = true;
-    return true;
-  }
-
-  get(key) {
-    if (key.length > 5 && key.indexOf('data-') === 0) {
-      return this.subject.data(key.slice(5));
-    }
-
-    if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
-      return this[_style][key];
-    }
-
-    return this[_attr][key];
-  }
-
-  getAttributes(ignoreDefault = true) {
-    const ret = {};
-
-    if (!ignoreDefault) {
-      Object.keys(this[_attr]).forEach(key => {
-        if (this[key] !== undefined) {
-          ret[key] = this[key];
-        }
+      Object.defineProperty(this, '__attributesSet', {
+        value: new Set()
+      });
+      Object.defineProperty(this, '__styleTag', {
+        writable: true,
+        value: false
+      });
+      Object.defineProperty(this, '__updateTag', {
+        writable: true,
+        value: false
       });
     }
 
-    [...this.__attributesSet].forEach(key => {
-      if (key.indexOf('__internal') !== 0) {
-        ret[key] = this[key];
+  }
+
+  return {
+    F: Attr,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "relatedAttributes",
+
+      value() {
+        return _utils__WEBPACK_IMPORTED_MODULE_0__["relatedAttributes"];
       }
-    });
-    Object.entries(this).forEach(([key, value]) => {
-      if (key.indexOf('__') !== 0) {
-        ret[key] = value;
+
+    }, {
+      kind: "field",
+      static: true,
+      key: "attributeNames",
+
+      value() {
+        return _utils__WEBPACK_IMPORTED_MODULE_0__["attributeNames"];
       }
-    });
-    return ret;
-  }
 
-  get attrs() {
-    return this.getAttributes(false);
-  }
+    }, {
+      kind: "field",
+      static: true,
+      key: "attrDefaultValues",
 
-  clearCache() {
-    return this;
-  }
+      value() {
+        return {};
+      }
 
-  merge(attrs) {
-    if (typeof attrs === 'string') {
-      attrs = JSON.parse(attrs);
-    }
+    }, {
+      kind: "method",
+      static: true,
+      key: "addAttributes",
 
-    return this;
-  }
+      value(attrs) {
+        const descriptors = {};
+        Object.entries(attrs).forEach(([key, v]) => {
+          if (typeof v === 'function') {
+            const _setter = v;
+            v = {
+              set(val) {
+                _setter(this, val);
+              }
 
-  serialize() {
-    const attrs = this.getAttributes();
-    delete attrs.id;
-    return JSON.stringify(attrs);
-  }
+            };
+          }
 
-  get subject() {
-    return this[_subject];
-  }
-  /* ------------------- define attributes ----------------------- */
+          let {
+            decorators: wrappers,
+            value,
+            get,
+            set
+          } = v;
+          wrappers = wrappers || [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]];
 
+          if (set == null) {
+            set = function (val) {
+              this.set(key, val);
+            };
+          }
 
-  set id(val) {
-    return this.quietSet('id', String(val));
-  }
+          if (get == null) {
+            get = function () {
+              return this.get(key);
+            };
+          }
 
-  set name(val) {
-    return this.quietSet('name', String(val));
-  }
+          const $decorator = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["decorators"])(...wrappers);
+          descriptors[key] = $decorator(key, value, {
+            set,
+            get
+          });
+        });
+        Object.defineProperties(this.prototype, descriptors);
+      }
 
-  set class(val) {
-    return this.quietSet('class', String(val));
-  }
+    }, {
+      kind: "get",
+      key: "__attr",
 
-}, _defineProperty(_class2, "relatedAttributes", new Set()), _defineProperty(_class2, "attrDefaultValues", {}), _temp2), (_applyDecoratedDescriptor(_class.prototype, "clearCache", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "clearCache"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "id", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "id"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "name", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "name"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "class", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "class"), _class.prototype)), _class));
+      value() {
+        return this[_attr];
+      }
+
+    }, {
+      kind: "method",
+      key: "setDefault",
+
+      value(attrs) {
+        Object.assign(this[_default], attrs);
+      }
+
+    }, {
+      kind: "method",
+      key: "getDefaultValue",
+
+      value(key, defaultValue) {
+        if (key in this[_default]) return this[_default][key];
+        return defaultValue;
+      }
+
+    }, {
+      kind: "method",
+      key: "setAttrIndex",
+
+      value(key, val, idx) {
+        if (val == null) val = this.getDefaultValue(key)[idx];
+        const arr = this[key];
+        arr[idx] = val;
+        this.set(key, arr);
+      }
+
+    }, {
+      kind: "method",
+      key: "saveObj",
+
+      value(key, val) {
+        this[_temp].set(key, val);
+
+        this.__updateTag = true;
+      }
+
+    }, {
+      kind: "method",
+      key: "loadObj",
+
+      value(key) {
+        return this[_temp].get(key);
+      }
+
+    }, {
+      kind: "method",
+      key: "quietSet",
+
+      value(key, val) {
+        this.set(key, val, true);
+      }
+
+    }, {
+      kind: "method",
+      key: "clearStyle",
+
+      value() {
+        this[_style] = {};
+      }
+
+    }, {
+      kind: "method",
+      key: "clearFlow",
+
+      value() {
+        this.__reflowTag = true;
+        return this;
+      }
+
+    }, {
+      kind: "method",
+      key: "clearLayout",
+
+      value() {
+        this.__clearLayout = true;
+        return this;
+      }
+
+    }, {
+      kind: "get",
+      key: "style",
+
+      value() {
+        return this[_style];
+      }
+
+    }, {
+      kind: "method",
+      key: "set",
+
+      value(key, val, isQuiet = false) {
+        this.__quietTag = isQuiet;
+        let oldVal;
+
+        if (isQuiet && key.length > 5 && key.indexOf('data-') === 0) {
+          const dataKey = key.slice(5);
+          oldVal = this.subject.data(dataKey);
+          this.subject.data(dataKey, val);
+        } else if (this.__styleTag) {
+          oldVal = this[_style][key];
+
+          if (val != null) {
+            this[_style][key] = val;
+          } else {
+            delete this[_style][key];
+          }
+        } else {
+          oldVal = this[_attr][key];
+        }
+
+        if (val && typeof val === 'object') {
+          if (oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
+            return false;
+          }
+        } else if (oldVal === val) {
+          return false;
+        }
+
+        if (!this.__styleTag) {
+          this[_attr][key] = val;
+        }
+
+        this.__updateTag = true;
+        return true;
+      }
+
+    }, {
+      kind: "method",
+      key: "get",
+
+      value(key) {
+        if (key.length > 5 && key.indexOf('data-') === 0) {
+          return this.subject.data(key.slice(5));
+        }
+
+        if (this.__getStyleTag || this[_style][key] != null && !this.__attributesSet.has(key)) {
+          return this[_style][key];
+        }
+
+        return this[_attr][key];
+      }
+
+    }, {
+      kind: "method",
+      key: "getAttributes",
+
+      value(includeDefault = false) {
+        const ret = {};
+
+        if (includeDefault) {
+          [..._utils__WEBPACK_IMPORTED_MODULE_0__["attributeNames"]].forEach(key => {
+            if (key in this) {
+              ret[key] = this[key];
+            }
+          });
+        }
+
+        [...this.__attributesSet].forEach(key => {
+          if (key.indexOf('__internal') !== 0) {
+            ret[key] = this[key];
+          }
+        });
+        Object.entries(this).forEach(([key, value]) => {
+          if (key.indexOf('__') !== 0) {
+            ret[key] = value;
+          }
+        });
+        return ret;
+      }
+
+    }, {
+      kind: "get",
+      key: "attrs",
+
+      value() {
+        return this.getAttributes(true);
+      }
+
+    }, {
+      kind: "method",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["deprecate"])('You can remove this call.')],
+      key: "clearCache",
+
+      value() {
+        return this;
+      }
+
+    }, {
+      kind: "method",
+      key: "merge",
+
+      value(attrs) {
+        if (typeof attrs === 'string') {
+          attrs = JSON.parse(attrs);
+        }
+
+        return this;
+      }
+
+    }, {
+      kind: "method",
+      key: "serialize",
+
+      value() {
+        const attrs = this.getAttributes();
+        delete attrs.id;
+        return JSON.stringify(attrs);
+      }
+
+    }, {
+      kind: "get",
+      key: "subject",
+
+      value() {
+        return this[_subject];
+      }
+
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(String), Object(_utils__WEBPACK_IMPORTED_MODULE_0__["attr"])({
+        quiet: true
+      })],
+      key: "id",
+      value: void 0
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(String), Object(_utils__WEBPACK_IMPORTED_MODULE_0__["attr"])({
+        quiet: true
+      })],
+      key: "name",
+      value: void 0
+    }, {
+      kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(String), Object(_utils__WEBPACK_IMPORTED_MODULE_0__["attr"])({
+        quiet: true
+      })],
+      key: "class",
+      value: void 0
+    }]
+  };
+});
+
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseNode; });
-/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(121);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(122);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -7835,8 +8678,18 @@ class BaseNode {
           configurable: true,
 
           set(value) {
-            const subject = this.subject;
-            this.quietSet(key, value); // fixed color inherit
+            if (!this.__styleTag && val != null) {
+              this.__attributesSet.add(key);
+            }
+
+            if (!this.__styleTag && val == null) {
+              if (this.__attributesSet.has(key)) {
+                this.__attributesSet.delete(key);
+              }
+            }
+
+            this.quietSet(key, value);
+            const subject = this.subject; // fixed color inherit
 
             if (key === 'color') {
               subject.attr('fillColor', value);
@@ -7876,7 +8729,8 @@ class BaseNode {
           },
 
           get() {
-            return this.get(key);
+            const ret = this.get(key);
+            return ret != null ? ret : this.getDefaultValue(key);
           }
 
         });
@@ -7930,7 +8784,7 @@ class BaseNode {
         return this;
       }
 
-      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
+      return props in this[_attr] ? this[_attr][props] : this[_attr].getDefaultValue(props);
     }
 
     return this[_attr].attrs;
@@ -8317,7 +9171,7 @@ _defineProperty(BaseNode, "Attr", _attr__WEBPACK_IMPORTED_MODULE_0__["default"])
 _defineProperty(BaseNode, "inheritAttributes", _utils__WEBPACK_IMPORTED_MODULE_1__["inheritAttributes"]);
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8326,7 +9180,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(101);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sprite_math__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(110);
-/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(124);
+/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(125);
 
 
 
@@ -8579,7 +9433,7 @@ Object.assign(sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Effects"], {
 });
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8650,10 +9504,10 @@ const timeline = new sprite_animator__WEBPACK_IMPORTED_MODULE_0__["Timeline"]({
 
 });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(125)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(126)))
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports) {
 
 var g;
@@ -8679,7 +9533,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8741,20 +9595,82 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sprite; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(119);
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(126);
-var _class, _class2, _class3, _temp;
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(120);
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(127);
+function set(target, property, value, receiver) { if (typeof Reflect !== "undefined" && Reflect.set) { set = Reflect.set; } else { set = function set(target, property, value, receiver) { var base = _superPropBase(target, property); var desc; if (base) { desc = Object.getOwnPropertyDescriptor(base, property); if (desc.set) { desc.set.call(receiver, value); return true; } else if (!desc.writable) { return false; } } desc = Object.getOwnPropertyDescriptor(receiver, property); if (desc) { if (!desc.writable) { return false; } desc.value = value; Object.defineProperty(receiver, property, desc); } else { _defineProperty(receiver, property, value); } return true; }; } return set(target, property, value, receiver); }
+
+function _set(target, property, value, receiver, isStrict) { var s = set(target, property, value, receiver || target); if (!s && isStrict) { throw new Error('failed to set property'); } return value; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
+
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
+
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -8764,283 +9680,420 @@ const _texturesCache = Symbol('_texturesCache');
 
 const _images = Symbol('_images');
 
-let TextureAttr = (_class = class TextureAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      textures: [],
-      enableCache: true
-    });
+let TextureAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
+  class TextureAttr extends _BaseSprite$Attr {
+    constructor(subject) {
+      super(subject);
+
+      _initialize(this);
+
+      this.setDefault({
+        textures: [],
+        enableCache: true
+      });
+    }
+    /*
+      {
+        image: ...,  //texture resource
+        srcRect: ..., //texture clip
+        rect: ....,  //texture in sprite offset
+        filter: ...  //texture filters
+      }
+     */
+
+
   }
-  /*
-    {
-      image: ...,  //texture resource
-      srcRect: ..., //texture clip
-      rect: ....,  //texture in sprite offset
-      filter: ...  //texture filters
-    }
-   */
 
+  return {
+    F: TextureAttr,
+    d: [{
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "textures",
 
-  set textures(textures) {
-    if (!Array.isArray(textures)) {
-      textures = [textures];
-    }
+      value(textures) {
+        if (!Array.isArray(textures)) {
+          textures = [textures];
+        }
 
-    textures = textures.map(texture => {
-      if (!texture.image) {
-        texture = {
-          image: texture
+        textures = textures.map(texture => {
+          if (!texture.image) {
+            texture = {
+              image: texture
+            };
+          }
+
+          texture.__tag = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["generateID"])(texture.image); // prevent JSON.stringify ignorance
+
+          return texture;
+        });
+        this.loadTextures(textures);
+        this.set('textures', textures);
+      }
+
+    }, {
+      kind: "method",
+      key: "loadTextures",
+
+      value(textures) {
+        const subject = this.subject; // adaptive textures
+
+        let width = 0,
+            height = 0;
+        subject.images = textures.map(texture => {
+          const {
+            image,
+            rect,
+            srcRect
+          } = texture;
+          let w, h;
+
+          if (rect) {
+            w = rect[2] + rect[0];
+            h = rect[3] + rect[1];
+          } else if (srcRect) {
+            w = srcRect[2];
+            h = srcRect[3];
+          } else {
+            w = image.width;
+            h = image.height;
+          }
+
+          if (width < w) {
+            width = w;
+          }
+
+          if (height < h) {
+            height = h;
+          }
+
+          delete texture.image;
+          return image;
+        });
+        const texturesSize = subject.texturesSize;
+
+        if (!texturesSize || texturesSize[0] !== width || texturesSize[1] !== height) {
+          const attrSize = subject.attrSize;
+
+          if (attrSize[0] === '' || attrSize[1] === '') {
+            subject.reflow();
+            subject.clearLayout();
+          }
+        }
+
+        subject.texturesSize = [width, height];
+        return textures;
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr);
+
+let Sprite = _decorate(null, function (_initialize2, _BaseSprite) {
+  class Sprite extends _BaseSprite {
+    /**
+      new Sprite({
+        attr: {
+          ...
+        },
+        attributeChangedCallback: function(prop, oldValue, newValue){
+         }
+      })
+     */
+    constructor(attr) {
+      if (attr && attr.constructor !== Object) {
+        attr = {
+          textures: [attr]
         };
       }
 
-      texture.__tag = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["generateID"])(texture.image); // prevent JSON.stringify ignorance
+      super();
 
-      return texture;
-    });
-    this.loadTextures(textures);
-    this.set('textures', textures);
-  }
+      _initialize2(this);
 
-  loadTextures(textures) {
-    const subject = this.subject; // adaptive textures
+      this[_texturesCache] = new Map();
 
-    let width = 0,
-        height = 0;
-    subject.images = textures.map(texture => {
-      const {
-        image,
-        rect,
-        srcRect
-      } = texture;
-      let w, h;
-
-      if (rect) {
-        w = rect[2] + rect[0];
-        h = rect[3] + rect[1];
-      } else if (srcRect) {
-        w = srcRect[2];
-        h = srcRect[3];
-      } else {
-        w = image.width;
-        h = image.height;
-      }
-
-      if (width < w) {
-        width = w;
-      }
-
-      if (height < h) {
-        height = h;
-      }
-
-      delete texture.image;
-      return image;
-    });
-    const texturesSize = subject.texturesSize;
-
-    if (!texturesSize || texturesSize[0] !== width || texturesSize[1] !== height) {
-      const attrSize = subject.attrSize;
-
-      if (attrSize[0] === '' || attrSize[1] === '') {
-        subject.reflow();
-        subject.clearLayout();
+      if (attr) {
+        this.attr(attr);
       }
     }
 
-    subject.texturesSize = [width, height];
-    return textures;
   }
 
-}, (_applyDecoratedDescriptor(_class.prototype, "textures", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "textures"), _class.prototype)), _class);
-let Sprite = (_class2 = (_temp = _class3 = class Sprite extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"] {
-  /**
-    new Sprite({
-      attr: {
-        ...
-      },
-      attributeChangedCallback: function(prop, oldValue, newValue){
-       }
-    })
-   */
-  constructor(attr) {
-    if (attr && attr.constructor !== Object) {
-      attr = {
-        textures: [attr]
-      };
-    }
+  return {
+    F: Sprite,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "Attr",
 
-    super();
-    this[_texturesCache] = new Map();
-
-    if (attr) {
-      this.attr(attr);
-    }
-  }
-
-  cloneNode() {
-    const node = super.cloneNode();
-
-    if (this.images) {
-      node.textures = this.textures.map((texture, i) => {
-        texture.image = this.images[i];
-        return texture;
-      });
-    }
-
-    return node;
-  }
-
-  set images(images) {
-    this[_images] = images;
-  }
-
-  get images() {
-    return this[_images];
-  }
-
-  set textures(textures) {
-    this.attr('textures', textures);
-  }
-
-  get textures() {
-    return this.attr('textures');
-  } // override to adapt textures' size
-
-
-  get contentSize() {
-    const [width, height] = this.attrSize;
-    const boxSize = this.texturesSize || [0, 0];
-    let [w, h] = [width, height];
-
-    if (width === '') {
-      w = boxSize[0] | 0;
-
-      if (height !== '' && boxSize[1]) {
-        w *= height / boxSize[1];
-      }
-    }
-
-    if (height === '') {
-      h = boxSize[1] | 0;
-
-      if (width !== '' && boxSize[0]) {
-        h *= width / boxSize[0];
-      }
-    }
-
-    return [w, h];
-  }
-
-  pointCollision(evt) {
-    if (super.pointCollision(evt)) {
-      const textures = this.textures;
-
-      if (textures) {
-        let {
-          offsetX,
-          offsetY
-        } = evt;
-        if (offsetX == null && offsetY == null) return true;
-        evt.targetTextures = [];
-        const [anchorX, anchorY] = this.attr('anchor'),
-              [width, height] = this.contentSize;
-        offsetX += width * anchorX;
-        offsetY += height * anchorY;
-        textures.forEach(texture => {
-          const [x, y, w, h] = texture.rect || [0, 0, ...this.innerSize];
-
-          if (offsetX >= x && offsetX - x < w && offsetY >= y && offsetY - y < h) {
-            // touched textures
-            evt.targetTextures.push(texture);
-          }
-        });
+      value() {
+        return TextureAttr;
       }
 
-      return true;
-    }
+    }, {
+      kind: "method",
+      key: "cloneNode",
 
-    return false;
-  }
+      value() {
+        const node = _get(_getPrototypeOf(Sprite.prototype), "cloneNode", this).call(this);
 
-  get cache() {
-    const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
-
-    if (!bg && this.textures.length <= 1) {
-      return false;
-    }
-
-    return super.cache;
-  }
-
-  set cache(context) {
-    super.cache = context;
-  }
-
-  render(t, drawingContext) {
-    super.render(t, drawingContext);
-    const textures = this.textures;
-    let cliped = !this.attr('clipOverflow');
-
-    if (this.images && this.images.length) {
-      textures.forEach((texture, i) => {
-        const img = this.images[i];
-        const [w, h] = this.contentSize;
-        const rect = texture.rect || [0, 0, w, h];
-        const srcRect = texture.srcRect;
-
-        if (!cliped && texture.rect && (rect[2] > w || rect[3] > h)) {
-          cliped = true;
-          drawingContext.beginPath();
-          drawingContext.rect(0, 0, w, h);
-          drawingContext.clip();
+        if (this.images) {
+          node.textures = this.textures.map((texture, i) => {
+            texture.image = this.images[i];
+            return texture;
+          });
         }
 
-        drawingContext.save();
+        return node;
+      }
 
-        if (texture.filter) {
-          Object(_utils__WEBPACK_IMPORTED_MODULE_0__["setDeprecation"])('texture.filter', 'Instead use sprite.attr({filter}).');
-          const imgRect = srcRect ? [0, 0, srcRect[2], srcRect[3]] : [0, 0, img.width, img.height];
-          const sx = rect[2] / imgRect[2],
-                sy = rect[3] / imgRect[3];
-          drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_2__["default"].compile(texture.filter);
+    }, {
+      kind: "set",
+      key: "images",
 
-          if (srcRect) {
-            drawingContext.drawImage(img, ...srcRect, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]);
-          } else {
-            drawingContext.drawImage(img, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * img.width, sy * img.height);
+      value(images) {
+        this[_images] = images;
+      }
+
+    }, {
+      kind: "get",
+      key: "images",
+
+      value() {
+        return this[_images];
+      }
+
+    }, {
+      kind: "set",
+      key: "textures",
+
+      value(textures) {
+        this.attr('textures', textures);
+      }
+
+    }, {
+      kind: "get",
+      key: "textures",
+
+      value() {
+        return this.attr('textures');
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]],
+      key: "contentSize",
+
+      value() {
+        const [width, height] = this.attrSize;
+        const boxSize = this.texturesSize || [0, 0];
+        let [w, h] = [width, height];
+
+        if (width === '') {
+          w = boxSize[0] | 0;
+
+          if (height !== '' && boxSize[1]) {
+            w *= height / boxSize[1];
           }
-        } else if (srcRect) {
-          drawingContext.drawImage(img, ...srcRect, ...rect);
-        } else {
-          drawingContext.drawImage(img, ...rect);
         }
 
-        drawingContext.restore();
-      });
-    }
-  }
+        if (height === '') {
+          h = boxSize[1] | 0;
 
-}, _defineProperty(_class3, "Attr", TextureAttr), _temp), (_applyDecoratedDescriptor(_class2.prototype, "contentSize", [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class2.prototype, "contentSize"), _class2.prototype)), _class2);
+          if (width !== '' && boxSize[0]) {
+            h *= width / boxSize[0];
+          }
+        }
+
+        return [w, h];
+      }
+
+    }, {
+      kind: "method",
+      key: "pointCollision",
+
+      value(evt) {
+        if (_get(_getPrototypeOf(Sprite.prototype), "pointCollision", this).call(this, evt)) {
+          const textures = this.textures;
+
+          if (textures) {
+            let {
+              offsetX,
+              offsetY
+            } = evt;
+            if (offsetX == null && offsetY == null) return true;
+            evt.targetTextures = [];
+            const [anchorX, anchorY] = this.attr('anchor'),
+                  [width, height] = this.contentSize;
+            offsetX += width * anchorX;
+            offsetY += height * anchorY;
+            textures.forEach(texture => {
+              const [x, y, w, h] = texture.rect || [0, 0, ...this.innerSize];
+
+              if (offsetX >= x && offsetX - x < w && offsetY >= y && offsetY - y < h) {
+                // touched textures
+                evt.targetTextures.push(texture);
+              }
+            });
+          }
+
+          return true;
+        }
+
+        return false;
+      }
+
+    }, {
+      kind: "get",
+      key: "cache",
+
+      value() {
+        const bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
+
+        if (!bg && this.textures.length <= 1) {
+          return false;
+        }
+
+        return _get(_getPrototypeOf(Sprite.prototype), "cache", this);
+      }
+
+    }, {
+      kind: "set",
+      key: "cache",
+
+      value(context) {
+        _set(_getPrototypeOf(Sprite.prototype), "cache", context, this, true);
+      }
+
+    }, {
+      kind: "method",
+      key: "render",
+
+      value(t, drawingContext) {
+        _get(_getPrototypeOf(Sprite.prototype), "render", this).call(this, t, drawingContext);
+
+        const textures = this.textures;
+        let cliped = !this.attr('clipOverflow');
+
+        if (this.images && this.images.length) {
+          textures.forEach((texture, i) => {
+            const img = this.images[i];
+            const [w, h] = this.contentSize;
+            const rect = texture.rect || [0, 0, w, h];
+            const srcRect = texture.srcRect;
+
+            if (!cliped && texture.rect && (rect[2] > w || rect[3] > h)) {
+              cliped = true;
+              drawingContext.beginPath();
+              drawingContext.rect(0, 0, w, h);
+              drawingContext.clip();
+            }
+
+            drawingContext.save();
+
+            if (texture.filter) {
+              Object(_utils__WEBPACK_IMPORTED_MODULE_0__["setDeprecation"])('texture.filter', 'Instead use sprite.attr({filter}).');
+              const imgRect = srcRect ? [0, 0, srcRect[2], srcRect[3]] : [0, 0, img.width, img.height];
+              const sx = rect[2] / imgRect[2],
+                    sy = rect[3] / imgRect[3];
+              drawingContext.filter = _filters__WEBPACK_IMPORTED_MODULE_2__["default"].compile(texture.filter);
+
+              if (srcRect) {
+                drawingContext.drawImage(img, ...srcRect, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * srcRect[2], sy * srcRect[3]);
+              } else {
+                drawingContext.drawImage(img, sx * imgRect[0] + rect[0], sy * imgRect[1] + rect[1], sx * img.width, sy * img.height);
+              }
+            } else if (srcRect) {
+              drawingContext.drawImage(img, ...srcRect, ...rect);
+            } else {
+              drawingContext.drawImage(img, ...rect);
+            }
+
+            drawingContext.restore();
+          });
+        }
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Label; });
-/* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(129);
+/* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(130);
 /* harmony import */ var css_line_break__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(css_line_break__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(119);
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(118);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _class, _class2, _class3, _temp;
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(120);
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(119);
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
+
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
+
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -9160,341 +10213,524 @@ function setFontPart(font, part) {
   return `${style} ${variant} ${weight} ${size0}${unit} ${family}`;
 }
 
-let LabelSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('normal normal normal 16px Arial'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('left'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec9 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec10 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(''), _dec11 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec12 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0), _dec13 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _dec14 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0), _dec15 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width'), _dec16 = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('height'), (_class = class LabelSpriteAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      font: 'inherit',
-      textAlign: 'inherit',
-      strokeColor: 'inherit',
-      fillColor: 'inherit',
-      lineHeight: 'inherit',
-      text: '',
-      flexible: false,
-      lineBreak: 'inherit',
-      wordBreak: 'inherit',
-      letterSpacing: 'inherit',
-      textIndent: 'inherit'
-    });
-  }
+let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
+  class LabelSpriteAttr extends _BaseSprite$Attr {
+    constructor(subject) {
+      super(subject);
 
-  set text(val) {
-    val = String(val);
-    this.set('text', val);
-    this.subject.retypesetting();
-  }
+      _initialize(this);
 
-  set font(val) {
-    this.set('font', val);
-    this.subject.retypesetting();
-  }
-
-  set fontSize(val) {
-    if (val == null) val = '16px';
-    let unit = 'px';
-
-    if (typeof val === 'string') {
-      const unitReg = /^([\d.]+)(\w+)/;
-      const matches = val.match(unitReg);
-
-      if (!matches) {
-        return null;
-      }
-
-      val = parseFloat(matches[1]);
-      unit = matches[2];
-    }
-
-    this.font = setFontPart(this.font, {
-      size0: val,
-      unit
-    });
-  }
-
-  get fontSize() {
-    const font = this.font;
-    const {
-      size0,
-      unit
-    } = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(font);
-    return `${size0}${unit}`;
-  }
-
-  set fontFamily(val) {
-    if (val == null) val = 'Arial';
-    this.font = setFontPart(this.font, {
-      family: val
-    });
-  }
-
-  get fontFamily() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).family;
-  }
-
-  set fontStyle(val) {
-    if (val == null) val = 'normal';
-    this.font = setFontPart(this.font, {
-      style: val
-    });
-  }
-
-  get fontStyle() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).style;
-  }
-
-  set fontVariant(val) {
-    if (val == null) val = 'normal';
-    this.font = setFontPart(this.font, {
-      variant: val
-    });
-  }
-
-  get fontVariant() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).variant;
-  }
-
-  set fontWeight(val) {
-    if (val == null) val = 'normal';
-    this.font = setFontPart(this.font, {
-      weight: val
-    });
-  }
-
-  get fontWeight() {
-    return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).weight;
-  }
-
-  set lineHeight(val) {
-    this.set('lineHeight', val);
-    this.subject.retypesetting();
-  }
-
-  set textAlign(val) {
-    this.set('textAlign', val);
-    this.subject.retypesetting();
-  }
-
-  set color(val) {
-    this.fillColor = val;
-  }
-
-  get color() {
-    return this.fillColor;
-  }
-
-  set strokeColor(val) {
-    this.set('strokeColor', val);
-  }
-
-  set fillColor(val) {
-    this.set('fillColor', val);
-  }
-
-  set flexible(val) {
-    this.set('flexible', val);
-  }
-
-  set lineBreak(val) {
-    // normal, strict, none
-    this.set('lineBreak', val);
-    this.subject.retypesetting();
-  }
-
-  set wordBreak(val) {
-    // normal | break-all | break-word | keep-all
-    this.set('wordBreak', val);
-    this.subject.retypesetting();
-  }
-
-  set letterSpacing(value) {
-    this.set('letterSpacing', value);
-    this.subject.retypesetting();
-  }
-
-  set textIndent(value) {
-    this.set('textIndent', value);
-    this.subject.retypesetting();
-  }
-
-  set width(val) {
-    this.set('width', val);
-    if (this.lineBreak !== '') this.subject.retypesetting();
-  }
-
-  set layoutWidth(val) {
-    this.set('layoutWidth', val);
-    if (this.lineBreak !== '') this.subject.retypesetting();
-  }
-
-}, (_applyDecoratedDescriptor(_class.prototype, "text", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "text"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "font", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, "font"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fontSize", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "fontSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fontFamily", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "fontFamily"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fontStyle", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "fontStyle"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fontVariant", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "fontVariant"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fontWeight", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "fontWeight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineHeight", [_dec2, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec3], Object.getOwnPropertyDescriptor(_class.prototype, "lineHeight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "textAlign", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec4], Object.getOwnPropertyDescriptor(_class.prototype, "textAlign"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "color", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "color"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "strokeColor", [_dec5, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec6], Object.getOwnPropertyDescriptor(_class.prototype, "strokeColor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillColor", [_dec7, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec8], Object.getOwnPropertyDescriptor(_class.prototype, "fillColor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flexible", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flexible"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineBreak", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec9], Object.getOwnPropertyDescriptor(_class.prototype, "lineBreak"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "wordBreak", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec10], Object.getOwnPropertyDescriptor(_class.prototype, "wordBreak"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "letterSpacing", [_dec11, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec12], Object.getOwnPropertyDescriptor(_class.prototype, "letterSpacing"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "textIndent", [_dec13, _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec14], Object.getOwnPropertyDescriptor(_class.prototype, "textIndent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "width", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec15], Object.getOwnPropertyDescriptor(_class.prototype, "width"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutWidth", [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], _dec16], Object.getOwnPropertyDescriptor(_class.prototype, "layoutWidth"), _class.prototype)), _class));
-let Label = (_class2 = (_temp = _class3 = class Label extends _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"] {
-  constructor(attr) {
-    if (typeof attr !== 'object') {
-      attr = {
-        text: String(attr)
-      };
-    }
-
-    super(attr);
-  }
-
-  set text(val) {
-    this.attr('text', val);
-  }
-
-  get text() {
-    return this.attr('text');
-  }
-
-  get textboxSize() {
-    if (!this[_boxSize]) calculTextboxSize(this);
-    return this[_boxSize];
-  }
-
-  get flexibleFont() {
-    const font = this.attr('font');
-    if (this.attr('width') === '' && this.attr('layoutWidth') === '') return font;
-    const textboxSize = this.textboxSize,
-          contentSize = this.contentSize;
-    let {
-      style,
-      variant,
-      weight,
-      size,
-      family
-    } = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(font);
-    size *= contentSize[0] / textboxSize[0];
-    return `${style} ${variant} ${weight} ${Math.floor(size)}px "${family}"`;
-  } // override to adapt content size
-
-
-  get contentSize() {
-    let [width, height] = this.attrSize;
-
-    if (width === '' || height === '') {
-      const textboxSize = this.textboxSize;
-      if (!textboxSize) return [0, 0];
-      width = width || textboxSize[0];
-      height = height || textboxSize[1];
-    }
-
-    if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
-      height = Math.ceil(height * width / this.textboxSize[0]);
-    }
-
-    return [width, height];
-  }
-
-  retypesetting() {
-    // calculTextboxSize(this);
-    this[_boxSize] = false;
-    this[_outputText] = null;
-    this.reflow();
-    this.forceUpdate(true);
-  }
-
-  restyle() {
-    super.restyle();
-    this.retypesetting();
-  }
-
-  render(t, drawingContext) {
-    super.render(t, drawingContext);
-    const textAlign = this.attr('textAlign'),
-          flexible = this.attr('flexible'),
-          font = flexible ? this.flexibleFont : this.attr('font'),
-          lineHeight = this.attr('lineHeight');
-    let text = this.text;
-
-    if (text) {
-      const [w, h] = this.contentSize;
-      if (!this[_outputText]) calculTextboxSize(this);
-      text = this[_outputText] || this.text;
-
-      if ((this.textboxSize[0] > w || this.textboxSize[1] > h) && this.attr('clipOverflow')) {
-        drawingContext.beginPath();
-        drawingContext.rect(0, 0, w, h);
-        drawingContext.clip();
-      }
-
-      drawingContext.font = font;
-      const lines = text.split(/\n/);
-      drawingContext.textBaseline = 'top';
-      const align = textAlign;
-      drawingContext.textBaseline = 'middle';
-      const strokeColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_3__["findColor"])(drawingContext, this, 'strokeColor');
-
-      if (strokeColor) {
-        drawingContext.strokeStyle = strokeColor;
-      }
-
-      let fillColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_3__["findColor"])(drawingContext, this, 'fillColor');
-
-      if (!strokeColor && !fillColor) {
-        fillColor = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"])('black');
-      }
-
-      if (fillColor) {
-        drawingContext.fillStyle = fillColor;
-      }
-
-      let top = 0;
-      const width = this.contentSize[0];
-      const letterSpacing = this.attr('letterSpacing'),
-            textIndent = this.attr('textIndent');
-      lines.forEach((line, idx) => {
-        const [w, h] = measureText(this, line, font, lineHeight);
-        let left = 0;
-
-        if (align === 'center') {
-          left = (width - w) / 2;
-        } else if (align === 'right') {
-          left = width - w;
-        }
-
-        let indent = 0;
-
-        if (textIndent && idx === 0 && align !== 'right') {
-          indent = textIndent;
-        }
-
-        if (letterSpacing) {
-          let l = left;
-          [...line].forEach((letter, i) => {
-            if (idx === 0 && i === 0) {
-              l += indent;
-            }
-
-            if (fillColor) {
-              drawingContext.fillText(letter, l, top + h / 2);
-            }
-
-            if (strokeColor) {
-              drawingContext.strokeText(letter, l, top + h / 2);
-            }
-
-            l += measureText(this, letter, font)[0] + letterSpacing;
-          });
-        } else {
-          if (fillColor) {
-            drawingContext.fillText(line, left + indent, top + h / 2);
-          }
-
-          if (strokeColor) {
-            drawingContext.strokeText(line, left + indent, top + h / 2);
-          }
-        }
-
-        top += h;
+      this.setDefault({
+        font: 'inherit',
+        textAlign: 'inherit',
+        strokeColor: 'inherit',
+        fillColor: 'inherit',
+        lineHeight: 'inherit',
+        text: '',
+        flexible: false,
+        lineBreak: 'inherit',
+        wordBreak: 'inherit',
+        letterSpacing: 'inherit',
+        textIndent: 'inherit'
       });
     }
+
   }
 
-}, _defineProperty(_class3, "Attr", LabelSpriteAttr), _temp), (_applyDecoratedDescriptor(_class2.prototype, "contentSize", [_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]], Object.getOwnPropertyDescriptor(_class2.prototype, "contentSize"), _class2.prototype)), _class2);
+  return {
+    F: LabelSpriteAttr,
+    d: [{
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "text",
+
+      value(val) {
+        val = String(val);
+        this.set('text', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('normal normal normal 16px Arial')],
+      key: "font",
+
+      value(val) {
+        this.set('font', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "fontSize",
+
+      value(val) {
+        if (val == null) val = '16px';
+        let unit = 'px';
+
+        if (typeof val === 'string') {
+          const unitReg = /^([\d.]+)(\w+)/;
+          const matches = val.match(unitReg);
+
+          if (!matches) {
+            return null;
+          }
+
+          val = parseFloat(matches[1]);
+          unit = matches[2];
+        }
+
+        this.font = setFontPart(this.font, {
+          size0: val,
+          unit
+        });
+      }
+
+    }, {
+      kind: "get",
+      key: "fontSize",
+
+      value() {
+        const font = this.font;
+        const {
+          size0,
+          unit
+        } = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(font);
+        return `${size0}${unit}`;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "fontFamily",
+
+      value(val) {
+        if (val == null) val = 'Arial';
+        this.font = setFontPart(this.font, {
+          family: val
+        });
+      }
+
+    }, {
+      kind: "get",
+      key: "fontFamily",
+
+      value() {
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).family;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "fontStyle",
+
+      value(val) {
+        if (val == null) val = 'normal';
+        this.font = setFontPart(this.font, {
+          style: val
+        });
+      }
+
+    }, {
+      kind: "get",
+      key: "fontStyle",
+
+      value() {
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).style;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "fontVariant",
+
+      value(val) {
+        if (val == null) val = 'normal';
+        this.font = setFontPart(this.font, {
+          variant: val
+        });
+      }
+
+    }, {
+      kind: "get",
+      key: "fontVariant",
+
+      value() {
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).variant;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "fontWeight",
+
+      value(val) {
+        if (val == null) val = 'normal';
+        this.font = setFontPart(this.font, {
+          weight: val
+        });
+      }
+
+    }, {
+      kind: "get",
+      key: "fontWeight",
+
+      value() {
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(this.font).weight;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
+      key: "lineHeight",
+
+      value(val) {
+        this.set('lineHeight', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('left')],
+      key: "textAlign",
+
+      value(val) {
+        this.set('textAlign', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "color",
+
+      value(val) {
+        this.fillColor = val;
+      }
+
+    }, {
+      kind: "get",
+      key: "color",
+
+      value() {
+        return this.fillColor;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
+      key: "strokeColor",
+
+      value(val) {
+        this.set('strokeColor', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
+      key: "fillColor",
+
+      value(val) {
+        this.set('fillColor', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "flexible",
+
+      value(val) {
+        this.set('flexible', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
+      key: "lineBreak",
+
+      value(val) {
+        // normal, strict, none
+        this.set('lineBreak', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
+      key: "wordBreak",
+
+      value(val) {
+        // normal | break-all | break-word | keep-all
+        this.set('wordBreak', val);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0)],
+      key: "letterSpacing",
+
+      value(value) {
+        this.set('letterSpacing', value);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])(0)],
+      key: "textIndent",
+
+      value(value) {
+        this.set('textIndent', value);
+        this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width')],
+      key: "width",
+
+      value(val) {
+        this.set('width', val);
+        if (this.lineBreak !== '') this.subject.retypesetting();
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('height')],
+      key: "layoutWidth",
+
+      value(val) {
+        this.set('layoutWidth', val);
+        if (this.lineBreak !== '') this.subject.retypesetting();
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"].Attr);
+
+let Label = _decorate(null, function (_initialize2, _BaseSprite) {
+  class Label extends _BaseSprite {
+    constructor(attr) {
+      if (typeof attr !== 'object') {
+        attr = {
+          text: String(attr)
+        };
+      }
+
+      super(attr);
+
+      _initialize2(this);
+    }
+
+  }
+
+  return {
+    F: Label,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "Attr",
+
+      value() {
+        return LabelSpriteAttr;
+      }
+
+    }, {
+      kind: "set",
+      key: "text",
+
+      value(val) {
+        this.attr('text', val);
+      }
+
+    }, {
+      kind: "get",
+      key: "text",
+
+      value() {
+        return this.attr('text');
+      }
+
+    }, {
+      kind: "get",
+      key: "textboxSize",
+
+      value() {
+        if (!this[_boxSize]) calculTextboxSize(this);
+        return this[_boxSize];
+      }
+
+    }, {
+      kind: "get",
+      key: "flexibleFont",
+
+      value() {
+        const font = this.attr('font');
+        if (this.attr('width') === '' && this.attr('layoutWidth') === '') return font;
+        const textboxSize = this.textboxSize,
+              contentSize = this.contentSize;
+        let {
+          style,
+          variant,
+          weight,
+          size,
+          family
+        } = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(font);
+        size *= contentSize[0] / textboxSize[0];
+        return `${style} ${variant} ${weight} ${Math.floor(size)}px "${family}"`;
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["flow"]],
+      key: "contentSize",
+
+      value() {
+        let [width, height] = this.attrSize;
+
+        if (width === '' || height === '') {
+          const textboxSize = this.textboxSize;
+          if (!textboxSize) return [0, 0];
+          width = width || textboxSize[0];
+          height = height || textboxSize[1];
+        }
+
+        if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+          height = Math.ceil(height * width / this.textboxSize[0]);
+        }
+
+        return [width, height];
+      }
+
+    }, {
+      kind: "method",
+      key: "retypesetting",
+
+      value() {
+        // calculTextboxSize(this);
+        this[_boxSize] = false;
+        this[_outputText] = null;
+        this.reflow();
+        this.forceUpdate(true);
+      }
+
+    }, {
+      kind: "method",
+      key: "restyle",
+
+      value() {
+        _get(_getPrototypeOf(Label.prototype), "restyle", this).call(this);
+
+        this.retypesetting();
+      }
+
+    }, {
+      kind: "method",
+      key: "render",
+
+      value(t, drawingContext) {
+        _get(_getPrototypeOf(Label.prototype), "render", this).call(this, t, drawingContext);
+
+        const textAlign = this.attr('textAlign'),
+              flexible = this.attr('flexible'),
+              font = flexible ? this.flexibleFont : this.attr('font'),
+              lineHeight = this.attr('lineHeight');
+        let text = this.text;
+
+        if (text) {
+          const [w, h] = this.contentSize;
+          if (!this[_outputText]) calculTextboxSize(this);
+          text = this[_outputText] || this.text;
+
+          if ((this.textboxSize[0] > w || this.textboxSize[1] > h) && this.attr('clipOverflow')) {
+            drawingContext.beginPath();
+            drawingContext.rect(0, 0, w, h);
+            drawingContext.clip();
+          }
+
+          drawingContext.font = font;
+          const lines = text.split(/\n/);
+          drawingContext.textBaseline = 'top';
+          const align = textAlign;
+          drawingContext.textBaseline = 'middle';
+          const strokeColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_3__["findColor"])(drawingContext, this, 'strokeColor');
+
+          if (strokeColor) {
+            drawingContext.strokeStyle = strokeColor;
+          }
+
+          let fillColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_3__["findColor"])(drawingContext, this, 'fillColor');
+
+          if (!strokeColor && !fillColor) {
+            fillColor = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"])('black');
+          }
+
+          if (fillColor) {
+            drawingContext.fillStyle = fillColor;
+          }
+
+          let top = 0;
+          const width = this.contentSize[0];
+          const letterSpacing = this.attr('letterSpacing'),
+                textIndent = this.attr('textIndent');
+          lines.forEach((line, idx) => {
+            const [w, h] = measureText(this, line, font, lineHeight);
+            let left = 0;
+
+            if (align === 'center') {
+              left = (width - w) / 2;
+            } else if (align === 'right') {
+              left = width - w;
+            }
+
+            let indent = 0;
+
+            if (textIndent && idx === 0 && align !== 'right') {
+              indent = textIndent;
+            }
+
+            if (letterSpacing) {
+              let l = left;
+              [...line].forEach((letter, i) => {
+                if (idx === 0 && i === 0) {
+                  l += indent;
+                }
+
+                if (fillColor) {
+                  drawingContext.fillText(letter, l, top + h / 2);
+                }
+
+                if (strokeColor) {
+                  drawingContext.strokeText(letter, l, top + h / 2);
+                }
+
+                l += measureText(this, letter, font)[0] + letterSpacing;
+              });
+            } else {
+              if (fillColor) {
+                drawingContext.fillText(line, left + indent, top + h / 2);
+              }
+
+              if (strokeColor) {
+                drawingContext.strokeText(line, left + indent, top + h / 2);
+              }
+            }
+
+            top += h;
+          });
+        }
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9504,7 +10740,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Util = __webpack_require__(130);
+var _Util = __webpack_require__(131);
 
 Object.defineProperty(exports, 'toCodePoints', {
   enumerable: true,
@@ -9519,7 +10755,7 @@ Object.defineProperty(exports, 'fromCodePoint', {
   }
 });
 
-var _LineBreak = __webpack_require__(131);
+var _LineBreak = __webpack_require__(132);
 
 Object.defineProperty(exports, 'LineBreaker', {
   enumerable: true,
@@ -9529,7 +10765,7 @@ Object.defineProperty(exports, 'LineBreaker', {
 });
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9650,7 +10886,7 @@ var polyUint32Array = exports.polyUint32Array = function polyUint32Array(buffer)
 };
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9665,13 +10901,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _Trie = __webpack_require__(132);
+var _Trie = __webpack_require__(133);
 
-var _linebreakTrie = __webpack_require__(133);
+var _linebreakTrie = __webpack_require__(134);
 
 var _linebreakTrie2 = _interopRequireDefault(_linebreakTrie);
 
-var _Util = __webpack_require__(130);
+var _Util = __webpack_require__(131);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10265,7 +11501,7 @@ var LineBreaker = exports.LineBreaker = function LineBreaker(str, options) {
 };
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10278,7 +11514,7 @@ exports.Trie = exports.createTrieFromBase64 = exports.UTRIE2_INDEX_2_MASK = expo
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Util = __webpack_require__(130);
+var _Util = __webpack_require__(131);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -10430,7 +11666,7 @@ var Trie = exports.Trie = function () {
 }();
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10439,25 +11675,77 @@ var Trie = exports.Trie = function () {
 module.exports = 'KwAAAAAAAAAACA4AIDoAAPAfAAACAAAAAAAIABAAGABAAEgAUABYAF4AZgBeAGYAYABoAHAAeABeAGYAfACEAIAAiACQAJgAoACoAK0AtQC9AMUAXgBmAF4AZgBeAGYAzQDVAF4AZgDRANkA3gDmAOwA9AD8AAQBDAEUARoBIgGAAIgAJwEvATcBPwFFAU0BTAFUAVwBZAFsAXMBewGDATAAiwGTAZsBogGkAawBtAG8AcIBygHSAdoB4AHoAfAB+AH+AQYCDgIWAv4BHgImAi4CNgI+AkUCTQJTAlsCYwJrAnECeQKBAk0CiQKRApkCoQKoArACuALAAsQCzAIwANQC3ALkAjAA7AL0AvwCAQMJAxADGAMwACADJgMuAzYDPgOAAEYDSgNSA1IDUgNaA1oDYANiA2IDgACAAGoDgAByA3YDfgOAAIQDgACKA5IDmgOAAIAAogOqA4AAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAK8DtwOAAIAAvwPHA88D1wPfAyAD5wPsA/QD/AOAAIAABAQMBBIEgAAWBB4EJgQuBDMEIAM7BEEEXgBJBCADUQRZBGEEaQQwADAAcQQ+AXkEgQSJBJEEgACYBIAAoASoBK8EtwQwAL8ExQSAAIAAgACAAIAAgACgAM0EXgBeAF4AXgBeAF4AXgBeANUEXgDZBOEEXgDpBPEE+QQBBQkFEQUZBSEFKQUxBTUFPQVFBUwFVAVcBV4AYwVeAGsFcwV7BYMFiwWSBV4AmgWgBacFXgBeAF4AXgBeAKsFXgCyBbEFugW7BcIFwgXIBcIFwgXQBdQF3AXkBesF8wX7BQMGCwYTBhsGIwYrBjMGOwZeAD8GRwZNBl4AVAZbBl4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAGMGXgBqBnEGXgBeAF4AXgBeAF4AXgBeAF4AXgB5BoAG4wSGBo4GkwaAAIADHgR5AF4AXgBeAJsGgABGA4AAowarBrMGswagALsGwwbLBjAA0wbaBtoG3QbaBtoG2gbaBtoG2gblBusG8wb7BgMHCwcTBxsHCwcjBysHMAc1BzUHOgdCB9oGSgdSB1oHYAfaBloHaAfaBlIH2gbaBtoG2gbaBtoG2gbaBjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHbQdeAF4ANQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQd1B30HNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B4MH2gaKB68EgACAAIAAgACAAIAAgACAAI8HlwdeAJ8HpweAAIAArwe3B14AXgC/B8UHygcwANAH2AfgB4AA6AfwBz4B+AcACFwBCAgPCBcIogEYAR8IJwiAAC8INwg/CCADRwhPCFcIXwhnCEoDGgSAAIAAgABvCHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIfQh3CHgIeQh6CHsIfAh9CHcIeAh5CHoIewh8CH0Idwh4CHkIegh7CHwIhAiLCI4IMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlggwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAANQc1BzUHNQc1BzUHNQc1BzUHNQc1B54INQc1B6II2gaqCLIIugiAAIAAvgjGCIAAgACAAIAAgACAAIAAgACAAIAAywiHAYAA0wiAANkI3QjlCO0I9Aj8CIAAgACAAAIJCgkSCRoJIgknCTYHLwk3CZYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiWCJYIlgiAAIAAAAFAAXgBeAGAAcABeAHwAQACQAKAArQC9AJ4AXgBeAE0A3gBRAN4A7AD8AMwBGgEAAKcBNwEFAUwBXAF4QkhCmEKnArcCgAHHAsABz4LAAcABwAHAAd+C6ABoAG+C/4LAAcABwAHAAc+DF4MAAcAB54M3gweDV4Nng3eDaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAGgAaABoAEeDqABVg6WDqABoQ6gAaABoAHXDvcONw/3DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DvcO9w73DncPAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcABwAHAAcAB7cPPwlGCU4JMACAAIAAgABWCV4JYQmAAGkJcAl4CXwJgAkwADAAMAAwAIgJgACLCZMJgACZCZ8JowmrCYAAswkwAF4AXgB8AIAAuwkABMMJyQmAAM4JgADVCTAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAqwYWBNkIMAAwADAAMADdCeAJ6AnuCR4E9gkwAP4JBQoNCjAAMACAABUK0wiAAB0KJAosCjQKgAAwADwKQwqAAEsKvQmdCVMKWwowADAAgACAALcEMACAAGMKgABrCjAAMAAwADAAMAAwADAAMAAwADAAMAAeBDAAMAAwADAAMAAwADAAMAAwADAAMAAwAIkEPQFzCnoKiQSCCooKkAqJBJgKoAqkCokEGAGsCrQKvArBCjAAMADJCtEKFQHZCuEK/gHpCvEKMAAwADAAMACAAIwE+QowAIAAPwEBCzAAMAAwADAAMACAAAkLEQswAIAAPwEZCyELgAAOCCkLMAAxCzkLMAAwADAAMAAwADAAXgBeAEELMAAwADAAMAAwADAAMAAwAEkLTQtVC4AAXAtkC4AAiQkwADAAMAAwADAAMAAwADAAbAtxC3kLgAuFC4sLMAAwAJMLlwufCzAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAApwswADAAMACAAIAAgACvC4AAgACAAIAAgACAALcLMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAvwuAAMcLgACAAIAAgACAAIAAyguAAIAAgACAAIAA0QswADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAANkLgACAAIAA4AswADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACJCR4E6AswADAAhwHwC4AA+AsADAgMEAwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMACAAIAAGAwdDCUMMAAwAC0MNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQw1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHPQwwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADUHNQc1BzUHNQc1BzUHNQc2BzAAMAA5DDUHNQc1BzUHNQc1BzUHNQc1BzUHNQdFDDAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAgACAAIAATQxSDFoMMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAF4AXgBeAF4AXgBeAF4AYgxeAGoMXgBxDHkMfwxeAIUMXgBeAI0MMAAwADAAMAAwAF4AXgCVDJ0MMAAwADAAMABeAF4ApQxeAKsMswy7DF4Awgy9DMoMXgBeAF4AXgBeAF4AXgBeAF4AXgDRDNkMeQBqCeAM3Ax8AOYM7Az0DPgMXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgBeAF4AXgCgAAANoAAHDQ4NFg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAeDSYNMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAIAAgACAAIAAgACAAC4NMABeAF4ANg0wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwAD4NRg1ODVYNXg1mDTAAbQ0wADAAMAAwADAAMAAwADAA2gbaBtoG2gbaBtoG2gbaBnUNeg3CBYANwgWFDdoGjA3aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gaUDZwNpA2oDdoG2gawDbcNvw3HDdoG2gbPDdYN3A3fDeYN2gbsDfMN2gbaBvoN/g3aBgYODg7aBl4AXgBeABYOXgBeACUG2gYeDl4AJA5eACwO2w3aBtoGMQ45DtoG2gbaBtoGQQ7aBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDjUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B1EO2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQdZDjUHNQc1BzUHNQc1B2EONQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHaA41BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B3AO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gY1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1BzUHNQc1B2EO2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gZJDtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBtoG2gbaBkkOeA6gAKAAoAAwADAAMAAwAKAAoACgAKAAoACgAKAAgA4wADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAAwADAAMAD//wQABAAEAAQABAAEAAQABAAEAA0AAwABAAEAAgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAKABMAFwAeABsAGgAeABcAFgASAB4AGwAYAA8AGAAcAEsASwBLAEsASwBLAEsASwBLAEsAGAAYAB4AHgAeABMAHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAFgAbABIAHgAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYADQARAB4ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAUABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkAFgAaABsAGwAbAB4AHQAdAB4ATwAXAB4ADQAeAB4AGgAbAE8ATwAOAFAAHQAdAB0ATwBPABcATwBPAE8AFgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAFAATwBAAE8ATwBPAEAATwBQAFAATwBQAB4AHgAeAB4AHgAeAB0AHQAdAB0AHgAdAB4ADgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgBQAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAJAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAkACQAJAAkACQAJAAkABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgAeAFAAHgAeAB4AKwArAFAAUABQAFAAGABQACsAKwArACsAHgAeAFAAHgBQAFAAUAArAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAAQABAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUAAeAB4AHgAeAB4AHgArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwAYAA0AKwArAB4AHgAbACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQADQAEAB4ABAAEAB4ABAAEABMABAArACsAKwArACsAKwArACsAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAKwArACsAKwArAFYAVgBWAB4AHgArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AGgAaABoAGAAYAB4AHgAEAAQABAAEAAQABAAEAAQABAAEAAQAEwAEACsAEwATAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABLAEsASwBLAEsASwBLAEsASwBLABoAGQAZAB4AUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABMAUAAEAAQABAAEAAQABAAEAB4AHgAEAAQABAAEAAQABABQAFAABAAEAB4ABAAEAAQABABQAFAASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUAAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAFAABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQAUABQAB4AHgAYABMAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAFAABAAEAAQABAAEAFAABAAEAAQAUAAEAAQABAAEAAQAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAArACsAHgArAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAAQABAANAA0ASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAKwArACsAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAUAArACsAKwArACsAKwArACsABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAGgAaAFAAUABQAFAAUABMAB4AGwBQAB4AKwArACsABAAEAAQAKwBQAFAAUABQAFAAUAArACsAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUAArAFAAUAArACsABAArAAQABAAEAAQABAArACsAKwArAAQABAArACsABAAEAAQAKwArACsABAArACsAKwArACsAKwArAFAAUABQAFAAKwBQACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwAEAAQAUABQAFAABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUAArAFAAUABQAFAAUAArACsABABQAAQABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQAKwArAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeABsAKwArACsAKwArACsAKwBQAAQABAAEAAQABAAEACsABAAEAAQAKwBQAFAAUABQAFAAUABQAFAAKwArAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArAAQABAArACsABAAEAAQAKwArACsAKwArACsAKwArAAQABAArACsAKwArAFAAUAArAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwAeAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwAEAFAAKwBQAFAAUABQAFAAUAArACsAKwBQAFAAUAArAFAAUABQAFAAKwArACsAUABQACsAUAArAFAAUAArACsAKwBQAFAAKwArACsAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwAEAAQABAAEAAQAKwArACsABAAEAAQAKwAEAAQABAAEACsAKwBQACsAKwArACsAKwArAAQAKwArACsAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAB4AHgAeAB4AHgAeABsAHgArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArAFAAUABQACsAKwArACsAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAB4AUAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQACsAKwAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABAArACsAKwArACsAKwArAAQABAArACsAKwArACsAKwArAFAAKwBQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAFAABAAEAAQABAAEAAQABAArAAQABAAEACsABAAEAAQABABQAB4AKwArACsAKwBQAFAAUAAEAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwBLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQABoAUABQAFAAUABQAFAAKwArAAQABAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQACsAUAArACsAUABQAFAAUABQAFAAUAArACsAKwAEACsAKwArACsABAAEAAQABAAEAAQAKwAEACsABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgAqACsAKwArACsAGwBcAFwAXABcAFwAXABcACoAKgAqACoAKgAqACoAKgAeAEsASwBLAEsASwBLAEsASwBLAEsADQANACsAKwArACsAKwBcAFwAKwBcACsAKwBcAFwAKwBcACsAKwBcACsAKwArACsAKwArAFwAXABcAFwAKwBcAFwAXABcAFwAXABcACsAXABcAFwAKwBcACsAXAArACsAXABcACsAXABcAFwAXAAqAFwAXAAqACoAKgAqACoAKgArACoAKgBcACsAKwBcAFwAXABcAFwAKwBcACsAKgAqACoAKgAqACoAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArAFwAXABcAFwAUAAOAA4ADgAOAB4ADgAOAAkADgAOAA0ACQATABMAEwATABMACQAeABMAHgAeAB4ABAAEAB4AHgAeAB4AHgAeAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAFAAUAANAAQAHgAEAB4ABAAWABEAFgARAAQABABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAAQABAAEAAQABAANAAQABABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsADQANAB4AHgAeAB4AHgAeAAQAHgAeAB4AHgAeAB4AKwAeAB4ADgAOAA0ADgAeAB4AHgAeAB4ACQAJACsAKwArACsAKwBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqAFwASwBLAEsASwBLAEsASwBLAEsASwANAA0AHgAeAB4AHgBcAFwAXABcAFwAXAAqACoAKgAqAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAKgAqACoAKgAqACoAKgBcAFwAXAAqACoAKgAqAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgAqACoAXAAqAEsASwBLAEsASwBLAEsASwBLAEsAKgAqACoAKgAqACoAUABQAFAAUABQAFAAKwBQACsAKwArACsAKwBQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQACsAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwAEAAQABAAeAA0AHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQABYAEQArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAADQANAA0AUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAA0ADQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQACsABAAEACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoADQANABUAXAANAB4ADQAbAFwAKgArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAB4AHgATABMADQANAA4AHgATABMAHgAEAAQABAAJACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAUABQAFAAUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwAeACsAKwArABMAEwBLAEsASwBLAEsASwBLAEsASwBLAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwBcAFwAXABcAFwAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcACsAKwArACsAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBcACsAKwArACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEACsAKwAeAB4AXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAKgAqACoAKgAqACoAKgArACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsABABLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKgAqACoAKgAqACoAKgBcACoAKgAqACoAKgAqACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAUABQAFAAUABQAFAAUAArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsADQANAB4ADQANAA0ADQAeAB4AHgAeAB4AHgAeAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArAAQABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAEsASwBLAEsASwBLAEsASwBLAEsAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAHgAeAB4AHgBQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwANAA0ADQANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwBQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAANAA0AUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsABAAEAAQAHgAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAFAAUABQAFAABABQAFAAUABQAAQABAAEAFAAUAAEAAQABAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAKwBQACsAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAFAAHgAeAB4AUABQAFAAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAKwArAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAKwAeAB4AHgAeAB4AHgAeAA4AHgArAA0ADQANAA0ADQANAA0ACQANAA0ADQAIAAQACwAEAAQADQAJAA0ADQAMAB0AHQAeABcAFwAWABcAFwAXABYAFwAdAB0AHgAeABQAFAAUAA0AAQABAAQABAAEAAQABAAJABoAGgAaABoAGgAaABoAGgAeABcAFwAdABUAFQAeAB4AHgAeAB4AHgAYABYAEQAVABUAFQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgANAB4ADQANAA0ADQAeAA0ADQANAAcAHgAeAB4AHgArAAQABAAEAAQABAAEAAQABAAEAAQAUABQACsAKwBPAFAAUABQAFAAUAAeAB4AHgAWABEATwBQAE8ATwBPAE8AUABQAFAAUABQAB4AHgAeABYAEQArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAaABsAGwAbABsAGgAbABsAGgAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsAGwAbABsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgBQABoAHgAdAB4AUAAeABoAHgAeAB4AHgAeAB4AHgAeAB4ATwAeAFAAGwAeAB4AUABQAFAAUABQAB4AHgAeAB0AHQAeAFAAHgBQAB4AUAAeAFAATwBQAFAAHgAeAB4AHgAeAB4AHgBQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AUABQAFAAUABPAE8AUABQAFAAUABQAE8AUABQAE8AUABPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAFAAUABQAE8ATwBPAE8ATwBPAE8ATwBPAE8AUABQAFAAUABQAFAAUABQAFAAHgAeAFAAUABQAFAATwAeAB4AKwArACsAKwAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB0AHQAeAB4AHgAdAB0AHgAeAB0AHgAeAB4AHQAeAB0AGwAbAB4AHQAeAB4AHgAeAB0AHgAeAB0AHQAdAB0AHgAeAB0AHgAdAB4AHQAdAB0AHQAdAB0AHgAdAB4AHgAeAB4AHgAdAB0AHQAdAB4AHgAeAB4AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAeAB4AHgAdAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHgAdAB0AHQAdAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHQAeAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAFgARAB4AHgAeAB4AHgAeAB0AHgAeAB4AHgAeAB4AHgAlACUAHgAeAB4AHgAeAB4AHgAeAB4AFgARAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBQAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeAB0AHQAdAB0AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAdAB0AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAdAB0AHgAeAB0AHQAeAB4AHgAeAB0AHQAeAB4AHgAeAB0AHQAdAB4AHgAdAB4AHgAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAeAB0AHQAeAB4AHQAeAB4AHgAeAB0AHQAeAB4AHgAeACUAJQAdAB0AJQAeACUAJQAlACAAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAHgAeAB4AHgAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB4AHQAdAB0AHgAdACUAHQAdAB4AHQAdAB4AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB0AHQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAHQAdAB0AHQAlAB4AJQAlACUAHQAlACUAHQAdAB0AJQAlAB0AHQAlAB0AHQAlACUAJQAeAB0AHgAeAB4AHgAdAB0AJQAdAB0AHQAdAB0AHQAlACUAJQAlACUAHQAlACUAIAAlAB0AHQAlACUAJQAlACUAJQAlACUAHgAeAB4AJQAlACAAIAAgACAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAdAB4AHgAeABcAFwAXABcAFwAXAB4AEwATACUAHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAWABEAFgARAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAWABEAFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAFgARABYAEQAWABEAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFgARABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeABYAEQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHQAdAB0AHQAdAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAeAB4AKwArACsAKwArABMADQANAA0AUAATAA0AUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUAANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAA0ADQANAA0ADQANAA0ADQAeAA0AFgANAB4AHgAXABcAHgAeABcAFwAWABEAFgARABYAEQAWABEADQANAA0ADQATAFAADQANAB4ADQANAB4AHgAeAB4AHgAMAAwADQANAA0AHgANAA0AFgANAA0ADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArAA0AEQARACUAJQBHAFcAVwAWABEAFgARABYAEQAWABEAFgARACUAJQAWABEAFgARABYAEQAWABEAFQAWABEAEQAlAFcAVwBXAFcAVwBXAFcAVwBXAAQABAAEAAQABAAEACUAVwBXAFcAVwA2ACUAJQBXAFcAVwBHAEcAJQAlACUAKwBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBRAFcAUQBXAFEAVwBXAFcAVwBXAFcAUQBXAFcAVwBXAFcAVwBRAFEAKwArAAQABAAVABUARwBHAFcAFQBRAFcAUQBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFEAVwBRAFcAUQBXAFcAVwBXAFcAVwBRAFcAVwBXAFcAVwBXAFEAUQBXAFcAVwBXABUAUQBHAEcAVwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACUAJQBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwArACUAJQAlACUAKwArACsAKwArACsAKwArACsAKwArACsAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQBRAFEAUQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAVwBXAFcAVwBXAFcAVwBXAFcAVwAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAE8ATwBPAE8ATwBPAE8ATwAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADQATAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABLAEsASwBLAEsASwBLAEsASwBLAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAABAAEAAQABAAeAAQABAAEAAQABAAEAAQABAAEAAQAHgBQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUABQAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAeAA0ADQANAA0ADQArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAB4AHgAeAB4AHgAeAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAB4AHgAeAB4AHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAAQAUABQAFAABABQAFAAUABQAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAeAB4AHgAeACsAKwArACsAUABQAFAAUABQAFAAHgAeABoAHgArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAADgAOABMAEwArACsAKwArACsAKwArACsABAAEAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwANAA0ASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUAAeAB4AHgBQAA4AUAArACsAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAA0ADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArAB4AWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYAFgAWABYACsAKwArAAQAHgAeAB4AHgAeAB4ADQANAA0AHgAeAB4AHgArAFAASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArAB4AHgBcAFwAXABcAFwAKgBcAFwAXABcAFwAXABcAFwAXABcAEsASwBLAEsASwBLAEsASwBLAEsAXABcAFwAXABcACsAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArAFAAUABQAAQAUABQAFAAUABQAFAAUABQAAQABAArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAHgANAA0ADQBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAKgAqACoAXAAqACoAKgBcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAAqAFwAKgAqACoAXABcACoAKgBcAFwAXABcAFwAKgAqAFwAKgBcACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcACoAKgBQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAA0ADQBQAFAAUAAEAAQAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQADQAEAAQAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAVABVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBUAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVAFUAVQBVACsAKwArACsAKwArACsAKwArACsAKwArAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAWQBZAFkAKwArACsAKwBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAWgBaAFoAKwArACsAKwAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArACsAKwArAFYABABWAFYAVgBWAFYAVgBWAFYAVgBWAB4AVgBWAFYAVgBWAFYAVgBWAFYAVgBWAFYAVgArAFYAVgBWAFYAVgArAFYAKwBWAFYAKwBWAFYAKwBWAFYAVgBWAFYAVgBWAFYAVgBWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAEQAWAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUAAaAB4AKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAGAARABEAGAAYABMAEwAWABEAFAArACsAKwArACsAKwAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACUAJQAlACUAJQAWABEAFgARABYAEQAWABEAFgARABYAEQAlACUAFgARACUAJQAlACUAJQAlACUAEQAlABEAKwAVABUAEwATACUAFgARABYAEQAWABEAJQAlACUAJQAlACUAJQAlACsAJQAbABoAJQArACsAKwArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAcAKwATACUAJQAbABoAJQAlABYAEQAlACUAEQAlABEAJQBXAFcAVwBXAFcAVwBXAFcAVwBXABUAFQAlACUAJQATACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXABYAJQARACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwAWACUAEQAlABYAEQARABYAEQARABUAVwBRAFEAUQBRAFEAUQBRAFEAUQBRAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAEcARwArACsAVwBXAFcAVwBXAFcAKwArAFcAVwBXAFcAVwBXACsAKwBXAFcAVwBXAFcAVwArACsAVwBXAFcAKwArACsAGgAbACUAJQAlABsAGwArAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwAEAAQABAAQAB0AKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsADQANAA0AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgBQAFAAHgAeAB4AKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQBQAFAAUABQACsAKwArACsAUABQAFAAUABQAFAAUABQAA0AUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAArACsAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArAFAAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAA0AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AHgBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsADQBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwBQAFAAUABQAFAABAAEAAQAKwAEAAQAKwArACsAKwArAAQABAAEAAQAUABQAFAAUAArAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsABAAEAAQAKwArACsAKwAEAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsADQANAA0ADQANAA0ADQANAB4AKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAB4AUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEACsAKwArACsAUABQAFAAUABQAA0ADQANAA0ADQANABQAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwANAA0ADQANAA0ADQANAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAHgAeAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQAeAB4AHgAeAB4AKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQABAAEAAQABAAeAB4AHgANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAKwArAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsASwBLAEsASwBLAEsASwBLAEsASwANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAeAA4AUAArACsAKwArACsAKwArACsAKwAEAFAAUABQAFAADQANAB4ADQAeAAQABAAEAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsAUAAOAFAADQANAA0AKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAANAA0AHgANAA0AHgAEACsAUABQAFAAUABQAFAAUAArAFAAKwBQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAA0AKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsABAAEAAQABAArAFAAUABQAFAAUABQAFAAUAArACsAUABQACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAArACsABAAEACsAKwAEAAQABAArACsAUAArACsAKwArACsAKwAEACsAKwArACsAKwBQAFAAUABQAFAABAAEACsAKwAEAAQABAAEAAQABAAEACsAKwArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABABQAFAAUABQAA0ADQANAA0AHgBLAEsASwBLAEsASwBLAEsASwBLACsADQArAB4AKwArAAQABAAEAAQAUABQAB4AUAArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEACsAKwAEAAQABAAEAAQABAAEAAQABAAOAA0ADQATABMAHgAeAB4ADQANAA0ADQANAA0ADQANAA0ADQANAA0ADQANAA0AUABQAFAAUAAEAAQAKwArAAQADQANAB4AUAArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwAOAA4ADgAOAA4ADgAOAA4ADgAOAA4ADgAOACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXABcAFwAXAArACsAKwAqACoAKgAqACoAKgAqACoAKgAqACoAKgAqACoAKgArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAXABcAA0ADQANACoASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwBQAFAABAAEAAQABAAEAAQABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAFAABAAEAAQABAAOAB4ADQANAA0ADQAOAB4ABAArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQAUABQAFAAUAArACsAUABQAFAAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAA0ADQANACsADgAOAA4ADQANACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAABAAEAAQABAAEAAQABAAEACsABAAEAAQABAAEAAQABAAEAFAADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwAOABMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQACsAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAArACsAKwAEACsABAAEACsABAAEAAQABAAEAAQABABQAAQAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsADQANAA0ADQANACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABIAEgAQwBDAEMAUABQAFAAUABDAFAAUABQAEgAQwBIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAASABDAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABIAEMAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAEsASwBLAEsASwBLAEsASwBLAEsAKwArACsAKwANAA0AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArAAQABAAEAAQABAANACsAKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAEAAQABAAEAAQABAAEAA0ADQANAB4AHgAeAB4AHgAeAFAAUABQAFAADQAeACsAKwArACsAKwArACsAKwArACsASwBLAEsASwBLAEsASwBLAEsASwArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAUAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAEcARwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwArACsAKwArACsAKwArACsAKwArACsAKwArAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwBQAFAAUABQAFAAUABQAFAAUABQACsAKwAeAAQABAANAAQABAAEAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAeAB4AHgArACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAEAAQABAAEAB4AHgAeAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQAHgAeAAQABAAEAAQABAAEAAQAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAEAAQABAAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwArACsAKwArACsAKwArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUAArACsAUAArACsAUABQACsAKwBQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AKwBQACsAUABQAFAAUABQAFAAUAArAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwAeAB4AUABQAFAAUABQACsAUAArACsAKwBQAFAAUABQAFAAUABQACsAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgArACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUAAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAHgAeAB4AHgAeAB4AHgAeAB4AKwArAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsASwBLAEsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4ABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAB4AHgAeAB4AHgAeAB4AHgAEAB4AHgAeAB4AHgAeAB4AHgAeAB4ABAAeAB4ADQANAA0ADQAeACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAArAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsABAAEAAQABAAEAAQABAArAAQABAArAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwBQAFAAUABQAFAAKwArAFAAUABQAFAAUABQAFAAUABQAAQABAAEAAQABAAEAAQAKwArACsAKwArACsAKwArACsAHgAeAB4AHgAEAAQABAAEAAQABAAEACsAKwArACsAKwBLAEsASwBLAEsASwBLAEsASwBLACsAKwArACsAFgAWAFAAUABQAFAAKwBQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUAArAFAAKwBQACsAKwArACsAKwArAFAAKwArACsAKwBQACsAUAArAFAAKwBQAFAAUAArAFAAUAArAFAAKwArAFAAKwBQACsAUAArAFAAKwBQACsAUABQACsAUAArACsAUABQAFAAUAArAFAAUABQAFAAUABQAFAAKwBQAFAAUABQACsAUABQAFAAUAArAFAAKwBQAFAAUABQAFAAUABQAFAAUABQACsAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQACsAKwArACsAKwBQAFAAUAArAFAAUABQAFAAUAArAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUABQAFAAUAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArAB4AHgArACsAKwArACsAKwArACsAKwArACsAKwArACsATwBPAE8ATwBPAE8ATwBPAE8ATwBPAE8ATwAlACUAJQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAeACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHgAeACUAJQAlACUAHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdAB0AHQAdACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQApACkAKQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeACUAJQAlACUAJQAeACUAJQAlACUAJQAgACAAIAAlACUAIAAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIQAhACEAIQAhACUAJQAgACAAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAIAAlACUAJQAlACAAJQAgACAAIAAgACAAIAAgACAAIAAlACUAJQAgACUAJQAlACUAIAAgACAAJQAgACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeACUAHgAlAB4AJQAlACUAJQAlACAAJQAlACUAJQAeACUAHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACAAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAIAAgACAAIAAgAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AFwAXABcAFQAVABUAHgAeAB4AHgAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAIAAgACAAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAIAAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAJQAlAB4AHgAeAB4AHgAeAB4AHgAeAB4AJQAlACUAJQAlACUAHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeAB4AHgAeACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAlACAAIAAlACUAJQAlACUAJQAgACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAIAAgACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACsAKwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAVwBXAFcAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQAlACUAJQArAAQAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsAKwArACsA';
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Layer; });
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(124);
-/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(122);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(119);
-/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(135);
-/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(136);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(139);
+/* harmony import */ var _helpers_fast_animation_frame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(125);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(123);
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
+/* harmony import */ var _batch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(136);
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(137);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(140);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(110);
-var _dec, _class;
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
+
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
+
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -10476,29 +11764,45 @@ const _zOrder = Symbol('zOrder'),
       _autoRender = Symbol('autoRender'),
       _adjustTimer = Symbol('adjustTimer');
 
-let LayerAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_7__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_7__["parseColorString"]), (_class = class LayerAttr extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      bgcolor: ''
-    });
-  }
+let LayerAttr = _decorate(null, function (_initialize, _BaseNode$Attr) {
+  class LayerAttr extends _BaseNode$Attr {
+    constructor(subject) {
+      super(subject);
 
-  set bgcolor(val) {
-    this.set('bgcolor', val);
-    const subject = this.subject;
+      _initialize(this);
 
-    if (subject.canvas && subject.canvas.style) {
-      if (val != null) {
-        this.quietSet('canvasBgColor', subject.canvas.style.backgroundColor);
-        subject.canvas.style.backgroundColor = val;
-      } else {
-        subject.canvas.style.backgroundColor = this.get('canvasBgColor');
-      }
+      this.setDefault({
+        bgcolor: ''
+      });
     }
+
   }
 
-}, (_applyDecoratedDescriptor(_class.prototype, "bgcolor", [_dec, _utils__WEBPACK_IMPORTED_MODULE_7__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "bgcolor"), _class.prototype)), _class));
+  return {
+    F: LayerAttr,
+    d: [{
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_7__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_7__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_7__["attr"]],
+      key: "bgcolor",
+
+      value(val) {
+        this.set('bgcolor', val);
+        const subject = this.subject;
+
+        if (subject.canvas && subject.canvas.style) {
+          if (val != null) {
+            this.quietSet('canvasBgColor', subject.canvas.style.backgroundColor);
+            subject.canvas.style.backgroundColor = val;
+          } else {
+            subject.canvas.style.backgroundColor = this.get('canvasBgColor');
+          }
+        }
+      }
+
+    }]
+  };
+}, _basenode__WEBPACK_IMPORTED_MODULE_2__["default"].Attr);
+
 class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
   constructor({
     context,
@@ -10590,7 +11894,7 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
   }
 
   get canvas() {
-    return this.outputContext.canvas;
+    return this.outputContext && this.outputContext.canvas;
   }
 
   get offset() {
@@ -10895,13 +12199,13 @@ _defineProperty(Layer, "Attr", LayerAttr);
 Object.assign(Layer.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_6__["default"]);
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Batch; });
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(118);
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(119);
 
 
 const _batch = Symbol('batch');
@@ -10988,21 +12292,77 @@ class Batch {
 }
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Group; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(119);
-/* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(137);
-/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(139);
-var _dec, _dec2, _dec3, _dec4, _class, _class2, _temp, _class3, _class4, _temp2;
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(120);
+/* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(138);
+/* harmony import */ var _helpers_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(140);
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
+
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
+
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -11012,358 +12372,473 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 const _zOrder = Symbol('zOrder'),
       _layoutTag = Symbol('layoutTag');
 
-let GroupAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width'), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height'), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), (_class = (_temp = _class2 = class GroupAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      clip: null,
-      scrollTop: 0,
-      scrollLeft: 0
-    });
-    GroupAttr.inits.forEach(init => {
-      init(this, subject);
-    });
-  }
+let GroupAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
+  class GroupAttr extends _BaseSprite$Attr {
+    constructor(subject) {
+      super(subject);
 
-  set clip(val) {
-    this.clearFlow();
+      _initialize(this);
 
-    if (val) {
-      val = typeof val === 'string' ? {
-        d: val
-      } : val;
-      this.subject.svg = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_2__["createSvgPath"])(val);
-      this.set('clip', val);
-    } else {
-      this.subject.svg = null;
-      this.set('clip', null);
-    }
-  } // @attr
-  // @relative('width')
-  // set width(value) {
-  //   this.clearLayout();
-  //   this.set('width', value);
-  // }
-  // @attr
-  // @relative('height')
-  // set height(value) {
-  //   this.clearLayout();
-  //   this.set('height', value);
-  // }
-
-
-  set layoutWidth(value) {
-    this.clearLayout();
-    this.set('layoutWidth', value);
-  }
-
-  set layoutHeight(value) {
-    this.clearLayout();
-    this.set('layoutHeight', value);
-  }
-
-  set display(value) {
-    this.clearLayout();
-    this.set('display', value);
-  }
-
-  set scrollLeft(value) {
-    this.set('scrollLeft', value);
-  }
-
-  set scrollTop(value) {
-    this.set('scrollTop', value);
-  }
-
-}, _defineProperty(_class2, "inits", []), _temp), (_applyDecoratedDescriptor(_class.prototype, "clip", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "clip"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutWidth", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, "layoutWidth"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "layoutHeight", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec2], Object.getOwnPropertyDescriptor(_class.prototype, "layoutHeight"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "display", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "display"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "scrollLeft", [_dec3, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "scrollLeft"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "scrollTop", [_dec4, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "scrollTop"), _class.prototype)), _class));
-
-const _layout = Symbol('layout');
-
-let Group = (_class3 = (_temp2 = _class4 = class Group extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"] {
-  static applyLayout(name, layout) {
-    this[_layout] = this[_layout] || {};
-    const {
-      attrs,
-      relayout
-    } = layout;
-
-    if (attrs.init) {
-      GroupAttr.inits.push(attrs.init);
-    }
-
-    Group.addAttributes(attrs);
-    this[_layout][name] = relayout;
-  }
-
-  constructor(attr = {}) {
-    super(attr);
-    this.childNodes = [];
-    this.sortedChildNodes = [];
-    this[_zOrder] = 0;
-    this[_layoutTag] = false;
-  }
-
-  get isVirtual() {
-    const display = this.attr('display');
-    if (display !== '' && display !== 'none') return false;
-    const {
-      width: borderWidth
-    } = this.attr('border'),
-          borderRadius = this.attr('borderRadius'),
-          bgcolor = this.attr('bgcolor'),
-          {
-      bgcolor: bgGradient
-    } = this.attr('gradients'),
-          [width, height] = this.attrSize,
-          [anchorX, anchorY] = this.attr('anchor'),
-          bgimage = this.attr('bgimage'),
-          [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
-    return !anchorX && !anchorY && !width && !height && !borderRadius && !borderWidth && !bgcolor && !bgGradient && !bgimage && !paddingTop && !paddingRight && !paddingBottom && !paddingLeft;
-  }
-
-  scrollTo(x, y) {
-    this.attr('scrollLeft', x);
-    this.attr('scrollTop', y);
-  }
-
-  scrollBy(dx, dy) {
-    const x = this.attr('scrollLeft'),
-          y = this.attr('scrollTop');
-    this.scrollTo(x + dx, y + dy);
-  }
-
-  cloneNode(deepCopy) {
-    const node = super.cloneNode();
-
-    if (deepCopy) {
-      const children = this.childNodes;
-      children.forEach(child => {
-        const subNode = child.cloneNode(deepCopy);
-        node.append(subNode);
+      this.setDefault({
+        clip: null,
+        scrollTop: 0,
+        scrollLeft: 0
+      });
+      GroupAttr.inits.forEach(init => {
+        init(this, subject);
       });
     }
 
-    return node;
   }
 
-  get children() {
-    const children = this.childNodes || [];
-    return children.filter(child => child instanceof _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  }
+  return {
+    F: GroupAttr,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "inits",
 
-  update(child) {
-    child.isDirty = true;
-    const attrSize = this.attrSize;
+      value() {
+        return [];
+      }
 
-    if (attrSize[0] === '' || attrSize[1] === '') {
-      this.reflow();
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "clip",
+
+      value(val) {
+        this.clearFlow();
+
+        if (val) {
+          val = typeof val === 'string' ? {
+            d: val
+          } : val;
+          this.subject.svg = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_2__["createSvgPath"])(val);
+          this.set('clip', val);
+        } else {
+          this.subject.svg = null;
+          this.set('clip', null);
+        }
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width')],
+      key: "layoutWidth",
+
+      value(value) {
+        this.clearLayout();
+        this.set('layoutWidth', value);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height')],
+      key: "layoutHeight",
+
+      value(value) {
+        this.clearLayout();
+        this.set('layoutHeight', value);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "display",
+
+      value(value) {
+        this.clearLayout();
+        this.set('display', value);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "scrollLeft",
+
+      value(value) {
+        this.set('scrollLeft', value);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "scrollTop",
+
+      value(value) {
+        this.set('scrollTop', value);
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr);
+
+const _layout = Symbol('layout');
+
+let Group = _decorate(null, function (_initialize2, _BaseSprite) {
+  class Group extends _BaseSprite {
+    constructor(attr = {}) {
+      super(attr);
+
+      _initialize2(this);
+
+      this.childNodes = [];
+      this.sortedChildNodes = [];
+      this[_zOrder] = 0;
+      this[_layoutTag] = false;
     }
 
-    this.forceUpdate(true);
   }
 
-  pointCollision(evt) {
-    if (super.pointCollision(evt) || this.isVirtual) {
-      if (this.svg) {
+  return {
+    F: Group,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "Attr",
+
+      value() {
+        return GroupAttr;
+      }
+
+    }, {
+      kind: "method",
+      static: true,
+      key: "applyLayout",
+
+      value(name, layout) {
+        this[_layout] = this[_layout] || {};
         const {
-          offsetX,
-          offsetY
-        } = evt;
-        if (offsetX == null && offsetY == null) return true;
-        const rect = this.originalRect;
-        evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
+          attrs,
+          relayout
+        } = layout;
+
+        if (attrs.init) {
+          GroupAttr.inits.push(attrs.init);
+        }
+
+        Group.addAttributes(attrs);
+        this[_layout][name] = relayout;
       }
 
-      return true;
-    }
+    }, {
+      kind: "get",
+      key: "isVirtual",
 
-    return false;
-  }
+      value() {
+        const display = this.attr('display');
+        if (display !== '' && display !== 'none') return false;
+        const {
+          width: borderWidth
+        } = this.attr('border'),
+              borderRadius = this.attr('borderRadius'),
+              bgcolor = this.attr('bgcolor'),
+              {
+          bgcolor: bgGradient
+        } = this.attr('gradients'),
+              [width, height] = this.attrSize,
+              [anchorX, anchorY] = this.attr('anchor'),
+              bgimage = this.attr('bgimage'),
+              [paddingTop, paddingRight, paddingBottom, paddingLeft] = this.attr('padding');
+        return !anchorX && !anchorY && !width && !height && !borderRadius && !borderWidth && !bgcolor && !bgGradient && !bgimage && !paddingTop && !paddingRight && !paddingBottom && !paddingLeft;
+      }
 
-  get contentSize() {
-    if (this.isVirtual) return [0, 0];
-    let [width, height] = this.attrSize;
+    }, {
+      kind: "method",
+      key: "scrollTo",
 
-    if (width === '' || height === '') {
-      if (this.attr('clip')) {
-        const svg = this.svg;
-        const bounds = svg.bounds;
-        width = width || bounds[2];
-        height = height || bounds[3];
-      } else {
-        let right, bottom;
-        right = 0;
-        bottom = 0;
-        this.childNodes.forEach(sprite => {
-          if (sprite.attr('display') !== 'none') {
-            const renderBox = sprite.renderBox;
+      value(x, y) {
+        this.attr('scrollLeft', x);
+        this.attr('scrollTop', y);
+      }
 
-            if (renderBox) {
-              right = Math.max(right, renderBox[2]);
-              bottom = Math.max(bottom, renderBox[3]);
+    }, {
+      kind: "method",
+      key: "scrollBy",
+
+      value(dx, dy) {
+        const x = this.attr('scrollLeft'),
+              y = this.attr('scrollTop');
+        this.scrollTo(x + dx, y + dy);
+      }
+
+    }, {
+      kind: "method",
+      key: "cloneNode",
+
+      value(deepCopy) {
+        const node = _get(_getPrototypeOf(Group.prototype), "cloneNode", this).call(this);
+
+        if (deepCopy) {
+          const children = this.childNodes;
+          children.forEach(child => {
+            const subNode = child.cloneNode(deepCopy);
+            node.append(subNode);
+          });
+        }
+
+        return node;
+      }
+
+    }, {
+      kind: "get",
+      key: "children",
+
+      value() {
+        const children = this.childNodes || [];
+        return children.filter(child => child instanceof _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
+      }
+
+    }, {
+      kind: "method",
+      key: "update",
+
+      value(child) {
+        child.isDirty = true;
+        const attrSize = this.attrSize;
+
+        if (attrSize[0] === '' || attrSize[1] === '') {
+          this.reflow();
+        }
+
+        this.forceUpdate(true);
+      }
+
+    }, {
+      kind: "method",
+      key: "pointCollision",
+
+      value(evt) {
+        if (_get(_getPrototypeOf(Group.prototype), "pointCollision", this).call(this, evt) || this.isVirtual) {
+          if (this.svg) {
+            const {
+              offsetX,
+              offsetY
+            } = evt;
+            if (offsetX == null && offsetY == null) return true;
+            const rect = this.originalRect;
+            evt.isInClip = this.svg.isPointInPath(offsetX - rect[0], offsetY - rect[1]);
+          }
+
+          return true;
+        }
+
+        return false;
+      }
+
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]],
+      key: "contentSize",
+
+      value() {
+        if (this.isVirtual) return [0, 0];
+        let [width, height] = this.attrSize;
+
+        if (width === '' || height === '') {
+          if (this.attr('clip')) {
+            const svg = this.svg;
+            const bounds = svg.bounds;
+            width = width || bounds[2];
+            height = height || bounds[3];
+          } else {
+            let right, bottom;
+            right = 0;
+            bottom = 0;
+            this.childNodes.forEach(sprite => {
+              if (sprite.attr('display') !== 'none') {
+                const renderBox = sprite.renderBox;
+
+                if (renderBox) {
+                  right = Math.max(right, renderBox[2]);
+                  bottom = Math.max(bottom, renderBox[3]);
+                }
+              }
+            });
+            width = width || right;
+            height = height || bottom;
+          }
+        }
+
+        return [width, height];
+      }
+
+    }, {
+      kind: "method",
+      key: "dispatchEvent",
+
+      value(type, evt, collisionState = false, swallow = false) {
+        if (swallow && this.getEventHandlers(type).length === 0) {
+          return;
+        }
+
+        if (!swallow && !evt.terminated && type !== 'mouseenter') {
+          const isCollision = collisionState || this.pointCollision(evt);
+
+          if (isCollision || type === 'mouseleave') {
+            const scrollLeft = this.attr('scrollLeft'),
+                  scrollTop = this.attr('scrollTop'),
+                  borderWidth = this.attr('border').width,
+                  padding = this.attr('padding');
+            let parentX, parentY;
+            if ('offsetX' in evt) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
+            if ('offsetY' in evt) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
+            const _parentX = evt.parentX,
+                  _parentY = evt.parentY;
+            evt.parentX = parentX;
+            evt.parentY = parentY;
+            const sprites = this.sortedChildNodes.slice(0).reverse();
+            const targetSprites = [];
+
+            for (let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
+              const sprite = sprites[i];
+              const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+
+              if (hit) {
+                if (evt.targetSprites) {
+                  targetSprites.push(...evt.targetSprites);
+                  delete evt.targetSprites;
+                }
+
+                targetSprites.push(sprite);
+              }
+
+              if (evt.terminated && type !== 'mousemove') {
+                break;
+              }
+            }
+
+            evt.targetSprites = targetSprites; // stopDispatch can only terminate event in the same level
+
+            evt.terminated = false;
+            evt.parentX = _parentX;
+            evt.parentY = _parentY;
+            collisionState = isCollision;
+          }
+        }
+
+        evt.targetSprites = evt.targetSprites || [];
+
+        if (evt.cancelBubble) {
+          // stop bubbling
+          return false;
+        }
+
+        if (evt.targetSprites.length > 0) {
+          // bubbling
+          collisionState = true;
+        }
+
+        return _get(_getPrototypeOf(Group.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow);
+      }
+
+    }, {
+      kind: "method",
+      key: "relayout",
+
+      value() {
+        const items = this.childNodes.filter(child => {
+          if (child.hasLayout) {
+            child.attr('layoutWidth', null);
+            child.attr('layoutHeight', null);
+            child.attr('layoutX', null);
+            child.attr('layoutY', null);
+          }
+
+          if (child.relayout) {
+            const display = child.attr('display');
+
+            if (display !== '' && display !== 'static') {
+              child.relayout();
             }
           }
+
+          return child.hasLayout && child.attr('display') !== 'none';
         });
-        width = width || right;
-        height = height || bottom;
+        const display = this.attr('display');
+        const doLayout = Group[_layout][display];
+
+        if (doLayout) {
+          doLayout(this, items);
+        }
       }
-    }
 
-    return [width, height];
-  }
+    }, {
+      kind: "method",
+      key: "clearLayout",
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if (swallow && this.getEventHandlers(type).length === 0) {
-      return;
-    }
+      value() {
+        this[_layoutTag] = false;
+        if (this.hasLayout) this.parent.clearLayout();
+      }
 
-    if (!swallow && !evt.terminated && type !== 'mouseenter') {
-      const isCollision = collisionState || this.pointCollision(evt);
+    }, {
+      kind: "method",
+      key: "draw",
 
-      if (isCollision || type === 'mouseleave') {
+      value(t, drawingContext = this.context) {
+        // must relayout before draw
+        // prevent originalRect changing when rendering.
+        const display = this.attr('display');
+
+        if (display !== '' && display !== 'static' && !this[_layoutTag]) {
+          this.relayout();
+          this[_layoutTag] = true;
+        }
+
+        return _get(_getPrototypeOf(Group.prototype), "draw", this).call(this, t, drawingContext);
+      }
+
+    }, {
+      kind: "method",
+      key: "render",
+
+      value(t, drawingContext) {
+        const clipPath = this.attr('clip');
+
+        if (clipPath) {
+          this.svg.beginPath().to(drawingContext);
+          drawingContext.clip();
+        }
+
+        if (!this.isVirtual) {
+          _get(_getPrototypeOf(Group.prototype), "render", this).call(this, t, drawingContext);
+
+          if (this.attr('clipOverflow')) {
+            drawingContext.beginPath();
+            drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
+            drawingContext.clip();
+          }
+        }
+
+        drawingContext.save();
         const scrollLeft = this.attr('scrollLeft'),
-              scrollTop = this.attr('scrollTop'),
-              borderWidth = this.attr('border').width,
-              padding = this.attr('padding');
-        let parentX, parentY;
-        if ('offsetX' in evt) parentX = evt.offsetX - this.originalRect[0] - borderWidth - padding[3] + scrollLeft;
-        if ('offsetY' in evt) parentY = evt.offsetY - this.originalRect[1] - borderWidth - padding[0] + scrollTop;
-        const _parentX = evt.parentX,
-              _parentY = evt.parentY;
-        evt.parentX = parentX;
-        evt.parentY = parentY;
-        const sprites = this.sortedChildNodes.slice(0).reverse();
-        const targetSprites = [];
+              scrollTop = this.attr('scrollTop');
+        drawingContext.translate(-scrollLeft, -scrollTop);
+        const sprites = this.sortedChildNodes;
 
-        for (let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
-          const sprite = sprites[i];
-          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+        for (let i = 0; i < sprites.length; i++) {
+          const child = sprites[i],
+                isDirty = child.isDirty;
+          child.isDirty = false;
+          child.draw(t, drawingContext);
 
-          if (hit) {
-            if (evt.targetSprites) {
-              targetSprites.push(...evt.targetSprites);
-              delete evt.targetSprites;
-            }
-
-            targetSprites.push(sprite);
-          }
-
-          if (evt.terminated && type !== 'mousemove') {
-            break;
+          if (isDirty) {
+            child.dispatchEvent('update', {
+              target: child,
+              renderTime: t
+            }, true, true);
           }
         }
 
-        evt.targetSprites = targetSprites; // stopDispatch can only terminate event in the same level
-
-        evt.terminated = false;
-        evt.parentX = _parentX;
-        evt.parentY = _parentY;
-        collisionState = isCollision;
-      }
-    }
-
-    evt.targetSprites = evt.targetSprites || [];
-
-    if (evt.cancelBubble) {
-      // stop bubbling
-      return false;
-    }
-
-    if (evt.targetSprites.length > 0) {
-      // bubbling
-      collisionState = true;
-    }
-
-    return super.dispatchEvent(type, evt, collisionState, swallow);
-  }
-
-  relayout() {
-    const items = this.childNodes.filter(child => {
-      if (child.hasLayout) {
-        child.attr('layoutWidth', null);
-        child.attr('layoutHeight', null);
-        child.attr('layoutX', null);
-        child.attr('layoutY', null);
+        drawingContext.restore();
       }
 
-      if (child.relayout) {
-        const display = child.attr('display');
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
-        if (display !== '' && display !== 'static') {
-          child.relayout();
-        }
-      }
-
-      return child.hasLayout && child.attr('display') !== 'none';
-    });
-    const display = this.attr('display');
-    const doLayout = Group[_layout][display];
-
-    if (doLayout) {
-      doLayout(this, items);
-    }
-  }
-
-  clearLayout() {
-    this[_layoutTag] = false;
-    if (this.hasLayout) this.parent.clearLayout();
-  }
-
-  draw(t, drawingContext = this.context) {
-    // must relayout before draw
-    // prevent originalRect changing when rendering.
-    const display = this.attr('display');
-
-    if (display !== '' && display !== 'static' && !this[_layoutTag]) {
-      this.relayout();
-      this[_layoutTag] = true;
-    }
-
-    return super.draw(t, drawingContext);
-  }
-
-  render(t, drawingContext) {
-    const clipPath = this.attr('clip');
-
-    if (clipPath) {
-      this.svg.beginPath().to(drawingContext);
-      drawingContext.clip();
-    }
-
-    if (!this.isVirtual) {
-      super.render(t, drawingContext);
-
-      if (this.attr('clipOverflow')) {
-        drawingContext.beginPath();
-        drawingContext.rect(0, 0, this.contentSize[0], this.contentSize[1]);
-        drawingContext.clip();
-      }
-    }
-
-    drawingContext.save();
-    const scrollLeft = this.attr('scrollLeft'),
-          scrollTop = this.attr('scrollTop');
-    drawingContext.translate(-scrollLeft, -scrollTop);
-    const sprites = this.sortedChildNodes;
-
-    for (let i = 0; i < sprites.length; i++) {
-      const child = sprites[i],
-            isDirty = child.isDirty;
-      child.isDirty = false;
-      child.draw(t, drawingContext);
-
-      if (isDirty) {
-        child.dispatchEvent('update', {
-          target: child,
-          renderTime: t
-        }, true, true);
-      }
-    }
-
-    drawingContext.restore();
-  }
-
-}, _defineProperty(_class4, "Attr", GroupAttr), _temp2), (_applyDecoratedDescriptor(_class3.prototype, "contentSize", [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class3.prototype, "contentSize"), _class3.prototype)), _class3);
 
 Object.assign(Group.prototype, _helpers_group__WEBPACK_IMPORTED_MODULE_3__["default"]);
 Group.setAttributeEffects({
@@ -11376,7 +12851,7 @@ Group.setAttributeEffects({
 });
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11385,7 +12860,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSvgPath", function() { return createSvgPath; });
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
 /* harmony import */ var svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(138);
+/* harmony import */ var _sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(139);
 // https://github.com/AlloyTeam/pasition
 
 
@@ -11577,7 +13052,7 @@ function createSvgPath(path) {
 }
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11735,7 +13210,7 @@ function permute(input) {
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11918,353 +13393,551 @@ const _removeTask = Symbol('removeTask');
 });
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Path; });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
-/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(119);
-/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(118);
-/* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(137);
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _class3, _temp;
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(120);
+/* harmony import */ var _helpers_render__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(119);
+/* harmony import */ var _helpers_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(138);
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object['ke' + 'ys'](descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object['define' + 'Property'](target, property, desc); desc = null; } return desc; }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _decorate(decorators, factory, superClass) { var r = factory(function initialize(O) { _initializeInstanceElements(O, decorated.elements); }, superClass); var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators); _initializeClassElements(r.F, decorated.elements); return _runClassFinishers(r.F, decorated.finishers); }
+
+function _createElementDescriptor(def) { var key = _toPropertyKey(def.key); var descriptor; if (def.kind === "method") { descriptor = { value: def.value, writable: true, configurable: true, enumerable: false }; Object.defineProperty(def.value, "name", { value: typeof key === "symbol" ? "" : key, configurable: true }); } else if (def.kind === "get") { descriptor = { get: def.value, configurable: true, enumerable: false }; } else if (def.kind === "set") { descriptor = { set: def.value, configurable: true, enumerable: false }; } else if (def.kind === "field") { descriptor = { configurable: true, writable: true, enumerable: true }; } var element = { kind: def.kind === "field" ? "field" : "method", key: key, placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype", descriptor: descriptor }; if (def.decorators) element.decorators = def.decorators; if (def.kind === "field") element.initializer = def.value; return element; }
+
+function _coalesceGetterSetter(element, other) { if (element.descriptor.get !== undefined) { other.descriptor.get = element.descriptor.get; } else { other.descriptor.set = element.descriptor.set; } }
+
+function _coalesceClassElements(elements) { var newElements = []; var isSameElement = function (other) { return other.kind === "method" && other.key === element.key && other.placement === element.placement; }; for (var i = 0; i < elements.length; i++) { var element = elements[i]; var other; if (element.kind === "method" && (other = newElements.find(isSameElement))) { if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) { if (_hasDecorators(element) || _hasDecorators(other)) { throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated."); } other.descriptor = element.descriptor; } else { if (_hasDecorators(element)) { if (_hasDecorators(other)) { throw new ReferenceError("Decorators can't be placed on different accessors with for " + "the same property (" + element.key + ")."); } other.decorators = element.decorators; } _coalesceGetterSetter(element, other); } } else { newElements.push(element); } } return newElements; }
+
+function _hasDecorators(element) { return element.decorators && element.decorators.length; }
+
+function _isDataDescriptor(desc) { return desc !== undefined && !(desc.value === undefined && desc.writable === undefined); }
+
+function _initializeClassElements(F, elements) { var proto = F.prototype; ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { var placement = element.placement; if (element.kind === kind && (placement === "static" || placement === "prototype")) { var receiver = placement === "static" ? F : proto; _defineClassElement(receiver, element); } }); }); }
+
+function _initializeInstanceElements(O, elements) { ["method", "field"].forEach(function (kind) { elements.forEach(function (element) { if (element.kind === kind && element.placement === "own") { _defineClassElement(O, element); } }); }); }
+
+function _defineClassElement(receiver, element) { var descriptor = element.descriptor; if (element.kind === "field") { var initializer = element.initializer; descriptor = { enumerable: descriptor.enumerable, writable: descriptor.writable, configurable: descriptor.configurable, value: initializer === void 0 ? void 0 : initializer.call(receiver) }; } Object.defineProperty(receiver, element.key, descriptor); }
+
+function _decorateClass(elements, decorators) { var newElements = []; var finishers = []; var placements = { static: [], prototype: [], own: [] }; elements.forEach(function (element) { _addElementPlacement(element, placements); }); elements.forEach(function (element) { if (!_hasDecorators(element)) return newElements.push(element); var elementFinishersExtras = _decorateElement(element, placements); newElements.push(elementFinishersExtras.element); newElements.push.apply(newElements, elementFinishersExtras.extras); finishers.push.apply(finishers, elementFinishersExtras.finishers); }); if (!decorators) { return { elements: newElements, finishers: finishers }; } var result = _decorateConstructor(newElements, decorators); finishers.push.apply(finishers, result.finishers); result.finishers = finishers; return result; }
+
+function _addElementPlacement(element, placements, silent) { var keys = placements[element.placement]; if (!silent && keys.indexOf(element.key) !== -1) { throw new TypeError("Duplicated element (" + element.key + ")"); } keys.push(element.key); }
+
+function _decorateElement(element, placements) { var extras = []; var finishers = []; for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) { var keys = placements[element.placement]; keys.splice(keys.indexOf(element.key), 1); var elementObject = _fromElementDescriptor(element); var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject); element = elementFinisherExtras.element; _addElementPlacement(element, placements); if (elementFinisherExtras.finisher) { finishers.push(elementFinisherExtras.finisher); } var newExtras = elementFinisherExtras.extras; if (newExtras) { for (var j = 0; j < newExtras.length; j++) { _addElementPlacement(newExtras[j], placements); } extras.push.apply(extras, newExtras); } } return { element: element, finishers: finishers, extras: extras }; }
+
+function _decorateConstructor(elements, decorators) { var finishers = []; for (var i = decorators.length - 1; i >= 0; i--) { var obj = _fromClassDescriptor(elements); var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj); if (elementsAndFinisher.finisher !== undefined) { finishers.push(elementsAndFinisher.finisher); } if (elementsAndFinisher.elements !== undefined) { elements = elementsAndFinisher.elements; for (var j = 0; j < elements.length - 1; j++) { for (var k = j + 1; k < elements.length; k++) { if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) { throw new TypeError("Duplicated element (" + elements[j].key + ")"); } } } } } return { elements: elements, finishers: finishers }; }
+
+function _fromElementDescriptor(element) { var obj = { kind: element.kind, key: element.key, placement: element.placement, descriptor: element.descriptor }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); if (element.kind === "field") obj.initializer = element.initializer; return obj; }
+
+function _toElementDescriptors(elementObjects) { if (elementObjects === undefined) return; return _toArray(elementObjects).map(function (elementObject) { var element = _toElementDescriptor(elementObject); _disallowProperty(elementObject, "finisher", "An element descriptor"); _disallowProperty(elementObject, "extras", "An element descriptor"); return element; }); }
+
+function _toElementDescriptor(elementObject) { var kind = String(elementObject.kind); if (kind !== "method" && kind !== "field") { throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"'); } var key = _toPropertyKey(elementObject.key); var placement = String(elementObject.placement); if (placement !== "static" && placement !== "prototype" && placement !== "own") { throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"'); } var descriptor = elementObject.descriptor; _disallowProperty(elementObject, "elements", "An element descriptor"); var element = { kind: kind, key: key, placement: placement, descriptor: Object.assign({}, descriptor) }; if (kind !== "field") { _disallowProperty(elementObject, "initializer", "A method descriptor"); } else { _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor"); _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor"); element.initializer = elementObject.initializer; } return element; }
+
+function _toElementFinisherExtras(elementObject) { var element = _toElementDescriptor(elementObject); var finisher = _optionalCallableProperty(elementObject, "finisher"); var extras = _toElementDescriptors(elementObject.extras); return { element: element, finisher: finisher, extras: extras }; }
+
+function _fromClassDescriptor(elements) { var obj = { kind: "class", elements: elements.map(_fromElementDescriptor) }; var desc = { value: "Descriptor", configurable: true }; Object.defineProperty(obj, Symbol.toStringTag, desc); return obj; }
+
+function _toClassDescriptor(obj) { var kind = String(obj.kind); if (kind !== "class") { throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"'); } _disallowProperty(obj, "key", "A class descriptor"); _disallowProperty(obj, "placement", "A class descriptor"); _disallowProperty(obj, "descriptor", "A class descriptor"); _disallowProperty(obj, "initializer", "A class descriptor"); _disallowProperty(obj, "extras", "A class descriptor"); var finisher = _optionalCallableProperty(obj, "finisher"); var elements = _toElementDescriptors(obj.elements); return { elements: elements, finisher: finisher }; }
+
+function _disallowProperty(obj, name, objectType) { if (obj[name] !== undefined) { throw new TypeError(objectType + " can't have a ." + name + " property."); } }
+
+function _optionalCallableProperty(obj, name) { var value = obj[name]; if (value !== undefined && typeof value !== "function") { throw new TypeError("Expected '" + name + "' to be a function"); } return value; }
+
+function _runClassFinishers(constructor, finishers) { for (var i = 0; i < finishers.length; i++) { var newConstructor = (0, finishers[i])(constructor); if (newConstructor !== undefined) { if (typeof newConstructor !== "function") { throw new TypeError("Finishers must return a constructor."); } constructor = newConstructor; } } return constructor; }
+
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
-let PathSpriteAttr = (_dec = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])(1), _dec2 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_0__["parseStringFloat"]), _dec3 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _dec4 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('butt'), _dec5 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('miter'), _dec6 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])(''), _dec7 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])(''), _dec8 = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('box'), (_class = class PathSpriteAttr extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      lineWidth: 'inherit',
-      lineDash: null,
-      lineDashOffset: 0,
-      lineCap: 'inherit',
-      lineJoin: 'inherit',
-      strokeColor: 'inherit',
-      fillColor: 'inherit',
-      bounding: 'inherit'
-    });
-  }
 
-  set path(val) {
-    this.clearFlow();
+let PathSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
+  class PathSpriteAttr extends _BaseSprite$Attr {
+    constructor(subject) {
+      super(subject);
 
-    if (val) {
-      val = typeof val === 'string' ? {
-        d: val
-      } : val;
-      this.subject.svg = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["createSvgPath"])(val);
-      this.set('path', val);
-    } else {
-      this.subject.svg = null;
-      this.set('path', null);
+      _initialize(this);
+
+      this.setDefault({
+        lineWidth: 'inherit',
+        lineDash: null,
+        lineDashOffset: 0,
+        lineCap: 'inherit',
+        lineJoin: 'inherit',
+        strokeColor: 'inherit',
+        fillColor: 'inherit',
+        bounding: 'inherit'
+      });
     }
+
   }
 
-  set d(val) {
-    if (val) {
-      const path = this.get('path');
+  return {
+    F: PathSpriteAttr,
+    d: [{
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "path",
 
-      if (!path) {
-        this.path = {
-          d: val
+      value(val) {
+        this.clearFlow();
+
+        if (val) {
+          val = typeof val === 'string' ? {
+            d: val
+          } : val;
+          this.subject.svg = Object(_helpers_path__WEBPACK_IMPORTED_MODULE_3__["createSvgPath"])(val);
+          this.set('path', val);
+        } else {
+          this.subject.svg = null;
+          this.set('path', null);
+        }
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "d",
+
+      value(val) {
+        if (val) {
+          const path = this.path;
+
+          if (!path) {
+            this.path = {
+              d: val
+            };
+          } else {
+            this.path = Object.assign(path, {
+              d: val
+            });
+          }
+        } else {
+          this.path = null;
+        }
+      }
+
+    }, {
+      kind: "get",
+      key: "d",
+
+      value() {
+        return this.path ? this.path.d : null;
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])(1)],
+      key: "lineWidth",
+
+      value(val) {
+        if (typeof val === 'string') val = parseFloat(val);
+        this.clearFlow();
+        this.set('lineWidth', Math.round(val));
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_0__["parseStringFloat"]), _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "lineDash",
+
+      value(val) {
+        if (typeof val === 'number') val = [val];
+        this.set('lineDash', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "lineDashOffset",
+
+      value(val) {
+        this.set('lineDashOffset', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('butt')],
+      key: "lineCap",
+
+      value(val) {
+        this.set('lineCap', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('miter')],
+      key: "lineJoin",
+
+      value(val) {
+        this.set('lineJoin', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('')],
+      key: "strokeColor",
+
+      value(val) {
+        this.set('strokeColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('')],
+      key: "fillColor",
+
+      value(val) {
+        this.set('fillColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "flexible",
+
+      value(val) {
+        this.clearFlow();
+        this.set('flexible', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_0__["inherit"])('box')],
+      key: "bounding",
+
+      value(val) {
+        // box | path
+        this.quietSet('bounding', val);
+      }
+
+    }, {
+      kind: "set",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]],
+      key: "color",
+
+      value(val) {
+        this.strokeColor = val;
+      }
+
+    }, {
+      kind: "get",
+      key: "color",
+
+      value() {
+        return this.strokeColor;
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"].Attr);
+
+let Path = _decorate(null, function (_initialize2, _BaseSprite) {
+  class Path extends _BaseSprite {
+    constructor(attr) {
+      if (typeof attr === 'string') {
+        attr = {
+          d: attr
         };
-      } else {
-        this.path = Object.assign(path, {
-          d: val
-        });
       }
-    } else {
-      this.path = null;
-    }
-  }
 
-  get d() {
-    return this.path ? this.path.d : null;
-  }
+      super(attr);
 
-  set lineWidth(val) {
-    if (typeof val === 'string') val = parseFloat(val);
-    this.clearFlow();
-    this.set('lineWidth', Math.round(val));
-  }
-
-  set lineDash(val) {
-    if (typeof val === 'number') val = [val];
-    this.set('lineDash', val);
-  }
-
-  set lineDashOffset(val) {
-    this.set('lineDashOffset', val);
-  }
-  /**
-    lineCap: butt|round|square
-   */
-
-
-  set lineCap(val) {
-    this.set('lineCap', val);
-  }
-  /**
-    lineJoin: miter|round|bevel
-   */
-
-
-  set lineJoin(val) {
-    this.set('lineJoin', val);
-  }
-
-  set strokeColor(val) {
-    this.set('strokeColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
-  }
-
-  set fillColor(val) {
-    this.set('fillColor', Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(val));
-  }
-
-  set flexible(val) {
-    this.clearFlow();
-    this.set('flexible', val);
-  }
-
-  set bounding(val) {
-    // box | path
-    this.quietSet('bounding', val);
-  }
-
-  set color(val) {
-    this.strokeColor = val;
-  }
-
-  get color() {
-    return this.strokeColor;
-  }
-
-}, (_applyDecoratedDescriptor(_class.prototype, "path", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "path"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "d", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "d"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineWidth", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec], Object.getOwnPropertyDescriptor(_class.prototype, "lineWidth"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineDash", [_dec2, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "lineDash"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineDashOffset", [_dec3, _utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "lineDashOffset"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineCap", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec4], Object.getOwnPropertyDescriptor(_class.prototype, "lineCap"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "lineJoin", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec5], Object.getOwnPropertyDescriptor(_class.prototype, "lineJoin"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "strokeColor", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec6], Object.getOwnPropertyDescriptor(_class.prototype, "strokeColor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillColor", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec7], Object.getOwnPropertyDescriptor(_class.prototype, "fillColor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "flexible", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "flexible"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "bounding", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"], _dec8], Object.getOwnPropertyDescriptor(_class.prototype, "bounding"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "color", [_utils__WEBPACK_IMPORTED_MODULE_0__["attr"]], Object.getOwnPropertyDescriptor(_class.prototype, "color"), _class.prototype)), _class));
-let Path = (_class2 = (_temp = _class3 = class Path extends _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"] {
-  constructor(attr) {
-    if (typeof attr === 'string') {
-      attr = {
-        d: attr
-      };
+      _initialize2(this);
     }
 
-    super(attr);
   }
 
-  set path(val) {
-    this.attr('path', val);
-  }
+  return {
+    F: Path,
+    d: [{
+      kind: "field",
+      static: true,
+      key: "Attr",
 
-  get path() {
-    return this.attr('path');
-  }
-
-  getPointAtLength(length) {
-    if (this.svg) {
-      return this.svg.getPointAtLength(length);
-    }
-
-    return [0, 0];
-  }
-
-  getPathLength() {
-    if (this.svg) {
-      return this.svg.getTotalLength();
-    }
-
-    return 0;
-  }
-
-  findPath(offsetX, offsetY) {
-    const rect = this.originalRect;
-    const pathOffset = this.pathOffset;
-
-    if (this.svg && this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])) {
-      return [this.svg];
-    }
-
-    return [];
-  }
-
-  get lineWidth() {
-    const lineWidth = this.attr('lineWidth'),
-          gradients = this.attr('gradients'),
-          fillColor = this.attr('fillColor'),
-          strokeColor = this.attr('strokeColor');
-    const hasStrokeColor = strokeColor || gradients && gradients.strokeColor,
-          hasFillColor = fillColor || gradients && gradients.fillColor;
-
-    if (!hasStrokeColor && hasFillColor) {
-      // fill: ignore stroke
-      return 0;
-    }
-
-    return lineWidth;
-  }
-
-  get pathOffset() {
-    const lw = Math.round(this.lineWidth);
-    return [lw, lw];
-  }
-
-  get pathSize() {
-    return this.svg ? this.svg.size : [0, 0];
-  }
-
-  get contentSize() {
-    if (!this.svg) return super.contentSize;
-    const bounds = this.svg.bounds;
-    let [width, height] = this.attrSize;
-    const pathOffset = this.pathOffset;
-
-    if (width === '') {
-      width = bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0];
-    }
-
-    if (height === '') {
-      height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1];
-    }
-
-    if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
-      height = Math.ceil(height * width / (bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0]));
-    }
-
-    return [width, height].map(Math.ceil);
-  }
-
-  get originalRect() {
-    const svg = this.svg;
-
-    if (svg) {
-      const bounds = svg.bounds,
-            offset = this.pathOffset;
-      const [width, height] = this.offsetSize,
-            [anchorX, anchorY] = this.attr('anchor');
-      const rect = [0, 0, width, height],
-            offsetX = Math.min(0, bounds[0]),
-            offsetY = Math.min(0, bounds[1]);
-      rect[0] = offsetX - offset[0] - anchorX * (width + offsetX - 2 * offset[0]);
-      rect[1] = offsetY - offset[1] - anchorY * (height + offsetY - 2 * offset[1]);
-      return rect;
-    }
-
-    return super.originalRect;
-  }
-
-  pointCollision(evt) {
-    if (super.pointCollision(evt)) {
-      let {
-        offsetX,
-        offsetY
-      } = evt;
-      if (offsetX == null && offsetY == null) return true;
-      const svg = this.svg;
-
-      if (svg) {
-        const bounds = svg.bounds;
-        offsetX += Math.min(0, bounds[0]);
-        offsetY += Math.min(0, bounds[1]);
+      value() {
+        return PathSpriteAttr;
       }
 
-      evt.targetPaths = this.findPath(offsetX, offsetY);
+    }, {
+      kind: "set",
+      key: "path",
 
-      if (this.attr('bounding') === 'path') {
-        return evt.targetPaths.length > 0;
+      value(val) {
+        this.attr('path', val);
       }
 
-      return true;
-    }
+    }, {
+      kind: "get",
+      key: "path",
 
-    return false;
-  }
-
-  render(t, drawingContext) {
-    super.render(t, drawingContext);
-    const d = this.attr('d'),
-          lineWidth = this.attr('lineWidth'),
-          lineCap = this.attr('lineCap'),
-          lineJoin = this.attr('lineJoin'),
-          lineDash = this.attr('lineDash'),
-          flexible = this.attr('flexible');
-
-    if (d) {
-      const svg = this.svg;
-      let [ox, oy, ow, oh] = svg.bounds;
-      let [px, py] = this.pathOffset;
-      const [w, h] = this.contentSize;
-
-      if ((w < ow || h < oh) && this.attr('clipOverflow')) {
-        drawingContext.beginPath();
-        drawingContext.rect(0, 0, w, h);
-        drawingContext.clip();
+      value() {
+        return this.attr('path');
       }
 
-      if (flexible) {
-        svg.save();
-        const sw = w / (ow - Math.min(0, ox) + 2 * px);
-        svg.scale(sw, sw);
-        ox *= sw;
-        oy *= sw;
-        px *= sw;
-        py *= sw;
+    }, {
+      kind: "method",
+      key: "getPointAtLength",
+
+      value(length) {
+        if (this.svg) {
+          return this.svg.getPointAtLength(length);
+        }
+
+        return [0, 0];
       }
 
-      if (ox < 0 || oy < 0) {
-        drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy));
+    }, {
+      kind: "method",
+      key: "getPathLength",
+
+      value() {
+        if (this.svg) {
+          return this.svg.getTotalLength();
+        }
+
+        return 0;
       }
 
-      drawingContext.translate(px, py);
-      svg.beginPath().to(drawingContext);
+    }, {
+      kind: "method",
+      key: "findPath",
 
-      if (flexible) {
-        svg.restore();
+      value(offsetX, offsetY) {
+        const rect = this.originalRect;
+        const pathOffset = this.pathOffset;
+
+        if (this.svg && this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])) {
+          return [this.svg];
+        }
+
+        return [];
       }
 
-      drawingContext.lineWidth = lineWidth;
-      drawingContext.lineCap = lineCap;
-      drawingContext.lineJoin = lineJoin;
+    }, {
+      kind: "get",
+      key: "lineWidth",
 
-      if (lineDash != null) {
-        drawingContext.setLineDash(lineDash);
-        const lineDashOffset = this.attr('lineDashOffset');
-        drawingContext.lineDashOffset = lineDashOffset;
+      value() {
+        const lineWidth = this.attr('lineWidth'),
+              gradients = this.attr('gradients'),
+              fillColor = this.attr('fillColor'),
+              strokeColor = this.attr('strokeColor');
+        const hasStrokeColor = strokeColor || gradients && gradients.strokeColor,
+              hasFillColor = fillColor || gradients && gradients.fillColor;
+
+        if (!hasStrokeColor && hasFillColor) {
+          // fill: ignore stroke
+          return 0;
+        }
+
+        return lineWidth;
       }
 
-      const fillColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'fillColor');
+    }, {
+      kind: "get",
+      key: "pathOffset",
 
-      if (fillColor) {
-        drawingContext.fillStyle = fillColor;
+      value() {
+        const lw = Math.round(this.lineWidth);
+        return [lw, lw];
       }
 
-      let strokeColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'strokeColor');
+    }, {
+      kind: "get",
+      key: "pathSize",
 
-      if (!strokeColor && !fillColor) {
-        strokeColor = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])('black');
+      value() {
+        return this.svg ? this.svg.size : [0, 0];
       }
 
-      if (strokeColor) {
-        drawingContext.strokeStyle = strokeColor;
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]],
+      key: "contentSize",
+
+      value() {
+        if (!this.svg) return _get(_getPrototypeOf(Path.prototype), "contentSize", this);
+        const bounds = this.svg.bounds;
+        let [width, height] = this.attrSize;
+        const pathOffset = this.pathOffset;
+
+        if (width === '') {
+          width = bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0];
+        }
+
+        if (height === '') {
+          height = bounds[3] - Math.min(0, bounds[1]) + 2 * pathOffset[1];
+        }
+
+        if (this.attr('flexible') && this.attr('height') === '' && this.attr('layoutHeight') === '') {
+          height = Math.ceil(height * width / (bounds[2] - Math.min(0, bounds[0]) + 2 * pathOffset[0]));
+        }
+
+        return [width, height].map(Math.ceil);
       }
 
-      if (fillColor) {
-        drawingContext.fill();
+    }, {
+      kind: "get",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]],
+      key: "originalRect",
+
+      value() {
+        const svg = this.svg;
+
+        if (svg) {
+          const bounds = svg.bounds,
+                offset = this.pathOffset;
+          const [width, height] = this.offsetSize,
+                [anchorX, anchorY] = this.attr('anchor');
+          const rect = [0, 0, width, height],
+                offsetX = Math.min(0, bounds[0]),
+                offsetY = Math.min(0, bounds[1]);
+          rect[0] = offsetX - offset[0] - anchorX * (width + offsetX - 2 * offset[0]);
+          rect[1] = offsetY - offset[1] - anchorY * (height + offsetY - 2 * offset[1]);
+          return rect;
+        }
+
+        return _get(_getPrototypeOf(Path.prototype), "originalRect", this);
       }
 
-      if (strokeColor) {
-        drawingContext.stroke();
-      }
-    }
-  }
+    }, {
+      kind: "method",
+      key: "pointCollision",
 
-}, _defineProperty(_class3, "Attr", PathSpriteAttr), _temp), (_applyDecoratedDescriptor(_class2.prototype, "contentSize", [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class2.prototype, "contentSize"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "originalRect", [_utils__WEBPACK_IMPORTED_MODULE_0__["flow"]], Object.getOwnPropertyDescriptor(_class2.prototype, "originalRect"), _class2.prototype)), _class2);
+      value(evt) {
+        if (_get(_getPrototypeOf(Path.prototype), "pointCollision", this).call(this, evt)) {
+          let {
+            offsetX,
+            offsetY
+          } = evt;
+          if (offsetX == null && offsetY == null) return true;
+          const svg = this.svg;
+
+          if (svg) {
+            const bounds = svg.bounds;
+            offsetX += Math.min(0, bounds[0]);
+            offsetY += Math.min(0, bounds[1]);
+          }
+
+          evt.targetPaths = this.findPath(offsetX, offsetY);
+
+          if (this.attr('bounding') === 'path') {
+            return evt.targetPaths.length > 0;
+          }
+
+          return true;
+        }
+
+        return false;
+      }
+
+    }, {
+      kind: "method",
+      key: "render",
+
+      value(t, drawingContext) {
+        _get(_getPrototypeOf(Path.prototype), "render", this).call(this, t, drawingContext);
+
+        const d = this.attr('d'),
+              lineWidth = this.attr('lineWidth'),
+              lineCap = this.attr('lineCap'),
+              lineJoin = this.attr('lineJoin'),
+              lineDash = this.attr('lineDash'),
+              flexible = this.attr('flexible');
+
+        if (d) {
+          const svg = this.svg;
+          let [ox, oy, ow, oh] = svg.bounds;
+          let [px, py] = this.pathOffset;
+          const [w, h] = this.contentSize;
+
+          if ((w < ow || h < oh) && this.attr('clipOverflow')) {
+            drawingContext.beginPath();
+            drawingContext.rect(0, 0, w, h);
+            drawingContext.clip();
+          }
+
+          if (flexible) {
+            svg.save();
+            const sw = w / (ow - Math.min(0, ox) + 2 * px);
+            svg.scale(sw, sw);
+            ox *= sw;
+            oy *= sw;
+            px *= sw;
+            py *= sw;
+          }
+
+          if (ox < 0 || oy < 0) {
+            drawingContext.translate(-Math.min(0, ox), -Math.min(0, oy));
+          }
+
+          drawingContext.translate(px, py);
+          svg.beginPath().to(drawingContext);
+
+          if (flexible) {
+            svg.restore();
+          }
+
+          drawingContext.lineWidth = lineWidth;
+          drawingContext.lineCap = lineCap;
+          drawingContext.lineJoin = lineJoin;
+
+          if (lineDash != null) {
+            drawingContext.setLineDash(lineDash);
+            const lineDashOffset = this.attr('lineDashOffset');
+            drawingContext.lineDashOffset = lineDashOffset;
+          }
+
+          const fillColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'fillColor');
+
+          if (fillColor) {
+            drawingContext.fillStyle = fillColor;
+          }
+
+          let strokeColor = Object(_helpers_render__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'strokeColor');
+
+          if (!strokeColor && !fillColor) {
+            strokeColor = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])('black');
+          }
+
+          if (strokeColor) {
+            drawingContext.strokeStyle = strokeColor;
+          }
+
+          if (fillColor) {
+            drawingContext.fill();
+          }
+
+          if (strokeColor) {
+            drawingContext.stroke();
+          }
+        }
+      }
+
+    }]
+  };
+}, _basesprite__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 Path.setAttributeEffects({
   d: _helpers_path__WEBPACK_IMPORTED_MODULE_3__["pathEffect"],
@@ -12278,7 +13951,7 @@ Path.setAttributeEffects({
 });
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12326,6 +13999,5989 @@ function use(plugin, options = null, merge = true) {
 
   return ret;
 }
+
+/***/ }),
+/* 143 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(144);
+/* harmony import */ var _flex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(145);
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(137);
+
+
+
+_group__WEBPACK_IMPORTED_MODULE_2__["default"].applyLayout('flex', _flex__WEBPACK_IMPORTED_MODULE_1__);
+
+/***/ }),
+/* 144 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _baseattr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(121);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
+
+
+const defaultValues = {
+  flexGrow: 0,
+  flexShrink: 1,
+  flexBasis: 'auto',
+  order: 0,
+  alignSelf: ''
+};
+/*
+  BaseAttr.addAttributes({
+    flexGrow: {
+      decorators: [],
+      value: ...,
+      set: ...,
+      get: ...,
+    },
+  });
+*/
+
+const relayout = true,
+      reflow = true,
+      cache = true;
+_baseattr__WEBPACK_IMPORTED_MODULE_0__["default"].addAttributes({
+  flexGrow: {
+    decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
+      relayout
+    })],
+    value: defaultValues.flexGrow
+  },
+  flexShrink: {
+    decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
+      relayout
+    })],
+    value: defaultValues.flexShrink
+  },
+  flexBasis: {
+    decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
+      relayout,
+      reflow
+    })],
+    value: defaultValues.flexBasis
+  },
+  order: {
+    decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseInt), Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
+      cache,
+      relayout
+    })],
+    value: defaultValues.order
+  },
+  alignSelf: {
+    decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
+      cache,
+      relayout
+    })],
+    value: defaultValues.alignSelf
+  },
+  flex: {
+    set(val) {
+      this.clearFlow();
+
+      if (val != null && val !== 'initial') {
+        if (val === 'auto') {
+          this.flexGrow = 1;
+          this.flexShrink = 1;
+          this.flexBasis = 'auto';
+        } else if (val === 'none') {
+          this.flexGrow = 0;
+          this.flexShrink = 0;
+          this.flexBasis = 'auto';
+        } else if (typeof val === 'string') {
+          const values = val.trim().split(/\s+/);
+          this.flexGrow = values[0];
+          this.flexShrink = values[1];
+          this.flexBasis = values[2];
+        } else {
+          this.flexGrow = val;
+          this.flexShrink = 1;
+          this.flexBasis = 'auto';
+        }
+      } else {
+        this.flexGrow = 0;
+        this.flexShrink = 1;
+        this.flexBasis = 'auto';
+      }
+    },
+
+    get() {
+      return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
+    }
+
+  }
+});
+
+/***/ }),
+/* 145 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attrs", function() { return attrs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relayout", function() { return relayout; });
+/* harmony import */ var sprite_flex_layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(146);
+
+const attrs = {
+  init(attr) {
+    attr.setDefault({
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      flexWrap: 'nowrap',
+      alignContent: 'stretch'
+    });
+  },
+
+  flexDirection(attr, value) {
+    attr.subject.clearLayout();
+    attr.set('flexDirection', value);
+  },
+
+  flexWrap(attr, value) {
+    attr.subject.clearLayout();
+    attr.set('flexWrap', value);
+  },
+
+  justifyContent(attr, value) {
+    attr.subject.clearLayout();
+    attr.set('justifyContent', value);
+  },
+
+  alignItems(attr, value) {
+    attr.subject.clearLayout();
+    attr.set('alignItems', value);
+  },
+
+  alignContent(attr, value) {
+    attr.subject.clearLayout();
+    attr.set('alignContent', value);
+  }
+
+};
+function relayout(containerSprite, itemsSprite) {
+  itemsSprite.sort((a, b) => {
+    const orderA = a.attributes.order | 0,
+          orderB = b.attributes.order | 0;
+
+    if (orderA !== orderB) {
+      return orderA - orderB;
+    }
+
+    return a.zOrder - b.zOrder;
+  });
+  const container = sprite_flex_layout__WEBPACK_IMPORTED_MODULE_0__["Node"].create({
+    width: containerSprite.attrSize[0],
+    height: containerSprite.attrSize[1],
+    flexDirection: containerSprite.attributes.flexDirection,
+    alignItems: containerSprite.attributes.alignItems,
+    justifyContent: containerSprite.attributes.justifyContent,
+    flexWrap: containerSprite.attributes.flexWrap,
+    alignContent: containerSprite.attributes.alignContent
+  });
+  itemsSprite.forEach(item => {
+    const [marginTop, marginRight, marginBottom, marginLeft] = item.attr('margin');
+    const [paddingTop, paddingRight, paddingBottom, paddingLeft] = item.attr('padding');
+    const borderWidth = item.attr('border').width;
+    const [width, height] = item.attrSize;
+    const config = {
+      width,
+      height,
+      offsetWidth: item.contentSize[0],
+      offsetHeight: item.contentSize[1],
+      minWidth: item.attributes.minWidth,
+      maxWidth: item.attributes.maxWidth,
+      minHeight: item.attributes.minHeight,
+      maxHeight: item.attributes.maxHeight,
+      boxSizing: item.attr('boxSizing'),
+      marginTop,
+      marginRight,
+      marginBottom,
+      marginLeft,
+      paddingTop,
+      paddingRight,
+      paddingBottom,
+      paddingLeft,
+      borderTop: borderWidth,
+      borderRight: borderWidth,
+      borderBottom: borderWidth,
+      borderLeft: borderWidth,
+      alignSelf: item.attributes.alignSelf,
+      // flex: item.attributes.flex,
+      flexBasis: item.attributes.flexBasis,
+      flexGrow: item.attributes.flexGrow,
+      flexShrink: item.attributes.flexShrink
+    };
+    const node = sprite_flex_layout__WEBPACK_IMPORTED_MODULE_0__["Node"].create(config);
+    container.appendChild(node);
+  });
+  container.calculateLayout();
+  const layout = container.getAllComputedLayout();
+  containerSprite.attr({
+    layoutWidth: layout.width,
+    layoutHeight: layout.height
+  });
+  layout.children.forEach((item, index) => {
+    const sprite = itemsSprite[index];
+    const [ox, oy] = sprite.originalRect; // fix anchor
+
+    sprite.attr({
+      layoutX: item.left - ox,
+      layoutY: item.top - oy,
+      layoutWidth: item.width,
+      layoutHeight: item.height,
+      layoutRight: item.left + item.width,
+      layoutBottom: item.top + item.height
+    });
+  });
+}
+
+/***/ }),
+/* 146 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(147);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Node", function() { return _node__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(148);
+/* harmony import */ var _compose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(150);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(149);
+
+
+
+let id = 1;
+
+class Node {
+  constructor(config) {
+    this.config = new _config__WEBPACK_IMPORTED_MODULE_0__["default"](config, this);
+    this.parent = null;
+    this.children = [];
+    this.id = id++;
+  }
+
+  appendChild(node) {
+    if (!(node instanceof Node)) {
+      throw new Error('appended Child must be instance of Node');
+    }
+
+    node.parent = this;
+    this.children.push(node);
+    return this;
+  }
+
+  calculateLayout(width, height, direction) {
+    if (width) this.width = width;
+    if (height) this.height = height;
+    if (direction) this.flexDirection = direction;
+    const instance = new _compose__WEBPACK_IMPORTED_MODULE_1__["default"](this);
+    instance.compose();
+  }
+
+  getComputedLayout(props = []) {
+    let width = this.computedWidth;
+
+    if (width === undefined) {
+      width = this.width;
+    }
+
+    let height = this.computedHeight;
+
+    if (height === undefined) {
+      height = this.height;
+    }
+
+    const layout = {
+      left: this.left || 0,
+      top: this.top || 0,
+      width,
+      height
+    };
+    props.forEach(item => {
+      layout[item] = this[item];
+    });
+    return layout;
+  }
+
+  getAllComputedLayout(props) {
+    const layout = this.getComputedLayout();
+    layout.children = this.children.sort((a, b) => {
+      return a.id > b.id ? 1 : -1;
+    }).map(item => {
+      return item.getComputedLayout(props);
+    });
+    return layout;
+  }
+
+  static create(config) {
+    return new Node(config);
+  }
+
+}
+
+_util__WEBPACK_IMPORTED_MODULE_2__["flexProperties"].forEach(property => {
+  Object.defineProperty(Node.prototype, property, {
+    get() {
+      return this.config[property];
+    },
+
+    set(value) {
+      this.config[property] = value;
+    }
+
+  });
+});
+/* harmony default export */ __webpack_exports__["default"] = (Node);
+
+/***/ }),
+/* 148 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(149);
+
+
+class Config {
+  constructor(config = {}, node) {
+    this.config = {};
+    this.node = node;
+    Object.keys(config).forEach(item => {
+      if (_util__WEBPACK_IMPORTED_MODULE_0__["flexProperties"].indexOf(item) === -1) {
+        throw new Error(`config ${item} is not valid`);
+      }
+
+      this[item] = config[item];
+    });
+  }
+
+  parse() {
+    this.parseBorder();
+    this.parsePadding();
+    this.parseMargin();
+    this.parseFlex();
+    this.parseFlexFlow();
+    this.parseFlexProps();
+    this.parseSize();
+    this.parseComputedWidth();
+    this.parseComputedHeight();
+    this.parseLayoutWidth();
+    this.parseLayoutHeight();
+  }
+
+  parseNumberValue(value, parentValue) {
+    if (value === 'auto' || typeof value === 'number') return value;
+    if (!value) return 0;
+    const percentValue = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parsePercentValue"])(value);
+
+    if (typeof percentValue === 'number') {
+      if (typeof parentValue === 'string') {
+        parentValue = this.node.parent[parentValue];
+      }
+
+      value = percentValue * parentValue;
+    } else if (/^[\d.-]+$/.test(value)) {
+      value = parseFloat(value, 10);
+    } else {
+      throw new Error(`${value} is not a number`);
+    }
+
+    return value;
+  }
+
+  parseBorder() {
+    let border = this.border || [0, 0, 0, 0];
+
+    if (border) {
+      border = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseCombineValue"])(border).map(item => {
+        return this.parseNumberValue(item);
+      });
+    }
+
+    const borderList = ['borderTop', 'borderRight', 'borderBottom', 'borderLeft'];
+    this.border = borderList.map((item, index) => {
+      this[item] = this.parseNumberValue(this[item]) || border[index];
+
+      if (this[item] < 0 || this[item] === 'auto') {
+        throw new Error(`${item}:${this[item]} is not valid`);
+      }
+
+      return this[item];
+    });
+  }
+
+  parsePadding() {
+    let padding = this.padding || [0, 0, 0, 0];
+
+    if (padding) {
+      padding = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseCombineValue"])(padding).map(item => {
+        return this.parseNumberValue(item, 'width');
+      });
+    }
+
+    const paddingList = ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'];
+    this.padding = paddingList.map((item, index) => {
+      this[item] = this.parseNumberValue(this[item], 'width') || padding[index];
+
+      if (this[item] < 0 || this[item] === 'auto') {
+        throw new Error(`${item}:${this[item]} is not valid`);
+      }
+
+      return this[item];
+    });
+  }
+
+  parseMargin() {
+    let margin = this.margin || [0, 0, 0, 0];
+
+    if (margin) {
+      margin = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseCombineValue"])(margin).map(item => {
+        return this.parseNumberValue(item, 'width');
+      });
+    }
+
+    const marginList = ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'];
+    this.margin = marginList.map((item, index) => {
+      this[item] = this.parseNumberValue(this[item], 'width') || margin[index];
+      return this[item];
+    });
+  }
+
+  parseFlex() {
+    const flex = this.flex;
+
+    if (flex) {
+      if (typeof flex === 'number') {
+        this.flexGrow = this.flexGrow || flex;
+      } else {
+        const [flexFlow, flexShrink, flexBasis] = flex.split(/\s+/);
+
+        if (!this.flexFlow) {
+          this.flexFlow = flexFlow;
+        }
+
+        if (!this.flexShrink) {
+          this.flexShrink = flexShrink;
+        }
+
+        if (!this.flexBasis) {
+          this.flexBasis = flexBasis;
+        }
+      }
+    }
+
+    this.flexShrink = parseFloat(this.flexShrink) || 1;
+    this.flexGrow = parseFloat(this.flexGrow) || 0;
+    let flexBasis = this.flexBasis;
+
+    if (flexBasis) {
+      const flexDirection = this.node.parent.flexDirection;
+      const isRow = flexDirection === 'row' || flexDirection === 'row-reverse';
+      flexBasis = this.parseNumberValue(flexBasis, isRow ? 'width' : 'height');
+      this.flexBasis = flexBasis;
+    } else if (this.flexBasis === '') {
+      this.flexBasis = undefined;
+    }
+  }
+
+  parseSize() {
+    const widths = ['width', 'minWidth', 'maxWidth'];
+    widths.forEach(item => {
+      this[item] = this.parseNumberValue(this[item], 'width') || 0;
+    });
+
+    if (this.width && !this.offsetWidth) {
+      this.offsetWidth = this.width;
+    }
+
+    const heights = ['height', 'minHeight', 'maxHeight'];
+    heights.forEach(item => {
+      this[item] = this.parseNumberValue(this[item], 'height') || 0;
+    });
+
+    if (this.height && !this.offsetHeight) {
+      this.offsetHeight = this.height;
+    }
+  }
+
+  parseFlexFlow() {
+    const flexFlow = this.flexFlow;
+
+    if (flexFlow) {
+      flexFlow.split(/\s+/).forEach(item => {
+        if (_util__WEBPACK_IMPORTED_MODULE_0__["flexDirectionValues"].indexOf(item) > -1) {
+          this.flexDirection = item;
+        } else if (_util__WEBPACK_IMPORTED_MODULE_0__["flexWrapValues"].indexOf(item) > -1) {
+          this.flexWrap = item;
+        } else {
+          throw new Error(`FlexFlow: ${flexFlow} is not valid`);
+        }
+      });
+    }
+  }
+
+  parseFlexProps() {
+    const props = {
+      flexDirection: _util__WEBPACK_IMPORTED_MODULE_0__["flexDirectionValues"],
+      flexWrap: _util__WEBPACK_IMPORTED_MODULE_0__["flexWrapValues"],
+      justifyContent: _util__WEBPACK_IMPORTED_MODULE_0__["justifyContentValues"],
+      alignItems: _util__WEBPACK_IMPORTED_MODULE_0__["alignItemsValues"],
+      alignSelf: _util__WEBPACK_IMPORTED_MODULE_0__["alignSelfValues"],
+      alignContent: _util__WEBPACK_IMPORTED_MODULE_0__["alignContentValues"]
+    };
+    Object.keys(props).forEach(item => {
+      if (this[item]) {
+        const allowValues = props[item];
+
+        if (allowValues.indexOf(this[item]) === -1) {
+          throw new Error(`${item} value:${this[item]} is not valid`);
+        }
+      } else {
+        this[item] = props[item][0];
+      }
+    });
+  }
+
+  getFlexBasis(type = 'width') {
+    const flexDirection = this.node.parent.flexDirection;
+    const flexBasis = this.flexBasis;
+
+    if (flexBasis !== undefined && flexBasis !== 'auto') {
+      const isRow = flexDirection === 'row' || flexDirection === 'row-reverse';
+
+      if (type === 'width' && isRow || type === 'height' && !isRow) {
+        return this.parseNumberValue(flexBasis, isRow ? 'width' : 'height');
+      }
+    }
+  }
+
+  get computedWidth() {
+    return this.config.computedWidth;
+  }
+
+  set computedWidth(value) {
+    this.config.computedWidth = value;
+    this.parseLayoutWidth();
+  }
+
+  parseComputedWidth() {
+    let width = this.getFlexBasis('width');
+
+    if (width === undefined) {
+      width = this.offsetWidth || 0;
+    }
+
+    const minWidth = this.minWidth;
+    let maxWidth = this.maxWidth;
+
+    if (maxWidth && minWidth && maxWidth < minWidth) {
+      maxWidth = minWidth;
+    }
+
+    if (minWidth && width < minWidth) {
+      width = minWidth;
+    }
+
+    if (maxWidth && width > maxWidth) {
+      width = maxWidth;
+    }
+
+    this.config.computedWidth = width;
+  }
+
+  parseLayoutWidth() {
+    let width = this.computedWidth;
+    const marginLeft = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(this.marginLeft);
+    const marginRight = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(this.marginRight);
+    width += marginLeft + marginRight;
+
+    if (this.boxSizing !== 'border-box') {
+      const props = ['borderLeft', 'borderRight', 'paddingLeft', 'paddingRight'];
+      props.forEach(item => {
+        width += this[item] || 0;
+      });
+    }
+
+    this.layoutWidth = width;
+  }
+
+  get computedHeight() {
+    return this.config.computedHeight;
+  }
+
+  set computedHeight(value) {
+    this.config.computedHeight = value;
+    this.parseLayoutHeight();
+  }
+
+  parseComputedHeight() {
+    let height = this.getFlexBasis('height');
+
+    if (height === undefined) {
+      height = this.offsetHeight || 0;
+    }
+
+    const minHeight = this.minHeight;
+    let maxHeight = this.maxHeight;
+
+    if (maxHeight && minHeight && maxHeight < minHeight) {
+      maxHeight = minHeight;
+    }
+
+    if (minHeight && height < minHeight) {
+      height = minHeight;
+    }
+
+    if (maxHeight && height > maxHeight) {
+      height = maxHeight;
+    }
+
+    this.config.computedHeight = height;
+  }
+
+  parseLayoutHeight() {
+    let height = this.computedHeight;
+    const marginTop = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(this.marginTop);
+    const marginBottom = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(this.marginBottom);
+    height += marginTop + marginBottom;
+
+    if (this.boxSizing !== 'border-box') {
+      const props = ['borderTop', 'borderBottom', 'paddingTop', 'paddingBottom'];
+      props.forEach(item => {
+        height += this[item] || 0;
+      });
+    }
+
+    this.layoutHeight = height;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Config);
+
+/***/ }),
+/* 149 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flexProperties", function() { return flexProperties; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flexDirectionValues", function() { return flexDirectionValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flexWrapValues", function() { return flexWrapValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "justifyContentValues", function() { return justifyContentValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alignItemsValues", function() { return alignItemsValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alignSelfValues", function() { return alignSelfValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "alignContentValues", function() { return alignContentValues; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseCombineValue", function() { return parseCombineValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parsePercentValue", function() { return parsePercentValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseSpaceBetween", function() { return parseSpaceBetween; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProp", function() { return getProp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exchangeFlexProp", function() { return exchangeFlexProp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarginAuto", function() { return parseMarginAuto; });
+const flexProperties = ['flex', 'flexDirection', 'flexWrap', 'flexFlow', 'justifyContent', 'alignContent', 'alignItems', 'alignSelf', 'flexShrink', 'flexBasis', 'flexGrow', 'maxHeight', 'maxWidth', 'minHeight', 'minWidth', 'border', 'borderTop', 'borderRight', 'borderBottom', 'borderLeft', 'height', 'width', 'margin', 'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'padding', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'boxSizing', 'layoutWidth', 'layoutHeight', 'offsetWidth', 'offsetHeight', 'computedWidth', 'computedHeight', 'order'];
+const flexDirectionValues = ['row', 'row-reverse', 'column', 'column-reverse'];
+const flexWrapValues = ['nowrap', 'wrap', 'wrap-reverse'];
+const justifyContentValues = ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'];
+const alignItemsValues = ['stretch', 'flex-start', 'flex-end', 'center', 'baseline'];
+const alignSelfValues = ['auto', 'stretch', 'flex-start', 'flex-end', 'center', 'baseline'];
+const alignContentValues = ['stretch', 'flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'];
+function parseCombineValue(value) {
+  if (!Array.isArray(value)) {
+    value = [value, value, value, value];
+  } else if (value.length === 1) {
+    value = [value[0], value[0], value[0], value[0]];
+  } else if (value.length === 2) {
+    value = [value[0], value[1], value[0], value[1]];
+  } else if (value.length === 3) {
+    value[3] = value[1];
+  }
+
+  return value;
+}
+/**
+ * parse percent value
+ * @param {String} value percent value, like `10%`
+ */
+
+function parsePercentValue(value) {
+  if (!/%$/.test(value)) return false;
+  return 0.01 * parseFloat(value, 10);
+}
+/**
+ * parse space between items
+ * @param {Number} space space size
+ * @param {String} type flex-start/flex-end/...
+ * @param {Number} num array size
+ */
+
+function parseSpaceBetween(space, type, num) {
+  const marginSize = [];
+
+  const fillFull = (size = 0) => {
+    for (let i = marginSize.length; i < num + 1; i++) {
+      marginSize[i] = size;
+    }
+  };
+
+  if (space < 0) {
+    if (type === 'space-between' || type === 'stretch') {
+      type = 'flex-start';
+    } else if (type === 'space-around' || type === 'space-evenly') {
+      type = 'center';
+    }
+  }
+
+  if (type === 'flex-end') {
+    marginSize[0] = space;
+    fillFull();
+  } else if (type === 'center') {
+    const itemSize = space / 2;
+    marginSize[0] = itemSize;
+    fillFull();
+    marginSize[num] = itemSize;
+  } else if (type === 'space-between') {
+    marginSize[0] = 0;
+
+    if (num === 1) {
+      fillFull(space);
+    } else {
+      fillFull(space / (num - 1));
+      marginSize[num] = 0;
+    }
+  } else if (type === 'space-between-reverse') {
+    if (num === 1) {
+      marginSize[0] = space;
+      fillFull(0);
+    } else {
+      marginSize[0] = 0;
+      fillFull(space / (num - 1));
+      marginSize[num] = 0;
+    }
+  } else if (type === 'space-around') {
+    const itemSize = space / num;
+    marginSize[0] = itemSize / 2;
+    fillFull(itemSize);
+    marginSize[num] = itemSize / 2;
+  } else if (type === 'space-evenly') {
+    const itemSize = space / (num + 1);
+    fillFull(itemSize);
+  } else if (type === 'stretch') {
+    const itemSize = space / num;
+    marginSize[0] = 0;
+    fillFull(itemSize);
+  } else {
+    // flex-start
+    fillFull();
+  }
+
+  return marginSize;
+}
+function getProp(flexDirection) {
+  if (flexDirection === 'column' || flexDirection === 'column-reverse') {
+    return {
+      mainLayoutSize: 'layoutHeight',
+      crossLayoutSize: 'layoutWidth',
+      mainSize: 'height',
+      mainComputedSize: 'computedHeight',
+      crossSize: 'width',
+      crossComputedSize: 'computedWidth',
+      mainPos: 'top',
+      mainMaxSize: 'maxHeight',
+      mainMinSize: 'minHeight',
+      crossPos: 'left',
+      crossMaxSize: 'maxWidth',
+      mainMarginStart: 'marginTop',
+      mainMarginEnd: 'marginBottom',
+      crossMarginStart: 'marginLeft',
+      crossMarginEnd: 'marginRight'
+    };
+  }
+
+  return {
+    mainLayoutSize: 'layoutWidth',
+    crossLayoutSize: 'layoutHeight',
+    mainSize: 'width',
+    mainComputedSize: 'computedWidth',
+    crossSize: 'height',
+    crossComputedSize: 'computedHeight',
+    mainPos: 'left',
+    mainMaxSize: 'maxWidth',
+    mainMinSize: 'minWidth',
+    crossMaxSize: 'maxHeight',
+    crossPos: 'top',
+    mainMarginStart: 'marginLeft',
+    mainMarginEnd: 'marginRight',
+    crossMarginStart: 'marginTop',
+    crossMarginEnd: 'marginBottom'
+  };
+}
+function exchangeFlexProp(prop) {
+  if (prop === 'flex-start') return 'flex-end';
+  if (prop === 'flex-end') return 'flex-start';
+  if (prop === 'space-between') return 'space-between-reverse';
+  return prop;
+}
+function parseMarginAuto(value, autoValue = 0) {
+  if (value === 'auto') return autoValue;
+  return value || 0;
+}
+
+/***/ }),
+/* 150 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _flexLine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(151);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(149);
+
+
+
+class Compose {
+  constructor(container) {
+    this.container = container;
+    const props = Object(_util__WEBPACK_IMPORTED_MODULE_1__["getProp"])(container.flexDirection);
+    Object.keys(props).forEach(prop => {
+      this[prop] = props[prop];
+    });
+    container.children.forEach(item => {
+      item.config.parse();
+    });
+    container.children = this.parseOrder(container.children);
+    this.flexLines = this.parseFlexLines(container.children);
+  }
+
+  parseOrder(items) {
+    return items.sort((a, b) => {
+      const ar = a.order | 0;
+      const br = b.order | 0;
+      if (a.order && b.order) return ar > br ? 1 : -1;
+      if (a.order) return ar > 0 ? 1 : -1;
+      if (b.order) return br > 0 ? -1 : 1;
+      return a.id > b.id ? 1 : -1;
+    });
+  }
+  /**
+   * parse flex lines by flexWrap
+   * @param {Array} items flex items
+   */
+
+
+  parseFlexLines(items) {
+    const wrap = this.container.flexWrap;
+    const flexDirection = this.container.flexDirection;
+    const containerPropValue = this.container[this.mainSize];
+    let lines = [];
+
+    if (wrap === 'nowrap' || !containerPropValue) {
+      lines = [items];
+    } else {
+      let line = [];
+      let propValue = 0;
+      items.forEach(item => {
+        const value = item[this.mainLayoutSize];
+
+        if (propValue + value > containerPropValue && line.length) {
+          lines.push(line);
+          propValue = 0;
+          line = [];
+        }
+
+        propValue += value;
+        line.push(item);
+      });
+
+      if (line.length) {
+        lines.push(line);
+        line = [];
+      }
+
+      if (wrap === 'wrap-reverse') {
+        lines = lines.reverse();
+      }
+    }
+
+    if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+      lines = lines.map(line => {
+        return line.reverse();
+      });
+    }
+
+    lines = lines.map(line => {
+      return new _flexLine__WEBPACK_IMPORTED_MODULE_0__["default"](line, this.container);
+    });
+    return lines;
+  }
+  /**
+   * parse align-content on multiline flex lines
+   */
+
+
+  parseAlignContent() {
+    let alignContent = this.container.alignContent;
+    const crossAxisSize = this.container[this.crossSize];
+    let space = 0;
+    const lineLength = this.flexLines.length;
+
+    if (crossAxisSize) {
+      let linesCrossAxisSize = 0;
+      this.flexLines.forEach(line => {
+        linesCrossAxisSize += line.crossAxisSize;
+      }); // margin between lines
+
+      space = crossAxisSize - linesCrossAxisSize;
+    }
+
+    let linesMarginSize = [];
+
+    if (lineLength === 1) {
+      this.container.alignContent = 'stretch';
+      linesMarginSize = [0, space];
+    } else {
+      if (this.container.flexWrap === 'wrap-reverse') {
+        alignContent = Object(_util__WEBPACK_IMPORTED_MODULE_1__["exchangeFlexProp"])(alignContent);
+      }
+
+      linesMarginSize = Object(_util__WEBPACK_IMPORTED_MODULE_1__["parseSpaceBetween"])(space, alignContent, lineLength);
+    }
+
+    let crossPosition = 0;
+    this.flexLines.forEach((line, index) => {
+      crossPosition += linesMarginSize[index] || 0;
+      line.crossPosition = crossPosition;
+      line.crossSpace = linesMarginSize[index + 1] || 0;
+      crossPosition += line.crossAxisSize;
+    });
+  }
+
+  parseAlignSelf() {
+    this.flexLines.forEach(line => {
+      line.parseAlignSelf(line.crossAxisSize);
+    });
+  }
+
+  computeContainerSize() {
+    const line = this.flexLines[0];
+
+    if (!this.container[this.crossSize]) {
+      this.container[this.crossSize] = line.crossAxisSize;
+    }
+
+    if (!this.container[this.mainSize]) {
+      this.container[this.mainSize] = line.mainAxisSize;
+    }
+  }
+
+  parseMainAxis() {
+    this.flexLines.forEach(line => {
+      line.parseMainAxis();
+    });
+  }
+
+  compose() {
+    this.parseAlignContent();
+    this.parseAlignSelf();
+    this.parseMainAxis();
+    this.computeContainerSize();
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Compose);
+
+/***/ }),
+/* 151 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(149);
+
+const CROSS_AXIS_SIZE = Symbol('crossAxisSize');
+
+class FlexLine {
+  constructor(items, container) {
+    this.items = items;
+    this.container = container;
+    this.flexDirection = container.flexDirection;
+    this.crossPosition = 0;
+    this.crossSpace = 0;
+    const props = Object(_util__WEBPACK_IMPORTED_MODULE_0__["getProp"])(this.flexDirection);
+    Object.keys(props).forEach(prop => {
+      this[prop] = props[prop];
+    });
+  }
+  /**
+   * get main axis size base on flex direction
+   */
+
+
+  get mainAxisSize() {
+    let value = 0;
+    this.items.forEach(item => {
+      value += item[this.mainLayoutSize] || 0;
+    });
+    return value;
+  }
+  /**
+   * get cross axis size based on flex direction
+   */
+
+
+  get crossAxisSize() {
+    if (this[CROSS_AXIS_SIZE]) return this[CROSS_AXIS_SIZE];
+    const values = this.items.map(item => {
+      return item[this.crossLayoutSize] || 0;
+    });
+    const result = Math.max(...values);
+    this[CROSS_AXIS_SIZE] = result;
+    return result;
+  }
+
+  parseAutoCrossMargin(item, crossSize) {
+    const startAuto = item[this.crossMarginStart] === 'auto';
+    const endAuto = item[this.crossMarginEnd] === 'auto';
+
+    if (startAuto || endAuto) {
+      if (this.container.alignContent === 'stretch') {
+        crossSize += this.crossSpace;
+      }
+
+      const layoutSize = item[this.crossLayoutSize];
+      let size = 0;
+
+      if (startAuto && endAuto) {
+        size = (crossSize - layoutSize) / 2;
+      } else if (startAuto) {
+        size = crossSize - layoutSize;
+      } else {
+        size = item[this.crossMarginStart];
+      }
+
+      item[this.crossPos] = this.crossPosition + size;
+      return true;
+    }
+
+    return false;
+  }
+
+  parseItemAlignSelf(item, crossSize) {
+    // has auto value in margin on cross axis
+    if (this.parseAutoCrossMargin(item, crossSize)) return;
+    let alignSelf = item.alignSelf;
+
+    if (alignSelf === 'auto') {
+      alignSelf = item.parent.alignItems;
+    }
+
+    const flexWrap = this.container.flexWrap;
+
+    if (flexWrap === 'wrap-reverse') {
+      alignSelf = Object(_util__WEBPACK_IMPORTED_MODULE_0__["exchangeFlexProp"])(alignSelf);
+    }
+
+    const layoutSize = item[this.crossLayoutSize];
+    const itemCrossSize = item[this.crossSize];
+    let crossSpace = this.crossSpace;
+
+    if (this.container.alignContent !== 'stretch') {
+      crossSpace = 0;
+    }
+
+    let crossPosition = 0;
+
+    switch (alignSelf) {
+      case 'flex-end':
+        crossPosition = crossSpace + crossSize - layoutSize;
+        break;
+
+      case 'center':
+        crossPosition = (crossSpace + crossSize - layoutSize) / 2;
+        break;
+
+      case 'stretch':
+        // stretch item cross size
+        if (!itemCrossSize) {
+          const maxSize = item[this.crossMaxSize] || 0;
+          let caculateSize = this.crossAxisSize - item[this.crossLayoutSize] + item[this.crossComputedSize];
+
+          if (this.container.alignContent === 'stretch') {
+            caculateSize += this.crossSpace;
+          }
+
+          if (maxSize) {
+            item[this.crossComputedSize] = Math.min(caculateSize, maxSize);
+          } else {
+            item[this.crossComputedSize] = caculateSize;
+          }
+        } else if (flexWrap === 'wrap-reverse') {
+          crossPosition = crossSpace + crossSize - layoutSize;
+        }
+
+        break;
+
+      case 'baseline':
+        throw new Error('align-self:baseline is not support');
+
+      default:
+        // default is flex-start
+        break;
+    }
+
+    const pos = this.crossPosition + crossPosition;
+    item[this.crossPos] = pos + Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.crossMarginStart]);
+  }
+
+  parseAlignSelf(crossSize = 0) {
+    this.items.forEach(item => {
+      this.parseItemAlignSelf(item, crossSize);
+    });
+  }
+
+  hasMarginAutoInMainAxis() {
+    return this.items.some(item => {
+      return item[this.mainMarginStart] === 'auto' || item[this.mainMarginEnd] === 'auto';
+    });
+  }
+
+  hasFlexGrow() {
+    return this.items.some(item => {
+      return item.flexGrow;
+    });
+  }
+
+  parseByFlexGrow(space) {
+    let grow = 0;
+    let max = 0;
+    const items = [];
+    this.items.forEach(item => {
+      grow += item.flexGrow || 0;
+      items.push({
+        max: item[this.mainMaxSize],
+        grow: item.flexGrow
+      });
+      if (item[this.mainMaxSize]) max++;
+    });
+
+    while (true) {
+      const itemSpace = space / Math.max(grow, 1);
+
+      if (!max) {
+        items.forEach((item, index) => {
+          if (item.grow) {
+            const increSpace = item.grow * itemSpace;
+            this.items[index][this.mainComputedSize] += increSpace;
+            space -= increSpace;
+          }
+        });
+        break;
+      }
+
+      let flag = false;
+      items.forEach((item, index) => {
+        if (item.max && item.grow) {
+          const leaveSpace = item.max - this.items[index][this.mainComputedSize];
+
+          if (itemSpace * item.grow > leaveSpace) {
+            this.items[index][this.mainComputedSize] = item.max;
+            space -= leaveSpace;
+            grow -= item.grow;
+            delete item.max;
+            delete item.grow;
+            flag = true;
+          }
+        }
+      });
+      if (!grow) break;
+
+      if (!flag) {
+        max = 0;
+      }
+    }
+
+    return space;
+  }
+
+  parseByMarginAuto(space) {
+    let marginAutoNum = 0;
+    this.items.forEach(item => {
+      if (item[this.mainMarginStart] === 'auto') {
+        marginAutoNum++;
+      }
+
+      if (item[this.mainMarginEnd] === 'auto') {
+        marginAutoNum++;
+      }
+    });
+    const itemSpace = space / marginAutoNum;
+    let pos = 0;
+    this.items.forEach(item => {
+      pos += Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.mainMarginStart], itemSpace);
+      item[this.mainPos] = pos;
+      pos += item[this.mainLayoutSize] - Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.mainMarginStart]);
+      pos += Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.mainMarginEnd], itemSpace) - Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.mainMarginEnd]);
+    });
+  }
+
+  parseJustifyContent() {
+    let justifyContent = this.container.justifyContent;
+    const flexDirection = this.container.flexDirection;
+
+    if (flexDirection === 'row-reverse' || flexDirection === 'column-reverse') {
+      justifyContent = Object(_util__WEBPACK_IMPORTED_MODULE_0__["exchangeFlexProp"])(justifyContent);
+    }
+
+    return justifyContent;
+  }
+
+  parseByJustifyContentPositive(space) {
+    return this.parseByJustifyContentSpace(space);
+  }
+
+  parseByJustifyContentSpace(space) {
+    const justifyContent = this.parseJustifyContent();
+    const marginSizes = Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseSpaceBetween"])(space, justifyContent, this.items.length);
+    let pos = 0;
+    this.items.forEach((item, index) => {
+      pos += marginSizes[index] || 0;
+      item[this.mainPos] = pos + Object(_util__WEBPACK_IMPORTED_MODULE_0__["parseMarginAuto"])(item[this.mainMarginStart]);
+      pos += item[this.mainLayoutSize];
+    });
+  }
+
+  parseByJustifyContentNegative(space) {
+    let shrink = 0;
+    let min = 0;
+    const items = [];
+    this.items.forEach(item => {
+      const shrinkItem = item.flexShrink * item[this.mainComputedSize];
+      shrink += shrinkItem;
+      items.push({
+        min: item[this.mainMinSize],
+        shrink: shrinkItem
+      });
+      if (item[this.mainMinSize]) min++;
+    });
+
+    while (true) {
+      const itemSpace = (0 - space) / shrink;
+
+      if (!min) {
+        items.forEach((item, index) => {
+          if (item.shrink) {
+            const decreSpace = item.shrink * itemSpace;
+            const size = this.items[index][this.mainComputedSize] - decreSpace;
+
+            if (size > 0) {
+              this.items[index][this.mainComputedSize] -= decreSpace;
+              space += decreSpace;
+            } else {
+              this.items[index][this.mainComputedSize] = 1;
+              space += decreSpace + size;
+            }
+          }
+        });
+        break;
+      }
+
+      let flag = false;
+      items.forEach((item, index) => {
+        if (item.min) {
+          const leaveSpace = this.items[index][this.mainComputedSize] - item.min;
+
+          if (itemSpace * item.shrink > leaveSpace) {
+            this.items[index][this.mainComputedSize] = item.min;
+            space += leaveSpace;
+            shrink -= item.shrink;
+            delete item.min;
+            delete item.shrink;
+            flag = true;
+          }
+        }
+      });
+
+      if (!flag) {
+        min = 0;
+      }
+    }
+
+    this.parseByJustifyContentSpace(space);
+  }
+
+  parseMainAxis() {
+    const mainSize = this.container[this.mainSize]; // container size is not set
+
+    if (!mainSize) {
+      let pos = 0;
+      this.items.forEach(item => {
+        item[this.mainPos] = pos;
+        pos += item[this.mainLayoutSize];
+      });
+      return;
+    }
+
+    let space = mainSize - this.mainAxisSize;
+
+    if (space > 0) {
+      if (this.hasFlexGrow()) {
+        space = this.parseByFlexGrow(space);
+      }
+
+      if (this.hasMarginAutoInMainAxis()) {
+        return this.parseByMarginAuto(space);
+      }
+
+      return this.parseByJustifyContentPositive(space);
+    }
+
+    return this.parseByJustifyContentNegative(space);
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (FlexLine);
+
+/***/ }),
+/* 152 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(153);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelector", function() { return _selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "querySelectorAll", function() { return _selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"]; });
+
+/* harmony import */ var _nodetype__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(184);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_1__["createNode"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_1__["createElement"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return _nodetype__WEBPACK_IMPORTED_MODULE_1__["isValidNodeType"]; });
+
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(123);
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(128);
+/* harmony import */ var _label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(129);
+/* harmony import */ var _path__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(141);
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(137);
+/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(135);
+
+
+
+
+
+
+
+
+
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('node', _basenode__WEBPACK_IMPORTED_MODULE_2__["default"]);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('basesprite', _basesprite__WEBPACK_IMPORTED_MODULE_3__["default"]);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('sprite', _sprite__WEBPACK_IMPORTED_MODULE_4__["default"]);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('label', _label__WEBPACK_IMPORTED_MODULE_5__["default"]);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('path', _path__WEBPACK_IMPORTED_MODULE_6__["default"]);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('group', _group__WEBPACK_IMPORTED_MODULE_7__["default"], true);
+Object(_nodetype__WEBPACK_IMPORTED_MODULE_1__["registerNodeType"])('layer', _layer__WEBPACK_IMPORTED_MODULE_8__["default"], true);
+Object.defineProperties(_basenode__WEBPACK_IMPORTED_MODULE_2__["default"].prototype, {
+  attributes: {
+    get() {
+      if (typeof Proxy === 'function') {
+        try {
+          return new Proxy(this.__attr, {
+            get(target, prop) {
+              if (prop in target) return target[prop];
+              return target.getDefaultValue(prop);
+            },
+
+            set(target, prop, value) {
+              if (typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;else target.subject.attr(prop, value);
+              return true;
+            },
+
+            deleteProperty(target, prop) {
+              if (typeof prop !== 'string' || /^__/.test(prop)) delete target[prop];else target.subject.attr(prop, null);
+              return true;
+            }
+
+          });
+        } catch (ex) {
+          return this.__attr;
+        }
+      }
+
+      return this.__attr;
+    }
+
+  },
+  style: {
+    get() {
+      if (typeof Proxy === 'function') {
+        try {
+          return new Proxy(this.__attr, {
+            get(target, prop) {
+              if (prop !== 'id' && prop !== 'name' && prop !== 'class') {
+                return target[prop];
+              }
+
+              return null;
+            },
+
+            set(target, prop, value) {
+              if (prop !== 'id' && prop !== 'name' && prop !== 'class') {
+                target.subject.attr(prop, value);
+              }
+
+              return true;
+            },
+
+            deleteProperty(target, prop) {
+              if (prop !== 'id' && prop !== 'name' && prop !== 'class') {
+                target.subject.attr(prop, null);
+                return true;
+              }
+
+              return false;
+            }
+
+          });
+        } catch (ex) {
+          return this.__attr;
+        }
+      }
+
+      return this.__attr;
+    }
+
+  },
+  parentNode: {
+    get() {
+      return this.parent;
+    }
+
+  },
+  nextSibling: {
+    get() {
+      return this.getNodeNearBy(1);
+    }
+
+  },
+  previousSibling: {
+    get() {
+      return this.getNodeNearBy(-1);
+    }
+
+  },
+  nextElementSibling: {
+    get() {
+      return this.getNodeNearBy(1, true);
+    }
+
+  },
+  previousElementSibling: {
+    get() {
+      return this.getNodeNearBy(-1, true);
+    }
+
+  }
+});
+Object.assign(_basenode__WEBPACK_IMPORTED_MODULE_2__["default"].prototype, {
+  addEventListener(type, handler) {
+    return this.on(type, handler);
+  },
+
+  removeEventListener(type, handler) {
+    return this.off(type, handler);
+  },
+
+  getNodeNearBy(distance = 1, isElement = false) {
+    if (!this.parent) return null;
+    if (distance === 0) return this;
+    const children = isElement ? this.parent.children : this.parent.childNodes;
+    const idx = children.indexOf(this);
+    return children[idx + distance];
+  },
+
+  getAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop);
+  },
+
+  setAttribute(prop, val) {
+    /* istanbul ignore next */
+    return this.attr(prop, val);
+  },
+
+  removeAttribute(prop) {
+    /* istanbul ignore next */
+    return this.attr(prop, null);
+  },
+
+  contains(node) {
+    while (node && this !== node) {
+      node = node.parent;
+    }
+
+    return !!node;
+  }
+
+});
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "querySelectorAll", function() { return querySelectorAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "querySelector", function() { return querySelector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isMatched", function() { return isMatched; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compile", function() { return compile; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(110);
+
+
+const CSSselect = __webpack_require__(154);
+
+CSSselect.pseudos.hover = next => {
+  return !!next.attr('__internal_state_hover_');
+};
+
+CSSselect.pseudos.active = next => {
+  return !!next.attr('__internal_state_active_');
+};
+
+function isTag(elem) {
+  return elem.nodeType === 1 || typeof elem.nodeType === 'string';
+}
+
+function getChildren(elem) {
+  if (elem.scene_) {
+    return [elem.scene_];
+  }
+
+  if (elem.layer_) {
+    return [elem.layer_];
+  }
+
+  return Array.from(elem.childNodes || []);
+}
+
+function getParent(elem) {
+  if (elem.nodeType === 1) return elem.parentElement;
+
+  if (typeof elem.nodeType === 'string') {
+    return elem.parent || elem.canvas || elem.container;
+  }
+}
+
+function removeSubsets(nodes) {
+  let idx = nodes.length,
+      node,
+      ancestor,
+      replace; // Check if each node (or one of its ancestors) is already contained in the
+  // array.
+
+  while (--idx > -1) {
+    node = ancestor = nodes[idx]; // Temporarily remove the node under consideration
+
+    nodes[idx] = null;
+    replace = true;
+
+    while (ancestor) {
+      if (nodes.indexOf(ancestor) > -1) {
+        replace = false;
+        nodes.splice(idx, 1);
+        break;
+      }
+
+      ancestor = getParent(ancestor);
+    } // If the node has been found to be unique, re-insert it.
+
+
+    if (replace) {
+      nodes[idx] = node;
+    }
+  }
+
+  return nodes;
+}
+
+const adapter = {
+  isTag,
+
+  existsOne(test, elems) {
+    return elems.some(elem => {
+      return isTag(elem) ? test(elem) || adapter.existsOne(test, getChildren(elem)) : false;
+    });
+  },
+
+  getSiblings(elem) {
+    const parent = getParent(elem);
+    return parent && getChildren(parent);
+  },
+
+  getChildren,
+  getParent,
+
+  getAttributeValue(elem, name) {
+    if (elem.nodeType === 1 && name === 'class' || name === 'id') {
+      return elem[name];
+    }
+
+    if (this.hasAttrib(elem, name)) {
+      let val = elem.attributes[name];
+
+      if (Array.isArray(val)) {
+        val = `[${val.join()}]`;
+      }
+
+      return val;
+    }
+  },
+
+  hasAttrib(elem, name) {
+    return elem.attributes[name] != null;
+  },
+
+  removeSubsets,
+
+  getName(elem) {
+    return elem.tagName ? elem.tagName.toLowerCase() : null;
+  },
+
+  findOne: function findOne(test, arr) {
+    let elem = null;
+
+    for (let i = 0, l = arr.length; i < l && !elem; i++) {
+      if (test(arr[i])) {
+        elem = arr[i];
+      } else {
+        const childs = getChildren(arr[i]);
+
+        if (childs && childs.length > 0) {
+          elem = findOne(test, childs);
+        }
+      }
+    }
+
+    return elem;
+  },
+  findAll: function findAll(test, elems) {
+    let result = [];
+
+    for (let i = 0, j = elems.length; i < j; i++) {
+      if (!isTag(elems[i])) continue; // eslint-disable-line
+
+      if (test(elems[i])) result.push(elems[i]);
+      const childs = getChildren(elems[i]);
+      if (childs) result = result.concat(findAll(test, childs));
+    }
+
+    return result;
+  },
+  getText: function getText(elem) {
+    if (Array.isArray(elem)) return elem.map(getText).join('');
+    if (isTag(elem)) return getText(getChildren(elem));
+    if (elem.nodeType === 3) return elem.nodeValue;
+    if (typeof elem.nodeType === 'string') return elem.text;
+    return '';
+  }
+};
+
+function resolveQuery(query) {
+  if (typeof query !== 'string') return query;
+  let matches = query.match(/\[(bgcolor|fillColor|strokeColor|color)\s*=\s*['"]?\w+['"]?\]/g);
+
+  if (matches) {
+    matches = matches.map(matched => {
+      const kv = matched.slice(1, -1).split('=');
+      const color = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["parseColorString"])(kv[1].replace(/['"]/g, ''));
+      return [matched, `[${kv[0]}="${color}"]`];
+    });
+    matches.forEach(([r, p]) => {
+      query = query.replace(r, p);
+    });
+  }
+
+  matches = query.match(/\[\w+\s*=\s*['"]\[.+?\]['"]\]/g);
+
+  if (matches) {
+    matches = matches.map(matched => {
+      const kv = matched.slice(1, -1).split('=');
+      const arr = kv[1].slice(2, -2).split(/,/g).map(k => k.trim());
+      return [matched, `[${kv[0]}="[${arr}]"]`];
+    });
+    matches.forEach(([r, p]) => {
+      query = query.replace(r, p);
+    });
+  }
+
+  return query;
+}
+
+function querySelectorAll(query, elems) {
+  return CSSselect.selectAll(resolveQuery(query), elems, {
+    adapter
+  });
+}
+function querySelector(query, elems) {
+  return CSSselect.selectOne(resolveQuery(query), elems, {
+    adapter
+  });
+}
+function isMatched(elem, query) {
+  return CSSselect.is(elem, resolveQuery(query), {
+    adapter
+  });
+}
+function compile(query) {
+  return CSSselect.compile(resolveQuery(query), {
+    adapter
+  });
+}
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = CSSselect;
+
+var DomUtils = __webpack_require__(155);
+var falseFunc = __webpack_require__(173).falseFunc;
+var compileRaw = __webpack_require__(174);
+
+function wrapCompile(func) {
+    return function addAdapter(selector, options, context) {
+        options = options || {};
+        options.adapter = options.adapter || DomUtils;
+
+        return func(selector, options, context);
+    };
+}
+
+var compile = wrapCompile(compileRaw);
+var compileUnsafe = wrapCompile(compileRaw.compileUnsafe);
+
+function getSelectorFunc(searchFunc) {
+    return function select(query, elems, options) {
+        options = options || {};
+        options.adapter = options.adapter || DomUtils;
+
+        if (typeof query !== "function") {
+            query = compileUnsafe(query, options, elems);
+        }
+        if (query.shouldTestNextSiblings) {
+            elems = appendNextSiblings((options && options.context) || elems, options.adapter);
+        }
+        if (!Array.isArray(elems)) elems = options.adapter.getChildren(elems);
+        else elems = options.adapter.removeSubsets(elems);
+        return searchFunc(query, elems, options);
+    };
+}
+
+function getNextSiblings(elem, adapter) {
+    var siblings = adapter.getSiblings(elem);
+    if (!Array.isArray(siblings)) return [];
+    siblings = siblings.slice(0);
+    while (siblings.shift() !== elem);
+    return siblings;
+}
+
+function appendNextSiblings(elems, adapter) {
+    // Order matters because jQuery seems to check the children before the siblings
+    if (!Array.isArray(elems)) elems = [elems];
+    var newElems = elems.slice(0);
+
+    for (var i = 0, len = elems.length; i < len; i++) {
+        var nextSiblings = getNextSiblings(newElems[i], adapter);
+        newElems.push.apply(newElems, nextSiblings);
+    }
+    return newElems;
+}
+
+var selectAll = getSelectorFunc(function selectAll(query, elems, options) {
+    return query === falseFunc || !elems || elems.length === 0 ? [] : options.adapter.findAll(query, elems);
+});
+
+var selectOne = getSelectorFunc(function selectOne(query, elems, options) {
+    return query === falseFunc || !elems || elems.length === 0 ? null : options.adapter.findOne(query, elems);
+});
+
+function is(elem, query, options) {
+    options = options || {};
+    options.adapter = options.adapter || DomUtils;
+    return (typeof query === "function" ? query : compile(query, options))(elem);
+}
+
+/*
+	the exported interface
+*/
+function CSSselect(query, elems, options) {
+    return selectAll(query, elems, options);
+}
+
+CSSselect.compile = compile;
+CSSselect.filters = compileRaw.Pseudos.filters;
+CSSselect.pseudos = compileRaw.Pseudos.pseudos;
+
+CSSselect.selectAll = selectAll;
+CSSselect.selectOne = selectOne;
+
+CSSselect.is = is;
+
+//legacy methods (might be removed)
+CSSselect.parse = compile;
+CSSselect.iterate = selectAll;
+
+//hooks
+CSSselect._compileUnsafe = compileUnsafe;
+CSSselect._compileToken = compileRaw.compileToken;
+
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DomUtils = module.exports;
+
+[
+	__webpack_require__(156),
+	__webpack_require__(168),
+	__webpack_require__(169),
+	__webpack_require__(170),
+	__webpack_require__(171),
+	__webpack_require__(172)
+].forEach(function(ext){
+	Object.keys(ext).forEach(function(key){
+		DomUtils[key] = ext[key].bind(DomUtils);
+	});
+});
+
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ElementType = __webpack_require__(157),
+    getOuterHTML = __webpack_require__(158),
+    isTag = ElementType.isTag;
+
+module.exports = {
+	getInnerHTML: getInnerHTML,
+	getOuterHTML: getOuterHTML,
+	getText: getText
+};
+
+function getInnerHTML(elem, opts){
+	return elem.children ? elem.children.map(function(elem){
+		return getOuterHTML(elem, opts);
+	}).join("") : "";
+}
+
+function getText(elem){
+	if(Array.isArray(elem)) return elem.map(getText).join("");
+	if(isTag(elem)) return elem.name === "br" ? "\n" : getText(elem.children);
+	if(elem.type === ElementType.CDATA) return getText(elem.children);
+	if(elem.type === ElementType.Text) return elem.data;
+	return "";
+}
+
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports) {
+
+//Types of elements found in the DOM
+module.exports = {
+	Text: "text", //Text
+	Directive: "directive", //<? ... ?>
+	Comment: "comment", //<!-- ... -->
+	Script: "script", //<script> tags
+	Style: "style", //<style> tags
+	Tag: "tag", //Any tag
+	CDATA: "cdata", //<![CDATA[ ... ]]>
+	Doctype: "doctype",
+
+	isTag: function(elem){
+		return elem.type === "tag" || elem.type === "script" || elem.type === "style";
+	}
+};
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  Module dependencies
+*/
+var ElementType = __webpack_require__(159);
+var entities = __webpack_require__(160);
+
+/*
+  Boolean Attributes
+*/
+var booleanAttributes = {
+  __proto__: null,
+  allowfullscreen: true,
+  async: true,
+  autofocus: true,
+  autoplay: true,
+  checked: true,
+  controls: true,
+  default: true,
+  defer: true,
+  disabled: true,
+  hidden: true,
+  ismap: true,
+  loop: true,
+  multiple: true,
+  muted: true,
+  open: true,
+  readonly: true,
+  required: true,
+  reversed: true,
+  scoped: true,
+  seamless: true,
+  selected: true,
+  typemustmatch: true
+};
+
+var unencodedElements = {
+  __proto__: null,
+  style: true,
+  script: true,
+  xmp: true,
+  iframe: true,
+  noembed: true,
+  noframes: true,
+  plaintext: true,
+  noscript: true
+};
+
+/*
+  Format attributes
+*/
+function formatAttrs(attributes, opts) {
+  if (!attributes) return;
+
+  var output = '',
+      value;
+
+  // Loop through the attributes
+  for (var key in attributes) {
+    value = attributes[key];
+    if (output) {
+      output += ' ';
+    }
+
+    if (!value && booleanAttributes[key]) {
+      output += key;
+    } else {
+      output += key + '="' + (opts.decodeEntities ? entities.encodeXML(value) : value) + '"';
+    }
+  }
+
+  return output;
+}
+
+/*
+  Self-enclosing tags (stolen from node-htmlparser)
+*/
+var singleTag = {
+  __proto__: null,
+  area: true,
+  base: true,
+  basefont: true,
+  br: true,
+  col: true,
+  command: true,
+  embed: true,
+  frame: true,
+  hr: true,
+  img: true,
+  input: true,
+  isindex: true,
+  keygen: true,
+  link: true,
+  meta: true,
+  param: true,
+  source: true,
+  track: true,
+  wbr: true,
+};
+
+
+var render = module.exports = function(dom, opts) {
+  if (!Array.isArray(dom) && !dom.cheerio) dom = [dom];
+  opts = opts || {};
+
+  var output = '';
+
+  for(var i = 0; i < dom.length; i++){
+    var elem = dom[i];
+
+    if (elem.type === 'root')
+      output += render(elem.children, opts);
+    else if (ElementType.isTag(elem))
+      output += renderTag(elem, opts);
+    else if (elem.type === ElementType.Directive)
+      output += renderDirective(elem);
+    else if (elem.type === ElementType.Comment)
+      output += renderComment(elem);
+    else if (elem.type === ElementType.CDATA)
+      output += renderCdata(elem);
+    else
+      output += renderText(elem, opts);
+  }
+
+  return output;
+};
+
+function renderTag(elem, opts) {
+  // Handle SVG
+  if (elem.name === "svg") opts = {decodeEntities: opts.decodeEntities, xmlMode: true};
+
+  var tag = '<' + elem.name,
+      attribs = formatAttrs(elem.attribs, opts);
+
+  if (attribs) {
+    tag += ' ' + attribs;
+  }
+
+  if (
+    opts.xmlMode
+    && (!elem.children || elem.children.length === 0)
+  ) {
+    tag += '/>';
+  } else {
+    tag += '>';
+    if (elem.children) {
+      tag += render(elem.children, opts);
+    }
+
+    if (!singleTag[elem.name] || opts.xmlMode) {
+      tag += '</' + elem.name + '>';
+    }
+  }
+
+  return tag;
+}
+
+function renderDirective(elem) {
+  return '<' + elem.data + '>';
+}
+
+function renderText(elem, opts) {
+  var data = elem.data || '';
+
+  // if entities weren't decoded, no need to encode them back
+  if (opts.decodeEntities && !(elem.parent && elem.parent.name in unencodedElements)) {
+    data = entities.encodeXML(data);
+  }
+
+  return data;
+}
+
+function renderCdata(elem) {
+  return '<![CDATA[' + elem.children[0].data + ']]>';
+}
+
+function renderComment(elem) {
+  return '<!--' + elem.data + '-->';
+}
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports) {
+
+//Types of elements found in the DOM
+module.exports = {
+	Text: "text", //Text
+	Directive: "directive", //<? ... ?>
+	Comment: "comment", //<!-- ... -->
+	Script: "script", //<script> tags
+	Style: "style", //<style> tags
+	Tag: "tag", //Any tag
+	CDATA: "cdata", //<![CDATA[ ... ]]>
+
+	isTag: function(elem){
+		return elem.type === "tag" || elem.type === "script" || elem.type === "style";
+	}
+};
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var encode = __webpack_require__(161),
+    decode = __webpack_require__(164);
+
+exports.decode = function(data, level){
+	return (!level || level <= 0 ? decode.XML : decode.HTML)(data);
+};
+
+exports.decodeStrict = function(data, level){
+	return (!level || level <= 0 ? decode.XML : decode.HTMLStrict)(data);
+};
+
+exports.encode = function(data, level){
+	return (!level || level <= 0 ? encode.XML : encode.HTML)(data);
+};
+
+exports.encodeXML = encode.XML;
+
+exports.encodeHTML4 =
+exports.encodeHTML5 =
+exports.encodeHTML  = encode.HTML;
+
+exports.decodeXML =
+exports.decodeXMLStrict = decode.XML;
+
+exports.decodeHTML4 =
+exports.decodeHTML5 =
+exports.decodeHTML = decode.HTML;
+
+exports.decodeHTML4Strict =
+exports.decodeHTML5Strict =
+exports.decodeHTMLStrict = decode.HTMLStrict;
+
+exports.escape = encode.escape;
+
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var inverseXML = getInverseObj(__webpack_require__(162)),
+    xmlReplacer = getInverseReplacer(inverseXML);
+
+exports.XML = getInverse(inverseXML, xmlReplacer);
+
+var inverseHTML = getInverseObj(__webpack_require__(163)),
+    htmlReplacer = getInverseReplacer(inverseHTML);
+
+exports.HTML = getInverse(inverseHTML, htmlReplacer);
+
+function getInverseObj(obj){
+	return Object.keys(obj).sort().reduce(function(inverse, name){
+		inverse[obj[name]] = "&" + name + ";";
+		return inverse;
+	}, {});
+}
+
+function getInverseReplacer(inverse){
+	var single = [],
+	    multiple = [];
+
+	Object.keys(inverse).forEach(function(k){
+		if(k.length === 1){
+			single.push("\\" + k);
+		} else {
+			multiple.push(k);
+		}
+	});
+
+	//TODO add ranges
+	multiple.unshift("[" + single.join("") + "]");
+
+	return new RegExp(multiple.join("|"), "g");
+}
+
+var re_nonASCII = /[^\0-\x7F]/g,
+    re_astralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+
+function singleCharReplacer(c){
+	return "&#x" + c.charCodeAt(0).toString(16).toUpperCase() + ";";
+}
+
+function astralReplacer(c){
+	// http://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+	var high = c.charCodeAt(0);
+	var low  = c.charCodeAt(1);
+	var codePoint = (high - 0xD800) * 0x400 + low - 0xDC00 + 0x10000;
+	return "&#x" + codePoint.toString(16).toUpperCase() + ";";
+}
+
+function getInverse(inverse, re){
+	function func(name){
+		return inverse[name];
+	}
+
+	return function(data){
+		return data
+				.replace(re, func)
+				.replace(re_astralSymbols, astralReplacer)
+				.replace(re_nonASCII, singleCharReplacer);
+	};
+}
+
+var re_xmlChars = getInverseReplacer(inverseXML);
+
+function escapeXML(data){
+	return data
+			.replace(re_xmlChars, singleCharReplacer)
+			.replace(re_astralSymbols, astralReplacer)
+			.replace(re_nonASCII, singleCharReplacer);
+}
+
+exports.escape = escapeXML;
+
+
+/***/ }),
+/* 162 */
+/***/ (function(module) {
+
+module.exports = {"amp":"&","apos":"'","gt":">","lt":"<","quot":"\""};
+
+/***/ }),
+/* 163 */
+/***/ (function(module) {
+
+module.exports = {"Aacute":"Á","aacute":"á","Abreve":"Ă","abreve":"ă","ac":"∾","acd":"∿","acE":"∾̳","Acirc":"Â","acirc":"â","acute":"´","Acy":"А","acy":"а","AElig":"Æ","aelig":"æ","af":"⁡","Afr":"𝔄","afr":"𝔞","Agrave":"À","agrave":"à","alefsym":"ℵ","aleph":"ℵ","Alpha":"Α","alpha":"α","Amacr":"Ā","amacr":"ā","amalg":"⨿","amp":"&","AMP":"&","andand":"⩕","And":"⩓","and":"∧","andd":"⩜","andslope":"⩘","andv":"⩚","ang":"∠","ange":"⦤","angle":"∠","angmsdaa":"⦨","angmsdab":"⦩","angmsdac":"⦪","angmsdad":"⦫","angmsdae":"⦬","angmsdaf":"⦭","angmsdag":"⦮","angmsdah":"⦯","angmsd":"∡","angrt":"∟","angrtvb":"⊾","angrtvbd":"⦝","angsph":"∢","angst":"Å","angzarr":"⍼","Aogon":"Ą","aogon":"ą","Aopf":"𝔸","aopf":"𝕒","apacir":"⩯","ap":"≈","apE":"⩰","ape":"≊","apid":"≋","apos":"'","ApplyFunction":"⁡","approx":"≈","approxeq":"≊","Aring":"Å","aring":"å","Ascr":"𝒜","ascr":"𝒶","Assign":"≔","ast":"*","asymp":"≈","asympeq":"≍","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","awconint":"∳","awint":"⨑","backcong":"≌","backepsilon":"϶","backprime":"‵","backsim":"∽","backsimeq":"⋍","Backslash":"∖","Barv":"⫧","barvee":"⊽","barwed":"⌅","Barwed":"⌆","barwedge":"⌅","bbrk":"⎵","bbrktbrk":"⎶","bcong":"≌","Bcy":"Б","bcy":"б","bdquo":"„","becaus":"∵","because":"∵","Because":"∵","bemptyv":"⦰","bepsi":"϶","bernou":"ℬ","Bernoullis":"ℬ","Beta":"Β","beta":"β","beth":"ℶ","between":"≬","Bfr":"𝔅","bfr":"𝔟","bigcap":"⋂","bigcirc":"◯","bigcup":"⋃","bigodot":"⨀","bigoplus":"⨁","bigotimes":"⨂","bigsqcup":"⨆","bigstar":"★","bigtriangledown":"▽","bigtriangleup":"△","biguplus":"⨄","bigvee":"⋁","bigwedge":"⋀","bkarow":"⤍","blacklozenge":"⧫","blacksquare":"▪","blacktriangle":"▴","blacktriangledown":"▾","blacktriangleleft":"◂","blacktriangleright":"▸","blank":"␣","blk12":"▒","blk14":"░","blk34":"▓","block":"█","bne":"=⃥","bnequiv":"≡⃥","bNot":"⫭","bnot":"⌐","Bopf":"𝔹","bopf":"𝕓","bot":"⊥","bottom":"⊥","bowtie":"⋈","boxbox":"⧉","boxdl":"┐","boxdL":"╕","boxDl":"╖","boxDL":"╗","boxdr":"┌","boxdR":"╒","boxDr":"╓","boxDR":"╔","boxh":"─","boxH":"═","boxhd":"┬","boxHd":"╤","boxhD":"╥","boxHD":"╦","boxhu":"┴","boxHu":"╧","boxhU":"╨","boxHU":"╩","boxminus":"⊟","boxplus":"⊞","boxtimes":"⊠","boxul":"┘","boxuL":"╛","boxUl":"╜","boxUL":"╝","boxur":"└","boxuR":"╘","boxUr":"╙","boxUR":"╚","boxv":"│","boxV":"║","boxvh":"┼","boxvH":"╪","boxVh":"╫","boxVH":"╬","boxvl":"┤","boxvL":"╡","boxVl":"╢","boxVL":"╣","boxvr":"├","boxvR":"╞","boxVr":"╟","boxVR":"╠","bprime":"‵","breve":"˘","Breve":"˘","brvbar":"¦","bscr":"𝒷","Bscr":"ℬ","bsemi":"⁏","bsim":"∽","bsime":"⋍","bsolb":"⧅","bsol":"\\","bsolhsub":"⟈","bull":"•","bullet":"•","bump":"≎","bumpE":"⪮","bumpe":"≏","Bumpeq":"≎","bumpeq":"≏","Cacute":"Ć","cacute":"ć","capand":"⩄","capbrcup":"⩉","capcap":"⩋","cap":"∩","Cap":"⋒","capcup":"⩇","capdot":"⩀","CapitalDifferentialD":"ⅅ","caps":"∩︀","caret":"⁁","caron":"ˇ","Cayleys":"ℭ","ccaps":"⩍","Ccaron":"Č","ccaron":"č","Ccedil":"Ç","ccedil":"ç","Ccirc":"Ĉ","ccirc":"ĉ","Cconint":"∰","ccups":"⩌","ccupssm":"⩐","Cdot":"Ċ","cdot":"ċ","cedil":"¸","Cedilla":"¸","cemptyv":"⦲","cent":"¢","centerdot":"·","CenterDot":"·","cfr":"𝔠","Cfr":"ℭ","CHcy":"Ч","chcy":"ч","check":"✓","checkmark":"✓","Chi":"Χ","chi":"χ","circ":"ˆ","circeq":"≗","circlearrowleft":"↺","circlearrowright":"↻","circledast":"⊛","circledcirc":"⊚","circleddash":"⊝","CircleDot":"⊙","circledR":"®","circledS":"Ⓢ","CircleMinus":"⊖","CirclePlus":"⊕","CircleTimes":"⊗","cir":"○","cirE":"⧃","cire":"≗","cirfnint":"⨐","cirmid":"⫯","cirscir":"⧂","ClockwiseContourIntegral":"∲","CloseCurlyDoubleQuote":"”","CloseCurlyQuote":"’","clubs":"♣","clubsuit":"♣","colon":":","Colon":"∷","Colone":"⩴","colone":"≔","coloneq":"≔","comma":",","commat":"@","comp":"∁","compfn":"∘","complement":"∁","complexes":"ℂ","cong":"≅","congdot":"⩭","Congruent":"≡","conint":"∮","Conint":"∯","ContourIntegral":"∮","copf":"𝕔","Copf":"ℂ","coprod":"∐","Coproduct":"∐","copy":"©","COPY":"©","copysr":"℗","CounterClockwiseContourIntegral":"∳","crarr":"↵","cross":"✗","Cross":"⨯","Cscr":"𝒞","cscr":"𝒸","csub":"⫏","csube":"⫑","csup":"⫐","csupe":"⫒","ctdot":"⋯","cudarrl":"⤸","cudarrr":"⤵","cuepr":"⋞","cuesc":"⋟","cularr":"↶","cularrp":"⤽","cupbrcap":"⩈","cupcap":"⩆","CupCap":"≍","cup":"∪","Cup":"⋓","cupcup":"⩊","cupdot":"⊍","cupor":"⩅","cups":"∪︀","curarr":"↷","curarrm":"⤼","curlyeqprec":"⋞","curlyeqsucc":"⋟","curlyvee":"⋎","curlywedge":"⋏","curren":"¤","curvearrowleft":"↶","curvearrowright":"↷","cuvee":"⋎","cuwed":"⋏","cwconint":"∲","cwint":"∱","cylcty":"⌭","dagger":"†","Dagger":"‡","daleth":"ℸ","darr":"↓","Darr":"↡","dArr":"⇓","dash":"‐","Dashv":"⫤","dashv":"⊣","dbkarow":"⤏","dblac":"˝","Dcaron":"Ď","dcaron":"ď","Dcy":"Д","dcy":"д","ddagger":"‡","ddarr":"⇊","DD":"ⅅ","dd":"ⅆ","DDotrahd":"⤑","ddotseq":"⩷","deg":"°","Del":"∇","Delta":"Δ","delta":"δ","demptyv":"⦱","dfisht":"⥿","Dfr":"𝔇","dfr":"𝔡","dHar":"⥥","dharl":"⇃","dharr":"⇂","DiacriticalAcute":"´","DiacriticalDot":"˙","DiacriticalDoubleAcute":"˝","DiacriticalGrave":"`","DiacriticalTilde":"˜","diam":"⋄","diamond":"⋄","Diamond":"⋄","diamondsuit":"♦","diams":"♦","die":"¨","DifferentialD":"ⅆ","digamma":"ϝ","disin":"⋲","div":"÷","divide":"÷","divideontimes":"⋇","divonx":"⋇","DJcy":"Ђ","djcy":"ђ","dlcorn":"⌞","dlcrop":"⌍","dollar":"$","Dopf":"𝔻","dopf":"𝕕","Dot":"¨","dot":"˙","DotDot":"⃜","doteq":"≐","doteqdot":"≑","DotEqual":"≐","dotminus":"∸","dotplus":"∔","dotsquare":"⊡","doublebarwedge":"⌆","DoubleContourIntegral":"∯","DoubleDot":"¨","DoubleDownArrow":"⇓","DoubleLeftArrow":"⇐","DoubleLeftRightArrow":"⇔","DoubleLeftTee":"⫤","DoubleLongLeftArrow":"⟸","DoubleLongLeftRightArrow":"⟺","DoubleLongRightArrow":"⟹","DoubleRightArrow":"⇒","DoubleRightTee":"⊨","DoubleUpArrow":"⇑","DoubleUpDownArrow":"⇕","DoubleVerticalBar":"∥","DownArrowBar":"⤓","downarrow":"↓","DownArrow":"↓","Downarrow":"⇓","DownArrowUpArrow":"⇵","DownBreve":"̑","downdownarrows":"⇊","downharpoonleft":"⇃","downharpoonright":"⇂","DownLeftRightVector":"⥐","DownLeftTeeVector":"⥞","DownLeftVectorBar":"⥖","DownLeftVector":"↽","DownRightTeeVector":"⥟","DownRightVectorBar":"⥗","DownRightVector":"⇁","DownTeeArrow":"↧","DownTee":"⊤","drbkarow":"⤐","drcorn":"⌟","drcrop":"⌌","Dscr":"𝒟","dscr":"𝒹","DScy":"Ѕ","dscy":"ѕ","dsol":"⧶","Dstrok":"Đ","dstrok":"đ","dtdot":"⋱","dtri":"▿","dtrif":"▾","duarr":"⇵","duhar":"⥯","dwangle":"⦦","DZcy":"Џ","dzcy":"џ","dzigrarr":"⟿","Eacute":"É","eacute":"é","easter":"⩮","Ecaron":"Ě","ecaron":"ě","Ecirc":"Ê","ecirc":"ê","ecir":"≖","ecolon":"≕","Ecy":"Э","ecy":"э","eDDot":"⩷","Edot":"Ė","edot":"ė","eDot":"≑","ee":"ⅇ","efDot":"≒","Efr":"𝔈","efr":"𝔢","eg":"⪚","Egrave":"È","egrave":"è","egs":"⪖","egsdot":"⪘","el":"⪙","Element":"∈","elinters":"⏧","ell":"ℓ","els":"⪕","elsdot":"⪗","Emacr":"Ē","emacr":"ē","empty":"∅","emptyset":"∅","EmptySmallSquare":"◻","emptyv":"∅","EmptyVerySmallSquare":"▫","emsp13":" ","emsp14":" ","emsp":" ","ENG":"Ŋ","eng":"ŋ","ensp":" ","Eogon":"Ę","eogon":"ę","Eopf":"𝔼","eopf":"𝕖","epar":"⋕","eparsl":"⧣","eplus":"⩱","epsi":"ε","Epsilon":"Ε","epsilon":"ε","epsiv":"ϵ","eqcirc":"≖","eqcolon":"≕","eqsim":"≂","eqslantgtr":"⪖","eqslantless":"⪕","Equal":"⩵","equals":"=","EqualTilde":"≂","equest":"≟","Equilibrium":"⇌","equiv":"≡","equivDD":"⩸","eqvparsl":"⧥","erarr":"⥱","erDot":"≓","escr":"ℯ","Escr":"ℰ","esdot":"≐","Esim":"⩳","esim":"≂","Eta":"Η","eta":"η","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","euro":"€","excl":"!","exist":"∃","Exists":"∃","expectation":"ℰ","exponentiale":"ⅇ","ExponentialE":"ⅇ","fallingdotseq":"≒","Fcy":"Ф","fcy":"ф","female":"♀","ffilig":"ﬃ","fflig":"ﬀ","ffllig":"ﬄ","Ffr":"𝔉","ffr":"𝔣","filig":"ﬁ","FilledSmallSquare":"◼","FilledVerySmallSquare":"▪","fjlig":"fj","flat":"♭","fllig":"ﬂ","fltns":"▱","fnof":"ƒ","Fopf":"𝔽","fopf":"𝕗","forall":"∀","ForAll":"∀","fork":"⋔","forkv":"⫙","Fouriertrf":"ℱ","fpartint":"⨍","frac12":"½","frac13":"⅓","frac14":"¼","frac15":"⅕","frac16":"⅙","frac18":"⅛","frac23":"⅔","frac25":"⅖","frac34":"¾","frac35":"⅗","frac38":"⅜","frac45":"⅘","frac56":"⅚","frac58":"⅝","frac78":"⅞","frasl":"⁄","frown":"⌢","fscr":"𝒻","Fscr":"ℱ","gacute":"ǵ","Gamma":"Γ","gamma":"γ","Gammad":"Ϝ","gammad":"ϝ","gap":"⪆","Gbreve":"Ğ","gbreve":"ğ","Gcedil":"Ģ","Gcirc":"Ĝ","gcirc":"ĝ","Gcy":"Г","gcy":"г","Gdot":"Ġ","gdot":"ġ","ge":"≥","gE":"≧","gEl":"⪌","gel":"⋛","geq":"≥","geqq":"≧","geqslant":"⩾","gescc":"⪩","ges":"⩾","gesdot":"⪀","gesdoto":"⪂","gesdotol":"⪄","gesl":"⋛︀","gesles":"⪔","Gfr":"𝔊","gfr":"𝔤","gg":"≫","Gg":"⋙","ggg":"⋙","gimel":"ℷ","GJcy":"Ѓ","gjcy":"ѓ","gla":"⪥","gl":"≷","glE":"⪒","glj":"⪤","gnap":"⪊","gnapprox":"⪊","gne":"⪈","gnE":"≩","gneq":"⪈","gneqq":"≩","gnsim":"⋧","Gopf":"𝔾","gopf":"𝕘","grave":"`","GreaterEqual":"≥","GreaterEqualLess":"⋛","GreaterFullEqual":"≧","GreaterGreater":"⪢","GreaterLess":"≷","GreaterSlantEqual":"⩾","GreaterTilde":"≳","Gscr":"𝒢","gscr":"ℊ","gsim":"≳","gsime":"⪎","gsiml":"⪐","gtcc":"⪧","gtcir":"⩺","gt":">","GT":">","Gt":"≫","gtdot":"⋗","gtlPar":"⦕","gtquest":"⩼","gtrapprox":"⪆","gtrarr":"⥸","gtrdot":"⋗","gtreqless":"⋛","gtreqqless":"⪌","gtrless":"≷","gtrsim":"≳","gvertneqq":"≩︀","gvnE":"≩︀","Hacek":"ˇ","hairsp":" ","half":"½","hamilt":"ℋ","HARDcy":"Ъ","hardcy":"ъ","harrcir":"⥈","harr":"↔","hArr":"⇔","harrw":"↭","Hat":"^","hbar":"ℏ","Hcirc":"Ĥ","hcirc":"ĥ","hearts":"♥","heartsuit":"♥","hellip":"…","hercon":"⊹","hfr":"𝔥","Hfr":"ℌ","HilbertSpace":"ℋ","hksearow":"⤥","hkswarow":"⤦","hoarr":"⇿","homtht":"∻","hookleftarrow":"↩","hookrightarrow":"↪","hopf":"𝕙","Hopf":"ℍ","horbar":"―","HorizontalLine":"─","hscr":"𝒽","Hscr":"ℋ","hslash":"ℏ","Hstrok":"Ħ","hstrok":"ħ","HumpDownHump":"≎","HumpEqual":"≏","hybull":"⁃","hyphen":"‐","Iacute":"Í","iacute":"í","ic":"⁣","Icirc":"Î","icirc":"î","Icy":"И","icy":"и","Idot":"İ","IEcy":"Е","iecy":"е","iexcl":"¡","iff":"⇔","ifr":"𝔦","Ifr":"ℑ","Igrave":"Ì","igrave":"ì","ii":"ⅈ","iiiint":"⨌","iiint":"∭","iinfin":"⧜","iiota":"℩","IJlig":"Ĳ","ijlig":"ĳ","Imacr":"Ī","imacr":"ī","image":"ℑ","ImaginaryI":"ⅈ","imagline":"ℐ","imagpart":"ℑ","imath":"ı","Im":"ℑ","imof":"⊷","imped":"Ƶ","Implies":"⇒","incare":"℅","in":"∈","infin":"∞","infintie":"⧝","inodot":"ı","intcal":"⊺","int":"∫","Int":"∬","integers":"ℤ","Integral":"∫","intercal":"⊺","Intersection":"⋂","intlarhk":"⨗","intprod":"⨼","InvisibleComma":"⁣","InvisibleTimes":"⁢","IOcy":"Ё","iocy":"ё","Iogon":"Į","iogon":"į","Iopf":"𝕀","iopf":"𝕚","Iota":"Ι","iota":"ι","iprod":"⨼","iquest":"¿","iscr":"𝒾","Iscr":"ℐ","isin":"∈","isindot":"⋵","isinE":"⋹","isins":"⋴","isinsv":"⋳","isinv":"∈","it":"⁢","Itilde":"Ĩ","itilde":"ĩ","Iukcy":"І","iukcy":"і","Iuml":"Ï","iuml":"ï","Jcirc":"Ĵ","jcirc":"ĵ","Jcy":"Й","jcy":"й","Jfr":"𝔍","jfr":"𝔧","jmath":"ȷ","Jopf":"𝕁","jopf":"𝕛","Jscr":"𝒥","jscr":"𝒿","Jsercy":"Ј","jsercy":"ј","Jukcy":"Є","jukcy":"є","Kappa":"Κ","kappa":"κ","kappav":"ϰ","Kcedil":"Ķ","kcedil":"ķ","Kcy":"К","kcy":"к","Kfr":"𝔎","kfr":"𝔨","kgreen":"ĸ","KHcy":"Х","khcy":"х","KJcy":"Ќ","kjcy":"ќ","Kopf":"𝕂","kopf":"𝕜","Kscr":"𝒦","kscr":"𝓀","lAarr":"⇚","Lacute":"Ĺ","lacute":"ĺ","laemptyv":"⦴","lagran":"ℒ","Lambda":"Λ","lambda":"λ","lang":"⟨","Lang":"⟪","langd":"⦑","langle":"⟨","lap":"⪅","Laplacetrf":"ℒ","laquo":"«","larrb":"⇤","larrbfs":"⤟","larr":"←","Larr":"↞","lArr":"⇐","larrfs":"⤝","larrhk":"↩","larrlp":"↫","larrpl":"⤹","larrsim":"⥳","larrtl":"↢","latail":"⤙","lAtail":"⤛","lat":"⪫","late":"⪭","lates":"⪭︀","lbarr":"⤌","lBarr":"⤎","lbbrk":"❲","lbrace":"{","lbrack":"[","lbrke":"⦋","lbrksld":"⦏","lbrkslu":"⦍","Lcaron":"Ľ","lcaron":"ľ","Lcedil":"Ļ","lcedil":"ļ","lceil":"⌈","lcub":"{","Lcy":"Л","lcy":"л","ldca":"⤶","ldquo":"“","ldquor":"„","ldrdhar":"⥧","ldrushar":"⥋","ldsh":"↲","le":"≤","lE":"≦","LeftAngleBracket":"⟨","LeftArrowBar":"⇤","leftarrow":"←","LeftArrow":"←","Leftarrow":"⇐","LeftArrowRightArrow":"⇆","leftarrowtail":"↢","LeftCeiling":"⌈","LeftDoubleBracket":"⟦","LeftDownTeeVector":"⥡","LeftDownVectorBar":"⥙","LeftDownVector":"⇃","LeftFloor":"⌊","leftharpoondown":"↽","leftharpoonup":"↼","leftleftarrows":"⇇","leftrightarrow":"↔","LeftRightArrow":"↔","Leftrightarrow":"⇔","leftrightarrows":"⇆","leftrightharpoons":"⇋","leftrightsquigarrow":"↭","LeftRightVector":"⥎","LeftTeeArrow":"↤","LeftTee":"⊣","LeftTeeVector":"⥚","leftthreetimes":"⋋","LeftTriangleBar":"⧏","LeftTriangle":"⊲","LeftTriangleEqual":"⊴","LeftUpDownVector":"⥑","LeftUpTeeVector":"⥠","LeftUpVectorBar":"⥘","LeftUpVector":"↿","LeftVectorBar":"⥒","LeftVector":"↼","lEg":"⪋","leg":"⋚","leq":"≤","leqq":"≦","leqslant":"⩽","lescc":"⪨","les":"⩽","lesdot":"⩿","lesdoto":"⪁","lesdotor":"⪃","lesg":"⋚︀","lesges":"⪓","lessapprox":"⪅","lessdot":"⋖","lesseqgtr":"⋚","lesseqqgtr":"⪋","LessEqualGreater":"⋚","LessFullEqual":"≦","LessGreater":"≶","lessgtr":"≶","LessLess":"⪡","lesssim":"≲","LessSlantEqual":"⩽","LessTilde":"≲","lfisht":"⥼","lfloor":"⌊","Lfr":"𝔏","lfr":"𝔩","lg":"≶","lgE":"⪑","lHar":"⥢","lhard":"↽","lharu":"↼","lharul":"⥪","lhblk":"▄","LJcy":"Љ","ljcy":"љ","llarr":"⇇","ll":"≪","Ll":"⋘","llcorner":"⌞","Lleftarrow":"⇚","llhard":"⥫","lltri":"◺","Lmidot":"Ŀ","lmidot":"ŀ","lmoustache":"⎰","lmoust":"⎰","lnap":"⪉","lnapprox":"⪉","lne":"⪇","lnE":"≨","lneq":"⪇","lneqq":"≨","lnsim":"⋦","loang":"⟬","loarr":"⇽","lobrk":"⟦","longleftarrow":"⟵","LongLeftArrow":"⟵","Longleftarrow":"⟸","longleftrightarrow":"⟷","LongLeftRightArrow":"⟷","Longleftrightarrow":"⟺","longmapsto":"⟼","longrightarrow":"⟶","LongRightArrow":"⟶","Longrightarrow":"⟹","looparrowleft":"↫","looparrowright":"↬","lopar":"⦅","Lopf":"𝕃","lopf":"𝕝","loplus":"⨭","lotimes":"⨴","lowast":"∗","lowbar":"_","LowerLeftArrow":"↙","LowerRightArrow":"↘","loz":"◊","lozenge":"◊","lozf":"⧫","lpar":"(","lparlt":"⦓","lrarr":"⇆","lrcorner":"⌟","lrhar":"⇋","lrhard":"⥭","lrm":"‎","lrtri":"⊿","lsaquo":"‹","lscr":"𝓁","Lscr":"ℒ","lsh":"↰","Lsh":"↰","lsim":"≲","lsime":"⪍","lsimg":"⪏","lsqb":"[","lsquo":"‘","lsquor":"‚","Lstrok":"Ł","lstrok":"ł","ltcc":"⪦","ltcir":"⩹","lt":"<","LT":"<","Lt":"≪","ltdot":"⋖","lthree":"⋋","ltimes":"⋉","ltlarr":"⥶","ltquest":"⩻","ltri":"◃","ltrie":"⊴","ltrif":"◂","ltrPar":"⦖","lurdshar":"⥊","luruhar":"⥦","lvertneqq":"≨︀","lvnE":"≨︀","macr":"¯","male":"♂","malt":"✠","maltese":"✠","Map":"⤅","map":"↦","mapsto":"↦","mapstodown":"↧","mapstoleft":"↤","mapstoup":"↥","marker":"▮","mcomma":"⨩","Mcy":"М","mcy":"м","mdash":"—","mDDot":"∺","measuredangle":"∡","MediumSpace":" ","Mellintrf":"ℳ","Mfr":"𝔐","mfr":"𝔪","mho":"℧","micro":"µ","midast":"*","midcir":"⫰","mid":"∣","middot":"·","minusb":"⊟","minus":"−","minusd":"∸","minusdu":"⨪","MinusPlus":"∓","mlcp":"⫛","mldr":"…","mnplus":"∓","models":"⊧","Mopf":"𝕄","mopf":"𝕞","mp":"∓","mscr":"𝓂","Mscr":"ℳ","mstpos":"∾","Mu":"Μ","mu":"μ","multimap":"⊸","mumap":"⊸","nabla":"∇","Nacute":"Ń","nacute":"ń","nang":"∠⃒","nap":"≉","napE":"⩰̸","napid":"≋̸","napos":"ŉ","napprox":"≉","natural":"♮","naturals":"ℕ","natur":"♮","nbsp":" ","nbump":"≎̸","nbumpe":"≏̸","ncap":"⩃","Ncaron":"Ň","ncaron":"ň","Ncedil":"Ņ","ncedil":"ņ","ncong":"≇","ncongdot":"⩭̸","ncup":"⩂","Ncy":"Н","ncy":"н","ndash":"–","nearhk":"⤤","nearr":"↗","neArr":"⇗","nearrow":"↗","ne":"≠","nedot":"≐̸","NegativeMediumSpace":"​","NegativeThickSpace":"​","NegativeThinSpace":"​","NegativeVeryThinSpace":"​","nequiv":"≢","nesear":"⤨","nesim":"≂̸","NestedGreaterGreater":"≫","NestedLessLess":"≪","NewLine":"\n","nexist":"∄","nexists":"∄","Nfr":"𝔑","nfr":"𝔫","ngE":"≧̸","nge":"≱","ngeq":"≱","ngeqq":"≧̸","ngeqslant":"⩾̸","nges":"⩾̸","nGg":"⋙̸","ngsim":"≵","nGt":"≫⃒","ngt":"≯","ngtr":"≯","nGtv":"≫̸","nharr":"↮","nhArr":"⇎","nhpar":"⫲","ni":"∋","nis":"⋼","nisd":"⋺","niv":"∋","NJcy":"Њ","njcy":"њ","nlarr":"↚","nlArr":"⇍","nldr":"‥","nlE":"≦̸","nle":"≰","nleftarrow":"↚","nLeftarrow":"⇍","nleftrightarrow":"↮","nLeftrightarrow":"⇎","nleq":"≰","nleqq":"≦̸","nleqslant":"⩽̸","nles":"⩽̸","nless":"≮","nLl":"⋘̸","nlsim":"≴","nLt":"≪⃒","nlt":"≮","nltri":"⋪","nltrie":"⋬","nLtv":"≪̸","nmid":"∤","NoBreak":"⁠","NonBreakingSpace":" ","nopf":"𝕟","Nopf":"ℕ","Not":"⫬","not":"¬","NotCongruent":"≢","NotCupCap":"≭","NotDoubleVerticalBar":"∦","NotElement":"∉","NotEqual":"≠","NotEqualTilde":"≂̸","NotExists":"∄","NotGreater":"≯","NotGreaterEqual":"≱","NotGreaterFullEqual":"≧̸","NotGreaterGreater":"≫̸","NotGreaterLess":"≹","NotGreaterSlantEqual":"⩾̸","NotGreaterTilde":"≵","NotHumpDownHump":"≎̸","NotHumpEqual":"≏̸","notin":"∉","notindot":"⋵̸","notinE":"⋹̸","notinva":"∉","notinvb":"⋷","notinvc":"⋶","NotLeftTriangleBar":"⧏̸","NotLeftTriangle":"⋪","NotLeftTriangleEqual":"⋬","NotLess":"≮","NotLessEqual":"≰","NotLessGreater":"≸","NotLessLess":"≪̸","NotLessSlantEqual":"⩽̸","NotLessTilde":"≴","NotNestedGreaterGreater":"⪢̸","NotNestedLessLess":"⪡̸","notni":"∌","notniva":"∌","notnivb":"⋾","notnivc":"⋽","NotPrecedes":"⊀","NotPrecedesEqual":"⪯̸","NotPrecedesSlantEqual":"⋠","NotReverseElement":"∌","NotRightTriangleBar":"⧐̸","NotRightTriangle":"⋫","NotRightTriangleEqual":"⋭","NotSquareSubset":"⊏̸","NotSquareSubsetEqual":"⋢","NotSquareSuperset":"⊐̸","NotSquareSupersetEqual":"⋣","NotSubset":"⊂⃒","NotSubsetEqual":"⊈","NotSucceeds":"⊁","NotSucceedsEqual":"⪰̸","NotSucceedsSlantEqual":"⋡","NotSucceedsTilde":"≿̸","NotSuperset":"⊃⃒","NotSupersetEqual":"⊉","NotTilde":"≁","NotTildeEqual":"≄","NotTildeFullEqual":"≇","NotTildeTilde":"≉","NotVerticalBar":"∤","nparallel":"∦","npar":"∦","nparsl":"⫽⃥","npart":"∂̸","npolint":"⨔","npr":"⊀","nprcue":"⋠","nprec":"⊀","npreceq":"⪯̸","npre":"⪯̸","nrarrc":"⤳̸","nrarr":"↛","nrArr":"⇏","nrarrw":"↝̸","nrightarrow":"↛","nRightarrow":"⇏","nrtri":"⋫","nrtrie":"⋭","nsc":"⊁","nsccue":"⋡","nsce":"⪰̸","Nscr":"𝒩","nscr":"𝓃","nshortmid":"∤","nshortparallel":"∦","nsim":"≁","nsime":"≄","nsimeq":"≄","nsmid":"∤","nspar":"∦","nsqsube":"⋢","nsqsupe":"⋣","nsub":"⊄","nsubE":"⫅̸","nsube":"⊈","nsubset":"⊂⃒","nsubseteq":"⊈","nsubseteqq":"⫅̸","nsucc":"⊁","nsucceq":"⪰̸","nsup":"⊅","nsupE":"⫆̸","nsupe":"⊉","nsupset":"⊃⃒","nsupseteq":"⊉","nsupseteqq":"⫆̸","ntgl":"≹","Ntilde":"Ñ","ntilde":"ñ","ntlg":"≸","ntriangleleft":"⋪","ntrianglelefteq":"⋬","ntriangleright":"⋫","ntrianglerighteq":"⋭","Nu":"Ν","nu":"ν","num":"#","numero":"№","numsp":" ","nvap":"≍⃒","nvdash":"⊬","nvDash":"⊭","nVdash":"⊮","nVDash":"⊯","nvge":"≥⃒","nvgt":">⃒","nvHarr":"⤄","nvinfin":"⧞","nvlArr":"⤂","nvle":"≤⃒","nvlt":"<⃒","nvltrie":"⊴⃒","nvrArr":"⤃","nvrtrie":"⊵⃒","nvsim":"∼⃒","nwarhk":"⤣","nwarr":"↖","nwArr":"⇖","nwarrow":"↖","nwnear":"⤧","Oacute":"Ó","oacute":"ó","oast":"⊛","Ocirc":"Ô","ocirc":"ô","ocir":"⊚","Ocy":"О","ocy":"о","odash":"⊝","Odblac":"Ő","odblac":"ő","odiv":"⨸","odot":"⊙","odsold":"⦼","OElig":"Œ","oelig":"œ","ofcir":"⦿","Ofr":"𝔒","ofr":"𝔬","ogon":"˛","Ograve":"Ò","ograve":"ò","ogt":"⧁","ohbar":"⦵","ohm":"Ω","oint":"∮","olarr":"↺","olcir":"⦾","olcross":"⦻","oline":"‾","olt":"⧀","Omacr":"Ō","omacr":"ō","Omega":"Ω","omega":"ω","Omicron":"Ο","omicron":"ο","omid":"⦶","ominus":"⊖","Oopf":"𝕆","oopf":"𝕠","opar":"⦷","OpenCurlyDoubleQuote":"“","OpenCurlyQuote":"‘","operp":"⦹","oplus":"⊕","orarr":"↻","Or":"⩔","or":"∨","ord":"⩝","order":"ℴ","orderof":"ℴ","ordf":"ª","ordm":"º","origof":"⊶","oror":"⩖","orslope":"⩗","orv":"⩛","oS":"Ⓢ","Oscr":"𝒪","oscr":"ℴ","Oslash":"Ø","oslash":"ø","osol":"⊘","Otilde":"Õ","otilde":"õ","otimesas":"⨶","Otimes":"⨷","otimes":"⊗","Ouml":"Ö","ouml":"ö","ovbar":"⌽","OverBar":"‾","OverBrace":"⏞","OverBracket":"⎴","OverParenthesis":"⏜","para":"¶","parallel":"∥","par":"∥","parsim":"⫳","parsl":"⫽","part":"∂","PartialD":"∂","Pcy":"П","pcy":"п","percnt":"%","period":".","permil":"‰","perp":"⊥","pertenk":"‱","Pfr":"𝔓","pfr":"𝔭","Phi":"Φ","phi":"φ","phiv":"ϕ","phmmat":"ℳ","phone":"☎","Pi":"Π","pi":"π","pitchfork":"⋔","piv":"ϖ","planck":"ℏ","planckh":"ℎ","plankv":"ℏ","plusacir":"⨣","plusb":"⊞","pluscir":"⨢","plus":"+","plusdo":"∔","plusdu":"⨥","pluse":"⩲","PlusMinus":"±","plusmn":"±","plussim":"⨦","plustwo":"⨧","pm":"±","Poincareplane":"ℌ","pointint":"⨕","popf":"𝕡","Popf":"ℙ","pound":"£","prap":"⪷","Pr":"⪻","pr":"≺","prcue":"≼","precapprox":"⪷","prec":"≺","preccurlyeq":"≼","Precedes":"≺","PrecedesEqual":"⪯","PrecedesSlantEqual":"≼","PrecedesTilde":"≾","preceq":"⪯","precnapprox":"⪹","precneqq":"⪵","precnsim":"⋨","pre":"⪯","prE":"⪳","precsim":"≾","prime":"′","Prime":"″","primes":"ℙ","prnap":"⪹","prnE":"⪵","prnsim":"⋨","prod":"∏","Product":"∏","profalar":"⌮","profline":"⌒","profsurf":"⌓","prop":"∝","Proportional":"∝","Proportion":"∷","propto":"∝","prsim":"≾","prurel":"⊰","Pscr":"𝒫","pscr":"𝓅","Psi":"Ψ","psi":"ψ","puncsp":" ","Qfr":"𝔔","qfr":"𝔮","qint":"⨌","qopf":"𝕢","Qopf":"ℚ","qprime":"⁗","Qscr":"𝒬","qscr":"𝓆","quaternions":"ℍ","quatint":"⨖","quest":"?","questeq":"≟","quot":"\"","QUOT":"\"","rAarr":"⇛","race":"∽̱","Racute":"Ŕ","racute":"ŕ","radic":"√","raemptyv":"⦳","rang":"⟩","Rang":"⟫","rangd":"⦒","range":"⦥","rangle":"⟩","raquo":"»","rarrap":"⥵","rarrb":"⇥","rarrbfs":"⤠","rarrc":"⤳","rarr":"→","Rarr":"↠","rArr":"⇒","rarrfs":"⤞","rarrhk":"↪","rarrlp":"↬","rarrpl":"⥅","rarrsim":"⥴","Rarrtl":"⤖","rarrtl":"↣","rarrw":"↝","ratail":"⤚","rAtail":"⤜","ratio":"∶","rationals":"ℚ","rbarr":"⤍","rBarr":"⤏","RBarr":"⤐","rbbrk":"❳","rbrace":"}","rbrack":"]","rbrke":"⦌","rbrksld":"⦎","rbrkslu":"⦐","Rcaron":"Ř","rcaron":"ř","Rcedil":"Ŗ","rcedil":"ŗ","rceil":"⌉","rcub":"}","Rcy":"Р","rcy":"р","rdca":"⤷","rdldhar":"⥩","rdquo":"”","rdquor":"”","rdsh":"↳","real":"ℜ","realine":"ℛ","realpart":"ℜ","reals":"ℝ","Re":"ℜ","rect":"▭","reg":"®","REG":"®","ReverseElement":"∋","ReverseEquilibrium":"⇋","ReverseUpEquilibrium":"⥯","rfisht":"⥽","rfloor":"⌋","rfr":"𝔯","Rfr":"ℜ","rHar":"⥤","rhard":"⇁","rharu":"⇀","rharul":"⥬","Rho":"Ρ","rho":"ρ","rhov":"ϱ","RightAngleBracket":"⟩","RightArrowBar":"⇥","rightarrow":"→","RightArrow":"→","Rightarrow":"⇒","RightArrowLeftArrow":"⇄","rightarrowtail":"↣","RightCeiling":"⌉","RightDoubleBracket":"⟧","RightDownTeeVector":"⥝","RightDownVectorBar":"⥕","RightDownVector":"⇂","RightFloor":"⌋","rightharpoondown":"⇁","rightharpoonup":"⇀","rightleftarrows":"⇄","rightleftharpoons":"⇌","rightrightarrows":"⇉","rightsquigarrow":"↝","RightTeeArrow":"↦","RightTee":"⊢","RightTeeVector":"⥛","rightthreetimes":"⋌","RightTriangleBar":"⧐","RightTriangle":"⊳","RightTriangleEqual":"⊵","RightUpDownVector":"⥏","RightUpTeeVector":"⥜","RightUpVectorBar":"⥔","RightUpVector":"↾","RightVectorBar":"⥓","RightVector":"⇀","ring":"˚","risingdotseq":"≓","rlarr":"⇄","rlhar":"⇌","rlm":"‏","rmoustache":"⎱","rmoust":"⎱","rnmid":"⫮","roang":"⟭","roarr":"⇾","robrk":"⟧","ropar":"⦆","ropf":"𝕣","Ropf":"ℝ","roplus":"⨮","rotimes":"⨵","RoundImplies":"⥰","rpar":")","rpargt":"⦔","rppolint":"⨒","rrarr":"⇉","Rrightarrow":"⇛","rsaquo":"›","rscr":"𝓇","Rscr":"ℛ","rsh":"↱","Rsh":"↱","rsqb":"]","rsquo":"’","rsquor":"’","rthree":"⋌","rtimes":"⋊","rtri":"▹","rtrie":"⊵","rtrif":"▸","rtriltri":"⧎","RuleDelayed":"⧴","ruluhar":"⥨","rx":"℞","Sacute":"Ś","sacute":"ś","sbquo":"‚","scap":"⪸","Scaron":"Š","scaron":"š","Sc":"⪼","sc":"≻","sccue":"≽","sce":"⪰","scE":"⪴","Scedil":"Ş","scedil":"ş","Scirc":"Ŝ","scirc":"ŝ","scnap":"⪺","scnE":"⪶","scnsim":"⋩","scpolint":"⨓","scsim":"≿","Scy":"С","scy":"с","sdotb":"⊡","sdot":"⋅","sdote":"⩦","searhk":"⤥","searr":"↘","seArr":"⇘","searrow":"↘","sect":"§","semi":";","seswar":"⤩","setminus":"∖","setmn":"∖","sext":"✶","Sfr":"𝔖","sfr":"𝔰","sfrown":"⌢","sharp":"♯","SHCHcy":"Щ","shchcy":"щ","SHcy":"Ш","shcy":"ш","ShortDownArrow":"↓","ShortLeftArrow":"←","shortmid":"∣","shortparallel":"∥","ShortRightArrow":"→","ShortUpArrow":"↑","shy":"­","Sigma":"Σ","sigma":"σ","sigmaf":"ς","sigmav":"ς","sim":"∼","simdot":"⩪","sime":"≃","simeq":"≃","simg":"⪞","simgE":"⪠","siml":"⪝","simlE":"⪟","simne":"≆","simplus":"⨤","simrarr":"⥲","slarr":"←","SmallCircle":"∘","smallsetminus":"∖","smashp":"⨳","smeparsl":"⧤","smid":"∣","smile":"⌣","smt":"⪪","smte":"⪬","smtes":"⪬︀","SOFTcy":"Ь","softcy":"ь","solbar":"⌿","solb":"⧄","sol":"/","Sopf":"𝕊","sopf":"𝕤","spades":"♠","spadesuit":"♠","spar":"∥","sqcap":"⊓","sqcaps":"⊓︀","sqcup":"⊔","sqcups":"⊔︀","Sqrt":"√","sqsub":"⊏","sqsube":"⊑","sqsubset":"⊏","sqsubseteq":"⊑","sqsup":"⊐","sqsupe":"⊒","sqsupset":"⊐","sqsupseteq":"⊒","square":"□","Square":"□","SquareIntersection":"⊓","SquareSubset":"⊏","SquareSubsetEqual":"⊑","SquareSuperset":"⊐","SquareSupersetEqual":"⊒","SquareUnion":"⊔","squarf":"▪","squ":"□","squf":"▪","srarr":"→","Sscr":"𝒮","sscr":"𝓈","ssetmn":"∖","ssmile":"⌣","sstarf":"⋆","Star":"⋆","star":"☆","starf":"★","straightepsilon":"ϵ","straightphi":"ϕ","strns":"¯","sub":"⊂","Sub":"⋐","subdot":"⪽","subE":"⫅","sube":"⊆","subedot":"⫃","submult":"⫁","subnE":"⫋","subne":"⊊","subplus":"⪿","subrarr":"⥹","subset":"⊂","Subset":"⋐","subseteq":"⊆","subseteqq":"⫅","SubsetEqual":"⊆","subsetneq":"⊊","subsetneqq":"⫋","subsim":"⫇","subsub":"⫕","subsup":"⫓","succapprox":"⪸","succ":"≻","succcurlyeq":"≽","Succeeds":"≻","SucceedsEqual":"⪰","SucceedsSlantEqual":"≽","SucceedsTilde":"≿","succeq":"⪰","succnapprox":"⪺","succneqq":"⪶","succnsim":"⋩","succsim":"≿","SuchThat":"∋","sum":"∑","Sum":"∑","sung":"♪","sup1":"¹","sup2":"²","sup3":"³","sup":"⊃","Sup":"⋑","supdot":"⪾","supdsub":"⫘","supE":"⫆","supe":"⊇","supedot":"⫄","Superset":"⊃","SupersetEqual":"⊇","suphsol":"⟉","suphsub":"⫗","suplarr":"⥻","supmult":"⫂","supnE":"⫌","supne":"⊋","supplus":"⫀","supset":"⊃","Supset":"⋑","supseteq":"⊇","supseteqq":"⫆","supsetneq":"⊋","supsetneqq":"⫌","supsim":"⫈","supsub":"⫔","supsup":"⫖","swarhk":"⤦","swarr":"↙","swArr":"⇙","swarrow":"↙","swnwar":"⤪","szlig":"ß","Tab":"\t","target":"⌖","Tau":"Τ","tau":"τ","tbrk":"⎴","Tcaron":"Ť","tcaron":"ť","Tcedil":"Ţ","tcedil":"ţ","Tcy":"Т","tcy":"т","tdot":"⃛","telrec":"⌕","Tfr":"𝔗","tfr":"𝔱","there4":"∴","therefore":"∴","Therefore":"∴","Theta":"Θ","theta":"θ","thetasym":"ϑ","thetav":"ϑ","thickapprox":"≈","thicksim":"∼","ThickSpace":"  ","ThinSpace":" ","thinsp":" ","thkap":"≈","thksim":"∼","THORN":"Þ","thorn":"þ","tilde":"˜","Tilde":"∼","TildeEqual":"≃","TildeFullEqual":"≅","TildeTilde":"≈","timesbar":"⨱","timesb":"⊠","times":"×","timesd":"⨰","tint":"∭","toea":"⤨","topbot":"⌶","topcir":"⫱","top":"⊤","Topf":"𝕋","topf":"𝕥","topfork":"⫚","tosa":"⤩","tprime":"‴","trade":"™","TRADE":"™","triangle":"▵","triangledown":"▿","triangleleft":"◃","trianglelefteq":"⊴","triangleq":"≜","triangleright":"▹","trianglerighteq":"⊵","tridot":"◬","trie":"≜","triminus":"⨺","TripleDot":"⃛","triplus":"⨹","trisb":"⧍","tritime":"⨻","trpezium":"⏢","Tscr":"𝒯","tscr":"𝓉","TScy":"Ц","tscy":"ц","TSHcy":"Ћ","tshcy":"ћ","Tstrok":"Ŧ","tstrok":"ŧ","twixt":"≬","twoheadleftarrow":"↞","twoheadrightarrow":"↠","Uacute":"Ú","uacute":"ú","uarr":"↑","Uarr":"↟","uArr":"⇑","Uarrocir":"⥉","Ubrcy":"Ў","ubrcy":"ў","Ubreve":"Ŭ","ubreve":"ŭ","Ucirc":"Û","ucirc":"û","Ucy":"У","ucy":"у","udarr":"⇅","Udblac":"Ű","udblac":"ű","udhar":"⥮","ufisht":"⥾","Ufr":"𝔘","ufr":"𝔲","Ugrave":"Ù","ugrave":"ù","uHar":"⥣","uharl":"↿","uharr":"↾","uhblk":"▀","ulcorn":"⌜","ulcorner":"⌜","ulcrop":"⌏","ultri":"◸","Umacr":"Ū","umacr":"ū","uml":"¨","UnderBar":"_","UnderBrace":"⏟","UnderBracket":"⎵","UnderParenthesis":"⏝","Union":"⋃","UnionPlus":"⊎","Uogon":"Ų","uogon":"ų","Uopf":"𝕌","uopf":"𝕦","UpArrowBar":"⤒","uparrow":"↑","UpArrow":"↑","Uparrow":"⇑","UpArrowDownArrow":"⇅","updownarrow":"↕","UpDownArrow":"↕","Updownarrow":"⇕","UpEquilibrium":"⥮","upharpoonleft":"↿","upharpoonright":"↾","uplus":"⊎","UpperLeftArrow":"↖","UpperRightArrow":"↗","upsi":"υ","Upsi":"ϒ","upsih":"ϒ","Upsilon":"Υ","upsilon":"υ","UpTeeArrow":"↥","UpTee":"⊥","upuparrows":"⇈","urcorn":"⌝","urcorner":"⌝","urcrop":"⌎","Uring":"Ů","uring":"ů","urtri":"◹","Uscr":"𝒰","uscr":"𝓊","utdot":"⋰","Utilde":"Ũ","utilde":"ũ","utri":"▵","utrif":"▴","uuarr":"⇈","Uuml":"Ü","uuml":"ü","uwangle":"⦧","vangrt":"⦜","varepsilon":"ϵ","varkappa":"ϰ","varnothing":"∅","varphi":"ϕ","varpi":"ϖ","varpropto":"∝","varr":"↕","vArr":"⇕","varrho":"ϱ","varsigma":"ς","varsubsetneq":"⊊︀","varsubsetneqq":"⫋︀","varsupsetneq":"⊋︀","varsupsetneqq":"⫌︀","vartheta":"ϑ","vartriangleleft":"⊲","vartriangleright":"⊳","vBar":"⫨","Vbar":"⫫","vBarv":"⫩","Vcy":"В","vcy":"в","vdash":"⊢","vDash":"⊨","Vdash":"⊩","VDash":"⊫","Vdashl":"⫦","veebar":"⊻","vee":"∨","Vee":"⋁","veeeq":"≚","vellip":"⋮","verbar":"|","Verbar":"‖","vert":"|","Vert":"‖","VerticalBar":"∣","VerticalLine":"|","VerticalSeparator":"❘","VerticalTilde":"≀","VeryThinSpace":" ","Vfr":"𝔙","vfr":"𝔳","vltri":"⊲","vnsub":"⊂⃒","vnsup":"⊃⃒","Vopf":"𝕍","vopf":"𝕧","vprop":"∝","vrtri":"⊳","Vscr":"𝒱","vscr":"𝓋","vsubnE":"⫋︀","vsubne":"⊊︀","vsupnE":"⫌︀","vsupne":"⊋︀","Vvdash":"⊪","vzigzag":"⦚","Wcirc":"Ŵ","wcirc":"ŵ","wedbar":"⩟","wedge":"∧","Wedge":"⋀","wedgeq":"≙","weierp":"℘","Wfr":"𝔚","wfr":"𝔴","Wopf":"𝕎","wopf":"𝕨","wp":"℘","wr":"≀","wreath":"≀","Wscr":"𝒲","wscr":"𝓌","xcap":"⋂","xcirc":"◯","xcup":"⋃","xdtri":"▽","Xfr":"𝔛","xfr":"𝔵","xharr":"⟷","xhArr":"⟺","Xi":"Ξ","xi":"ξ","xlarr":"⟵","xlArr":"⟸","xmap":"⟼","xnis":"⋻","xodot":"⨀","Xopf":"𝕏","xopf":"𝕩","xoplus":"⨁","xotime":"⨂","xrarr":"⟶","xrArr":"⟹","Xscr":"𝒳","xscr":"𝓍","xsqcup":"⨆","xuplus":"⨄","xutri":"△","xvee":"⋁","xwedge":"⋀","Yacute":"Ý","yacute":"ý","YAcy":"Я","yacy":"я","Ycirc":"Ŷ","ycirc":"ŷ","Ycy":"Ы","ycy":"ы","yen":"¥","Yfr":"𝔜","yfr":"𝔶","YIcy":"Ї","yicy":"ї","Yopf":"𝕐","yopf":"𝕪","Yscr":"𝒴","yscr":"𝓎","YUcy":"Ю","yucy":"ю","yuml":"ÿ","Yuml":"Ÿ","Zacute":"Ź","zacute":"ź","Zcaron":"Ž","zcaron":"ž","Zcy":"З","zcy":"з","Zdot":"Ż","zdot":"ż","zeetrf":"ℨ","ZeroWidthSpace":"​","Zeta":"Ζ","zeta":"ζ","zfr":"𝔷","Zfr":"ℨ","ZHcy":"Ж","zhcy":"ж","zigrarr":"⇝","zopf":"𝕫","Zopf":"ℤ","Zscr":"𝒵","zscr":"𝓏","zwj":"‍","zwnj":"‌"};
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var entityMap = __webpack_require__(163),
+    legacyMap = __webpack_require__(165),
+    xmlMap    = __webpack_require__(162),
+    decodeCodePoint = __webpack_require__(166);
+
+var decodeXMLStrict  = getStrictDecoder(xmlMap),
+    decodeHTMLStrict = getStrictDecoder(entityMap);
+
+function getStrictDecoder(map){
+	var keys = Object.keys(map).join("|"),
+	    replace = getReplacer(map);
+
+	keys += "|#[xX][\\da-fA-F]+|#\\d+";
+
+	var re = new RegExp("&(?:" + keys + ");", "g");
+
+	return function(str){
+		return String(str).replace(re, replace);
+	};
+}
+
+var decodeHTML = (function(){
+	var legacy = Object.keys(legacyMap)
+		.sort(sorter);
+
+	var keys = Object.keys(entityMap)
+		.sort(sorter);
+
+	for(var i = 0, j = 0; i < keys.length; i++){
+		if(legacy[j] === keys[i]){
+			keys[i] += ";?";
+			j++;
+		} else {
+			keys[i] += ";";
+		}
+	}
+
+	var re = new RegExp("&(?:" + keys.join("|") + "|#[xX][\\da-fA-F]+;?|#\\d+;?)", "g"),
+	    replace = getReplacer(entityMap);
+
+	function replacer(str){
+		if(str.substr(-1) !== ";") str += ";";
+		return replace(str);
+	}
+
+	//TODO consider creating a merged map
+	return function(str){
+		return String(str).replace(re, replacer);
+	};
+}());
+
+function sorter(a, b){
+	return a < b ? 1 : -1;
+}
+
+function getReplacer(map){
+	return function replace(str){
+		if(str.charAt(1) === "#"){
+			if(str.charAt(2) === "X" || str.charAt(2) === "x"){
+				return decodeCodePoint(parseInt(str.substr(3), 16));
+			}
+			return decodeCodePoint(parseInt(str.substr(2), 10));
+		}
+		return map[str.slice(1, -1)];
+	};
+}
+
+module.exports = {
+	XML: decodeXMLStrict,
+	HTML: decodeHTML,
+	HTMLStrict: decodeHTMLStrict
+};
+
+/***/ }),
+/* 165 */
+/***/ (function(module) {
+
+module.exports = {"Aacute":"Á","aacute":"á","Acirc":"Â","acirc":"â","acute":"´","AElig":"Æ","aelig":"æ","Agrave":"À","agrave":"à","amp":"&","AMP":"&","Aring":"Å","aring":"å","Atilde":"Ã","atilde":"ã","Auml":"Ä","auml":"ä","brvbar":"¦","Ccedil":"Ç","ccedil":"ç","cedil":"¸","cent":"¢","copy":"©","COPY":"©","curren":"¤","deg":"°","divide":"÷","Eacute":"É","eacute":"é","Ecirc":"Ê","ecirc":"ê","Egrave":"È","egrave":"è","ETH":"Ð","eth":"ð","Euml":"Ë","euml":"ë","frac12":"½","frac14":"¼","frac34":"¾","gt":">","GT":">","Iacute":"Í","iacute":"í","Icirc":"Î","icirc":"î","iexcl":"¡","Igrave":"Ì","igrave":"ì","iquest":"¿","Iuml":"Ï","iuml":"ï","laquo":"«","lt":"<","LT":"<","macr":"¯","micro":"µ","middot":"·","nbsp":" ","not":"¬","Ntilde":"Ñ","ntilde":"ñ","Oacute":"Ó","oacute":"ó","Ocirc":"Ô","ocirc":"ô","Ograve":"Ò","ograve":"ò","ordf":"ª","ordm":"º","Oslash":"Ø","oslash":"ø","Otilde":"Õ","otilde":"õ","Ouml":"Ö","ouml":"ö","para":"¶","plusmn":"±","pound":"£","quot":"\"","QUOT":"\"","raquo":"»","reg":"®","REG":"®","sect":"§","shy":"­","sup1":"¹","sup2":"²","sup3":"³","szlig":"ß","THORN":"Þ","thorn":"þ","times":"×","Uacute":"Ú","uacute":"ú","Ucirc":"Û","ucirc":"û","Ugrave":"Ù","ugrave":"ù","uml":"¨","Uuml":"Ü","uuml":"ü","Yacute":"Ý","yacute":"ý","yen":"¥","yuml":"ÿ"};
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var decodeMap = __webpack_require__(167);
+
+module.exports = decodeCodePoint;
+
+// modified version of https://github.com/mathiasbynens/he/blob/master/src/he.js#L94-L119
+function decodeCodePoint(codePoint){
+
+	if((codePoint >= 0xD800 && codePoint <= 0xDFFF) || codePoint > 0x10FFFF){
+		return "\uFFFD";
+	}
+
+	if(codePoint in decodeMap){
+		codePoint = decodeMap[codePoint];
+	}
+
+	var output = "";
+
+	if(codePoint > 0xFFFF){
+		codePoint -= 0x10000;
+		output += String.fromCharCode(codePoint >>> 10 & 0x3FF | 0xD800);
+		codePoint = 0xDC00 | codePoint & 0x3FF;
+	}
+
+	output += String.fromCharCode(codePoint);
+	return output;
+}
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module) {
+
+module.exports = {"0":65533,"128":8364,"130":8218,"131":402,"132":8222,"133":8230,"134":8224,"135":8225,"136":710,"137":8240,"138":352,"139":8249,"140":338,"142":381,"145":8216,"146":8217,"147":8220,"148":8221,"149":8226,"150":8211,"151":8212,"152":732,"153":8482,"154":353,"155":8250,"156":339,"158":382,"159":376};
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports) {
+
+var getChildren = exports.getChildren = function(elem){
+	return elem.children;
+};
+
+var getParent = exports.getParent = function(elem){
+	return elem.parent;
+};
+
+exports.getSiblings = function(elem){
+	var parent = getParent(elem);
+	return parent ? getChildren(parent) : [elem];
+};
+
+exports.getAttributeValue = function(elem, name){
+	return elem.attribs && elem.attribs[name];
+};
+
+exports.hasAttrib = function(elem, name){
+	return !!elem.attribs && hasOwnProperty.call(elem.attribs, name);
+};
+
+exports.getName = function(elem){
+	return elem.name;
+};
+
+
+/***/ }),
+/* 169 */
+/***/ (function(module, exports) {
+
+exports.removeElement = function(elem){
+	if(elem.prev) elem.prev.next = elem.next;
+	if(elem.next) elem.next.prev = elem.prev;
+
+	if(elem.parent){
+		var childs = elem.parent.children;
+		childs.splice(childs.lastIndexOf(elem), 1);
+	}
+};
+
+exports.replaceElement = function(elem, replacement){
+	var prev = replacement.prev = elem.prev;
+	if(prev){
+		prev.next = replacement;
+	}
+
+	var next = replacement.next = elem.next;
+	if(next){
+		next.prev = replacement;
+	}
+
+	var parent = replacement.parent = elem.parent;
+	if(parent){
+		var childs = parent.children;
+		childs[childs.lastIndexOf(elem)] = replacement;
+	}
+};
+
+exports.appendChild = function(elem, child){
+	child.parent = elem;
+
+	if(elem.children.push(child) !== 1){
+		var sibling = elem.children[elem.children.length - 2];
+		sibling.next = child;
+		child.prev = sibling;
+		child.next = null;
+	}
+};
+
+exports.append = function(elem, next){
+	var parent = elem.parent,
+		currNext = elem.next;
+
+	next.next = currNext;
+	next.prev = elem;
+	elem.next = next;
+	next.parent = parent;
+
+	if(currNext){
+		currNext.prev = next;
+		if(parent){
+			var childs = parent.children;
+			childs.splice(childs.lastIndexOf(currNext), 0, next);
+		}
+	} else if(parent){
+		parent.children.push(next);
+	}
+};
+
+exports.prepend = function(elem, prev){
+	var parent = elem.parent;
+	if(parent){
+		var childs = parent.children;
+		childs.splice(childs.lastIndexOf(elem), 0, prev);
+	}
+
+	if(elem.prev){
+		elem.prev.next = prev;
+	}
+	
+	prev.parent = parent;
+	prev.prev = elem.prev;
+	prev.next = elem;
+	elem.prev = prev;
+};
+
+
+
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isTag = __webpack_require__(157).isTag;
+
+module.exports = {
+	filter: filter,
+	find: find,
+	findOneChild: findOneChild,
+	findOne: findOne,
+	existsOne: existsOne,
+	findAll: findAll
+};
+
+function filter(test, element, recurse, limit){
+	if(!Array.isArray(element)) element = [element];
+
+	if(typeof limit !== "number" || !isFinite(limit)){
+		limit = Infinity;
+	}
+	return find(test, element, recurse !== false, limit);
+}
+
+function find(test, elems, recurse, limit){
+	var result = [], childs;
+
+	for(var i = 0, j = elems.length; i < j; i++){
+		if(test(elems[i])){
+			result.push(elems[i]);
+			if(--limit <= 0) break;
+		}
+
+		childs = elems[i].children;
+		if(recurse && childs && childs.length > 0){
+			childs = find(test, childs, recurse, limit);
+			result = result.concat(childs);
+			limit -= childs.length;
+			if(limit <= 0) break;
+		}
+	}
+
+	return result;
+}
+
+function findOneChild(test, elems){
+	for(var i = 0, l = elems.length; i < l; i++){
+		if(test(elems[i])) return elems[i];
+	}
+
+	return null;
+}
+
+function findOne(test, elems){
+	var elem = null;
+
+	for(var i = 0, l = elems.length; i < l && !elem; i++){
+		if(!isTag(elems[i])){
+			continue;
+		} else if(test(elems[i])){
+			elem = elems[i];
+		} else if(elems[i].children.length > 0){
+			elem = findOne(test, elems[i].children);
+		}
+	}
+
+	return elem;
+}
+
+function existsOne(test, elems){
+	for(var i = 0, l = elems.length; i < l; i++){
+		if(
+			isTag(elems[i]) && (
+				test(elems[i]) || (
+					elems[i].children.length > 0 &&
+					existsOne(test, elems[i].children)
+				)
+			)
+		){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function findAll(test, rootElems){
+	var result = [];
+	var stack = rootElems.slice();
+	while(stack.length){
+		var elem = stack.shift();
+		if(!isTag(elem)) continue;
+		if (elem.children && elem.children.length > 0) {
+			stack.unshift.apply(stack, elem.children);
+		}
+		if(test(elem)) result.push(elem);
+	}
+	return result;
+}
+
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ElementType = __webpack_require__(157);
+var isTag = exports.isTag = ElementType.isTag;
+
+exports.testElement = function(options, element){
+	for(var key in options){
+		if(!options.hasOwnProperty(key));
+		else if(key === "tag_name"){
+			if(!isTag(element) || !options.tag_name(element.name)){
+				return false;
+			}
+		} else if(key === "tag_type"){
+			if(!options.tag_type(element.type)) return false;
+		} else if(key === "tag_contains"){
+			if(isTag(element) || !options.tag_contains(element.data)){
+				return false;
+			}
+		} else if(!element.attribs || !options[key](element.attribs[key])){
+			return false;
+		}
+	}
+	return true;
+};
+
+var Checks = {
+	tag_name: function(name){
+		if(typeof name === "function"){
+			return function(elem){ return isTag(elem) && name(elem.name); };
+		} else if(name === "*"){
+			return isTag;
+		} else {
+			return function(elem){ return isTag(elem) && elem.name === name; };
+		}
+	},
+	tag_type: function(type){
+		if(typeof type === "function"){
+			return function(elem){ return type(elem.type); };
+		} else {
+			return function(elem){ return elem.type === type; };
+		}
+	},
+	tag_contains: function(data){
+		if(typeof data === "function"){
+			return function(elem){ return !isTag(elem) && data(elem.data); };
+		} else {
+			return function(elem){ return !isTag(elem) && elem.data === data; };
+		}
+	}
+};
+
+function getAttribCheck(attrib, value){
+	if(typeof value === "function"){
+		return function(elem){ return elem.attribs && value(elem.attribs[attrib]); };
+	} else {
+		return function(elem){ return elem.attribs && elem.attribs[attrib] === value; };
+	}
+}
+
+function combineFuncs(a, b){
+	return function(elem){
+		return a(elem) || b(elem);
+	};
+}
+
+exports.getElements = function(options, element, recurse, limit){
+	var funcs = Object.keys(options).map(function(key){
+		var value = options[key];
+		return key in Checks ? Checks[key](value) : getAttribCheck(key, value);
+	});
+
+	return funcs.length === 0 ? [] : this.filter(
+		funcs.reduce(combineFuncs),
+		element, recurse, limit
+	);
+};
+
+exports.getElementById = function(id, element, recurse){
+	if(!Array.isArray(element)) element = [element];
+	return this.findOne(getAttribCheck("id", id), element, recurse !== false);
+};
+
+exports.getElementsByTagName = function(name, element, recurse, limit){
+	return this.filter(Checks.tag_name(name), element, recurse, limit);
+};
+
+exports.getElementsByTagType = function(type, element, recurse, limit){
+	return this.filter(Checks.tag_type(type), element, recurse, limit);
+};
+
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports) {
+
+// removeSubsets
+// Given an array of nodes, remove any member that is contained by another.
+exports.removeSubsets = function(nodes) {
+	var idx = nodes.length, node, ancestor, replace;
+
+	// Check if each node (or one of its ancestors) is already contained in the
+	// array.
+	while (--idx > -1) {
+		node = ancestor = nodes[idx];
+
+		// Temporarily remove the node under consideration
+		nodes[idx] = null;
+		replace = true;
+
+		while (ancestor) {
+			if (nodes.indexOf(ancestor) > -1) {
+				replace = false;
+				nodes.splice(idx, 1);
+				break;
+			}
+			ancestor = ancestor.parent;
+		}
+
+		// If the node has been found to be unique, re-insert it.
+		if (replace) {
+			nodes[idx] = node;
+		}
+	}
+
+	return nodes;
+};
+
+// Source: http://dom.spec.whatwg.org/#dom-node-comparedocumentposition
+var POSITION = {
+	DISCONNECTED: 1,
+	PRECEDING: 2,
+	FOLLOWING: 4,
+	CONTAINS: 8,
+	CONTAINED_BY: 16
+};
+
+// Compare the position of one node against another node in any other document.
+// The return value is a bitmask with the following values:
+//
+// document order:
+// > There is an ordering, document order, defined on all the nodes in the
+// > document corresponding to the order in which the first character of the
+// > XML representation of each node occurs in the XML representation of the
+// > document after expansion of general entities. Thus, the document element
+// > node will be the first node. Element nodes occur before their children.
+// > Thus, document order orders element nodes in order of the occurrence of
+// > their start-tag in the XML (after expansion of entities). The attribute
+// > nodes of an element occur after the element and before its children. The
+// > relative order of attribute nodes is implementation-dependent./
+// Source:
+// http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-document-order
+//
+// @argument {Node} nodaA The first node to use in the comparison
+// @argument {Node} nodeB The second node to use in the comparison
+//
+// @return {Number} A bitmask describing the input nodes' relative position.
+//         See http://dom.spec.whatwg.org/#dom-node-comparedocumentposition for
+//         a description of these values.
+var comparePos = exports.compareDocumentPosition = function(nodeA, nodeB) {
+	var aParents = [];
+	var bParents = [];
+	var current, sharedParent, siblings, aSibling, bSibling, idx;
+
+	if (nodeA === nodeB) {
+		return 0;
+	}
+
+	current = nodeA;
+	while (current) {
+		aParents.unshift(current);
+		current = current.parent;
+	}
+	current = nodeB;
+	while (current) {
+		bParents.unshift(current);
+		current = current.parent;
+	}
+
+	idx = 0;
+	while (aParents[idx] === bParents[idx]) {
+		idx++;
+	}
+
+	if (idx === 0) {
+		return POSITION.DISCONNECTED;
+	}
+
+	sharedParent = aParents[idx - 1];
+	siblings = sharedParent.children;
+	aSibling = aParents[idx];
+	bSibling = bParents[idx];
+
+	if (siblings.indexOf(aSibling) > siblings.indexOf(bSibling)) {
+		if (sharedParent === nodeB) {
+			return POSITION.FOLLOWING | POSITION.CONTAINED_BY;
+		}
+		return POSITION.FOLLOWING;
+	} else {
+		if (sharedParent === nodeA) {
+			return POSITION.PRECEDING | POSITION.CONTAINS;
+		}
+		return POSITION.PRECEDING;
+	}
+};
+
+// Sort an array of nodes based on their relative position in the document and
+// remove any duplicate nodes. If the array contains nodes that do not belong
+// to the same document, sort order is unspecified.
+//
+// @argument {Array} nodes Array of DOM nodes
+//
+// @returns {Array} collection of unique nodes, sorted in document order
+exports.uniqueSort = function(nodes) {
+	var idx = nodes.length, node, position;
+
+	nodes = nodes.slice();
+
+	while (--idx > -1) {
+		node = nodes[idx];
+		position = nodes.indexOf(node);
+		if (position > -1 && position < idx) {
+			nodes.splice(idx, 1);
+		}
+	}
+	nodes.sort(function(a, b) {
+		var relative = comparePos(a, b);
+		if (relative & POSITION.PRECEDING) {
+			return -1;
+		} else if (relative & POSITION.FOLLOWING) {
+			return 1;
+		}
+		return 0;
+	});
+
+	return nodes;
+};
+
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	trueFunc: function trueFunc(){
+		return true;
+	},
+	falseFunc: function falseFunc(){
+		return false;
+	}
+};
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	compiles a selector to an executable function
+*/
+
+module.exports = compile;
+
+var parse = __webpack_require__(175);
+var BaseFuncs = __webpack_require__(173);
+var sortRules = __webpack_require__(176);
+var procedure = __webpack_require__(177);
+var Rules = __webpack_require__(178);
+var Pseudos = __webpack_require__(180);
+var trueFunc = BaseFuncs.trueFunc;
+var falseFunc = BaseFuncs.falseFunc;
+
+var filters = Pseudos.filters;
+
+function compile(selector, options, context) {
+    var next = compileUnsafe(selector, options, context);
+    return wrap(next, options);
+}
+
+function wrap(next, options) {
+    var adapter = options.adapter;
+
+    return function base(elem) {
+        return adapter.isTag(elem) && next(elem);
+    };
+}
+
+function compileUnsafe(selector, options, context) {
+    var token = parse(selector, options);
+    return compileToken(token, options, context);
+}
+
+function includesScopePseudo(t) {
+    return (
+        t.type === "pseudo" &&
+        (t.name === "scope" ||
+            (Array.isArray(t.data) &&
+                t.data.some(function(data) {
+                    return data.some(includesScopePseudo);
+                })))
+    );
+}
+
+var DESCENDANT_TOKEN = { type: "descendant" };
+var FLEXIBLE_DESCENDANT_TOKEN = { type: "_flexibleDescendant" };
+var SCOPE_TOKEN = { type: "pseudo", name: "scope" };
+var PLACEHOLDER_ELEMENT = {};
+
+//CSS 4 Spec (Draft): 3.3.1. Absolutizing a Scope-relative Selector
+//http://www.w3.org/TR/selectors4/#absolutizing
+function absolutize(token, options, context) {
+    var adapter = options.adapter;
+
+    //TODO better check if context is document
+    var hasContext =
+        !!context &&
+        !!context.length &&
+        context.every(function(e) {
+            return e === PLACEHOLDER_ELEMENT || !!adapter.getParent(e);
+        });
+
+    token.forEach(function(t) {
+        if (t.length > 0 && isTraversal(t[0]) && t[0].type !== "descendant") {
+            //don't return in else branch
+        } else if (hasContext && !includesScopePseudo(t)) {
+            t.unshift(DESCENDANT_TOKEN);
+        } else {
+            return;
+        }
+
+        t.unshift(SCOPE_TOKEN);
+    });
+}
+
+function compileToken(token, options, context) {
+    token = token.filter(function(t) {
+        return t.length > 0;
+    });
+
+    token.forEach(sortRules);
+
+    var isArrayContext = Array.isArray(context);
+
+    context = (options && options.context) || context;
+
+    if (context && !isArrayContext) context = [context];
+
+    absolutize(token, options, context);
+
+    var shouldTestNextSiblings = false;
+
+    var query = token
+        .map(function(rules) {
+            if (rules[0] && rules[1] && rules[0].name === "scope") {
+                var ruleType = rules[1].type;
+                if (isArrayContext && ruleType === "descendant") {
+                    rules[1] = FLEXIBLE_DESCENDANT_TOKEN;
+                } else if (ruleType === "adjacent" || ruleType === "sibling") {
+                    shouldTestNextSiblings = true;
+                }
+            }
+            return compileRules(rules, options, context);
+        })
+        .reduce(reduceRules, falseFunc);
+
+    query.shouldTestNextSiblings = shouldTestNextSiblings;
+
+    return query;
+}
+
+function isTraversal(t) {
+    return procedure[t.type] < 0;
+}
+
+function compileRules(rules, options, context) {
+    return rules.reduce(function(func, rule) {
+        if (func === falseFunc) return func;
+
+        if (!(rule.type in Rules)) {
+            throw new Error("Rule type " + rule.type + " is not supported by css-select");
+        }
+
+        return Rules[rule.type](func, rule, options, context);
+    }, (options && options.rootFunc) || trueFunc);
+}
+
+function reduceRules(a, b) {
+    if (b === falseFunc || a === trueFunc) {
+        return a;
+    }
+    if (a === falseFunc || b === trueFunc) {
+        return b;
+    }
+
+    return function combine(elem) {
+        return a(elem) || b(elem);
+    };
+}
+
+function containsTraversal(t) {
+    return t.some(isTraversal);
+}
+
+//:not, :has and :matches have to compile selectors
+//doing this in lib/pseudos.js would lead to circular dependencies,
+//so we add them here
+filters.not = function(next, token, options, context) {
+    var opts = {
+        xmlMode: !!(options && options.xmlMode),
+        strict: !!(options && options.strict),
+        adapter: options.adapter
+    };
+
+    if (opts.strict) {
+        if (token.length > 1 || token.some(containsTraversal)) {
+            throw new Error("complex selectors in :not aren't allowed in strict mode");
+        }
+    }
+
+    var func = compileToken(token, opts, context);
+
+    if (func === falseFunc) return next;
+    if (func === trueFunc) return falseFunc;
+
+    return function not(elem) {
+        return !func(elem) && next(elem);
+    };
+};
+
+filters.has = function(next, token, options) {
+    var adapter = options.adapter;
+    var opts = {
+        xmlMode: !!(options && options.xmlMode),
+        strict: !!(options && options.strict),
+        adapter: adapter
+    };
+
+    //FIXME: Uses an array as a pointer to the current element (side effects)
+    var context = token.some(containsTraversal) ? [PLACEHOLDER_ELEMENT] : null;
+
+    var func = compileToken(token, opts, context);
+
+    if (func === falseFunc) return falseFunc;
+    if (func === trueFunc) {
+        return function hasChild(elem) {
+            return adapter.getChildren(elem).some(adapter.isTag) && next(elem);
+        };
+    }
+
+    func = wrap(func, options);
+
+    if (context) {
+        return function has(elem) {
+            return next(elem) && ((context[0] = elem), adapter.existsOne(func, adapter.getChildren(elem)));
+        };
+    }
+
+    return function has(elem) {
+        return next(elem) && adapter.existsOne(func, adapter.getChildren(elem));
+    };
+};
+
+filters.matches = function(next, token, options, context) {
+    var opts = {
+        xmlMode: !!(options && options.xmlMode),
+        strict: !!(options && options.strict),
+        rootFunc: next,
+        adapter: options.adapter
+    };
+
+    return compileToken(token, opts, context);
+};
+
+compile.compileToken = compileToken;
+compile.compileUnsafe = compileUnsafe;
+compile.Pseudos = Pseudos;
+
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = parse;
+
+var re_name = /^(?:\\.|[\w\-\u00c0-\uFFFF])+/,
+    re_escape = /\\([\da-f]{1,6}\s?|(\s)|.)/ig,
+    //modified version of https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L87
+    re_attr = /^\s*((?:\\.|[\w\u00c0-\uFFFF\-])+)\s*(?:(\S?)=\s*(?:(['"])([^]*?)\3|(#?(?:\\.|[\w\u00c0-\uFFFF\-])*)|)|)\s*(i)?\]/;
+
+var actionTypes = {
+	__proto__: null,
+	"undefined": "exists",
+	"":  "equals",
+	"~": "element",
+	"^": "start",
+	"$": "end",
+	"*": "any",
+	"!": "not",
+	"|": "hyphen"
+};
+
+var simpleSelectors = {
+	__proto__: null,
+	">": "child",
+	"<": "parent",
+	"~": "sibling",
+	"+": "adjacent"
+};
+
+var attribSelectors = {
+	__proto__: null,
+	"#": ["id", "equals"],
+	".": ["class", "element"]
+};
+
+//pseudos, whose data-property is parsed as well
+var unpackPseudos = {
+	__proto__: null,
+	"has": true,
+	"not": true,
+	"matches": true
+};
+
+var stripQuotesFromPseudos = {
+	__proto__: null,
+	"contains": true,
+	"icontains": true
+};
+
+var quotes = {
+	__proto__: null,
+	"\"": true,
+	"'": true
+};
+
+//unescape function taken from https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L139
+function funescape( _, escaped, escapedWhitespace ) {
+	var high = "0x" + escaped - 0x10000;
+	// NaN means non-codepoint
+	// Support: Firefox
+	// Workaround erroneous numeric interpretation of +"0x"
+	return high !== high || escapedWhitespace ?
+		escaped :
+		// BMP codepoint
+		high < 0 ?
+			String.fromCharCode( high + 0x10000 ) :
+			// Supplemental Plane codepoint (surrogate pair)
+			String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
+}
+
+function unescapeCSS(str){
+	return str.replace(re_escape, funescape);
+}
+
+function isWhitespace(c){
+	return c === " " || c === "\n" || c === "\t" || c === "\f" || c === "\r";
+}
+
+function parse(selector, options){
+	var subselects = [];
+
+	selector = parseSelector(subselects, selector + "", options);
+
+	if(selector !== ""){
+		throw new SyntaxError("Unmatched selector: " + selector);
+	}
+
+	return subselects;
+}
+
+function parseSelector(subselects, selector, options){
+	var tokens = [],
+		sawWS = false,
+		data, firstChar, name, quot;
+
+	function getName(){
+		var sub = selector.match(re_name)[0];
+		selector = selector.substr(sub.length);
+		return unescapeCSS(sub);
+	}
+
+	function stripWhitespace(start){
+		while(isWhitespace(selector.charAt(start))) start++;
+		selector = selector.substr(start);
+	}
+
+	function isEscaped(pos) {
+		var slashCount = 0;
+
+		while (selector.charAt(--pos) === "\\") slashCount++;
+		return (slashCount & 1) === 1;
+	}
+
+	stripWhitespace(0);
+
+	while(selector !== ""){
+		firstChar = selector.charAt(0);
+
+		if(isWhitespace(firstChar)){
+			sawWS = true;
+			stripWhitespace(1);
+		} else if(firstChar in simpleSelectors){
+			tokens.push({type: simpleSelectors[firstChar]});
+			sawWS = false;
+
+			stripWhitespace(1);
+		} else if(firstChar === ","){
+			if(tokens.length === 0){
+				throw new SyntaxError("empty sub-selector");
+			}
+			subselects.push(tokens);
+			tokens = [];
+			sawWS = false;
+			stripWhitespace(1);
+		} else {
+			if(sawWS){
+				if(tokens.length > 0){
+					tokens.push({type: "descendant"});
+				}
+				sawWS = false;
+			}
+
+			if(firstChar === "*"){
+				selector = selector.substr(1);
+				tokens.push({type: "universal"});
+			} else if(firstChar in attribSelectors){
+				selector = selector.substr(1);
+				tokens.push({
+					type: "attribute",
+					name: attribSelectors[firstChar][0],
+					action: attribSelectors[firstChar][1],
+					value: getName(),
+					ignoreCase: false
+				});
+			} else if(firstChar === "["){
+				selector = selector.substr(1);
+				data = selector.match(re_attr);
+				if(!data){
+					throw new SyntaxError("Malformed attribute selector: " + selector);
+				}
+				selector = selector.substr(data[0].length);
+				name = unescapeCSS(data[1]);
+
+				if(
+					!options || (
+						"lowerCaseAttributeNames" in options ?
+							options.lowerCaseAttributeNames :
+							!options.xmlMode
+					)
+				){
+					name = name.toLowerCase();
+				}
+
+				tokens.push({
+					type: "attribute",
+					name: name,
+					action: actionTypes[data[2]],
+					value: unescapeCSS(data[4] || data[5] || ""),
+					ignoreCase: !!data[6]
+				});
+
+			} else if(firstChar === ":"){
+				if(selector.charAt(1) === ":"){
+					selector = selector.substr(2);
+					tokens.push({type: "pseudo-element", name: getName().toLowerCase()});
+					continue;
+				}
+
+				selector = selector.substr(1);
+
+				name = getName().toLowerCase();
+				data = null;
+
+				if(selector.charAt(0) === "("){
+					if(name in unpackPseudos){
+						quot = selector.charAt(1);
+						var quoted = quot in quotes;
+
+						selector = selector.substr(quoted + 1);
+
+						data = [];
+						selector = parseSelector(data, selector, options);
+
+						if(quoted){
+							if(selector.charAt(0) !== quot){
+								throw new SyntaxError("unmatched quotes in :" + name);
+							} else {
+								selector = selector.substr(1);
+							}
+						}
+
+						if(selector.charAt(0) !== ")"){
+							throw new SyntaxError("missing closing parenthesis in :" + name + " " + selector);
+						}
+
+						selector = selector.substr(1);
+					} else {
+						var pos = 1, counter = 1;
+
+						for(; counter > 0 && pos < selector.length; pos++){
+							if(selector.charAt(pos) === "(" && !isEscaped(pos)) counter++;
+							else if(selector.charAt(pos) === ")" && !isEscaped(pos)) counter--;
+						}
+
+						if(counter){
+							throw new SyntaxError("parenthesis not matched");
+						}
+
+						data = selector.substr(1, pos - 2);
+						selector = selector.substr(pos);
+
+						if(name in stripQuotesFromPseudos){
+							quot = data.charAt(0);
+
+							if(quot === data.slice(-1) && quot in quotes){
+								data = data.slice(1, -1);
+							}
+
+							data = unescapeCSS(data);
+						}
+					}
+				}
+
+				tokens.push({type: "pseudo", name: name, data: data});
+			} else if(re_name.test(selector)){
+				name = getName();
+
+				if(!options || ("lowerCaseTags" in options ? options.lowerCaseTags : !options.xmlMode)){
+					name = name.toLowerCase();
+				}
+
+				tokens.push({type: "tag", name: name});
+			} else {
+				if(tokens.length && tokens[tokens.length - 1].type === "descendant"){
+					tokens.pop();
+				}
+				addToken(subselects, tokens);
+				return selector;
+			}
+		}
+	}
+
+	addToken(subselects, tokens);
+
+	return selector;
+}
+
+function addToken(subselects, tokens){
+	if(subselects.length > 0 && tokens.length === 0){
+		throw new SyntaxError("empty sub-selector");
+	}
+
+	subselects.push(tokens);
+}
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = sortByProcedure;
+
+/*
+	sort the parts of the passed selector,
+	as there is potential for optimization
+	(some types of selectors are faster than others)
+*/
+
+var procedure = __webpack_require__(177);
+
+var attributes = {
+    __proto__: null,
+    exists: 10,
+    equals: 8,
+    not: 7,
+    start: 6,
+    end: 6,
+    any: 5,
+    hyphen: 4,
+    element: 4
+};
+
+function sortByProcedure(arr) {
+    var procs = arr.map(getProcedure);
+    for (var i = 1; i < arr.length; i++) {
+        var procNew = procs[i];
+
+        if (procNew < 0) continue;
+
+        for (var j = i - 1; j >= 0 && procNew < procs[j]; j--) {
+            var token = arr[j + 1];
+            arr[j + 1] = arr[j];
+            arr[j] = token;
+            procs[j + 1] = procs[j];
+            procs[j] = procNew;
+        }
+    }
+}
+
+function getProcedure(token) {
+    var proc = procedure[token.type];
+
+    if (proc === procedure.attribute) {
+        proc = attributes[token.action];
+
+        if (proc === attributes.equals && token.name === "id") {
+            //prefer ID selectors (eg. #ID)
+            proc = 9;
+        }
+
+        if (token.ignoreCase) {
+            //ignoreCase adds some overhead, prefer "normal" token
+            //this is a binary operation, to ensure it's still an int
+            proc >>= 1;
+        }
+    } else if (proc === procedure.pseudo) {
+        if (!token.data) {
+            proc = 3;
+        } else if (token.name === "has" || token.name === "contains") {
+            proc = 0; //expensive in any case
+        } else if (token.name === "matches" || token.name === "not") {
+            proc = 0;
+            for (var i = 0; i < token.data.length; i++) {
+                //TODO better handling of complex selectors
+                if (token.data[i].length !== 1) continue;
+                var cur = getProcedure(token.data[i][0]);
+                //avoid executing :has or :contains
+                if (cur === 0) {
+                    proc = 0;
+                    break;
+                }
+                if (cur > proc) proc = cur;
+            }
+            if (token.data.length > 1 && proc > 0) proc -= 1;
+        } else {
+            proc = 1;
+        }
+    }
+    return proc;
+}
+
+
+/***/ }),
+/* 177 */
+/***/ (function(module) {
+
+module.exports = {"universal":50,"tag":30,"attribute":1,"pseudo":0,"descendant":-1,"child":-1,"parent":-1,"sibling":-1,"adjacent":-1};
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var attributes = __webpack_require__(179);
+var Pseudos = __webpack_require__(180);
+
+/*
+	all available rules
+*/
+module.exports = {
+    __proto__: null,
+
+    attribute: attributes.compile,
+    pseudo: Pseudos.compile,
+
+    //tags
+    tag: function(next, data, options) {
+        var name = data.name;
+        var adapter = options.adapter;
+
+        return function tag(elem) {
+            return adapter.getName(elem) === name && next(elem);
+        };
+    },
+
+    //traversal
+    descendant: function(next, data, options) {
+        // eslint-disable-next-line no-undef
+        var isFalseCache = typeof WeakSet !== "undefined" ? new WeakSet() : null;
+        var adapter = options.adapter;
+
+        return function descendant(elem) {
+            var found = false;
+
+            while (!found && (elem = adapter.getParent(elem))) {
+                if (!isFalseCache || !isFalseCache.has(elem)) {
+                    found = next(elem);
+                    if (!found && isFalseCache) {
+                        isFalseCache.add(elem);
+                    }
+                }
+            }
+
+            return found;
+        };
+    },
+    _flexibleDescendant: function(next, data, options) {
+        var adapter = options.adapter;
+
+        // Include element itself, only used while querying an array
+        return function descendant(elem) {
+            var found = next(elem);
+
+            while (!found && (elem = adapter.getParent(elem))) {
+                found = next(elem);
+            }
+
+            return found;
+        };
+    },
+    parent: function(next, data, options) {
+        if (options && options.strict) {
+            throw new Error("Parent selector isn't part of CSS3");
+        }
+
+        var adapter = options.adapter;
+
+        return function parent(elem) {
+            return adapter.getChildren(elem).some(test);
+        };
+
+        function test(elem) {
+            return adapter.isTag(elem) && next(elem);
+        }
+    },
+    child: function(next, data, options) {
+        var adapter = options.adapter;
+
+        return function child(elem) {
+            var parent = adapter.getParent(elem);
+            return !!parent && next(parent);
+        };
+    },
+    sibling: function(next, data, options) {
+        var adapter = options.adapter;
+
+        return function sibling(elem) {
+            var siblings = adapter.getSiblings(elem);
+
+            for (var i = 0; i < siblings.length; i++) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    if (next(siblings[i])) return true;
+                }
+            }
+
+            return false;
+        };
+    },
+    adjacent: function(next, data, options) {
+        var adapter = options.adapter;
+
+        return function adjacent(elem) {
+            var siblings = adapter.getSiblings(elem),
+                lastElement;
+
+            for (var i = 0; i < siblings.length; i++) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    lastElement = siblings[i];
+                }
+            }
+
+            return !!lastElement && next(lastElement);
+        };
+    },
+    universal: function(next) {
+        return next;
+    }
+};
+
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var falseFunc = __webpack_require__(173).falseFunc;
+
+//https://github.com/slevithan/XRegExp/blob/master/src/xregexp.js#L469
+var reChars = /[-[\]{}()*+?.,\\^$|#\s]/g;
+
+/*
+	attribute selectors
+*/
+var attributeRules = {
+    __proto__: null,
+    equals: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var adapter = options.adapter;
+
+        if (data.ignoreCase) {
+            value = value.toLowerCase();
+
+            return function equalsIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return attr != null && attr.toLowerCase() === value && next(elem);
+            };
+        }
+
+        return function equals(elem) {
+            return adapter.getAttributeValue(elem, name) === value && next(elem);
+        };
+    },
+    hyphen: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var len = value.length;
+        var adapter = options.adapter;
+
+        if (data.ignoreCase) {
+            value = value.toLowerCase();
+
+            return function hyphenIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return (
+                    attr != null &&
+                    (attr.length === len || attr.charAt(len) === "-") &&
+                    attr.substr(0, len).toLowerCase() === value &&
+                    next(elem)
+                );
+            };
+        }
+
+        return function hyphen(elem) {
+            var attr = adapter.getAttributeValue(elem, name);
+            return (
+                attr != null &&
+                attr.substr(0, len) === value &&
+                (attr.length === len || attr.charAt(len) === "-") &&
+                next(elem)
+            );
+        };
+    },
+    element: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var adapter = options.adapter;
+
+        if (/\s/.test(value)) {
+            return falseFunc;
+        }
+
+        value = value.replace(reChars, "\\$&");
+
+        var pattern = "(?:^|\\s)" + value + "(?:$|\\s)",
+            flags = data.ignoreCase ? "i" : "",
+            regex = new RegExp(pattern, flags);
+
+        return function element(elem) {
+            var attr = adapter.getAttributeValue(elem, name);
+            return attr != null && regex.test(attr) && next(elem);
+        };
+    },
+    exists: function(next, data, options) {
+        var name = data.name;
+        var adapter = options.adapter;
+
+        return function exists(elem) {
+            return adapter.hasAttrib(elem, name) && next(elem);
+        };
+    },
+    start: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var len = value.length;
+        var adapter = options.adapter;
+
+        if (len === 0) {
+            return falseFunc;
+        }
+
+        if (data.ignoreCase) {
+            value = value.toLowerCase();
+
+            return function startIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return attr != null && attr.substr(0, len).toLowerCase() === value && next(elem);
+            };
+        }
+
+        return function start(elem) {
+            var attr = adapter.getAttributeValue(elem, name);
+            return attr != null && attr.substr(0, len) === value && next(elem);
+        };
+    },
+    end: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var len = -value.length;
+        var adapter = options.adapter;
+
+        if (len === 0) {
+            return falseFunc;
+        }
+
+        if (data.ignoreCase) {
+            value = value.toLowerCase();
+
+            return function endIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return attr != null && attr.substr(len).toLowerCase() === value && next(elem);
+            };
+        }
+
+        return function end(elem) {
+            var attr = adapter.getAttributeValue(elem, name);
+            return attr != null && attr.substr(len) === value && next(elem);
+        };
+    },
+    any: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var adapter = options.adapter;
+
+        if (value === "") {
+            return falseFunc;
+        }
+
+        if (data.ignoreCase) {
+            var regex = new RegExp(value.replace(reChars, "\\$&"), "i");
+
+            return function anyIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return attr != null && regex.test(attr) && next(elem);
+            };
+        }
+
+        return function any(elem) {
+            var attr = adapter.getAttributeValue(elem, name);
+            return attr != null && attr.indexOf(value) >= 0 && next(elem);
+        };
+    },
+    not: function(next, data, options) {
+        var name = data.name;
+        var value = data.value;
+        var adapter = options.adapter;
+
+        if (value === "") {
+            return function notEmpty(elem) {
+                return !!adapter.getAttributeValue(elem, name) && next(elem);
+            };
+        } else if (data.ignoreCase) {
+            value = value.toLowerCase();
+
+            return function notIC(elem) {
+                var attr = adapter.getAttributeValue(elem, name);
+                return attr != null && attr.toLowerCase() !== value && next(elem);
+            };
+        }
+
+        return function not(elem) {
+            return adapter.getAttributeValue(elem, name) !== value && next(elem);
+        };
+    }
+};
+
+module.exports = {
+    compile: function(next, data, options) {
+        if (options && options.strict && (data.ignoreCase || data.action === "not")) {
+            throw new Error("Unsupported attribute selector");
+        }
+        return attributeRules[data.action](next, data, options);
+    },
+    rules: attributeRules
+};
+
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	pseudo selectors
+
+	---
+
+	they are available in two forms:
+	* filters called when the selector
+	  is compiled and return a function
+	  that needs to return next()
+	* pseudos get called on execution
+	  they need to return a boolean
+*/
+
+var getNCheck = __webpack_require__(181);
+var BaseFuncs = __webpack_require__(173);
+var attributes = __webpack_require__(179);
+var trueFunc = BaseFuncs.trueFunc;
+var falseFunc = BaseFuncs.falseFunc;
+
+var checkAttrib = attributes.rules.equals;
+
+function getAttribFunc(name, value) {
+    var data = { name: name, value: value };
+    return function attribFunc(next, rule, options) {
+        return checkAttrib(next, data, options);
+    };
+}
+
+function getChildFunc(next, adapter) {
+    return function(elem) {
+        return !!adapter.getParent(elem) && next(elem);
+    };
+}
+
+var filters = {
+    contains: function(next, text, options) {
+        var adapter = options.adapter;
+
+        return function contains(elem) {
+            return next(elem) && adapter.getText(elem).indexOf(text) >= 0;
+        };
+    },
+    icontains: function(next, text, options) {
+        var itext = text.toLowerCase();
+        var adapter = options.adapter;
+
+        return function icontains(elem) {
+            return (
+                next(elem) &&
+                adapter
+                    .getText(elem)
+                    .toLowerCase()
+                    .indexOf(itext) >= 0
+            );
+        };
+    },
+
+    //location specific methods
+    "nth-child": function(next, rule, options) {
+        var func = getNCheck(rule);
+        var adapter = options.adapter;
+
+        if (func === falseFunc) return func;
+        if (func === trueFunc) return getChildFunc(next, adapter);
+
+        return function nthChild(elem) {
+            var siblings = adapter.getSiblings(elem);
+
+            for (var i = 0, pos = 0; i < siblings.length; i++) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    else pos++;
+                }
+            }
+
+            return func(pos) && next(elem);
+        };
+    },
+    "nth-last-child": function(next, rule, options) {
+        var func = getNCheck(rule);
+        var adapter = options.adapter;
+
+        if (func === falseFunc) return func;
+        if (func === trueFunc) return getChildFunc(next, adapter);
+
+        return function nthLastChild(elem) {
+            var siblings = adapter.getSiblings(elem);
+
+            for (var pos = 0, i = siblings.length - 1; i >= 0; i--) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    else pos++;
+                }
+            }
+
+            return func(pos) && next(elem);
+        };
+    },
+    "nth-of-type": function(next, rule, options) {
+        var func = getNCheck(rule);
+        var adapter = options.adapter;
+
+        if (func === falseFunc) return func;
+        if (func === trueFunc) return getChildFunc(next, adapter);
+
+        return function nthOfType(elem) {
+            var siblings = adapter.getSiblings(elem);
+
+            for (var pos = 0, i = 0; i < siblings.length; i++) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    if (adapter.getName(siblings[i]) === adapter.getName(elem)) pos++;
+                }
+            }
+
+            return func(pos) && next(elem);
+        };
+    },
+    "nth-last-of-type": function(next, rule, options) {
+        var func = getNCheck(rule);
+        var adapter = options.adapter;
+
+        if (func === falseFunc) return func;
+        if (func === trueFunc) return getChildFunc(next, adapter);
+
+        return function nthLastOfType(elem) {
+            var siblings = adapter.getSiblings(elem);
+
+            for (var pos = 0, i = siblings.length - 1; i >= 0; i--) {
+                if (adapter.isTag(siblings[i])) {
+                    if (siblings[i] === elem) break;
+                    if (adapter.getName(siblings[i]) === adapter.getName(elem)) pos++;
+                }
+            }
+
+            return func(pos) && next(elem);
+        };
+    },
+
+    //TODO determine the actual root element
+    root: function(next, rule, options) {
+        var adapter = options.adapter;
+
+        return function(elem) {
+            return !adapter.getParent(elem) && next(elem);
+        };
+    },
+
+    scope: function(next, rule, options, context) {
+        var adapter = options.adapter;
+
+        if (!context || context.length === 0) {
+            //equivalent to :root
+            return filters.root(next, rule, options);
+        }
+
+        function equals(a, b) {
+            if (typeof adapter.equals === "function") return adapter.equals(a, b);
+
+            return a === b;
+        }
+
+        if (context.length === 1) {
+            //NOTE: can't be unpacked, as :has uses this for side-effects
+            return function(elem) {
+                return equals(context[0], elem) && next(elem);
+            };
+        }
+
+        return function(elem) {
+            return context.indexOf(elem) >= 0 && next(elem);
+        };
+    },
+
+    //jQuery extensions (others follow as pseudos)
+    checkbox: getAttribFunc("type", "checkbox"),
+    file: getAttribFunc("type", "file"),
+    password: getAttribFunc("type", "password"),
+    radio: getAttribFunc("type", "radio"),
+    reset: getAttribFunc("type", "reset"),
+    image: getAttribFunc("type", "image"),
+    submit: getAttribFunc("type", "submit")
+};
+
+//helper methods
+function getFirstElement(elems, adapter) {
+    for (var i = 0; elems && i < elems.length; i++) {
+        if (adapter.isTag(elems[i])) return elems[i];
+    }
+}
+
+//while filters are precompiled, pseudos get called when they are needed
+var pseudos = {
+    empty: function(elem, adapter) {
+        return !adapter.getChildren(elem).some(function(elem) {
+            return adapter.isTag(elem) || elem.type === "text";
+        });
+    },
+
+    "first-child": function(elem, adapter) {
+        return getFirstElement(adapter.getSiblings(elem), adapter) === elem;
+    },
+    "last-child": function(elem, adapter) {
+        var siblings = adapter.getSiblings(elem);
+
+        for (var i = siblings.length - 1; i >= 0; i--) {
+            if (siblings[i] === elem) return true;
+            if (adapter.isTag(siblings[i])) break;
+        }
+
+        return false;
+    },
+    "first-of-type": function(elem, adapter) {
+        var siblings = adapter.getSiblings(elem);
+
+        for (var i = 0; i < siblings.length; i++) {
+            if (adapter.isTag(siblings[i])) {
+                if (siblings[i] === elem) return true;
+                if (adapter.getName(siblings[i]) === adapter.getName(elem)) break;
+            }
+        }
+
+        return false;
+    },
+    "last-of-type": function(elem, adapter) {
+        var siblings = adapter.getSiblings(elem);
+
+        for (var i = siblings.length - 1; i >= 0; i--) {
+            if (adapter.isTag(siblings[i])) {
+                if (siblings[i] === elem) return true;
+                if (adapter.getName(siblings[i]) === adapter.getName(elem)) break;
+            }
+        }
+
+        return false;
+    },
+    "only-of-type": function(elem, adapter) {
+        var siblings = adapter.getSiblings(elem);
+
+        for (var i = 0, j = siblings.length; i < j; i++) {
+            if (adapter.isTag(siblings[i])) {
+                if (siblings[i] === elem) continue;
+                if (adapter.getName(siblings[i]) === adapter.getName(elem)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    },
+    "only-child": function(elem, adapter) {
+        var siblings = adapter.getSiblings(elem);
+
+        for (var i = 0; i < siblings.length; i++) {
+            if (adapter.isTag(siblings[i]) && siblings[i] !== elem) return false;
+        }
+
+        return true;
+    },
+
+    //:matches(a, area, link)[href]
+    link: function(elem, adapter) {
+        return adapter.hasAttrib(elem, "href");
+    },
+    visited: falseFunc, //Valid implementation
+    //TODO: :any-link once the name is finalized (as an alias of :link)
+
+    //forms
+    //to consider: :target
+
+    //:matches([selected], select:not([multiple]):not(> option[selected]) > option:first-of-type)
+    selected: function(elem, adapter) {
+        if (adapter.hasAttrib(elem, "selected")) return true;
+        else if (adapter.getName(elem) !== "option") return false;
+
+        //the first <option> in a <select> is also selected
+        var parent = adapter.getParent(elem);
+
+        if (!parent || adapter.getName(parent) !== "select" || adapter.hasAttrib(parent, "multiple")) {
+            return false;
+        }
+
+        var siblings = adapter.getChildren(parent);
+        var sawElem = false;
+
+        for (var i = 0; i < siblings.length; i++) {
+            if (adapter.isTag(siblings[i])) {
+                if (siblings[i] === elem) {
+                    sawElem = true;
+                } else if (!sawElem) {
+                    return false;
+                } else if (adapter.hasAttrib(siblings[i], "selected")) {
+                    return false;
+                }
+            }
+        }
+
+        return sawElem;
+    },
+    //https://html.spec.whatwg.org/multipage/scripting.html#disabled-elements
+    //:matches(
+    //  :matches(button, input, select, textarea, menuitem, optgroup, option)[disabled],
+    //  optgroup[disabled] > option),
+    // fieldset[disabled] * //TODO not child of first <legend>
+    //)
+    disabled: function(elem, adapter) {
+        return adapter.hasAttrib(elem, "disabled");
+    },
+    enabled: function(elem, adapter) {
+        return !adapter.hasAttrib(elem, "disabled");
+    },
+    //:matches(:matches(:radio, :checkbox)[checked], :selected) (TODO menuitem)
+    checked: function(elem, adapter) {
+        return adapter.hasAttrib(elem, "checked") || pseudos.selected(elem, adapter);
+    },
+    //:matches(input, select, textarea)[required]
+    required: function(elem, adapter) {
+        return adapter.hasAttrib(elem, "required");
+    },
+    //:matches(input, select, textarea):not([required])
+    optional: function(elem, adapter) {
+        return !adapter.hasAttrib(elem, "required");
+    },
+
+    //jQuery extensions
+
+    //:not(:empty)
+    parent: function(elem, adapter) {
+        return !pseudos.empty(elem, adapter);
+    },
+    //:matches(h1, h2, h3, h4, h5, h6)
+    header: namePseudo(["h1", "h2", "h3", "h4", "h5", "h6"]),
+
+    //:matches(button, input[type=button])
+    button: function(elem, adapter) {
+        var name = adapter.getName(elem);
+        return (
+            name === "button" || (name === "input" && adapter.getAttributeValue(elem, "type") === "button")
+        );
+    },
+    //:matches(input, textarea, select, button)
+    input: namePseudo(["input", "textarea", "select", "button"]),
+    //input:matches(:not([type!='']), [type='text' i])
+    text: function(elem, adapter) {
+        var attr;
+        return (
+            adapter.getName(elem) === "input" &&
+            (!(attr = adapter.getAttributeValue(elem, "type")) || attr.toLowerCase() === "text")
+        );
+    }
+};
+
+function namePseudo(names) {
+    if (typeof Set !== "undefined") {
+        // eslint-disable-next-line no-undef
+        var nameSet = new Set(names);
+
+        return function(elem, adapter) {
+            return nameSet.has(adapter.getName(elem));
+        };
+    }
+
+    return function(elem, adapter) {
+        return names.indexOf(adapter.getName(elem)) >= 0;
+    };
+}
+
+function verifyArgs(func, name, subselect) {
+    if (subselect === null) {
+        if (func.length > 2 && name !== "scope") {
+            throw new Error("pseudo-selector :" + name + " requires an argument");
+        }
+    } else {
+        if (func.length === 2) {
+            throw new Error("pseudo-selector :" + name + " doesn't have any arguments");
+        }
+    }
+}
+
+//FIXME this feels hacky
+var re_CSS3 = /^(?:(?:nth|last|first|only)-(?:child|of-type)|root|empty|(?:en|dis)abled|checked|not)$/;
+
+module.exports = {
+    compile: function(next, data, options, context) {
+        var name = data.name;
+        var subselect = data.data;
+        var adapter = options.adapter;
+
+        if (options && options.strict && !re_CSS3.test(name)) {
+            throw new Error(":" + name + " isn't part of CSS3");
+        }
+
+        if (typeof filters[name] === "function") {
+            return filters[name](next, subselect, options, context);
+        } else if (typeof pseudos[name] === "function") {
+            var func = pseudos[name];
+            verifyArgs(func, name, subselect);
+
+            if (func === falseFunc) {
+                return func;
+            }
+
+            if (next === trueFunc) {
+                return function pseudoRoot(elem) {
+                    return func(elem, adapter, subselect);
+                };
+            }
+
+            return function pseudoArgs(elem) {
+                return func(elem, adapter, subselect) && next(elem);
+            };
+        } else {
+            throw new Error("unmatched pseudo-class :" + name);
+        }
+    },
+    filters: filters,
+    pseudos: pseudos
+};
+
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__(182),
+    compile = __webpack_require__(183);
+
+module.exports = function nthCheck(formula){
+	return compile(parse(formula));
+};
+
+module.exports.parse = parse;
+module.exports.compile = compile;
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports) {
+
+module.exports = parse;
+
+//following http://www.w3.org/TR/css3-selectors/#nth-child-pseudo
+
+//[ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]?
+var re_nthElement = /^([+\-]?\d*n)?\s*(?:([+\-]?)\s*(\d+))?$/;
+
+/*
+	parses a nth-check formula, returns an array of two numbers
+*/
+function parse(formula){
+	formula = formula.trim().toLowerCase();
+
+	if(formula === "even"){
+		return [2, 0];
+	} else if(formula === "odd"){
+		return [2, 1];
+	} else {
+		var parsed = formula.match(re_nthElement);
+
+		if(!parsed){
+			throw new SyntaxError("n-th rule couldn't be parsed ('" + formula + "')");
+		}
+
+		var a;
+
+		if(parsed[1]){
+			a = parseInt(parsed[1], 10);
+			if(isNaN(a)){
+				if(parsed[1].charAt(0) === "-") a = -1;
+				else a = 1;
+			}
+		} else a = 0;
+
+		return [
+			a,
+			parsed[3] ? parseInt((parsed[2] || "") + parsed[3], 10) : 0
+		];
+	}
+}
+
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = compile;
+
+var BaseFuncs = __webpack_require__(173),
+    trueFunc  = BaseFuncs.trueFunc,
+    falseFunc = BaseFuncs.falseFunc;
+
+/*
+	returns a function that checks if an elements index matches the given rule
+	highly optimized to return the fastest solution
+*/
+function compile(parsed){
+	var a = parsed[0],
+	    b = parsed[1] - 1;
+
+	//when b <= 0, a*n won't be possible for any matches when a < 0
+	//besides, the specification says that no element is matched when a and b are 0
+	if(b < 0 && a <= 0) return falseFunc;
+
+	//when a is in the range -1..1, it matches any element (so only b is checked)
+	if(a ===-1) return function(pos){ return pos <= b; };
+	if(a === 0) return function(pos){ return pos === b; };
+	//when b <= 0 and a === 1, they match any element
+	if(a === 1) return b < 0 ? trueFunc : function(pos){ return pos >= b; };
+
+	//when a > 0, modulo can be used to check if there is a match
+	var bMod = b % a;
+	if(bMod < 0) bMod += a;
+
+	if(a > 1){
+		return function(pos){
+			return pos >= b && pos % a === bMod;
+		};
+	}
+
+	a *= -1; //make `a` positive
+
+	return function(pos){
+		return pos <= b && pos % a === bMod;
+	};
+}
+
+/***/ }),
+/* 184 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerNodeType", function() { return registerNodeType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNode", function() { return createNode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return createElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidNodeType", function() { return isValidNodeType; });
+/* harmony import */ var _selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(153);
+
+const nodeTypes = new Map();
+/* istanbul ignore next  */
+
+const ownerDocumentDescriptor = {
+  get() {
+    const that = this;
+    return {
+      createElementNS(uri, name) {
+        const sprite = createNode(name);
+
+        if (sprite) {
+          return that.appendChild(sprite);
+        }
+
+        return null;
+      }
+
+    };
+  }
+
+};
+const elementProto = {
+  getElementById(id) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(`#${id}`, this);
+  },
+
+  getElementsByName(name) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`[name="${name}"]`, this);
+  },
+
+  getElementsByClassName(className) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(`.${className}`, this);
+  },
+
+  getElementsByTagName(tagName) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(tagName, this);
+  },
+
+  querySelector(selector) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelector"])(selector, this);
+  },
+
+  querySelectorAll(selector) {
+    return Object(_selector__WEBPACK_IMPORTED_MODULE_0__["querySelectorAll"])(selector, this);
+  }
+
+};
+function registerNodeType(type, Class, isQuerable = false) {
+  const nodeType = type.toLowerCase();
+  const tagName = type.toUpperCase();
+  Object.defineProperty(Class.prototype, 'nodeType', {
+    get() {
+      return nodeType;
+    }
+
+  }); // friendly to snabbdom
+
+  Object.defineProperty(Class.prototype, 'tagName', {
+    get() {
+      return tagName;
+    }
+
+  });
+  Object.defineProperty(Class.prototype, 'nodeName', {
+    get() {
+      return tagName;
+    }
+
+  });
+  nodeTypes.set(nodeType, Class);
+
+  if (isQuerable && !Class.prototype.ownerDocument) {
+    Object.defineProperty(Class.prototype, 'ownerDocument', ownerDocumentDescriptor);
+    Class.prototype.namespaceURI = `http://spritejs.org/${type}`;
+    Object.assign(Class.prototype, elementProto);
+  }
+}
+function createNode(type, ...args) {
+  const Class = getNodeType(type);
+
+  if (Class) {
+    return new Class(...args);
+  }
+
+  return null;
+}
+function createElement(type, attrs, content) {
+  const Node = typeof type === 'string' ? getNodeType(type) : type;
+  if (!Node) return null;
+  const sprite = new Node(typeof content === 'string' ? content : undefined);
+
+  if (attrs !== null) {
+    sprite.attr(attrs);
+  }
+
+  if (typeof content === 'object' && sprite.append) {
+    if (content instanceof Array) {
+      sprite.append(...content);
+    } else {
+      sprite.append(content);
+    }
+  }
+
+  return sprite;
+}
+
+function getNodeType(type) {
+  return nodeTypes.get(type.toLowerCase());
+}
+
+function isValidNodeType(type) {
+  return !!getNodeType(type);
+}
+
+/***/ }),
+/* 185 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _basenode__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(123);
+/* harmony import */ var _layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(135);
+/* harmony import */ var _stylesheet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(186);
+
+
+
+
+_layer__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.fromDocumentCSS = function () {
+  _stylesheet__WEBPACK_IMPORTED_MODULE_2__["default"].fromDocumentCSS();
+};
+
+_basenode__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.restyle = function () {
+  _stylesheet__WEBPACK_IMPORTED_MODULE_2__["default"].computeStyle(this);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (_stylesheet__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+/***/ }),
+/* 186 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dom_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(153);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(110);
+
+
+
+const cssWhat = __webpack_require__(175);
+
+let cssRules = [];
+const keyFrames = {};
+
+const _matchedSelectors = Symbol('matchedSelectors');
+
+const _transitions = Symbol('transitions');
+
+const _animation = Symbol('animation');
+
+function parseTransitionValue(values) {
+  if (typeof values === 'string') values = values.trim().split(/\s*,\s*/g);
+  const ret = [];
+
+  for (let i = 0; i < values.length; i++) {
+    let value = values[i].toString();
+
+    if (value === 'initial') {
+      value = 0;
+    } else if (/ms$/.test(value)) {
+      value = parseFloat(value) / 1000;
+    } else {
+      value = parseFloat(value);
+    }
+
+    ret.push(value);
+  }
+
+  return ret;
+}
+
+function parseAnimationValue(value) {
+  value = value.toString();
+
+  if (value === 'initial') {
+    value = 0;
+  } else if (/ms$/.test(value)) {
+    value = parseFloat(value);
+  } else {
+    value = parseFloat(value) * 1000;
+  }
+
+  return value;
+}
+
+function toPxValue(value, defaultWidth) {
+  // eslint-disable-line complexity
+  if (typeof value === 'string') {
+    const matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
+
+    if (matched) {
+      // console.log(matched);
+      const size = parseFloat(matched[1]);
+      const unit = matched[2];
+      value = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["sizeToPixel"])({
+        size,
+        unit
+      });
+    } else {
+      const size = Number(value);
+
+      if (!Number.isNaN(size)) {
+        value = size;
+      }
+    }
+  }
+
+  return value;
+}
+
+const CSSGetter = {
+  opacity: true,
+  width: true,
+  height: true,
+  backgroundColor: true,
+  flexGrow: true,
+  flexShrink: true,
+  flexBasis: true,
+  order: true,
+  position: true,
+  alignSelf: true,
+  transform: true,
+  transformOrigin: true,
+  borderTopWidth: true,
+  borderRightWidth: true,
+  borderBottomWidth: true,
+  borderLeftWidth: true,
+  borderTopColor: true,
+  borderRightColor: true,
+  borderBottomColor: true,
+  borderLeftColor: true,
+  borderTopStyle: true,
+  borderRightStyle: true,
+  borderBottomStyle: true,
+  borderLeftStyle: true,
+  borderTopLeftRadius: true,
+  borderTopRightRadius: true,
+  borderBottomRightRadius: true,
+  borderBottomLeftRadius: true,
+  boxSizing: true,
+  display: true,
+  paddingTop: true,
+  paddingRight: true,
+  paddingBottom: true,
+  paddingLeft: true,
+  marginTop: true,
+  marginRight: true,
+  marginBottom: true,
+  marginLeft: true,
+  zIndex: true,
+  font: true,
+  fontSize: true,
+  fontFamily: true,
+  fontStyle: true,
+  fontVariantCaps: true,
+  fontWeight: true,
+  color: true,
+  textAlign: true,
+  lineHeight: true,
+  lineBreak: true,
+  wordBreak: true,
+  letterSpacing: true,
+  textIndent: true,
+  transitionDuration: parseTransitionValue,
+
+  transitionTimingFunction(values) {
+    if (typeof values === 'string') values = values.trim().split(/\s*,\s*/g);
+    const ret = [];
+
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i].toString();
+      if (value === 'initial') value = 'ease';
+      ret.push(value);
+    }
+
+    return ret;
+  },
+
+  transitionDelay: parseTransitionValue,
+  transitionProperty: true,
+  animationDuration: parseAnimationValue,
+  animationDelay: parseAnimationValue,
+
+  animationTimingFunction(value) {
+    value = value.toString();
+    return value !== 'initial' ? value : 'ease';
+  },
+
+  animationIterationCount(value) {
+    value = value.toString();
+    if (value === 'initial') return 1;
+    if (value === 'infinity') return Infinity;
+    return parseFloat(value);
+  },
+
+  animationDirection(value) {
+    value = value.toString();
+    return value !== 'initial' ? value : 'normal';
+  },
+
+  animationFillMode(value) {
+    value = value.toString();
+    if (value === 'initial' || value === 'none') value = 'auto';
+    return value;
+  },
+
+  animationPlayState: true,
+  animationName: true
+};
+
+function parseRuleAttrs(rule) {
+  let styleAttrs;
+  const isStyleMap = !!rule.styleMap;
+
+  if (!isStyleMap) {
+    if (!rule.style) return;
+    const props = [...rule.style].map(key => {
+      return [key, rule.style[key]];
+    }).filter(([key, value]) => value != null);
+    const matched = rule.cssText.match(/--sprite-[\w-]+\s*:\s*.+?(;|$)/img);
+
+    if (matched) {
+      matched.forEach(rule => {
+        const [key, value] = rule.split(':');
+        props.push([key, value.trim().replace(/;$/, '')]);
+      });
+    }
+
+    const isIgnore = props['--sprite-ignore'];
+
+    if (isIgnore && isIgnore !== 'false' && isIgnore !== '0') {
+      return;
+    }
+
+    styleAttrs = props;
+  }
+
+  if (rule.styleMap && rule.styleMap.has('--sprite-ignore')) {
+    const isIgnore = rule.styleMap.get('--sprite-ignore')[0].trim();
+
+    if (isIgnore !== 'false' && isIgnore !== '0' && isIgnore !== '') {
+      return;
+    }
+  }
+
+  if (rule.styleMap) {
+    styleAttrs = [...rule.styleMap];
+  }
+
+  const attrs = {},
+        reserved = {};
+  let border = null;
+  let transition = null;
+  const gradient = {};
+  styleAttrs.forEach(([key, value]) => {
+    // eslint-disable-line complexity
+    if (key === '--sprite-transition') {
+      throw new Error('Not support --sprite-transition, instead use transition.');
+    }
+
+    if (key === '--sprite-animation') {
+      throw new Error('Not support --sprite-animation, instead use animation.');
+    }
+
+    if (key.indexOf('--sprite-') === 0) {
+      key = key.replace('--sprite-', '');
+      key = toCamel(key);
+      if (isStyleMap) value = value[0][0].trim();
+
+      if (key === 'gradient') {
+        // --sprite-gradient: bgcolor,color vector(0, 150, 150, 0) 0,#fff 0.5,rgba(33, 33, 77, 0.7) 1,rgba(128, 45, 88, 0.5)
+        const matched = value.match(/(.+?)vector\((.+?)\)(.+)/);
+
+        if (matched) {
+          const properties = matched[1].trim().split(/\s*,\s*/g),
+                vector = matched[2].split(',').map(s => Number(s.trim())),
+                colors = matched[3].trim().split(/\s+/).map(s => {
+            const m = s.match(/^([\d.]+),(.*)/);
+
+            if (m) {
+              return {
+                offset: Number(m[1].trim()),
+                color: m[2].trim()
+              };
+            }
+
+            return null;
+          }).filter(c => c != null);
+          properties.forEach(prop => {
+            gradient[prop] = {
+              vector,
+              colors
+            };
+          });
+        }
+      } else if (key === 'borderStyle') {
+        border = border || {
+          width: 1,
+          color: 'rgba(0,0,0,0)'
+        };
+        border.style = value;
+      } else if (key === 'borderWidth') {
+        border = border || {
+          width: 1,
+          color: 'rgba(0,0,0,0)'
+        };
+        border.width = toPxValue(value);
+      } else if (key === 'borderColor') {
+        border = border || {
+          width: 1,
+          color: 'rgba(0,0,0,0)'
+        };
+        border.color = value;
+      } else if (key === 'border') {
+        const values = value.split(/\s+/);
+        const [style, width, color] = values;
+        border = border || {};
+        border.style = style;
+        border.width = toPxValue(width);
+        border.color = color;
+      } else {
+        if (key !== 'fontSize' && typeof value === 'string') {
+          if (/,/.test(value)) {
+            const values = value.split(',');
+            value = values.map(v => toPxValue(v.trim()));
+          } else {
+            value = toPxValue(value);
+          }
+        }
+
+        reserved[key] = value;
+      }
+    } else {
+      key = toCamel(key);
+
+      if (key in CSSGetter) {
+        if (typeof CSSGetter[key] === 'function') {
+          value = CSSGetter[key](value);
+        } else {
+          if (isStyleMap) {
+            value = value[0].toString();
+          }
+
+          if (key !== 'fontSize') {
+            value = toPxValue(value);
+          }
+        }
+
+        if (/^animation/.test(key)) {
+          attrs.animation = attrs.animation || {};
+          attrs.animation[key] = value;
+          return;
+        }
+
+        if (value === 'initial') return;
+        if (key === 'backgroundColor') key = 'bgcolor';
+        if (key === 'fontVariantCaps') key = 'fontVariant';
+        if (key === 'lineHeight' && value === 'normal') value = '';
+
+        if (/^border/.test(key)) {
+          key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
+          if (key === 'width') value = toPxValue(value);
+
+          if (/radius$/.test(key)) {
+            attrs.borderRadius = toPxValue(value);
+          } else {
+            border = border || {};
+            border[key] = value;
+          }
+        } else if (key === 'transitionDelay') {
+          transition = transition || {};
+          transition.delay = value;
+        } else if (key === 'transitionDuration') {
+          transition = transition || {};
+          transition.duration = value;
+        } else if (key === 'transitionTimingFunction') {
+          transition = transition || {};
+          transition.easing = value;
+        } else if (key === 'transitionProperty') {
+          transition = transition || {};
+          transition.properties = value;
+        } else {
+          attrs[key] = value;
+        }
+      }
+    }
+  });
+
+  if (border) {
+    Object.assign(attrs, {
+      border
+    });
+  }
+
+  Object.assign(attrs, reserved, gradient);
+
+  if (transition) {
+    transition.properties = transition.properties || 'all';
+    transition.delay = transition.delay || [0];
+    transition.duration = transition.duration || [0];
+    transition.easing = transition.easing || ['ease'];
+    attrs.transitions = [];
+    const properties = transition.properties.split(',').map(p => p.trim());
+    properties.forEach((key, i) => {
+      let _attrs = null;
+
+      if (key.indexOf('--sprite-') === 0) {
+        key = key.replace('--sprite-', '');
+      }
+
+      key = toCamel(key);
+
+      if (key !== 'borderRadius' && /^border/.test(key)) {
+        key = 'border';
+      }
+
+      if (key === 'backgroundColor' || key === 'background') key = 'bgcolor';
+      if (key === 'fontVariantCaps') key = 'fontVariant';
+
+      if (key === 'all') {
+        _attrs = Object.assign({}, attrs);
+        delete _attrs.transitions;
+        delete _attrs.animation;
+      } else if (key in attrs) {
+        _attrs = {
+          [key]: attrs[key]
+        };
+      }
+
+      if (_attrs) {
+        attrs.transitions.push({
+          easing: transition.easing[i],
+          attrs: _attrs,
+          delay: transition.delay[i],
+          duration: transition.duration[i]
+        });
+      }
+    });
+  }
+
+  if ('fontSize' in attrs || 'fontFamily' in attrs || 'fontStyle' in attrs || 'fontVariant' in attrs || 'fontWeight' in attrs) {
+    // for font inherit
+    const font = attrs.font || 'normal normal normal 16px Arial';
+    const {
+      style,
+      variant,
+      weight,
+      family,
+      size,
+      unit
+    } = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseFont"])(font);
+    attrs.font = `${attrs.fontStyle || style} ${attrs.fontVariant || variant} ${attrs.fontWeight || weight} ${attrs.fontSize || size + unit} ${attrs.fontFamily || family}`;
+    delete attrs.fontSize;
+    delete attrs.fontFamily;
+    delete attrs.fontVariant;
+    delete attrs.fontWeight;
+    delete attrs.fontStyle;
+  }
+
+  return attrs;
+}
+
+function parseFrames(rule) {
+  const rules = rule.cssRules || rule.rules;
+
+  if (rules && rules.length > 0) {
+    const frames = [];
+
+    for (let i = 0; i < rules.length; i++) {
+      const rule = rules[i];
+      const offset = parseFloat(rule.keyText) / 100;
+      const frame = parseRuleAttrs(rule);
+      frame.offset = offset;
+      frames.push(frame);
+    }
+
+    return frames;
+  }
+}
+
+function toCamel(str) {
+  return str.replace(/([^-])(?:-+([^-]))/g, ($0, $1, $2) => {
+    return $1 + $2.toUpperCase();
+  });
+}
+
+function resolveToken(token) {
+  // eslint-disable-line complexity
+  let ret = '',
+      priority = 0,
+      valid = true;
+
+  if (token.type === 'tag') {
+    ret = token.name;
+    priority = 1;
+  } else if (token.type === 'universal') {
+    ret = '*';
+    priority = 0;
+  } else if (token.type === 'pseudo') {
+    const data = token.data;
+
+    if (data != null) {
+      if (token.name !== 'not') {
+        ret = `:${token.name}(${token.data})`;
+      } else {
+        data.forEach(rules => {
+          rules.forEach(token => {
+            const r = resolveToken(token);
+            ret += r.token;
+            valid = r.valid;
+          });
+        });
+      }
+    } else {
+      ret = `:${token.name}`;
+    }
+
+    if (token.name === 'hover') {
+      _utils__WEBPACK_IMPORTED_MODULE_1__["relatedAttributes"].add('__internal_state_hover_');
+    } else if (token.name === 'active') {
+      _utils__WEBPACK_IMPORTED_MODULE_1__["relatedAttributes"].add('__internal_state_active_');
+    } // not support yet
+
+
+    valid = token.name !== 'focus' && token.name !== 'link' && token.name !== 'visited' && token.name !== 'lang';
+    priority = token.name !== 'not' ? 1000 : 0;
+  } else if (token.type === 'pseudo-element') {
+    ret = `::${token.name}`;
+    priority = 1;
+    valid = false; // pseudo-element not support
+  } else if (token.type === 'attribute') {
+    const {
+      name,
+      action,
+      value
+    } = token;
+    _utils__WEBPACK_IMPORTED_MODULE_1__["relatedAttributes"].add(name);
+
+    if (action === 'exists') {
+      ret = `[${name}]`;
+    } else if (action === 'equals') {
+      if (name === 'id') {
+        ret = `#${value}`;
+      } else {
+        ret = `[${name}="${value}"]`;
+      }
+    } else if (action === 'not') {
+      ret = `[${name}!="${value}"]`;
+    } else if (action === 'start') {
+      ret = `[${name}^="${value}"]`;
+    } else if (action === 'end') {
+      ret = `[${name}$="${value}"]`;
+    } else if (action === 'element') {
+      if (name === 'class') {
+        ret = `.${value}`;
+      } else {
+        ret = `[${name}~="${value}"]`;
+      }
+    } else if (action === 'any') {
+      ret = `[${name}*="${value}"]`;
+    } else if (action === 'hyphen') {
+      ret = `[${name}|="${value}"]`;
+    }
+
+    if (name === 'id' && action === 'equals') {
+      priority = 1000000;
+    } else {
+      priority = 1000;
+    }
+  } else if (token.type === 'child') {
+    ret = '>';
+    priority = 0;
+  } else if (token.type === 'parent') {
+    ret = '<';
+    priority = 0;
+  } else if (token.type === 'sibling') {
+    ret = '~';
+    priority = 0;
+  } else if (token.type === 'adjacent') {
+    ret = '+';
+    priority = 0;
+  } else if (token.type === 'descendant') {
+    ret = ' ';
+    priority = 0;
+  } else {
+    throw new Error('unknown token!', token);
+  }
+
+  return {
+    token: ret,
+    priority,
+    valid
+  };
+}
+
+let order = 0;
+/* harmony default export */ __webpack_exports__["default"] = ({
+  add(rules, fromDoc = false) {
+    Object.entries(rules).forEach(([rule, attributes]) => {
+      const selectors = cssWhat(rule);
+
+      for (let i = 0; i < selectors.length; i++) {
+        const selector = selectors[i];
+        const tokens = selector.map(token => {
+          return resolveToken(token);
+        }).filter(token => token.valid);
+        const r = tokens.reduce((a, b) => {
+          a.priority += b.priority;
+          a.tokens.push(b.token);
+          return a;
+        }, {
+          tokens: [],
+          priority: 0
+        });
+        const selectorStr = r.tokens.join('');
+
+        try {
+          const compiled = Object(_dom_selector__WEBPACK_IMPORTED_MODULE_0__["compile"])(selectorStr);
+          const rule = {
+            selector: selectorStr,
+            compiled,
+            priority: r.priority,
+            attributes,
+            order: order++,
+            fromDoc
+          };
+          cssRules.push(rule);
+        } catch (ex) {
+          console.warn(ex.message);
+        }
+      }
+    });
+    cssRules.sort((a, b) => {
+      const d = a.priority - b.priority;
+      return d !== 0 ? d : a.order - b.order;
+    });
+  },
+
+  fromDocumentCSS(stylesheets, override) {
+    if (override) {
+      cssRules = cssRules.filter(r => !r.fromDoc);
+    }
+
+    if (typeof document === 'undefined') return;
+    if (!stylesheets) stylesheets = document.styleSheets;
+
+    if (stylesheets) {
+      const styleRules = {};
+
+      for (let i = 0; i < stylesheets.length; i++) {
+        let rules = null;
+
+        try {
+          rules = stylesheets[i].cssRules || stylesheets[i].rules;
+        } catch (ex) {
+          rules = null;
+        }
+
+        if (!rules) continue; // eslint-disable-line no-continue
+
+        for (let j = 0; j < rules.length; j++) {
+          const rule = rules[j];
+          const selectorText = rule.selectorText;
+
+          if (rule.type !== 1 && rule.type !== 7) {
+            // is not style rule or keyframesrule
+            continue; // eslint-disable-line no-continue
+          }
+
+          if (rule.type === 7) {
+            const frames = parseFrames(rule);
+            keyFrames[rule.name] = frames;
+            continue; // eslint-disable-line no-continue
+          }
+
+          const attrs = parseRuleAttrs(rule);
+
+          if (attrs) {
+            styleRules[selectorText] = styleRules[selectorText] || {};
+            Object.assign(styleRules[selectorText], attrs);
+          }
+        }
+      }
+
+      this.add(styleRules, true);
+    }
+  },
+
+  computeStyle(el) {
+    if (!el.layer || !el.attributes) return {};
+    el.__styleNeedUpdate = false;
+    if (cssRules.length <= 0) return;
+    const attrs = {};
+    const selectors = [];
+    const transitions = [];
+    cssRules.forEach(rule => {
+      const {
+        compiled,
+        selector,
+        attributes
+      } = rule;
+
+      if (Object(_dom_selector__WEBPACK_IMPORTED_MODULE_0__["isMatched"])(el, compiled)) {
+        Object.assign(attrs, attributes); // console.log(JSON.stringify(attrs.transitions));
+
+        if (attrs.transitions) {
+          transitions.push(...attrs.transitions);
+          attrs.transitions.forEach(t => {
+            Object.keys(t.attrs).forEach(k => {
+              // if(k in attrs) delete attrs[k];
+              el.attributes.__getStyleTag = true;
+
+              if (el.attributes[k]) {
+                attrs[k] = el.attributes[k];
+              }
+
+              el.attributes.__getStyleTag = false; // console.log(el.attributes.style[k]);
+            });
+          });
+          delete attrs.transitions;
+        }
+
+        selectors.push(selector);
+      }
+    }); // if(selectors.length <= 0) return;
+
+    const matchedSelectors = selectors.join();
+
+    if (el[_matchedSelectors] !== matchedSelectors) {
+      // console.log(transitions);
+      if (attrs.animation) {
+        const animation = attrs.animation;
+        const delay = animation.animationDelay,
+              direction = animation.animationDirection,
+              duration = animation.animationDuration,
+              fill = animation.animationFillMode,
+              iterations = animation.animationIterationCount,
+              name = animation.animationName,
+              playState = animation.animationPlayState,
+              easing = animation.animationTimingFunction;
+        const frames = keyFrames[name];
+
+        if (frames) {
+          if (el[_animation]) {
+            el[_animation].cancel();
+          }
+
+          el[_animation] = el.animate(frames, {
+            duration,
+            delay,
+            fill,
+            iterations,
+            easing,
+            direction
+          });
+          el.setReleaseKey(_animation);
+          if (playState !== 'running') el[_animation].pause();
+        } else {
+          console.warn(`Unknow animation: ${name}`);
+        }
+
+        delete attrs.animation;
+      }
+
+      if (el[_transitions]) {
+        el[_transitions].forEach(t => {
+          t.cancel(true);
+          el.attributes.__styleTag = true;
+          el.attr(t.__attrs);
+          el.attributes.__styleTag = false;
+        });
+
+        delete el[_transitions];
+      }
+
+      if (transitions.length > 0) {
+        el[_transitions] = [];
+        el.setReleaseKey(_transitions);
+        Promise.all(transitions.map(t => {
+          const {
+            attrs,
+            delay,
+            duration,
+            easing
+          } = t;
+          const transition = el.transition({
+            duration,
+            delay
+          }, easing, true);
+          transition.__attrs = attrs;
+
+          el[_transitions].push(transition);
+
+          return transition.attr(Object.assign({}, attrs));
+        })).then(() => {
+          el.dispatchEvent('transitionend', {}, true, true);
+        });
+      }
+
+      el.dispatchEvent('stylechange', {
+        oldSelectors: el[_matchedSelectors],
+        newSelectors: matchedSelectors
+      }, true, true);
+      el[_matchedSelectors] = matchedSelectors;
+      el.attributes.clearStyle();
+      el.attributes.__styleTag = true;
+      el.attr(attrs);
+      el.attributes.__styleTag = false; // if(el.forceUpdate) el.forceUpdate();
+    }
+  },
+
+  get relatedAttributes() {
+    return _utils__WEBPACK_IMPORTED_MODULE_1__["relatedAttributes"];
+  },
+
+  get cssRules() {
+    return cssRules;
+  }
+
+});
+
+/***/ }),
+/* 187 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(188);
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(189);
+
+
+
+/***/ }),
+/* 188 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _baseattr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(121);
+
+const defaultValues = {
+  state: 'default',
+  states: {},
+  actions: {
+    'beforeEnter:': {
+      duration: 300,
+      easing: 'ease-in'
+    },
+    'beforeExit:': {
+      duration: 300,
+      easing: 'ease-out'
+    },
+    'hide:': {
+      duration: 300,
+      easing: 'ease-in'
+    },
+    ':hide': {
+      duration: 300,
+      easing: 'ease-out'
+    },
+    'hide:beforeShow': 'none',
+    'beforeShow:': {
+      duration: 300,
+      easing: 'ease-in'
+    },
+    enterMode: 'normal',
+    exitMode: 'normal'
+  }
+};
+_baseattr__WEBPACK_IMPORTED_MODULE_0__["default"].addAttributes({
+  states: {
+    value: defaultValues.states,
+
+    set(val) {
+      val = Object.assign({}, val);
+      const states = this.states; // recover __default
+
+      Object.entries(states).forEach(([key, value]) => {
+        if (value.__default && !(key in val)) {
+          val[key] = value;
+        }
+      });
+      this.quietSet('states', val);
+    }
+
+  },
+  actions: {
+    value: defaultValues.actions,
+
+    set(val) {
+      if (Array.isArray(val)) {
+        const value = {};
+        val.forEach(v => {
+          let key;
+          let action = v.action;
+
+          if (!action) {
+            action = Object.assign({}, v);
+            delete action.from;
+            delete action.to;
+            delete action.both;
+          }
+
+          if (v.both) {
+            if (!Array.isArray(v.both)) {
+              v.both = [v.both];
+            }
+
+            if (v.both.length > 1) {
+              key = v.both.join(':');
+              value[key] = Object.assign({}, action);
+              key = v.both.reverse().join(':');
+              value[key] = Object.assign({}, action);
+            } else {
+              value[`${v.both[0]}:`] = Object.assign({}, action);
+              value[`:${v.both[0]}`] = Object.assign({}, action);
+            }
+          } else {
+            key = `${v.from || ''}:${v.to || ''}`;
+            value[key] = Object.assign({}, action);
+          }
+        });
+        val = value;
+      }
+
+      const defaultVal = defaultValues.actions;
+      val = Object.assign({}, defaultVal, val);
+      this.quietSet('actions', val);
+    }
+
+  },
+  state: {
+    value: defaultValues.state,
+
+    set(val) {
+      if (val == null) val = 'default';
+      const oldState = this.state;
+
+      if (oldState !== val) {
+        this.quietSet('state', val);
+        const states = this.states;
+        let action = null;
+        const toState = states[val] || {};
+        const subject = this.subject;
+
+        if (!subject.__ignoreAction && subject.layer) {
+          const fromState = states[oldState],
+                actions = this.actions;
+          action = actions[`${oldState}:${val}`] || actions[`:${val}`] || actions[`${oldState}:`];
+          if (!action || action === 'none') action = {
+            duration: 0
+          };
+          const animation = subject.changeState(fromState, toState, action);
+          const tag = Symbol('tag');
+          animation.tag = tag;
+
+          if (animation.__reversed) {
+            subject.dispatchEvent(`state-to-${oldState}`, {
+              from: val,
+              to: oldState,
+              action: animation.__reversed,
+              cancelled: true,
+              animation
+            }, true, true);
+          }
+
+          subject.dispatchEvent(`state-from-${oldState}`, {
+            from: oldState,
+            to: val,
+            action,
+            animation
+          }, true, true);
+          animation.finished.then(() => {
+            if (animation.tag === tag) {
+              subject.dispatchEvent(`state-to-${val}`, {
+                from: oldState,
+                to: val,
+                action,
+                animation
+              }, true, true);
+            }
+          });
+
+          if (oldState === 'afterExit') {
+            animation.finish();
+          }
+        } else {
+          subject.dispatchEvent(`state-from-${oldState}`, {
+            from: oldState,
+            to: val
+          }, true, true);
+          if (toState) subject.attr(toState);
+          subject.dispatchEvent(`state-to-${val}`, {
+            from: oldState,
+            to: val
+          }, true, true);
+        }
+      }
+    }
+
+  },
+  enterMode: {
+    value: defaultValues.enterMode
+  },
+  exitMode: {
+    value: defaultValues.exitMode
+  }
+});
+
+/***/ }),
+/* 189 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _basesprite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(120);
+
+
+function doActions(ret, target, act) {
+  const actions = target.children.map(c => c[act]()).filter(d => d.promise);
+
+  if (ret.promise) {
+    actions.unshift(ret);
+  }
+
+  if (actions.length) {
+    const deferred = {
+      promise: Promise.all(actions.map(d => d.promise)),
+
+      resolve() {
+        actions.forEach(d => d.resolve());
+        return this.promise;
+      }
+
+    };
+    return deferred;
+  }
+
+  return null;
+}
+
+const _resolveState = Symbol('resolveState'),
+      _changeStateAction = Symbol('changeStateAction'),
+      _show = Symbol('show'),
+      _hide = Symbol('hide'),
+      _enter = Symbol('enter');
+
+const enter = _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.enter;
+const exit = _basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.exit;
+Object.assign(_basesprite__WEBPACK_IMPORTED_MODULE_0__["default"].prototype, {
+  changeState(fromState, toState, action) {
+    let animation;
+
+    if (this[_changeStateAction]) {
+      const currentAnim = this[_changeStateAction].animation;
+
+      if (this[_changeStateAction].reversable && (currentAnim.playState === 'running' || currentAnim.playState === 'pending') && this[_changeStateAction].fromState === toState && this[_changeStateAction].toState === fromState) {
+        currentAnim.playbackRate = -currentAnim.playbackRate;
+        animation = currentAnim;
+        animation.__reversed = this[_changeStateAction].action;
+      } else {
+        currentAnim.finish();
+      }
+    }
+
+    if (!animation) {
+      // const [_fromState, _toState] = [Object.assign({}, fromState), Object.assign({}, toState)];
+      // delete _fromState.__default;
+      // delete _toState.__default;
+      const _fromState = {},
+            _toState = {};
+      Object.entries(fromState || {}).forEach(([key, value]) => {
+        if (key !== '__default') {
+          if (typeof value === 'function') {
+            _fromState[key] = this.attr(key);
+          } else {
+            _fromState[key] = value;
+          }
+        }
+      });
+      Object.entries(toState || {}).forEach(([key, value]) => {
+        if (key !== '__default') {
+          if (typeof value === 'function') {
+            _toState[key] = value(this.attr(key));
+          } else {
+            _toState[key] = value;
+          }
+        }
+      });
+      animation = this.animate([_fromState, _toState], Object.assign({
+        fill: 'forwards'
+      }, action));
+      animation.finished.then(() => {
+        if (this[_changeStateAction] && this[_changeStateAction].animation === animation) delete this[_changeStateAction];
+      });
+    }
+
+    this[_changeStateAction] = {
+      animation,
+      fromState,
+      toState,
+      action,
+      reversable: action.reversable !== false
+    };
+    return animation;
+  },
+
+  resolveStates(states, before, after) {
+    let currentAnimation = null,
+        resolved = false;
+    const _states = [];
+    let prev = null;
+
+    for (let i = 0; i < states.length; i++) {
+      const s = states[i];
+
+      if (prev !== s) {
+        prev = s;
+
+        _states.push(s);
+      }
+    }
+
+    states = _states;
+
+    const _resolveStates = () => {
+      this.__ignoreAction = false;
+      let fromState = this.attr('state');
+
+      if (fromState === states[0]) {
+        states.shift();
+      }
+
+      const len = states.length;
+
+      const resolveState = (state, i) => {
+        const promise = new Promise(resolve => {
+          this.once(`state-to-${state}`, () => {
+            fromState = state;
+
+            if (i === len - 1) {
+              // lastState
+              delete this[_resolveState];
+            }
+
+            if (after) after.call(this, states);
+            resolve(this);
+          });
+          this.once(`state-from-${fromState}`, ({
+            animation
+          }) => {
+            if (animation && resolved) animation.finish();else currentAnimation = animation;
+          });
+          this.attr('state', state);
+        });
+        return promise;
+      };
+
+      let promise = Promise.resolve();
+      states.forEach((state, i) => {
+        promise = promise.then(() => {
+          return resolveState(state, i);
+        });
+      });
+      const ret = {
+        get animation() {
+          return currentAnimation;
+        },
+
+        states,
+
+        resolve() {
+          resolved = true;
+          if (currentAnimation) currentAnimation.finish();
+          return promise;
+        },
+
+        promise
+      };
+      this[_resolveState] = ret;
+      return ret;
+    };
+
+    const rs = this[_resolveState];
+
+    if (rs) {
+      rs.resolve();
+      this.__ignoreAction = true;
+      const promise = rs.promise.then(() => {
+        if (before) before.call(this, states);
+        return _resolveStates().promise;
+      });
+      return {
+        promise,
+
+        resolve() {
+          resolved = true;
+          if (currentAnimation) currentAnimation.finish();
+          return promise;
+        }
+
+      };
+    }
+
+    if (before) before.call(this, states);
+    return _resolveStates();
+  },
+
+  // state: original -> show -> hide -> show -> original
+  show() {
+    if (this[_show]) return this[_show];
+    const originalDisplay = this.attr('__originalDisplay') || '';
+    const originalState = this.attr('__originalState') || 'default';
+    const states = this.attr('states');
+
+    if (states.show) {
+      const _st = ['show', originalState];
+
+      if (states.beforeShow) {
+        _st.unshift('beforeShow');
+      }
+
+      const deferred = this.resolveStates(_st, () => {
+        const state = this.attr('state');
+
+        if (state === 'hide') {
+          this.once('state-from-hide', () => {
+            this.attr('display', originalDisplay);
+          });
+        }
+      });
+      deferred.promise = deferred.promise.then(() => {
+        if (!this[_hide]) {
+          delete this.__attr.__originalDisplay;
+          delete this.__attr.__originalState;
+
+          if (states.show.__default) {
+            delete states.show;
+            this.attr('states', states);
+          }
+        }
+
+        delete this[_show];
+      });
+      this[_show] = deferred;
+      return deferred;
+    }
+
+    const rs = this[_resolveState];
+
+    if (rs) {
+      rs.resolve();
+      rs.promise.then(() => {
+        this.attr('state', originalState);
+        this.attr('display', originalDisplay);
+      });
+      return rs;
+    }
+
+    this.attr('state', originalState);
+    this.attr('display', originalDisplay);
+    return this;
+  },
+
+  hide() {
+    const state = this.attr('state');
+    if (this[_hide] || state === 'hide' || state === 'afterExit' || state === 'beforeExit') return this[_hide];
+
+    const __originalDisplay = this.attr('__originalDisplay');
+
+    if (__originalDisplay == null) {
+      const display = this.attr('display');
+      this.attr({
+        __originalDisplay: display !== 'none' ? display : '',
+        __originalState: state !== 'hide' ? state : 'default'
+      });
+    }
+
+    const states = this.attr('states');
+
+    if (states.hide) {
+      const deferred = this.resolveStates(['show', 'hide'], () => {
+        if (!states.show) {
+          const beforeHide = {
+            __default: true
+          };
+
+          if (states.beforeShow) {
+            Object.keys(states.beforeShow).forEach(key => {
+              beforeHide[key] = this.attr(key);
+            });
+          }
+
+          Object.keys(states.hide).forEach(key => {
+            beforeHide[key] = this.attr(key);
+          });
+          states.show = beforeHide;
+          this.attr('states', states);
+        }
+      });
+      deferred.promise = deferred.promise.then(() => {
+        this.attr('display', 'none');
+        delete this[_hide];
+        return this;
+      });
+      this[_hide] = deferred;
+      return deferred;
+    }
+
+    const rs = this[_resolveState];
+
+    if (rs) {
+      rs.resolve();
+      rs.promise.then(() => {
+        this.attr('state', 'hide');
+        this.attr('display', 'none');
+      });
+      return rs;
+    }
+
+    this.attr('state', 'hide');
+    this.attr('display', 'none');
+    return this;
+  },
+
+  enter(toState) {
+    const states = this.attr('states');
+    let ret;
+
+    if (states && (states.beforeEnter || states.afterEnter)) {
+      const deferred = this.resolveStates(['beforeEnter', 'afterEnter'], _states => {
+        const state = this.attr('state');
+
+        _states.push(toState || state);
+
+        if (state !== 'beforeEnter' && state !== 'afterEnter' && (!states.afterEnter || states.afterEnter.__default)) {
+          const afterEnter = {
+            __default: true
+          };
+          Object.keys(states.beforeEnter).forEach(key => {
+            afterEnter[key] = this.attr(key);
+          });
+          states.afterEnter = afterEnter;
+          this.attr('states', states);
+        }
+      });
+      ret = deferred;
+    } else {
+      ret = enter.call(this);
+    }
+
+    this[_enter] = ret;
+
+    if (this.children) {
+      const enterMode = this.attr('enterMode');
+
+      if (enterMode === 'onebyone' || enterMode === 'onebyone-reverse') {
+        let promise = null;
+        let resolved = false;
+
+        if (ret.promise) {
+          promise = ret.promise;
+        } else {
+          promise = Promise.resolve(this);
+        }
+
+        let children = this.children;
+
+        if (enterMode === 'onebyone-reverse') {
+          children = [...children].reverse();
+        }
+
+        let currentTask = ret;
+        children.forEach(c => {
+          const states = c.attr('states');
+
+          if (states && (states.beforeEnter || states.afterEnter)) {
+            if (!states.afterEnter || states.afterEnter.__default) {
+              const afterEnter = {
+                __default: true
+              };
+              Object.keys(states.beforeEnter).forEach(key => {
+                afterEnter[key] = c.attr(key);
+              });
+              states.afterEnter = afterEnter;
+              c.attr('states', states);
+            }
+          }
+
+          const toState = c.attr('state');
+          c.attr('state', 'beforeEnter');
+          promise = promise.then(() => {
+            const d = c.enter(toState);
+
+            if (d.promise) {
+              currentTask = d;
+
+              if (resolved && d.resolve) {
+                d.resolve();
+              }
+
+              return d.promise;
+            }
+
+            return d;
+          });
+        });
+        this[_enter] = {
+          promise,
+
+          resolve() {
+            if (currentTask && currentTask.resolve) currentTask.resolve();
+            resolved = true;
+          }
+
+        };
+      } else {
+        const deferred = doActions(ret, this, 'enter');
+        if (deferred) this[_enter] = deferred;
+      }
+    }
+
+    return this[_enter];
+  },
+
+  exit(toState, onbyone = false) {
+    const _exit = () => {
+      const states = this.attr('states');
+      let ret;
+      const afterEnter = states.afterEnter || {};
+
+      if (states && (states.beforeExit || states.afterExit)) {
+        let state;
+        const deferred = this.resolveStates(['beforeExit', 'afterExit'], () => {
+          state = this.attr('state');
+
+          if (state !== 'beforeExit' && state !== 'afterExit' && (!states.beforeExit || states.beforeExit.__default)) {
+            states.beforeExit = Object.assign({}, afterEnter);
+            states.beforeExit.__default = true;
+            this.attr('states', states);
+          }
+        });
+        deferred.promise.then(() => {
+          if (!onbyone) {
+            this.attr(afterEnter);
+
+            this.__attr.quietSet('state', toState || state);
+          }
+
+          return this;
+        });
+        ret = deferred;
+      } else {
+        const rs = this[_resolveState];
+
+        if (rs) {
+          rs.resolve();
+          rs.promise.then(() => {
+            this.attr(afterEnter);
+            return exit.call(this);
+          });
+          ret = rs;
+        } else {
+          ret = exit.call(this);
+          this.attr(afterEnter);
+        }
+      }
+
+      if (this.children) {
+        const exitMode = this.attr('exitMode');
+
+        if (exitMode === 'onebyone' || exitMode === 'onebyone-reverse') {
+          let promise = Promise.resolve(this);
+          let resolved = false;
+          let children = this.children;
+
+          if (exitMode === 'onebyone-reverse') {
+            children = [...children].reverse();
+          }
+
+          let currentTask = null;
+          children.forEach(c => {
+            const states = c.attr('states');
+
+            if (states && (states.beforeExit || states.afterExit)) {
+              if (!states.beforeExit || states.beforeExit.__default) {
+                states.beforeExit = Object.assign({}, afterEnter);
+                states.beforeExit.__default = true;
+                c.attr('states', states);
+              }
+            }
+
+            const toState = c.attr('state');
+            c.attr('state', 'beforeExit');
+            promise = promise.then(() => {
+              const d = c.exit(toState, true);
+
+              if (d.promise) {
+                currentTask = d;
+                if (resolved && d.resolve) d.resolve();
+                return d.promise;
+              }
+
+              return d;
+            });
+            c.__toState = toState;
+          });
+          promise = promise.then(() => {
+            const p = ret.promise || Promise.resolve(this);
+            currentTask = ret;
+            return p.then(() => {
+              this.children.forEach(c => {
+                const states = c.attr('states');
+                c.attr(states.afterEnter);
+
+                c.__attr.quietSet('state', c.__toState);
+
+                delete c.__toState;
+              });
+            });
+          });
+          return {
+            promise,
+
+            resolve() {
+              if (currentTask && currentTask.resolve) currentTask.resolve();
+              resolved = true;
+            }
+
+          };
+        }
+
+        const deferred = doActions(ret, this, 'exit');
+        if (deferred) return deferred;
+      }
+
+      return ret;
+    };
+
+    if (this[_enter] && this[_enter].promise) {
+      let resolved = false;
+
+      this[_enter].resolve();
+
+      const promise = this[_enter].promise.then(() => {
+        const deferred = _exit();
+
+        if (resolved && deferred.resolve) {
+          deferred.resolve();
+        }
+
+        return deferred.promise;
+      });
+
+      return {
+        promise,
+
+        resolve() {
+          resolved = true;
+        }
+
+      };
+    }
+
+    return _exit();
+  }
+
+});
 
 /***/ })
 /******/ ]);

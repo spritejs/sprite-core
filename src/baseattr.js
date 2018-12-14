@@ -3,59 +3,21 @@ import {Matrix} from 'sprite-math';
 import NodeAttr from './attr';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
-  parseValue, attr, relative, cachable, sortOrderedSprites} from './utils';
+  parseValue, attr, relative, sortOrderedSprites} from './utils';
 
 const cache = true,
-  share = true,
   reflow = true,
-  relayout = true,
-  quiet = true;
+  relayout = true;
+
+const border = {
+  width: 0,
+  color: 'rgba(0,0,0,0)',
+  style: 'solid',
+};
 
 export default class SpriteAttr extends NodeAttr {
   constructor(subject) {
     super(subject);
-    this.setDefault({
-      anchor: [0, 0],
-      enableCache: false,
-      x: 0,
-      y: 0,
-      opacity: 1,
-      width: '',
-      height: '',
-      layoutX: 0,
-      layoutY: 0,
-      layoutWidth: '',
-      layoutHeight: '',
-      bgcolor: '',
-      position: '',
-      rotate: 0,
-      scale: [1, 1],
-      translate: [0, 0],
-      skew: [0, 0],
-      transform: 'matrix(1,0,0,1,0,0)',
-      transformOrigin: '',
-      transformMatrix: [1, 0, 0, 1, 0, 0],
-      border: {
-        width: 0,
-        color: 'rgba(0,0,0,0)',
-        style: 'solid',
-      },
-      // border: [0, 'rgba(0,0,0,0)'],
-      borderRadius: 0,
-      boxSizing: 'content-box',
-      dashOffset: 0,
-      display: '',
-      padding: [0, 0, 0, 0],
-      margin: [0, 0, 0, 0],
-      zIndex: 0,
-      offsetRotate: 'auto',
-      gradients: {},
-      offsetDistance: 0,
-      filter: '', // filter: {blur, ...}
-      shadow: '', // shadow: {color = 'rgba(0,0,0,1)', blur = 1[, offset]}
-      bgimage: '',
-      clipOverflow: true,
-    });
     Object.defineProperty(this, '__reflowTag', {
       writable: true,
       value: false,
@@ -65,12 +27,7 @@ export default class SpriteAttr extends NodeAttr {
   set(key, value, isQuiet = false) {
     super.set(key, value, isQuiet);
     // auto reflow
-    if(key === 'width' || key === 'height'
-      || key === 'layoutWidth' || key === 'layoutHeight'
-      || key === 'border'
-      || key === 'padding'
-      || key === 'boxSizing'
-      || key === 'margin') {
+    if(key === 'margin') {
       this.__reflowTag = true;
     }
   }
@@ -112,25 +69,25 @@ export default class SpriteAttr extends NodeAttr {
   enableCache = false;
 
   @parseValue(parseStringFloat, oneOrTwoValues)
-  @attr({share, cache, relayout, reflow})
+  @attr({cache, relayout, reflow})
   anchor = [0, 0];
 
-  @attr({share, reflow})
+  @attr({reflow})
   display = '';
 
-  @attr({share, cache})
+  @attr({cache})
   @relative('width')
   layoutX = 0;
 
-  @attr({share, cache})
+  @attr({cache})
   @relative('height')
   layoutY = 0;
 
-  @attr({share, cache})
+  @attr({cache})
   @relative('width')
   x = 0;
 
-  @attr({share, cache})
+  @attr({cache})
   @relative('height')
   y = 0;
 
@@ -157,19 +114,19 @@ export default class SpriteAttr extends NodeAttr {
   @attr({cache: true})
   opacity = 1;
 
-  @attr({share: true})
+  @attr({reflow: true})
   @relative('width')
   width = '';
 
-  @attr({share: true})
+  @attr({reflow: true})
   @relative('height')
   height = '';
 
-  @attr({share: true})
+  @attr({reflow: true})
   @relative('width')
   layoutWidth = '';
 
-  @attr({share: true})
+  @attr({reflow: true})
   @relative('height')
   layoutHeight = '';
 
@@ -188,7 +145,7 @@ export default class SpriteAttr extends NodeAttr {
     return [this.width, this.height];
   }
 
-  @attr
+  @attr({value: border})
   set border(val) {
     if(val == null) {
       this.set('border', null);
@@ -212,78 +169,54 @@ export default class SpriteAttr extends NodeAttr {
       color: parseColorString('#000'),
       style: 'solid',
     }, val);
+    this.clearFlow();
     this.set('border', val);
   }
+
+  @parseValue(parseFloat)
+  @attr({reflow})
+  paddingTop = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow})
+  paddingRight = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow})
+  paddingBottom = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow})
+  paddingLeft = 0;
 
   @parseValue(parseStringInt, fourValuesShortCut)
   @attr
   set padding(val) {
-    this.set('padding', val);
+    val = val || [0, 0, 0, 0];
+    this.paddingTop = val[0];
+    this.paddingRight = val[1];
+    this.paddingBottom = val[2];
+    this.paddingLeft = val[3];
+  }
+
+  get padding() {
+    return [this.paddingTop, this.paddingRight, this.paddingBottom, this.paddingLeft];
   }
 
   @parseValue(parseFloat)
   @attr
-  set paddingTop(val) {
-    this.setAttrIndex('padding', val, 0);
-  }
+  borderRadius = 0;
 
-  get paddingTop() {
-    return this.padding[0];
-  }
+  @attr({reflow})
+  boxSizing = 'content-box';
 
   @parseValue(parseFloat)
   @attr
-  set paddingRight(val) {
-    this.setAttrIndex('padding', val, 1);
-  }
-
-  get paddingRight() {
-    return this.padding[1];
-  }
-
-
-  @parseValue(parseFloat)
-  @attr
-  set paddingBottom(val) {
-    this.setAttrIndex('padding', val, 2);
-  }
-
-  get paddingBottom() {
-    return this.padding[2];
-  }
-
-
-  @parseValue(parseFloat)
-  @attr
-  set paddingLeft(val) {
-    this.setAttrIndex('padding', val, 3);
-  }
-
-  get paddingLeft() {
-    return this.padding[3];
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set borderRadius(val) {
-    this.set('borderRadius', val);
-  }
-
-  @attr
-  set boxSizing(val) {
-    this.set('boxSizing', val);
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set dashOffset(val) {
-    this.set('dashOffset', val);
-  }
+  dashOffset = 0;
 
   // transform attributes
   @parseValue(parseStringTransform)
-  @attr
-  @cachable
+  @attr({cache, value: 'matrix(1,0,0,1,0,0)'})
   set transform(val) {
     /*
       rotate: 0,
@@ -320,18 +253,15 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   @parseValue(parseStringFloat)
-  @attr
-  @cachable
-  set transformOrigin(val) {
-    this.set('transformOrigin', val);
-  }
+  @attr({cache})
+  transformOrigin = '';
 
+  // TODO: inner attribute
   @attr
   transformMatrix = [1, 0, 0, 1, 0, 0];
 
   @parseValue(parseFloat)
-  @attr
-  @cachable
+  @attr({cache, value: 0})
   set rotate(val) {
     const delta = this.rotate - val;
     this.set('rotate', val);
@@ -340,8 +270,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   @parseValue(parseStringFloat, oneOrTwoValues)
-  @attr
-  @cachable
+  @attr({cache, value: [1, 1]})
   set scale(val) {
     val = oneOrTwoValues(val).map((v) => {
       if(Math.abs(v) > 0.001) {
@@ -367,8 +296,7 @@ export default class SpriteAttr extends NodeAttr {
     }
   }
 
-  @attr
-  @cachable
+  @attr({cache, value: [0, 0]})
   set translate(val) {
     const oldVal = this.translate || [0, 0];
     const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
@@ -378,8 +306,7 @@ export default class SpriteAttr extends NodeAttr {
     this.transformMatrix = transform.m;
   }
 
-  @attr
-  @cachable
+  @attr({cache, value: [0, 0]})
   set skew(val) {
     const oldVal = this.skew || [0, 0];
     const invm = new Matrix().skew(...oldVal).inverse();
@@ -390,8 +317,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   @parseValue(parseInt)
-  @attr
-  @cachable
+  @attr({cache, value: 0})
   set zIndex(val) {
     this.set('zIndex', val);
     const subject = this.subject;
@@ -436,9 +362,7 @@ export default class SpriteAttr extends NodeAttr {
     }
    */
   @attr
-  set gradients(val) {
-    this.set('gradients', val);
-  }
+  gradients = {};
 
   resetOffset() {
     let offsetPath = this.offsetPath;
@@ -496,8 +420,7 @@ export default class SpriteAttr extends NodeAttr {
     }
   }
 
-  @attr
-  @cachable
+  @attr({cache})
   set offsetPath(val) {
     const offsetPath = new SvgPath(val);
 
@@ -507,15 +430,13 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   @parseValue(parseFloat)
-  @attr
-  @cachable
+  @attr({cache, value: 0})
   set offsetDistance(val) {
     this.set('offsetDistance', val);
     this.resetOffset();
   }
 
-  @attr
-  @cachable
+  @attr({cache, value: 'auto'})
   set offsetRotate(val) {
     if(typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
       val = parseFloat(val);
@@ -524,71 +445,43 @@ export default class SpriteAttr extends NodeAttr {
     this.resetOffset();
   }
 
-  @attr
-  @cachable
-  set filter(val) {
-    this.set('filter', val);
-  }
+  @attr({cache})
+  filter = '';
 
-  @attr
-  @cachable
-  set shadow(val) {
-    this.set('shadow', val);
-  }
+  @attr({cache})
+  shadow = '';
 
-  @attr
-  @cachable
-  set position(val) {
-    this.clearLayout();
-    this.set('position', val);
-  }
+  @attr({cache, relayout})
+  position = '';
+
+  @parseValue(parseFloat)
+  @attr({reflow, relayout, cache})
+  marginTop = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow, relayout, cache})
+  marginRight = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow, relayout, cache})
+  marginBottom = 0;
+
+  @parseValue(parseFloat)
+  @attr({reflow, relayout, cache})
+  marginLeft = 0;
 
   @parseValue(parseStringInt, fourValuesShortCut)
   @attr
-  @cachable
   set margin(val) {
-    this.clearLayout();
-    this.set('margin', val);
+    val = val || [0, 0, 0, 0];
+    this.marginTop = val[0];
+    this.marginRight = val[1];
+    this.marginBottom = val[2];
+    this.marginLeft = val[3];
   }
 
-  @parseValue(parseFloat)
-  @attr
-  set marginTop(val) {
-    this.setAttrIndex('margin', val, 0);
-  }
-
-  get marginTop() {
-    return this.margin[0];
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set marginRight(val) {
-    this.setAttrIndex('margin', val, 1);
-  }
-
-  get marginRight() {
-    return this.margin[1];
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set marginBottom(val) {
-    this.setAttrIndex('margin', val, 2);
-  }
-
-  get marginBottom() {
-    return this.margin[2];
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set marginLeft(val) {
-    this.setAttrIndex('margin', val, 3);
-  }
-
-  get marginLeft() {
-    return this.margin[3];
+  get margin() {
+    return [this.marginTop, this.marginRight, this.marginBottom, this.marginLeft];
   }
 
   /*
@@ -599,7 +492,7 @@ export default class SpriteAttr extends NodeAttr {
       clip9: [paddingTop, paddingRight, paddingBottom, paddingLeft],
     }
   */
-  @attr
+  @attr({value: ''})
   set bgimage(val) {
     if(val && val.clip9) val.clip9 = fourValuesShortCut(val.clip9);
     if(val && !val.image && this.subject.loadBgImage) {
@@ -609,7 +502,5 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   @attr
-  set clipOverflow(val) {
-    this.set('clipOverflow', !!val);
-  }
+  clipOverflow = true;
 }

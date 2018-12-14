@@ -27,7 +27,7 @@ module.exports = function (env = {}) {
   }
 
   return {
-    mode: env.production ? 'production' : 'development',
+    mode: env.production ? 'production' : 'none', // production | development | none
     entry: {
       'sprite-core': './src/index',
     },

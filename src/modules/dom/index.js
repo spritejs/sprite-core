@@ -23,7 +23,8 @@ Object.defineProperties(BaseNode.prototype, {
         try {
           return new Proxy(this.__attr, {
             get(target, prop) {
-              return target.subject.attr(prop);
+              if(prop in target) return target[prop];
+              return target.getDefaultValue(prop);
             },
             set(target, prop, value) {
               if(typeof prop !== 'string' || /^__/.test(prop)) target[prop] = value;

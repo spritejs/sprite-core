@@ -1,53 +1,50 @@
 import BaseAttr from '../../baseattr';
-import {decorators, parseValue, attr, cachable} from '../../utils';
+import {parseValue, attr} from '../../utils';
 
-Object.assign(BaseAttr.attrDefaultValues, {
+const defaultValues = {
   flexGrow: 0,
   flexShrink: 1,
   flexBasis: 'auto',
   order: 0,
   alignSelf: '',
-});
+};
 
-const $attr = decorators(attr);
-const $floatAttr = decorators(parseValue(parseFloat), attr);
-const $intAttrCachable = decorators(parseValue(parseInt), attr, cachable);
-const $attrCachable = decorators(attr, cachable);
+/*
+  BaseAttr.addAttributes({
+    flexGrow: {
+      decorators: [],
+      value: ...,
+      set: ...,
+      get: ...,
+    },
+  });
+*/
+const relayout = true,
+  reflow = true,
+  cache = true;
 
-const target = BaseAttr.prototype;
-Object.defineProperties(target, {
-  flexGrow: $floatAttr('flexGrow', {
-    set(val) {
-      this.clearLayout();
-      this.set('flexGrow', val);
-    },
-  }),
-  flexShrink: $floatAttr('flexShrink', {
-    set(val) {
-      this.clearLayout();
-      this.set('flexShrink', val);
-    },
-  }),
-  flexBasis: $attr('flexBasis', {
-    set(val) {
-      this.clearFlow();
-      this.clearLayout();
-      this.set('flexBasis', val);
-    },
-  }),
-  order: $intAttrCachable('order', {
-    set(val) {
-      this.clearLayout();
-      this.set('order', val);
-    },
-  }),
-  alignSelf: $attrCachable('alignSelf', {
-    set(val) {
-      this.clearLayout();
-      this.set('alignSelf', val);
-    },
-  }),
-  flex: $attr('flex', {
+BaseAttr.addAttributes({
+  flexGrow: {
+    decorators: [parseValue(parseFloat), attr({relayout})],
+    value: defaultValues.flexGrow,
+  },
+  flexShrink: {
+    decorators: [parseValue(parseFloat), attr({relayout})],
+    value: defaultValues.flexShrink,
+  },
+  flexBasis: {
+    decorators: [attr({relayout, reflow})],
+    value: defaultValues.flexBasis,
+  },
+  order: {
+    decorators: [parseValue(parseInt), attr({cache, relayout})],
+    value: defaultValues.order,
+  },
+  alignSelf: {
+    decorators: [attr({cache, relayout})],
+    value: defaultValues.alignSelf,
+  },
+  flex: {
     set(val) {
       this.clearFlow();
       if(val != null && val !== 'initial') {
@@ -78,5 +75,5 @@ Object.defineProperties(target, {
     get() {
       return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
     },
-  }),
+  },
 });

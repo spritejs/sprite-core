@@ -1,6 +1,6 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, deprecate, decorators, attr} from './utils';
+import {flow, absolute, rectVertices, deprecate} from './utils';
 import BaseAttr from './baseattr';
 import BaseNode from './basenode';
 import Animation from './animation';
@@ -15,7 +15,6 @@ const _animations = Symbol('animations'),
   _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
-const $attr = decorators(attr);
 
 export default class BaseSprite extends BaseNode {
   static Attr = BaseAttr;
@@ -42,27 +41,24 @@ export default class BaseSprite extends BaseNode {
     Object.assign(this.prototype[_effects], effects);
   }
 
+  /*
+    Sprite.addAttributes({
+      pop1(attr, val) {
+        ...
+      },
+    })
+  */
   static addAttributes(attrs = {}) {
-    Object.entries(attrs).forEach(([prop, descriptor]) => {
-      if(prop !== 'init') {
-        if(typeof descriptor === 'function') {
-          const setter = descriptor;
-          descriptor = {
-            set(val) {
-              setter(this, val);
-            },
-          };
-        }
-        Object.defineProperty(this.Attr.prototype, prop, $attr(prop, descriptor));
-      }
-    });
+    return this.Attr.addAttributes(attrs);
   }
 
   static defineAttributes(attrs, effects) {
     this.Attr = class extends this.Attr {
       constructor(subject) {
         super(subject);
-        if(attrs.init) attrs.init(this, subject);
+        if(attrs.init) {
+          attrs.init.call(this, this, subject);
+        }
       }
     };
     if(attrs) this.addAttributes(attrs);

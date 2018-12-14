@@ -29,7 +29,7 @@ export function attr(options) {
     reflow = false,
     relayout = false,
     quiet = false,
-    share = false;
+    value = null;
 
   const decorator = function (elementDescriptor) {
     const {key, kind, placement} = elementDescriptor;
@@ -39,10 +39,12 @@ export function attr(options) {
       throw new Error(`${key}: quietSet cannot enable cache or reflow or relayout`);
     }
 
-    let _symbolKey = key;
+    let _symbolKey = key,
+      defaultValue = value != null ? value : elementDescriptor.value;
+
     if(kind === 'field') {
-      const defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : undefined;
-      _symbolKey = share ? key : Symbol(key);
+      defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : value;
+      _symbolKey = Symbol(key);
       const setter = quiet ? function (val) { this.quietSet(_symbolKey, val) }
         : function (val) { this.set(_symbolKey, val) };
       elementDescriptor = {
@@ -54,12 +56,6 @@ export function attr(options) {
           get() {
             return this.get(_symbolKey);
           },
-        },
-        finisher(klass) {
-          if(_symbolKey in klass) {
-            throw new Error('Cannot reset defaultValue to shared attributes.');
-          }
-          klass.attrDefaultValues[_symbolKey] = defaultValue;
         },
       };
     }
@@ -80,13 +76,13 @@ export function attr(options) {
     if(!_getter) {
       _getter = function () {
         const ret = this.get(key);
-        return ret != null ? ret : this.getDefaultValue(key, _symbolKey);
+        return ret != null ? ret : this.getDefaultValue(key, defaultValue);
       };
     }
     if(!descriptor.__relative && !descriptor.__inherit) {
       descriptor.get = function () {
         const ret = _getter.call(this);
-        return ret != null ? ret : this.getDefaultValue(key, _symbolKey);
+        return ret != null ? ret : this.getDefaultValue(key, defaultValue);
       };
     } else if(descriptor.__relative) {
       // enable set default to user defined getter
@@ -95,7 +91,7 @@ export function attr(options) {
         const subject = this.subject;
 
         if(ret == null) {
-          ret = this.getDefaultValue(key, _symbolKey);
+          ret = this.getDefaultValue(key, defaultValue);
         } else if(ret.relative) {
           const relative = ret.relative.trim();
           if(relative === 'pw' || relative === 'ph') {
@@ -140,7 +136,7 @@ export function attr(options) {
         const subject = this.subject;
 
         if(ret == null) {
-          ret = this.getDefaultValue(key, _symbolKey);
+          ret = this.getDefaultValue(key, defaultValue);
         } else if(ret === 'inherit') {
           let value = null;
           let parent = subject.parent;
@@ -207,7 +203,7 @@ export function attr(options) {
   cache = !!options.cache;
   reflow = !!options.reflow;
   relayout = !!options.relayout;
-  share = !!options.share;
+  value = options.value;
 
   return decorator;
 }
@@ -386,12 +382,12 @@ export function parseValue(...parsers) {
 
 // return a function to apply any decorators to a descriptor
 export function decorators(...funcs) {
-  return function (key, descriptor) {
+  return function (key, value, descriptor) {
     let elementDescriptor;
     if(!descriptor) {
       elementDescriptor = key;
     } else {
-      elementDescriptor = {key, descriptor};
+      elementDescriptor = {key, descriptor, value};
     }
     const ret = funcs.reduceRight(function (a, b) {
       return b.call(this, a);

@@ -1,4 +1,4 @@
-import {attr, deprecate, attributeNames, relatedAttributes, parseValue} from './utils';
+import {attr, deprecate, attributeNames, relatedAttributes, parseValue, decorators} from './utils';
 
 const _attr = Symbol('attr'),
   _style = Symbol('style'),
@@ -12,6 +12,35 @@ export default class Attr {
   static attributeNames = attributeNames;
 
   static attrDefaultValues = {};
+
+  static addAttributes(attrs) {
+    const descriptors = {};
+    Object.entries(attrs).forEach(([key, v]) => {
+      if(typeof v === 'function') {
+        const _setter = v;
+        v = {
+          set(val) {
+            _setter(this, val);
+          },
+        };
+      }
+      let {decorators: wrappers, value, get, set} = v;
+      wrappers = wrappers || [attr];
+      if(set == null) {
+        set = function (val) {
+          this.set(key, val);
+        };
+      }
+      if(get == null) {
+        get = function () {
+          return this.get(key);
+        };
+      }
+      const $decorator = decorators(...wrappers);
+      descriptors[key] = $decorator(key, value, {set, get});
+    });
+    Object.defineProperties(this.prototype, descriptors);
+  }
 
   constructor(subject) {
     this[_subject] = subject;
@@ -42,9 +71,9 @@ export default class Attr {
     Object.assign(this[_default], attrs);
   }
 
-  getDefaultValue(key, symbolKey = key) {
+  getDefaultValue(key, defaultValue) {
     if(key in this[_default]) return this[_default][key];
-    return Attr.attrDefaultValues[symbolKey];
+    return defaultValue;
   }
 
   setAttrIndex(key, val, idx) {
@@ -175,7 +204,7 @@ export default class Attr {
   }
 
   /* ------------------- define attributes ----------------------- */
-  // @attr({quiet, cache, reflow, relayout, override})
+  // @attr({quiet, cache, reflow, relayout})
   @parseValue(String)
   @attr({quiet: true})
   id;
