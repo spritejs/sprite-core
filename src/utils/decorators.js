@@ -1,4 +1,5 @@
 import {notice} from './utils';
+import {attributeNames, relatedAttributes} from './store';
 
 const _attrAbsolute = Symbol('attrAbsolute');
 
@@ -23,203 +24,290 @@ function getPV(subject, relative) {
   return pv;
 }
 
-export function attr(target, prop, descriptor) {
-  let _getter = descriptor.get;
-  if(!_getter) {
-    _getter = function () {
-      return this.get(prop);
-    };
-  }
-  if(!descriptor.__relative && !descriptor.__inherit) {
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-      if(ret == null) {
-        ret = this.get(prop);
-      }
-      return ret;
-    };
-  } else if(descriptor.__relative) {
-    // enable set default to user defined getter
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-      const subject = this.subject;
+export function attr(options) {
+  let cache = false,
+    reflow = false,
+    relayout = false,
+    quiet = false,
+    share = false;
 
-      if(ret == null) {
-        ret = this.get(prop);
-      } else if(ret.relative) {
-        const relative = ret.relative.trim();
-        if(relative === 'pw' || relative === 'ph') {
-          const pv = getPV(subject, relative);
-          if(pv !== ret.pv) {
-            this[prop] = ret.rv;
-            return this[prop];
+  const decorator = function (elementDescriptor) {
+    const {key, kind, placement} = elementDescriptor;
+    attributeNames.add(key);
+
+    if(quiet && (cache || reflow || relayout)) {
+      throw new Error(`${key}: quietSet cannot enable cache or reflow or relayout`);
+    }
+
+    if(kind === 'field') {
+      const defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : undefined;
+      const _symbolKey = share ? key : Symbol(key);
+      const setter = quiet ? function (val) { this.quietSet(_symbolKey, val) }
+        : function (val) { this.set(_symbolKey, val) };
+      elementDescriptor = {
+        kind: 'method',
+        key,
+        placement,
+        descriptor: {
+          set: setter,
+          get() {
+            return this.get(_symbolKey);
+          },
+        },
+        finisher(klass) {
+          if(_symbolKey in klass) {
+            throw new Error('Cannot reset defaultValue to shared attributes.');
           }
-          subject.cache = null;
-          if(subject[_attrAbsolute]) {
-            return pv * ret.v;
-          }
-          return ret.rv;
+          klass.attrDefaultValues[_symbolKey] = defaultValue;
+        },
+      };
+    }
+
+    const relativeType = elementDescriptor.descriptor.__relative;
+    if(relativeType) {
+      elementDescriptor = applyRative(elementDescriptor, relativeType);
+    }
+
+    const inheritValue = elementDescriptor.descriptor.__inherit;
+    if(inheritValue) {
+      elementDescriptor = applyInherit(elementDescriptor, inheritValue.defaultValue);
+    }
+
+    const descriptor = elementDescriptor.descriptor;
+
+    let _getter = descriptor.get;
+    if(!_getter) {
+      _getter = function () {
+        return this.get(key);
+      };
+    }
+    if(!descriptor.__relative && !descriptor.__inherit) {
+      descriptor.get = function () {
+        let ret = _getter.call(this);
+        if(ret == null) {
+          ret = this.get(key);
         }
-        if(relative === 'rw' || relative === 'rh') {
-          const layer = subject.layer;
-          let pv = null;
-          if(layer) {
-            if(relative === 'rw') {
-              pv = layer.resolution[0];
-            } else if(relative === 'rh') {
-              pv = layer.resolution[1];
+        return ret;
+      };
+    } else if(descriptor.__relative) {
+      // enable set default to user defined getter
+      descriptor.get = function () {
+        let ret = _getter.call(this);
+        const subject = this.subject;
+
+        if(ret == null) {
+          ret = this.get(key);
+        } else if(ret.relative) {
+          const relative = ret.relative.trim();
+          if(relative === 'pw' || relative === 'ph') {
+            const pv = getPV(subject, relative);
+            if(pv !== ret.pv) {
+              this[key] = ret.rv;
+              return this[key];
             }
+            subject.cache = null;
+            if(subject[_attrAbsolute]) {
+              return pv * ret.v;
+            }
+            return ret.rv;
           }
-          if(pv !== ret.pv) {
-            this[prop] = ret.rv;
-            return this[prop];
+          if(relative === 'rw' || relative === 'rh') {
+            const layer = subject.layer;
+            let pv = null;
+            if(layer) {
+              if(relative === 'rw') {
+                pv = layer.resolution[0];
+              } else if(relative === 'rh') {
+                pv = layer.resolution[1];
+              }
+            }
+            if(pv !== ret.pv) {
+              this[key] = ret.rv;
+              return this[key];
+            }
+            subject.cache = null;
+            if(subject[_attrAbsolute]) {
+              return pv * ret.v;
+            }
+            return ret.rv;
           }
-          subject.cache = null;
-          if(subject[_attrAbsolute]) {
-            return pv * ret.v;
-          }
-          return ret.rv;
         }
-      }
-      return ret;
-    };
-  } else {
-    // enable set default to user defined getter
-    descriptor.get = function () {
-      let ret = _getter.call(this);
-      const subject = this.subject;
+        return ret;
+      };
+    } else {
+      // enable set default to user defined getter
+      descriptor.get = function () {
+        let ret = _getter.call(this);
+        const subject = this.subject;
 
-      if(ret == null) {
-        ret = this.get(prop);
-      } else if(ret === 'inherit') {
-        let value = null;
-        let parent = subject.parent;
-        while(parent && parent.attr) {
-          value = parent.attr(prop);
-          if(value != null) break;
-          parent = parent.parent;
+        if(ret == null) {
+          ret = this.get(key);
+        } else if(ret === 'inherit') {
+          let value = null;
+          let parent = subject.parent;
+          while(parent && parent.attr) {
+            value = parent.attr(key);
+            if(value != null) break;
+            parent = parent.parent;
+          }
+          return value != null ? value : this.__inheritDefaults[key];
         }
-        return value != null ? value : this.__inheritDefaults[prop];
-        // return this.__inheritDefaults[prop];
+        return ret;
+      };
+    }
+
+    const _setter = descriptor.set;
+    const _clearCache = !(descriptor.__cachable || cache);
+
+    descriptor.set = function (val) {
+      const subject = this.subject;
+      this.__updateTag = false;
+      this.__reflowTag = reflow;
+      this.__clearLayout = relayout;
+      _setter.call(this, val);
+      if(subject && !this.__quietTag && this.__updateTag) {
+        if(subject.hasLayout) {
+          const offsetSize = subject.boxOffsetSize,
+            layoutSize = subject.__lastLayout;
+
+          if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+            subject.clearLayout();
+          }
+          subject.__lastLayout = offsetSize;
+        }
+        subject.forceUpdate(_clearCache);
+        if(this.__reflowTag) {
+          subject.reflow();
+        }
       }
-      return ret;
+      if(this.__updateTag) {
+        if(relatedAttributes.has(key)) {
+          subject.updateStyles();
+        }
+      }
+      // delete this.__reflowTag;
+      // delete this.__updateTag;
     };
+    return elementDescriptor;
+  };
+  if(options.descriptor) {
+    return decorator(options);
   }
 
-  const _setter = descriptor.set;
-  const _clearCache = !descriptor.__cachable;
+  quiet = !!options.quiet;
+  cache = !!options.cache;
+  reflow = !!options.reflow;
+  relayout = !!options.relayout;
+  share = !!options.share;
 
-  descriptor.set = function (val) {
-    const subject = this.subject;
-    this.__updateTag = false;
-    this.__reflowTag = false;
-    this.__clearLayout = false;
-    _setter.call(this, val);
-    if(subject && subject.hasLayout) {
-      const offsetSize = subject.boxOffsetSize,
-        layoutSize = subject.__lastLayout;
-
-      if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-        subject.clearLayout();
-      }
-      subject.__lastLayout = offsetSize;
-    }
-    if(this.subject && this.__updateTag) {
-      subject.forceUpdate(_clearCache);
-      if(this.__reflowTag) {
-        subject.reflow();
-      }
-    }
-    // delete this.__reflowTag;
-    // delete this.__updateTag;
-  };
-  return descriptor;
+  return decorator;
 }
 
 // after attr
-export function cachable(target, prop, descriptor) {
+export function cachable(elementDescriptor) {
+  const {descriptor} = elementDescriptor;
   descriptor.__cachable = true;
-  return descriptor;
+  return elementDescriptor;
 }
 
 export const inheritAttributes = new Set();
 
 // after attr
 export function inherit(defaultValue = '') {
-  return function (target, prop, descriptor) {
-    if(!target.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
-      target.__inheritDefaults = {}; // Object.assign({}, target.__inheritDefaults);
-    }
-    target.__inheritDefaults[prop] = defaultValue;
-    descriptor.__inherit = true;
-    inheritAttributes.add(prop);
-    return descriptor;
+  return function (elementDescriptor) {
+    const {descriptor} = elementDescriptor;
+    descriptor.__inherit = {defaultValue};
+    return elementDescriptor;
+  };
+}
+
+function applyInherit(elementDescriptor, defaultValue) {
+  const {key, finisher} = elementDescriptor;
+  inheritAttributes.add(key);
+  return {
+    ...elementDescriptor,
+    finisher(klass) {
+      if(finisher) finisher(klass);
+      const {prototype: proto} = klass;
+      if(!proto.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
+        proto.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+      }
+      proto.__inheritDefaults[key] = defaultValue;
+    },
   };
 }
 
 // after attr
 // relative -> width | height
 export function relative(type = 'width') {
-  return function (target, prop, descriptor) {
-    if(descriptor.set) {
-      const setter = descriptor.set;
-      descriptor.__relative = true;
-
-      descriptor.set = function (val) {
-        if(typeof val === 'string') {
-          val = val.trim();
-          if(val.slice(-1) === '%') {
-            const relative = type === 'width' ? 'pw' : 'ph';
-            const pv = getPV(this.subject, relative);
-            val = {
-              relative,
-              pv,
-              v: parseFloat(val) / 100,
-              rv: val,
-            };
-          } else {
-            const relative = val.slice(-2);
-            if(relative === 'rw' || relative === 'rh') {
-              let pv = null;
-              const layer = this.subject.layer;
-              if(layer) {
-                pv = layer.resolution[relative === 'rw' ? 0 : 1];
-              }
-              val = {
-                relative,
-                pv,
-                v: parseFloat(val) / 100,
-                rv: val,
-              };
-            } else {
-              val = val ? parseFloat(val) : val;
-            }
-          }
-        }
-        setter.call(this, val);
-      };
-      return descriptor;
-    }
+  return function (elementDescriptor) {
+    const {descriptor} = elementDescriptor;
+    descriptor.__relative = type;
+    return elementDescriptor;
   };
 }
 
-export function flow(target, prop, descriptor) {
+function applyRative(elementDescriptor, type) {
+  const {descriptor} = elementDescriptor;
+
+  const setter = descriptor.set;
+  descriptor.__relative = true;
+
+  descriptor.set = function (val) {
+    if(typeof val === 'string') {
+      val = val.trim();
+      if(val.slice(-1) === '%') {
+        const relative = type === 'width' ? 'pw' : 'ph';
+        const pv = getPV(this.subject, relative);
+        val = {
+          relative,
+          pv,
+          v: parseFloat(val) / 100,
+          rv: val,
+        };
+      } else {
+        const relative = val.slice(-2);
+        if(relative === 'rw' || relative === 'rh') {
+          let pv = null;
+          const layer = this.subject.layer;
+          if(layer) {
+            pv = layer.resolution[relative === 'rw' ? 0 : 1];
+          }
+          val = {
+            relative,
+            pv,
+            v: parseFloat(val) / 100,
+            rv: val,
+          };
+        } else {
+          val = val ? parseFloat(val) : val;
+        }
+      }
+    }
+    setter.call(this, val);
+  };
+  return elementDescriptor;
+}
+
+export function flow(elementDescriptor) {
+  const {descriptor, key} = elementDescriptor;
   if(descriptor.get) {
     const _getter = descriptor.get;
     descriptor.get = function () {
-      let ret = this.flow(prop);
+      let ret = this.flow(key);
       if(ret === undefined) {
         ret = _getter.call(this);
-        this.flow(prop, ret);
+        this.flow(key, ret);
       }
       return ret;
     };
   }
-  return descriptor;
+  return elementDescriptor;
 }
 
 // set tag force to get absolute value from relative attributes
-export function absolute(target, prop, descriptor) {
+export function absolute(elementDescriptor) {
+  const {descriptor} = elementDescriptor;
   if(descriptor.get) {
     const _getter = descriptor.get;
     descriptor.get = function () {
@@ -229,7 +317,7 @@ export function absolute(target, prop, descriptor) {
       return ret;
     };
   }
-  return descriptor;
+  return elementDescriptor;
 }
 
 export function setDeprecation(apiName, msg = '') {
@@ -237,9 +325,10 @@ export function setDeprecation(apiName, msg = '') {
   notice(msg);
 }
 
-export function deprecate(apiName, msg = '') {
-  return function decorator(target, prop, descriptor) {
-    apiName = apiName || `${target.constructor.name}#${prop}`;
+export function deprecate(msg, apiName = '') {
+  const decorator = function (elementDescriptor) {
+    const {descriptor, key} = elementDescriptor;
+    apiName = apiName || `Method ${key}`;
     if(typeof descriptor.value === 'function') {
       const func = descriptor.value;
       descriptor.value = function (...args) {
@@ -261,12 +350,18 @@ export function deprecate(apiName, msg = '') {
         return getter.call(this);
       };
     }
+    return elementDescriptor;
   };
+  if(msg.descriptor) {
+    return decorator(msg);
+  }
+  return decorator;
 }
 
 // before attr
 export function parseValue(...parsers) {
-  return function (target, prop, descriptor) {
+  return function (elementDescriptor) {
+    const {descriptor} = elementDescriptor;
     const setter = descriptor.set;
 
     descriptor.set = function (val) {
@@ -276,6 +371,22 @@ export function parseValue(...parsers) {
       setter.call(this, val);
     };
 
-    return descriptor;
+    return elementDescriptor;
+  };
+}
+
+// return a function to apply any decorators to a descriptor
+export function decorators(...funcs) {
+  return function (key, descriptor) {
+    let elementDescriptor;
+    if(!descriptor) {
+      elementDescriptor = key;
+    } else {
+      elementDescriptor = {key, descriptor};
+    }
+    const ret = funcs.reduceRight(function (a, b) {
+      return b.call(this, a);
+    }, elementDescriptor);
+    return ret && ret.descriptor;
   };
 }

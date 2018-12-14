@@ -1,6 +1,6 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, deprecate} from './utils';
+import {flow, absolute, rectVertices, deprecate, decorators, attr} from './utils';
 import BaseAttr from './baseattr';
 import BaseNode from './basenode';
 import Animation from './animation';
@@ -15,6 +15,7 @@ const _animations = Symbol('animations'),
   _releaseKeys = Symbol('releaseKeys');
 
 const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+const $attr = decorators(attr);
 
 export default class BaseSprite extends BaseNode {
   static Attr = BaseAttr;
@@ -42,41 +43,17 @@ export default class BaseSprite extends BaseNode {
   }
 
   static addAttributes(attrs = {}) {
-    Object.entries(attrs).forEach(([prop, handler]) => {
-      let getter = function () {
-        return this.get(prop);
-      };
-      if(typeof handler !== 'function' && handler.set) {
-        getter = handler.get || getter;
-        handler = handler.set;
-      }
+    Object.entries(attrs).forEach(([prop, descriptor]) => {
       if(prop !== 'init') {
-        Object.defineProperty(this.Attr.prototype, prop, {
-          set(val) {
-            this.__updateTag = false;
-            this.__reflowTag = false;
-            this.__clearLayout = false;
-            handler(this, val);
-            if(this.subject && this.subject.hasLayout) {
-              const offsetSize = this.subject.offsetSize,
-                layoutSize = this.subject.__layoutSize;
-
-              if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-                this.subject.clearLayout();
-              }
-              this.subject.__lastLayout = offsetSize;
-            }
-            if(this.subject && this.__updateTag) {
-              this.subject.forceUpdate(true);
-              if(this.__reflowTag) {
-                this.subject.reflow();
-              }
-            }
-            // delete this.__reflowTag;
-            // delete this.__updateTag;
-          },
-          get: getter,
-        });
+        if(typeof descriptor === 'function') {
+          const setter = descriptor;
+          descriptor = {
+            set(val) {
+              setter(this, val);
+            },
+          };
+        }
+        Object.defineProperty(this.Attr.prototype, prop, $attr(prop, descriptor));
       }
     });
   }

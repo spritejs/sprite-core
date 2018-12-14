@@ -1,4 +1,4 @@
-import {attr, deprecate} from './utils';
+import {attr, deprecate, attributeNames, relatedAttributes, parseValue} from './utils';
 
 const _attr = Symbol('attr'),
   _style = Symbol('style'),
@@ -7,7 +7,9 @@ const _attr = Symbol('attr'),
   _default = Symbol('default');
 
 export default class Attr {
-  static relatedAttributes = new Set();
+  static relatedAttributes = relatedAttributes;
+
+  static attributeNames = attributeNames;
 
   static attrDefaultValues = {};
 
@@ -38,10 +40,6 @@ export default class Attr {
     return this[_attr];
   }
 
-  getDefaultValue(key) {
-    return this[_default][key];
-  }
-
   setDefault(attrs) {
     Object.assign(this[_default], attrs);
     Object.assign(this[_attr], attrs);
@@ -64,60 +62,55 @@ export default class Attr {
   }
 
   quietSet(key, val) {
-    let oldVal;
-    if(key.length > 5 && key.indexOf('data-') === 0) {
-      const dataKey = key.slice(5);
-      oldVal = this.subject.data(dataKey);
-      this.subject.data(dataKey, val);
-    } else if(!this.__styleTag) {
-      if(val != null) {
-        this.__attributesSet.add(key);
-      } else {
-        val = this[_default][key];
-        if(this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
-        }
-      }
-      oldVal = this[_attr][key];
-      this[_attr][key] = val;
-    } else if(val != null) {
-      this[_style][key] = val;
-    } else {
-      delete this[_style][key];
-    }
-    if(!this.__styleTag && Attr.relatedAttributes.has(key)) {
-      if(typeof oldVal === 'object' || typeof val === 'object' || oldVal !== val) {
-        this.subject.updateStyles();
-      }
-    }
+    this.set(key, val, true);
   }
 
   clearStyle() {
     this[_style] = {};
   }
 
+  clearFlow() {
+    this.__reflowTag = true;
+    return this;
+  }
+
+  clearLayout() {
+    this.__clearLayout = true;
+    return this;
+  }
+
   get style() {
     return this[_style];
   }
 
-  set(key, val) {
-    if(!this.__styleTag && val != null) {
-      this.__attributesSet.add(key);
-    }
-    if(!this.__styleTag && val == null) {
-      val = this[_default][key];
-      if(this.__attributesSet.has(key)) {
-        this.__attributesSet.delete(key);
+  set(key, val, isQuiet = false) {
+    this.__quietTag = isQuiet;
+    let oldVal;
+    if(isQuiet && key.length > 5 && key.indexOf('data-') === 0) {
+      const dataKey = key.slice(5);
+      oldVal = this.subject.data(dataKey);
+      this.subject.data(dataKey, val);
+    } else {
+      if(!this.__styleTag && val != null) {
+        this.__attributesSet.add(key);
       }
-    }
-    if(this.__styleTag) {
-      if(val != null) {
-        this[_style][key] = val;
+      if(!this.__styleTag && val == null) {
+        val = this[_default][key];
+        if(this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+      if(this.__styleTag) {
+        oldVal = this[_style][key];
+        if(val != null) {
+          this[_style][key] = val;
+        } else {
+          delete this[_style][key];
+        }
       } else {
-        delete this[_style][key];
+        oldVal = this[_attr][key];
       }
     }
-    const oldVal = this[_attr][key];
     if(typeof val === 'object') {
       if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
         return false;
@@ -127,9 +120,6 @@ export default class Attr {
     }
     if(!this.__styleTag) {
       this[_attr][key] = val;
-      if(Attr.relatedAttributes.has(key)) {
-        this.subject.updateStyles();
-      }
     }
     this.__updateTag = true;
     return true;
@@ -145,17 +135,15 @@ export default class Attr {
     return this[_attr][key];
   }
 
-  getAttributes(ignoreDefault = true) {
+  getAttributes() {
     const ret = {};
-    if(!ignoreDefault) {
-      Object.keys(this[_attr]).forEach((key) => {
-        if(this[key] !== undefined) {
-          ret[key] = this[key];
-        }
-      });
-    }
+    [...attributeNames].forEach((key) => {
+      if(key in this) {
+        ret[key] = this[key];
+      }
+    });
     [...this.__attributesSet].forEach((key) => {
-      if(key.indexOf('__internal') !== 0) {
+      if(typeof key === 'string' && key.indexOf('__internal') !== 0) {
         ret[key] = this[key];
       }
     });
@@ -168,7 +156,7 @@ export default class Attr {
   }
 
   get attrs() {
-    return this.getAttributes(false);
+    return this.getAttributes();
   }
 
   @deprecate('You can remove this call.')
@@ -194,18 +182,16 @@ export default class Attr {
   }
 
   /* ------------------- define attributes ----------------------- */
-  @attr
-  set id(val) {
-    return this.quietSet('id', String(val));
-  }
+  // @attr({quiet, cache, reflow, relayout, override})
+  @parseValue(String)
+  @attr({quiet: true})
+  id;
 
-  @attr
-  set name(val) {
-    return this.quietSet('name', String(val));
-  }
+  @parseValue(String)
+  @attr({quiet: true})
+  name;
 
-  @attr
-  set class(val) {
-    return this.quietSet('class', String(val));
-  }
+  @parseValue(String)
+  @attr({quiet: true})
+  class;
 }

@@ -1,8 +1,6 @@
 import {isMatched, compile} from '../dom/selector';
-import {parseFont, sizeToPixel} from '../../utils';
-import Attr from '../../attr';
+import {parseFont, sizeToPixel, relatedAttributes} from '../../utils';
 
-const relatedAttributes = Attr.relatedAttributes;
 const cssWhat = require('css-what');
 
 let cssRules = [];

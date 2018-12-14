@@ -23,7 +23,7 @@
     }
     layer.abc {
       font: bold 32px serif;
-      background-color: black;
+      /* background-color: black; */
     }
     /* group.list {
       --sprite-pos: 100, 50;
@@ -40,6 +40,7 @@
     }
     group.list > label:nth-child(2n) {
       --sprite-gradient: color vector(0, 0, 70, 70) 0,red 0.5,yellow 1,green;
+      /* color: yellow; */
       transition: all 1s;
     }
     group.list > label.test {
@@ -49,6 +50,7 @@
 </head>
 <body>
   <canvas id="mycanvas" width="1200" height="1200"></canvas>
+  <!-- <script src="https://unpkg.com/sprite-core@2.26.15/dist/sprite-core.min.js"></script> -->
   <script src="/js/sprite-core.js"></script>
   <script>
 const {Layer, Group, Label} = spritejs;

@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = function (env = {}) {
   let babelConf;
 
-  const babelRC = env.esnext ? './.es6.babelrc' : './.babelrc';
+  const babelRC = (env.esnext || env.dev) ? './.es6.babelrc' : './.babelrc';
   if(fs.existsSync(babelRC)) {
     babelConf = JSON.parse(fs.readFileSync(babelRC));
     babelConf.babelrc = false;
@@ -27,7 +27,7 @@ module.exports = function (env = {}) {
   }
 
   return {
-    mode: env.production ? 'production' : 'none',
+    mode: env.production ? 'production' : 'development',
     entry: {
       'sprite-core': './src/index',
     },

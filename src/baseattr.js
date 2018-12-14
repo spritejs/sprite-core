@@ -21,11 +21,6 @@ export default class SpriteAttr extends NodeAttr {
       layoutWidth: '',
       layoutHeight: '',
       bgcolor: '',
-      flexGrow: 0,
-      flexShrink: 1,
-      flexBasis: 'auto',
-      order: 0,
-      alignSelf: '',
       position: '',
       rotate: 0,
       scale: [1, 1],
@@ -61,18 +56,8 @@ export default class SpriteAttr extends NodeAttr {
     });
   }
 
-  clearFlow() {
-    this.__reflowTag = true;
-    return this;
-  }
-
-  clearLayout() {
-    this.__clearLayout = true;
-    return this;
-  }
-
-  set(key, value) {
-    super.set(key, value);
+  set(key, value, isQuiet = false) {
+    super.set(key, value, isQuiet);
     // auto reflow
     if(key === 'width' || key === 'height'
       || key === 'layoutWidth' || key === 'layoutHeight'
@@ -81,9 +66,7 @@ export default class SpriteAttr extends NodeAttr {
       || key === 'border'
       || key === 'padding'
       || key === 'boxSizing'
-      || key === 'margin'
-      || key === 'flexBasis'
-      || key === 'flex') {
+      || key === 'margin') {
       this.__reflowTag = true;
     }
   }
@@ -93,21 +76,19 @@ export default class SpriteAttr extends NodeAttr {
       attrs = JSON.parse(attrs);
     }
     Object.entries(attrs).forEach(([key, value]) => {
-      if(this.getDefaultValue(key) !== value) {
-        if(key !== 'offsetPath'
-          && key !== 'offsetDistance'
-          && key !== 'offsetRotate'
-          && key !== 'offsetAngle'
-          && key !== 'offsetPoint') {
-          // this[key] = value;
-          this.subject.attr(key, value);
-        } else if(key === 'offsetPath') {
-          const offsetPath = new SvgPath(value);
-          this.set('offsetPath', offsetPath.d);
-          this.saveObj('offsetPath', offsetPath);
-        } else {
-          this.set(key, value);
-        }
+      if(key !== 'offsetPath'
+        && key !== 'offsetDistance'
+        && key !== 'offsetRotate'
+        && key !== 'offsetAngle'
+        && key !== 'offsetPoint') {
+        // this[key] = value;
+        this.subject.attr(key, value);
+      } else if(key === 'offsetPath') {
+        const offsetPath = new SvgPath(value);
+        this.set('offsetPath', offsetPath.d);
+        this.saveObj('offsetPath', offsetPath);
+      } else {
+        this.set(key, value);
       }
     });
     return this;
@@ -123,51 +104,31 @@ export default class SpriteAttr extends NodeAttr {
     return JSON.stringify(attrs);
   }
 
-  @attr
-  set enableCache(val) {
-    return this.set('enableCache', val);
-  }
+  @attr({share: true})
+  enableCache = false;
 
   @parseValue(parseStringFloat, oneOrTwoValues)
-  @attr
-  @cachable
-  set anchor(val) {
-    this.clearLayout();
-    this.set('anchor', val);
-  }
+  @attr({cache: true, share: true, relayout: true})
+  anchor = [0, 0];
 
   @attr
-  set display(val) {
-    this.set('display', val);
-  }
+  display = '';
 
-  @attr
+  @attr({cache: true})
   @relative('width')
-  @cachable
-  set layoutX(val) {
-    this.set('layoutX', val);
-  }
+  layoutX = 0;
 
-  @attr
+  @attr({cache: true})
   @relative('height')
-  @cachable
-  set layoutY(val) {
-    this.set('layoutY', val);
-  }
+  layoutY = 0;
 
-  @attr
+  @attr({cache: true})
   @relative('width')
-  @cachable
-  set x(val) {
-    this.set('x', val);
-  }
+  x = 0;
 
-  @attr
+  @attr({cache: true})
   @relative('height')
-  @cachable
-  set y(val) {
-    this.set('y', val);
-  }
+  y = 0;
 
   @parseValue(parseStringInt)
   @attr
@@ -186,16 +147,11 @@ export default class SpriteAttr extends NodeAttr {
 
   @parseValue(parseColorString)
   @attr
-  set bgcolor(val) {
-    this.set('bgcolor', val);
-  }
+  bgcolor = '';
 
   @parseValue(parseFloat)
-  @attr
-  @cachable
-  set opacity(val) {
-    this.set('opacity', val);
-  }
+  @attr({cache: true})
+  opacity = 1;
 
   @attr
   @relative('width')
@@ -581,81 +537,11 @@ export default class SpriteAttr extends NodeAttr {
     this.set('shadow', val);
   }
 
-  @parseValue(parseFloat)
-  @attr
-  set flexGrow(val) {
-    this.clearLayout();
-    this.set('flexGrow', val);
-  }
-
-  @parseValue(parseFloat)
-  @attr
-  set flexShrink(val) {
-    this.clearLayout();
-    this.set('flexShrink', val);
-  }
-
-  @attr
-  set flexBasis(val) {
-    this.clearLayout();
-    if(val && val !== 'auto') {
-      val = parseFloat(val);
-    }
-    this.set('flexBasis', val);
-  }
-
-  @attr
-  set flex(val) {
-    if(val != null && val !== 'initial') {
-      if(val === 'auto') {
-        this.flexGrow = 1;
-        this.flexShrink = 1;
-        this.flexBasis = 'auto';
-      } else if(val === 'none') {
-        this.flexGrow = 0;
-        this.flexShrink = 0;
-        this.flexBasis = 'auto';
-      } else if(typeof val === 'string') {
-        const values = val.trim().split(/\s+/);
-        this.flexGrow = values[0];
-        this.flexShrink = values[1];
-        this.flexBasis = values[2];
-      } else {
-        this.flexGrow = val;
-        this.flexShrink = 1;
-        this.flexBasis = 'auto';
-      }
-    } else {
-      this.flexGrow = 0;
-      this.flexShrink = 1;
-      this.flexBasis = 'auto';
-    }
-  }
-
-  get flex() {
-    return `${this.flexGrow} ${this.flexShrink} ${this.flexBasis}`;
-  }
-
-  @parseValue(parseInt)
-  @attr
-  @cachable
-  set order(val) {
-    this.clearLayout();
-    this.set('order', val);
-  }
-
   @attr
   @cachable
   set position(val) {
     this.clearLayout();
     this.set('position', val);
-  }
-
-  @attr
-  @cachable
-  set alignSelf(val) {
-    this.clearLayout();
-    this.set('alignSelf', val);
   }
 
   @parseValue(parseStringInt, fourValuesShortCut)

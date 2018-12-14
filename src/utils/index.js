@@ -29,7 +29,10 @@ import {
   parseValue,
   relative,
   cachable,
+  decorators,
 } from './decorators';
+
+import {attributeNames, relatedAttributes} from './store';
 
 import {findColor, cacheContextPool} from '../helpers/render';
 
@@ -62,4 +65,7 @@ export {
   generateID,
   sizeToPixel,
   parseFont,
+  decorators,
+  attributeNames,
+  relatedAttributes,
 };

@@ -1,5 +1,5 @@
 import BaseAttr from '../../baseattr';
-import {attr} from '../../utils';
+import {attr, decorators} from '../../utils';
 
 Object.assign(BaseAttr.attrDefaultValues, {
   state: 'default',
@@ -32,8 +32,10 @@ Object.assign(BaseAttr.attrDefaultValues, {
 });
 
 const target = BaseAttr.prototype;
+const $attr = decorators(attr);
+
 Object.defineProperties(target, {
-  states: attr(target, 'states', {
+  states: $attr('states', {
     set(val) {
       val = Object.assign({}, val);
       const states = this.get('states');
@@ -46,7 +48,7 @@ Object.defineProperties(target, {
       this.quietSet('states', val);
     },
   }),
-  actions: attr(target, 'actions', {
+  actions: $attr('actions', {
     set(val) {
       if(Array.isArray(val)) {
         const value = {};
@@ -79,12 +81,12 @@ Object.defineProperties(target, {
         });
         val = value;
       }
-      const defaultVal = this.getDefaultValue('actions');
+      const defaultVal = BaseAttr.attrDefaultValues.actions;
       val = Object.assign({}, defaultVal, val);
       this.quietSet('actions', val);
     },
   }),
-  state: attr(target, 'state', {
+  state: $attr('state', {
     set(val) {
       if(val == null) val = 'default';
       const oldState = this.state;
@@ -129,12 +131,12 @@ Object.defineProperties(target, {
       }
     },
   }),
-  enterMode: attr(target, 'enterMode', {
+  enterMode: $attr('enterMode', {
     set(val) {
       this.set('enterMode', val);
     },
   }),
-  exitMode: attr(target, 'exitMode', {
+  exitMode: $attr('exitMode', {
     set(val) {
       this.set('exitMode', val);
     },
