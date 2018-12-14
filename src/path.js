@@ -34,7 +34,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr
   set d(val) {
     if(val) {
-      const path = this.get('path');
+      const path = this.path;
       if(!path) {
         this.path = {d: val};
       } else {

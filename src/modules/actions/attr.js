@@ -38,7 +38,7 @@ Object.defineProperties(target, {
   states: $attr('states', {
     set(val) {
       val = Object.assign({}, val);
-      const states = this.get('states');
+      const states = this.states;
       // recover __default
       Object.entries(states).forEach(([key, value]) => {
         if(value.__default && !(key in val)) {

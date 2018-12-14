@@ -66,8 +66,17 @@ export default class BaseNode {
           // enumerable: true,
           configurable: true,
           set(value) {
-            const subject = this.subject;
+            if(!this.__styleTag && val != null) {
+              this.__attributesSet.add(key);
+            }
+            if(!this.__styleTag && val == null) {
+              if(this.__attributesSet.has(key)) {
+                this.__attributesSet.delete(key);
+              }
+            }
+
             this.quietSet(key, value);
+            const subject = this.subject;
             // fixed color inherit
             if(key === 'color') {
               subject.attr('fillColor', value);
@@ -104,7 +113,8 @@ export default class BaseNode {
             }
           },
           get() {
-            return this.get(key);
+            const ret = this.get(key);
+            return ret != null ? ret : this.getDefaultValue(key);
           },
         });
       }
@@ -146,7 +156,7 @@ export default class BaseNode {
         setVal(props, val);
         return this;
       }
-      return props in this[_attr] ? this[_attr][props] : this[_attr].get(props);
+      return props in this[_attr] ? this[_attr][props] : this[_attr].getDefaultValue(props);
     }
 
     return this[_attr].attrs;

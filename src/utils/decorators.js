@@ -39,9 +39,10 @@ export function attr(options) {
       throw new Error(`${key}: quietSet cannot enable cache or reflow or relayout`);
     }
 
+    let _symbolKey = key;
     if(kind === 'field') {
       const defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : undefined;
-      const _symbolKey = share ? key : Symbol(key);
+      _symbolKey = share ? key : Symbol(key);
       const setter = quiet ? function (val) { this.quietSet(_symbolKey, val) }
         : function (val) { this.set(_symbolKey, val) };
       elementDescriptor = {
@@ -78,16 +79,14 @@ export function attr(options) {
     let _getter = descriptor.get;
     if(!_getter) {
       _getter = function () {
-        return this.get(key);
+        const ret = this.get(key);
+        return ret != null ? ret : this.getDefaultValue(key, _symbolKey);
       };
     }
     if(!descriptor.__relative && !descriptor.__inherit) {
       descriptor.get = function () {
-        let ret = _getter.call(this);
-        if(ret == null) {
-          ret = this.get(key);
-        }
-        return ret;
+        const ret = _getter.call(this);
+        return ret != null ? ret : this.getDefaultValue(key, _symbolKey);
       };
     } else if(descriptor.__relative) {
       // enable set default to user defined getter
@@ -96,7 +95,7 @@ export function attr(options) {
         const subject = this.subject;
 
         if(ret == null) {
-          ret = this.get(key);
+          ret = this.getDefaultValue(key, _symbolKey);
         } else if(ret.relative) {
           const relative = ret.relative.trim();
           if(relative === 'pw' || relative === 'ph') {
@@ -141,7 +140,7 @@ export function attr(options) {
         const subject = this.subject;
 
         if(ret == null) {
-          ret = this.get(key);
+          ret = this.getDefaultValue(key, _symbolKey);
         } else if(ret === 'inherit') {
           let value = null;
           let parent = subject.parent;
@@ -164,6 +163,16 @@ export function attr(options) {
       this.__updateTag = false;
       this.__reflowTag = reflow;
       this.__clearLayout = relayout;
+
+      if(!this.__styleTag && val != null && this.__attributesSet) {
+        this.__attributesSet.add(key);
+      }
+      if(!this.__styleTag && val == null && this.__attributesSet) {
+        if(this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+
       _setter.call(this, val);
       if(subject && !this.__quietTag && this.__updateTag) {
         if(subject.hasLayout) {

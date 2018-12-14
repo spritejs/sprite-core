@@ -32,8 +32,6 @@ export default class Attr {
       writable: true,
       value: false,
     });
-
-    this.setDefault(Attr.attrDefaultValues);
   }
 
   get __attr() {
@@ -42,12 +40,16 @@ export default class Attr {
 
   setDefault(attrs) {
     Object.assign(this[_default], attrs);
-    Object.assign(this[_attr], attrs);
+  }
+
+  getDefaultValue(key, symbolKey = key) {
+    if(key in this[_default]) return this[_default][key];
+    return Attr.attrDefaultValues[symbolKey];
   }
 
   setAttrIndex(key, val, idx) {
-    if(val == null) val = this[_default][key][idx];
-    const arr = this.get(key);
+    if(val == null) val = this.getDefaultValue(key)[idx];
+    const arr = this[key];
     arr[idx] = val;
     this.set(key, arr);
   }
@@ -90,28 +92,17 @@ export default class Attr {
       const dataKey = key.slice(5);
       oldVal = this.subject.data(dataKey);
       this.subject.data(dataKey, val);
-    } else {
-      if(!this.__styleTag && val != null) {
-        this.__attributesSet.add(key);
-      }
-      if(!this.__styleTag && val == null) {
-        val = this[_default][key];
-        if(this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
-        }
-      }
-      if(this.__styleTag) {
-        oldVal = this[_style][key];
-        if(val != null) {
-          this[_style][key] = val;
-        } else {
-          delete this[_style][key];
-        }
+    } else if(this.__styleTag) {
+      oldVal = this[_style][key];
+      if(val != null) {
+        this[_style][key] = val;
       } else {
-        oldVal = this[_attr][key];
+        delete this[_style][key];
       }
+    } else {
+      oldVal = this[_attr][key];
     }
-    if(typeof val === 'object') {
+    if(val && typeof val === 'object') {
       if(oldVal !== val && JSON.stringify(val) === JSON.stringify(oldVal)) {
         return false;
       }
@@ -135,15 +126,17 @@ export default class Attr {
     return this[_attr][key];
   }
 
-  getAttributes() {
+  getAttributes(includeDefault = false) {
     const ret = {};
-    [...attributeNames].forEach((key) => {
-      if(key in this) {
-        ret[key] = this[key];
-      }
-    });
+    if(includeDefault) {
+      [...attributeNames].forEach((key) => {
+        if(key in this) {
+          ret[key] = this[key];
+        }
+      });
+    }
     [...this.__attributesSet].forEach((key) => {
-      if(typeof key === 'string' && key.indexOf('__internal') !== 0) {
+      if(key.indexOf('__internal') !== 0) {
         ret[key] = this[key];
       }
     });
@@ -156,7 +149,7 @@ export default class Attr {
   }
 
   get attrs() {
-    return this.getAttributes();
+    return this.getAttributes(true);
   }
 
   @deprecate('You can remove this call.')

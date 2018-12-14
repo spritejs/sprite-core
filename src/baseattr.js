@@ -5,6 +5,12 @@ import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
   parseValue, attr, relative, cachable, sortOrderedSprites} from './utils';
 
+const cache = true,
+  share = true,
+  reflow = true,
+  relayout = true,
+  quiet = true;
+
 export default class SpriteAttr extends NodeAttr {
   constructor(subject) {
     super(subject);
@@ -61,8 +67,6 @@ export default class SpriteAttr extends NodeAttr {
     // auto reflow
     if(key === 'width' || key === 'height'
       || key === 'layoutWidth' || key === 'layoutHeight'
-      || key === 'display'
-      || key === 'anchor'
       || key === 'border'
       || key === 'padding'
       || key === 'boxSizing'
@@ -104,29 +108,29 @@ export default class SpriteAttr extends NodeAttr {
     return JSON.stringify(attrs);
   }
 
-  @attr({share: true})
+  @attr
   enableCache = false;
 
   @parseValue(parseStringFloat, oneOrTwoValues)
-  @attr({cache: true, share: true, relayout: true})
+  @attr({share, cache, relayout, reflow})
   anchor = [0, 0];
 
-  @attr
+  @attr({share, reflow})
   display = '';
 
-  @attr({cache: true})
+  @attr({share, cache})
   @relative('width')
   layoutX = 0;
 
-  @attr({cache: true})
+  @attr({share, cache})
   @relative('height')
   layoutY = 0;
 
-  @attr({cache: true})
+  @attr({share, cache})
   @relative('width')
   x = 0;
 
-  @attr({cache: true})
+  @attr({share, cache})
   @relative('height')
   y = 0;
 
@@ -153,29 +157,21 @@ export default class SpriteAttr extends NodeAttr {
   @attr({cache: true})
   opacity = 1;
 
-  @attr
+  @attr({share: true})
   @relative('width')
-  set width(val) {
-    this.set('width', val);
-  }
+  width = '';
 
-  @attr
+  @attr({share: true})
   @relative('height')
-  set height(val) {
-    this.set('height', val);
-  }
+  height = '';
 
-  @attr
+  @attr({share: true})
   @relative('width')
-  set layoutWidth(val) {
-    this.set('layoutWidth', val);
-  }
+  layoutWidth = '';
 
-  @attr
+  @attr({share: true})
   @relative('height')
-  set layoutHeight(val) {
-    this.set('layoutHeight', val);
-  }
+  layoutHeight = '';
 
   @parseValue(parseStringInt)
   @attr
@@ -232,7 +228,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get paddingTop() {
-    return this.get('padding')[0];
+    return this.padding[0];
   }
 
   @parseValue(parseFloat)
@@ -242,7 +238,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get paddingRight() {
-    return this.get('padding')[1];
+    return this.padding[1];
   }
 
 
@@ -253,7 +249,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get paddingBottom() {
-    return this.get('padding')[2];
+    return this.padding[2];
   }
 
 
@@ -264,7 +260,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get paddingLeft() {
-    return this.get('padding')[3];
+    return this.padding[3];
   }
 
   @parseValue(parseFloat)
@@ -304,15 +300,15 @@ export default class SpriteAttr extends NodeAttr {
     });
 
     if(Array.isArray(val)) {
-      this.set('transformMatrix', val);
+      this.transformMatrix = val;
       this.set('transform', `matrix(${val})`);
     } else {
-      this.set('transformMatrix', [1, 0, 0, 1, 0, 0]);
+      this.transformMatrix = [1, 0, 0, 1, 0, 0];
       const transformStr = [];
 
       Object.entries(val).forEach(([key, value]) => {
         if(key === 'matrix' && Array.isArray(value)) {
-          this.set('transformMatrix', new Matrix(value).m);
+          this.transformMatrix = new Matrix(value).m;
         } else {
           this[key] = value;
         }
@@ -330,14 +326,17 @@ export default class SpriteAttr extends NodeAttr {
     this.set('transformOrigin', val);
   }
 
+  @attr
+  transformMatrix = [1, 0, 0, 1, 0, 0];
+
   @parseValue(parseFloat)
   @attr
   @cachable
   set rotate(val) {
-    const delta = this.get('rotate') - val;
+    const delta = this.rotate - val;
     this.set('rotate', val);
-    const transform = new Matrix(this.get('transformMatrix')).rotate(-delta);
-    this.set('transformMatrix', transform.m);
+    const transform = new Matrix(this.transformMatrix).rotate(-delta);
+    this.transformMatrix = transform.m;
   }
 
   @parseValue(parseStringFloat, oneOrTwoValues)
@@ -350,7 +349,7 @@ export default class SpriteAttr extends NodeAttr {
       }
       return 1 / v > 0 ? 0.001 : -0.001;
     });
-    const oldVal = this.get('scale') || [1, 1];
+    const oldVal = this.scale || [1, 1];
     const delta = [val[0] / oldVal[0], val[1] / oldVal[1]];
     this.set('scale', val);
 
@@ -359,9 +358,9 @@ export default class SpriteAttr extends NodeAttr {
       this.rotate -= offsetAngle;
     }
 
-    const transform = new Matrix(this.get('transformMatrix'));
+    const transform = new Matrix(this.transformMatrix);
     transform.scale(...delta);
-    this.set('transformMatrix', transform.m);
+    this.transformMatrix = transform.m;
 
     if(offsetAngle) {
       this.rotate += offsetAngle;
@@ -371,23 +370,23 @@ export default class SpriteAttr extends NodeAttr {
   @attr
   @cachable
   set translate(val) {
-    const oldVal = this.get('translate') || [0, 0];
+    const oldVal = this.translate || [0, 0];
     const delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
     this.set('translate', val);
-    const transform = new Matrix(this.get('transformMatrix'));
+    const transform = new Matrix(this.transformMatrix);
     transform.translate(...delta);
-    this.set('transformMatrix', transform.m);
+    this.transformMatrix = transform.m;
   }
 
   @attr
   @cachable
   set skew(val) {
-    const oldVal = this.get('skew') || [0, 0];
+    const oldVal = this.skew || [0, 0];
     const invm = new Matrix().skew(...oldVal).inverse();
     this.set('skew', val);
-    const transform = new Matrix(this.get('transformMatrix'));
+    const transform = new Matrix(this.transformMatrix);
     transform.multiply(invm).skew(...val);
-    this.set('transformMatrix', transform.m);
+    this.transformMatrix = transform.m;
   }
 
   @parseValue(parseInt)
@@ -442,7 +441,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   resetOffset() {
-    let offsetPath = this.get('offsetPath');
+    let offsetPath = this.offsetPath;
     const dis = this.offsetDistance;
 
     if(offsetPath) {
@@ -559,7 +558,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get marginTop() {
-    return this.get('margin')[0];
+    return this.margin[0];
   }
 
   @parseValue(parseFloat)
@@ -569,7 +568,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get marginRight() {
-    return this.get('margin')[1];
+    return this.margin[1];
   }
 
   @parseValue(parseFloat)
@@ -579,7 +578,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get marginBottom() {
-    return this.get('margin')[2];
+    return this.margin[2];
   }
 
   @parseValue(parseFloat)
@@ -589,7 +588,7 @@ export default class SpriteAttr extends NodeAttr {
   }
 
   get marginLeft() {
-    return this.get('margin')[3];
+    return this.margin[3];
   }
 
   /*

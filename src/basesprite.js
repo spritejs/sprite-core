@@ -133,7 +133,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   get transform() {
-    const transform = new Matrix(this.__attr.get('transformMatrix'));
+    const transform = new Matrix(this.attr('transformMatrix'));
     const transformOrigin = this.attr('transformOrigin');
     if(transformOrigin) {
       const t = new Matrix();

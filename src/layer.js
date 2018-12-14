@@ -134,7 +134,7 @@ export default class Layer extends BaseNode {
   }
 
   get canvas() {
-    return this.outputContext.canvas;
+    return this.outputContext && this.outputContext.canvas;
   }
 
   get offset() {

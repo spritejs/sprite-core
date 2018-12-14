@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <!-- <script src="https://unpkg.com/sprite-core@2.26.15/dist/sprite-core.min.js"></script> -->
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const Path = spritejs.Path;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context});
+
+    const path = new Path(),
+      d = 'M10,80 q100,120 120,20 q140,-50 160,0';
+
+    path.attr({
+      pos: [110, 150],
+      color: 'red',
+      d,
+    });
+    layer.append(path);
+
+    const s = new Sprite();
+
+    s.attr({
+      anchor: [0.5, 0.5],
+      pos: [110, 150],
+      size: [50, 25],
+      bgcolor: 'red',
+      offsetPath: d,
+      offsetDistance: 0.5,
+      zIndex: 200,
+    });
+    layer.appendChild(s);
+
+    const s2 = s.cloneNode();
+    s2.attr({
+      // offsetDistance: 0.3,
+      // offsetRotate: 60,
+      bgcolor: 'blue',
+      zIndex: 400,
+    });
+    layer.appendChild(s2);
+
+    s.attr({
+      offsetDistance: 0.7,
+    });
+
+    // const s3 = s.cloneNode();
+    // s3.attr({
+    //   offsetDistance: 1.0,
+    //   offsetRotate: '45',
+    //   bgcolor: 'green',
+    //   zIndex: 600,
+    // });
+    // layer.appendChild(s3);
+
+    // const s4 = s.cloneNode();
+    // s4.attr({
+    //   offsetDistance: 0,
+    //   offsetRotate: 'reverse',
+    //   bgcolor: 'cyan',
+    //   scale: 1.2,
+    // });
+    // layer.appendChild(s4);
+  </script>
+</body>
+</html>
