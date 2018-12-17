@@ -29,7 +29,8 @@ export function attr(options) {
     reflow = false,
     relayout = false,
     quiet = false,
-    value = null;
+    value = null,
+    extra = null;
 
   const decorator = function (elementDescriptor) {
     const {key, kind} = elementDescriptor;
@@ -44,6 +45,7 @@ export function attr(options) {
 
     const relativeType = elementDescriptor.descriptor.__relative;
     const inheritValue = elementDescriptor.descriptor.__inherit;
+    const composit = elementDescriptor.descriptor.__composit;
 
     if(kind === 'field') {
       defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : value;
@@ -81,7 +83,9 @@ export function attr(options) {
         return ret != null ? ret : this.getDefaultValue(key, defaultValue);
       };
     }
-    if(!relativeType && !inheritValue) {
+    if(composit) {
+      descriptor.get = _getter;
+    } else if(!relativeType && !inheritValue) {
       descriptor.get = function () {
         const ret = _getter.call(this);
         return ret != null ? ret : this.getDefaultValue(key, defaultValue);
@@ -136,7 +140,6 @@ export function attr(options) {
       descriptor.get = function () {
         let ret = _getter.call(this);
         const subject = this.subject;
-
         if(ret == null) {
           ret = this.getDefaultValue(key, defaultValue);
         }
@@ -154,48 +157,53 @@ export function attr(options) {
       };
     }
 
-    const _setter = descriptor.set;
-    const _clearCache = !(descriptor.__cachable || cache);
+    if(!composit) {
+      const _setter = descriptor.set;
+      const _clearCache = !(descriptor.__cachable || cache);
 
-    descriptor.set = function (val) {
-      const subject = this.subject;
-      this.__updateTag = false;
-      this.__reflowTag = reflow;
-      this.__clearLayout = relayout;
+      descriptor.set = function (val) {
+        const subject = this.subject;
+        this.__updateTag = false;
+        this.__reflowTag = reflow;
+        this.__clearLayout = relayout;
 
-      if(!this.__styleTag && val != null && this.__attributesSet) {
-        this.__attributesSet.add(key);
-      }
-      if(!this.__styleTag && val == null && this.__attributesSet) {
-        if(this.__attributesSet.has(key)) {
-          this.__attributesSet.delete(key);
+        if(!this.__styleTag && val != null && this.__attributesSet) {
+          this.__attributesSet.add(key);
         }
-      }
-
-      _setter.call(this, val);
-      if(subject && !this.__quietTag && this.__updateTag) {
-        if(subject.hasLayout) {
-          const offsetSize = subject.boxOffsetSize,
-            layoutSize = subject.__lastLayout;
-
-          if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-            subject.clearLayout();
+        if(!this.__styleTag && val == null && this.__attributesSet) {
+          if(this.__attributesSet.has(key)) {
+            this.__attributesSet.delete(key);
           }
-          subject.__lastLayout = offsetSize;
         }
-        subject.forceUpdate(_clearCache);
-        if(this.__reflowTag) {
-          subject.reflow();
+
+        _setter.call(this, val);
+        if(subject && !this.__quietTag && this.__updateTag) {
+          if(subject.hasLayout) {
+            const offsetSize = subject.boxOffsetSize,
+              layoutSize = subject.__lastLayout;
+
+            if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
+              subject.clearLayout();
+            }
+            subject.__lastLayout = offsetSize;
+          }
+          subject.forceUpdate(_clearCache);
+          if(this.__reflowTag) {
+            subject.reflow();
+          }
         }
-      }
-      if(this.__updateTag) {
-        if(relatedAttributes.has(key)) {
-          subject.updateStyles();
+        if(this.__updateTag) {
+          if(relatedAttributes.has(key)) {
+            subject.updateStyles();
+          }
+          if(extra) {
+            this[extra](key, val);
+          }
         }
-      }
+      };
       // delete this.__reflowTag;
       // delete this.__updateTag;
-    };
+    }
     return elementDescriptor;
   };
   if(options.descriptor) {
@@ -207,6 +215,7 @@ export function attr(options) {
   reflow = !!options.reflow;
   relayout = !!options.relayout;
   value = options.value;
+  extra = options.extra;
 
   return decorator;
 }

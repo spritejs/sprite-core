@@ -3,7 +3,6 @@
 import SvgPath from 'svg-path-to-canvas';
 import {sort, sortCurves} from './sort';
 
-
 function _subShapes(shapes, count) {
   for(let i = 0; i < count; i++) {
     const shape = shapes[shapes.length - 1];
@@ -172,28 +171,11 @@ function lerp(pathA, pathB, t) {
   }).join(' ')}${closed}`;
 }
 
-export function pathEffect(pathA, pathB, p, s, e) {
+export default function pathEffect(pathA, pathB, p, s, e) {
   const ep = (p - s) / (e - s);
   if(ep <= 0) return pathA;
   if(ep >= 1) return pathB;
   pathA = new SvgPath(pathA);
   pathB = new SvgPath(pathB);
   return lerp(pathA, pathB, ep);
-}
-
-export function createSvgPath(path) {
-  if(typeof path === 'string') path = {d: path};
-  const p = new SvgPath(path.d);
-  if(path.transform || path.trim) {
-    if(path.transform) {
-      Object.entries(path.transform).forEach(([key, value]) => {
-        if(!Array.isArray(value)) value = [value];
-        p[key](...value);
-      });
-    }
-    if(path.trim) {
-      p.trim();
-    }
-  }
-  return p;
 }

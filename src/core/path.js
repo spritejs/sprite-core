@@ -1,6 +1,7 @@
-import {parseColorString, parseValue, parseStringFloat, attr, composit, flow, inherit, findColor} from '../utils';
+import {parseColorString, parseValue, parseStringFloat,
+  attr, composit, flow, inherit,
+  findColor, createSvgPath} from '../utils';
 import BaseSprite from './basesprite';
-import {pathEffect, createSvgPath} from '../helpers/path';
 
 const reflow = true,
   quiet = true;
@@ -291,12 +292,3 @@ export default class Path extends BaseSprite {
     }
   }
 }
-
-Path.setAttributeEffects({
-  d: pathEffect,
-  path(path1, path2, p, start, end) {
-    path1 = createSvgPath(path1);
-    path2 = createSvgPath(path2);
-    return pathEffect(path1.d, path2.d, p, start, end);
-  },
-});

@@ -1,5 +1,5 @@
 import {LineBreaker} from 'css-line-break';
-import {parseValue, parseColorString, attr, flow, inherit, relative, parseFont} from '../utils';
+import {parseValue, parseColorString, attr, composit, flow, inherit, relative, parseFont} from '../utils';
 import BaseSprite from './basesprite';
 
 import {findColor} from '../utils/render';
@@ -101,36 +101,21 @@ function setFontPart(font, part) {
 }
 
 class LabelSpriteAttr extends BaseSprite.Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      font: 'inherit',
-      textAlign: 'inherit',
-      strokeColor: 'inherit',
-      fillColor: 'inherit',
-      lineHeight: 'inherit',
-      text: '',
-      flexible: false,
-      lineBreak: 'inherit',
-      wordBreak: 'inherit',
-      letterSpacing: 'inherit',
-      textIndent: 'inherit',
-    });
-  }
-
-  @attr
-  set text(val) {
-    val = String(val);
-    this.set('text', val);
+  retypesetting() {
     this.subject.retypesetting();
   }
 
-  @attr
+  widthRetypeseeting() {
+    if(this.lineBreak !== '') this.subject.retypesetting();
+  }
+
+  @parseValue(String)
+  @attr({extra: 'retypesetting'})
+  text = '';
+
+  @attr({extra: 'retypesetting'})
   @inherit('normal normal normal 16px Arial')
-  set font(val) {
-    this.set('font', val);
-    this.subject.retypesetting();
-  }
+  font = 'inherit';
 
   @attr
   set fontSize(val) {
@@ -195,91 +180,57 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   }
 
   @parseValue(parseFloat)
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit('')
-  set lineHeight(val) {
-    this.set('lineHeight', val);
-    this.subject.retypesetting();
-  }
+  lineHeight = 'inherit';
 
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit('left')
-  set textAlign(val) {
-    this.set('textAlign', val);
-    this.subject.retypesetting();
-  }
+  textAlign = 'inherit';
 
   @attr
-  set color(val) {
-    this.fillColor = val;
-  }
-
-  get color() {
-    return this.fillColor;
-  }
+  @composit('fillColor')
+  color;
 
   @parseValue(parseColorString)
   @attr
   @inherit('')
-  set strokeColor(val) {
-    this.set('strokeColor', val);
-  }
+  strokeColor = 'inherit';
 
   @parseValue(parseColorString)
   @attr
   @inherit('')
-  set fillColor(val) {
-    this.set('fillColor', val);
-  }
+  fillColor = 'inherit';
 
   @attr
-  set flexible(val) {
-    this.set('flexible', val);
-  }
+  flexible;
 
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit('')
-  set lineBreak(val) { // normal, strict, none
-    this.set('lineBreak', val);
-    this.subject.retypesetting();
-  }
+  lineBreak = 'inherit';
 
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit('')
-  set wordBreak(val) { // normal | break-all | break-word | keep-all
-    this.set('wordBreak', val);
-    this.subject.retypesetting();
-  }
+  wordBreak = 'inherit';
+
 
   @parseValue(parseFloat)
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit(0)
-  set letterSpacing(value) {
-    this.set('letterSpacing', value);
-    this.subject.retypesetting();
-  }
+  letterSpacing = 'inherit';
 
   @parseValue(parseFloat)
-  @attr
+  @attr({extra: 'retypesetting'})
   @inherit(0)
-  set textIndent(value) {
-    this.set('textIndent', value);
-    this.subject.retypesetting();
-  }
+  textIndent = 'inherit';
 
-  @attr
+  @attr({extra: 'widthRetypeseeting'})
   @relative('width')
-  set width(val) {
-    this.set('width', val);
-    if(this.lineBreak !== '') this.subject.retypesetting();
-  }
+  width = '';
 
-  @attr
-  @relative('height')
-  set layoutWidth(val) {
-    this.set('layoutWidth', val);
-    if(this.lineBreak !== '') this.subject.retypesetting();
-  }
+  @attr({extra: 'widthRetypeseeting'})
+  @relative('width')
+  layoutWidth = '';
 }
 
 export default class Label extends BaseSprite {

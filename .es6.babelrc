@@ -1,6 +1,7 @@
 {
   "presets": [],
   "plugins": [
+    "@babel/plugin-external-helpers",
     [
       "@babel/plugin-proposal-decorators",
       {

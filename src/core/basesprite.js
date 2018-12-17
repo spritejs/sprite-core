@@ -3,7 +3,6 @@ import {Timeline} from 'sprite-animator';
 import {flow, absolute, rectVertices, deprecate, drawRadiusBox, findColor, cacheContextPool} from '../utils';
 import BaseAttr from './baseattr';
 import BaseNode from './basenode';
-import Animation from './animation';
 
 import filters from './filters';
 
@@ -63,6 +62,10 @@ export default class BaseSprite extends BaseNode {
     if(attrs) this.addAttributes(attrs);
     if(effects) this.setAttributeEffects(effects);
     return this.Attr;
+  }
+
+  get effects() {
+    return this[_effects];
   }
 
   setReleaseKey(key) {
@@ -200,32 +203,6 @@ export default class BaseSprite extends BaseNode {
     };
   }
 
-  animate(frames, timing, isStyleAnim = false) {
-    let setter = null;
-    if(isStyleAnim) {
-      setter = (frame, target) => {
-        target.__attr.__styleTag = true;
-        target.attr(frame);
-        target.__attr.__styleTag = false;
-      };
-    }
-    const animation = new Animation(this, frames, timing, setter);
-    if(this[_effects]) animation.applyEffects(this[_effects]);
-    if(this.layer) {
-      animation.baseTimeline = this.layer.timeline;
-      animation.play();
-      animation.finished.then(() => {
-        this[_animations].delete(animation);
-      });
-    }
-    this[_animations].add(animation);
-    return animation;
-  }
-
-  get animations() {
-    return this[_animations];
-  }
-
   connect(parent, zOrder = 0) {
     if(parent && !(parent instanceof BaseNode)) {
       const node = new BaseNode();
@@ -280,6 +257,10 @@ export default class BaseSprite extends BaseNode {
       [x, y] = this.attr('pos');
     }
     return [x, y];
+  }
+
+  get animations() {
+    return this[_animations];
   }
 
   @absolute

@@ -47,6 +47,7 @@ export default class Attr {
     this[_default] = {};
     this[_attr] = {};
     this[_style] = {};
+    this.__cached = {};
 
     this[_temp] = new Map(); // save non-serialized values
 

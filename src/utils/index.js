@@ -1,4 +1,5 @@
 import parseFont from './parse-font';
+import createSvgPath from './svgpath';
 
 import {
   notice,
@@ -71,4 +72,5 @@ export {
   decorators,
   attributeNames,
   relatedAttributes,
+  createSvgPath,
 };

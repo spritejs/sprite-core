@@ -110,14 +110,6 @@ export default class SpriteAttr extends NodeAttr {
   @relative('height')
   y = 0;
 
-  /*
-  @attr
-  @composit(['x', 'y'])
-
-  @attr
-  @composit({width: 'borderWidth', style: 'borderStyle', color: 'borderColor'})
-  */
-
   @parseValue(parseStringInt)
   @attr
   @composit(['x', 'y'])

@@ -1,7 +1,8 @@
 import {Animator, Effects} from 'sprite-animator';
 import {Matrix} from 'sprite-math';
-import {parseColor, parseStringFloat, parseStringTransform} from '../utils';
-import {requestAnimationFrame, cancelAnimationFrame} from '../helpers/fast-animation-frame';
+import {parseColor, parseStringFloat, parseStringTransform, createSvgPath} from '../../utils';
+import dEffect from './patheffect';
+import {requestAnimationFrame, cancelAnimationFrame} from '../../helpers/fast-animation-frame';
 
 const _defaultEffect = Effects.default;
 
@@ -116,10 +117,17 @@ function colorEffect(color1, color2, p, start, end) {
   return defaultEffect(color1, color2, p, start, end);
 }
 
+function pathEffect(path1, path2, p, start, end) {
+  path1 = createSvgPath(path1);
+  path2 = createSvgPath(path2);
+  return dEffect(path1.d, path2.d, p, start, end);
+}
+
 Object.assign(Effects, {
   arrayEffect,
   transformEffect,
   colorEffect,
+  pathEffect,
   pos: arrayEffect,
   size: arrayEffect,
   transform: transformEffect,
@@ -139,6 +147,9 @@ Object.assign(Effects, {
   color: colorEffect,
   strokeColor: colorEffect,
   fillColor: colorEffect,
+  d: dEffect,
+  path: pathEffect,
+  clip: pathEffect,
 });
 
 export default class extends Animator {

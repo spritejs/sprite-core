@@ -14,8 +14,6 @@ import use from './core/use';
 
 // load modules
 import './modules/animation';
-import './modules/actions';
-import './modules/layout';
 import {
   registerNodeType,
   createNode,
@@ -24,12 +22,10 @@ import {
   querySelector,
   querySelectorAll,
 } from './modules/dom';
-import stylesheet from './modules/css';
 
 const Color = utils.Color;
 
 export {
-  stylesheet,
   querySelector,
   querySelectorAll,
   registerNodeType,

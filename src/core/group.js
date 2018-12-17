@@ -1,6 +1,5 @@
-import {parseValue, attr, flow, relative} from '../utils';
+import {parseValue, attr, flow, relative, createSvgPath} from '../utils';
 import BaseSprite from './basesprite';
-import {createSvgPath, pathEffect} from '../helpers/path';
 
 import groupApi from '../helpers/group';
 
@@ -316,11 +315,3 @@ export default class Group extends BaseSprite {
   }
 }
 Object.assign(Group.prototype, groupApi);
-
-Group.setAttributeEffects({
-  clip(clip1, clip2, p, start, end) {
-    clip1 = createSvgPath(clip1);
-    clip2 = createSvgPath(clip2);
-    return pathEffect(clip1.d, clip2.d, p, start, end);
-  },
-});

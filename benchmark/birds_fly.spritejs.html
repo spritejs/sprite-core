@@ -30,14 +30,14 @@
   
   <script src="https://s3.ssl.qhres.com/!ed7dc4fe/animator-0.3.2.js"></script>
   <!-- <script src="js/animator-dev.js"></script> -->
-  <!-- <script src="https://s0.ssl.qhres.com/!48097477/sprite-core.min.js"></script> -->
+  <!-- <script src="https://unpkg.com/sprite-core/dist/sprite-core.min.js"></script> -->
   <script src="/js/sprite-core.js"></script>
   
   <script>
     const Sprite = spritejs.Sprite;
     const Layer = spritejs.Layer;
     const context = document.getElementById('paper').getContext('2d');
-    const fglayer = new Layer({context, evaluateFPS: true});
+    const fglayer = new Layer({context, autoRender: false});
 
     const birdTexture = new Image();
     birdTexture.crossOrigin = 'anonymous';
@@ -106,10 +106,10 @@
 
       fglayer.appendChild(bird);
 
-      let idx = 0;
-      setInterval(() => {
-        bird.textures = [{image: birdTexture, srcRect: wings[idx++ % 3]}];
-      }, 100);
+      // let idx = 0;
+      // setInterval(() => {
+      //   bird.textures = [{image: birdTexture, srcRect: wings[idx++ % 3]}];
+      // }, 100);
 
       // noprotect
       do {
@@ -122,8 +122,9 @@
       requestAnimationFrame(function f() {
         if(birdCount < 600) {
           addBird();
-          requestAnimationFrame(f);
         }
+        fglayer.draw();
+        requestAnimationFrame(f);
       });
     };
 
