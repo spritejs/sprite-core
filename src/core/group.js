@@ -7,25 +7,21 @@ import groupApi from '../helpers/group';
 const _zOrder = Symbol('zOrder'),
   _layoutTag = Symbol('layoutTag');
 
+const reflow = true,
+  relayout = true;
+
 class GroupAttr extends BaseSprite.Attr {
   static inits = []
 
   constructor(subject) {
     super(subject);
-    this.setDefault({
-      clip: null,
-      scrollTop: 0,
-      scrollLeft: 0,
-    });
-
     GroupAttr.inits.forEach((init) => {
       init(this, subject);
     });
   }
 
-  @attr
+  @attr({reflow, value: null})
   set clip(val) {
-    this.clearFlow();
     if(val) {
       val = typeof val === 'string' ? {d: val} : val;
       this.subject.svg = createSvgPath(val);
@@ -36,51 +32,24 @@ class GroupAttr extends BaseSprite.Attr {
     }
   }
 
-  // @attr
-  // @relative('width')
-  // set width(value) {
-  //   this.clearLayout();
-  //   this.set('width', value);
-  // }
-
-  // @attr
-  // @relative('height')
-  // set height(value) {
-  //   this.clearLayout();
-  //   this.set('height', value);
-  // }
-
-  @attr
+  @attr({relayout})
   @relative('width')
-  set layoutWidth(value) {
-    this.clearLayout();
-    this.set('layoutWidth', value);
-  }
+  layoutWidth;
 
-  @attr
+  @attr({relayout})
   @relative('height')
-  set layoutHeight(value) {
-    this.clearLayout();
-    this.set('layoutHeight', value);
-  }
+  layoutHeight;
 
-  @attr
-  set display(value) {
-    this.clearLayout();
-    this.set('display', value);
-  }
+  @attr({relayout})
+  display = '';
 
   @parseValue(parseFloat)
   @attr
-  set scrollLeft(value) {
-    this.set('scrollLeft', value);
-  }
+  scrollLeft = 0;
 
   @parseValue(parseFloat)
   @attr
-  set scrollTop(value) {
-    this.set('scrollTop', value);
-  }
+  scrollTop = 0;
 }
 
 const _layout = Symbol('layout');

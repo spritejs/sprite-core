@@ -29,6 +29,7 @@ import {
   parseValue,
   relative,
   cachable,
+  composit,
   decorators,
 } from './decorators';
 
@@ -38,6 +39,7 @@ import {findColor, cacheContextPool, drawRadiusBox} from './render';
 
 export {
   cachable,
+  composit,
   findColor,
   cacheContextPool,
   drawRadiusBox,

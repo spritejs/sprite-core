@@ -3,17 +3,36 @@ import {Matrix} from 'sprite-math';
 import NodeAttr from './attr';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
-  parseValue, attr, relative, sortOrderedSprites} from '../utils';
+  parseValue, attr, relative, sortOrderedSprites, composit} from '../utils';
 
 const cache = true,
   reflow = true,
   relayout = true;
 
-const border = {
-  width: 0,
-  color: 'rgba(0,0,0,0)',
-  style: 'solid',
-};
+function parseBorderValue(val) {
+  if(val == null) {
+    return null;
+  }
+  if(typeof val === 'number' || typeof val === 'string') {
+    val = {
+      width: parseFloat(val),
+    };
+  } else if(Array.isArray(val)) {
+    val = {
+      width: parseFloat(val[0]),
+      color: parseColorString(val[1] || '#000'),
+    };
+  } else {
+    val.width = parseFloat(val.width);
+    val.color = parseColorString(val.color || '#000');
+  }
+  val = Object.assign({
+    width: 1,
+    color: parseColorString('#000'),
+    style: 'solid',
+  }, val);
+  return val;
+}
 
 export default class SpriteAttr extends NodeAttr {
   constructor(subject) {
@@ -96,90 +115,57 @@ export default class SpriteAttr extends NodeAttr {
   @composit(['x', 'y'])
 
   @attr
-  @composit({borderWidth, borderStyle, borderColor})
+  @composit({width: 'borderWidth', style: 'borderStyle', color: 'borderColor'})
   */
 
   @parseValue(parseStringInt)
   @attr
-  set pos(val) {
-    if(val == null) {
-      val = [0, 0];
-    }
-    const [x, y] = val;
-    this.x = x;
-    this.y = y;
-  }
-
-  get pos() {
-    return [this.x, this.y];
-  }
+  @composit(['x', 'y'])
+  pos;
 
   @parseValue(parseColorString)
   @attr
   bgcolor = '';
 
   @parseValue(parseFloat)
-  @attr({cache: true})
+  @attr({cache})
   opacity = 1;
 
-  @attr({reflow: true})
+  @attr({reflow})
   @relative('width')
   width = '';
 
-  @attr({reflow: true})
+  @attr({reflow})
   @relative('height')
   height = '';
 
-  @attr({reflow: true})
+  @attr({reflow})
   @relative('width')
   layoutWidth = '';
 
-  @attr({reflow: true})
+  @attr({reflow})
   @relative('height')
   layoutHeight = '';
 
   @parseValue(parseStringInt)
   @attr
-  set size(val) {
-    if(val == null) {
-      val = ['', ''];
-    }
-    const [width, height] = val;
-    this.width = width;
-    this.height = height;
-  }
+  @composit(['width', 'height'])
+  size;
 
-  get size() {
-    return [this.width, this.height];
-  }
+  @parseValue(parseInt)
+  @attr
+  borderWidth = 0;
 
-  @attr({value: border})
-  set border(val) {
-    if(val == null) {
-      this.set('border', null);
-      return;
-    }
-    if(typeof val === 'number' || typeof val === 'string') {
-      val = {
-        width: parseFloat(val),
-      };
-    } else if(Array.isArray(val)) {
-      val = {
-        width: parseFloat(val[0]),
-        color: parseColorString(val[1] || '#000'),
-      };
-    } else {
-      val.width = parseFloat(val.width);
-      val.color = parseColorString(val.color || '#000');
-    }
-    val = Object.assign({
-      width: 1,
-      color: parseColorString('#000'),
-      style: 'solid',
-    }, val);
-    this.clearFlow();
-    this.set('border', val);
-  }
+  @attr
+  borderColor = 'rgba(0,0,0,0)';
+
+  @attr
+  borderStyle = 'solid';
+
+  @parseValue(parseBorderValue)
+  @attr({reflow})
+  @composit({width: 'borderWidth', color: 'borderColor', style: 'borderStyle'})
+  border;
 
   @parseValue(parseFloat)
   @attr({reflow})
@@ -199,17 +185,8 @@ export default class SpriteAttr extends NodeAttr {
 
   @parseValue(parseStringInt, fourValuesShortCut)
   @attr
-  set padding(val) {
-    val = val || [0, 0, 0, 0];
-    this.paddingTop = val[0];
-    this.paddingRight = val[1];
-    this.paddingBottom = val[2];
-    this.paddingLeft = val[3];
-  }
-
-  get padding() {
-    return [this.paddingTop, this.paddingRight, this.paddingBottom, this.paddingLeft];
-  }
+  @composit(['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'])
+  padding;
 
   @parseValue(parseFloat)
   @attr
@@ -480,17 +457,8 @@ export default class SpriteAttr extends NodeAttr {
 
   @parseValue(parseStringInt, fourValuesShortCut)
   @attr
-  set margin(val) {
-    val = val || [0, 0, 0, 0];
-    this.marginTop = val[0];
-    this.marginRight = val[1];
-    this.marginBottom = val[2];
-    this.marginLeft = val[3];
-  }
-
-  get margin() {
-    return [this.marginTop, this.marginRight, this.marginBottom, this.marginLeft];
-  }
+  @composit(['marginTop', 'marginRight', 'marginBottom', 'marginLeft'])
+  margin;
 
   /*
     {

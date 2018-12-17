@@ -1,25 +1,13 @@
-import {parseColorString, parseValue, parseStringFloat, attr, flow, inherit, findColor} from '../utils';
+import {parseColorString, parseValue, parseStringFloat, attr, composit, flow, inherit, findColor} from '../utils';
 import BaseSprite from './basesprite';
 import {pathEffect, createSvgPath} from '../helpers/path';
 
-class PathSpriteAttr extends BaseSprite.Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      lineWidth: 'inherit',
-      lineDash: null,
-      lineDashOffset: 0,
-      lineCap: 'inherit',
-      lineJoin: 'inherit',
-      strokeColor: 'inherit',
-      fillColor: 'inherit',
-      bounding: 'inherit',
-    });
-  }
+const reflow = true,
+  quiet = true;
 
-  @attr
+class PathSpriteAttr extends BaseSprite.Attr {
+  @attr({reflow})
   set path(val) {
-    this.clearFlow();
     if(val) {
       val = typeof val === 'string' ? {d: val} : val;
       this.subject.svg = createSvgPath(val);
@@ -48,77 +36,54 @@ class PathSpriteAttr extends BaseSprite.Attr {
     return this.path ? this.path.d : null;
   }
 
-  @attr
+  @parseValue(parseFloat, Math.round)
+  @attr({reflow})
   @inherit(1)
-  set lineWidth(val) {
-    if(typeof val === 'string') val = parseFloat(val);
-    this.clearFlow();
-    this.set('lineWidth', Math.round(val));
-  }
+  lineWidth = 'inherit';
 
-  @parseValue(parseStringFloat)
+  @parseValue(parseStringFloat, (val) => { return typeof val === 'number' ? [val] : val })
   @attr
-  set lineDash(val) {
-    if(typeof val === 'number') val = [val];
-    this.set('lineDash', val);
-  }
+  lineDash;
 
   @parseValue(parseFloat)
   @attr
-  set lineDashOffset(val) {
-    this.set('lineDashOffset', val);
-  }
+  lineDashOffset = 0;
 
   /**
     lineCap: butt|round|square
    */
   @attr
   @inherit('butt')
-  set lineCap(val) {
-    this.set('lineCap', val);
-  }
+  lineCap = 'inherit';
 
   /**
     lineJoin: miter|round|bevel
    */
   @attr
   @inherit('miter')
-  set lineJoin(val) {
-    this.set('lineJoin', val);
-  }
+  lineJoin = 'inherit';
 
+  @parseValue(parseColorString)
   @attr
   @inherit('')
-  set strokeColor(val) {
-    this.set('strokeColor', parseColorString(val));
-  }
+  strokeColor = 'inherit';
 
+  @parseValue(parseColorString)
   @attr
   @inherit('')
-  set fillColor(val) {
-    this.set('fillColor', parseColorString(val));
-  }
+  fillColor = 'inherit';
 
-  @attr
-  set flexible(val) {
-    this.clearFlow();
-    this.set('flexible', val);
-  }
+  @attr({reflow})
+  flexible;
 
-  @attr
+  // box | path
+  @attr({quiet})
   @inherit('box')
-  set bounding(val) { // box | path
-    this.quietSet('bounding', val);
-  }
+  bounding = 'inherit';
 
   @attr
-  set color(val) {
-    this.strokeColor = val;
-  }
-
-  get color() {
-    return this.strokeColor;
-  }
+  @composit('strokeColor')
+  color;
 }
 
 export default class Path extends BaseSprite {

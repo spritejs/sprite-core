@@ -32,7 +32,7 @@ export function attr(options) {
     value = null;
 
   const decorator = function (elementDescriptor) {
-    const {key, kind, placement} = elementDescriptor;
+    const {key, kind} = elementDescriptor;
     attributeNames.add(key);
 
     if(quiet && (cache || reflow || relayout)) {
@@ -42,6 +42,9 @@ export function attr(options) {
     let _symbolKey = key,
       defaultValue = value != null ? value : elementDescriptor.value;
 
+    const relativeType = elementDescriptor.descriptor.__relative;
+    const inheritValue = elementDescriptor.descriptor.__inherit;
+
     if(kind === 'field') {
       defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : value;
       _symbolKey = Symbol(key);
@@ -50,8 +53,10 @@ export function attr(options) {
       elementDescriptor = {
         kind: 'method',
         key,
-        placement,
+        placement: 'prototype',
         descriptor: {
+          configurable: true,
+          enumerable: true,
           set: setter,
           get() {
             return this.get(_symbolKey);
@@ -60,12 +65,9 @@ export function attr(options) {
       };
     }
 
-    const relativeType = elementDescriptor.descriptor.__relative;
     if(relativeType) {
       elementDescriptor = applyRative(elementDescriptor, relativeType);
     }
-
-    const inheritValue = elementDescriptor.descriptor.__inherit;
     if(inheritValue) {
       elementDescriptor = applyInherit(elementDescriptor, inheritValue.defaultValue);
     }
@@ -79,12 +81,12 @@ export function attr(options) {
         return ret != null ? ret : this.getDefaultValue(key, defaultValue);
       };
     }
-    if(!descriptor.__relative && !descriptor.__inherit) {
+    if(!relativeType && !inheritValue) {
       descriptor.get = function () {
         const ret = _getter.call(this);
         return ret != null ? ret : this.getDefaultValue(key, defaultValue);
       };
-    } else if(descriptor.__relative) {
+    } else if(relativeType) {
       // enable set default to user defined getter
       descriptor.get = function () {
         let ret = _getter.call(this);
@@ -137,7 +139,8 @@ export function attr(options) {
 
         if(ret == null) {
           ret = this.getDefaultValue(key, defaultValue);
-        } else if(ret === 'inherit') {
+        }
+        if(ret === 'inherit') {
           let value = null;
           let parent = subject.parent;
           while(parent && parent.attr) {
@@ -208,6 +211,52 @@ export function attr(options) {
   return decorator;
 }
 
+export function composit(struct) {
+  return function (elementDescriptor) {
+    const {kind, key} = elementDescriptor;
+    if(kind !== 'field') {
+      throw new Error(`Invalid composit attribute ${key}`);
+    }
+    elementDescriptor.kind = 'method';
+    let set,
+      get;
+
+    if(typeof struct === 'string') {
+      set = function (val) {
+        this[struct] = val;
+      };
+      get = function () {
+        return this[struct];
+      };
+    } else if(Array.isArray(struct)) {
+      set = function (val) {
+        struct.forEach((key, i) => {
+          this[key] = val != null ? val[i] : null;
+        });
+      };
+      get = function () {
+        return struct.map(key => this[key]);
+      };
+    } else {
+      struct = Object.entries(struct);
+      set = function (val) {
+        struct.forEach(([prop, key]) => {
+          this[key] = val != null ? val[prop] : null;
+        });
+      };
+      get = function () {
+        const ret = {};
+        struct.forEach(([prop, key]) => {
+          ret[prop] = this[key];
+        });
+        return ret;
+      };
+    }
+    elementDescriptor.descriptor = {get, set, __composit: true};
+    return elementDescriptor;
+  };
+}
+
 // after attr
 export function cachable(elementDescriptor) {
   const {descriptor} = elementDescriptor;
@@ -256,7 +305,6 @@ function applyRative(elementDescriptor, type) {
   const {descriptor} = elementDescriptor;
 
   const setter = descriptor.set;
-  descriptor.__relative = true;
 
   descriptor.set = function (val) {
     if(typeof val === 'string') {

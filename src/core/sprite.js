@@ -6,13 +6,8 @@ const _texturesCache = Symbol('_texturesCache');
 const _images = Symbol('_images');
 
 class TextureAttr extends BaseSprite.Attr {
-  constructor(subject) {
-    super(subject);
-    this.setDefault({
-      textures: [],
-      enableCache: true,
-    });
-  }
+  @attr
+  enableCache = true;
 
   /*
     {
@@ -22,7 +17,7 @@ class TextureAttr extends BaseSprite.Attr {
       filter: ...  //texture filters
     }
    */
-  @attr
+  @attr({value: []})
   set textures(textures) {
     if(!Array.isArray(textures)) {
       textures = [textures];
