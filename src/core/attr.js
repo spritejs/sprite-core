@@ -1,4 +1,4 @@
-import {attr, deprecate, attributeNames, relatedAttributes, parseValue, decorators} from './utils';
+import {attr, deprecate, attributeNames, relatedAttributes, parseValue, decorators} from '../utils';
 
 const _attr = Symbol('attr'),
   _style = Symbol('style'),

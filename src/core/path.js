@@ -1,7 +1,6 @@
-import {parseColorString, parseValue, parseStringFloat, attr, flow, inherit} from './utils';
+import {parseColorString, parseValue, parseStringFloat, attr, flow, inherit, findColor} from '../utils';
 import BaseSprite from './basesprite';
-import {findColor} from './helpers/render';
-import {pathEffect, createSvgPath} from './helpers/path';
+import {pathEffect, createSvgPath} from '../helpers/path';
 
 class PathSpriteAttr extends BaseSprite.Attr {
   constructor(subject) {

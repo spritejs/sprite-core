@@ -1,4 +1,4 @@
-import {cacheContextPool} from './helpers/render';
+import {cacheContextPool} from '../utils';
 
 const _batch = Symbol('batch');
 

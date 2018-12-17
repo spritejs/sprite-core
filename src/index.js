@@ -2,15 +2,15 @@ import {Effects, Easings, Timeline} from 'sprite-animator';
 import SvgPath from 'svg-path-to-canvas';
 import * as math from 'sprite-math';
 import * as utils from './utils';
-import BaseSprite from './basesprite';
-import Sprite from './sprite';
-import Label from './label';
-import Layer from './layer';
-import Group from './group';
-import BaseNode from './basenode';
-import Path from './path';
-import Batch from './batch';
-import use from './use';
+import BaseSprite from './core/basesprite';
+import Sprite from './core/sprite';
+import Label from './core/label';
+import Layer from './core/layer';
+import Group from './core/group';
+import BaseNode from './core/basenode';
+import Path from './core/path';
+import Batch from './core/batch';
+import use from './core/use';
 
 // load modules
 import './modules/layout';

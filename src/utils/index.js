@@ -34,12 +34,13 @@ import {
 
 import {attributeNames, relatedAttributes} from './store';
 
-import {findColor, cacheContextPool} from '../helpers/render';
+import {findColor, cacheContextPool, drawRadiusBox} from './render';
 
 export {
   cachable,
   findColor,
   cacheContextPool,
+  drawRadiusBox,
   appendUnit,
   attr,
   Color,

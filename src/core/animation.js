@@ -1,7 +1,7 @@
 import {Animator, Effects} from 'sprite-animator';
 import {Matrix} from 'sprite-math';
-import {parseColor, parseStringFloat, parseStringTransform} from './utils';
-import {requestAnimationFrame, cancelAnimationFrame} from './helpers/fast-animation-frame';
+import {parseColor, parseStringFloat, parseStringTransform} from '../utils';
+import {requestAnimationFrame, cancelAnimationFrame} from '../helpers/fast-animation-frame';
 
 const _defaultEffect = Effects.default;
 

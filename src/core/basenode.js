@@ -1,6 +1,6 @@
 // import stylesheet from './stylesheet';
 import NodeAttr from './attr';
-import {inheritAttributes, parseFont} from './utils';
+import {inheritAttributes, parseFont} from '../utils';
 
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),

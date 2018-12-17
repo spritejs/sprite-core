@@ -1,8 +1,8 @@
-import {parseValue, attr, flow, relative} from './utils';
+import {parseValue, attr, flow, relative} from '../utils';
 import BaseSprite from './basesprite';
-import {createSvgPath, pathEffect} from './helpers/path';
+import {createSvgPath, pathEffect} from '../helpers/path';
 
-import groupApi from './helpers/group';
+import groupApi from '../helpers/group';
 
 const _zOrder = Symbol('zOrder'),
   _layoutTag = Symbol('layoutTag');

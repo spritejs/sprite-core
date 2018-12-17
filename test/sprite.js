@@ -1,6 +1,6 @@
 import {createCanvas, loadImage} from 'canvas';
 import {Sprite, Layer} from '../src';
-import {cacheContextPool} from '../src/helpers/render';
+import {cacheContextPool} from '../src/utils';
 import {compare} from './helpers';
 
 const test = require('ava');

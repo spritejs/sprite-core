@@ -1,12 +1,12 @@
 import {querySelector, querySelectorAll} from './selector';
 import {registerNodeType, createNode, createElement, isValidNodeType} from './nodetype';
-import BaseNode from '../../basenode';
-import BaseSprite from '../../basesprite';
-import Sprite from '../../sprite';
-import Label from '../../label';
-import Path from '../../path';
-import Group from '../../group';
-import Layer from '../../layer';
+import BaseNode from '../../core/basenode';
+import BaseSprite from '../../core/basesprite';
+import Sprite from '../../core/sprite';
+import Label from '../../core/label';
+import Path from '../../core/path';
+import Group from '../../core/group';
+import Layer from '../../core/layer';
 
 registerNodeType('node', BaseNode);
 registerNodeType('basesprite', BaseSprite);

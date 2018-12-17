@@ -1,8 +1,8 @@
 import {LineBreaker} from 'css-line-break';
-import {parseValue, parseColorString, attr, flow, inherit, relative, parseFont} from './utils';
+import {parseValue, parseColorString, attr, flow, inherit, relative, parseFont} from '../utils';
 import BaseSprite from './basesprite';
 
-import {findColor} from './helpers/render';
+import {findColor} from '../utils/render';
 
 const _boxSize = Symbol('boxSize'),
   _outputText = Symbol('outputText');

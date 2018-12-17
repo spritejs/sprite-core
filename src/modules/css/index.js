@@ -1,5 +1,5 @@
-import BaseNode from '../../basenode';
-import Layer from '../../layer';
+import BaseNode from '../../core/basenode';
+import Layer from '../../core/layer';
 import stylesheet from './stylesheet';
 
 Layer.prototype.fromDocumentCSS = function () {

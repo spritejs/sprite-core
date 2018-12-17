@@ -1,15 +1,15 @@
 import {Timeline} from 'sprite-animator';
-import {requestAnimationFrame, cancelAnimationFrame, timeline} from './helpers/fast-animation-frame';
+import {requestAnimationFrame, cancelAnimationFrame, timeline} from '../helpers/fast-animation-frame';
 import BaseNode from './basenode';
 import BaseSprite from './basesprite';
 import Batch from './batch';
 import Group from './group';
 
-import groupApi from './helpers/group';
+import groupApi from '../helpers/group';
 
 // import stylesheet from './stylesheet';
 
-import {setDeprecation, parseValue, parseColorString, attr} from './utils';
+import {setDeprecation, parseValue, parseColorString, attr} from '../utils';
 
 const _zOrder = Symbol('zOrder'),
   _timeline = Symbol('timeline'),

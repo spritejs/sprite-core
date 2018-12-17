@@ -1,4 +1,4 @@
-import BaseAttr from '../../baseattr';
+import BaseAttr from '../../core/baseattr';
 import {parseValue, attr} from '../../utils';
 
 const defaultValues = {

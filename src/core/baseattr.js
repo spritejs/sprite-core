@@ -3,7 +3,7 @@ import {Matrix} from 'sprite-math';
 import NodeAttr from './attr';
 import {parseColorString, oneOrTwoValues, fourValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
-  parseValue, attr, relative, sortOrderedSprites} from './utils';
+  parseValue, attr, relative, sortOrderedSprites} from '../utils';
 
 const cache = true,
   reflow = true,
@@ -90,6 +90,14 @@ export default class SpriteAttr extends NodeAttr {
   @attr({cache})
   @relative('height')
   y = 0;
+
+  /*
+  @attr
+  @composit(['x', 'y'])
+
+  @attr
+  @composit({borderWidth, borderStyle, borderColor})
+  */
 
   @parseValue(parseStringInt)
   @attr

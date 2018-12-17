@@ -1,11 +1,10 @@
 import {Matrix, Vector} from 'sprite-math';
 import {Timeline} from 'sprite-animator';
-import {flow, absolute, rectVertices, deprecate} from './utils';
+import {flow, absolute, rectVertices, deprecate, drawRadiusBox, findColor, cacheContextPool} from '../utils';
 import BaseAttr from './baseattr';
 import BaseNode from './basenode';
 import Animation from './animation';
 
-import {drawRadiusBox, findColor, cacheContextPool} from './helpers/render';
 import filters from './filters';
 
 const _animations = Symbol('animations'),

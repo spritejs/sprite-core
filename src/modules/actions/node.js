@@ -1,4 +1,4 @@
-import BaseSprite from '../../basesprite';
+import BaseSprite from '../../core/basesprite';
 
 function doActions(ret, target, act) {
   const actions = target.children.map(c => c[act]()).filter(d => d.promise);

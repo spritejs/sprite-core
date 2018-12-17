@@ -1,4 +1,4 @@
-import {attr, flow, setDeprecation, generateID} from './utils';
+import {attr, flow, setDeprecation, generateID} from '../utils';
 import BaseSprite from './basesprite';
 import filters from './filters';
 
