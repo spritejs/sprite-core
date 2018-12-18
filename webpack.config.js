@@ -39,7 +39,7 @@ module.exports = function (env = {}) {
       rules: [
         {
           test: /\.js$/,
-          exclude: /node_modules\/(?!(sprite-[\w-]+)\/|svg-path-to-canvas|fast-animation-frame).*/,
+          exclude: /node_modules\/(?!(sprite-[\w-]+)\/|svg-path-to-canvas).*/,
           use: {
             loader: 'babel-loader',
             options: babelConf,
@@ -51,6 +51,12 @@ module.exports = function (env = {}) {
     },
     resolve: {
       aliasFields,
+      alias: {
+        'sprite-math': 'sprite-math/src/index',
+        'svg-path-to-canvas': 'svg-path-to-canvas/src/index',
+        'sprite-animator': 'sprite-animator/src/index',
+        'sprite-flex-layout': 'sprite-flex-layout/src/index',
+      },
     },
     externals,
     // Don't follow/bundle these modules, but request them at runtime from the environment
