@@ -88,7 +88,7 @@ const adapter = {
       if(Array.isArray(val)) {
         val = `[${val.join()}]`;
       }
-      return val;
+      return String(val);
     }
   },
   hasAttrib(elem, name) {

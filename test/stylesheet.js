@@ -95,6 +95,186 @@ test('match rules', (t) => {
   t.is(node3.attr('bgcolor'), 'rgba(255,0,0,1)');
 });
 
+test('*', (t) => {
+  initStyleSheet();
+  const rules = {
+    '*': {
+      x: 100,
+    },
+  };
+  stylesheet.add(rules);
+
+  const group = new Group();
+  for(let i = 0; i < 10; i++) {
+    const s = new Sprite();
+    stylesheet.computeStyle(s);
+    group.append(s);
+  }
+  t.is(group.childNodes.length, 10);
+  group.childNodes.forEach((s) => {
+    t.is(s.attr('x'), 100);
+  });
+});
+
+test('pseudo', (t) => {
+  initStyleSheet();
+  const rules = {
+    'sprite:nth-child(2n)': {
+      x: 100,
+    },
+    'sprite:nth-child(2n+1)': {
+      x: 200,
+    },
+    'sprite:first-child': {
+      x: 300,
+    },
+  };
+  stylesheet.add(rules);
+
+  const group = new Group();
+  for(let i = 0; i < 5; i++) {
+    const s = new Sprite();
+    group.append(s);
+    stylesheet.computeStyle(s);
+  }
+  t.is(group.children[0].attr('x'), 300);
+  t.is(group.children[1].attr('x'), 100);
+  t.is(group.children[2].attr('x'), 200);
+  t.is(group.children[3].attr('x'), 100);
+  t.is(group.children[4].attr('x'), 200);
+});
+
+test('pseudo not', (t) => {
+  initStyleSheet();
+  const rules = {
+    'group > sprite': {
+      x: 200,
+    },
+    'group > sprite:not(.foo)': {
+      x: 100,
+    },
+  };
+  stylesheet.add(rules);
+
+  const group = new Group();
+  for(let i = 0; i < 5; i++) {
+    const s = new Sprite();
+    if(i % 2) s.className = 'foo';
+    group.append(s);
+    stylesheet.computeStyle(s);
+  }
+
+  t.is(group.children[0].attr('x'), 100);
+  t.is(group.children[1].attr('x'), 200);
+  t.is(group.children[2].attr('x'), 100);
+  t.is(group.children[3].attr('x'), 200);
+  t.is(group.children[4].attr('x'), 100);
+});
+
+test('exists start end equal', (t) => {
+  initStyleSheet();
+  const rules = {
+    'sprite[data-bar]': {
+      x: 400,
+    },
+    'sprite[data-foo^="bar"]': {
+      x: 100,
+    },
+    'sprite[data-foo$="bar"]': {
+      x: 200,
+    },
+    'sprite[data-foo="bar"]': {
+      x: 300,
+    },
+  };
+  stylesheet.add(rules);
+
+  const node1 = new Sprite();
+  node1.data('foo', 'foo bar');
+  const node2 = new Sprite();
+  node2.data('foo', 'bar foo');
+  const node3 = new Sprite();
+  node3.data('foo', 'bar');
+  const node4 = new Sprite();
+  node4.data('bar', 'bar');
+  const node5 = new Sprite();
+
+  const group = new Group();
+  group.append(node1, node2, node3);
+
+  stylesheet.computeStyle(node1);
+  stylesheet.computeStyle(node2);
+  stylesheet.computeStyle(node3);
+  stylesheet.computeStyle(node4);
+  stylesheet.computeStyle(node5);
+
+  t.is(node1.attr('x'), 200);
+  t.is(node2.attr('x'), 100);
+  t.is(node3.attr('x'), 300);
+  t.is(node4.attr('x'), 400);
+  t.is(node5.attr('x'), 0);
+});
+
+test('equal any hypen element', (t) => {
+  initStyleSheet();
+  const rules = {
+    'sprite[data-foo*="bar"]': {
+      x: 100,
+    },
+    'sprite[data-foo|="bar"]': {
+      x: 200,
+    },
+    'sprite[data-foo="bar"]': {
+      x: 300,
+    },
+  };
+  stylesheet.add(rules);
+
+  const node1 = new Sprite();
+  node1.data('foo', 'the bar');
+  const node2 = new Sprite();
+  node2.data('foo', 'the bar2');
+  const node3 = new Sprite();
+  node3.data('foo', 'bar');
+  const node4 = new Sprite();
+  node4.data('foo', 'bar-2');
+  const node5 = new Sprite();
+  node5.data('foo', 'bar-3');
+
+  const group = new Group();
+  group.append(node1, node2, node3, node4, node5);
+
+  stylesheet.computeStyle(node1);
+  stylesheet.computeStyle(node2);
+  stylesheet.computeStyle(node3);
+  stylesheet.computeStyle(node4);
+  stylesheet.computeStyle(node5);
+
+  t.is(node1.attr('x'), 100);
+  t.is(node2.attr('x'), 100);
+  t.is(node3.attr('x'), 300);
+  t.is(node4.attr('x'), 200);
+  t.is(node5.attr('x'), 200);
+
+  stylesheet.add({
+    'sprite[data-foo~=bar]': {
+      x: 400,
+    },
+  });
+
+  stylesheet.computeStyle(node1);
+  stylesheet.computeStyle(node2);
+  stylesheet.computeStyle(node3);
+  stylesheet.computeStyle(node4);
+  stylesheet.computeStyle(node5);
+
+  t.is(node1.attr('x'), 400);
+  t.is(node2.attr('x'), 100);
+  t.is(node3.attr('x'), 400);
+  t.is(node4.attr('x'), 200);
+  t.is(node5.attr('x'), 200);
+});
+
 test('descendant & child', (t) => {
   initStyleSheet();
   const rules = {

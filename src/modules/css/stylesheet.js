@@ -10,6 +10,7 @@ const _matchedSelectors = Symbol('matchedSelectors');
 const _transitions = Symbol('transitions');
 const _animation = Symbol('animation');
 
+/* istanbul ignore next */
 function parseTransitionValue(values) {
   if(typeof values === 'string') values = values.trim().split(/\s*,\s*/g);
   const ret = [];
@@ -27,6 +28,7 @@ function parseTransitionValue(values) {
   return ret;
 }
 
+/* istanbul ignore next */
 function parseAnimationValue(value) {
   value = value.toString();
   if(value === 'initial') {
@@ -39,6 +41,7 @@ function parseAnimationValue(value) {
   return value;
 }
 
+/* istanbul ignore next */
 function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
   if(typeof value === 'string') {
     const matched = value.match(/^([\d.]+)(px|pt|pc|in|cm|mm|em|ex|rem|q|vw|vh|vmax|vmin)$/);
@@ -57,6 +60,7 @@ function toPxValue(value, defaultWidth) { // eslint-disable-line complexity
   return value;
 }
 
+/* istanbul ignore next */
 const CSSGetter = {
   opacity: true,
   width: true,
@@ -148,6 +152,7 @@ const CSSGetter = {
   animationName: true,
 };
 
+/* istanbul ignore next */
 function parseRuleAttrs(rule) {
   let styleAttrs;
   const isStyleMap = !!rule.styleMap;
@@ -352,7 +357,7 @@ function parseRuleAttrs(rule) {
   return attrs;
 }
 
-function parseFrames(rule) {
+function parseFrames(rule) /* istanbul ignore next */ {
   const rules = rule.cssRules || rule.rules;
   if(rules && rules.length > 0) {
     const frames = [];
@@ -367,7 +372,7 @@ function parseFrames(rule) {
   }
 }
 
-
+/* istanbul ignore next */
 function toCamel(str) {
   return str.replace(/([^-])(?:-+([^-]))/g, ($0, $1, $2) => {
     return $1 + $2.toUpperCase();
@@ -388,23 +393,24 @@ function resolveToken(token) { // eslint-disable-line complexity
   } else if(token.type === 'pseudo') {
     const data = token.data;
     if(data != null) {
-      if(token.name !== 'not') {
-        ret = `:${token.name}(${token.data})`;
-      } else {
+      if(token.name === 'not') {
         data.forEach((rules) => {
           rules.forEach((token) => {
             const r = resolveToken(token);
             ret += r.token;
-            valid = r.valid;
+            valid &= r.valid;
           });
         });
+        ret = `:${token.name}(${ret})`;
+      } else {
+        ret = `:${token.name}(${token.data})`;
       }
     } else {
       ret = `:${token.name}`;
     }
-    if(token.name === 'hover') {
+    if(token.name === 'hover') /* istanbul ignore next */ {
       relatedAttributes.add('__internal_state_hover_');
-    } else if(token.name === 'active') {
+    } else if(token.name === 'active') /* istanbul ignore next */ {
       relatedAttributes.add('__internal_state_active_');
     }
     // not support yet
@@ -413,7 +419,7 @@ function resolveToken(token) { // eslint-disable-line complexity
       && token.name !== 'visited'
       && token.name !== 'lang';
     priority = token.name !== 'not' ? 1000 : 0;
-  } else if(token.type === 'pseudo-element') {
+  } else if(token.type === 'pseudo-element') /* istanbul ignore next */ {
     ret = `::${token.name}`;
     priority = 1;
     valid = false; // pseudo-element not support
@@ -430,8 +436,9 @@ function resolveToken(token) { // eslint-disable-line complexity
       } else {
         ret = `[${name}="${value}"]`;
       }
-    } else if(action === 'not') {
-      ret = `[${name}!="${value}"]`;
+    } else if(action === 'not') /* istanbul ignore next */ {
+      throw new Error('Attribute \'not\' action is not allowed.');
+      // ret = `[${name}!="${value}"]`;
     } else if(action === 'start') {
       ret = `[${name}^="${value}"]`;
     } else if(action === 'end') {
@@ -561,7 +568,7 @@ export default {
   computeStyle(el) {
     if(!el.attributes) return {};
     el.__styleNeedUpdate = false;
-    if(cssRules.length <= 0) return;
+    if(cssRules.length <= 0) return {};
     const attrs = {};
     const selectors = [];
     const transitions = [];
@@ -592,7 +599,8 @@ export default {
     const matchedSelectors = selectors.join();
     if(el[_matchedSelectors] !== matchedSelectors) {
       // console.log(transitions);
-      if(attrs.animation) /* istanbul ignore next */ {
+      /* istanbul ignore if */
+      if(attrs.animation) {
         const animation = attrs.animation;
         const delay = animation.animationDelay,
           direction = animation.animationDirection,
@@ -617,7 +625,8 @@ export default {
         delete attrs.animation;
       }
 
-      if(el[_transitions]) /* istanbul ignore next */ {
+      /* istanbul ignore if */
+      if(el[_transitions]) {
         el[_transitions].forEach((t) => {
           t.cancel(true);
           el.attributes.__styleTag = true;
@@ -627,7 +636,8 @@ export default {
         delete el[_transitions];
       }
 
-      if(transitions.length > 0) /* istanbul ignore next */ {
+      /* istanbul ignore if */
+      if(transitions.length > 0) {
         el[_transitions] = [];
         el.setReleaseKey(_transitions);
         Promise.all(transitions.map((t) => {
@@ -649,6 +659,7 @@ export default {
       el.attributes.__styleTag = false;
       // if(el.forceUpdate) el.forceUpdate();
     }
+    return attrs;
   },
   get relatedAttributes() {
     return relatedAttributes;

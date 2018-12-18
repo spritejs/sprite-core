@@ -2,6 +2,64 @@
 import NodeAttr from './attr';
 import {inheritAttributes, parseFont} from '../utils';
 
+function createAttribute(attr, key) {
+  Object.defineProperty(attr, key, {
+    enumerable: false,
+    configurable: true,
+    set(value) {
+      if(!this.__styleTag && value != null) {
+        this.__attributesSet.add(key);
+      }
+      if(!this.__styleTag && value == null) {
+        if(this.__attributesSet.has(key)) {
+          this.__attributesSet.delete(key);
+        }
+      }
+
+      this.quietSet(key, value);
+      const subject = this.subject;
+      // fixed color inherit
+      if(key === 'color') {
+        subject.attr('fillColor', value);
+      }
+      // fixed font inherit
+      if(key === 'fontSize'
+        || key === 'fontFamily'
+        || key === 'fontStyle'
+        || key === 'fontVariant'
+        || key === 'fontWeight') {
+        const font = this.get('font') || 'normal normal normal 16px Arial';
+        const parsed = parseFont(font);
+        parsed.fontSize = parsed.size + parsed.unit;
+        if(key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
+          value += 'px';
+        }
+        parsed[key] = value;
+        const {style, variant, weight, family, fontSize} = parsed;
+        subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
+      }
+      if(key === 'font'
+        || key === 'lineHeight'
+        || key === 'lineBreak'
+        || key === 'wordBreak'
+        || key === 'letterSpacing'
+        || key === 'textIndent') {
+        const children = subject.querySelectorAll('*');
+        children.forEach((node) => {
+          if(node.retypesetting) node.retypesetting();
+        });
+      }
+      if(inheritAttributes.has(key)) {
+        subject.forceUpdate();
+      }
+    },
+    get() {
+      const ret = this.get(key);
+      return ret != null ? ret : this.getDefaultValue(key);
+    },
+  });
+}
+
 const _eventHandlers = Symbol('eventHandlers'),
   _collisionState = Symbol('collisionState'),
   _data = Symbol('data'),
@@ -62,61 +120,7 @@ export default class BaseNode {
   attr(props, val) {
     const setVal = (key, value) => {
       if(!(key in this[_attr])) {
-        Object.defineProperty(this[_attr], key, {
-          // enumerable: true,
-          configurable: true,
-          set(value) {
-            if(!this.__styleTag && val != null) {
-              this.__attributesSet.add(key);
-            }
-            if(!this.__styleTag && val == null) {
-              if(this.__attributesSet.has(key)) {
-                this.__attributesSet.delete(key);
-              }
-            }
-
-            this.quietSet(key, value);
-            const subject = this.subject;
-            // fixed color inherit
-            if(key === 'color') {
-              subject.attr('fillColor', value);
-            }
-            // fixed font inherit
-            if(key === 'fontSize'
-              || key === 'fontFamily'
-              || key === 'fontStyle'
-              || key === 'fontVariant'
-              || key === 'fontWeight') {
-              const font = this.get('font') || 'normal normal normal 16px Arial';
-              const parsed = parseFont(font);
-              parsed.fontSize = parsed.size + parsed.unit;
-              if(key === 'fontSize' && (typeof value === 'number' || /[\d.]$/.test(value))) {
-                value += 'px';
-              }
-              parsed[key] = value;
-              const {style, variant, weight, family, fontSize} = parsed;
-              subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
-            }
-            if(key === 'font'
-              || key === 'lineHeight'
-              || key === 'lineBreak'
-              || key === 'wordBreak'
-              || key === 'letterSpacing'
-              || key === 'textIndent') {
-              const children = subject.querySelectorAll('*');
-              children.forEach((node) => {
-                if(node.retypesetting) node.retypesetting();
-              });
-            }
-            if(inheritAttributes.has(key)) {
-              subject.forceUpdate();
-            }
-          },
-          get() {
-            const ret = this.get(key);
-            return ret != null ? ret : this.getDefaultValue(key);
-          },
-        });
+        createAttribute(this[_attr], key);
       }
       this[_attr][key] = value;
     };
@@ -156,7 +160,10 @@ export default class BaseNode {
         setVal(props, val);
         return this;
       }
-      return props in this[_attr] ? this[_attr][props] : this[_attr].getDefaultValue(props);
+      if(!(props in this[_attr])) {
+        createAttribute(this[_attr], props);
+      }
+      return this[_attr][props];
     }
 
     return this[_attr].attrs;

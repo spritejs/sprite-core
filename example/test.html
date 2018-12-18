@@ -11,34 +11,22 @@
   <script>
     const {stylesheet, Sprite, BaseNode, Group} = spritejs;
     const rules = {
-      'group sprite': {
-        bgcolor: 'red',
+      'group > sprite': {
+        x: 200,
       },
-      '.group1 > sprite': {
-        bgcolor: 'green',
-      },
-      sprite: {
-        bgcolor: 'blue',
+      'group > sprite:not(.foo)': {
+        x: 100,
       },
     };
     stylesheet.add(rules);
 
     const group = new Group();
-
-    const node1 = new Sprite();
-    group.append(node1);
-    group.className = 'group1';
-
-    const node2 = new Sprite();
-
-    const group2 = new Group();
-    const node3 = new Sprite();
-    group.append(group2);
-    group2.append(node3);
-
-    stylesheet.computeStyle(node1);
-    stylesheet.computeStyle(node2);
-    stylesheet.computeStyle(node3);
+    for(let i = 0; i < 5; i++) {
+      const s = new Sprite();
+      if(i % 2) s.className = 'foo';
+      group.append(s);
+      stylesheet.computeStyle(s);
+    }
   </script>
 </body>
 </html>

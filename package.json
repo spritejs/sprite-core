@@ -1,6 +1,6 @@
 {
   "name": "sprite-core",
-  "version": "2.26.15",
+  "version": "2.27.0",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -68,6 +68,7 @@
       "src/**/patheffect/*.js",
       "src/core/filters.js",
       "src/core/label.js",
+      "src/utils/parse-font.js",
       "test/**/*.js"
     ]
   },
