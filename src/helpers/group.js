@@ -142,8 +142,9 @@ export default {
     }
     return null;
   },
-  async replaceChild(newChild, oldChild) {
-    await this.insertBefore(newChild, oldChild);
-    this.removeChild(oldChild);
+  replaceChild(newChild, oldChild) {
+    Promise.resolve(this.insertBefore(newChild, oldChild)).then(() => {
+      this.removeChild(oldChild);
+    });
   },
 };

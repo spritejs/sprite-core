@@ -3,6 +3,11 @@ import {attributeNames, relatedAttributes} from './store';
 
 const _attrAbsolute = Symbol('attrAbsolute');
 
+/* eslint-disable prefer-rest-params */
+function polyfillLegacy(target, key, descriptor) {
+  return {target, key, descriptor};
+}
+
 function getPV(subject, relative) {
   let parent = subject.parent;
   let pv = null;
@@ -33,6 +38,9 @@ export function attr(options) {
     extra = null;
 
   const decorator = function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {key, kind} = elementDescriptor;
     attributeNames.add(key);
 
@@ -204,12 +212,15 @@ export function attr(options) {
       // delete this.__reflowTag;
       // delete this.__updateTag;
     }
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
   if(options.descriptor) {
     return decorator(options);
   }
-
+  if(arguments.length === 3) {
+    return decorator.apply(this, arguments);
+  }
   quiet = !!options.quiet;
   cache = !!options.cache;
   reflow = !!options.reflow;
@@ -222,6 +233,9 @@ export function attr(options) {
 
 export function composit(struct) {
   return function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {kind, key} = elementDescriptor;
     if(kind !== 'field') {
       throw new Error(`Invalid composit attribute ${key}`);
@@ -262,14 +276,19 @@ export function composit(struct) {
       };
     }
     elementDescriptor.descriptor = {get, set, __composit: true};
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
 
 // after attr
 export function cachable(elementDescriptor) {
+  if(arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
   const {descriptor} = elementDescriptor;
   descriptor.__cachable = true;
+  if(arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
@@ -278,15 +297,26 @@ export const inheritAttributes = new Set();
 // after attr
 export function inherit(defaultValue = '') {
   return function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {descriptor} = elementDescriptor;
     descriptor.__inherit = {defaultValue};
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
 
 function applyInherit(elementDescriptor, defaultValue) {
-  const {key, finisher} = elementDescriptor;
+  const {key, finisher, target} = elementDescriptor;
   inheritAttributes.add(key);
+  if(target) {
+    if(!target.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
+      target.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+    }
+    target.__inheritDefaults[key] = defaultValue;
+    return elementDescriptor.descriptor;
+  }
   return {
     ...elementDescriptor,
     finisher(klass) {
@@ -304,8 +334,12 @@ function applyInherit(elementDescriptor, defaultValue) {
 // relative -> width | height
 export function relative(type = 'width') {
   return function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {descriptor} = elementDescriptor;
     descriptor.__relative = type;
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
@@ -348,10 +382,14 @@ function applyRative(elementDescriptor, type) {
     }
     setter.call(this, val);
   };
+  if(arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
 export function flow(elementDescriptor) {
+  if(arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
   const {descriptor, key} = elementDescriptor;
   if(descriptor.get) {
     const _getter = descriptor.get;
@@ -364,11 +402,15 @@ export function flow(elementDescriptor) {
       return ret;
     };
   }
+  if(arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
 // set tag force to get absolute value from relative attributes
 export function absolute(elementDescriptor) {
+  if(arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
   const {descriptor} = elementDescriptor;
   if(descriptor.get) {
     const _getter = descriptor.get;
@@ -379,6 +421,7 @@ export function absolute(elementDescriptor) {
       return ret;
     };
   }
+  if(arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
@@ -389,6 +432,9 @@ export function setDeprecation(apiName, msg = '') {
 
 export function deprecate(msg, apiName = '') {
   const decorator = function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {descriptor, key} = elementDescriptor;
     apiName = apiName || `Method ${key}`;
     if(typeof descriptor.value === 'function') {
@@ -412,10 +458,14 @@ export function deprecate(msg, apiName = '') {
         return getter.call(this);
       };
     }
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
   if(msg.descriptor) {
     return decorator(msg);
+  }
+  if(arguments.length === 3) {
+    return decorator.apply(this, arguments);
   }
   return decorator;
 }
@@ -423,6 +473,9 @@ export function deprecate(msg, apiName = '') {
 // before attr
 export function parseValue(...parsers) {
   return function (elementDescriptor) {
+    if(arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
     const {descriptor} = elementDescriptor;
     const setter = descriptor.set;
 
@@ -432,7 +485,7 @@ export function parseValue(...parsers) {
       }
       setter.call(this, val);
     };
-
+    if(arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
@@ -452,3 +505,4 @@ export function decorators(...funcs) {
     return ret && ret.descriptor;
   };
 }
+/* eslint-enable prefer-rest-params */

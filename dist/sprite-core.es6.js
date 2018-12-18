@@ -5302,6 +5302,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const _attrAbsolute = Symbol('attrAbsolute');
+/* eslint-disable prefer-rest-params */
+
+
+function polyfillLegacy(target, key, descriptor) {
+  return {
+    target,
+    key,
+    descriptor
+  };
+}
 
 function getPV(subject, relative) {
   let parent = subject.parent;
@@ -5339,6 +5349,10 @@ function attr(options) {
       extra = null;
 
   const decorator = function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       key,
       kind
@@ -5548,11 +5562,16 @@ function attr(options) {
 
     }
 
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 
   if (options.descriptor) {
     return decorator(options);
+  }
+
+  if (arguments.length === 3) {
+    return decorator.apply(this, arguments);
   }
 
   quiet = !!options.quiet;
@@ -5565,6 +5584,10 @@ function attr(options) {
 }
 function composit(struct) {
   return function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       kind,
       key
@@ -5618,27 +5641,38 @@ function composit(struct) {
       set,
       __composit: true
     };
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 } // after attr
 
 function cachable(elementDescriptor) {
+  if (arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
+
   const {
     descriptor
   } = elementDescriptor;
   descriptor.__cachable = true;
+  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 const inheritAttributes = new Set(); // after attr
 
 function inherit(defaultValue = '') {
   return function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       descriptor
     } = elementDescriptor;
     descriptor.__inherit = {
       defaultValue
     };
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
@@ -5646,9 +5680,21 @@ function inherit(defaultValue = '') {
 function applyInherit(elementDescriptor, defaultValue) {
   const {
     key,
-    finisher
+    finisher,
+    target
   } = elementDescriptor;
   inheritAttributes.add(key);
+
+  if (target) {
+    if (!target.hasOwnProperty('__inheritDefaults')) {
+      // eslint-disable-line no-prototype-builtins
+      target.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+    }
+
+    target.__inheritDefaults[key] = defaultValue;
+    return elementDescriptor.descriptor;
+  }
+
   return { ...elementDescriptor,
 
     finisher(klass) {
@@ -5672,10 +5718,15 @@ function applyInherit(elementDescriptor, defaultValue) {
 
 function relative(type = 'width') {
   return function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       descriptor
     } = elementDescriptor;
     descriptor.__relative = type;
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 }
@@ -5725,10 +5776,15 @@ function applyRative(elementDescriptor, type) {
     setter.call(this, val);
   };
 
+  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
 function flow(elementDescriptor) {
+  if (arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
+
   const {
     descriptor,
     key
@@ -5749,10 +5805,15 @@ function flow(elementDescriptor) {
     };
   }
 
+  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 } // set tag force to get absolute value from relative attributes
 
 function absolute(elementDescriptor) {
+  if (arguments.length === 3) {
+    elementDescriptor = polyfillLegacy.apply(this, arguments);
+  }
+
   const {
     descriptor
   } = elementDescriptor;
@@ -5770,6 +5831,7 @@ function absolute(elementDescriptor) {
     };
   }
 
+  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 function setDeprecation(apiName, msg = '') {
@@ -5778,6 +5840,10 @@ function setDeprecation(apiName, msg = '') {
 }
 function deprecate(msg, apiName = '') {
   const decorator = function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       descriptor,
       key
@@ -5811,6 +5877,7 @@ function deprecate(msg, apiName = '') {
       };
     }
 
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 
@@ -5818,11 +5885,19 @@ function deprecate(msg, apiName = '') {
     return decorator(msg);
   }
 
+  if (arguments.length === 3) {
+    return decorator.apply(this, arguments);
+  }
+
   return decorator;
 } // before attr
 
 function parseValue(...parsers) {
   return function (elementDescriptor) {
+    if (arguments.length === 3) {
+      elementDescriptor = polyfillLegacy.apply(this, arguments);
+    }
+
     const {
       descriptor
     } = elementDescriptor;
@@ -5836,6 +5911,7 @@ function parseValue(...parsers) {
       setter.call(this, val);
     };
 
+    if (arguments.length === 3) return elementDescriptor.descriptor;
     return elementDescriptor;
   };
 } // return a function to apply any decorators to a descriptor
@@ -5860,6 +5936,7 @@ function decorators(...funcs) {
     return ret && ret.descriptor;
   };
 }
+/* eslint-enable prefer-rest-params */
 
 /***/ }),
 /* 119 */
@@ -12715,9 +12792,10 @@ const _removeTask = Symbol('removeTask');
     return null;
   },
 
-  async replaceChild(newChild, oldChild) {
-    await this.insertBefore(newChild, oldChild);
-    this.removeChild(oldChild);
+  replaceChild(newChild, oldChild) {
+    Promise.resolve(this.insertBefore(newChild, oldChild)).then(() => {
+      this.removeChild(oldChild);
+    });
   }
 
 });
