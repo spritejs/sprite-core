@@ -56,6 +56,7 @@ module.exports = function (env = {}) {
         'svg-path-to-canvas': 'svg-path-to-canvas/src/index',
         'sprite-animator': 'sprite-animator/src/index',
         'sprite-flex-layout': 'sprite-flex-layout/src/index',
+        'sprite-timeline': 'sprite-timeline/src/index',
       },
     },
     externals,
