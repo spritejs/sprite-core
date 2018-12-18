@@ -2,6 +2,20 @@ import {BaseNode} from '../src';
 
 const test = require('ava');
 
+test('basenode id, name, class', (t) => {
+  const s1 = new BaseNode();
+
+  Object.assign(s1, {
+    id: 'test',
+    name: 'foo',
+    className: 'bar',
+  });
+
+  t.is(s1.id, 'test');
+  t.is(s1.name, 'foo');
+  t.is(s1.className, 'bar');
+});
+
 test('basenode event', (t) => {
   const s1 = new BaseNode();
 

@@ -27,11 +27,11 @@ module.exports = function (env = {}) {
   }
 
   return {
-    mode: env.production ? 'production' : 'none', // production | development | none
+    mode: env.production ? 'production' : 'development', // production | development | none
     entry: {
       'sprite-core': './src/index',
-      'sprite-core-basic': './src/index.basic',
-      'sprite-core-dom': './src/index.dom',
+      // 'sprite-core-basic': './src/index.basic',
+      // 'sprite-core-dom': './src/index.dom',
     },
     output,
 

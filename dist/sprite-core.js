@@ -9279,6 +9279,7 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     this[_attr] = {};
     this[_style] = {};
     this.__cached = {};
+    if (!subject.updateStyles) subject.updateStyles = function () {};
     this[_temp] = new Map(); // save non-serialized values
 
     Object.defineProperty(this, '__attributesSet', {
@@ -9542,10 +9543,19 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
       kind: "method",
       key: "merge",
       value: function value(attrs) {
+        var _this2 = this;
+
         if (typeof attrs === 'string') {
           attrs = JSON.parse(attrs);
         }
 
+        Object.entries(attrs).forEach(function (_ref5) {
+          var _ref6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref5, 2),
+              key = _ref6[0],
+              value = _ref6[1];
+
+          _this2.subject.attr(key, value);
+        });
         return this;
       }
     }, {

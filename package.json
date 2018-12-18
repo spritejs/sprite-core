@@ -17,8 +17,8 @@
     "graphics"
   ],
   "scripts": {
-    "test": "nyc ava test/ --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
-    "test-waapi": "ava ./test/waapi/**.js",
+    "test": "nyc ava --serial && rm -rf ./coverage && mkdir ./coverage && nyc report --reporter=text-lcov > ./coverage/lcov.info",
+    "testOnly": "ava",
     "lint": "eslint 'src/**/*.js' --fix",
     "lint-test": "eslint 'test/**/*.js' --fix",
     "lint-example": "eslint 'example/*.html' --fix",
@@ -65,17 +65,17 @@
   },
   "nyc": {
     "exclude": [
-      "**/src/helpers/path/**/*.js",
-      "**/src/helpers/parse-font.js",
-      "**/src/filters.js",
-      "**/src/label.js",
-      "**/test/**/*.js"
+      "src/**/patheffect/*.js",
+      "src/core/filters.js",
+      "src/core/label.js",
+      "test/**/*.js"
     ]
   },
   "ava": {
     "files": [
-      "**/test/*.js",
-      "!**/test/label.js"
+      "test/*.js",
+      "!test/layout.js",
+      "!test/label.js"
     ],
     "require": [
       "@babel/register"

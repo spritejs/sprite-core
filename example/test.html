@@ -8,5 +8,37 @@
 </head>
 <body>
   <script src="/js/sprite-core.js"></script>
+  <script>
+    const {stylesheet, Sprite, BaseNode, Group} = spritejs;
+    const rules = {
+      'group sprite': {
+        bgcolor: 'red',
+      },
+      '.group1 > sprite': {
+        bgcolor: 'green',
+      },
+      sprite: {
+        bgcolor: 'blue',
+      },
+    };
+    stylesheet.add(rules);
+
+    const group = new Group();
+
+    const node1 = new Sprite();
+    group.append(node1);
+    group.className = 'group1';
+
+    const node2 = new Sprite();
+
+    const group2 = new Group();
+    const node3 = new Sprite();
+    group.append(group2);
+    group2.append(node3);
+
+    stylesheet.computeStyle(node1);
+    stylesheet.computeStyle(node2);
+    stylesheet.computeStyle(node3);
+  </script>
 </body>
 </html>

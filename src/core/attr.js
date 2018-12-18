@@ -49,6 +49,8 @@ export default class Attr {
     this[_style] = {};
     this.__cached = {};
 
+    if(!subject.updateStyles) subject.updateStyles = () => {};
+
     this[_temp] = new Map(); // save non-serialized values
 
     Object.defineProperty(this, '__attributesSet', {
@@ -191,6 +193,9 @@ export default class Attr {
     if(typeof attrs === 'string') {
       attrs = JSON.parse(attrs);
     }
+    Object.entries(attrs).forEach(([key, value]) => {
+      this.subject.attr(key, value);
+    });
     return this;
   }
 

@@ -455,9 +455,10 @@ function resolveToken(token) { // eslint-disable-line complexity
   } else if(token.type === 'child') {
     ret = '>';
     priority = 0;
-  } else if(token.type === 'parent') {
-    ret = '<';
-    priority = 0;
+  } else if(token.type === 'parent') /* istanbul ignore next */ {
+    throw new Error('Parent selector is not allowed.');
+    // ret = '<';
+    // priority = 0;
   } else if(token.type === 'sibling') {
     ret = '~';
     priority = 0;
@@ -467,8 +468,8 @@ function resolveToken(token) { // eslint-disable-line complexity
   } else if(token.type === 'descendant') {
     ret = ' ';
     priority = 0;
-  } else {
-    throw new Error('unknown token!', token);
+  } else /* istanbul ignore next */ {
+    throw new Error(`Unknown token ${token}.`);
   }
   return {token: ret, priority, valid};
 }
@@ -505,7 +506,7 @@ export default {
             fromDoc,
           };
           cssRules.push(rule);
-        } catch (ex) {
+        } catch (ex) /* istanbul ignore next */ {
           console.warn(ex.message);
         }
       }
@@ -515,7 +516,7 @@ export default {
       return d !== 0 ? d : a.order - b.order;
     });
   },
-  fromDocumentCSS(stylesheets, override) {
+  fromDocumentCSS(stylesheets, override) /* istanbul ignore next */ {
     if(override) {
       cssRules = cssRules.filter(r => !r.fromDoc);
     }
@@ -558,7 +559,7 @@ export default {
     }
   },
   computeStyle(el) {
-    if(!el.layer || !el.attributes) return {};
+    if(!el.attributes) return {};
     el.__styleNeedUpdate = false;
     if(cssRules.length <= 0) return;
     const attrs = {};
@@ -569,7 +570,7 @@ export default {
       if(isMatched(el, compiled)) {
         Object.assign(attrs, attributes);
         // console.log(JSON.stringify(attrs.transitions));
-        if(attrs.transitions) {
+        if(attrs.transitions) /* istanbul ignore next */ {
           transitions.push(...attrs.transitions);
           attrs.transitions.forEach((t) => {
             Object.keys(t.attrs).forEach((k) => {
@@ -591,7 +592,7 @@ export default {
     const matchedSelectors = selectors.join();
     if(el[_matchedSelectors] !== matchedSelectors) {
       // console.log(transitions);
-      if(attrs.animation) {
+      if(attrs.animation) /* istanbul ignore next */ {
         const animation = attrs.animation;
         const delay = animation.animationDelay,
           direction = animation.animationDirection,
@@ -616,7 +617,7 @@ export default {
         delete attrs.animation;
       }
 
-      if(el[_transitions]) {
+      if(el[_transitions]) /* istanbul ignore next */ {
         el[_transitions].forEach((t) => {
           t.cancel(true);
           el.attributes.__styleTag = true;
@@ -626,7 +627,7 @@ export default {
         delete el[_transitions];
       }
 
-      if(transitions.length > 0) {
+      if(transitions.length > 0) /* istanbul ignore next */ {
         el[_transitions] = [];
         el.setReleaseKey(_transitions);
         Promise.all(transitions.map((t) => {
