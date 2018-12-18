@@ -75,7 +75,6 @@
   "ava": {
     "files": [
       "test/*.js",
-      "!test/layout.js",
       "!test/label.js"
     ],
     "require": [

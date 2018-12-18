@@ -30,8 +30,8 @@ module.exports = function (env = {}) {
     mode: env.production ? 'production' : 'none', // production | development | none
     entry: {
       'sprite-core': './src/index',
-      // 'sprite-core-basic': './src/index.basic',
-      // 'sprite-core-dom': './src/index.dom',
+      'sprite-core-basic': './src/index.basic',
+      'sprite-core-dom': './src/index.dom',
     },
     output,
 
