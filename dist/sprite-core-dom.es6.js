@@ -1381,16 +1381,16 @@ function getCurrentFrame(timing, keyframes, effects, p) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sprite_math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _platform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _parse_svg_path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(14);
+/* harmony import */ var _abs_svg_path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
+/* harmony import */ var _normalize_svg_path__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(16);
+/* harmony import */ var _is_svg_path__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
 
 
 
-const parse = __webpack_require__(14);
 
-const abs = __webpack_require__(15);
 
-const normalize = __webpack_require__(16);
 
-const isSvgPath = __webpack_require__(18);
 
 const _path = Symbol('path');
 
@@ -1404,11 +1404,11 @@ const _beginPath = Symbol('beginPath');
 
 class SvgPath {
   constructor(d) {
-    if (!isSvgPath(d)) {
+    if (!Object(_is_svg_path__WEBPACK_IMPORTED_MODULE_5__["default"])(d)) {
       throw new Error('Not an SVG path!');
     }
 
-    const path = normalize(abs(parse(d)));
+    const path = Object(_normalize_svg_path__WEBPACK_IMPORTED_MODULE_4__["default"])(Object(_abs_svg_path__WEBPACK_IMPORTED_MODULE_3__["default"])(Object(_parse_svg_path__WEBPACK_IMPORTED_MODULE_2__["default"])(d)));
     this[_path] = path;
     this[_bounds] = null;
     this[_savedPaths] = [];
@@ -1848,17 +1848,19 @@ function isPointInPath({
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return parse; });
 // https://github.com/jkroso/parse-svg-path
-module.exports = parse;
+
 /**
  * expected argument lengths
  * @type {Object}
  */
 
 /* eslint-disable */
-
 var length = {
   a: 7,
   c: 6,
@@ -1910,7 +1912,6 @@ function parse(path) {
   });
   return data;
 }
-
 var number = /-?[0-9]*\.?[0-9]+(?:e[-+]?\d+)?/ig;
 
 function parseValues(args) {
@@ -1921,10 +1922,13 @@ function parseValues(args) {
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return absolutize; });
 // https://github.com/jkroso/abs-svg-path
-module.exports = absolutize;
+
 /**
  * redefine `path` with absolute coordinates
  *
@@ -1933,7 +1937,6 @@ module.exports = absolutize;
  */
 
 /* eslint-disable */
-
 function absolutize(path) {
   var startX = 0;
   var startY = 0;
@@ -2002,14 +2005,15 @@ function absolutize(path) {
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalize; });
+/* harmony import */ var _a2c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 // https://github.com/jkroso/normalize-svg-path
-module.exports = normalize;
 
-const a2c = __webpack_require__(17);
 /* eslint-disable */
-
 
 function normalize(path) {
   // init state
@@ -2035,7 +2039,7 @@ function normalize(path) {
         break;
 
       case 'A':
-        var curves = a2c(x, y, seg[6], seg[7], seg[4], seg[5], seg[1], seg[2], seg[3]);
+        var curves = Object(_a2c__WEBPACK_IMPORTED_MODULE_0__["default"])(x, y, seg[6], seg[7], seg[4], seg[5], seg[1], seg[2], seg[3]);
         if (!curves.length) continue;
         curves = curves.map(curve => {
           const [x0, y0, x1, y1, x2, y2, x, y] = curve;
@@ -2137,8 +2141,11 @@ function quadratic(x1, y1, cx, cy, x2, y2) {
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return a2c; });
 // https://github.com/colinmeinke/svg-arc-to-cubic-bezier
 //
 // Convert an arc to a sequence of cubic bézier curves
@@ -2244,7 +2251,7 @@ function approximate_unit_arc(theta1, delta_theta) {
   return [x1, y1, x1 - y1 * alpha, y1 + x1 * alpha, x2 + y2 * alpha, y2 - x2 * alpha, x2, y2];
 }
 
-module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
+function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
   const sin_phi = Math.sin(phi * TAU / 360);
   const cos_phi = Math.cos(phi * TAU / 360); // Make sure radii are valid
   //
@@ -2310,20 +2317,23 @@ module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
 
     return curve;
   });
-};
+}
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isPath; });
 // https://github.com/dy/is-svg-path
-module.exports = function isPath(str) {
+function isPath(str) {
   if (typeof str !== 'string') return false;
   str = str.trim(); // https://www.w3.org/TR/SVG/paths.html#PathDataBNF
 
   if (/^[mzlhvcsqta]\s*[-+.0-9][^mlhvzcsqta]+/i.test(str) && /[\dz]$/i.test(str) && str.length > 4) return true;
   return false;
-};
+}
 
 /***/ }),
 /* 19 */
