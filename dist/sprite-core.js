@@ -4210,7 +4210,7 @@ function applyInherit(elementDescriptor, defaultValue) {
     }
 
     target.__inheritDefaults[key] = defaultValue;
-    return elementDescriptor.descriptor;
+    return elementDescriptor;
   }
 
   return _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, elementDescriptor, {
@@ -4289,7 +4289,6 @@ function applyRative(elementDescriptor, type) {
     setter.call(this, val);
   };
 
-  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 

@@ -3740,7 +3740,7 @@ function applyInherit(elementDescriptor, defaultValue) {
     }
 
     target.__inheritDefaults[key] = defaultValue;
-    return elementDescriptor.descriptor;
+    return elementDescriptor;
   }
 
   return { ...elementDescriptor,
@@ -3824,7 +3824,6 @@ function applyRative(elementDescriptor, type) {
     setter.call(this, val);
   };
 
-  if (arguments.length === 3) return elementDescriptor.descriptor;
   return elementDescriptor;
 }
 
