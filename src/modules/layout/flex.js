@@ -1,34 +1,26 @@
 import {Node} from 'sprite-flex-layout';
+import {attr} from '../../utils';
 
 export const attrs = {
-  init(attr) {
-    attr.setDefault({
-      flexDirection: 'row',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      flexWrap: 'nowrap',
-      alignContent: 'stretch',
-    });
+  flexDirection: {
+    decorators: [attr({relayout})],
+    value: 'row',
   },
-  flexDirection(attr, value) {
-    attr.subject.clearLayout();
-    attr.set('flexDirection', value);
+  flexWrap: {
+    decorators: [attr({relayout})],
+    value: 'nowrap',
   },
-  flexWrap(attr, value) {
-    attr.subject.clearLayout();
-    attr.set('flexWrap', value);
+  justifyContent: {
+    decorators: [attr({relayout})],
+    value: 'flex-start',
   },
-  justifyContent(attr, value) {
-    attr.subject.clearLayout();
-    attr.set('justifyContent', value);
+  alignItems: {
+    decorators: [attr({relayout})],
+    value: 'stretch',
   },
-  alignItems(attr, value) {
-    attr.subject.clearLayout();
-    attr.set('alignItems', value);
-  },
-  alignContent(attr, value) {
-    attr.subject.clearLayout();
-    attr.set('alignContent', value);
+  alignContent: {
+    decorators: [attr({relayout})],
+    value: 'stretch',
   },
 };
 

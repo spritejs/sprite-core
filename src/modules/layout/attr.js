@@ -1,14 +1,6 @@
 import BaseAttr from '../../core/baseattr';
 import {parseValue, attr} from '../../utils';
 
-const defaultValues = {
-  flexGrow: 0,
-  flexShrink: 1,
-  flexBasis: 'auto',
-  order: 0,
-  alignSelf: '',
-};
-
 /*
   BaseAttr.addAttributes({
     flexGrow: {
@@ -26,23 +18,23 @@ const relayout = true,
 BaseAttr.addAttributes({
   flexGrow: {
     decorators: [parseValue(parseFloat), attr({relayout})],
-    value: defaultValues.flexGrow,
+    value: 0,
   },
   flexShrink: {
     decorators: [parseValue(parseFloat), attr({relayout})],
-    value: defaultValues.flexShrink,
+    value: 1,
   },
   flexBasis: {
     decorators: [attr({relayout, reflow})],
-    value: defaultValues.flexBasis,
+    value: 'auto',
   },
   order: {
     decorators: [parseValue(parseInt), attr({cache, relayout})],
-    value: defaultValues.order,
+    value: 0,
   },
   alignSelf: {
     decorators: [attr({cache, relayout})],
-    value: defaultValues.alignSelf,
+    value: '',
   },
   flex: {
     set(val) {
