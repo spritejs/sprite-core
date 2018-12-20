@@ -19,9 +19,9 @@ function createAttribute(attr, key) {
       this.quietSet(key, value);
       const subject = this.subject;
       // fixed color inherit
-      if(key === 'color') {
-        subject.attr('fillColor', value);
-      }
+      // if(key === 'color') {
+      //   subject.attr('fillColor', value);
+      // }
       // fixed font inherit
       if(key === 'fontSize'
         || key === 'fontFamily'

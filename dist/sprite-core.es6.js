@@ -6722,11 +6722,10 @@ function createAttribute(attr, key) {
 
       this.quietSet(key, value);
       const subject = this.subject; // fixed color inherit
-
-      if (key === 'color') {
-        subject.attr('fillColor', value);
-      } // fixed font inherit
-
+      // if(key === 'color') {
+      //   subject.attr('fillColor', value);
+      // }
+      // fixed font inherit
 
       if (key === 'fontSize' || key === 'fontFamily' || key === 'fontStyle' || key === 'fontVariant' || key === 'fontWeight') {
         const font = this.get('font') || 'normal normal normal 16px Arial';
@@ -8140,11 +8139,6 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
 
     }, {
       kind: "field",
-      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["composit"])('fillColor')],
-      key: "color",
-      value: void 0
-    }, {
-      kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
       key: "strokeColor",
 
@@ -8155,12 +8149,17 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
-      key: "fillColor",
+      key: "color",
 
       value() {
         return 'inherit';
       }
 
+    }, {
+      kind: "field",
+      decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["composit"])('color')],
+      key: "fillColor",
+      value: void 0
     }, {
       kind: "field",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],

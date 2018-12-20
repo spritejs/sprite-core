@@ -188,10 +188,6 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit('left')
   textAlign = 'inherit';
 
-  @attr
-  @composit('fillColor')
-  color;
-
   @parseValue(parseColorString)
   @attr
   @inherit('')
@@ -200,7 +196,11 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @parseValue(parseColorString)
   @attr
   @inherit('')
-  fillColor = 'inherit';
+  color = 'inherit';
+
+  @attr
+  @composit('color')
+  fillColor;
 
   @attr
   flexible;
