@@ -6138,9 +6138,7 @@ function _createElementDescriptor(def) {
         value: _typeof(key) === "symbol" ? "" : key,
         configurable: true
       });
-    } catch(ex) {
-      
-    }
+    } catch(ex) {}
   } else if (def.kind === "get") {
     descriptor = {
       get: def.value,
