@@ -312,7 +312,7 @@ function applyInherit(elementDescriptor, defaultValue) {
   inheritAttributes.add(key);
   if(target) {
     if(!target.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
-      target.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+      target.__inheritDefaults = Object.create(target.__inheritDefaults || null);
     }
     target.__inheritDefaults[key] = defaultValue;
     return elementDescriptor;
@@ -323,7 +323,7 @@ function applyInherit(elementDescriptor, defaultValue) {
       if(finisher) finisher(klass);
       const {prototype: proto} = klass;
       if(!proto.hasOwnProperty('__inheritDefaults')) { // eslint-disable-line no-prototype-builtins
-        proto.__inheritDefaults = {}; // Object.assign({}, proto.__inheritDefaults);
+        proto.__inheritDefaults = Object.create(proto.__inheritDefaults || null);
       }
       proto.__inheritDefaults[key] = defaultValue;
     },
