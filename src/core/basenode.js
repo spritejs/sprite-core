@@ -254,7 +254,7 @@ export default class BaseNode {
   updateStyles(nextSibling = false) {
     // append to parent & reset name or class or id auto updateStyles
     this.__styleNeedUpdate = nextSibling ? 'siblings' : 'children';
-    this.forceUpdate();
+    this.forceUpdate(true);
   }
 
   get dataset() {

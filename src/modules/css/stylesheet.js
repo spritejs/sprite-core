@@ -158,7 +158,7 @@ const CSSGetter = {
 };
 
 /* istanbul ignore next */
-function parseRuleAttrs(rule) {
+function parseRuleAttrs(rule) { // eslint-disable-line complexity
   let styleAttrs;
   const isStyleMap = !!rule.styleMap;
   if(!isStyleMap) {
@@ -193,7 +193,7 @@ function parseRuleAttrs(rule) {
   }
   const attrs = {},
     reserved = {};
-  let border = null;
+  let borderRadius = null;
   let transition = null;
   const gradient = {};
 
@@ -227,22 +227,10 @@ function parseRuleAttrs(rule) {
             gradient[prop] = {vector, colors};
           });
         }
-      } else if(key === 'borderStyle') {
-        border = border || {width: 1, color: 'rgba(0,0,0,0)'};
-        border.style = value;
-      } else if(key === 'borderWidth') {
-        border = border || {width: 1, color: 'rgba(0,0,0,0)'};
-        border.width = toPxValue(value);
-      } else if(key === 'borderColor') {
-        border = border || {width: 1, color: 'rgba(0,0,0,0)'};
-        border.color = value;
-      } else if(key === 'border') {
+      } if(key === 'border') {
         const values = value.split(/\s+/);
         const [style, width, color] = values;
-        border = border || {};
-        border.style = style;
-        border.width = toPxValue(width);
-        border.color = color;
+        reserved.border = {style, width, color};
       } else {
         if(key !== 'fontSize' && typeof value === 'string') {
           if(/,/.test(value)) {
@@ -278,14 +266,33 @@ function parseRuleAttrs(rule) {
         if(key === 'fontVariantCaps') key = 'fontVariant';
         if(key === 'lineHeight' && value === 'normal') value = '';
 
-        if(/^border/.test(key)) {
-          key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
-          if(key === 'width') value = toPxValue(value);
-          if(/radius$/.test(key)) {
-            attrs.borderRadius = toPxValue(value);
+        if(/Radius$/.test(key)) {
+          if(typeof value === 'string') {
+            value = value.split(/\s+/).map(v => toPxValue(v));
           } else {
-            border = border || {};
-            border[key] = value;
+            value = [value, value];
+          }
+          borderRadius = borderRadius || [0, 0, 0, 0, 0, 0, 0, 0];
+          if(key === 'borderTopLeftRadius') {
+            borderRadius[0] = value[0];
+            borderRadius[1] = value[1];
+          } else if(key === 'borderTopRightRadius') {
+            borderRadius[2] = value[0];
+            borderRadius[3] = value[1];
+          } else if(key === 'borderBottomRightRadius') {
+            borderRadius[4] = value[0];
+            borderRadius[5] = value[1];
+          } else if(key === 'borderBottomLeftRadius') {
+            borderRadius[6] = value[0];
+            borderRadius[7] = value[1];
+          }
+        } else if(/^border(Left|Right|Top|Bottom)\w+/.test(key)) {
+          if(/Color$/.test(key)) {
+            attrs.borderColor = value;
+          } else if(/Style$/.test(key)) {
+            attrs.borderStyle = value;
+          } else if(/Width$/.test(key)) {
+            attrs.borderWidth = value;
           }
         } else if(key === 'transitionDelay') {
           transition = transition || {};
@@ -305,8 +312,8 @@ function parseRuleAttrs(rule) {
       }
     }
   });
-  if(border) {
-    Object.assign(attrs, {border});
+  if(borderRadius) {
+    attrs.borderRadius = borderRadius;
   }
   Object.assign(attrs, reserved, gradient);
   if(transition) {

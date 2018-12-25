@@ -524,8 +524,8 @@ export default class BaseSprite extends BaseNode {
           const [width, height] = this.outerSize;
           const [x, y, w, h, r] = [0, 0,
             width, height,
-            Math.max(0, borderRadius + borderWidth / 2)];
-          drawRadiusBox(this.context, {x, y, w, h, r});
+            borderRadius];
+          drawRadiusBox(this.context, [x, y, w, h], r);
           if(this.layer && this.layer.offset) {
             nx += this.layer.offset[0];
             ny += this.layer.offset[1];
@@ -732,7 +732,7 @@ export default class BaseSprite extends BaseNode {
         offsetWidth - borderWidth, offsetHeight - borderWidth,
         borderRadius];
 
-      drawRadiusBox(drawingContext, {x, y, w, h, r});
+      drawRadiusBox(drawingContext, [x, y, w, h], r);
 
       if(borderStyle && borderStyle !== 'solid') {
         const dashOffset = this.attr('dashOffset');
@@ -751,11 +751,15 @@ export default class BaseSprite extends BaseNode {
     const bgimage = this.attr('bgimage');
 
     if(this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
-      const [x, y, w, h, r] = [borderWidth, borderWidth,
+      let [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
-        Math.max(0, borderRadius - borderWidth / 2)];
+        borderRadius];
 
-      drawRadiusBox(drawingContext, {x, y, w, h, r});
+      if(Array.isArray(r)) {
+        r = r.map(r => r - borderWidth / 2);
+      }
+
+      drawRadiusBox(drawingContext, [x, y, w, h], r);
 
       if(bgcolor) {
         drawingContext.fillStyle = bgcolor;

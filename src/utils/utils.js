@@ -109,6 +109,19 @@ export function fourValuesShortCut(val) {
   return [...val, 0, 0, 0, 0].slice(0, 4);
 }
 
+export function eightValuesShortCut(val) {
+  if(!Array.isArray(val)) {
+    return [val, val, val, val, val, val, val, val];
+  } if(val.length === 1) {
+    return eightValuesShortCut(val[0]);
+  } if(val.length === 2) {
+    return [val[0], val[1], val[0], val[1], val[0], val[1], val[0], val[1]];
+  } if(val.length === 4) {
+    return [val[0], val[1], val[2], val[3], val[0], val[1], val[2], val[3]];
+  }
+  return [...val, 0, 0, 0, 0, 0, 0, 0, 0].slice(0, 8);
+}
+
 export function rectVertices(rect) {
   const [x, y, w, h] = rect;
 

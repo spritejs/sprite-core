@@ -1,15 +1,56 @@
-export function drawRadiusBox(context, {x, y, w, h, r}) {
-  // avoid radius larger than width or height
-  r = Math.min(r, Math.floor(Math.min(w, h) / 2));
-  // avoid radius is negative
-  r = Math.max(r, 0);
+// export function drawRadiusBox(context, {x, y, w, h, r}) {
+//   // avoid radius larger than width or height
+//   r = Math.min(r, Math.floor(Math.min(w, h) / 2));
+//   // avoid radius is negative
+//   r = Math.max(r, 0);
+
+//   context.beginPath();
+//   context.moveTo(x + r, y);
+//   context.arcTo(x + w, y, x + w, y + h, r);
+//   context.arcTo(x + w, y + h, x, y + h, r);
+//   context.arcTo(x, y + h, x, y, r);
+//   context.arcTo(x, y, x + w, y, r);
+//   context.closePath();
+// }
+
+function drawEllipseBorder(ctx, x, y, w, h, pos = 'leftTop') {
+  const kappa = 0.5522848,
+    ox = (w / 2) * kappa, // control point offset horizontal
+    oy = (h / 2) * kappa, // control point offset vertical
+    xe = x + w, // x-end
+    ye = y + h, // y-end
+    xm = x + w / 2, // x-middle
+    ym = y + h / 2; // y-middle
+
+  if(pos === 'leftTop') {
+    ctx.moveTo(x, ym);
+    ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  } else if(pos === 'rightTop') {
+    ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  } else if(pos === 'rightBottom') {
+    ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  } else if(pos === 'leftBottom') {
+    ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  }
+}
+
+export function drawRadiusBox(context, [x, y, w, h], radius) {
+  if(!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
+
+  const [tl0, tl1, tr0, tr1, br0, br1, bl0, bl1] = radius.map((r, i) => {
+    if(i % 2) return Math.min(r, h / 2);
+    return Math.min(r, w / 2);
+  });
 
   context.beginPath();
-  context.moveTo(x + r, y);
-  context.arcTo(x + w, y, x + w, y + h, r);
-  context.arcTo(x + w, y + h, x, y + h, r);
-  context.arcTo(x, y + h, x, y, r);
-  context.arcTo(x, y, x + w, y, r);
+  context.moveTo(x, y + tl1);
+  drawEllipseBorder(context, x, y, tl0 * 2, tl1 * 2, 'leftTop');
+  context.lineTo(x + w - tr0, y);
+  drawEllipseBorder(context, x + w - tr0 * 2, y, tr0 * 2, tr1 * 2, 'rightTop');
+  context.lineTo(x + w, y + h - br1);
+  drawEllipseBorder(context, x + w - br0 * 2, y + h - br1 * 2, br0 * 2, br1 * 2, 'rightBottom');
+  context.lineTo(x + bl0, y + h);
+  drawEllipseBorder(context, x, y + h - bl1 * 2, bl0 * 2, bl1 * 2, 'leftBottom');
   context.closePath();
 }
 

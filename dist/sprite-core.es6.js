@@ -2442,6 +2442,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fourValuesShortCut", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["fourValuesShortCut"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "eightValuesShortCut", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["eightValuesShortCut"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "notice", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["notice"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "oneOrTwoValues", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["oneOrTwoValues"]; });
@@ -2615,6 +2617,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseStringFloat", function() { return parseStringFloat; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oneOrTwoValues", function() { return oneOrTwoValues; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fourValuesShortCut", function() { return fourValuesShortCut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "eightValuesShortCut", function() { return eightValuesShortCut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rectVertices", function() { return rectVertices; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appendUnit", function() { return appendUnit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortOrderedSprites", function() { return sortOrderedSprites; });
@@ -2736,6 +2739,25 @@ function fourValuesShortCut(val) {
   }
 
   return [...val, 0, 0, 0, 0].slice(0, 4);
+}
+function eightValuesShortCut(val) {
+  if (!Array.isArray(val)) {
+    return [val, val, val, val, val, val, val, val];
+  }
+
+  if (val.length === 1) {
+    return eightValuesShortCut(val[0]);
+  }
+
+  if (val.length === 2) {
+    return [val[0], val[1], val[0], val[1], val[0], val[1], val[0], val[1]];
+  }
+
+  if (val.length === 4) {
+    return [val[0], val[1], val[2], val[3], val[0], val[1], val[2], val[3]];
+  }
+
+  return [...val, 0, 0, 0, 0, 0, 0, 0, 0].slice(0, 8);
 }
 function rectVertices(rect) {
   const [x, y, w, h] = rect;
@@ -4005,23 +4027,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawRadiusBox", function() { return drawRadiusBox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findColor", function() { return findColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cacheContextPool", function() { return cacheContextPool; });
-function drawRadiusBox(context, {
-  x,
-  y,
-  w,
-  h,
-  r
-}) {
-  // avoid radius larger than width or height
-  r = Math.min(r, Math.floor(Math.min(w, h) / 2)); // avoid radius is negative
+// export function drawRadiusBox(context, {x, y, w, h, r}) {
+//   // avoid radius larger than width or height
+//   r = Math.min(r, Math.floor(Math.min(w, h) / 2));
+//   // avoid radius is negative
+//   r = Math.max(r, 0);
+//   context.beginPath();
+//   context.moveTo(x + r, y);
+//   context.arcTo(x + w, y, x + w, y + h, r);
+//   context.arcTo(x + w, y + h, x, y + h, r);
+//   context.arcTo(x, y + h, x, y, r);
+//   context.arcTo(x, y, x + w, y, r);
+//   context.closePath();
+// }
+function drawEllipseBorder(ctx, x, y, w, h, pos = 'leftTop') {
+  const kappa = 0.5522848,
+        ox = w / 2 * kappa,
+        // control point offset horizontal
+  oy = h / 2 * kappa,
+        // control point offset vertical
+  xe = x + w,
+        // x-end
+  ye = y + h,
+        // y-end
+  xm = x + w / 2,
+        // x-middle
+  ym = y + h / 2; // y-middle
 
-  r = Math.max(r, 0);
+  if (pos === 'leftTop') {
+    ctx.moveTo(x, ym);
+    ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  } else if (pos === 'rightTop') {
+    ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  } else if (pos === 'rightBottom') {
+    ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  } else if (pos === 'leftBottom') {
+    ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  }
+}
+
+function drawRadiusBox(context, [x, y, w, h], radius) {
+  if (!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
+  const [tl0, tl1, tr0, tr1, br0, br1, bl0, bl1] = radius.map((r, i) => {
+    if (i % 2) return Math.min(r, h / 2);
+    return Math.min(r, w / 2);
+  });
   context.beginPath();
-  context.moveTo(x + r, y);
-  context.arcTo(x + w, y, x + w, y + h, r);
-  context.arcTo(x + w, y + h, x, y + h, r);
-  context.arcTo(x, y + h, x, y, r);
-  context.arcTo(x, y, x + w, y, r);
+  context.moveTo(x, y + tl1);
+  drawEllipseBorder(context, x, y, tl0 * 2, tl1 * 2, 'leftTop');
+  context.lineTo(x + w - tr0, y);
+  drawEllipseBorder(context, x + w - tr0 * 2, y, tr0 * 2, tr1 * 2, 'rightTop');
+  context.lineTo(x + w, y + h - br1);
+  drawEllipseBorder(context, x + w - br0 * 2, y + h - br1 * 2, br0 * 2, br1 * 2, 'rightBottom');
+  context.lineTo(x + bl0, y + h);
+  drawEllipseBorder(context, x, y + h - bl1 * 2, bl0 * 2, bl1 * 2, 'leftBottom');
   context.closePath();
 }
 /* istanbul ignore next  */
@@ -4967,14 +5026,8 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
 
             if (borderWidth || borderRadius) {
               const [width, height] = this.outerSize;
-              const [x, y, w, h, r] = [0, 0, width, height, Math.max(0, borderRadius + borderWidth / 2)];
-              Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(this.context, {
-                x,
-                y,
-                w,
-                h,
-                r
-              });
+              const [x, y, w, h, r] = [0, 0, width, height, borderRadius];
+              Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(this.context, [x, y, w, h], r);
 
               if (this.layer && this.layer.offset) {
                 nx += this.layer.offset[0];
@@ -5194,13 +5247,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         if (borderWidth) {
           drawingContext.lineWidth = borderWidth;
           const [x, y, w, h, r] = [borderWidth / 2, borderWidth / 2, offsetWidth - borderWidth, offsetHeight - borderWidth, borderRadius];
-          Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(drawingContext, {
-            x,
-            y,
-            w,
-            h,
-            r
-          });
+          Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(drawingContext, [x, y, w, h], r);
 
           if (borderStyle && borderStyle !== 'solid') {
             const dashOffset = this.attr('dashOffset');
@@ -5222,14 +5269,13 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         const bgimage = this.attr('bgimage');
 
         if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
-          const [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, Math.max(0, borderRadius - borderWidth / 2)];
-          Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(drawingContext, {
-            x,
-            y,
-            w,
-            h,
-            r
-          });
+          let [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, borderRadius];
+
+          if (Array.isArray(r)) {
+            r = r.map(r => r - borderWidth / 2);
+          }
+
+          Object(_utils__WEBPACK_IMPORTED_MODULE_2__["drawRadiusBox"])(drawingContext, [x, y, w, h], r);
 
           if (bgcolor) {
             drawingContext.fillStyle = bgcolor;
@@ -5810,11 +5856,13 @@ let SpriteAttr = _decorate(null, function (_initialize, _NodeAttr) {
       value: void 0
     }, {
       kind: "field",
-      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_3__["parseStringFloat"], _utils__WEBPACK_IMPORTED_MODULE_3__["eightValuesShortCut"]), Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        reflow
+      })],
       key: "borderRadius",
 
       value() {
-        return 0;
+        return '';
       }
 
     }, {
@@ -6986,7 +7034,7 @@ class BaseNode {
   updateStyles(nextSibling = false) {
     // append to parent & reset name or class or id auto updateStyles
     this.__styleNeedUpdate = nextSibling ? 'siblings' : 'children';
-    this.forceUpdate();
+    this.forceUpdate(true);
   }
 
   get dataset() {
@@ -17510,6 +17558,7 @@ const CSSGetter = {
 /* istanbul ignore next */
 
 function parseRuleAttrs(rule) {
+  // eslint-disable-line complexity
   let styleAttrs;
   const isStyleMap = !!rule.styleMap;
 
@@ -17550,7 +17599,7 @@ function parseRuleAttrs(rule) {
 
   const attrs = {},
         reserved = {};
-  let border = null;
+  let borderRadius = null;
   let transition = null;
   const gradient = {};
   styleAttrs.forEach(([key, value]) => {
@@ -17594,31 +17643,16 @@ function parseRuleAttrs(rule) {
             };
           });
         }
-      } else if (key === 'borderStyle') {
-        border = border || {
-          width: 1,
-          color: 'rgba(0,0,0,0)'
-        };
-        border.style = value;
-      } else if (key === 'borderWidth') {
-        border = border || {
-          width: 1,
-          color: 'rgba(0,0,0,0)'
-        };
-        border.width = toPxValue(value);
-      } else if (key === 'borderColor') {
-        border = border || {
-          width: 1,
-          color: 'rgba(0,0,0,0)'
-        };
-        border.color = value;
-      } else if (key === 'border') {
+      }
+
+      if (key === 'border') {
         const values = value.split(/\s+/);
         const [style, width, color] = values;
-        border = border || {};
-        border.style = style;
-        border.width = toPxValue(width);
-        border.color = color;
+        reserved.border = {
+          style,
+          width,
+          color
+        };
       } else {
         if (key !== 'fontSize' && typeof value === 'string') {
           if (/,/.test(value)) {
@@ -17658,15 +17692,35 @@ function parseRuleAttrs(rule) {
         if (key === 'fontVariantCaps') key = 'fontVariant';
         if (key === 'lineHeight' && value === 'normal') value = '';
 
-        if (/^border/.test(key)) {
-          key = key.replace(/^border(Top|Right|Bottom|Left)/, '').toLowerCase();
-          if (key === 'width') value = toPxValue(value);
-
-          if (/radius$/.test(key)) {
-            attrs.borderRadius = toPxValue(value);
+        if (/Radius$/.test(key)) {
+          if (typeof value === 'string') {
+            value = value.split(/\s+/).map(v => toPxValue(v));
           } else {
-            border = border || {};
-            border[key] = value;
+            value = [value, value];
+          }
+
+          borderRadius = borderRadius || [0, 0, 0, 0, 0, 0, 0, 0];
+
+          if (key === 'borderTopLeftRadius') {
+            borderRadius[0] = value[0];
+            borderRadius[1] = value[1];
+          } else if (key === 'borderTopRightRadius') {
+            borderRadius[2] = value[0];
+            borderRadius[3] = value[1];
+          } else if (key === 'borderBottomRightRadius') {
+            borderRadius[4] = value[0];
+            borderRadius[5] = value[1];
+          } else if (key === 'borderBottomLeftRadius') {
+            borderRadius[6] = value[0];
+            borderRadius[7] = value[1];
+          }
+        } else if (/^border(Left|Right|Top|Bottom)\w+/.test(key)) {
+          if (/Color$/.test(key)) {
+            attrs.borderColor = value;
+          } else if (/Style$/.test(key)) {
+            attrs.borderStyle = value;
+          } else if (/Width$/.test(key)) {
+            attrs.borderWidth = value;
           }
         } else if (key === 'transitionDelay') {
           transition = transition || {};
@@ -17687,10 +17741,8 @@ function parseRuleAttrs(rule) {
     }
   });
 
-  if (border) {
-    Object.assign(attrs, {
-      border
-    });
+  if (borderRadius) {
+    attrs.borderRadius = borderRadius;
   }
 
   Object.assign(attrs, reserved, gradient);

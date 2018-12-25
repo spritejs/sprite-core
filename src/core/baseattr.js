@@ -1,7 +1,7 @@
 import SvgPath from 'svg-path-to-canvas';
 import {Matrix} from 'sprite-math';
 import NodeAttr from './attr';
-import {parseColorString, oneOrTwoValues, fourValuesShortCut,
+import {parseColorString, oneOrTwoValues, fourValuesShortCut, eightValuesShortCut,
   parseStringInt, parseStringFloat, parseStringTransform,
   parseValue, attr, relative, sortOrderedSprites, composit} from '../utils';
 
@@ -180,9 +180,9 @@ export default class SpriteAttr extends NodeAttr {
   @composit(['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'])
   padding;
 
-  @parseValue(parseFloat)
-  @attr
-  borderRadius = 0;
+  @parseValue(parseStringFloat, eightValuesShortCut)
+  @attr({reflow})
+  borderRadius = '';
 
   @attr({reflow})
   boxSizing = 'content-box';

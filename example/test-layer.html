@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Base Sprite</title>
+  <style>
+    sprite.test {
+      border: solid 10px red;
+      border-radius: 25px 10px;
+    }
+  </style>
 </head>
 <body>
   <canvas id="mycanvas" width="600" height="600"></canvas>
@@ -14,11 +20,11 @@
     const Layer = spritejs.Layer;
     const Group = spritejs.Group;
     const context = document.getElementById('mycanvas').getContext('2d');
-    const layer = new Layer({context, renderMode: 'repaintDirty'});
+    const layer = new Layer({context, useDocumentCSS: true});
 
     const s = new Group({
       id: 'abc',
-      padding: [50, 50, 50, 50],
+      // padding: [50, 50, 50, 50],
       // bgcolor: 'red',
       // anchor: 0.5,
       // bgcolor: 'red',
@@ -46,9 +52,10 @@
     
     const s2 = new Sprite({
       anchor: 0.5,
+      border: [10, 'blue'],
       bgcolor: 'green',
       size: [50, 50],
-      pos: [26, 100],
+      pos: [60, 100],
     });
     // const animation = s2.animate([
     //   {pos: [100, 100]},
