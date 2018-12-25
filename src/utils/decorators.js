@@ -92,6 +92,9 @@ export function attr(options) {
       };
     }
     if(composit) {
+      if(cache || reflow || relayout || quiet || value || extra) {
+        throw new Error('Cannot apply state to composit attribute.');
+      }
       descriptor.get = _getter;
     } else if(!relativeType && !inheritValue) {
       descriptor.get = function () {

@@ -76,6 +76,12 @@
     //   evt.stopPropagation();
     // });
 
+    s2.animate([{
+      borderWidth: 1,
+    }], {
+      duration: 2000,
+    });
+
     s.on('click', (evt) => {
       console.log(evt, evt.targetSprites);
     });

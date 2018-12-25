@@ -145,17 +145,17 @@ export default class SpriteAttr extends NodeAttr {
   size;
 
   @parseValue(parseInt)
-  @attr
+  @attr({reflow})
   borderWidth = 0;
 
-  @attr
+  @attr({reflow})
   borderColor = 'rgba(0,0,0,0)';
 
-  @attr
+  @attr({reflow})
   borderStyle = 'solid';
 
   @parseValue(parseBorderValue)
-  @attr({reflow})
+  @attr
   @composit({width: 'borderWidth', color: 'borderColor', style: 'borderStyle'})
   border;
 

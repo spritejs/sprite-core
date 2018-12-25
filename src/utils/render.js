@@ -35,23 +35,28 @@ function drawEllipseBorder(ctx, x, y, w, h, pos = 'leftTop') {
 }
 
 export function drawRadiusBox(context, [x, y, w, h], radius) {
-  if(!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
+  if(!radius) {
+    context.beginPath();
+    context.rect(x, y, w, h);
+  } else {
+    if(!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
 
-  const [tl0, tl1, tr0, tr1, br0, br1, bl0, bl1] = radius.map((r, i) => {
-    if(i % 2) return Math.min(r, h / 2);
-    return Math.min(r, w / 2);
-  });
+    const [tl0, tl1, tr0, tr1, br0, br1, bl0, bl1] = radius.map((r, i) => {
+      if(i % 2) return Math.min(r, h / 2);
+      return Math.min(r, w / 2);
+    });
 
-  context.beginPath();
-  context.moveTo(x, y + tl1);
-  drawEllipseBorder(context, x, y, tl0 * 2, tl1 * 2, 'leftTop');
-  context.lineTo(x + w - tr0, y);
-  drawEllipseBorder(context, x + w - tr0 * 2, y, tr0 * 2, tr1 * 2, 'rightTop');
-  context.lineTo(x + w, y + h - br1);
-  drawEllipseBorder(context, x + w - br0 * 2, y + h - br1 * 2, br0 * 2, br1 * 2, 'rightBottom');
-  context.lineTo(x + bl0, y + h);
-  drawEllipseBorder(context, x, y + h - bl1 * 2, bl0 * 2, bl1 * 2, 'leftBottom');
-  context.closePath();
+    context.beginPath();
+    context.moveTo(x, y + tl1);
+    drawEllipseBorder(context, x, y, tl0 * 2, tl1 * 2, 'leftTop');
+    context.lineTo(x + w - tr0, y);
+    drawEllipseBorder(context, x + w - tr0 * 2, y, tr0 * 2, tr1 * 2, 'rightTop');
+    context.lineTo(x + w, y + h - br1);
+    drawEllipseBorder(context, x + w - br0 * 2, y + h - br1 * 2, br0 * 2, br1 * 2, 'rightBottom');
+    context.lineTo(x + bl0, y + h);
+    drawEllipseBorder(context, x, y + h - bl1 * 2, bl0 * 2, bl1 * 2, 'leftBottom');
+    context.closePath();
+  }
 }
 
 /* istanbul ignore next  */
