@@ -11,8 +11,6 @@ export default class Attr {
 
   static attributeNames = attributeNames;
 
-  static attrDefaultValues = {};
-
   static addAttributes(attrs) {
     const descriptors = {};
     Object.entries(attrs).forEach(([key, v]) => {
@@ -79,13 +77,6 @@ export default class Attr {
     return defaultValue;
   }
 
-  setAttrIndex(key, val, idx) {
-    if(val == null) val = this.getDefaultValue(key)[idx];
-    const arr = this[key];
-    arr[idx] = val;
-    this.set(key, arr);
-  }
-
   saveObj(key, val) {
     this[_temp].set(key, val);
     this.__updateTag = true;
@@ -101,11 +92,6 @@ export default class Attr {
 
   clearStyle() {
     this[_style] = {};
-  }
-
-  clearFlow() {
-    this.__reflowTag = true;
-    return this;
   }
 
   clearLayout() {

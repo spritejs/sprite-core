@@ -25,9 +25,9 @@ const defaultValues = {
       duration: 300,
       easing: 'ease-in',
     },
-    enterMode: 'normal',
-    exitMode: 'normal',
   },
+  enterMode: 'normal',
+  exitMode: 'normal',
 };
 
 BaseAttr.addAttributes({

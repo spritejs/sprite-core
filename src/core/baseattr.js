@@ -43,6 +43,11 @@ export default class SpriteAttr extends NodeAttr {
     });
   }
 
+  clearFlow() {
+    this.__reflowTag = true;
+    return this;
+  }
+
   set(key, value, isQuiet = false) {
     super.set(key, value, isQuiet);
     // auto reflow

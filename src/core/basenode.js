@@ -173,7 +173,7 @@ export default class BaseNode {
     return this[_attr];
   }
 
-  forceUpdate() {
+  forceUpdate(clearCache) {
     const parent = this.parent;
     if(parent) {
       this.parent.update(this);

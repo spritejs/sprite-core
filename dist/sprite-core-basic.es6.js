@@ -5488,6 +5488,15 @@ let SpriteAttr = _decorate(null, function (_initialize, _NodeAttr) {
     F: SpriteAttr,
     d: [{
       kind: "method",
+      key: "clearFlow",
+
+      value() {
+        this.__reflowTag = true;
+        return this;
+      }
+
+    }, {
+      kind: "method",
       key: "set",
 
       value(key, value, isQuiet = false) {
@@ -6350,15 +6359,6 @@ let Attr = _decorate(null, function (_initialize) {
       }
 
     }, {
-      kind: "field",
-      static: true,
-      key: "attrDefaultValues",
-
-      value() {
-        return {};
-      }
-
-    }, {
       kind: "method",
       static: true,
       key: "addAttributes",
@@ -6432,17 +6432,6 @@ let Attr = _decorate(null, function (_initialize) {
 
     }, {
       kind: "method",
-      key: "setAttrIndex",
-
-      value(key, val, idx) {
-        if (val == null) val = this.getDefaultValue(key)[idx];
-        const arr = this[key];
-        arr[idx] = val;
-        this.set(key, arr);
-      }
-
-    }, {
-      kind: "method",
       key: "saveObj",
 
       value(key, val) {
@@ -6473,15 +6462,6 @@ let Attr = _decorate(null, function (_initialize) {
 
       value() {
         this[_style] = {};
-      }
-
-    }, {
-      kind: "method",
-      key: "clearFlow",
-
-      value() {
-        this.__reflowTag = true;
-        return this;
       }
 
     }, {
@@ -6864,7 +6844,7 @@ class BaseNode {
     return this[_attr];
   }
 
-  forceUpdate() {
+  forceUpdate(clearCache) {
     const parent = this.parent;
 
     if (parent) {
