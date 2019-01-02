@@ -189,15 +189,14 @@ export function attr(options) {
 
         _setter.call(this, val);
         if(subject && !this.__quietTag && this.__updateTag) {
+          let clearLayout = this.__clearLayout;
           if(subject.hasLayout) {
             const offsetSize = subject.boxOffsetSize,
               layoutSize = subject.__lastLayout;
-
-            if(this.__clearLayout || !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1]) {
-              subject.clearLayout();
-            }
+            clearLayout |= !layoutSize || offsetSize[0] !== layoutSize[0] || offsetSize[1] !== layoutSize[1];
             subject.__lastLayout = offsetSize;
           }
+          if(clearLayout) subject.clearLayout();
           subject.forceUpdate(_clearCache);
           if(this.__reflowTag) {
             subject.reflow();

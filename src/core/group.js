@@ -33,11 +33,19 @@ class GroupAttr extends BaseSprite.Attr {
 
   @attr({relayout})
   @relative('width')
-  layoutWidth;
+  layoutWidth = '';
 
   @attr({relayout})
   @relative('height')
-  layoutHeight;
+  layoutHeight = '';
+
+  @attr({reflow, relayout})
+  @relative('width')
+  width = '';
+
+  @attr({reflow, relayout})
+  @relative('height')
+  height = '';
 
   @attr({relayout})
   display = '';
