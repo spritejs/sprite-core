@@ -5961,7 +5961,9 @@ let SpriteAttr = _decorate(null, function (_initialize, _NodeAttr) {
 
     }, {
       kind: "field",
-      decorators: [_utils__WEBPACK_IMPORTED_MODULE_3__["attr"]],
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_3__["attr"])({
+        cache
+      })],
       key: "transformMatrix",
 
       value() {
@@ -10116,6 +10118,7 @@ class Batch {
         throw new Error('Node already batched!');
       }
 
+      node.attr('enableCache', true);
       const that = this;
       Object.defineProperty(node, 'cache', {
         configurable: true,

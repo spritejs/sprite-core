@@ -239,7 +239,7 @@ export default class SpriteAttr extends NodeAttr {
   transformOrigin = '';
 
   // TODO: inner attribute
-  @attr
+  @attr({cache})
   transformMatrix = [1, 0, 0, 1, 0, 0];
 
   @parseValue(parseFloat)

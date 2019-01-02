@@ -39,6 +39,7 @@ export default class Batch {
         /* istanbul ignore next  */
         throw new Error('Node already batched!');
       }
+      node.attr('enableCache', true);
       const that = this;
       Object.defineProperty(node, 'cache', {
         configurable: true,
