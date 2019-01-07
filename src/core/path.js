@@ -77,9 +77,9 @@ class PathSpriteAttr extends BaseSprite.Attr {
   @attr({reflow})
   flexible;
 
-  // box | path
+  // auto | box | path
   @attr({quiet})
-  @inherit('box')
+  @inherit('auto')
   bounding = 'inherit';
 
   @attr
@@ -119,11 +119,34 @@ export default class Path extends BaseSprite {
     return 0;
   }
 
+  isClosed() {
+    const d = this.attr('d');
+    if(d) {
+      return /z$/img.test(d);
+    }
+    return false;
+  }
+
   findPath(offsetX, offsetY) {
     const rect = this.originalRect;
     const pathOffset = this.pathOffset;
-    if(this.svg && this.svg.isPointInPath(offsetX - rect[0] - pathOffset[0], offsetY - rect[1] - pathOffset[1])) {
-      return [this.svg];
+    const svg = this.svg;
+    if(svg) {
+      const x = offsetX - rect[0] - pathOffset[0],
+        y = offsetY - rect[1] - pathOffset[1];
+      let collision = false;
+      if(this.isClosed()) {
+        collision = svg.isPointInPath(x, y);
+      }
+      if(!collision) {
+        const lineWidth = this.attr('lineWidth') + (parseFloat(this.attr('bounding')) || 0),
+          lineCap = this.attr('lineCap'),
+          lineJoin = this.attr('lineJoin');
+        collision = svg.isPointInStroke(x, y, {lineWidth, lineCap, lineJoin});
+      }
+      if(collision) {
+        return [svg];
+      }
     }
     return [];
   }
@@ -198,7 +221,8 @@ export default class Path extends BaseSprite {
   }
 
   pointCollision(evt) {
-    if(super.pointCollision(evt)) {
+    const bounding = this.attr('bounding');
+    if(super.pointCollision(evt) || (bounding !== 'auto' && bounding !== 'box' && bounding !== 'path' && bounding !== 0)) {
       let {offsetX, offsetY} = evt;
       if(offsetX == null && offsetY == null) return true;
 
@@ -209,7 +233,8 @@ export default class Path extends BaseSprite {
         offsetY += Math.min(0, bounds[1]);
       }
       evt.targetPaths = this.findPath(offsetX, offsetY);
-      if(this.attr('bounding') === 'path') {
+      if(bounding !== 'box' && !(bounding === 'auto'
+        && (this.attr('borderWidth') > 0 || this.attr('bgcolor') || this.attr('gradients').bgcolor))) {
         return evt.targetPaths.length > 0;
       }
       return true;

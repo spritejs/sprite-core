@@ -145,6 +145,7 @@ export default class BaseSprite extends BaseNode {
 
   connect(parent, zOrder = 0) {
     if(parent && !(parent instanceof BaseNode)) {
+      // directly connect to canvas2d context
       const node = new BaseNode();
       node.context = parent;
       node.timeline = new Timeline();
