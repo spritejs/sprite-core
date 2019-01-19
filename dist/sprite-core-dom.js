@@ -11772,7 +11772,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
         if (!swallow && !evt.terminated && type !== 'mouseenter') {
           var isCollision = collisionState || this.pointCollision(evt);
 
-          if (isCollision || type === 'mouseleave' || this.attr('clipOverflow')) {
+          if (isCollision || type === 'mouseleave' || !this.attr('clipOverflow')) {
             var scrollLeft = this.attr('scrollLeft'),
                 scrollTop = this.attr('scrollTop'),
                 borderWidth = this.attr('border').width,
