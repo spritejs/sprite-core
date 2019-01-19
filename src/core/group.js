@@ -189,7 +189,7 @@ export default class Group extends BaseSprite {
     }
     if(!swallow && !evt.terminated && type !== 'mouseenter') {
       const isCollision = collisionState || this.pointCollision(evt);
-      if(isCollision || type === 'mouseleave') {
+      if(isCollision || type === 'mouseleave' || this.attr('clipOverflow')) {
         const scrollLeft = this.attr('scrollLeft'),
           scrollTop = this.attr('scrollTop'),
           borderWidth = this.attr('border').width,
