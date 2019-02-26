@@ -133,6 +133,9 @@ Object.assign(Effects, {
   transform: transformEffect,
   bgcolor: colorEffect,
   border(v1, v2, p, start, end) {
+    if(Array.isArray(v2)) {
+      v2 = {width: v2[0], color: v2[1], style: v2[2] || 'solid'};
+    }
     return {
       width: defaultEffect(v1.width, v2.width, p, start, end),
       color: colorEffect(v1.color, v2.color, p, start, end),
