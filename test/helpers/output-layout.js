@@ -702,7 +702,7 @@ drawCase('flex', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:flex-start', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -768,7 +768,7 @@ drawCase('wrap, align-content:flex-start', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:flex-end', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -834,7 +834,7 @@ drawCase('wrap, align-content:flex-end', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:center', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -900,7 +900,7 @@ drawCase('wrap, align-content:center', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:space-between', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -966,7 +966,7 @@ drawCase('wrap, align-content:space-between', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:space-around', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1032,7 +1032,7 @@ drawCase('wrap, align-content:space-around', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, align-content:stretch', [300, 200], (layer, size) => {
+drawCase('wrap-align-content-stretch', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1098,7 +1098,7 @@ drawCase('wrap, align-content:stretch', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:flex-start', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1164,7 +1164,7 @@ drawCase('wrap-reverse, align-content:flex-start', [300, 200], (layer, size) => 
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:flex-end', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1230,7 +1230,7 @@ drawCase('wrap-reverse, align-content:flex-end', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:center', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1296,7 +1296,7 @@ drawCase('wrap-reverse, align-content:center', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:space-between', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1362,7 +1362,7 @@ drawCase('wrap-reverse, align-content:space-between', [300, 200], (layer, size) 
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:space-around', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1428,7 +1428,7 @@ drawCase('wrap-reverse, align-content:space-around', [300, 200], (layer, size) =
   return layer.prepareRender();
 });
 
-drawCase('wrap-reverse, align-content:stretch', [300, 200], (layer, size) => {
+drawCase('wrap-reverse-align-content-stretch', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1494,7 +1494,7 @@ drawCase('wrap-reverse, align-content:stretch', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('wrap, alignContent:flex-start', [300, 200], (layer, size) => {
+drawCase('wrap-alignContent-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1704,7 +1704,7 @@ drawCase('auto-width item', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify:space-between, auto-width item', [300, 200], (layer, size) => {
+drawCase('justify-space-between-auto-width item', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1743,7 +1743,7 @@ drawCase('justify:space-between, auto-width item', [300, 200], (layer, size) => 
   return layer.prepareRender();
 });
 
-drawCase('justify:space-around,auto-width item', [300, 200], (layer, size) => {
+drawCase('justify-space-around-auto-width item', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1821,7 +1821,7 @@ drawCase('auto-height item', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:center, auto-height container', [300, 60], (layer, size) => {
+drawCase('align-items-center-auto-height container', [300, 60], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -1860,7 +1860,7 @@ drawCase('align-items:center, auto-height container', [300, 60], (layer, size) =
   return layer.prepareRender();
 });
 
-drawCase('auto-height container, auto-height item', [300, 60], (layer, size) => {
+drawCase('auto-height container-auto-height item', [300, 60], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2016,7 +2016,7 @@ drawCase('overflow-vertical', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row', [300, 200], (layer, size) => {
+drawCase('flex-direction-row', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2055,7 +2055,7 @@ drawCase('flex-direction:row', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2094,7 +2094,7 @@ drawCase('flex-direction:row-reverse', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column', [300, 200], (layer, size) => {
+drawCase('flex-direction-column', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2133,7 +2133,7 @@ drawCase('flex-direction:column', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2172,7 +2172,7 @@ drawCase('flex-direction:column-reverse', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('justify-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2211,7 +2211,7 @@ drawCase('justify-content:flex-start', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2250,7 +2250,7 @@ drawCase('justify-content:flex-end', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify-content:center', [300, 200], (layer, size) => {
+drawCase('justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2289,7 +2289,7 @@ drawCase('justify-content:center', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2328,7 +2328,7 @@ drawCase('justify-content:space-between', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2367,7 +2367,7 @@ drawCase('justify-content:space-around', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:flex-start', [300, 200], (layer, size) => {
+drawCase('align-items-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2406,7 +2406,7 @@ drawCase('align-items:flex-start', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:flex-end', [300, 200], (layer, size) => {
+drawCase('align-items-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2445,7 +2445,7 @@ drawCase('align-items:flex-end', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:center', [300, 200], (layer, size) => {
+drawCase('align-items-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2484,7 +2484,7 @@ drawCase('align-items:center', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:stretch', [300, 200], (layer, size) => {
+drawCase('align-items-stretch', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2523,7 +2523,7 @@ drawCase('align-items:stretch', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('align-items:flex-start, align-self:flex-start', [300, 200], (layer, size) => {
+drawCase('align-items-flex-start-align-self-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -2562,475 +2562,7 @@ drawCase('align-items:flex-start, align-self:flex-start', [300, 200], (layer, si
   return layer.prepareRender();
 });
 
-drawCase('align-items:flex-start, align-self:flex-end', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 170],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-start, align-self:center', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 85],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-start, align-self:stretch', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-end, align-self:flex-start', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-end, align-self:flex-end', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 170],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-end, align-self:center', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 85],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:flex-end, align-self:stretch', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:center, align-self:flex-start', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 75],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 70],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:center, align-self:flex-end', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 75],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 170],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 70],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:center, align-self:center', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 75],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 85],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 70],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:center, align-self:stretch', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 75],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 70],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:stretch, align-self:flex-start', [300, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '300',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 30],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [80, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('align-items:stretch, align-self:flex-end', [300, 200], (layer, size) => {
+drawCase('align-items-flex-start-align-self-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3069,7 +2601,7 @@ drawCase('align-items:stretch, align-self:flex-end', [300, 200], (layer, size) =
   return layer.prepareRender();
 });
 
-drawCase('align-items:stretch, align-self:center', [300, 200], (layer, size) => {
+drawCase('align-items-flex-start-align-self-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3108,7 +2640,7 @@ drawCase('align-items:stretch, align-self:center', [300, 200], (layer, size) => 
   return layer.prepareRender();
 });
 
-drawCase('align-items:stretch, align-self:stretch', [300, 200], (layer, size) => {
+drawCase('align-items-flex-start-align-self-stretch', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3147,7 +2679,319 @@ drawCase('align-items:stretch, align-self:stretch', [300, 200], (layer, size) =>
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('align-items-flex-end-align-self-flex-start', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-flex-end-align-self-flex-end', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 170],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-flex-end-align-self-center', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 85],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-flex-end-align-self-stretch', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-center-align-self-flex-start', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 75],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 70],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-center-align-self-flex-end', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 75],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 170],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 70],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-center-align-self-center', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 75],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 85],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 70],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-center-align-self-stretch', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 75],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 70],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-stretch-align-self-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3186,7 +3030,163 @@ drawCase('flex-direction:row, justify-content:flex-start', [300, 200], (layer, s
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('align-items-stretch-align-self-flex-end', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 170],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-stretch-align-self-center', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 85],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('align-items-stretch-align-self-stretch', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-justify-content-flex-start', [300, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '300',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 30],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [80, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3225,7 +3225,7 @@ drawCase('flex-direction:row, justify-content:flex-end', [300, 200], (layer, siz
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:center', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3264,7 +3264,7 @@ drawCase('flex-direction:row, justify-content:center', [300, 200], (layer, size)
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3303,7 +3303,7 @@ drawCase('flex-direction:row, justify-content:space-between', [300, 200], (layer
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3342,7 +3342,7 @@ drawCase('flex-direction:row, justify-content:space-around', [300, 200], (layer,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse, justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse-justify-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3381,7 +3381,7 @@ drawCase('flex-direction:row-reverse, justify-content:flex-start', [300, 200], (
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse, justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse-justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3420,7 +3420,7 @@ drawCase('flex-direction:row-reverse, justify-content:flex-end', [300, 200], (la
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse, justify-content:center', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse-justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3459,7 +3459,7 @@ drawCase('flex-direction:row-reverse, justify-content:center', [300, 200], (laye
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse, justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse-justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3498,7 +3498,7 @@ drawCase('flex-direction:row-reverse, justify-content:space-between', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row-reverse, justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-reverse-justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3537,7 +3537,7 @@ drawCase('flex-direction:row-reverse, justify-content:space-around', [300, 200],
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3576,7 +3576,7 @@ drawCase('flex-direction:column, justify-content:flex-start', [300, 200], (layer
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3615,7 +3615,7 @@ drawCase('flex-direction:column, justify-content:flex-end', [300, 200], (layer, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:center', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3654,7 +3654,7 @@ drawCase('flex-direction:column, justify-content:center', [300, 200], (layer, si
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3693,7 +3693,7 @@ drawCase('flex-direction:column, justify-content:space-between', [300, 200], (la
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3732,7 +3732,7 @@ drawCase('flex-direction:column, justify-content:space-around', [300, 200], (lay
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse, justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse-justify-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3771,7 +3771,7 @@ drawCase('flex-direction:column-reverse, justify-content:flex-start', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse, justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse-justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3810,7 +3810,7 @@ drawCase('flex-direction:column-reverse, justify-content:flex-end', [300, 200], 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse, justify-content:center', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse-justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3849,7 +3849,7 @@ drawCase('flex-direction:column-reverse, justify-content:center', [300, 200], (l
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse, justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse-justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3888,7 +3888,7 @@ drawCase('flex-direction:column-reverse, justify-content:space-between', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column-reverse, justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-reverse-justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3927,7 +3927,7 @@ drawCase('flex-direction:column-reverse, justify-content:space-around', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex & justify-content:flex-start', [300, 200], (layer, size) => {
+drawCase('flex & justify-content-flex-start', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -3966,7 +3966,7 @@ drawCase('flex & justify-content:flex-start', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex & justify-content:flex-end', [300, 200], (layer, size) => {
+drawCase('flex & justify-content-flex-end', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4005,7 +4005,7 @@ drawCase('flex & justify-content:flex-end', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex & justify-content:center', [300, 200], (layer, size) => {
+drawCase('flex & justify-content-center', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4044,7 +4044,7 @@ drawCase('flex & justify-content:center', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex & justify-content:space-between', [300, 200], (layer, size) => {
+drawCase('flex & justify-content-space-between', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4083,7 +4083,7 @@ drawCase('flex & justify-content:space-between', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex & justify-content:space-around', [300, 200], (layer, size) => {
+drawCase('flex & justify-content-space-around', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4188,7 +4188,7 @@ drawCase('tmp2', [310, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4254,7 +4254,7 @@ drawCase('flex-wrap:wrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4320,7 +4320,7 @@ drawCase('flex-wrap:nowrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4386,7 +4386,7 @@ drawCase('flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4452,7 +4452,7 @@ drawCase('flex-direction:row, flex-wrap:wrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4518,7 +4518,7 @@ drawCase('flex-direction:row, flex-wrap:nowrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4584,7 +4584,7 @@ drawCase('flex-direction:row, flex-wrap:wrap-reverse', [300, 200], (layer, size)
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4650,7 +4650,7 @@ drawCase('flex-direction:column, flex-wrap:wrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4716,7 +4716,7 @@ drawCase('flex-direction:column, flex-wrap:nowrap', [300, 200], (layer, size) =>
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4782,7 +4782,7 @@ drawCase('flex-direction:column, flex-wrap:wrap-reverse', [300, 200], (layer, si
   return layer.prepareRender();
 });
 
-drawCase('flex-flow:row wrap', [300, 200], (layer, size) => {
+drawCase('flex-flow-row wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4848,7 +4848,7 @@ drawCase('flex-flow:row wrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-flow:row nowrap', [300, 200], (layer, size) => {
+drawCase('flex-flow-row nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4914,7 +4914,7 @@ drawCase('flex-flow:row nowrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-flow:column wrap', [300, 200], (layer, size) => {
+drawCase('flex-flow-column wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -4980,7 +4980,7 @@ drawCase('flex-flow:column wrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-flow:column nowrap', [300, 200], (layer, size) => {
+drawCase('flex-flow-column nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5046,7 +5046,7 @@ drawCase('flex-flow:column nowrap', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5112,7 +5112,7 @@ drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:wrap', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5178,7 +5178,7 @@ drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:nowrap', [300
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5244,7 +5244,7 @@ drawCase('flex-direction:row, justify-content:flex-start,flex-wrap:wrap-reverse'
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5310,7 +5310,7 @@ drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:wrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5376,7 +5376,7 @@ drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:nowrap', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5442,7 +5442,7 @@ drawCase('flex-direction:row, justify-content:flex-end,flex-wrap:wrap-reverse', 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5508,7 +5508,7 @@ drawCase('flex-direction:row, justify-content:center,flex-wrap:wrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5574,7 +5574,7 @@ drawCase('flex-direction:row, justify-content:center,flex-wrap:nowrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5640,7 +5640,7 @@ drawCase('flex-direction:row, justify-content:center,flex-wrap:wrap-reverse', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-between,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-between-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5706,7 +5706,7 @@ drawCase('flex-direction:row, justify-content:space-between,flex-wrap:wrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-between,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-between-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5772,7 +5772,7 @@ drawCase('flex-direction:row, justify-content:space-between,flex-wrap:nowrap', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-between,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-between-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5838,7 +5838,7 @@ drawCase('flex-direction:row, justify-content:space-between,flex-wrap:wrap-rever
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-around,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-around-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5904,7 +5904,7 @@ drawCase('flex-direction:row, justify-content:space-around,flex-wrap:wrap', [300
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-around,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-around-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -5970,7 +5970,7 @@ drawCase('flex-direction:row, justify-content:space-around,flex-wrap:nowrap', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, justify-content:space-around,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-justify-content-space-around-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6036,7 +6036,7 @@ drawCase('flex-direction:row, justify-content:space-around,flex-wrap:wrap-revers
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6102,7 +6102,7 @@ drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:wrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6168,7 +6168,7 @@ drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:nowrap', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6234,7 +6234,7 @@ drawCase('flex-direction:column, justify-content:flex-start,flex-wrap:wrap-rever
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6300,7 +6300,7 @@ drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:wrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6366,7 +6366,7 @@ drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:nowrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6432,7 +6432,7 @@ drawCase('flex-direction:column, justify-content:flex-end,flex-wrap:wrap-reverse
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6498,7 +6498,7 @@ drawCase('flex-direction:column, justify-content:center,flex-wrap:wrap', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6564,7 +6564,7 @@ drawCase('flex-direction:column, justify-content:center,flex-wrap:nowrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6630,7 +6630,7 @@ drawCase('flex-direction:column, justify-content:center,flex-wrap:wrap-reverse',
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-between,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-between-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6696,7 +6696,7 @@ drawCase('flex-direction:column, justify-content:space-between,flex-wrap:wrap', 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-between,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-between-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6762,7 +6762,7 @@ drawCase('flex-direction:column, justify-content:space-between,flex-wrap:nowrap'
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-between,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-between-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6828,7 +6828,7 @@ drawCase('flex-direction:column, justify-content:space-between,flex-wrap:wrap-re
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-around,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-around-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6894,7 +6894,7 @@ drawCase('flex-direction:column, justify-content:space-around,flex-wrap:wrap', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-around,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-around-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -6960,7 +6960,7 @@ drawCase('flex-direction:column, justify-content:space-around,flex-wrap:nowrap',
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, justify-content:space-around,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-justify-content-space-around-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7026,7 +7026,7 @@ drawCase('flex-direction:column, justify-content:space-around,flex-wrap:wrap-rev
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7092,7 +7092,7 @@ drawCase('flex-direction:row, align-items:flex-start,flex-wrap:wrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7158,7 +7158,7 @@ drawCase('flex-direction:row, align-items:flex-start,flex-wrap:nowrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7224,7 +7224,7 @@ drawCase('flex-direction:row, align-items:flex-start,flex-wrap:wrap-reverse', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7290,7 +7290,7 @@ drawCase('flex-direction:row, align-items:flex-end,flex-wrap:wrap', [300, 200], 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7356,7 +7356,7 @@ drawCase('flex-direction:row, align-items:flex-end,flex-wrap:nowrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7422,7 +7422,7 @@ drawCase('flex-direction:row, align-items:flex-end,flex-wrap:wrap-reverse', [300
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7488,7 +7488,7 @@ drawCase('flex-direction:row, align-items:center,flex-wrap:wrap', [300, 200], (l
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7554,7 +7554,7 @@ drawCase('flex-direction:row, align-items:center,flex-wrap:nowrap', [300, 200], 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7620,7 +7620,7 @@ drawCase('flex-direction:row, align-items:center,flex-wrap:wrap-reverse', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:stretch,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-stretch-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7686,7 +7686,7 @@ drawCase('flex-direction:row, align-items:stretch,flex-wrap:wrap', [300, 200], (
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:stretch,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-stretch-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7752,7 +7752,7 @@ drawCase('flex-direction:row, align-items:stretch,flex-wrap:nowrap', [300, 200],
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-items:stretch,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-items-stretch-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7818,7 +7818,7 @@ drawCase('flex-direction:row, align-items:stretch,flex-wrap:wrap-reverse', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7884,7 +7884,7 @@ drawCase('flex-direction:column, align-items:flex-start,flex-wrap:wrap', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -7950,7 +7950,7 @@ drawCase('flex-direction:column, align-items:flex-start,flex-wrap:nowrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8016,7 +8016,7 @@ drawCase('flex-direction:column, align-items:flex-start,flex-wrap:wrap-reverse',
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8082,7 +8082,7 @@ drawCase('flex-direction:column, align-items:flex-end,flex-wrap:wrap', [300, 200
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8148,7 +8148,7 @@ drawCase('flex-direction:column, align-items:flex-end,flex-wrap:nowrap', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8214,7 +8214,7 @@ drawCase('flex-direction:column, align-items:flex-end,flex-wrap:wrap-reverse', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8280,7 +8280,7 @@ drawCase('flex-direction:column, align-items:center,flex-wrap:wrap', [300, 200],
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8346,7 +8346,7 @@ drawCase('flex-direction:column, align-items:center,flex-wrap:nowrap', [300, 200
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8412,7 +8412,7 @@ drawCase('flex-direction:column, align-items:center,flex-wrap:wrap-reverse', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:stretch,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-stretch-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8478,7 +8478,7 @@ drawCase('flex-direction:column, align-items:stretch,flex-wrap:wrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:stretch,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-stretch-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8544,7 +8544,7 @@ drawCase('flex-direction:column, align-items:stretch,flex-wrap:nowrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-items:stretch,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-items-stretch-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8610,7 +8610,7 @@ drawCase('flex-direction:column, align-items:stretch,flex-wrap:wrap-reverse', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8676,7 +8676,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8742,7 +8742,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8808,7 +8808,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse', 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8874,7 +8874,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -8940,7 +8940,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9006,7 +9006,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9072,7 +9072,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:wrap', [300, 200], 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9138,7 +9138,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap', [300, 200]
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9204,7 +9204,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:wrap-reverse', [300
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9270,7 +9270,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9336,7 +9336,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9402,7 +9402,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9468,7 +9468,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9534,7 +9534,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap', [300
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9600,7 +9600,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse'
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9666,7 +9666,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap', [300, 200],
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9732,7 +9732,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap', [300, 200
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9798,7 +9798,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9864,7 +9864,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9930,7 +9930,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -9996,7 +9996,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10062,7 +10062,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10128,7 +10128,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap', [300,
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10194,7 +10194,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse',
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10260,7 +10260,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap', [300, 200
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10326,7 +10326,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap', [300, 2
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10392,7 +10392,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap-reverse', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10458,7 +10458,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap', [3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10524,7 +10524,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap', 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10590,7 +10590,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap-reve
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10656,7 +10656,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap', [30
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10722,7 +10722,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap', [
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10788,7 +10788,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap-rever
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10854,7 +10854,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap', [300, 20
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-nowrap', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10920,7 +10920,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap', [300, 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -10986,7 +10986,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse', 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row;basic', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-basic', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11052,7 +11052,7 @@ drawCase('flex-direction:row;basic', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column;basic', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-basic', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11118,7 +11118,7 @@ drawCase('flex-direction:column;basic', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row;flex:1-2-3', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-flex-1-2-3', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11157,7 +11157,7 @@ drawCase('flex-direction:row;flex:1-2-3', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column;flex:1-2-3', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-flex-1-2-3', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11196,7 +11196,7 @@ drawCase('flex-direction:column;flex:1-2-3', [300, 200], (layer, size) => {
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row;auto-width-height item', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-auto-width-height item', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11262,7 +11262,7 @@ drawCase('flex-direction:row;auto-width-height item', [300, 200], (layer, size) 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column;auto-width-height item', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-auto-width-height item', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -11328,7 +11328,7 @@ drawCase('flex-direction:column;auto-width-height item', [300, 200], (layer, siz
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -11394,7 +11394,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-width
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -11460,205 +11460,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-wid
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 150],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 130],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -11724,7 +11526,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse,auto
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -11790,7 +11592,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,auto-width con
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -11856,205 +11658,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-width c
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 150],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 130],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -12120,7 +11724,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -12186,7 +11790,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-wid
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -12252,205 +11856,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-w
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 150],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 140],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 150],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 130],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-width container', [310, 200], (layer, size) => {
-  const g = new Group();
-  g.attr({
-    width: '310',
-    height: '200',
-    bgcolor: 'rgb(128, 128, 128)',
-  });
-  layer.append(g);
-
-  const s0 = new Sprite();
-  s0.attr({
-    pos: [0, 0],
-    size: [80, 50],
-    bgcolor: 'rgb(255, 0, 0)',
-  });
-  g.append(s0);
-
-
-  const s1 = new Sprite();
-  s1.attr({
-    pos: [80, 0],
-    size: [30, 200],
-    bgcolor: 'rgb(0, 0, 0)',
-  });
-  g.append(s1);
-
-
-  const s2 = new Sprite();
-  s2.attr({
-    pos: [110, 0],
-    size: [90, 60],
-    bgcolor: 'rgb(0, 0, 255)',
-  });
-  g.append(s2);
-
-
-  const s3 = new Sprite();
-  s3.attr({
-    pos: [200, 0],
-    size: [0, 50],
-    bgcolor: 'rgb(144, 238, 144)',
-  });
-  g.append(s3);
-
-
-  const s4 = new Sprite();
-  s4.attr({
-    pos: [200, 0],
-    size: [30, 70],
-    bgcolor: 'rgb(173, 216, 230)',
-  });
-  g.append(s4);
-
-
-  const s5 = new Sprite();
-  s5.attr({
-    pos: [230, 0],
-    size: [80, 200],
-    bgcolor: 'rgb(255, 192, 203)',
-  });
-  g.append(s5);
-
-
-  return layer.prepareRender();
-});
-
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse,auto-width container', [310, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '310',
@@ -12516,7 +11922,601 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 150],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 130],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 150],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 130],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 0],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 0],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 0],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 0],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse-auto-width container', [310, 200], (layer, size) => {
+  const g = new Group();
+  g.attr({
+    width: '310',
+    height: '200',
+    bgcolor: 'rgb(128, 128, 128)',
+  });
+  layer.append(g);
+
+  const s0 = new Sprite();
+  s0.attr({
+    pos: [0, 150],
+    size: [80, 50],
+    bgcolor: 'rgb(255, 0, 0)',
+  });
+  g.append(s0);
+
+
+  const s1 = new Sprite();
+  s1.attr({
+    pos: [80, 0],
+    size: [30, 200],
+    bgcolor: 'rgb(0, 0, 0)',
+  });
+  g.append(s1);
+
+
+  const s2 = new Sprite();
+  s2.attr({
+    pos: [110, 140],
+    size: [90, 60],
+    bgcolor: 'rgb(0, 0, 255)',
+  });
+  g.append(s2);
+
+
+  const s3 = new Sprite();
+  s3.attr({
+    pos: [200, 150],
+    size: [0, 50],
+    bgcolor: 'rgb(144, 238, 144)',
+  });
+  g.append(s3);
+
+
+  const s4 = new Sprite();
+  s4.attr({
+    pos: [200, 130],
+    size: [30, 70],
+    bgcolor: 'rgb(173, 216, 230)',
+  });
+  g.append(s4);
+
+
+  const s5 = new Sprite();
+  s5.attr({
+    pos: [230, 0],
+    size: [80, 200],
+    bgcolor: 'rgb(255, 192, 203)',
+  });
+  g.append(s5);
+
+
+  return layer.prepareRender();
+});
+
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -12582,7 +12582,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-wi
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -12648,7 +12648,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -12714,7 +12714,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -12780,7 +12780,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-widt
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -12846,7 +12846,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-wi
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -12912,7 +12912,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse,a
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -12978,7 +12978,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,auto-width 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -13044,7 +13044,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-widt
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13110,7 +13110,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap-reverse,aut
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13176,7 +13176,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -13242,7 +13242,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,au
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13308,7 +13308,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap-reve
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13374,7 +13374,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -13440,7 +13440,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,aut
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13506,7 +13506,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap-rever
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13572,7 +13572,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-width
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-width container', [90, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-width container', [90, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '90',
@@ -13638,7 +13638,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-wid
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse,auto-width container', [170, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse-auto-width container', [170, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '170',
@@ -13704,7 +13704,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse,au
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -13770,7 +13770,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-heigh
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -13836,7 +13836,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-hei
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -13902,7 +13902,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-height 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -13968,7 +13968,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-heigh
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14034,7 +14034,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,auto-height co
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14100,7 +14100,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-height 
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14166,7 +14166,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-he
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14232,7 +14232,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14298,7 +14298,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-hei
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14364,7 +14364,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-h
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14430,7 +14430,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-height c
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-height container', [300, 70], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-height container', [300, 70], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14496,7 +14496,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-height
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14562,7 +14562,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-he
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14628,7 +14628,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14694,7 +14694,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-heig
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14760,7 +14760,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-he
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14826,7 +14826,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,auto-height
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14892,7 +14892,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-heig
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -14958,7 +14958,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15024,7 +15024,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,au
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15090,7 +15090,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15156,7 +15156,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,aut
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15222,7 +15222,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-heigh
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-height container', [300, 230], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-height container', [300, 230], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15288,7 +15288,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-hei
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15354,7 +15354,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:wrap,order:1-6-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15420,7 +15420,7 @@ drawCase('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,order:1-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15486,7 +15486,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:wrap,order:1-6-3-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15552,7 +15552,7 @@ drawCase('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,order:1-6-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15618,7 +15618,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:wrap,order:1-6-3-4-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15684,7 +15684,7 @@ drawCase('flex-direction:row, align-content:center,flex-wrap:nowrap,order:1-6-3-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15750,7 +15750,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:wrap,order:1
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15816,7 +15816,7 @@ drawCase('flex-direction:row, align-content:space-between,flex-wrap:nowrap,order
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15882,7 +15882,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:wrap,order:1-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -15948,7 +15948,7 @@ drawCase('flex-direction:row, align-content:space-around,flex-wrap:nowrap,order:
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16014,7 +16014,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:wrap,order:1-6-3-4
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-row-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16080,7 +16080,7 @@ drawCase('flex-direction:row, align-content:stretch,flex-wrap:nowrap,order:1-6-3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16146,7 +16146,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:wrap,order:1
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16212,7 +16212,7 @@ drawCase('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,order
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16278,7 +16278,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:wrap,order:1-6
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16344,7 +16344,7 @@ drawCase('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,order:1
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16410,7 +16410,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:wrap,order:1-6-3
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16476,7 +16476,7 @@ drawCase('flex-direction:column, align-content:center,flex-wrap:nowrap,order:1-6
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16542,7 +16542,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:wrap,orde
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16608,7 +16608,7 @@ drawCase('flex-direction:column, align-content:space-between,flex-wrap:nowrap,or
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16674,7 +16674,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:wrap,order
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16740,7 +16740,7 @@ drawCase('flex-direction:column, align-content:space-around,flex-wrap:nowrap,ord
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16806,7 +16806,7 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:wrap,order:1-6-
   return layer.prepareRender();
 });
 
-drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5', [300, 200], (layer, size) => {
+drawCase('flex-direction-column-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5', [300, 200], (layer, size) => {
   const g = new Group();
   g.attr({
     width: '300',
@@ -16871,3 +16871,4 @@ drawCase('flex-direction:column, align-content:stretch,flex-wrap:nowrap,order:1-
 
   return layer.prepareRender();
 });
+
