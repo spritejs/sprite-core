@@ -34,7 +34,7 @@ test('flex', async (t) => {
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:flex-start', async (t) => {
+test('wrap-align-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -74,11 +74,11 @@ test('wrap, align-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:flex-start');
+  const isEqual = await compare(canvas, 'wrap-align-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:flex-end', async (t) => {
+test('wrap-align-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -118,11 +118,11 @@ test('wrap, align-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:flex-end');
+  const isEqual = await compare(canvas, 'wrap-align-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:center', async (t) => {
+test('wrap-align-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -162,11 +162,11 @@ test('wrap, align-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:center');
+  const isEqual = await compare(canvas, 'wrap-align-content-center');
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:space-between', async (t) => {
+test('wrap-align-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -206,11 +206,11 @@ test('wrap, align-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:space-between');
+  const isEqual = await compare(canvas, 'wrap-align-content-space-between');
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:space-around', async (t) => {
+test('wrap-align-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -250,11 +250,11 @@ test('wrap, align-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:space-around');
+  const isEqual = await compare(canvas, 'wrap-align-content-space-around');
   t.truthy(isEqual);
 });
 
-test('wrap, align-content:stretch', async (t) => {
+test('wrap-align-content-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -294,11 +294,11 @@ test('wrap, align-content:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, align-content:stretch');
+  const isEqual = await compare(canvas, 'wrap-align-content-stretch');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:flex-start', async (t) => {
+test('wrap-reverse-align-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -338,11 +338,11 @@ test('wrap-reverse, align-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:flex-start');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:flex-end', async (t) => {
+test('wrap-reverse-align-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -382,11 +382,11 @@ test('wrap-reverse, align-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:flex-end');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:center', async (t) => {
+test('wrap-reverse-align-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -426,11 +426,11 @@ test('wrap-reverse, align-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:center');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-center');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:space-between', async (t) => {
+test('wrap-reverse-align-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -470,11 +470,11 @@ test('wrap-reverse, align-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:space-between');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-space-between');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:space-around', async (t) => {
+test('wrap-reverse-align-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -514,11 +514,11 @@ test('wrap-reverse, align-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:space-around');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-space-around');
   t.truthy(isEqual);
 });
 
-test('wrap-reverse, align-content:stretch', async (t) => {
+test('wrap-reverse-align-content-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -558,11 +558,11 @@ test('wrap-reverse, align-content:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap-reverse, align-content:stretch');
+  const isEqual = await compare(canvas, 'wrap-reverse-align-content-stretch');
   t.truthy(isEqual);
 });
 
-test('wrap, alignContent:flex-start', async (t) => {
+test('wrap-alignContent-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -602,7 +602,7 @@ test('wrap, alignContent:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'wrap, alignContent:flex-start');
+  const isEqual = await compare(canvas, 'wrap-alignContent-flex-start');
   t.truthy(isEqual);
 });
 
@@ -708,7 +708,7 @@ test('auto-width item', async (t) => {
   t.truthy(isEqual);
 });
 
-test('justify:space-between, auto-width item', async (t) => {
+test('justify-space-between-auto-width item', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -733,11 +733,11 @@ test('justify:space-between, auto-width item', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify:space-between, auto-width item');
+  const isEqual = await compare(canvas, 'justify-space-between-auto-width item');
   t.truthy(isEqual);
 });
 
-test('justify:space-around,auto-width item', async (t) => {
+test('justify-space-around-auto-width item', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -762,7 +762,7 @@ test('justify:space-around,auto-width item', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify:space-around,auto-width item');
+  const isEqual = await compare(canvas, 'justify-space-around-auto-width item');
   t.truthy(isEqual);
 });
 
@@ -795,7 +795,7 @@ test('auto-height item', async (t) => {
   t.truthy(isEqual);
 });
 
-test('align-items:center, auto-height container', async (t) => {
+test('align-items-center-auto-height container', async (t) => {
   const canvas = createCanvas(300, 60),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -820,11 +820,11 @@ test('align-items:center, auto-height container', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center, auto-height container');
+  const isEqual = await compare(canvas, 'align-items-center-auto-height container');
   t.truthy(isEqual);
 });
 
-test('auto-height container, auto-height item', async (t) => {
+test('auto-height container-auto-height item', async (t) => {
   const canvas = createCanvas(300, 60),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -849,7 +849,7 @@ test('auto-height container, auto-height item', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'auto-height container, auto-height item');
+  const isEqual = await compare(canvas, 'auto-height container-auto-height item');
   t.truthy(isEqual);
 });
 
@@ -940,7 +940,7 @@ test('overflow-vertical', async (t) => {
   t.truthy(isEqual);
 });
 
-test('flex-direction:row', async (t) => {
+test('flex-direction-row', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -965,11 +965,11 @@ test('flex-direction:row', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row');
+  const isEqual = await compare(canvas, 'flex-direction-row');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse', async (t) => {
+test('flex-direction-row-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -994,11 +994,11 @@ test('flex-direction:row-reverse', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column', async (t) => {
+test('flex-direction-column', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1023,11 +1023,11 @@ test('flex-direction:column', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column');
+  const isEqual = await compare(canvas, 'flex-direction-column');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse', async (t) => {
+test('flex-direction-column-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1052,11 +1052,11 @@ test('flex-direction:column-reverse', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse');
   t.truthy(isEqual);
 });
 
-test('justify-content:flex-start', async (t) => {
+test('justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1081,11 +1081,11 @@ test('justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify-content:flex-start');
+  const isEqual = await compare(canvas, 'justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('justify-content:flex-end', async (t) => {
+test('justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1110,11 +1110,11 @@ test('justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify-content:flex-end');
+  const isEqual = await compare(canvas, 'justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('justify-content:center', async (t) => {
+test('justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1139,11 +1139,11 @@ test('justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify-content:center');
+  const isEqual = await compare(canvas, 'justify-content-center');
   t.truthy(isEqual);
 });
 
-test('justify-content:space-between', async (t) => {
+test('justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1168,11 +1168,11 @@ test('justify-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify-content:space-between');
+  const isEqual = await compare(canvas, 'justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('justify-content:space-around', async (t) => {
+test('justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1197,11 +1197,11 @@ test('justify-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'justify-content:space-around');
+  const isEqual = await compare(canvas, 'justify-content-space-around');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-start', async (t) => {
+test('align-items-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1226,11 +1226,11 @@ test('align-items:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-start');
+  const isEqual = await compare(canvas, 'align-items-flex-start');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-end', async (t) => {
+test('align-items-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1255,11 +1255,11 @@ test('align-items:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-end');
+  const isEqual = await compare(canvas, 'align-items-flex-end');
   t.truthy(isEqual);
 });
 
-test('align-items:center', async (t) => {
+test('align-items-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1284,11 +1284,11 @@ test('align-items:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center');
+  const isEqual = await compare(canvas, 'align-items-center');
   t.truthy(isEqual);
 });
 
-test('align-items:stretch', async (t) => {
+test('align-items-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1313,11 +1313,11 @@ test('align-items:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:stretch');
+  const isEqual = await compare(canvas, 'align-items-stretch');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-start, align-self:flex-start', async (t) => {
+test('align-items-flex-start-align-self-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1342,11 +1342,11 @@ test('align-items:flex-start, align-self:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-start, align-self:flex-start');
+  const isEqual = await compare(canvas, 'align-items-flex-start-align-self-flex-start');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-start, align-self:flex-end', async (t) => {
+test('align-items-flex-start-align-self-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1371,11 +1371,11 @@ test('align-items:flex-start, align-self:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-start, align-self:flex-end');
+  const isEqual = await compare(canvas, 'align-items-flex-start-align-self-flex-end');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-start, align-self:center', async (t) => {
+test('align-items-flex-start-align-self-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1400,11 +1400,11 @@ test('align-items:flex-start, align-self:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-start, align-self:center');
+  const isEqual = await compare(canvas, 'align-items-flex-start-align-self-center');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-start, align-self:stretch', async (t) => {
+test('align-items-flex-start-align-self-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1429,11 +1429,11 @@ test('align-items:flex-start, align-self:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-start, align-self:stretch');
+  const isEqual = await compare(canvas, 'align-items-flex-start-align-self-stretch');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-end, align-self:flex-start', async (t) => {
+test('align-items-flex-end-align-self-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1458,11 +1458,11 @@ test('align-items:flex-end, align-self:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-end, align-self:flex-start');
+  const isEqual = await compare(canvas, 'align-items-flex-end-align-self-flex-start');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-end, align-self:flex-end', async (t) => {
+test('align-items-flex-end-align-self-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1487,11 +1487,11 @@ test('align-items:flex-end, align-self:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-end, align-self:flex-end');
+  const isEqual = await compare(canvas, 'align-items-flex-end-align-self-flex-end');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-end, align-self:center', async (t) => {
+test('align-items-flex-end-align-self-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1516,11 +1516,11 @@ test('align-items:flex-end, align-self:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-end, align-self:center');
+  const isEqual = await compare(canvas, 'align-items-flex-end-align-self-center');
   t.truthy(isEqual);
 });
 
-test('align-items:flex-end, align-self:stretch', async (t) => {
+test('align-items-flex-end-align-self-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1545,11 +1545,11 @@ test('align-items:flex-end, align-self:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:flex-end, align-self:stretch');
+  const isEqual = await compare(canvas, 'align-items-flex-end-align-self-stretch');
   t.truthy(isEqual);
 });
 
-test('align-items:center, align-self:flex-start', async (t) => {
+test('align-items-center-align-self-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1574,11 +1574,11 @@ test('align-items:center, align-self:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center, align-self:flex-start');
+  const isEqual = await compare(canvas, 'align-items-center-align-self-flex-start');
   t.truthy(isEqual);
 });
 
-test('align-items:center, align-self:flex-end', async (t) => {
+test('align-items-center-align-self-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1603,11 +1603,11 @@ test('align-items:center, align-self:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center, align-self:flex-end');
+  const isEqual = await compare(canvas, 'align-items-center-align-self-flex-end');
   t.truthy(isEqual);
 });
 
-test('align-items:center, align-self:center', async (t) => {
+test('align-items-center-align-self-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1632,11 +1632,11 @@ test('align-items:center, align-self:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center, align-self:center');
+  const isEqual = await compare(canvas, 'align-items-center-align-self-center');
   t.truthy(isEqual);
 });
 
-test('align-items:center, align-self:stretch', async (t) => {
+test('align-items-center-align-self-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1661,11 +1661,11 @@ test('align-items:center, align-self:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:center, align-self:stretch');
+  const isEqual = await compare(canvas, 'align-items-center-align-self-stretch');
   t.truthy(isEqual);
 });
 
-test('align-items:stretch, align-self:flex-start', async (t) => {
+test('align-items-stretch-align-self-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1690,11 +1690,11 @@ test('align-items:stretch, align-self:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:stretch, align-self:flex-start');
+  const isEqual = await compare(canvas, 'align-items-stretch-align-self-flex-start');
   t.truthy(isEqual);
 });
 
-test('align-items:stretch, align-self:flex-end', async (t) => {
+test('align-items-stretch-align-self-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1719,11 +1719,11 @@ test('align-items:stretch, align-self:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:stretch, align-self:flex-end');
+  const isEqual = await compare(canvas, 'align-items-stretch-align-self-flex-end');
   t.truthy(isEqual);
 });
 
-test('align-items:stretch, align-self:center', async (t) => {
+test('align-items-stretch-align-self-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1748,11 +1748,11 @@ test('align-items:stretch, align-self:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:stretch, align-self:center');
+  const isEqual = await compare(canvas, 'align-items-stretch-align-self-center');
   t.truthy(isEqual);
 });
 
-test('align-items:stretch, align-self:stretch', async (t) => {
+test('align-items-stretch-align-self-stretch', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1777,11 +1777,11 @@ test('align-items:stretch, align-self:stretch', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'align-items:stretch, align-self:stretch');
+  const isEqual = await compare(canvas, 'align-items-stretch-align-self-stretch');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-start', async (t) => {
+test('flex-direction-row-justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1806,11 +1806,11 @@ test('flex-direction:row, justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-start');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-end', async (t) => {
+test('flex-direction-row-justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1835,11 +1835,11 @@ test('flex-direction:row, justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-end');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:center', async (t) => {
+test('flex-direction-row-justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1864,11 +1864,11 @@ test('flex-direction:row, justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:center');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-center');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-between', async (t) => {
+test('flex-direction-row-justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1893,11 +1893,11 @@ test('flex-direction:row, justify-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-between');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-around', async (t) => {
+test('flex-direction-row-justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1922,11 +1922,11 @@ test('flex-direction:row, justify-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-around');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-around');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse, justify-content:flex-start', async (t) => {
+test('flex-direction-row-reverse-justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1951,11 +1951,11 @@ test('flex-direction:row-reverse, justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse, justify-content:flex-start');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse-justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse, justify-content:flex-end', async (t) => {
+test('flex-direction-row-reverse-justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -1980,11 +1980,11 @@ test('flex-direction:row-reverse, justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse, justify-content:flex-end');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse-justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse, justify-content:center', async (t) => {
+test('flex-direction-row-reverse-justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2009,11 +2009,11 @@ test('flex-direction:row-reverse, justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse, justify-content:center');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse-justify-content-center');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse, justify-content:space-between', async (t) => {
+test('flex-direction-row-reverse-justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2038,11 +2038,11 @@ test('flex-direction:row-reverse, justify-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse, justify-content:space-between');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse-justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row-reverse, justify-content:space-around', async (t) => {
+test('flex-direction-row-reverse-justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2067,11 +2067,11 @@ test('flex-direction:row-reverse, justify-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row-reverse, justify-content:space-around');
+  const isEqual = await compare(canvas, 'flex-direction-row-reverse-justify-content-space-around');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-start', async (t) => {
+test('flex-direction-column-justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2096,11 +2096,11 @@ test('flex-direction:column, justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-start');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-end', async (t) => {
+test('flex-direction-column-justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2125,11 +2125,11 @@ test('flex-direction:column, justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-end');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:center', async (t) => {
+test('flex-direction-column-justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2154,11 +2154,11 @@ test('flex-direction:column, justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:center');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-center');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-between', async (t) => {
+test('flex-direction-column-justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2183,11 +2183,11 @@ test('flex-direction:column, justify-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-between');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-around', async (t) => {
+test('flex-direction-column-justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2212,11 +2212,11 @@ test('flex-direction:column, justify-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-around');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-around');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse, justify-content:flex-start', async (t) => {
+test('flex-direction-column-reverse-justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2241,11 +2241,11 @@ test('flex-direction:column-reverse, justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse, justify-content:flex-start');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse-justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse, justify-content:flex-end', async (t) => {
+test('flex-direction-column-reverse-justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2270,11 +2270,11 @@ test('flex-direction:column-reverse, justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse, justify-content:flex-end');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse-justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse, justify-content:center', async (t) => {
+test('flex-direction-column-reverse-justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2299,11 +2299,11 @@ test('flex-direction:column-reverse, justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse, justify-content:center');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse-justify-content-center');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse, justify-content:space-between', async (t) => {
+test('flex-direction-column-reverse-justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2328,11 +2328,11 @@ test('flex-direction:column-reverse, justify-content:space-between', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse, justify-content:space-between');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse-justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column-reverse, justify-content:space-around', async (t) => {
+test('flex-direction-column-reverse-justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2357,11 +2357,11 @@ test('flex-direction:column-reverse, justify-content:space-around', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column-reverse, justify-content:space-around');
+  const isEqual = await compare(canvas, 'flex-direction-column-reverse-justify-content-space-around');
   t.truthy(isEqual);
 });
 
-test('flex & justify-content:flex-start', async (t) => {
+test('flex & justify-content-flex-start', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2386,11 +2386,11 @@ test('flex & justify-content:flex-start', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex & justify-content:flex-start');
+  const isEqual = await compare(canvas, 'flex & justify-content-flex-start');
   t.truthy(isEqual);
 });
 
-test('flex & justify-content:flex-end', async (t) => {
+test('flex & justify-content-flex-end', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2415,11 +2415,11 @@ test('flex & justify-content:flex-end', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex & justify-content:flex-end');
+  const isEqual = await compare(canvas, 'flex & justify-content-flex-end');
   t.truthy(isEqual);
 });
 
-test('flex & justify-content:center', async (t) => {
+test('flex & justify-content-center', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2444,11 +2444,11 @@ test('flex & justify-content:center', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex & justify-content:center');
+  const isEqual = await compare(canvas, 'flex & justify-content-center');
   t.truthy(isEqual);
 });
 
-test('flex & justify-content:space-between', async (t) => {
+test('flex & justify-content-space-between', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2473,11 +2473,11 @@ test('flex & justify-content:space-between', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex & justify-content:space-between');
+  const isEqual = await compare(canvas, 'flex & justify-content-space-between');
   t.truthy(isEqual);
 });
 
-test('flex & justify-content:space-around', async (t) => {
+test('flex & justify-content-space-around', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2502,7 +2502,7 @@ test('flex & justify-content:space-around', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex & justify-content:space-around');
+  const isEqual = await compare(canvas, 'flex & justify-content-space-around');
   t.truthy(isEqual);
 });
 
@@ -2550,7 +2550,7 @@ test('tmp2', async (t) => {
   t.truthy(isEqual);
 });
 
-test('flex-wrap:wrap', async (t) => {
+test('flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2590,11 +2590,11 @@ test('flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-wrap:nowrap', async (t) => {
+test('flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2634,11 +2634,11 @@ test('flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-wrap:wrap-reverse', async (t) => {
+test('flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2678,11 +2678,11 @@ test('flex-wrap:wrap-reverse', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, flex-wrap:wrap', async (t) => {
+test('flex-direction-row-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2722,11 +2722,11 @@ test('flex-direction:row, flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2766,11 +2766,11 @@ test('flex-direction:row, flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2810,11 +2810,11 @@ test('flex-direction:row, flex-wrap:wrap-reverse', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, flex-wrap:wrap', async (t) => {
+test('flex-direction-column-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2854,11 +2854,11 @@ test('flex-direction:column, flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2898,11 +2898,11 @@ test('flex-direction:column, flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2942,11 +2942,11 @@ test('flex-direction:column, flex-wrap:wrap-reverse', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-flow:row wrap', async (t) => {
+test('flex-flow-row wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -2986,11 +2986,11 @@ test('flex-flow:row wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-flow:row wrap');
+  const isEqual = await compare(canvas, 'flex-flow-row wrap');
   t.truthy(isEqual);
 });
 
-test('flex-flow:row nowrap', async (t) => {
+test('flex-flow-row nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3030,11 +3030,11 @@ test('flex-flow:row nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-flow:row nowrap');
+  const isEqual = await compare(canvas, 'flex-flow-row nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-flow:column wrap', async (t) => {
+test('flex-flow-column wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3074,11 +3074,11 @@ test('flex-flow:column wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-flow:column wrap');
+  const isEqual = await compare(canvas, 'flex-flow-column wrap');
   t.truthy(isEqual);
 });
 
-test('flex-flow:column nowrap', async (t) => {
+test('flex-flow-column nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3118,11 +3118,11 @@ test('flex-flow:column nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-flow:column nowrap');
+  const isEqual = await compare(canvas, 'flex-flow-column nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-justify-content-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3162,11 +3162,11 @@ test('flex-direction:row, justify-content:flex-start,flex-wrap:wrap', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-justify-content-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3206,11 +3206,11 @@ test('flex-direction:row, justify-content:flex-start,flex-wrap:nowrap', async (t
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-justify-content-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3250,11 +3250,11 @@ test('flex-direction:row, justify-content:flex-start,flex-wrap:wrap-reverse', as
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-justify-content-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3294,11 +3294,11 @@ test('flex-direction:row, justify-content:flex-end,flex-wrap:wrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-justify-content-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3338,11 +3338,11 @@ test('flex-direction:row, justify-content:flex-end,flex-wrap:nowrap', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-justify-content-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3382,11 +3382,11 @@ test('flex-direction:row, justify-content:flex-end,flex-wrap:wrap-reverse', asyn
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-justify-content-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3426,11 +3426,11 @@ test('flex-direction:row, justify-content:center,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-justify-content-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3470,11 +3470,11 @@ test('flex-direction:row, justify-content:center,flex-wrap:nowrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-justify-content-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3514,11 +3514,11 @@ test('flex-direction:row, justify-content:center,flex-wrap:wrap-reverse', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-between,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-justify-content-space-between-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3558,11 +3558,11 @@ test('flex-direction:row, justify-content:space-between,flex-wrap:wrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-between,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-between-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-between,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-justify-content-space-between-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3602,11 +3602,11 @@ test('flex-direction:row, justify-content:space-between,flex-wrap:nowrap', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-between,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-between-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-between,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-justify-content-space-between-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3646,11 +3646,11 @@ test('flex-direction:row, justify-content:space-between,flex-wrap:wrap-reverse',
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-between,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-between-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-around,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-justify-content-space-around-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3690,11 +3690,11 @@ test('flex-direction:row, justify-content:space-around,flex-wrap:wrap', async (t
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-around,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-around-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-around,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-justify-content-space-around-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3734,11 +3734,11 @@ test('flex-direction:row, justify-content:space-around,flex-wrap:nowrap', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-around,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-around-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, justify-content:space-around,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-justify-content-space-around-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3778,11 +3778,11 @@ test('flex-direction:row, justify-content:space-around,flex-wrap:wrap-reverse', 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, justify-content:space-around,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-justify-content-space-around-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-justify-content-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3822,11 +3822,11 @@ test('flex-direction:column, justify-content:flex-start,flex-wrap:wrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-justify-content-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3866,11 +3866,11 @@ test('flex-direction:column, justify-content:flex-start,flex-wrap:nowrap', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-justify-content-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3910,11 +3910,11 @@ test('flex-direction:column, justify-content:flex-start,flex-wrap:wrap-reverse',
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-justify-content-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3954,11 +3954,11 @@ test('flex-direction:column, justify-content:flex-end,flex-wrap:wrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-justify-content-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -3998,11 +3998,11 @@ test('flex-direction:column, justify-content:flex-end,flex-wrap:nowrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-justify-content-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4042,11 +4042,11 @@ test('flex-direction:column, justify-content:flex-end,flex-wrap:wrap-reverse', a
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-justify-content-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4086,11 +4086,11 @@ test('flex-direction:column, justify-content:center,flex-wrap:wrap', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-justify-content-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4130,11 +4130,11 @@ test('flex-direction:column, justify-content:center,flex-wrap:nowrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-justify-content-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4174,11 +4174,11 @@ test('flex-direction:column, justify-content:center,flex-wrap:wrap-reverse', asy
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-between,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-justify-content-space-between-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4218,11 +4218,11 @@ test('flex-direction:column, justify-content:space-between,flex-wrap:wrap', asyn
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-between,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-between-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-between,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-justify-content-space-between-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4262,11 +4262,11 @@ test('flex-direction:column, justify-content:space-between,flex-wrap:nowrap', as
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-between,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-between-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-between,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-justify-content-space-between-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4306,11 +4306,11 @@ test('flex-direction:column, justify-content:space-between,flex-wrap:wrap-revers
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-between,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-between-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-around,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-justify-content-space-around-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4350,11 +4350,11 @@ test('flex-direction:column, justify-content:space-around,flex-wrap:wrap', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-around,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-around-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-around,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-justify-content-space-around-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4394,11 +4394,11 @@ test('flex-direction:column, justify-content:space-around,flex-wrap:nowrap', asy
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-around,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-around-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, justify-content:space-around,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-justify-content-space-around-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4438,11 +4438,11 @@ test('flex-direction:column, justify-content:space-around,flex-wrap:wrap-reverse
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, justify-content:space-around,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-justify-content-space-around-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-items-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4482,11 +4482,11 @@ test('flex-direction:row, align-items:flex-start,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-items-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4526,11 +4526,11 @@ test('flex-direction:row, align-items:flex-start,flex-wrap:nowrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-items-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4570,11 +4570,11 @@ test('flex-direction:row, align-items:flex-start,flex-wrap:wrap-reverse', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-items-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4614,11 +4614,11 @@ test('flex-direction:row, align-items:flex-end,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-items-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4658,11 +4658,11 @@ test('flex-direction:row, align-items:flex-end,flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-items-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4702,11 +4702,11 @@ test('flex-direction:row, align-items:flex-end,flex-wrap:wrap-reverse', async (t
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-items-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4746,11 +4746,11 @@ test('flex-direction:row, align-items:center,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-items-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4790,11 +4790,11 @@ test('flex-direction:row, align-items:center,flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-items-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4834,11 +4834,11 @@ test('flex-direction:row, align-items:center,flex-wrap:wrap-reverse', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:stretch,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-items-stretch-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4878,11 +4878,11 @@ test('flex-direction:row, align-items:stretch,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:stretch,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-stretch-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:stretch,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-items-stretch-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4922,11 +4922,11 @@ test('flex-direction:row, align-items:stretch,flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:stretch,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-stretch-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-items:stretch,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-items-stretch-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -4966,11 +4966,11 @@ test('flex-direction:row, align-items:stretch,flex-wrap:wrap-reverse', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-items:stretch,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-items-stretch-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-items-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5010,11 +5010,11 @@ test('flex-direction:column, align-items:flex-start,flex-wrap:wrap', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-items-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5054,11 +5054,11 @@ test('flex-direction:column, align-items:flex-start,flex-wrap:nowrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-items-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5098,11 +5098,11 @@ test('flex-direction:column, align-items:flex-start,flex-wrap:wrap-reverse', asy
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-items-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5142,11 +5142,11 @@ test('flex-direction:column, align-items:flex-end,flex-wrap:wrap', async (t) => 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-items-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5186,11 +5186,11 @@ test('flex-direction:column, align-items:flex-end,flex-wrap:nowrap', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-items-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5230,11 +5230,11 @@ test('flex-direction:column, align-items:flex-end,flex-wrap:wrap-reverse', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-items-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5274,11 +5274,11 @@ test('flex-direction:column, align-items:center,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-items-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5318,11 +5318,11 @@ test('flex-direction:column, align-items:center,flex-wrap:nowrap', async (t) => 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-items-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5362,11 +5362,11 @@ test('flex-direction:column, align-items:center,flex-wrap:wrap-reverse', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:stretch,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-items-stretch-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5406,11 +5406,11 @@ test('flex-direction:column, align-items:stretch,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:stretch,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-stretch-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:stretch,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-items-stretch-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5450,11 +5450,11 @@ test('flex-direction:column, align-items:stretch,flex-wrap:nowrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:stretch,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-stretch-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-items:stretch,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-items-stretch-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5494,11 +5494,11 @@ test('flex-direction:column, align-items:stretch,flex-wrap:wrap-reverse', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-items:stretch,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-items-stretch-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5538,11 +5538,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5582,11 +5582,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5626,11 +5626,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse', asyn
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5670,11 +5670,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5714,11 +5714,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5758,11 +5758,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5802,11 +5802,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5846,11 +5846,11 @@ test('flex-direction:row, align-content:center,flex-wrap:nowrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5890,11 +5890,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap-reverse', async (t
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5934,11 +5934,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -5978,11 +5978,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:nowrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6022,11 +6022,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse', a
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6066,11 +6066,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6110,11 +6110,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:nowrap', async (t
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6154,11 +6154,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse', as
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6198,11 +6198,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:nowrap', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6242,11 +6242,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:nowrap', async (t) => 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6286,11 +6286,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6330,11 +6330,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6374,11 +6374,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6418,11 +6418,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse', a
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6462,11 +6462,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6506,11 +6506,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap', async (t)
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6550,11 +6550,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse', asy
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6594,11 +6594,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap', async (t) => 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6638,11 +6638,11 @@ test('flex-direction:column, align-content:center,flex-wrap:nowrap', async (t) =
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6682,11 +6682,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap-reverse', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6726,11 +6726,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap', async 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6770,11 +6770,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:nowrap', asyn
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6814,11 +6814,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse'
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6858,11 +6858,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap', async (
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6902,11 +6902,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:nowrap', async
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6946,11 +6946,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse',
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -6990,11 +6990,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap', async (t) =>
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:nowrap', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-nowrap', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7034,11 +7034,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:nowrap', async (t) 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:nowrap');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-nowrap');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7078,11 +7078,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse', asyn
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row;basic', async (t) => {
+test('flex-direction-row-basic', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7122,11 +7122,11 @@ test('flex-direction:row;basic', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row;basic');
+  const isEqual = await compare(canvas, 'flex-direction-row-basic');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column;basic', async (t) => {
+test('flex-direction-column-basic', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7166,11 +7166,11 @@ test('flex-direction:column;basic', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column;basic');
+  const isEqual = await compare(canvas, 'flex-direction-column-basic');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row;flex:1-2-3', async (t) => {
+test('flex-direction-row-flex-1-2-3', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7195,11 +7195,11 @@ test('flex-direction:row;flex:1-2-3', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row;flex:1-2-3');
+  const isEqual = await compare(canvas, 'flex-direction-row-flex-1-2-3');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column;flex:1-2-3', async (t) => {
+test('flex-direction-column-flex-1-2-3', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7224,11 +7224,11 @@ test('flex-direction:column;flex:1-2-3', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column;flex:1-2-3');
+  const isEqual = await compare(canvas, 'flex-direction-column-flex-1-2-3');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row;auto-width-height item', async (t) => {
+test('flex-direction-row-auto-width-height item', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7268,11 +7268,11 @@ test('flex-direction:row;auto-width-height item', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row;auto-width-height item');
+  const isEqual = await compare(canvas, 'flex-direction-row-auto-width-height item');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column;auto-width-height item', async (t) => {
+test('flex-direction-column-auto-width-height item', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7312,11 +7312,11 @@ test('flex-direction:column;auto-width-height item', async (t) => {
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column;auto-width-height item');
+  const isEqual = await compare(canvas, 'flex-direction-column-auto-width-height item');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7356,11 +7356,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-width con
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7400,11 +7400,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-width c
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7444,11 +7444,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse,auto-w
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7488,11 +7488,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-width conta
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7532,11 +7532,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-width con
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7576,11 +7576,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse,auto-wid
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7620,11 +7620,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap,auto-width contain
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7664,11 +7664,11 @@ test('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-width conta
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7708,11 +7708,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap-reverse,auto-width
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7752,11 +7752,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-width 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7796,11 +7796,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-widt
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7840,11 +7840,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse,aut
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7884,11 +7884,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-width c
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7928,11 +7928,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-width
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -7972,11 +7972,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse,auto
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8016,11 +8016,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-width contai
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8060,11 +8060,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-width cont
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(310, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8104,11 +8104,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse,auto-widt
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8148,11 +8148,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-width 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8192,11 +8192,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-widt
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8236,11 +8236,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse,aut
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8280,11 +8280,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-width co
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8324,11 +8324,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-width 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8368,11 +8368,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse,auto-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8412,11 +8412,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap,auto-width cont
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8456,11 +8456,11 @@ test('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-width co
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8500,11 +8500,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap-reverse,auto-wi
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8544,11 +8544,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-wid
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8588,11 +8588,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-w
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8632,11 +8632,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse,
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8676,11 +8676,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-widt
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8720,11 +8720,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-wi
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8764,11 +8764,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse,a
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8808,11 +8808,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-width con
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-width container', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-width container', async (t) => {
   const canvas = createCanvas(90, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8852,11 +8852,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-width c
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse,auto-width container', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse-auto-width container', async (t) => {
   const canvas = createCanvas(170, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8896,11 +8896,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse,auto-w
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap-reverse,auto-width container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap-reverse-auto-width container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8940,11 +8940,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-height co
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -8984,11 +8984,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-height 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9028,11 +9028,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-height cont
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9072,11 +9072,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-height co
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9116,11 +9116,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap,auto-height contai
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9160,11 +9160,11 @@ test('flex-direction:row, align-content:center,flex-wrap:nowrap,auto-height cont
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9204,11 +9204,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-height
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9248,11 +9248,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-heig
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9292,11 +9292,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-height 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9336,11 +9336,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-heigh
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9380,11 +9380,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-height conta
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 70),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9424,11 +9424,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-height con
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9468,11 +9468,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-height
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9512,11 +9512,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-heig
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9556,11 +9556,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-height c
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9600,11 +9600,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-height
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9644,11 +9644,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap,auto-height con
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9688,11 +9688,11 @@ test('flex-direction:column, align-content:center,flex-wrap:nowrap,auto-height c
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9732,11 +9732,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-hei
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9776,11 +9776,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-h
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9820,11 +9820,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-heig
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9864,11 +9864,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-he
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9908,11 +9908,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-height co
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-height container', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-height container', async (t) => {
   const canvas = createCanvas(300, 230),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9952,11 +9952,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-height 
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:nowrap,auto-height container');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-nowrap-auto-height container');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -9996,11 +9996,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10040,11 +10040,11 @@ test('flex-direction:row, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10084,11 +10084,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10128,11 +10128,11 @@ test('flex-direction:row, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10172,11 +10172,11 @@ test('flex-direction:row, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5'
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10216,11 +10216,11 @@ test('flex-direction:row, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10260,11 +10260,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:wrap,order:1-6-3
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10304,11 +10304,11 @@ test('flex-direction:row, align-content:space-between,flex-wrap:nowrap,order:1-6
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10348,11 +10348,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:wrap,order:1-6-3-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10392,11 +10392,11 @@ test('flex-direction:row, align-content:space-around,flex-wrap:nowrap,order:1-6-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10436,11 +10436,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-row-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10480,11 +10480,11 @@ test('flex-direction:row, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:row, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-row-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10524,11 +10524,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:wrap,order:1-6-3
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10568,11 +10568,11 @@ test('flex-direction:column, align-content:flex-start,flex-wrap:nowrap,order:1-6
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-start,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-start-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10612,11 +10612,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10656,11 +10656,11 @@ test('flex-direction:column, align-content:flex-end,flex-wrap:nowrap,order:1-6-3
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:flex-end,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-flex-end-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10700,11 +10700,11 @@ test('flex-direction:column, align-content:center,flex-wrap:wrap,order:1-6-3-4-2
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10744,11 +10744,11 @@ test('flex-direction:column, align-content:center,flex-wrap:nowrap,order:1-6-3-4
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:center,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-center-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10788,11 +10788,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:wrap,order:1-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10832,11 +10832,11 @@ test('flex-direction:column, align-content:space-between,flex-wrap:nowrap,order:
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-between,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-between-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10876,11 +10876,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:wrap,order:1-6
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10920,11 +10920,11 @@ test('flex-direction:column, align-content:space-around,flex-wrap:nowrap,order:1
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:space-around,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-space-around-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -10964,11 +10964,11 @@ test('flex-direction:column, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:wrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-wrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
 
-test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5', async (t) => {
+test('flex-direction-column-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5', async (t) => {
   const canvas = createCanvas(300, 200),
     layer = new Layer({context: canvas.getContext('2d')});
 
@@ -11008,6 +11008,6 @@ test('flex-direction:column, align-content:stretch,flex-wrap:nowrap,order:1-6-3-
 
   await layer.prepareRender();
 
-  const isEqual = await compare(canvas, 'flex-direction:column, align-content:stretch,flex-wrap:nowrap,order:1-6-3-4-2-5');
+  const isEqual = await compare(canvas, 'flex-direction-column-align-content-stretch-flex-wrap-nowrap-order-1-6-3-4-2-5');
   t.truthy(isEqual);
 });
