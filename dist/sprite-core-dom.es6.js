@@ -7033,7 +7033,7 @@ class BaseNode {
   }
 
   pointCollision(evt) {
-    throw Error('you mast override this method');
+    throw Error('you must override this method');
   }
 
   setMouseCapture() {
