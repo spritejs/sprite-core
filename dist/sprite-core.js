@@ -4655,6 +4655,7 @@ function drawRadiusBox(context, _ref, radius) {
     context.rect(x, y, w, h);
   } else {
     if (!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
+    if (typeof radius === 'number') radius = Array(8).fill(radius);
 
     var _radius$map = radius.map(function (r, i) {
       if (i % 2) return Math.min(r, h / 2);

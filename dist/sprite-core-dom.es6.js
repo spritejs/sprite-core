@@ -4021,6 +4021,7 @@ function drawRadiusBox(context, [x, y, w, h], radius) {
     context.rect(x, y, w, h);
   } else {
     if (!radius) radius = [0, 0, 0, 0, 0, 0, 0, 0];
+    if (typeof radius === 'number') radius = Array(8).fill(radius);
     const [tl0, tl1, tr0, tr1, br0, br1, bl0, bl1] = radius.map((r, i) => {
       if (i % 2) return Math.min(r, h / 2);
       return Math.min(r, w / 2);
