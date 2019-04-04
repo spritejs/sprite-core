@@ -10326,6 +10326,7 @@ let GroupAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["attr"])({
+        reflow,
         relayout
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('width')],
       key: "layoutWidth",
@@ -10337,6 +10338,7 @@ let GroupAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_0__["attr"])({
+        reflow,
         relayout
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_0__["relative"])('height')],
       key: "layoutHeight",

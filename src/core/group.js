@@ -31,11 +31,11 @@ class GroupAttr extends BaseSprite.Attr {
     }
   }
 
-  @attr({relayout})
+  @attr({reflow, relayout})
   @relative('width')
   layoutWidth = '';
 
-  @attr({relayout})
+  @attr({reflow, relayout})
   @relative('height')
   layoutHeight = '';
 
