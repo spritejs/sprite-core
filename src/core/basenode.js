@@ -38,12 +38,13 @@ function createAttribute(attr, key) {
         const {style, variant, weight, family, fontSize} = parsed;
         subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
       }
-      if(key === 'font'
+      if((key === 'font'
         || key === 'lineHeight'
         || key === 'lineBreak'
         || key === 'wordBreak'
         || key === 'letterSpacing'
-        || key === 'textIndent') {
+        || key === 'textIndent')
+        && subject.querySelectorAll) {
         const children = subject.querySelectorAll('*');
         children.forEach((node) => {
           if(node.retypesetting) node.retypesetting();

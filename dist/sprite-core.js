@@ -7938,7 +7938,7 @@ function createAttribute(attr, key) {
         subject.attr('font', "".concat(style, " ").concat(variant, " ").concat(weight, " ").concat(fontSize, " ").concat(family));
       }
 
-      if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
+      if ((key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') && subject.querySelectorAll) {
         var children = subject.querySelectorAll('*');
         children.forEach(function (node) {
           if (node.retypesetting) node.retypesetting();

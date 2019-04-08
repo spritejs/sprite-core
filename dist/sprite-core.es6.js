@@ -6825,7 +6825,7 @@ function createAttribute(attr, key) {
         subject.attr('font', `${style} ${variant} ${weight} ${fontSize} ${family}`);
       }
 
-      if (key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') {
+      if ((key === 'font' || key === 'lineHeight' || key === 'lineBreak' || key === 'wordBreak' || key === 'letterSpacing' || key === 'textIndent') && subject.querySelectorAll) {
         const children = subject.querySelectorAll('*');
         children.forEach(node => {
           if (node.retypesetting) node.retypesetting();
