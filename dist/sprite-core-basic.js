@@ -1684,6 +1684,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _initialPath = Symbol('initialPath');
+
 var _path = Symbol('path');
 
 var _bounds = Symbol('bounds');
@@ -1704,8 +1706,8 @@ function () {
       throw new Error('Not an SVG path!');
     }
 
-    var path = Object(_normalize_svg_path__WEBPACK_IMPORTED_MODULE_9__["default"])(Object(_abs_svg_path__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_parse_svg_path__WEBPACK_IMPORTED_MODULE_7__["default"])(d)));
-    this[_path] = path;
+    this[_initialPath] = Object(_abs_svg_path__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_parse_svg_path__WEBPACK_IMPORTED_MODULE_7__["default"])(d));
+    this[_path] = Object(_normalize_svg_path__WEBPACK_IMPORTED_MODULE_9__["default"])(this[_initialPath]);
     this[_bounds] = null;
     this[_savedPaths] = [];
     this[_renderProps] = {};
@@ -1870,6 +1872,10 @@ function () {
             context.bezierCurveTo.apply(context, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(args));
           }
         });
+
+        if (this.isClosed) {
+          context.closePath();
+        }
       }
 
       Object.assign(context, renderProps);
@@ -1961,18 +1967,30 @@ function () {
   }, {
     key: "d",
     get: function get() {
-      return this[_path].map(function (p) {
+      var path = this[_path].map(function (p) {
         var _p = _babel_runtime_helpers_toArray__WEBPACK_IMPORTED_MODULE_2___default()(p),
             c = _p[0],
             points = _p.slice(1);
 
         return c + points.join();
       }).join('');
+
+      if (this.isClosed) {
+        path += 'Z';
+      }
+
+      return path;
     }
   }, {
     key: "path",
     get: function get() {
       return this[_path];
+    }
+  }, {
+    key: "isClosed",
+    get: function get() {
+      var part = this[_initialPath][this[_initialPath].length - 1];
+      return part && part[0] === 'Z';
     }
   }]);
 
@@ -2264,14 +2282,17 @@ function isPointInStroke(_ref2, x, y, _ref3) {
       _ref3$lineJoin = _ref3.lineJoin,
       lineJoin = _ref3$lineJoin === void 0 ? 'miter' : _ref3$lineJoin;
   if (!context) context = document.createElement('canvas').getContext('2d');
-  context.save();
-  context.lineWidth = lineWidth;
-  context.lineCap = lineCap;
-  context.lineJoin = lineJoin;
-  var path = new Path2D(d);
-  var ret = context.isPointInStroke(path, x, y);
-  context.restore();
-  return ret;
+
+  if (context.isPointInStroke) {
+    context.save();
+    context.lineWidth = lineWidth;
+    context.lineCap = lineCap;
+    context.lineJoin = lineJoin;
+    var path = new Path2D(d);
+    var ret = context.isPointInStroke(path, x, y);
+    context.restore();
+    return ret;
+  }
 }
 
 /***/ }),
@@ -6160,12 +6181,10 @@ function _createElementDescriptor(def) {
       configurable: true,
       enumerable: false
     };
-    try {
-      Object.defineProperty(def.value, "name", {
-        value: _typeof(key) === "symbol" ? "" : key,
-        configurable: true
-      });
-    } catch(ex) {}
+    Object.defineProperty(def.value, "name", {
+      value: _typeof(key) === "symbol" ? "" : key,
+      configurable: true
+    });
   } else if (def.kind === "get") {
     descriptor = {
       get: def.value,
