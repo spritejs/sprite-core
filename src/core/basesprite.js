@@ -742,6 +742,7 @@ export default class BaseSprite extends BaseNode {
           borderStyle = [borderWidth * 3, borderWidth * 3];
         }
         drawingContext.setLineDash(borderStyle);
+        drawingContext.restore();
       }
       drawingContext.strokeStyle = findColor(drawingContext, this, 'border');
       drawingContext.stroke();

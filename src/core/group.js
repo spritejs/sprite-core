@@ -85,6 +85,10 @@ export default class Group extends BaseSprite {
   get isVirtual() {
     const display = this.attr('display');
     if(display !== '' && display !== 'none') return false;
+
+    const parent = this.parent;
+    if(parent && parent.isVirtual && parent.attr('bgcolor')) return false;
+
     const {width: borderWidth} = this.attr('border'),
       borderRadius = this.attr('borderRadius'),
       bgcolor = this.attr('bgcolor'),
