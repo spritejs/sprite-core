@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    sprite.test {
+      border: solid 10px red;
+      border-radius: 25px 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, useDocumentCSS: true});
+
+    const box1 = new Sprite({
+      size: [100, 100],
+      bgcolor: 'green',
+    });
+
+    /**
+     * 给outerG设置了bgcolor后，box1不显示
+     */
+    const innerG = new Group();
+    innerG.appendChild(box1);
+
+    const outerG = new Group({
+      bgcolor: '#ddd',
+    });
+
+    outerG.append(innerG);
+    layer.append(outerG);
+
+    /**
+     * 内外 group 必须同时设置 bgcolor 才行
+     */
+
+    const innerG2 = new Group({
+      padding: [10],
+      bgcolor: '#ddd',
+    });
+    innerG2.append(
+      box1.cloneNode().attr({
+        bgcolor: 'black',
+      })
+    );
+    const outerG2 = new Group({pos: [200, 200], bgcolor: '#f77', padding: [10]});
+    outerG2.append(innerG2);
+    layer.append(outerG2);
+  </script>
+</body>
+</html>

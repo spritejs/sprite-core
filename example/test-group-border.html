@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    sprite.test {
+      border: solid 10px red;
+      border-radius: 25px 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Sprite = spritejs.Sprite;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, useDocumentCSS: true});
+    // border 为solid
+    const box = new Sprite({
+      size: [100, 100],
+      border: {
+        style: 'solid',
+        width: 5,
+        color: '#f77',
+      },
+    });
+
+    // group border.style为 dashed，box border 受group影响
+    const group1 = new Group({
+      padding: [10],
+      pos: [10, 10],
+      border: {
+        style: 'dashed',
+        width: 1,
+        color: '#37c',
+      },
+    });
+
+    group1.appendChild(box);
+    layer.append(group1);
+  </script>
+</body>
+</html>

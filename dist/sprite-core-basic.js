@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 126);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3140,7 +3140,7 @@ function fourValuesShortCut(val) {
     return [val[0], val[1], val[0], val[1]];
   }
 
-  return [].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(val), [0, 0, 0, 0]).slice(0, 4);
+  return _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(val).concat([0, 0, 0, 0]).slice(0, 4);
 }
 function eightValuesShortCut(val) {
   if (!Array.isArray(val)) {
@@ -3159,7 +3159,7 @@ function eightValuesShortCut(val) {
     return [val[0], val[1], val[2], val[3], val[0], val[1], val[2], val[3]];
   }
 
-  return [].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(val), [0, 0, 0, 0, 0, 0, 0, 0]).slice(0, 8);
+  return _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(val).concat([0, 0, 0, 0, 0, 0, 0, 0]).slice(0, 8);
 }
 function rectVertices(rect) {
   var _rect = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(rect, 4),
@@ -4792,10 +4792,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(44);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(52);
@@ -4836,7 +4836,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
   var BaseSprite =
   /*#__PURE__*/
   function (_BaseNode2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(BaseSprite, _BaseNode2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(BaseSprite, _BaseNode2);
 
     /**
       new Sprite({
@@ -4852,7 +4852,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(BaseSprite).call(this, attrs));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this)));
 
       _this[_animations] = new Set();
       _this[_cachePriority] = 0;
@@ -4877,7 +4877,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
       kind: "method",
       static: true,
       key: "setAttributeEffects",
-      value: function setAttributeEffects() {
+      value: function value() {
         var effects = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
         if (this.prototype[_effects] == null) {
@@ -4886,19 +4886,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
 
         Object.assign(this.prototype[_effects], effects);
       }
-      /*
-        Sprite.addAttributes({
-          pop1(attr, val) {
-            ...
-          },
-        })
-      */
-
     }, {
       kind: "method",
       static: true,
       key: "addAttributes",
-      value: function addAttributes() {
+      value: function value() {
         var attrs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         return this.Attr.addAttributes(attrs);
       }
@@ -4906,11 +4898,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
       kind: "method",
       static: true,
       key: "defineAttributes",
-      value: function defineAttributes(attrs, effects) {
+      value: function value(attrs, effects) {
         this.Attr =
         /*#__PURE__*/
         function (_this$Attr) {
-          _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(_class, _this$Attr);
+          _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(_class, _this$Attr);
 
           function _class(subject) {
             var _this2;
@@ -4920,7 +4912,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             _this2 = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(_class).call(this, subject));
 
             if (attrs.init) {
-              attrs.init.call(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this2), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this2), subject);
+              attrs.init.call(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this2)), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this2)), subject);
             }
 
             return _this2;
@@ -4936,35 +4928,35 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "effects",
-      value: function effects() {
+      value: function value() {
         return this[_effects];
       }
     }, {
       kind: "method",
       key: "setReleaseKey",
-      value: function setReleaseKey(key) {
+      value: function value(key) {
         this[_releaseKeys].add(key);
       }
     }, {
       kind: "method",
       key: "reflow",
-      value: function reflow() {
+      value: function value() {
         this[_flow] = {};
       }
     }, {
       kind: "method",
       key: "flow",
-      value: function flow(prop, value) {
-        if (value === undefined) {
+      value: function value(prop, _value) {
+        if (_value === undefined) {
           return this[_flow][prop];
         }
 
-        this[_flow][prop] = value;
+        this[_flow][prop] = _value;
       }
     }, {
       kind: "get",
       key: "hasLayout",
-      value: function hasLayout() {
+      value: function value() {
         if (this.attr('position') === 'absolute') return false;
 
         if (this.parent && this.parent.relayout) {
@@ -4977,25 +4969,25 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "set",
       key: "zIndex",
-      value: function zIndex(val) {
+      value: function value(val) {
         this.attr('zIndex', val);
       }
     }, {
       kind: "get",
       key: "zIndex",
-      value: function zIndex() {
+      value: function value() {
         return this.attr('zIndex');
       }
     }, {
       kind: "get",
       key: "isVirtual",
-      value: function isVirtual() {
+      value: function value() {
         return false;
       }
     }, {
       kind: "method",
       key: "isVisible",
-      value: function isVisible() {
+      value: function value() {
         if (!this.parent) return false;
         var display = this.attr('display');
 
@@ -5028,7 +5020,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "transform",
-      value: function transform() {
+      value: function value() {
         var transform = new sprite_math__WEBPACK_IMPORTED_MODULE_9__["Matrix"](this.attr('transformMatrix'));
         var transformOrigin = this.attr('transformOrigin');
 
@@ -5047,7 +5039,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "connect",
-      value: function connect(parent) {
+      value: function value(parent) {
         var _this3 = this;
 
         var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -5097,7 +5089,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "disconnect",
-      value: function disconnect(parent) {
+      value: function value(parent) {
         var _this4 = this;
 
         this[_animations].forEach(function (animation) {
@@ -5125,7 +5117,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["absolute"]],
       key: "xy",
-      value: function xy() {
+      value: function value() {
         var x, y;
 
         if (this.hasLayout) {
@@ -5145,14 +5137,14 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "animations",
-      value: function animations() {
+      value: function value() {
         return this[_animations];
       }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "attrSize",
-      value: function attrSize() {
+      value: function value() {
         var _this$attr3 = this.attr('size'),
             _this$attr4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_this$attr3, 2),
             width = _this$attr4[0],
@@ -5192,7 +5184,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["absolute"], _utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "boxOffsetSize",
-      value: function boxOffsetSize() {
+      value: function value() {
         // get original boxSize, without layout
         if (this.isVirtual) return [0, 0];
 
@@ -5213,13 +5205,12 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             lw = borderWidth * 2;
 
         return [left + (width | 0) + right + lw, top + (height | 0) + bottom + lw];
-      } // content width / height
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "contentSize",
-      value: function contentSize() {
+      value: function value() {
         if (this.isVirtual) return [0, 0];
 
         var _this$attrSize = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.attrSize, 2),
@@ -5227,13 +5218,12 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             height = _this$attrSize[1];
 
         return [width | 0, height | 0];
-      } // content + padding
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "clientSize",
-      value: function clientSize() {
+      value: function value() {
         var _this$attr12 = this.attr('padding'),
             _this$attr13 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_this$attr12, 4),
             top = _this$attr13[0],
@@ -5245,13 +5235,12 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             height = _this$contentSize[1];
 
         return [left + width + right, top + height + bottom];
-      } // content + padding + border
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "offsetSize",
-      value: function offsetSize() {
+      value: function value() {
         var _this$attr14 = this.attr('border'),
             borderWidth = _this$attr14.width,
             _this$clientSize = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.clientSize, 2),
@@ -5263,7 +5252,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "layoutSize",
-      value: function layoutSize() {
+      value: function value() {
         var size = this.offsetSize;
 
         var _this$attr15 = this.attr('margin'),
@@ -5278,19 +5267,19 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "innerSize",
-      value: function innerSize() {
+      value: function value() {
         return this.contentSize;
       }
     }, {
       kind: "get",
       key: "outerSize",
-      value: function outerSize() {
+      value: function value() {
         return this.offsetSize;
       }
     }, {
       kind: "method",
       key: "getParentXY",
-      value: function getParentXY() {
+      value: function value() {
         var lx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var ly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var layer = this.layer;
@@ -5326,7 +5315,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "getLayerXY",
-      value: function getLayerXY() {
+      value: function value() {
         var dx = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var dy = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var layer = this.layer;
@@ -5363,7 +5352,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "boundingRect",
-      value: function boundingRect() {
+      value: function value() {
         var transform = this.transform;
 
         var _this$originalRect = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.originalRect, 4),
@@ -5393,13 +5382,12 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             maxX = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(vx)),
             maxY = Math.max.apply(Math, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(vy));
         return [minX, minY].concat([maxX - minX, maxY - minY]);
-      } // rect before transform
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "originalRect",
-      value: function originalRect() {
+      value: function value() {
         var _this$offsetSize2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.offsetSize, 2),
             width = _this$offsetSize2[0],
             height = _this$offsetSize2[1],
@@ -5421,7 +5409,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "originalRenderRect",
-      value: function originalRenderRect() {
+      value: function value() {
         var bound = this.originalRect,
             pos = this.xy;
         return [pos[0] + bound[0], pos[1] + bound[1], bound[2], bound[3]];
@@ -5429,7 +5417,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "renderBox",
-      value: function renderBox() {
+      value: function value() {
         var bound = this.boundingRect,
             pos = this.xy;
         return [Math.floor(pos[0] + bound[0]), Math.floor(pos[1] + bound[1]), Math.ceil(pos[0] + bound[0] + bound[2]), Math.ceil(pos[1] + bound[1] + bound[3])];
@@ -5437,7 +5425,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "renderRect",
-      value: function renderRect() {
+      value: function value() {
         var _this$renderBox = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.renderBox, 4),
             x0 = _this$renderBox[0],
             y0 = _this$renderBox[1],
@@ -5449,7 +5437,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "vertices",
-      value: function vertices() {
+      value: function value() {
         var vertices = Object(_utils__WEBPACK_IMPORTED_MODULE_11__["rectVertices"])(this.originalRect),
             transform = this.transform,
             _this$xy = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.xy, 2),
@@ -5468,7 +5456,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "set",
       key: "cache",
-      value: function cache(context) {
+      value: function value(context) {
         if (context == null) {
           this[_cachePriority] = 0;
 
@@ -5486,7 +5474,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "cache",
-      value: function cache() {
+      value: function value() {
         if (this[_cachePriority] >= CACHE_PRIORITY_THRESHOLDS) {
           return this.cacheContext;
         }
@@ -5501,19 +5489,19 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
       kind: "method",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_11__["deprecate"])('Instead use sprite.cache = null')],
       key: "clearCache",
-      value: function clearCache() {
+      value: function value() {
         this.cache = null;
       }
     }, {
       kind: "method",
       key: "appendTo",
-      value: function appendTo(parent) {
+      value: function value(parent) {
         parent.appendChild(this);
       }
     }, {
       kind: "method",
       key: "forceUpdate",
-      value: function forceUpdate() {
+      value: function value() {
         var clearCache = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
         if (clearCache) {
@@ -5521,12 +5509,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         }
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(BaseSprite.prototype), "forceUpdate", this).call(this);
-      } // layer position to sprite offset
-
+      }
     }, {
       kind: "method",
       key: "pointToOffset",
-      value: function pointToOffset(x, y) {
+      value: function value(x, y) {
         var _this$xy2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.xy, 2),
             x0 = _this$xy2[0],
             y0 = _this$xy2[1];
@@ -5539,7 +5526,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "offsetToPoint",
-      value: function offsetToPoint(dx, dy) {
+      value: function value(dx, dy) {
         var transform = this.transform;
 
         var _this$xy3 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.xy, 2),
@@ -5556,7 +5543,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "getOffsetXY",
-      value: function getOffsetXY(evt) {
+      value: function value(evt) {
         var parentX, parentY;
 
         if (evt.parentX != null) {
@@ -5575,7 +5562,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "dispatchEvent",
-      value: function dispatchEvent(type, evt) {
+      value: function value(type, evt) {
         var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
@@ -5593,7 +5580,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "pointCollision",
-      value: function pointCollision(evt) {
+      value: function value(evt) {
         /* istanbul ignore if */
         if (!this.isVisible()) {
           return false;
@@ -5643,12 +5630,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
 
           return true;
         }
-      } // OBB: http://blog.csdn.net/silangquan/article/details/50812425
-
+      }
     }, {
       kind: "method",
       key: "OBBCollision",
-      value: function OBBCollision(sprite) {
+      value: function value(sprite) {
         // vertices: [p1, p2, p3, p4]
         var _this$vertices = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.vertices, 3),
             p11 = _this$vertices[0],
@@ -5690,11 +5676,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "relayout",
-      value: function relayout() {}
+      value: function value() {}
     }, {
       kind: "method",
       key: "draw",
-      value: function draw(t) {
+      value: function value(t) {
         var drawingContext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.context;
 
         // eslint-disable-line complexity
@@ -5799,7 +5785,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "needRender",
-      value: function needRender() {
+      value: function value() {
         if (this.isVirtual) return false;
 
         var _this$offsetSize3 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.offsetSize, 2),
@@ -5818,14 +5804,14 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "show",
-      value: function show() {
+      value: function value() {
         this.attr('display', this.__originalDisplay || '');
         return this;
       }
     }, {
       kind: "method",
       key: "hide",
-      value: function hide() {
+      value: function value() {
         var display = this.attr('display');
 
         if (display !== 'none') {
@@ -5838,7 +5824,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "render",
-      value: function render(t, drawingContext) {
+      value: function value(t, drawingContext) {
         var border = this.attr('border'),
             borderRadius = this.attr('borderRadius'),
             padding = this.attr('padding'),
@@ -5865,6 +5851,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
               h = offsetHeight - borderWidth,
               r = borderRadius;
           Object(_utils__WEBPACK_IMPORTED_MODULE_11__["drawRadiusBox"])(drawingContext, [x, y, w, h], r);
+          drawingContext.save();
 
           if (borderStyle && borderStyle !== 'solid') {
             var dashOffset = this.attr('dashOffset');
@@ -5875,11 +5862,11 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
             }
 
             drawingContext.setLineDash(borderStyle);
-            drawingContext.restore();
           }
 
           drawingContext.strokeStyle = Object(_utils__WEBPACK_IMPORTED_MODULE_11__["findColor"])(drawingContext, this, 'border');
           drawingContext.stroke();
+          drawingContext.restore();
         } // draw bgcolor
 
 
@@ -6167,298 +6154,22 @@ module.exports = _setPrototypeOf;
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var _typeof = __webpack_require__(45);
+
 var toArray = __webpack_require__(20);
 
 var toPropertyKey = __webpack_require__(50);
 
-function _decorate(decorators, factory, superClass, mixins) {
-  var api = _getDecoratorsApi();
-
-  if (mixins) {
-    for (var i = 0; i < mixins.length; i++) {
-      api = mixins[i](api);
-    }
-  }
-
+function _decorate(decorators, factory, superClass) {
   var r = factory(function initialize(O) {
-    api.initializeInstanceElements(O, decorated.elements);
+    _initializeInstanceElements(O, decorated.elements);
   }, superClass);
-  var decorated = api.decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators);
-  api.initializeClassElements(r.F, decorated.elements);
-  return api.runClassFinishers(r.F, decorated.finishers);
-}
 
-function _getDecoratorsApi() {
-  _getDecoratorsApi = function _getDecoratorsApi() {
-    return api;
-  };
+  var decorated = _decorateClass(_coalesceClassElements(r.d.map(_createElementDescriptor)), decorators);
 
-  var api = {
-    elementsDefinitionOrder: [["method"], ["field"]],
-    initializeInstanceElements: function initializeInstanceElements(O, elements) {
-      ["method", "field"].forEach(function (kind) {
-        elements.forEach(function (element) {
-          if (element.kind === kind && element.placement === "own") {
-            this.defineClassElement(O, element);
-          }
-        }, this);
-      }, this);
-    },
-    initializeClassElements: function initializeClassElements(F, elements) {
-      var proto = F.prototype;
-      ["method", "field"].forEach(function (kind) {
-        elements.forEach(function (element) {
-          var placement = element.placement;
+  _initializeClassElements(r.F, decorated.elements);
 
-          if (element.kind === kind && (placement === "static" || placement === "prototype")) {
-            var receiver = placement === "static" ? F : proto;
-            this.defineClassElement(receiver, element);
-          }
-        }, this);
-      }, this);
-    },
-    defineClassElement: function defineClassElement(receiver, element) {
-      var descriptor = element.descriptor;
-
-      if (element.kind === "field") {
-        var initializer = element.initializer;
-        descriptor = {
-          enumerable: descriptor.enumerable,
-          writable: descriptor.writable,
-          configurable: descriptor.configurable,
-          value: initializer === void 0 ? void 0 : initializer.call(receiver)
-        };
-      }
-
-      Object.defineProperty(receiver, element.key, descriptor);
-    },
-    decorateClass: function decorateClass(elements, decorators) {
-      var newElements = [];
-      var finishers = [];
-      var placements = {
-        "static": [],
-        prototype: [],
-        own: []
-      };
-      elements.forEach(function (element) {
-        this.addElementPlacement(element, placements);
-      }, this);
-      elements.forEach(function (element) {
-        if (!_hasDecorators(element)) return newElements.push(element);
-        var elementFinishersExtras = this.decorateElement(element, placements);
-        newElements.push(elementFinishersExtras.element);
-        newElements.push.apply(newElements, elementFinishersExtras.extras);
-        finishers.push.apply(finishers, elementFinishersExtras.finishers);
-      }, this);
-
-      if (!decorators) {
-        return {
-          elements: newElements,
-          finishers: finishers
-        };
-      }
-
-      var result = this.decorateConstructor(newElements, decorators);
-      finishers.push.apply(finishers, result.finishers);
-      result.finishers = finishers;
-      return result;
-    },
-    addElementPlacement: function addElementPlacement(element, placements, silent) {
-      var keys = placements[element.placement];
-
-      if (!silent && keys.indexOf(element.key) !== -1) {
-        throw new TypeError("Duplicated element (" + element.key + ")");
-      }
-
-      keys.push(element.key);
-    },
-    decorateElement: function decorateElement(element, placements) {
-      var extras = [];
-      var finishers = [];
-
-      for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) {
-        var keys = placements[element.placement];
-        keys.splice(keys.indexOf(element.key), 1);
-        var elementObject = this.fromElementDescriptor(element);
-        var elementFinisherExtras = this.toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject);
-        element = elementFinisherExtras.element;
-        this.addElementPlacement(element, placements);
-
-        if (elementFinisherExtras.finisher) {
-          finishers.push(elementFinisherExtras.finisher);
-        }
-
-        var newExtras = elementFinisherExtras.extras;
-
-        if (newExtras) {
-          for (var j = 0; j < newExtras.length; j++) {
-            this.addElementPlacement(newExtras[j], placements);
-          }
-
-          extras.push.apply(extras, newExtras);
-        }
-      }
-
-      return {
-        element: element,
-        finishers: finishers,
-        extras: extras
-      };
-    },
-    decorateConstructor: function decorateConstructor(elements, decorators) {
-      var finishers = [];
-
-      for (var i = decorators.length - 1; i >= 0; i--) {
-        var obj = this.fromClassDescriptor(elements);
-        var elementsAndFinisher = this.toClassDescriptor((0, decorators[i])(obj) || obj);
-
-        if (elementsAndFinisher.finisher !== undefined) {
-          finishers.push(elementsAndFinisher.finisher);
-        }
-
-        if (elementsAndFinisher.elements !== undefined) {
-          elements = elementsAndFinisher.elements;
-
-          for (var j = 0; j < elements.length - 1; j++) {
-            for (var k = j + 1; k < elements.length; k++) {
-              if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) {
-                throw new TypeError("Duplicated element (" + elements[j].key + ")");
-              }
-            }
-          }
-        }
-      }
-
-      return {
-        elements: elements,
-        finishers: finishers
-      };
-    },
-    fromElementDescriptor: function fromElementDescriptor(element) {
-      var obj = {
-        kind: element.kind,
-        key: element.key,
-        placement: element.placement,
-        descriptor: element.descriptor
-      };
-      var desc = {
-        value: "Descriptor",
-        configurable: true
-      };
-      Object.defineProperty(obj, Symbol.toStringTag, desc);
-      if (element.kind === "field") obj.initializer = element.initializer;
-      return obj;
-    },
-    toElementDescriptors: function toElementDescriptors(elementObjects) {
-      if (elementObjects === undefined) return;
-      return toArray(elementObjects).map(function (elementObject) {
-        var element = this.toElementDescriptor(elementObject);
-        this.disallowProperty(elementObject, "finisher", "An element descriptor");
-        this.disallowProperty(elementObject, "extras", "An element descriptor");
-        return element;
-      }, this);
-    },
-    toElementDescriptor: function toElementDescriptor(elementObject) {
-      var kind = String(elementObject.kind);
-
-      if (kind !== "method" && kind !== "field") {
-        throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"');
-      }
-
-      var key = toPropertyKey(elementObject.key);
-      var placement = String(elementObject.placement);
-
-      if (placement !== "static" && placement !== "prototype" && placement !== "own") {
-        throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"');
-      }
-
-      var descriptor = elementObject.descriptor;
-      this.disallowProperty(elementObject, "elements", "An element descriptor");
-      var element = {
-        kind: kind,
-        key: key,
-        placement: placement,
-        descriptor: Object.assign({}, descriptor)
-      };
-
-      if (kind !== "field") {
-        this.disallowProperty(elementObject, "initializer", "A method descriptor");
-      } else {
-        this.disallowProperty(descriptor, "get", "The property descriptor of a field descriptor");
-        this.disallowProperty(descriptor, "set", "The property descriptor of a field descriptor");
-        this.disallowProperty(descriptor, "value", "The property descriptor of a field descriptor");
-        element.initializer = elementObject.initializer;
-      }
-
-      return element;
-    },
-    toElementFinisherExtras: function toElementFinisherExtras(elementObject) {
-      var element = this.toElementDescriptor(elementObject);
-
-      var finisher = _optionalCallableProperty(elementObject, "finisher");
-
-      var extras = this.toElementDescriptors(elementObject.extras);
-      return {
-        element: element,
-        finisher: finisher,
-        extras: extras
-      };
-    },
-    fromClassDescriptor: function fromClassDescriptor(elements) {
-      var obj = {
-        kind: "class",
-        elements: elements.map(this.fromElementDescriptor, this)
-      };
-      var desc = {
-        value: "Descriptor",
-        configurable: true
-      };
-      Object.defineProperty(obj, Symbol.toStringTag, desc);
-      return obj;
-    },
-    toClassDescriptor: function toClassDescriptor(obj) {
-      var kind = String(obj.kind);
-
-      if (kind !== "class") {
-        throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"');
-      }
-
-      this.disallowProperty(obj, "key", "A class descriptor");
-      this.disallowProperty(obj, "placement", "A class descriptor");
-      this.disallowProperty(obj, "descriptor", "A class descriptor");
-      this.disallowProperty(obj, "initializer", "A class descriptor");
-      this.disallowProperty(obj, "extras", "A class descriptor");
-
-      var finisher = _optionalCallableProperty(obj, "finisher");
-
-      var elements = this.toElementDescriptors(obj.elements);
-      return {
-        elements: elements,
-        finisher: finisher
-      };
-    },
-    runClassFinishers: function runClassFinishers(constructor, finishers) {
-      for (var i = 0; i < finishers.length; i++) {
-        var newConstructor = (0, finishers[i])(constructor);
-
-        if (newConstructor !== undefined) {
-          if (typeof newConstructor !== "function") {
-            throw new TypeError("Finishers must return a constructor.");
-          }
-
-          constructor = newConstructor;
-        }
-      }
-
-      return constructor;
-    },
-    disallowProperty: function disallowProperty(obj, name, objectType) {
-      if (obj[name] !== undefined) {
-        throw new TypeError(objectType + " can't have a ." + name + " property.");
-      }
-    }
-  };
-  return api;
+  return _runClassFinishers(r.F, decorated.finishers);
 }
 
 function _createElementDescriptor(def) {
@@ -6472,6 +6183,10 @@ function _createElementDescriptor(def) {
       configurable: true,
       enumerable: false
     };
+    Object.defineProperty(def.value, "name", {
+      value: _typeof(key) === "symbol" ? "" : key,
+      configurable: true
+    });
   } else if (def.kind === "get") {
     descriptor = {
       get: def.value,
@@ -6495,7 +6210,7 @@ function _createElementDescriptor(def) {
   var element = {
     kind: def.kind === "field" ? "field" : "method",
     key: key,
-    placement: def["static"] ? "static" : def.kind === "field" ? "own" : "prototype",
+    placement: def.static ? "static" : def.kind === "field" ? "own" : "prototype",
     descriptor: descriptor
   };
   if (def.decorators) element.decorators = def.decorators;
@@ -6556,6 +6271,290 @@ function _isDataDescriptor(desc) {
   return desc !== undefined && !(desc.value === undefined && desc.writable === undefined);
 }
 
+function _initializeClassElements(F, elements) {
+  var proto = F.prototype;
+  ["method", "field"].forEach(function (kind) {
+    elements.forEach(function (element) {
+      var placement = element.placement;
+
+      if (element.kind === kind && (placement === "static" || placement === "prototype")) {
+        var receiver = placement === "static" ? F : proto;
+
+        _defineClassElement(receiver, element);
+      }
+    });
+  });
+}
+
+function _initializeInstanceElements(O, elements) {
+  ["method", "field"].forEach(function (kind) {
+    elements.forEach(function (element) {
+      if (element.kind === kind && element.placement === "own") {
+        _defineClassElement(O, element);
+      }
+    });
+  });
+}
+
+function _defineClassElement(receiver, element) {
+  var descriptor = element.descriptor;
+
+  if (element.kind === "field") {
+    var initializer = element.initializer;
+    descriptor = {
+      enumerable: descriptor.enumerable,
+      writable: descriptor.writable,
+      configurable: descriptor.configurable,
+      value: initializer === void 0 ? void 0 : initializer.call(receiver)
+    };
+  }
+
+  Object.defineProperty(receiver, element.key, descriptor);
+}
+
+function _decorateClass(elements, decorators) {
+  var newElements = [];
+  var finishers = [];
+  var placements = {
+    static: [],
+    prototype: [],
+    own: []
+  };
+  elements.forEach(function (element) {
+    _addElementPlacement(element, placements);
+  });
+  elements.forEach(function (element) {
+    if (!_hasDecorators(element)) return newElements.push(element);
+
+    var elementFinishersExtras = _decorateElement(element, placements);
+
+    newElements.push(elementFinishersExtras.element);
+    newElements.push.apply(newElements, elementFinishersExtras.extras);
+    finishers.push.apply(finishers, elementFinishersExtras.finishers);
+  });
+
+  if (!decorators) {
+    return {
+      elements: newElements,
+      finishers: finishers
+    };
+  }
+
+  var result = _decorateConstructor(newElements, decorators);
+
+  finishers.push.apply(finishers, result.finishers);
+  result.finishers = finishers;
+  return result;
+}
+
+function _addElementPlacement(element, placements, silent) {
+  var keys = placements[element.placement];
+
+  if (!silent && keys.indexOf(element.key) !== -1) {
+    throw new TypeError("Duplicated element (" + element.key + ")");
+  }
+
+  keys.push(element.key);
+}
+
+function _decorateElement(element, placements) {
+  var extras = [];
+  var finishers = [];
+
+  for (var decorators = element.decorators, i = decorators.length - 1; i >= 0; i--) {
+    var keys = placements[element.placement];
+    keys.splice(keys.indexOf(element.key), 1);
+
+    var elementObject = _fromElementDescriptor(element);
+
+    var elementFinisherExtras = _toElementFinisherExtras((0, decorators[i])(elementObject) || elementObject);
+
+    element = elementFinisherExtras.element;
+
+    _addElementPlacement(element, placements);
+
+    if (elementFinisherExtras.finisher) {
+      finishers.push(elementFinisherExtras.finisher);
+    }
+
+    var newExtras = elementFinisherExtras.extras;
+
+    if (newExtras) {
+      for (var j = 0; j < newExtras.length; j++) {
+        _addElementPlacement(newExtras[j], placements);
+      }
+
+      extras.push.apply(extras, newExtras);
+    }
+  }
+
+  return {
+    element: element,
+    finishers: finishers,
+    extras: extras
+  };
+}
+
+function _decorateConstructor(elements, decorators) {
+  var finishers = [];
+
+  for (var i = decorators.length - 1; i >= 0; i--) {
+    var obj = _fromClassDescriptor(elements);
+
+    var elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj);
+
+    if (elementsAndFinisher.finisher !== undefined) {
+      finishers.push(elementsAndFinisher.finisher);
+    }
+
+    if (elementsAndFinisher.elements !== undefined) {
+      elements = elementsAndFinisher.elements;
+
+      for (var j = 0; j < elements.length - 1; j++) {
+        for (var k = j + 1; k < elements.length; k++) {
+          if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) {
+            throw new TypeError("Duplicated element (" + elements[j].key + ")");
+          }
+        }
+      }
+    }
+  }
+
+  return {
+    elements: elements,
+    finishers: finishers
+  };
+}
+
+function _fromElementDescriptor(element) {
+  var obj = {
+    kind: element.kind,
+    key: element.key,
+    placement: element.placement,
+    descriptor: element.descriptor
+  };
+  var desc = {
+    value: "Descriptor",
+    configurable: true
+  };
+  Object.defineProperty(obj, Symbol.toStringTag, desc);
+  if (element.kind === "field") obj.initializer = element.initializer;
+  return obj;
+}
+
+function _toElementDescriptors(elementObjects) {
+  if (elementObjects === undefined) return;
+  return toArray(elementObjects).map(function (elementObject) {
+    var element = _toElementDescriptor(elementObject);
+
+    _disallowProperty(elementObject, "finisher", "An element descriptor");
+
+    _disallowProperty(elementObject, "extras", "An element descriptor");
+
+    return element;
+  });
+}
+
+function _toElementDescriptor(elementObject) {
+  var kind = String(elementObject.kind);
+
+  if (kind !== "method" && kind !== "field") {
+    throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"');
+  }
+
+  var key = toPropertyKey(elementObject.key);
+  var placement = String(elementObject.placement);
+
+  if (placement !== "static" && placement !== "prototype" && placement !== "own") {
+    throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"');
+  }
+
+  var descriptor = elementObject.descriptor;
+
+  _disallowProperty(elementObject, "elements", "An element descriptor");
+
+  var element = {
+    kind: kind,
+    key: key,
+    placement: placement,
+    descriptor: Object.assign({}, descriptor)
+  };
+
+  if (kind !== "field") {
+    _disallowProperty(elementObject, "initializer", "A method descriptor");
+  } else {
+    _disallowProperty(descriptor, "get", "The property descriptor of a field descriptor");
+
+    _disallowProperty(descriptor, "set", "The property descriptor of a field descriptor");
+
+    _disallowProperty(descriptor, "value", "The property descriptor of a field descriptor");
+
+    element.initializer = elementObject.initializer;
+  }
+
+  return element;
+}
+
+function _toElementFinisherExtras(elementObject) {
+  var element = _toElementDescriptor(elementObject);
+
+  var finisher = _optionalCallableProperty(elementObject, "finisher");
+
+  var extras = _toElementDescriptors(elementObject.extras);
+
+  return {
+    element: element,
+    finisher: finisher,
+    extras: extras
+  };
+}
+
+function _fromClassDescriptor(elements) {
+  var obj = {
+    kind: "class",
+    elements: elements.map(_fromElementDescriptor)
+  };
+  var desc = {
+    value: "Descriptor",
+    configurable: true
+  };
+  Object.defineProperty(obj, Symbol.toStringTag, desc);
+  return obj;
+}
+
+function _toClassDescriptor(obj) {
+  var kind = String(obj.kind);
+
+  if (kind !== "class") {
+    throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"');
+  }
+
+  _disallowProperty(obj, "key", "A class descriptor");
+
+  _disallowProperty(obj, "placement", "A class descriptor");
+
+  _disallowProperty(obj, "descriptor", "A class descriptor");
+
+  _disallowProperty(obj, "initializer", "A class descriptor");
+
+  _disallowProperty(obj, "extras", "A class descriptor");
+
+  var finisher = _optionalCallableProperty(obj, "finisher");
+
+  var elements = _toElementDescriptors(obj.elements);
+
+  return {
+    elements: elements,
+    finisher: finisher
+  };
+}
+
+function _disallowProperty(obj, name, objectType) {
+  if (obj[name] !== undefined) {
+    throw new TypeError(objectType + " can't have a ." + name + " property.");
+  }
+}
+
 function _optionalCallableProperty(obj, name) {
   var value = obj[name];
 
@@ -6564,6 +6563,22 @@ function _optionalCallableProperty(obj, name) {
   }
 
   return value;
+}
+
+function _runClassFinishers(constructor, finishers) {
+  for (var i = 0; i < finishers.length; i++) {
+    var newConstructor = (0, finishers[i])(constructor);
+
+    if (newConstructor !== undefined) {
+      if (typeof newConstructor !== "function") {
+        throw new TypeError("Finishers must return a constructor.");
+      }
+
+      constructor = newConstructor;
+    }
+  }
+
+  return constructor;
 }
 
 module.exports = _decorate;
@@ -6679,10 +6694,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(44);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(52);
@@ -6741,7 +6756,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
   var SpriteAttr =
   /*#__PURE__*/
   function (_NodeAttr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(SpriteAttr, _NodeAttr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(SpriteAttr, _NodeAttr2);
 
     function SpriteAttr(subject) {
       var _this;
@@ -6750,9 +6765,9 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(SpriteAttr).call(this, subject));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this)));
 
-      Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), '__reflowTag', {
+      Object.defineProperty(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this)), '__reflowTag', {
         writable: true,
         value: false
       });
@@ -6767,17 +6782,17 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     d: [{
       kind: "method",
       key: "clearFlow",
-      value: function clearFlow() {
+      value: function value() {
         this.__reflowTag = true;
         return this;
       }
     }, {
       kind: "method",
       key: "set",
-      value: function set(key, value) {
+      value: function value(key, _value) {
         var isQuiet = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-        _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(SpriteAttr.prototype), "set", this).call(this, key, value, isQuiet); // auto reflow
+        _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(SpriteAttr.prototype), "set", this).call(this, key, _value, isQuiet); // auto reflow
 
 
         if (key === 'margin') {
@@ -6787,7 +6802,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "merge",
-      value: function merge(attrs) {
+      value: function value(attrs) {
         var _this2 = this;
 
         if (typeof attrs === 'string') {
@@ -6817,7 +6832,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "serialize",
-      value: function serialize() {
+      value: function value() {
         var attrs = this.getAttributes();
         delete attrs.id;
         var offsetAngle = this.get('offsetAngle');
@@ -7060,8 +7075,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: 'matrix(1,0,0,1,0,0)'
       })],
       key: "transform",
-      value: // transform attributes
-      function transform(val) {
+      value: function value(val) {
         var _this3 = this;
 
         /*
@@ -7125,7 +7139,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: 0
       })],
       key: "rotate",
-      value: function rotate(val) {
+      value: function value(val) {
         var delta = this.rotate - val;
         this.set('rotate', val);
         var transform = new sprite_math__WEBPACK_IMPORTED_MODULE_10__["Matrix"](this.transformMatrix).rotate(-delta);
@@ -7138,7 +7152,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: [1, 1]
       })],
       key: "scale",
-      value: function scale(val) {
+      value: function value(val) {
         val = Object(_utils__WEBPACK_IMPORTED_MODULE_12__["oneOrTwoValues"])(val).map(function (v) {
           if (Math.abs(v) > 0.001) {
             return v;
@@ -7170,7 +7184,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: [0, 0]
       })],
       key: "translate",
-      value: function translate(val) {
+      value: function value(val) {
         var oldVal = this.translate || [0, 0];
         var delta = [val[0] - oldVal[0], val[1] - oldVal[1]];
         this.set('translate', val);
@@ -7185,7 +7199,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: [0, 0]
       })],
       key: "skew",
-      value: function skew(val) {
+      value: function value(val) {
         var _ref5, _transform$multiply;
 
         var oldVal = this.skew || [0, 0];
@@ -7206,7 +7220,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: 0
       })],
       key: "zIndex",
-      value: function zIndex(val) {
+      value: function value(val) {
         this.set('zIndex', val);
         var subject = this.subject;
 
@@ -7214,25 +7228,11 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
           subject.parent.sortedChildNodes = Object(_utils__WEBPACK_IMPORTED_MODULE_12__["sortOrderedSprites"])(subject.parent.childNodes);
         }
       }
-      /**
-        linearGradients : {
-          bgcolor: {
-            direction: 30,  //angle，[0,360)
-            rect: [x, y, w, h],
-            vector: [x1, y1, x2, y2], // direction/rect or from/to
-            colors: [
-              {offset: 0, color: 'red'},
-              {offset: 1, color: 'black'}
-            ]
-          }
-        }
-       */
-
     }, {
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_12__["attr"]],
       key: "linearGradients",
-      value: function linearGradients(val)
+      value: function value(val)
       /* istanbul ignore next  */
       {
         this.gradients = val;
@@ -7240,23 +7240,9 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "get",
       key: "linearGradients",
-      value: function linearGradients() {
+      value: function value() {
         return this.gradients;
       }
-      /**
-        gradients : {
-          bgcolor: {
-            direction: 30,  //angle，[0,360)
-            rect: [x, y, w, h],  // rect + direction or vector
-            vector: [x1, y1, r1, x2, y2, r2], // vector.length -> linear or radial
-            colors: [
-              {offset: 0, color: 'red'},
-              {offset: 1, color: 'black'}
-            ]
-          }
-        }
-       */
-
     }, {
       kind: "field",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_12__["attr"]],
@@ -7267,7 +7253,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
     }, {
       kind: "method",
       key: "resetOffset",
-      value: function resetOffset() {
+      value: function value() {
         var offsetPath = this.offsetPath;
         var dis = this.offsetDistance;
 
@@ -7338,7 +7324,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         cache: cache
       })],
       key: "offsetPath",
-      value: function offsetPath(val) {
+      value: function value(val) {
         var offsetPath = new svg_path_to_canvas__WEBPACK_IMPORTED_MODULE_9__["default"](val);
         this.set('offsetPath', offsetPath.d);
         this.saveObj('offsetPath', offsetPath);
@@ -7351,7 +7337,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: 0
       })],
       key: "offsetDistance",
-      value: function offsetDistance(val) {
+      value: function value(val) {
         this.set('offsetDistance', val);
         this.resetOffset();
       }
@@ -7362,7 +7348,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: 'auto'
       })],
       key: "offsetRotate",
-      value: function offsetRotate(val) {
+      value: function value(val) {
         if (typeof val === 'string' && val !== 'auto' && val !== 'reverse') {
           val = parseFloat(val);
         }
@@ -7453,16 +7439,7 @@ var SpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         value: ''
       })],
       key: "bgimage",
-      value:
-      /*
-        {
-          src: image | url,
-          display: 'none' | 'repeatX' | 'repeatY' | 'repeat' | 'stretch' | 'center' | '.9',
-          offset: [x, y],
-          clip9: [paddingTop, paddingRight, paddingBottom, paddingLeft],
-        }
-      */
-      function bgimage(val) {
+      value: function value(val) {
         if (val && val.clip9) val.clip9 = Object(_utils__WEBPACK_IMPORTED_MODULE_12__["fourValuesShortCut"])(val.clip9);
 
         if (val && !val.image && this.subject.loadBgImage) {
@@ -7562,7 +7539,7 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
       kind: "method",
       static: true,
       key: "addAttributes",
-      value: function addAttributes(attrs) {
+      value: function value(attrs) {
         var descriptors = {};
         Object.entries(attrs).forEach(function (_ref) {
           var _ref2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref, 2),
@@ -7608,26 +7585,26 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "get",
       key: "__attr",
-      value: function __attr() {
+      value: function value() {
         return this[_attr];
       }
     }, {
       kind: "method",
       key: "setDefault",
-      value: function setDefault(attrs) {
+      value: function value(attrs) {
         Object.assign(this[_default], attrs);
       }
     }, {
       kind: "method",
       key: "getDefaultValue",
-      value: function getDefaultValue(key, defaultValue) {
+      value: function value(key, defaultValue) {
         if (key in this[_default]) return this[_default][key];
         return defaultValue;
       }
     }, {
       kind: "method",
       key: "saveObj",
-      value: function saveObj(key, val) {
+      value: function value(key, val) {
         this[_temp].set(key, val);
 
         this.__updateTag = true;
@@ -7635,38 +7612,38 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "method",
       key: "loadObj",
-      value: function loadObj(key) {
+      value: function value(key) {
         return this[_temp].get(key);
       }
     }, {
       kind: "method",
       key: "quietSet",
-      value: function quietSet(key, val) {
+      value: function value(key, val) {
         this.set(key, val, true);
       }
     }, {
       kind: "method",
       key: "clearStyle",
-      value: function clearStyle() {
+      value: function value() {
         this[_style] = {};
       }
     }, {
       kind: "method",
       key: "clearLayout",
-      value: function clearLayout() {
+      value: function value() {
         this.__clearLayout = true;
         return this;
       }
     }, {
       kind: "get",
       key: "style",
-      value: function style() {
+      value: function value() {
         return this[_style];
       }
     }, {
       kind: "method",
       key: "set",
-      value: function set(key, val) {
+      value: function value(key, val) {
         var isQuiet = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         this.__quietTag = isQuiet;
         var oldVal;
@@ -7705,7 +7682,7 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "method",
       key: "get",
-      value: function get(key) {
+      value: function value(key) {
         if (key.length > 5 && key.indexOf('data-') === 0) {
           return this.subject.data(key.slice(5));
         }
@@ -7719,7 +7696,7 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "method",
       key: "getAttributes",
-      value: function getAttributes() {
+      value: function value() {
         var _this = this;
 
         var includeDefault = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -7753,20 +7730,20 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "get",
       key: "attrs",
-      value: function attrs() {
+      value: function value() {
         return this.getAttributes(true);
       }
     }, {
       kind: "method",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_5__["deprecate"])('You can remove this call.')],
       key: "clearCache",
-      value: function clearCache() {
+      value: function value() {
         return this;
       }
     }, {
       kind: "method",
       key: "merge",
-      value: function merge(attrs) {
+      value: function value(attrs) {
         var _this2 = this;
 
         if (typeof attrs === 'string') {
@@ -7785,7 +7762,7 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "method",
       key: "serialize",
-      value: function serialize() {
+      value: function value() {
         var attrs = this.getAttributes();
         delete attrs.id;
         return JSON.stringify(attrs);
@@ -7793,12 +7770,9 @@ var Attr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_4___default(
     }, {
       kind: "get",
       key: "subject",
-      value: function subject() {
+      value: function value() {
         return this[_subject];
       }
-      /* ------------------- define attributes ----------------------- */
-      // @attr({quiet, cache, reflow, relayout})
-
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_5__["parseValue"])(String), Object(_utils__WEBPACK_IMPORTED_MODULE_5__["attr"])({
@@ -8589,10 +8563,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(52);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(30);
@@ -8620,7 +8594,7 @@ var TextureAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___d
   var TextureAttr =
   /*#__PURE__*/
   function (_BaseSprite$Attr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default()(TextureAttr, _BaseSprite$Attr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(TextureAttr, _BaseSprite$Attr2);
 
     function TextureAttr() {
       var _getPrototypeOf2;
@@ -8635,7 +8609,7 @@ var TextureAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___d
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(TextureAttr)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_this)));
 
       return _this;
     }
@@ -8658,21 +8632,12 @@ var TextureAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___d
         value: []
       })],
       key: "textures",
-      value:
-      /*
-        {
-          image: ...,  //texture resource
-          srcRect: ..., //texture clip
-          rect: ....,  //texture in sprite offset
-          filter: ...  //texture filters
-        }
-       */
-      function textures(_textures) {
-        if (!Array.isArray(_textures)) {
-          _textures = [_textures];
+      value: function value(textures) {
+        if (!Array.isArray(textures)) {
+          textures = [textures];
         }
 
-        _textures = _textures.map(function (texture) {
+        textures = textures.map(function (texture) {
           if (!texture.image) {
             texture = {
               image: texture
@@ -8683,13 +8648,13 @@ var TextureAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___d
 
           return texture;
         });
-        this.loadTextures(_textures);
-        this.set('textures', _textures);
+        this.loadTextures(textures);
+        this.set('textures', textures);
       }
     }, {
       kind: "method",
       key: "loadTextures",
-      value: function loadTextures(textures) {
+      value: function value(textures) {
         var subject = this.subject; // adaptive textures
 
         var width = 0,
@@ -8744,7 +8709,7 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
   var Sprite =
   /*#__PURE__*/
   function (_BaseSprite2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default()(Sprite, _BaseSprite2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(Sprite, _BaseSprite2);
 
     /**
       new Sprite({
@@ -8768,7 +8733,7 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
 
       _this2 = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_5___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Sprite).call(this));
 
-      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this2));
+      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_this2)));
 
       _this2[_texturesCache] = new Map();
 
@@ -8794,7 +8759,7 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
     }, {
       kind: "method",
       key: "cloneNode",
-      value: function cloneNode() {
+      value: function value() {
         var _this3 = this;
 
         var node = _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_3___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Sprite.prototype), "cloneNode", this).call(this);
@@ -8811,33 +8776,32 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
     }, {
       kind: "set",
       key: "images",
-      value: function images(_images2) {
-        this[_images] = _images2;
+      value: function value(images) {
+        this[_images] = images;
       }
     }, {
       kind: "get",
       key: "images",
-      value: function images() {
+      value: function value() {
         return this[_images];
       }
     }, {
       kind: "set",
       key: "textures",
-      value: function textures(_textures2) {
-        this.attr('textures', _textures2);
+      value: function value(textures) {
+        this.attr('textures', textures);
       }
     }, {
       kind: "get",
       key: "textures",
-      value: function textures() {
+      value: function value() {
         return this.attr('textures');
-      } // override to adapt textures' size
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_10__["flow"]],
       key: "contentSize",
-      value: function contentSize() {
+      value: function value() {
         var _this$attrSize = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.attrSize, 2),
             width = _this$attrSize[0],
             height = _this$attrSize[1];
@@ -8867,7 +8831,7 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
     }, {
       kind: "method",
       key: "pointCollision",
-      value: function pointCollision(evt) {
+      value: function value(evt) {
         var _this4 = this;
 
         if (_babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_3___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Sprite.prototype), "pointCollision", this).call(this, evt)) {
@@ -8912,7 +8876,7 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
     }, {
       kind: "get",
       key: "cache",
-      value: function cache() {
+      value: function value() {
         var bg = this.attr('bgcolor') || this.attr('gradients').bgcolor;
 
         if (!bg && this.textures.length <= 1) {
@@ -8924,13 +8888,13 @@ var Sprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_9___defaul
     }, {
       kind: "set",
       key: "cache",
-      value: function cache(context) {
+      value: function value(context) {
         _babel_runtime_helpers_set__WEBPACK_IMPORTED_MODULE_2___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Sprite.prototype), "cache", context, this, true);
       }
     }, {
       kind: "method",
       key: "render",
-      value: function render(t, drawingContext) {
+      value: function value(t, drawingContext) {
         var _this5 = this;
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_3___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_6___default()(Sprite.prototype), "render", this).call(this, t, drawingContext);
@@ -9066,10 +9030,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(3);
@@ -9220,7 +9184,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
   var LabelSpriteAttr =
   /*#__PURE__*/
   function (_BaseSprite$Attr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(LabelSpriteAttr, _BaseSprite$Attr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(LabelSpriteAttr, _BaseSprite$Attr2);
 
     function LabelSpriteAttr() {
       var _getPrototypeOf2;
@@ -9235,7 +9199,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(LabelSpriteAttr)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this)));
 
       return _this;
     }
@@ -9248,13 +9212,13 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     d: [{
       kind: "method",
       key: "retypesetting",
-      value: function retypesetting() {
+      value: function value() {
         this.subject.retypesetting();
       }
     }, {
       kind: "method",
       key: "widthRetypeseeting",
-      value: function widthRetypeseeting() {
+      value: function value() {
         if (this.lineBreak !== '') this.subject.retypesetting();
       }
     }, {
@@ -9279,7 +9243,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
       key: "fontSize",
-      value: function fontSize(val) {
+      value: function value(val) {
         if (val == null) val = '16px';
         var unit = 'px';
 
@@ -9303,7 +9267,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "get",
       key: "fontSize",
-      value: function fontSize() {
+      value: function value() {
         var font = this.font;
 
         var _parseFont2 = Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseFont"])(font),
@@ -9316,7 +9280,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
       key: "fontFamily",
-      value: function fontFamily(val) {
+      value: function value(val) {
         if (val == null) val = 'Arial';
         this.font = setFontPart(this.font, {
           family: val
@@ -9325,14 +9289,14 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "get",
       key: "fontFamily",
-      value: function fontFamily() {
+      value: function value() {
         return Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseFont"])(this.font).family;
       }
     }, {
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
       key: "fontStyle",
-      value: function fontStyle(val) {
+      value: function value(val) {
         if (val == null) val = 'normal';
         this.font = setFontPart(this.font, {
           style: val
@@ -9341,14 +9305,14 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "get",
       key: "fontStyle",
-      value: function fontStyle() {
+      value: function value() {
         return Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseFont"])(this.font).style;
       }
     }, {
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
       key: "fontVariant",
-      value: function fontVariant(val) {
+      value: function value(val) {
         if (val == null) val = 'normal';
         this.font = setFontPart(this.font, {
           variant: val
@@ -9357,14 +9321,14 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "get",
       key: "fontVariant",
-      value: function fontVariant() {
+      value: function value() {
         return Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseFont"])(this.font).variant;
       }
     }, {
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
       key: "fontWeight",
-      value: function fontWeight(val) {
+      value: function value(val) {
         if (val == null) val = 'normal';
         this.font = setFontPart(this.font, {
           weight: val
@@ -9373,7 +9337,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "get",
       key: "fontWeight",
-      value: function fontWeight() {
+      value: function value() {
         return Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseFont"])(this.font).weight;
       }
     }, {
@@ -9480,7 +9444,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
   var Label =
   /*#__PURE__*/
   function (_BaseSprite2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(Label, _BaseSprite2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(Label, _BaseSprite2);
 
     function Label(attr) {
       var _this2;
@@ -9495,7 +9459,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
 
       _this2 = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Label).call(this, attr));
 
-      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this2));
+      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this2)));
 
       return _this2;
     }
@@ -9515,26 +9479,26 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "set",
       key: "text",
-      value: function text(val) {
+      value: function value(val) {
         this.attr('text', val);
       }
     }, {
       kind: "get",
       key: "text",
-      value: function text() {
+      value: function value() {
         return this.attr('text');
       }
     }, {
       kind: "get",
       key: "textboxSize",
-      value: function textboxSize() {
+      value: function value() {
         if (!this[_boxSize]) calculTextboxSize(this);
         return this[_boxSize];
       }
     }, {
       kind: "get",
       key: "flexibleFont",
-      value: function flexibleFont() {
+      value: function value() {
         var font = this.attr('font');
         if (this.attr('width') === '' && this.attr('layoutWidth') === '') return font;
         var textboxSize = this.textboxSize,
@@ -9549,13 +9513,12 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
 
         size *= contentSize[0] / textboxSize[0];
         return "".concat(style, " ").concat(variant, " ").concat(weight, " ").concat(Math.floor(size), "px \"").concat(family, "\"");
-      } // override to adapt content size
-
+      }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_11__["flow"]],
       key: "contentSize",
-      value: function contentSize() {
+      value: function value() {
         var _this$attrSize = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_9___default()(this.attrSize, 2),
             width = _this$attrSize[0],
             height = _this$attrSize[1];
@@ -9576,7 +9539,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "retypesetting",
-      value: function retypesetting() {
+      value: function value() {
         // calculTextboxSize(this);
         this[_boxSize] = false;
         this[_outputText] = null;
@@ -9586,7 +9549,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "restyle",
-      value: function restyle() {
+      value: function value() {
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_2___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Label.prototype), "restyle", this).call(this);
 
         this.retypesetting();
@@ -9594,7 +9557,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "render",
-      value: function render(t, drawingContext) {
+      value: function value(t, drawingContext) {
         var _this3 = this;
 
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_2___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Label.prototype), "render", this).call(this, t, drawingContext);
@@ -10670,10 +10633,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(52);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var sprite_animator__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(1);
@@ -10716,7 +10679,7 @@ var LayerAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10___de
   var LayerAttr =
   /*#__PURE__*/
   function (_BaseNode$Attr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_9___default()(LayerAttr, _BaseNode$Attr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default()(LayerAttr, _BaseNode$Attr2);
 
     function LayerAttr(subject) {
       var _this;
@@ -10725,7 +10688,7 @@ var LayerAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10___de
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_6___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_7___default()(LayerAttr).call(this, subject));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9___default()(_this)));
 
       _this.setDefault({
         bgcolor: ''
@@ -10743,7 +10706,7 @@ var LayerAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10___de
       kind: "set",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_18__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_18__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_18__["attr"]],
       key: "bgcolor",
-      value: function bgcolor(val) {
+      value: function value(val) {
         this.set('bgcolor', val);
         var subject = this.subject;
 
@@ -10763,7 +10726,7 @@ var LayerAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_10___de
 var Layer =
 /*#__PURE__*/
 function (_BaseNode) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_9___default()(Layer, _BaseNode);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_8___default()(Layer, _BaseNode);
 
   function Layer() {
     var _this2;
@@ -10793,7 +10756,7 @@ function (_BaseNode) {
     }
 
     _this2.outputContext = context;
-    if (context.canvas) context.canvas.layer_ = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8___default()(_this2);
+    if (context.canvas) context.canvas.layer_ = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9___default()(_this2));
     _this2.childNodes = [];
     _this2.sortedChildNodes = [];
     _this2[_zOrder] = 0;
@@ -11322,7 +11285,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
+	g = g || Function("return this")() || (1, eval)("this");
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -11479,10 +11442,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(52);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(30);
@@ -11511,7 +11474,7 @@ var GroupAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___def
   var GroupAttr =
   /*#__PURE__*/
   function (_BaseSprite$Attr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(GroupAttr, _BaseSprite$Attr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(GroupAttr, _BaseSprite$Attr2);
 
     function GroupAttr(subject) {
       var _this;
@@ -11520,10 +11483,10 @@ var GroupAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___def
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(GroupAttr).call(this, subject));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this)));
 
       GroupAttr.inits.forEach(function (init) {
-        init(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), subject);
+        init(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this)), subject);
       });
       return _this;
     }
@@ -11547,7 +11510,7 @@ var GroupAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___def
         value: null
       })],
       key: "clip",
-      value: function clip(val) {
+      value: function value(val) {
         if (val) {
           val = typeof val === 'string' ? {
             d: val
@@ -11632,7 +11595,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
   var Group =
   /*#__PURE__*/
   function (_BaseSprite2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(Group, _BaseSprite2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(Group, _BaseSprite2);
 
     function Group() {
       var _this2;
@@ -11643,7 +11606,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
 
       _this2 = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Group).call(this, attr));
 
-      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this2));
+      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7___default()(_this2)));
 
       _this2.childNodes = [];
       _this2.sortedChildNodes = [];
@@ -11668,7 +11631,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
       kind: "method",
       static: true,
       key: "applyLayout",
-      value: function applyLayout(name, layout) {
+      value: function value(name, layout) {
         this[_layout] = this[_layout] || {};
         var attrs = layout.attrs,
             relayout = layout.relayout;
@@ -11683,11 +11646,11 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "get",
       key: "isVirtual",
-      value: function isVirtual() {
+      value: function value() {
         var display = this.attr('display');
         if (display !== '' && display !== 'none') return false;
         var parent = this.parent;
-        if (parent && parent.isVirtual && parent.attr('bgcolor')) return false;
+        if (parent && parent instanceof Group && !parent.isVirtual) return false;
 
         var _this$attr = this.attr('border'),
             borderWidth = _this$attr.width,
@@ -11715,14 +11678,14 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "scrollTo",
-      value: function scrollTo(x, y) {
+      value: function value(x, y) {
         this.attr('scrollLeft', x);
         this.attr('scrollTop', y);
       }
     }, {
       kind: "method",
       key: "scrollBy",
-      value: function scrollBy(dx, dy) {
+      value: function value(dx, dy) {
         var x = this.attr('scrollLeft'),
             y = this.attr('scrollTop');
         this.scrollTo(x + dx, y + dy);
@@ -11730,7 +11693,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "cloneNode",
-      value: function cloneNode(deepCopy) {
+      value: function value(deepCopy) {
         var node = _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_2___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Group.prototype), "cloneNode", this).call(this);
 
         if (deepCopy) {
@@ -11746,7 +11709,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "get",
       key: "children",
-      value: function children() {
+      value: function value() {
         var children = this.childNodes || [];
         return children.filter(function (child) {
           return child instanceof _basesprite__WEBPACK_IMPORTED_MODULE_10__["default"];
@@ -11755,7 +11718,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "update",
-      value: function update(child) {
+      value: function value(child) {
         child.isDirty = true;
         var attrSize = this.attrSize;
 
@@ -11768,7 +11731,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "pointCollision",
-      value: function pointCollision(evt) {
+      value: function value(evt) {
         if (_babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_2___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(Group.prototype), "pointCollision", this).call(this, evt) || this.isVirtual) {
           if (this.svg) {
             var offsetX = evt.offsetX,
@@ -11787,7 +11750,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_9__["flow"]],
       key: "contentSize",
-      value: function contentSize() {
+      value: function value() {
         if (this.isVirtual) return [0, 0];
 
         var _this$attrSize2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(this.attrSize, 2),
@@ -11824,7 +11787,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "dispatchEvent",
-      value: function dispatchEvent(type, evt) {
+      value: function value(type, evt) {
         var collisionState = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var swallow = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
@@ -11894,7 +11857,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "relayout",
-      value: function relayout() {
+      value: function value() {
         var items = this.childNodes.filter(function (child) {
           if (child.hasLayout) {
             child.attr('layoutWidth', null);
@@ -11923,14 +11886,14 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "clearLayout",
-      value: function clearLayout() {
+      value: function value() {
         this[_layoutTag] = false;
         if (this.hasLayout) this.parent.clearLayout();
       }
     }, {
       kind: "method",
       key: "draw",
-      value: function draw(t) {
+      value: function value(t) {
         var drawingContext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.context;
         // must relayout before draw
         // prevent originalRect changing when rendering.
@@ -11946,7 +11909,7 @@ var Group = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
     }, {
       kind: "method",
       key: "render",
-      value: function render(t, drawingContext) {
+      value: function value(t, drawingContext) {
         var clipPath = this.attr('clip');
 
         if (clipPath) {
@@ -12214,10 +12177,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(52);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(46);
-/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(47);
-/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(47);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(46);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(49);
 /* harmony import */ var _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(30);
@@ -12239,7 +12202,7 @@ var PathSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7_
   var PathSpriteAttr =
   /*#__PURE__*/
   function (_BaseSprite$Attr2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(PathSpriteAttr, _BaseSprite$Attr2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(PathSpriteAttr, _BaseSprite$Attr2);
 
     function PathSpriteAttr() {
       var _getPrototypeOf2;
@@ -12254,7 +12217,7 @@ var PathSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7_
 
       _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(PathSpriteAttr)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
+      _initialize(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this)));
 
       return _this;
     }
@@ -12270,7 +12233,7 @@ var PathSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7_
         reflow: reflow
       })],
       key: "path",
-      value: function path(val) {
+      value: function value(val) {
         if (val) {
           val = typeof val === 'string' ? {
             d: val
@@ -12286,7 +12249,7 @@ var PathSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7_
       kind: "set",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_8__["attr"]],
       key: "d",
-      value: function d(val) {
+      value: function value(val) {
         if (val) {
           var path = this.path;
 
@@ -12306,7 +12269,7 @@ var PathSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7_
     }, {
       kind: "get",
       key: "d",
-      value: function d() {
+      value: function value() {
         return this.path ? this.path.d : null;
       }
     }, {
@@ -12389,7 +12352,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
   var Path =
   /*#__PURE__*/
   function (_BaseSprite2) {
-    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(Path, _BaseSprite2);
+    _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Path, _BaseSprite2);
 
     function Path(attr) {
       var _this2;
@@ -12404,7 +12367,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
 
       _this2 = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Path).call(this, attr));
 
-      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this2));
+      _initialize2(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this2)));
 
       return _this2;
     }
@@ -12424,19 +12387,19 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "set",
       key: "path",
-      value: function path(val) {
+      value: function value(val) {
         this.attr('path', val);
       }
     }, {
       kind: "get",
       key: "path",
-      value: function path() {
+      value: function value() {
         return this.attr('path');
       }
     }, {
       kind: "method",
       key: "getPointAtLength",
-      value: function getPointAtLength(length) {
+      value: function value(length) {
         if (this.svg) {
           return this.svg.getPointAtLength(length);
         }
@@ -12446,7 +12409,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "method",
       key: "getPathLength",
-      value: function getPathLength() {
+      value: function value() {
         if (this.svg) {
           return this.svg.getTotalLength();
         }
@@ -12456,7 +12419,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "method",
       key: "isClosed",
-      value: function isClosed() {
+      value: function value() {
         var d = this.attr('d');
 
         if (d) {
@@ -12468,7 +12431,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "method",
       key: "findPath",
-      value: function findPath(offsetX, offsetY) {
+      value: function value(offsetX, offsetY) {
         var rect = this.originalRect;
         var pathOffset = this.pathOffset;
         var svg = this.svg;
@@ -12503,7 +12466,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "get",
       key: "lineWidth",
-      value: function lineWidth() {
+      value: function value() {
         var lineWidth = this.attr('lineWidth'),
             gradients = this.attr('gradients'),
             fillColor = this.attr('fillColor'),
@@ -12521,21 +12484,21 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "get",
       key: "pathOffset",
-      value: function pathOffset() {
+      value: function value() {
         var lw = Math.round(this.lineWidth);
         return [lw, lw];
       }
     }, {
       kind: "get",
       key: "pathSize",
-      value: function pathSize() {
+      value: function value() {
         return this.svg ? this.svg.size : [0, 0];
       }
     }, {
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_8__["flow"]],
       key: "contentSize",
-      value: function contentSize() {
+      value: function value() {
         if (!this.svg) return _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_1___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Path.prototype), "contentSize", this);
         var bounds = this.svg.bounds;
 
@@ -12563,7 +12526,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
       kind: "get",
       decorators: [_utils__WEBPACK_IMPORTED_MODULE_8__["flow"]],
       key: "originalRect",
-      value: function originalRect() {
+      value: function value() {
         var svg = this.svg;
 
         if (svg) {
@@ -12591,7 +12554,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "method",
       key: "pointCollision",
-      value: function pointCollision(evt) {
+      value: function value(evt) {
         var bounding = this.attr('bounding');
 
         if (_babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_1___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Path.prototype), "pointCollision", this).call(this, evt) || bounding !== 'auto' && bounding !== 'box' && bounding !== 'path' && bounding !== 0) {
@@ -12620,7 +12583,7 @@ var Path = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_7___default(
     }, {
       kind: "method",
       key: "render",
-      value: function render(t, drawingContext) {
+      value: function value(t, drawingContext) {
         _babel_runtime_helpers_get__WEBPACK_IMPORTED_MODULE_1___default()(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Path.prototype), "render", this).call(this, t, drawingContext);
 
         var d = this.attr('d'),
@@ -12822,7 +12785,8 @@ function use(plugin) {
 /* 123 */,
 /* 124 */,
 /* 125 */,
-/* 126 */
+/* 126 */,
+/* 127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

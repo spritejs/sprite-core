@@ -735,6 +735,7 @@ export default class BaseSprite extends BaseNode {
 
       drawRadiusBox(drawingContext, [x, y, w, h], r);
 
+      drawingContext.save();
       if(borderStyle && borderStyle !== 'solid') {
         const dashOffset = this.attr('dashOffset');
         drawingContext.lineDashOffset = dashOffset;
@@ -742,10 +743,10 @@ export default class BaseSprite extends BaseNode {
           borderStyle = [borderWidth * 3, borderWidth * 3];
         }
         drawingContext.setLineDash(borderStyle);
-        drawingContext.restore();
       }
       drawingContext.strokeStyle = findColor(drawingContext, this, 'border');
       drawingContext.stroke();
+      drawingContext.restore();
     }
 
     // draw bgcolor
