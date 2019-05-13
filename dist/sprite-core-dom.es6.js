@@ -10748,7 +10748,7 @@ const _removeTask = Symbol('removeTask');
       return sprite;
     };
 
-    const _remove = sprite.remove();
+    const _remove = this.removeChild(sprite);
 
     if (_remove && _remove.promise) {
       // deferred
