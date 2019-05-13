@@ -13029,7 +13029,7 @@ function arrayEffect(arr1, arr2, p, start, end) {
 
   if (Array.isArray(arr1)) {
     return arr1.map(function (o, i) {
-      return defaultEffect(o, arr2[i], p, start, end);
+      return defaultEffect(o, arr2[i] != null ? arr2[i] : arr2, p, start, end);
     });
   }
 
