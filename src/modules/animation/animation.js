@@ -46,7 +46,9 @@ function arrayEffect(arr1, arr2, p, start, end) {
     arr2 = parseStringFloat(arr2);
   }
   if(Array.isArray(arr1)) {
-    return arr1.map((o, i) => defaultEffect(o, arr2[i] || arr2, p, start, end));
+    return arr1.map((o, i) =>
+      defaultEffect(o, arr2[i] != null ? arr2[i] : arr2, p, start, end)
+    );
   }
   return defaultEffect(arr1, arr2, p, start, end);
 }
