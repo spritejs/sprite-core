@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Base Sprite</title>
+  <style>
+    sprite.test {
+      border: solid 10px red;
+      border-radius: 25px 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mycanvas" width="600" height="600"></canvas>
+  <script src="/js/sprite-core.js"></script>
+  <script>
+    const Label = spritejs.Label;
+    const Layer = spritejs.Layer;
+    const Group = spritejs.Group;
+    const context = document.getElementById('mycanvas').getContext('2d');
+    const layer = new Layer({context, useDocumentCSS: true});
+
+    const s = new Group({
+      id: 'abc',
+      width: 500,
+      height: 400,
+      bgcolor: 'grey',
+      display: 'flex',
+    });
+    layer.append(s);
+    // layer.draw()
+
+    const g = new Group({
+      // bgcolor: 'red',
+      size: [50, 50],
+      pos: [60, 100],
+      flexGrow: 1,
+    });
+    
+    const s2 = new Label({
+      // anchor: 0.5,
+      border: [10, 'blue'],
+    });
+    s2.text = 'abc';
+
+    g.append(s2);
+    s.append(g);
+  </script>
+</body>
+</html>
