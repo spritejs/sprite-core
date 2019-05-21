@@ -426,7 +426,7 @@ export default class BaseSprite extends BaseNode {
         this.parent.cache = null;
       }
     }
-    if(this.cacheContext && context !== this.cacheContext && !this.cacheContext.__lockTag) {
+    if(this.cacheContext && context !== this.cacheContext) {
       cacheContextPool.put(this.cacheContext);
     }
     this.cacheContext = context;
@@ -635,7 +635,6 @@ export default class BaseSprite extends BaseNode {
     if(cachableContext) {
       // set cache before render for group
       if(!this.cache) {
-        cachableContext.__lockTag = true; // cannot put back to Pool while drawing.
         this.cache = cachableContext;
         this.render(t, cachableContext);
       }
@@ -669,7 +668,6 @@ export default class BaseSprite extends BaseNode {
     this.dispatchEvent('afterdraw', evtArgs, true, true);
 
     if(cachableContext) {
-      delete cachableContext.__lockTag; // release lockTag
       if(!this.cache) cacheContextPool.put(cachableContext);
       cachableContext.restore();
     }

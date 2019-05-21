@@ -4172,11 +4172,12 @@ function findColor(context, sprite, prop) {
   return color;
 }
 const contextPool = [],
+      contextReady = [],
       maxPollSize = 20;
 const cacheContextPool = {
   get(context) {
-    if (contextPool.length > 0) {
-      return contextPool.pop();
+    if (contextReady.length > 0) {
+      return contextReady.pop();
     }
 
     const canvas = context.canvas;
@@ -4189,9 +4190,15 @@ const cacheContextPool = {
     return copied.getContext('2d');
   },
 
+  flush() {
+    contextReady.push(...contextPool);
+    contextPool.length = 0;
+  },
+
   put(...contexts) {
+    let size = this.size;
     contexts.every(context => {
-      const ret = contextPool.length < maxPollSize;
+      const ret = size++ < maxPollSize;
 
       if (ret) {
         context.canvas.width = 0;
@@ -4204,7 +4211,7 @@ const cacheContextPool = {
   },
 
   get size() {
-    return contextPool.length;
+    return contextPool.length + contextReady.length;
   }
 
 };
@@ -4866,7 +4873,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
           }
         }
 
-        if (this.cacheContext && context !== this.cacheContext && !this.cacheContext.__lockTag) {
+        if (this.cacheContext && context !== this.cacheContext) {
           _utils__WEBPACK_IMPORTED_MODULE_2__["cacheContextPool"].put(this.cacheContext);
         }
 
@@ -5113,8 +5120,6 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         if (cachableContext) {
           // set cache before render for group
           if (!this.cache) {
-            cachableContext.__lockTag = true; // cannot put back to Pool while drawing.
-
             this.cache = cachableContext;
             this.render(t, cachableContext);
           }
@@ -5154,8 +5159,6 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         this.dispatchEvent('afterdraw', evtArgs, true, true);
 
         if (cachableContext) {
-          delete cachableContext.__lockTag; // release lockTag
-
           if (!this.cache) _utils__WEBPACK_IMPORTED_MODULE_2__["cacheContextPool"].put(cachableContext);
           cachableContext.restore();
         }
@@ -9736,6 +9739,8 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
   }
 
   drawSprites(renderEls, t) {
+    _utils__WEBPACK_IMPORTED_MODULE_7__["cacheContextPool"].flush();
+
     if (this.beforeDrawTransform) {
       this.outputContext.save();
       this.beforeDrawTransform();

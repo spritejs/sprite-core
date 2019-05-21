@@ -9,7 +9,7 @@ import groupApi from '../helpers/group';
 
 // import stylesheet from './stylesheet';
 
-import {setDeprecation, parseValue, parseColorString, attr} from '../utils';
+import {setDeprecation, parseValue, parseColorString, attr, cacheContextPool} from '../utils';
 
 const _zOrder = Symbol('zOrder'),
   _timeline = Symbol('timeline'),
@@ -221,6 +221,7 @@ export default class Layer extends BaseNode {
   }
 
   drawSprites(renderEls, t) {
+    cacheContextPool.flush();
     if(this.beforeDrawTransform) {
       this.outputContext.save();
       this.beforeDrawTransform();
