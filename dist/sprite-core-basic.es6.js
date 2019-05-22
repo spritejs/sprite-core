@@ -5159,7 +5159,6 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         this.dispatchEvent('afterdraw', evtArgs, true, true);
 
         if (cachableContext) {
-          if (!this.cache) _utils__WEBPACK_IMPORTED_MODULE_2__["cacheContextPool"].put(cachableContext);
           cachableContext.restore();
         }
 

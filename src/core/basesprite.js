@@ -668,7 +668,6 @@ export default class BaseSprite extends BaseNode {
     this.dispatchEvent('afterdraw', evtArgs, true, true);
 
     if(cachableContext) {
-      if(!this.cache) cacheContextPool.put(cachableContext);
       cachableContext.restore();
     }
     drawingContext.restore();
