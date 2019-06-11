@@ -190,6 +190,9 @@ export function attr(options) {
         _setter.call(this, val);
         if(subject && !this.__quietTag && this.__updateTag) {
           let clearLayout = this.__clearLayout;
+          if(this.__reflowTag) { // reflow must before clearLayout because boxOffsetSize is also flowed.
+            subject.reflow();
+          }
           if(subject.hasLayout) {
             const offsetSize = subject.boxOffsetSize,
               layoutSize = subject.__lastLayout;
@@ -198,9 +201,6 @@ export function attr(options) {
           }
           if(clearLayout) subject.clearLayout();
           subject.forceUpdate(_clearCache);
-          if(this.__reflowTag) {
-            subject.reflow();
-          }
         }
         if(this.__updateTag) {
           if(relatedAttributes.has(key)) {
