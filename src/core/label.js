@@ -234,7 +234,7 @@ class LabelSpriteAttr extends BaseSprite.Attr {
 }
 
 export default class Label extends BaseSprite {
-  static Attr = LabelSpriteAttr
+  static Attr = LabelSpriteAttr;
 
   constructor(attr) {
     if(typeof attr !== 'object') {

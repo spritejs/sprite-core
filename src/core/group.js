@@ -62,7 +62,7 @@ class GroupAttr extends BaseSprite.Attr {
 const _layout = Symbol('layout');
 
 export default class Group extends BaseSprite {
-  static Attr = GroupAttr
+  static Attr = GroupAttr;
 
   static applyLayout(name, layout) {
     this[_layout] = this[_layout] || {};

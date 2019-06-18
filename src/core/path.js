@@ -88,7 +88,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
 }
 
 export default class Path extends BaseSprite {
-  static Attr = PathSpriteAttr
+  static Attr = PathSpriteAttr;
 
   constructor(attr) {
     if(typeof attr === 'string') {

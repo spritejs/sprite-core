@@ -79,7 +79,7 @@ class TextureAttr extends BaseSprite.Attr {
 }
 
 export default class Sprite extends BaseSprite {
-  static Attr = TextureAttr
+  static Attr = TextureAttr;
 
   /**
     new Sprite({
