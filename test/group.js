@@ -1,8 +1,44 @@
 import {createCanvas} from 'canvas';
-import {Group, Sprite, Layer} from '../src';
+import {Group, Sprite, Label, Layer} from '../src';
 import {compare} from './helpers';
 
 const test = require('ava');
+
+test('label count', (t) => {
+  const g1 = new Group();
+  const t1 = new Label();
+  const t2 = new Label();
+  const t3 = new Label();
+
+  g1.append(t1, t2, t3);
+
+  const g2 = new Group();
+  const t4 = new Label();
+
+  g2.append(t4);
+
+  t.is(g1.__labelCount, 3);
+  t.is(g2.__labelCount, 1);
+
+  const g3 = new Group();
+  g3.append(g1, g2);
+
+  t.is(g3.__labelCount, 4);
+
+  t1.remove();
+
+  t.is(g1.__labelCount, 2);
+
+  t.is(g3.__labelCount, 3);
+
+  g1.remove();
+
+  t.is(g3.__labelCount, 1);
+
+  t4.remove();
+
+  t.is(g3.__labelCount, 0);
+});
 
 test('draw group 1', async (t) => {
   const canvas = createCanvas(300, 300),

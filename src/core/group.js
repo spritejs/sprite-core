@@ -10,7 +10,7 @@ const reflow = true,
   relayout = true;
 
 class GroupAttr extends BaseSprite.Attr {
-  static inits = []
+  static inits = [];
 
   constructor(subject) {
     super(subject);
@@ -18,6 +18,9 @@ class GroupAttr extends BaseSprite.Attr {
       init(this, subject);
     });
   }
+
+  @attr
+  enableCache = 'auto';
 
   @attr({reflow, value: null})
   set clip(val) {
@@ -80,6 +83,7 @@ export default class Group extends BaseSprite {
     this.sortedChildNodes = [];
     this[_zOrder] = 0;
     this[_layoutTag] = false;
+    this.__labelCount = 0;
   }
 
   get isVirtual() {
@@ -101,6 +105,28 @@ export default class Group extends BaseSprite {
     return !anchorX && !anchorY && !width && !height && !borderRadius
       && !borderWidth && !bgcolor && !bgGradient && !bgimage
       && !paddingTop && !paddingRight && !paddingBottom && !paddingLeft;
+  }
+
+  connect(parent, zOrder = 0) {
+    const ret = super.connect(parent, zOrder);
+    const labelCount = this.__labelCount;
+    let _p = parent;
+    while(_p && _p.__labelCount != null) {
+      _p.__labelCount += labelCount;
+      _p = _p.parent;
+    }
+    return ret;
+  }
+
+  disconnect(parent) {
+    const ret = super.disconnect(parent);
+    const labelCount = this.__labelCount;
+    let _p = parent;
+    while(_p && _p.__labelCount != null) {
+      _p.__labelCount -= labelCount;
+      _p = _p.parent;
+    }
+    return ret;
   }
 
   scrollTo(x, y) {

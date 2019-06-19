@@ -285,6 +285,26 @@ export default class Label extends BaseSprite {
     return [width, height];
   }
 
+  connect(parent, zOrder = 0) {
+    const ret = super.connect(parent, zOrder);
+    let _p = parent;
+    while(_p && _p.__labelCount != null) {
+      ++_p.__labelCount;
+      _p = _p.parent;
+    }
+    return ret;
+  }
+
+  disconnect(parent) {
+    const ret = super.disconnect(parent);
+    let _p = parent;
+    while(_p && _p.__labelCount != null) {
+      --_p.__labelCount;
+      _p = _p.parent;
+    }
+    return ret;
+  }
+
   retypesetting() {
     // calculTextboxSize(this);
     this[_boxSize] = false;
