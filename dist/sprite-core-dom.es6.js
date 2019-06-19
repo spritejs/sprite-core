@@ -5077,7 +5077,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         let cachableContext = !this.isVirtual && this.cache;
         const filter = this.attr('filter'),
               shadow = this.attr('shadow'),
-              enableCache = this.attr('enableCache') === true || this.attr('enableCache') === 'auto' && this.__labelCount || shadow || filter;
+              enableCache = this.attr('enableCache') === true || this.attr('enableCache') === 'auto' && !this.__labelCount || shadow || filter;
         const ratio = this.layer ? this.layer.displayRatio || 1.0 : 1.0;
 
         if (enableCache && (shadow || filter || cachableContext !== false) && !cachableContext) {

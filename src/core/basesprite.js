@@ -596,7 +596,7 @@ export default class BaseSprite extends BaseNode {
 
     const filter = this.attr('filter'),
       shadow = this.attr('shadow'),
-      enableCache = this.attr('enableCache') === true || (this.attr('enableCache') === 'auto' && this.__labelCount) || shadow || filter;
+      enableCache = this.attr('enableCache') === true || (this.attr('enableCache') === 'auto' && !this.__labelCount) || shadow || filter;
 
     const ratio = this.layer ? (this.layer.displayRatio || 1.0) : 1.0;
 
