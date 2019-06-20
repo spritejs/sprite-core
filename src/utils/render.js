@@ -166,7 +166,7 @@ export function findColor(context, sprite, prop) {
 
 const contextPool = [],
   contextReady = [],
-  maxPollSize = 20;
+  maxPollSize = 50;
 
 export const cacheContextPool = {
   get(context) {

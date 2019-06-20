@@ -12,7 +12,8 @@ const _animations = Symbol('animations'),
   _flow = Symbol('flow'),
   _releaseKeys = Symbol('releaseKeys');
 
-const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+const CACHE_PRIORITY_THRESHOLDS = 6;
+// const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
 export default class BaseSprite extends BaseNode {
   static Attr = BaseAttr;
@@ -759,7 +760,7 @@ export default class BaseSprite extends BaseNode {
     const bgcolor = findColor(drawingContext, this, 'bgcolor');
     const bgimage = this.attr('bgimage');
 
-    if(this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+    if(!this.cache || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
       let [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         borderRadius];

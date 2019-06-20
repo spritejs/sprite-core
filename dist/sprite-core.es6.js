@@ -4262,7 +4262,7 @@ function findColor(context, sprite, prop) {
 }
 const contextPool = [],
       contextReady = [],
-      maxPollSize = 20;
+      maxPollSize = 50;
 const cacheContextPool = {
   get(context) {
     if (contextReady.length > 0) {
@@ -4393,7 +4393,7 @@ const _animations = Symbol('animations'),
       _flow = Symbol('flow'),
       _releaseKeys = Symbol('releaseKeys');
 
-const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
+const CACHE_PRIORITY_THRESHOLDS = 6; // const CACHE_PRIORITY_THRESHOLDS = 0; // disable cache_priority, for canvas drawing bug...
 
 let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
   class BaseSprite extends _BaseNode {
@@ -5347,7 +5347,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         const bgcolor = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'bgcolor');
         const bgimage = this.attr('bgimage');
 
-        if (this.cache == null || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+        if (!this.cache || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
           let [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, borderRadius];
 
           if (Array.isArray(r)) {
