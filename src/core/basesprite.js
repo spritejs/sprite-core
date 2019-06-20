@@ -596,7 +596,10 @@ export default class BaseSprite extends BaseNode {
 
     const filter = this.attr('filter'),
       shadow = this.attr('shadow'),
-      enableCache = this.attr('enableCache') === true || (this.attr('enableCache') === 'auto' && !this.__labelCount) || shadow || filter;
+      clipOverflow = this.attr('clipOverflow'),
+      enableCache = this.attr('enableCache') === true
+        || (this.attr('enableCache') === 'auto' && !this.__labelCount && clipOverflow)
+        || shadow || filter;
 
     const ratio = this.layer ? (this.layer.displayRatio || 1.0) : 1.0;
 
@@ -644,6 +647,9 @@ export default class BaseSprite extends BaseNode {
 
     if((shadow || filter) && !cachableContext) {
       console.warn('No cachable context. Shadows and filters have been ignored.');
+    }
+    if(!clipOverflow && cachableContext) {
+      console.warn('Clip overflow is ignored because of cache enabled.');
     }
 
     if(cachableContext && cachableContext.canvas.width > 0 && cachableContext.canvas.height > 0) {
