@@ -271,35 +271,38 @@ export default class Layer extends BaseNode {
     }
     if(!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
-      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
-      if(changedTouches && (type === 'touchend' || type === 'touchmove')) {
+      const identifier = evt.identifier;
+      if(identifier != null && (type === 'touchend' || type === 'touchmove')) {
         isCollision = true;
       }
       if(isCollision || type === 'mouseleave') {
         const sprites = this.sortedChildNodes.slice(0).reverse(),
           targetSprites = [];
 
-        if(changedTouches && (type === 'touchend' || type === 'touchmove')) {
-          const touch = changedTouches[0];
-          if(touch && touch.identifier != null) {
-            const targets = this.layer.touchedTargets[touch.identifier];
-            if(targets) {
-              targets.forEach((target) => {
-                if(target !== this && target.layer === this) {
-                  const [parentX, parentY] = target.getParentXY(evt.layerX, evt.layerY);
-                  const _parentX = evt.parentX;
-                  const _parentY = evt.parentY;
-                  evt.parentX = parentX;
-                  evt.parentY = parentY;
-                  target.dispatchEvent(type, evt, true, true);
-                  evt.parentX = _parentX;
-                  evt.parentY = _parentY;
-                }
-              });
-              if(type === 'touchend') delete this.layer.touchedTargets[touch.identifier];
+        if(identifier != null && (type === 'touchend' || type === 'touchmove')) {
+          const touches = evt.originalEvent.changedTouches;
+          for(let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
+            if(touch.identifier === identifier) {
+              const targets = this.layer.touchedTargets[identifier];
+              if(targets) {
+                targets.forEach((target) => {
+                  if(target !== this && target.layer === this) {
+                    const [parentX, parentY] = target.getParentXY(evt.layerX, evt.layerY);
+                    const _parent = [evt.parentX, evt.parentY];
+                    evt.parentX = parentX;
+                    evt.parentY = parentY;
+                    target.dispatchEvent(type, evt, true, true);
+                    [evt.parentX, evt.parentY] = _parent;
+                  }
+                });
+                if(type === 'touchend') delete this.layer.touchedTargets[identifier];
+              }
             }
           }
         } else {
+          evt.parentX = evt.layerX;
+          evt.parentY = evt.layerY;
           for(let i = 0; i < sprites.length; i++) {
             const sprite = sprites[i];
             const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
@@ -315,6 +318,8 @@ export default class Layer extends BaseNode {
               break;
             }
           }
+          delete evt.parentX;
+          delete evt.parentY;
         }
         evt.targetSprites = targetSprites;
         // stopDispatch can only terminate event in the same level

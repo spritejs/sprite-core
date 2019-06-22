@@ -365,16 +365,12 @@ export default class BaseNode {
 
     if(!evt.terminated && (isCollision || captured)) {
       if(!evt.target) evt.target = this;
-
-      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
-      if(changedTouches) {
+      const identifier = evt.identifier;
+      if(identifier != null) {
         if(type === 'touchstart') {
-          const touch = changedTouches[0],
-            layer = this.layer;
-          if(touch && touch.identifier != null) {
-            layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
-            layer.touchedTargets[touch.identifier].push(this);
-          }
+          const layer = this.layer;
+          layer.touchedTargets[identifier] = layer.touchedTargets[identifier] || [];
+          layer.touchedTargets[identifier].push(this);
         }
         if(/^touch/.test(type)) {
           const touches = Array.from(evt.originalEvent.touches),
@@ -387,8 +383,6 @@ export default class BaseNode {
               evt.targetTouches.push(touch);
             }
           });
-          evt.touches = touches;
-          evt.changedTouches = Array.from(changedTouches);
         }
       }
 

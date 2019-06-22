@@ -8304,17 +8304,13 @@ function () {
 
       if (!evt.terminated && (isCollision || captured)) {
         if (!evt.target) evt.target = this;
-        var changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+        var identifier = evt.identifier;
 
-        if (changedTouches) {
+        if (identifier != null) {
           if (type === 'touchstart') {
-            var touch = changedTouches[0],
-                layer = this.layer;
-
-            if (touch && touch.identifier != null) {
-              layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
-              layer.touchedTargets[touch.identifier].push(this);
-            }
+            var layer = this.layer;
+            layer.touchedTargets[identifier] = layer.touchedTargets[identifier] || [];
+            layer.touchedTargets[identifier].push(this);
           }
 
           if (/^touch/.test(type)) {
@@ -8328,8 +8324,6 @@ function () {
                 evt.targetTouches.push(touch);
               }
             });
-            evt.touches = touches;
-            evt.changedTouches = Array.from(changedTouches);
           }
         }
 
@@ -11029,9 +11023,9 @@ function (_BaseNode) {
 
       if (!swallow && !evt.terminated && type !== 'mouseenter') {
         var isCollision = collisionState || this.pointCollision(evt);
-        var changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+        var identifier = evt.identifier;
 
-        if (changedTouches && (type === 'touchend' || type === 'touchmove')) {
+        if (identifier != null && (type === 'touchend' || type === 'touchmove')) {
           isCollision = true;
         }
 
@@ -11039,35 +11033,41 @@ function (_BaseNode) {
           var sprites = this.sortedChildNodes.slice(0).reverse(),
               targetSprites = [];
 
-          if (changedTouches && (type === 'touchend' || type === 'touchmove')) {
-            var touch = changedTouches[0];
+          if (identifier != null && (type === 'touchend' || type === 'touchmove')) {
+            var touches = evt.originalEvent.changedTouches;
 
-            if (touch && touch.identifier != null) {
-              var targets = this.layer.touchedTargets[touch.identifier];
+            for (var i = 0; i < touches.length; i++) {
+              var touch = touches[i];
 
-              if (targets) {
-                targets.forEach(function (target) {
-                  if (target !== _this6 && target.layer === _this6) {
-                    var _target$getParentXY = target.getParentXY(evt.layerX, evt.layerY),
-                        _target$getParentXY2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_target$getParentXY, 2),
-                        parentX = _target$getParentXY2[0],
-                        parentY = _target$getParentXY2[1];
+              if (touch.identifier === identifier) {
+                var targets = this.layer.touchedTargets[identifier];
 
-                    var _parentX = evt.parentX;
-                    var _parentY = evt.parentY;
-                    evt.parentX = parentX;
-                    evt.parentY = parentY;
-                    target.dispatchEvent(type, evt, true, true);
-                    evt.parentX = _parentX;
-                    evt.parentY = _parentY;
-                  }
-                });
-                if (type === 'touchend') delete this.layer.touchedTargets[touch.identifier];
+                if (targets) {
+                  targets.forEach(function (target) {
+                    if (target !== _this6 && target.layer === _this6) {
+                      var _target$getParentXY = target.getParentXY(evt.layerX, evt.layerY),
+                          _target$getParentXY2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_target$getParentXY, 2),
+                          parentX = _target$getParentXY2[0],
+                          parentY = _target$getParentXY2[1];
+
+                      var _parent = [evt.parentX, evt.parentY];
+                      evt.parentX = parentX;
+                      evt.parentY = parentY;
+                      target.dispatchEvent(type, evt, true, true);
+                      evt.parentX = _parent[0];
+                      evt.parentY = _parent[1];
+                    }
+                  });
+                  if (type === 'touchend') delete this.layer.touchedTargets[identifier];
+                }
               }
             }
           } else {
-            for (var i = 0; i < sprites.length; i++) {
-              var sprite = sprites[i];
+            evt.parentX = evt.layerX;
+            evt.parentY = evt.layerY;
+
+            for (var _i = 0; _i < sprites.length; _i++) {
+              var sprite = sprites[_i];
               var hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
 
               if (hit) {
@@ -11084,6 +11084,9 @@ function (_BaseNode) {
                 break;
               }
             }
+
+            delete evt.parentX;
+            delete evt.parentY;
           }
 
           evt.targetSprites = targetSprites; // stopDispatch can only terminate event in the same level

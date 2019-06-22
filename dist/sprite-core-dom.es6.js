@@ -7132,17 +7132,13 @@ class BaseNode {
 
     if (!evt.terminated && (isCollision || captured)) {
       if (!evt.target) evt.target = this;
-      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+      const identifier = evt.identifier;
 
-      if (changedTouches) {
+      if (identifier != null) {
         if (type === 'touchstart') {
-          const touch = changedTouches[0],
-                layer = this.layer;
-
-          if (touch && touch.identifier != null) {
-            layer.touchedTargets[touch.identifier] = layer.touchedTargets[touch.identifier] || [];
-            layer.touchedTargets[touch.identifier].push(this);
-          }
+          const layer = this.layer;
+          layer.touchedTargets[identifier] = layer.touchedTargets[identifier] || [];
+          layer.touchedTargets[identifier].push(this);
         }
 
         if (/^touch/.test(type)) {
@@ -7156,8 +7152,6 @@ class BaseNode {
               evt.targetTouches.push(touch);
             }
           });
-          evt.touches = touches;
-          evt.changedTouches = Array.from(changedTouches);
         }
       }
 
@@ -9844,9 +9838,9 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
     if (!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
-      const changedTouches = evt.originalEvent && evt.originalEvent.changedTouches;
+      const identifier = evt.identifier;
 
-      if (changedTouches && (type === 'touchend' || type === 'touchmove')) {
+      if (identifier != null && (type === 'touchend' || type === 'touchmove')) {
         isCollision = true;
       }
 
@@ -9854,29 +9848,34 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
         const sprites = this.sortedChildNodes.slice(0).reverse(),
               targetSprites = [];
 
-        if (changedTouches && (type === 'touchend' || type === 'touchmove')) {
-          const touch = changedTouches[0];
+        if (identifier != null && (type === 'touchend' || type === 'touchmove')) {
+          const touches = evt.originalEvent.changedTouches;
 
-          if (touch && touch.identifier != null) {
-            const targets = this.layer.touchedTargets[touch.identifier];
+          for (let i = 0; i < touches.length; i++) {
+            const touch = touches[i];
 
-            if (targets) {
-              targets.forEach(target => {
-                if (target !== this && target.layer === this) {
-                  const [parentX, parentY] = target.getParentXY(evt.layerX, evt.layerY);
-                  const _parentX = evt.parentX;
-                  const _parentY = evt.parentY;
-                  evt.parentX = parentX;
-                  evt.parentY = parentY;
-                  target.dispatchEvent(type, evt, true, true);
-                  evt.parentX = _parentX;
-                  evt.parentY = _parentY;
-                }
-              });
-              if (type === 'touchend') delete this.layer.touchedTargets[touch.identifier];
+            if (touch.identifier === identifier) {
+              const targets = this.layer.touchedTargets[identifier];
+
+              if (targets) {
+                targets.forEach(target => {
+                  if (target !== this && target.layer === this) {
+                    const [parentX, parentY] = target.getParentXY(evt.layerX, evt.layerY);
+                    const _parent = [evt.parentX, evt.parentY];
+                    evt.parentX = parentX;
+                    evt.parentY = parentY;
+                    target.dispatchEvent(type, evt, true, true);
+                    [evt.parentX, evt.parentY] = _parent;
+                  }
+                });
+                if (type === 'touchend') delete this.layer.touchedTargets[identifier];
+              }
             }
           }
         } else {
+          evt.parentX = evt.layerX;
+          evt.parentY = evt.layerY;
+
           for (let i = 0; i < sprites.length; i++) {
             const sprite = sprites[i];
             const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
@@ -9895,6 +9894,9 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
               break;
             }
           }
+
+          delete evt.parentX;
+          delete evt.parentY;
         }
 
         evt.targetSprites = targetSprites; // stopDispatch can only terminate event in the same level
