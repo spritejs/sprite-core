@@ -265,10 +265,12 @@ export default class Layer extends BaseNode {
     return true;
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if(swallow && this.getEventHandlers(type).length === 0) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) { // eslint-disable-line complexity
+    const handlers = this.getEventHandlers(type);
+    if(swallow && handlers.length === 0) {
       return;
     }
+    let hasCapturePhase = false;
     if(!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
       const identifier = evt.identifier;
@@ -276,9 +278,8 @@ export default class Layer extends BaseNode {
         isCollision = true;
       }
       if(isCollision || type === 'mouseleave') {
-        const sprites = this.sortedChildNodes.slice(0).reverse(),
-          targetSprites = [];
-
+        const sprites = this.sortedChildNodes.slice(0).reverse();
+        const targetSprites = [];
         if(identifier != null && (type === 'touchend' || type === 'touchmove')) {
           const touches = evt.originalEvent.changedTouches;
           for(let i = 0; i < touches.length; i++) {
@@ -292,7 +293,7 @@ export default class Layer extends BaseNode {
                     const _parent = [evt.parentX, evt.parentY];
                     evt.parentX = parentX;
                     evt.parentY = parentY;
-                    target.dispatchEvent(type, evt, true, true);
+                    target.dispatchEvent(type, evt, true, true, useCapturePhase);
                     [evt.parentX, evt.parentY] = _parent;
                   }
                 });
@@ -303,19 +304,26 @@ export default class Layer extends BaseNode {
         } else {
           evt.parentX = evt.layerX;
           evt.parentY = evt.layerY;
-          for(let i = 0; i < sprites.length; i++) {
-            const sprite = sprites[i];
-            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
-            if(hit) {
-              if(evt.targetSprites) {
-                targetSprites.push(...evt.targetSprites);
-                delete evt.targetSprites;
+          if(isCollision && handlers.length && handlers.some(handler => handler.useCapture)) {
+            hasCapturePhase = true;
+            if(!evt.target) evt.target = this.getTargetFromXY(evt.parentX, evt.parentY);
+            super.dispatchEvent(type, evt, isCollision, swallow, true);
+          }
+          if(!hasCapturePhase || !evt.cancelBubble) {
+            for(let i = 0; i < sprites.length; i++) {
+              const sprite = sprites[i];
+              const hit = sprite.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
+              if(hit) {
+                if(evt.targetSprites) {
+                  targetSprites.push(...evt.targetSprites);
+                  delete evt.targetSprites;
+                }
+                // detect mouseenter/mouseleave
+                targetSprites.push(sprite);
               }
-              // detect mouseenter/mouseleave
-              targetSprites.push(sprite);
-            }
-            if(evt.terminated && type !== 'mousemove') {
-              break;
+              if(evt.terminated && type !== 'mousemove') {
+                break;
+              }
             }
           }
           delete evt.parentX;
@@ -332,6 +340,9 @@ export default class Layer extends BaseNode {
       // stop bubbling
       return false;
     }
+    if(hasCapturePhase) {
+      return super.dispatchEvent(type, evt, collisionState, swallow, false);
+    }
     if(evt.targetSprites.length > 0) {
       // bubbling
       collisionState = true;
@@ -341,7 +352,7 @@ export default class Layer extends BaseNode {
       evt.offsetX = layerX + this.offset[0];
       evt.offsetY = layerY + this.offset[1];
     }
-    return super.dispatchEvent(type, evt, collisionState, swallow);
+    return super.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
   }
 
   group(...sprites) {

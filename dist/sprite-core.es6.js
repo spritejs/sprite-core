@@ -5061,7 +5061,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
       kind: "method",
       key: "dispatchEvent",
 
-      value(type, evt, collisionState = false, swallow = false) {
+      value(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
         if (collisionState) {
           const offsetXY = this.getOffsetXY(evt);
 
@@ -5071,7 +5071,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
           }
         }
 
-        return _get(_getPrototypeOf(BaseSprite.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow);
+        return _get(_getPrototypeOf(BaseSprite.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow, useCapturePhase);
       }
 
     }, {
@@ -7110,19 +7110,22 @@ class BaseNode {
     return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers];
   }
 
-  on(type, handler) {
+  on(type, handler, useCapture = false) {
     if (Array.isArray(type)) {
       type.forEach(t => this.on(t, handler));
     } else {
       this[_eventHandlers][type] = this[_eventHandlers][type] || [];
 
-      this[_eventHandlers][type].push(handler);
+      this[_eventHandlers][type].push({
+        handler,
+        useCapture
+      });
     }
 
     return this;
   }
 
-  once(type, handler) {
+  once(type, handler, useCapture = false) {
     if (Array.isArray(type)) {
       type.forEach(t => this.once(t, handler));
     } else {
@@ -7139,10 +7142,20 @@ class BaseNode {
     if (Array.isArray(type)) {
       type.forEach(t => this.off(t, handler));
     } else if (handler && this[_eventHandlers][type]) {
-      const idx = this[_eventHandlers][type].indexOf(handler);
+      const handlers = this[_eventHandlers][type];
 
-      if (idx >= 0) {
-        this[_eventHandlers][type].splice(idx, 1);
+      if (handlers) {
+        for (let i = 0; i < handlers.length; i++) {
+          const {
+            handler: _handler
+          } = handlers[i];
+
+          if (_handler === handler) {
+            this[_eventHandlers][type].splice(i, 1);
+
+            break;
+          }
+        }
       }
     } else {
       delete this[_eventHandlers][type];
@@ -7172,9 +7185,11 @@ class BaseNode {
     return (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
     // eslint-disable-line complexity
-    const handlers = this.getEventHandlers(type);
+    let handlers = this.getEventHandlers(type);
+    if (this.children && useCapturePhase === true) handlers = handlers.filter(handler => handler.useCapture);
+    if (this.children && useCapturePhase === false) handlers = handlers.filter(handler => !handler.useCapture);
     evt.returnValue = true;
 
     if (swallow && handlers.length === 0) {
@@ -7249,7 +7264,7 @@ class BaseNode {
         this.attr('__internal_state_active_', null);
       }
 
-      [...handlers].forEach(handler => handler.call(this, evt));
+      [...handlers].forEach(handler => handler.handler.call(this, evt));
 
       if (!this[_collisionState] && isCollision && type === 'mousemove') {
         const _evt = Object.assign({}, evt);
@@ -9919,10 +9934,15 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
     return true;
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if (swallow && this.getEventHandlers(type).length === 0) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
+    // eslint-disable-line complexity
+    const handlers = this.getEventHandlers(type);
+
+    if (swallow && handlers.length === 0) {
       return;
     }
+
+    let hasCapturePhase = false;
 
     if (!swallow && !evt.terminated && type !== 'mouseenter') {
       let isCollision = collisionState || this.pointCollision(evt);
@@ -9933,8 +9953,8 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
       }
 
       if (isCollision || type === 'mouseleave') {
-        const sprites = this.sortedChildNodes.slice(0).reverse(),
-              targetSprites = [];
+        const sprites = this.sortedChildNodes.slice(0).reverse();
+        const targetSprites = [];
 
         if (identifier != null && (type === 'touchend' || type === 'touchmove')) {
           const touches = evt.originalEvent.changedTouches;
@@ -9952,7 +9972,7 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     const _parent = [evt.parentX, evt.parentY];
                     evt.parentX = parentX;
                     evt.parentY = parentY;
-                    target.dispatchEvent(type, evt, true, true);
+                    target.dispatchEvent(type, evt, true, true, useCapturePhase);
                     [evt.parentX, evt.parentY] = _parent;
                   }
                 });
@@ -9964,22 +9984,30 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
           evt.parentX = evt.layerX;
           evt.parentY = evt.layerY;
 
-          for (let i = 0; i < sprites.length; i++) {
-            const sprite = sprites[i];
-            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+          if (isCollision && handlers.length && handlers.some(handler => handler.useCapture)) {
+            hasCapturePhase = true;
+            if (!evt.target) evt.target = this.getTargetFromXY(evt.parentX, evt.parentY);
+            super.dispatchEvent(type, evt, isCollision, swallow, true);
+          }
 
-            if (hit) {
-              if (evt.targetSprites) {
-                targetSprites.push(...evt.targetSprites);
-                delete evt.targetSprites;
-              } // detect mouseenter/mouseleave
+          if (!hasCapturePhase || !evt.cancelBubble) {
+            for (let i = 0; i < sprites.length; i++) {
+              const sprite = sprites[i];
+              const hit = sprite.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
+
+              if (hit) {
+                if (evt.targetSprites) {
+                  targetSprites.push(...evt.targetSprites);
+                  delete evt.targetSprites;
+                } // detect mouseenter/mouseleave
 
 
-              targetSprites.push(sprite);
-            }
+                targetSprites.push(sprite);
+              }
 
-            if (evt.terminated && type !== 'mousemove') {
-              break;
+              if (evt.terminated && type !== 'mousemove') {
+                break;
+              }
             }
           }
 
@@ -10001,6 +10029,10 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
       return false;
     }
 
+    if (hasCapturePhase) {
+      return super.dispatchEvent(type, evt, collisionState, swallow, false);
+    }
+
     if (evt.targetSprites.length > 0) {
       // bubbling
       collisionState = true;
@@ -10016,7 +10048,7 @@ class Layer extends _basenode__WEBPACK_IMPORTED_MODULE_2__["default"] {
       evt.offsetY = layerY + this.offset[1];
     }
 
-    return super.dispatchEvent(type, evt, collisionState, swallow);
+    return super.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
   }
 
   group(...sprites) {
@@ -10719,10 +10751,14 @@ let Group = _decorate(null, function (_initialize2, _BaseSprite) {
       kind: "method",
       key: "dispatchEvent",
 
-      value(type, evt, collisionState = false, swallow = false) {
-        if (swallow && this.getEventHandlers(type).length === 0) {
+      value(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
+        const handlers = this.getEventHandlers(type);
+
+        if (swallow && handlers.length === 0) {
           return;
         }
+
+        let hasCapturePhase = false;
 
         if (!swallow && !evt.terminated && type !== 'mouseenter') {
           const isCollision = collisionState || this.pointCollision(evt);
@@ -10739,24 +10775,35 @@ let Group = _decorate(null, function (_initialize2, _BaseSprite) {
                   _parentY = evt.parentY;
             evt.parentX = parentX;
             evt.parentY = parentY;
-            const sprites = this.sortedChildNodes.slice(0).reverse();
+
+            if (isCollision && handlers.length && handlers.some(handler => handler.useCapture)) {
+              hasCapturePhase = true;
+              if (!evt.target) evt.target = this.getTargetFromXY(parentX, parentY);
+
+              _get(_getPrototypeOf(Group.prototype), "dispatchEvent", this).call(this, type, evt, isCollision, swallow, true);
+            }
+
             const targetSprites = [];
 
-            for (let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
-              const sprite = sprites[i];
-              const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
+            if (!hasCapturePhase || !evt.cancelBubble) {
+              const sprites = this.sortedChildNodes.slice(0).reverse();
 
-              if (hit) {
-                if (evt.targetSprites) {
-                  targetSprites.push(...evt.targetSprites);
-                  delete evt.targetSprites;
+              for (let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
+                const sprite = sprites[i];
+                const hit = sprite.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
+
+                if (hit) {
+                  if (evt.targetSprites) {
+                    targetSprites.push(...evt.targetSprites);
+                    delete evt.targetSprites;
+                  }
+
+                  targetSprites.push(sprite);
                 }
 
-                targetSprites.push(sprite);
-              }
-
-              if (evt.terminated && type !== 'mousemove') {
-                break;
+                if (evt.terminated && type !== 'mousemove') {
+                  break;
+                }
               }
             }
 
@@ -10776,12 +10823,16 @@ let Group = _decorate(null, function (_initialize2, _BaseSprite) {
           return false;
         }
 
+        if (hasCapturePhase) {
+          return _get(_getPrototypeOf(Group.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow, false);
+        }
+
         if (evt.targetSprites.length > 0) {
           // bubbling
           collisionState = true;
         }
 
-        return _get(_getPrototypeOf(Group.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow);
+        return _get(_getPrototypeOf(Group.prototype), "dispatchEvent", this).call(this, type, evt, collisionState, swallow, useCapturePhase);
       }
 
     }, {
@@ -10907,6 +10958,29 @@ const _zOrder = Symbol('zOrder');
 const _removeTask = Symbol('removeTask');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  getTargetFromXY(x, y) {
+    const children = this.children;
+    let target = this;
+    children.some(child => {
+      const evt = {
+        parentX: x,
+        parentY: y
+      };
+      const hit = child.pointCollision(evt);
+
+      if (hit) {
+        if (child.getTargetFromXY) {
+          target = child.getTargetFromXY(evt.offsetX, evt.offsetY);
+        } else {
+          target = child;
+        }
+      }
+
+      return hit;
+    });
+    return target;
+  },
+
   appendChild(sprite, update = true) {
     const _append = () => {
       const children = this.childNodes;

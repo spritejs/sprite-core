@@ -213,10 +213,12 @@ export default class Group extends BaseSprite {
     return [width, height];
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
-    if(swallow && this.getEventHandlers(type).length === 0) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
+    const handlers = this.getEventHandlers(type);
+    if(swallow && handlers.length === 0) {
       return;
     }
+    let hasCapturePhase = false;
     if(!swallow && !evt.terminated && type !== 'mouseenter') {
       const isCollision = collisionState || this.pointCollision(evt);
       if(isCollision || type === 'mouseleave' || !this.attr('clipOverflow')) {
@@ -237,22 +239,29 @@ export default class Group extends BaseSprite {
         evt.parentX = parentX;
         evt.parentY = parentY;
 
-        const sprites = this.sortedChildNodes.slice(0).reverse();
+        if(isCollision && handlers.length && handlers.some(handler => handler.useCapture)) {
+          hasCapturePhase = true;
+          if(!evt.target) evt.target = this.getTargetFromXY(parentX, parentY);
+          super.dispatchEvent(type, evt, isCollision, swallow, true);
+        }
 
         const targetSprites = [];
+        if(!hasCapturePhase || !evt.cancelBubble) {
+          const sprites = this.sortedChildNodes.slice(0).reverse();
 
-        for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
-          const sprite = sprites[i];
-          const hit = sprite.dispatchEvent(type, evt, collisionState, swallow);
-          if(hit) {
-            if(evt.targetSprites) {
-              targetSprites.push(...evt.targetSprites);
-              delete evt.targetSprites;
+          for(let i = 0; i < sprites.length && evt.isInClip !== false; i++) {
+            const sprite = sprites[i];
+            const hit = sprite.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
+            if(hit) {
+              if(evt.targetSprites) {
+                targetSprites.push(...evt.targetSprites);
+                delete evt.targetSprites;
+              }
+              targetSprites.push(sprite);
             }
-            targetSprites.push(sprite);
-          }
-          if(evt.terminated && type !== 'mousemove') {
-            break;
+            if(evt.terminated && type !== 'mousemove') {
+              break;
+            }
           }
         }
 
@@ -269,11 +278,14 @@ export default class Group extends BaseSprite {
       // stop bubbling
       return false;
     }
+    if(hasCapturePhase) {
+      return super.dispatchEvent(type, evt, collisionState, swallow, false);
+    }
     if(evt.targetSprites.length > 0) {
       // bubbling
       collisionState = true;
     }
-    return super.dispatchEvent(type, evt, collisionState, swallow);
+    return super.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
   }
 
   relayout() {

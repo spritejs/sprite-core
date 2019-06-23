@@ -3,6 +3,24 @@ const _zOrder = Symbol('zOrder');
 const _removeTask = Symbol('removeTask');
 
 export default {
+  getTargetFromXY(x, y) {
+    const children = this.children;
+    let target = this;
+
+    children.some((child) => {
+      const evt = {parentX: x, parentY: y};
+      const hit = child.pointCollision(evt);
+      if(hit) {
+        if(child.getTargetFromXY) {
+          target = child.getTargetFromXY(evt.offsetX, evt.offsetY);
+        } else {
+          target = child;
+        }
+      }
+      return hit;
+    });
+    return target;
+  },
   appendChild(sprite, update = true) {
     const _append = () => {
       const children = this.childNodes;

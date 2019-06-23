@@ -491,7 +491,7 @@ export default class BaseSprite extends BaseNode {
     }
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) {
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) {
     if(collisionState) {
       const offsetXY = this.getOffsetXY(evt);
       if(offsetXY) {
@@ -500,7 +500,7 @@ export default class BaseSprite extends BaseNode {
       }
     }
 
-    return super.dispatchEvent(type, evt, collisionState, swallow);
+    return super.dispatchEvent(type, evt, collisionState, swallow, useCapturePhase);
   }
 
   pointCollision(evt) {

@@ -266,17 +266,17 @@ export default class BaseNode {
     return type != null ? this[_eventHandlers][type] || [] : this[_eventHandlers];
   }
 
-  on(type, handler) {
+  on(type, handler, useCapture = false) {
     if(Array.isArray(type)) {
       type.forEach(t => this.on(t, handler));
     } else {
       this[_eventHandlers][type] = this[_eventHandlers][type] || [];
-      this[_eventHandlers][type].push(handler);
+      this[_eventHandlers][type].push({handler, useCapture});
     }
     return this;
   }
 
-  once(type, handler) {
+  once(type, handler, useCapture = false) {
     if(Array.isArray(type)) {
       type.forEach(t => this.once(t, handler));
     } else {
@@ -292,10 +292,15 @@ export default class BaseNode {
     if(Array.isArray(type)) {
       type.forEach(t => this.off(t, handler));
     } else if(handler && this[_eventHandlers][type]) {
-      const idx = this[_eventHandlers][type].indexOf(handler);
-
-      if(idx >= 0) {
-        this[_eventHandlers][type].splice(idx, 1);
+      const handlers = this[_eventHandlers][type];
+      if(handlers) {
+        for(let i = 0; i < handlers.length; i++) {
+          const {handler: _handler} = handlers[i];
+          if(_handler === handler) {
+            this[_eventHandlers][type].splice(i, 1);
+            break;
+          }
+        }
       }
     } else {
       delete this[_eventHandlers][type];
@@ -324,8 +329,10 @@ export default class BaseNode {
     return (evt.type === 'mousemove' || evt.type === 'mousedown' || evt.type === 'mouseup') && this[_mouseCapture];
   }
 
-  dispatchEvent(type, evt, collisionState = false, swallow = false) { // eslint-disable-line complexity
-    const handlers = this.getEventHandlers(type);
+  dispatchEvent(type, evt, collisionState = false, swallow = false, useCapturePhase = null) { // eslint-disable-line complexity
+    let handlers = this.getEventHandlers(type);
+    if(this.children && useCapturePhase === true) handlers = handlers.filter(handler => handler.useCapture);
+    if(this.children && useCapturePhase === false) handlers = handlers.filter(handler => !handler.useCapture);
     evt.returnValue = true;
     if(swallow && handlers.length === 0) {
       return;
@@ -392,7 +399,7 @@ export default class BaseNode {
         this.attr('__internal_state_active_', null);
       }
 
-      [...handlers].forEach(handler => handler.call(this, evt));
+      [...handlers].forEach(handler => handler.handler.call(this, evt));
 
       if(!this[_collisionState] && isCollision && type === 'mousemove') {
         const _evt = Object.assign({}, evt);
