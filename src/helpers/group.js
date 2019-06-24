@@ -23,22 +23,25 @@ export default {
   },
   appendChild(sprite, update = true) {
     const _append = () => {
-      const children = this.childNodes;
-      children.push(sprite);
-
       this[_zOrder] = this[_zOrder] || 0;
       sprite.connect(this, this[_zOrder]++);
-      this.sortedChildNodes = sortOrderedSprites(this.childNodes);
+      const children = this.childNodes;
 
-      // for(let i = children.length - 1; i > 0; i--) {
-      //   const a = children[i],
-      //     b = children[i - 1];
+      const orderedSprites = [...children];
+      children.push(sprite);
 
-      //   if(a.zIndex < b.zIndex) {
-      //     children[i] = b;
-      //     children[i - 1] = a;
-      //   }
-      // }
+      // quick insert
+      const len = orderedSprites.length;
+      let i = len;
+      const zIndex = sprite.attr('zIndex');
+      for(; i > 0; i--) {
+        const child = orderedSprites[i - 1];
+        if(child.attr('zIndex') <= zIndex) break;
+      }
+      if(i === len) orderedSprites.push(sprite);
+      else orderedSprites.splice(i, 0, sprite);
+
+      this.sortedChildNodes = orderedSprites;
 
       if(update) {
         sprite.forceUpdate();
