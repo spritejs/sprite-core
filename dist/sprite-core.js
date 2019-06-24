@@ -19100,16 +19100,9 @@ var nodeTypes = new Map();
 
 var ownerDocumentDescriptor = {
   get: function get() {
-    var that = this;
     return {
       createElementNS: function createElementNS(uri, name) {
-        var sprite = createNode(name);
-
-        if (sprite) {
-          return that.appendChild(sprite);
-        }
-
-        return null;
+        return createNode(name);
       }
     };
   }

@@ -5,14 +5,9 @@ const nodeTypes = new Map();
 /* istanbul ignore next  */
 const ownerDocumentDescriptor = {
   get() {
-    const that = this;
     return {
       createElementNS(uri, name) {
-        const sprite = createNode(name);
-        if(sprite) {
-          return that.appendChild(sprite);
-        }
-        return null;
+        return createNode(name);
       },
     };
   },
