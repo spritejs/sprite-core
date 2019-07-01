@@ -12166,7 +12166,7 @@ var _removeTask = Symbol('removeTask');
           right = len - 1;
       var zIndex = sprite.attr('zIndex');
 
-      for (; i == null && left < right;) {
+      for (; i == null && left <= right;) {
         var rightSprite = orderedSprites[right];
         var leftSprite = orderedSprites[left];
         if (zIndex >= rightSprite.zIndex) i = right + 1;else if (zIndex < leftSprite.zIndex) i = left;else if (left === right - 1) i = right;else {

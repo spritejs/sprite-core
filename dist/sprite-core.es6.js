@@ -10995,7 +10995,7 @@ const _removeTask = Symbol('removeTask');
           right = len - 1;
       const zIndex = sprite.attr('zIndex');
 
-      for (; i == null && left < right;) {
+      for (; i == null && left <= right;) {
         const rightSprite = orderedSprites[right];
         const leftSprite = orderedSprites[left];
         if (zIndex >= rightSprite.zIndex) i = right + 1;else if (zIndex < leftSprite.zIndex) i = left;else if (left === right - 1) i = right;else {

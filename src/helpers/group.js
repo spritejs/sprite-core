@@ -36,7 +36,7 @@ export default {
       let left = 0,
         right = len - 1;
       const zIndex = sprite.attr('zIndex');
-      for(; i == null && left < right;) {
+      for(; i == null && left <= right;) {
         const rightSprite = orderedSprites[right];
         const leftSprite = orderedSprites[left];
 
