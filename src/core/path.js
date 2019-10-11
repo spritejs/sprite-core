@@ -37,7 +37,7 @@ class PathSpriteAttr extends BaseSprite.Attr {
     return this.path ? this.path.d : null;
   }
 
-  @parseValue(parseFloat, Math.round)
+  @parseValue(parseFloat)
   @attr({reflow})
   @inherit(1)
   lineWidth = 'inherit';

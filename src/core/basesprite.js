@@ -398,10 +398,10 @@ export default class BaseSprite extends BaseNode {
     const bound = this.boundingRect,
       pos = this.xy;
 
-    return [Math.floor(pos[0] + bound[0]),
-      Math.floor(pos[1] + bound[1]),
-      Math.ceil(pos[0] + bound[0] + bound[2]),
-      Math.ceil(pos[1] + bound[1] + bound[3])];
+    return [pos[0] + bound[0],
+      pos[1] + bound[1],
+      pos[0] + bound[0] + bound[2],
+      pos[1] + bound[1] + bound[3]];
   }
 
   get renderRect() {

@@ -1,6 +1,6 @@
 {
   "name": "@spritejs/core",
-  "version": "2.31.5",
+  "version": "2.31.6",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

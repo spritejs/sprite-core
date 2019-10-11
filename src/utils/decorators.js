@@ -48,8 +48,8 @@ export function attr(options) {
       throw new Error(`${key}: quietSet cannot enable cache or reflow or relayout`);
     }
 
-    let _symbolKey = key,
-      defaultValue = value != null ? value : elementDescriptor.value;
+    // let _symbolKey = key;
+    let defaultValue = value != null ? value : elementDescriptor.value;
 
     const relativeType = elementDescriptor.descriptor.__relative;
     const inheritValue = elementDescriptor.descriptor.__inherit;
@@ -57,9 +57,9 @@ export function attr(options) {
 
     if(kind === 'field') {
       defaultValue = elementDescriptor.initializer ? elementDescriptor.initializer() : value;
-      _symbolKey = Symbol(key);
-      const setter = quiet ? function (val) { this.quietSet(_symbolKey, val) }
-        : function (val) { this.set(_symbolKey, val) };
+      // _symbolKey = Symbol(key);
+      const setter = quiet ? function (val) { this.quietSet(key, val) }
+        : function (val) { this.set(key, val) };
       elementDescriptor = {
         kind: 'method',
         key,
@@ -69,7 +69,7 @@ export function attr(options) {
           enumerable: true,
           set: setter,
           get() {
-            return this.get(_symbolKey);
+            return this.get(key);
           },
         },
       };
