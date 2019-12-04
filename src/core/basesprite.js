@@ -145,7 +145,7 @@ export default class BaseSprite extends BaseNode {
   }
 
   connect(parent, zOrder = 0) {
-    if(parent && !(parent instanceof BaseNode)) {
+    if(parent && typeof parent.stroke === 'function') {
       // directly connect to canvas2d context
       const node = new BaseNode();
       node.context = parent;
@@ -760,7 +760,7 @@ export default class BaseSprite extends BaseNode {
     const bgcolor = findColor(drawingContext, this, 'bgcolor');
     const bgimage = this.attr('bgimage');
 
-    if(!this.cache || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+    if(!this.cacheContext || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
       let [x, y, w, h, r] = [borderWidth, borderWidth,
         clientWidth, clientHeight,
         borderRadius];

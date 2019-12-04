@@ -1,6 +1,6 @@
 {
   "name": "@spritejs/core",
-  "version": "2.31.6",
+  "version": "2.31.7",
   "description": "Platform-independent canvas render object model api.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -50,6 +50,7 @@
     "ava": "^1.0.0-rc.2",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "canvas": "^2.6.0",
     "colors": "^1.2.1",
     "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
@@ -61,8 +62,7 @@
     "pixelmatch": "^4.0.2",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "3.2.1",
-    "canvas": "^2.3.1"
+    "webpack-dev-server": "3.2.1"
   },
   "nyc": {
     "exclude": [

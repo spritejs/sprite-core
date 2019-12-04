@@ -5140,7 +5140,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
 
         var zOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-        if (parent && !(parent instanceof _basenode__WEBPACK_IMPORTED_MODULE_13__["default"])) {
+        if (parent && typeof parent.stroke === 'function') {
           // directly connect to canvas2d context
           var node = new _basenode__WEBPACK_IMPORTED_MODULE_13__["default"]();
           node.context = parent;
@@ -5975,7 +5975,7 @@ var BaseSprite = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_6___de
         var bgcolor = Object(_utils__WEBPACK_IMPORTED_MODULE_11__["findColor"])(drawingContext, this, 'bgcolor');
         var bgimage = this.attr('bgimage');
 
-        if (!this.cache || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+        if (!this.cacheContext || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
           var _x = borderWidth,
               _y = borderWidth,
               _w = clientWidth,

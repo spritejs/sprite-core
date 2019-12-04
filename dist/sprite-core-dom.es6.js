@@ -4514,7 +4514,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
       key: "connect",
 
       value(parent, zOrder = 0) {
-        if (parent && !(parent instanceof _basenode__WEBPACK_IMPORTED_MODULE_4__["default"])) {
+        if (parent && typeof parent.stroke === 'function') {
           // directly connect to canvas2d context
           const node = new _basenode__WEBPACK_IMPORTED_MODULE_4__["default"]();
           node.context = parent;
@@ -5259,7 +5259,7 @@ let BaseSprite = _decorate(null, function (_initialize, _BaseNode) {
         const bgcolor = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["findColor"])(drawingContext, this, 'bgcolor');
         const bgimage = this.attr('bgimage');
 
-        if (!this.cache || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
+        if (!this.cacheContext || borderWidth || borderRadius || bgcolor || bgimage && bgimage.display !== 'none') {
           let [x, y, w, h, r] = [borderWidth, borderWidth, clientWidth, clientHeight, borderRadius];
 
           if (Array.isArray(r)) {
