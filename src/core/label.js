@@ -193,6 +193,10 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit('')
   strokeColor = 'inherit';
 
+  @parseValue(parseFloat)
+  @attr
+  strokeWidth = 1;
+
   @parseValue(parseColorString)
   @attr
   @inherit('')
@@ -324,6 +328,7 @@ export default class Label extends BaseSprite {
     const textAlign = this.attr('textAlign'),
       flexible = this.attr('flexible'),
       font = flexible ? this.flexibleFont : this.attr('font'),
+      strokeWidth = this.attr('strokeWidth'),
       lineHeight = this.attr('lineHeight');
 
     let text = this.text;
@@ -361,6 +366,8 @@ export default class Label extends BaseSprite {
       if(fillColor) {
         drawingContext.fillStyle = fillColor;
       }
+
+      drawingContext.lineWidth = strokeWidth;
 
       let top = 0;
       const width = this.contentSize[0];

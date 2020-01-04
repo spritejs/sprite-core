@@ -8270,6 +8270,15 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
 
     }, {
       kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"]],
+      key: "strokeWidth",
+
+      value() {
+        return 1;
+      }
+
+    }, {
+      kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_1__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_1__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_1__["inherit"])('')],
       key: "color",
 
@@ -8517,6 +8526,7 @@ let Label = _decorate(null, function (_initialize2, _BaseSprite) {
         const textAlign = this.attr('textAlign'),
               flexible = this.attr('flexible'),
               font = flexible ? this.flexibleFont : this.attr('font'),
+              strokeWidth = this.attr('strokeWidth'),
               lineHeight = this.attr('lineHeight');
         let text = this.text;
 
@@ -8552,6 +8562,7 @@ let Label = _decorate(null, function (_initialize2, _BaseSprite) {
             drawingContext.fillStyle = fillColor;
           }
 
+          drawingContext.lineWidth = strokeWidth;
           let top = 0;
           const width = this.contentSize[0];
           const letterSpacing = this.attr('letterSpacing'),

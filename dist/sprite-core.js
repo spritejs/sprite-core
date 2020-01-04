@@ -9485,6 +9485,13 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
       }
     }, {
       kind: "field",
+      decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseValue"])(parseFloat), _utils__WEBPACK_IMPORTED_MODULE_11__["attr"]],
+      key: "strokeWidth",
+      value: function value() {
+        return 1;
+      }
+    }, {
+      kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_11__["parseValue"])(_utils__WEBPACK_IMPORTED_MODULE_11__["parseColorString"]), _utils__WEBPACK_IMPORTED_MODULE_11__["attr"], Object(_utils__WEBPACK_IMPORTED_MODULE_11__["inherit"])('')],
       key: "color",
       value: function value() {
@@ -9715,6 +9722,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
         var textAlign = this.attr('textAlign'),
             flexible = this.attr('flexible'),
             font = flexible ? this.flexibleFont : this.attr('font'),
+            strokeWidth = this.attr('strokeWidth'),
             lineHeight = this.attr('lineHeight');
         var text = this.text;
 
@@ -9753,6 +9761,7 @@ var Label = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8___default
             drawingContext.fillStyle = fillColor;
           }
 
+          drawingContext.lineWidth = strokeWidth;
           var top = 0;
           var width = this.contentSize[0];
           var letterSpacing = this.attr('letterSpacing'),
