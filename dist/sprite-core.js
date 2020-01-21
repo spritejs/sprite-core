@@ -9335,9 +9335,9 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
       }
     }, {
       kind: "method",
-      key: "widthRetypeseeting",
+      key: "widthRetypeseting",
       value: function value() {
-        if (this.lineBreak !== '') this.subject.retypesetting();
+        if (this.lineBreak !== '') this.subject.retypesetting();else this.subject.reflow();
       }
     }, {
       kind: "field",
@@ -9546,7 +9546,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_11__["attr"])({
-        extra: 'widthRetypeseeting'
+        extra: 'widthRetypeseting'
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_11__["relative"])('width')],
       key: "width",
       value: function value() {
@@ -9555,7 +9555,7 @@ var LabelSpriteAttr = _babel_runtime_helpers_decorate__WEBPACK_IMPORTED_MODULE_8
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_11__["attr"])({
-        extra: 'widthRetypeseeting'
+        extra: 'widthRetypeseting'
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_11__["relative"])('width')],
       key: "layoutWidth",
       value: function value() {

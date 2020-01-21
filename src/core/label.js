@@ -105,8 +105,9 @@ class LabelSpriteAttr extends BaseSprite.Attr {
     this.subject.retypesetting();
   }
 
-  widthRetypeseeting() {
+  widthRetypeseting() {
     if(this.lineBreak !== '') this.subject.retypesetting();
+    else this.subject.reflow();
   }
 
   @parseValue(String)
@@ -228,11 +229,11 @@ class LabelSpriteAttr extends BaseSprite.Attr {
   @inherit(0)
   textIndent = 'inherit';
 
-  @attr({extra: 'widthRetypeseeting'})
+  @attr({extra: 'widthRetypeseting'})
   @relative('width')
   width = '';
 
-  @attr({extra: 'widthRetypeseeting'})
+  @attr({extra: 'widthRetypeseting'})
   @relative('width')
   layoutWidth = '';
 }

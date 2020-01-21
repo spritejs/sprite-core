@@ -8089,10 +8089,10 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
 
     }, {
       kind: "method",
-      key: "widthRetypeseeting",
+      key: "widthRetypeseting",
 
       value() {
-        if (this.lineBreak !== '') this.subject.retypesetting();
+        if (this.lineBreak !== '') this.subject.retypesetting();else this.subject.reflow();
       }
 
     }, {
@@ -8343,7 +8343,7 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
-        extra: 'widthRetypeseeting'
+        extra: 'widthRetypeseting'
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width')],
       key: "width",
 
@@ -8354,7 +8354,7 @@ let LabelSpriteAttr = _decorate(null, function (_initialize, _BaseSprite$Attr) {
     }, {
       kind: "field",
       decorators: [Object(_utils__WEBPACK_IMPORTED_MODULE_1__["attr"])({
-        extra: 'widthRetypeseeting'
+        extra: 'widthRetypeseting'
       }), Object(_utils__WEBPACK_IMPORTED_MODULE_1__["relative"])('width')],
       key: "layoutWidth",
 
